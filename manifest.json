@@ -1,5 +1,13 @@
 [
   {
+    "id": "speed-race",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "the speed race — superbot vs claude",
+    "src": "animations/speed-race/",
+    "thumb": "assets/shots/speed-race.png"
+  },
+  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",
@@ -8,28 +16,12 @@
     "thumb": "assets/shots/favorite-color.png"
   },
   {
-    "id": "favorite-color-variants",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "favorite color — variants",
-    "src": "animations/favorite-color/variants.html",
-    "thumb": "assets/shots/favorite-color-variants.png"
-  },
-  {
     "id": "hi-i-am-claude",
     "type": "animation",
     "group": "Ad spots",
     "title": "hi i am claude",
     "src": "animations/hi-i-am-claude/",
     "thumb": "assets/shots/hi-i-am-claude.png"
-  },
-  {
-    "id": "hi-i-am-claude-effects",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "pick your effect",
-    "src": "animations/hi-i-am-claude/effects.html",
-    "thumb": "assets/shots/hi-i-am-claude-effects.png"
   },
   {
     "id": "yes-man",
@@ -94,38 +86,6 @@
     "title": "yes man — variants",
     "src": "animations/yes-man/variants.html",
     "thumb": "assets/shots/yes-man-variants.png"
-  },
-  {
-    "id": "ads-hub",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "advertisement videos — hub",
-    "src": "animations/ads/index.html",
-    "thumb": "assets/shots/ads-hub.png"
-  },
-  {
-    "id": "ads-board",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "the fix board",
-    "src": "animations/ads/board.html",
-    "thumb": "assets/shots/ads-board.png"
-  },
-  {
-    "id": "ads-compare",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "comparison spots",
-    "src": "animations/ads/compare.html",
-    "thumb": "assets/shots/ads-compare.png"
-  },
-  {
-    "id": "ads-said",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "they said · we did",
-    "src": "animations/ads/said.html",
-    "thumb": "assets/shots/ads-said.png"
   },
   {
     "id": "ads-spot",

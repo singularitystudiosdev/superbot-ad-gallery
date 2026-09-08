@@ -1,6 +1,8 @@
 // Generates manifest.json by scanning assets/. Run: node gen-manifest.mjs
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 
+const ONLY_GROUP = 'Ad spots';
+
 // PNG IHDR: bytes 16-19 width, 20-23 height (big-endian)
 function pngSize(path) {
   const b = readFileSync(path);
@@ -43,10 +45,9 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
+  ['speed-race', 'speed-race/', 'the speed race — superbot vs claude', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
-  ['favorite-color-variants', 'favorite-color/variants.html', 'favorite color — variants', 'Ad spots'],
   ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],
-  ['hi-i-am-claude-effects', 'hi-i-am-claude/effects.html', 'pick your effect', 'Ad spots'],
   ['yes-man', 'yes-man/', 'yes man', 'Ad spots'],
   ['yes-man-email', 'yes-man/email.html', 'yes man · email', 'Ad spots'],
   ['yes-man-pros', 'yes-man/pros.html', 'yes man · pros', 'Ad spots'],
@@ -55,10 +56,6 @@ const more = [
   ['yes-man-feedback', 'yes-man/feedback.html', 'yes man · feedback', 'Ad spots'],
   ['yes-man-feedbacktag', 'yes-man/feedbacktag.html', 'yes man · feedback (tagged)', 'Ad spots'],
   ['yes-man-variants', 'yes-man/variants.html', 'yes man — variants', 'Ad spots'],
-  ['ads-hub', 'ads/index.html', 'advertisement videos — hub', 'Ad spots'],
-  ['ads-board', 'ads/board.html', 'the fix board', 'Ad spots'],
-  ['ads-compare', 'ads/compare.html', 'comparison spots', 'Ad spots'],
-  ['ads-said', 'ads/said.html', 'they said · we did', 'Ad spots'],
   ['ads-spot', 'ads/spot.html', 'spot', 'Ad spots'],
   ['gg-site-variants', 'gg-site/variants.html', 'superbot.gg — character variants', 'Site variants'],
   ['gg-site-lander-zen', 'gg-site/lander-zen.html', 'lander — zen', 'Site variants'],
@@ -98,7 +95,7 @@ for (const [name, src, title, group] of more) {
     thumb: `assets/shots/${name}.png` });
 }
 
-for (const g of groups) {
+for (const g of groups.filter(g => g.group === ONLY_GROUP)) {
   for (const f of readdirSync(g.dir).filter(f => f.endsWith('.png') && (!g.match || g.match(f))).sort()) {
     if (statSync(`${g.dir}/${f}`).isDirectory()) continue;
     const base = f.replace(/\.png$/, '');
@@ -110,7 +107,6 @@ for (const g of groups) {
 }
 
 // Ship only the ad spots; the other groups stay defined above for easy re-enable.
-const ONLY_GROUP = 'Ad spots';
 const shipped = items.filter(i => i.group === ONLY_GROUP);
 
 writeFileSync('manifest.json', JSON.stringify(shipped, null, 2));

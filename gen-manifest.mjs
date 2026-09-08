@@ -109,5 +109,9 @@ for (const g of groups) {
   }
 }
 
-writeFileSync('manifest.json', JSON.stringify(items, null, 2));
-console.log(`manifest.json: ${items.length} items`);
+// Ship only the ad spots; the other groups stay defined above for easy re-enable.
+const ONLY_GROUP = 'Ad spots';
+const shipped = items.filter(i => i.group === ONLY_GROUP);
+
+writeFileSync('manifest.json', JSON.stringify(shipped, null, 2));
+console.log(`manifest.json: ${shipped.length} items (${ONLY_GROUP})`);

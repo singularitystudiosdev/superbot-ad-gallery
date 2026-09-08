@@ -7,18 +7,15 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-76 items, gathered from the workspace projects and the GitHub repos:
+17 ad spots, gathered from the workspace projects and the GitHub repos:
 
-- **Animations (8)** — the .gg landing (ASCII + textmode), the setup-wizard demo, the
-  IDE-merge / orbit hero spots and their variants.
-- **Ad spots (17)** — favorite color (the chat pitch), hi i am claude, the yes-man
-  family, and the superbot.gg / ads spots (fix board, comparison, they-said-we-did, spot).
-- **Site variants (14)** — superbot.gg landers and design studies, the ascii page,
-  console, button page, merge mascot + merge loop cuts.
-- **Hero reveal FX (13)** — sphere collapse, circular combine takes, dolly/sheen
-  finishers, and the flip-reveal variants.
-- **Mascot & toys (5)** — rainbow bench, AI dock, SWARM console + constellation, agent feed.
-- **Images (19)** — app screenshots, .GG/mono textmode shots, IDE icons, the superbot icon.
+- **favorite color** (+ variants) — the chat pitch: "whats ur favorite color".
+- **hi i am claude** (+ the effect picker).
+- **the yes-man family (8)** — yes man, email, pros, get real, slides, feedback, tagged, variants.
+- **superbot.gg / ads (5)** — the hub, the fix board, comparison spots, they-said-we-did, spot.
+
+The other creative groups (hero animations, site variants, hero reveal FX, mascot toys,
+images) are still defined in `gen-manifest.mjs` — re-enable by changing `ONLY_GROUP`.
 
 ## Structure
 

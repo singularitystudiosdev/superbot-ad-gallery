@@ -1,6 +1,0 @@
-# Keep agent indexing/search off generated debris
-.tmp/
-*.log
-*.png
-.DS_Store
-node_modules/

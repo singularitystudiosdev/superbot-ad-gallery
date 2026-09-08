@@ -17,6 +17,7 @@ function renderChips() {
   for (const it of ITEMS) counts[it.group] = (counts[it.group] || 0) + 1;
   const chips = $('chips');
   chips.innerHTML = '';
+  if (Object.keys(counts).length < 3) { chips.hidden = true; return; } // one real group: no filters
   for (const [name, n] of Object.entries(counts)) {
     const b = document.createElement('button');
     b.className = 'chip' + (filter === name ? ' on' : '');

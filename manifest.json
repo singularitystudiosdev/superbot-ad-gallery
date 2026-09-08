@@ -78,21 +78,5 @@
     "title": "yes man · feedback (tagged)",
     "src": "animations/yes-man/feedbacktag.html",
     "thumb": "assets/shots/yes-man-feedbacktag.png"
-  },
-  {
-    "id": "yes-man-variants",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "yes man — variants",
-    "src": "animations/yes-man/variants.html",
-    "thumb": "assets/shots/yes-man-variants.png"
-  },
-  {
-    "id": "ads-spot",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "spot",
-    "src": "animations/ads/spot.html",
-    "thumb": "assets/shots/ads-spot.png"
   }
 ]

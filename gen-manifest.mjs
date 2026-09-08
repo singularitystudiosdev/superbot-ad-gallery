@@ -55,8 +55,6 @@ const more = [
   ['yes-man-slides', 'yes-man/slides.html', 'yes man · slides', 'Ad spots'],
   ['yes-man-feedback', 'yes-man/feedback.html', 'yes man · feedback', 'Ad spots'],
   ['yes-man-feedbacktag', 'yes-man/feedbacktag.html', 'yes man · feedback (tagged)', 'Ad spots'],
-  ['yes-man-variants', 'yes-man/variants.html', 'yes man — variants', 'Ad spots'],
-  ['ads-spot', 'ads/spot.html', 'spot', 'Ad spots'],
   ['gg-site-variants', 'gg-site/variants.html', 'superbot.gg — character variants', 'Site variants'],
   ['gg-site-lander-zen', 'gg-site/lander-zen.html', 'lander — zen', 'Site variants'],
   ['gg-site-lander-minimal', 'gg-site/lander-minimal.html', 'lander — minimal', 'Site variants'],

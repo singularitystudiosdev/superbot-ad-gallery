@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>superbot — hero load fx · circular combine · 10 takes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+  :root {
+    --bg: #0a0a0a; --panel: #050505; --line: #191919;
+    --fg: #f0f0f0; --dim: #5f5f5f; --faint: #3a3a3a;
+    --flair: #57ffa8; --flair-soft: #1f4d33;
+  }
+  html, body { margin: 0; background: var(--bg); color: var(--fg); }
+  body {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px; line-height: 1.5; padding: 28px clamp(16px, 4vw, 56px) 60px;
+  }
+  header { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.04em; margin: 0; }
+  h1 em { font-style: normal; color: var(--flair); }
+  header .sub { color: var(--dim); font-size: 12px; }
+  .rule { height: 1px; background: var(--line); margin: 14px 0 22px; }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 18px;
+  }
+  .tile {
+    position: relative; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--panel); overflow: hidden;
+  }
+  .tile .stage-wrap { position: relative; height: 320px; }
+  .tile .tag {
+    position: absolute; top: 10px; left: 12px; z-index: 3;
+    font-size: 11px; letter-spacing: 0.06em; color: var(--dim);
+    background: rgba(5,5,5,0.72); border: 1px solid var(--line);
+    padding: 3px 8px; border-radius: 5px; backdrop-filter: blur(2px);
+  }
+  .tile .tag b { color: var(--flair); font-weight: 600; }
+  .tile .desc {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+    padding: 8px 12px; font-size: 11.5px; color: var(--dim);
+    background: linear-gradient(transparent, rgba(5,5,5,0.9) 40%);
+  }
+  /* dot grid backdrop, a nod to the halftone in the reference */
+  .tile::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(87,255,168,0.08) 1px, transparent 1.4px);
+    background-size: 18px 18px; background-position: 9px 9px;
+    mask-image: radial-gradient(ellipse at 50% 45%, black 30%, transparent 78%);
+  }
+
+  .sb-wrap { position: absolute; inset: 0; overflow: hidden; }
+  .sb-stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 600px; height: 380px; will-change: transform;
+  }
+  .sb-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .sb-svg path { fill: none; stroke: rgba(87,255,168,0.4); stroke-width: 1.4; }
+  .sb-core {
+    position: absolute; left: 50%; top: 50%; width: 220px; height: 220px;
+    border-radius: 50%; opacity: 0; pointer-events: none;
+    background: radial-gradient(circle, rgba(87,255,168,0.30), rgba(87,255,168,0.08) 45%, transparent 70%);
+  }
+  .sb-wedge {
+    position: absolute; left: 50%; top: 50%; width: 300px; height: 300px;
+    border-radius: 50%; opacity: 0; pointer-events: none;
+    border: 3px solid transparent; border-top-color: rgba(87,255,168,0.9);
+    border-right-color: rgba(87,255,168,0.28);
+    box-shadow: 0 0 18px rgba(87,255,168,0.25);
+  }
+  .sb-mark {
+    position: absolute; left: 50%; top: 50%; opacity: 0; pointer-events: none;
+    font-size: 44px; font-weight: 700; color: var(--flair);
+    text-shadow: 0 0 22px rgba(87,255,168,0.75), 0 0 4px rgba(87,255,168,0.9);
+  }
+  .sb-b {
+    position: absolute; left: 0; top: 0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.17), rgba(255,255,255,0.05) 58%, rgba(87,255,168,0.06));
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.14);
+    will-change: transform, opacity;
+  }
+  .sb-b svg { width: 54%; height: 54%; }
+  footer { margin-top: 26px; color: var(--faint); font-size: 11.5px; }
+  footer b { color: var(--flair-soft); }
+</style>
+</head>
+<body>
+<header>
+  <h1>superbot <em>/</em> hero load fx</h1>
+  <span class="sub">circular combine · 10 takes · seamless loops · pick one</span>
+</header>
+<div class="rule"></div>
+<main class="grid" id="grid"></main>
+<footer>
+  refs: quxiaoyin AgentSky spot (ring swarm ~0:34) · yupp logo-bubble hero · superbot tokens (#0a0a0a / #57ffa8 / mono).
+  <b>all loops run 7–9s and restart cleanly.</b>
+</footer>
+
+<script src="./icons.6ab09e85.js"></script>
+<script src="./engine.6ab09e85.js"></script>
+<script src="./variants-a.6ab09e85.js"></script>
+<script src="./variants-b.6ab09e85.js"></script>
+<script>
+(function () {
+  var LIST = (window.SB_VARIANTS_A || []).concat(window.SB_VARIANTS_B || []);
+  var grid = document.getElementById("grid");
+  LIST.forEach(function (v, idx) {
+    var tile = document.createElement("section"); tile.className = "tile";
+    tile.innerHTML = '<div class="tag"><b>' + String(idx + 1).padStart(2, "0") + "</b> · " + v.name + '</div>' +
+      '<div class="stage-wrap"></div><div class="desc">' + v.desc + "</div>";
+    grid.appendChild(tile);
+    var host = tile.querySelector(".stage-wrap");
+    var n = v.n || 18;
+    var ctx = window.SB.makeStage(host, n, 1234 + idx * 977);
+    var update = v.fn(ctx, v.period);
+    var forceT = new URLSearchParams(location.search).get("t");
+    var t0 = performance.now() - idx * 640; // de-sync tiles (progressive phases)
+    (function loop(now) {
+      var t = forceT != null
+        ? parseFloat(forceT)
+        : (((now - t0) / 1000) % v.period) / v.period;
+      if (t < 0) t += 1;
+      update(t);
+      requestAnimationFrame(loop);
+    })(t0);
+  });
+})();
+</script>
+</body>
+</html>

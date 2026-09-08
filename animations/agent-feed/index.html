@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>superbot optimizer — agent feed</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<div class="stage">
+  <header class="topbar">
+    <div class="brand"><span class="glyph">◆</span> SUPERBOT <span class="dim">OPTIMIZER</span></div>
+    <nav class="nav">
+      <button class="nav-btn is-active" id="tab-feed">Feed</button>
+      <button class="nav-btn" id="tab-chat">Chat</button>
+      <button class="nav-btn" id="tab-review">Review</button>
+    </nav>
+    <div class="status" id="status" hidden></div>
+  </header>
+
+  <main class="feed-wrap" id="feed-view">
+    <div class="mode-row">
+      <span class="mode-label">your call</span>
+      <div class="seg" id="mode-seg">
+        <button class="seg-btn" data-mode="nag">nag me</button>
+        <button class="seg-btn is-selected" data-mode="ask">ask first</button>
+        <button class="seg-btn" data-mode="auto">hands-off</button>
+      </div>
+    </div>
+    <div id="feed" class="feed"></div>
+  </main>
+
+  <main class="chat-wrap" id="chat-view" hidden>
+    <div class="chat-col">
+      <div class="chat-msgs" id="chat-msgs"></div>
+      <div class="chat-input-row">
+        <input id="chat-input" placeholder="message superbot…" autocomplete="off" spellcheck="false">
+        <button class="chat-send" id="chat-send">Send</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="controls" hidden></footer>
+</div>
+
+<div class="review-overlay" id="review" hidden>
+  <div class="review-panel">
+    <div class="review-top">
+      <div>
+        <div class="review-title">Daily Review</div>
+        <div class="review-date" id="review-date"></div>
+      </div>
+      <button class="mini-btn" id="review-close">✕ Close</button>
+    </div>
+
+    <div class="review-totals" id="review-totals"></div>
+
+    <div class="week-strip">
+      <div class="week-title">TOKENS SAVED · LAST 7 DAYS (K)</div>
+      <div class="week-bars" id="week-bars"></div>
+    </div>
+
+    <div class="review-table-title">Today's tasks</div>
+    <div class="review-table-sub">every optimization the agent applied, with what it recovered</div>
+    <div class="review-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th><th>Task</th><th>IDE</th><th>Tokens</th><th>Cost</th><th>Time saved</th>
+          </tr>
+        </thead>
+        <tbody id="review-tasks"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

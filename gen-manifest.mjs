@@ -40,6 +40,64 @@ const items = anims.map(([id, src, title, desc]) => ({
   thumb: `assets/shots/${animThumbs[id]}.png`,
 }));
 
+// Second sweep — ad spots, site variants, hero FX and related pages.
+// [name, pagePath, title, group]
+const more = [
+  ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
+  ['favorite-color-variants', 'favorite-color/variants.html', 'favorite color — variants', 'Ad spots'],
+  ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],
+  ['hi-i-am-claude-effects', 'hi-i-am-claude/effects.html', 'pick your effect', 'Ad spots'],
+  ['yes-man', 'yes-man/', 'yes man', 'Ad spots'],
+  ['yes-man-email', 'yes-man/email.html', 'yes man · email', 'Ad spots'],
+  ['yes-man-pros', 'yes-man/pros.html', 'yes man · pros', 'Ad spots'],
+  ['yes-man-getreal', 'yes-man/getreal.html', 'yes man · get real', 'Ad spots'],
+  ['yes-man-slides', 'yes-man/slides.html', 'yes man · slides', 'Ad spots'],
+  ['yes-man-feedback', 'yes-man/feedback.html', 'yes man · feedback', 'Ad spots'],
+  ['yes-man-feedbacktag', 'yes-man/feedbacktag.html', 'yes man · feedback (tagged)', 'Ad spots'],
+  ['yes-man-variants', 'yes-man/variants.html', 'yes man — variants', 'Ad spots'],
+  ['ads-hub', 'ads/index.html', 'advertisement videos — hub', 'Ad spots'],
+  ['ads-board', 'ads/board.html', 'the fix board', 'Ad spots'],
+  ['ads-compare', 'ads/compare.html', 'comparison spots', 'Ad spots'],
+  ['ads-said', 'ads/said.html', 'they said · we did', 'Ad spots'],
+  ['ads-spot', 'ads/spot.html', 'spot', 'Ad spots'],
+  ['gg-site-variants', 'gg-site/variants.html', 'superbot.gg — character variants', 'Site variants'],
+  ['gg-site-lander-zen', 'gg-site/lander-zen.html', 'lander — zen', 'Site variants'],
+  ['gg-site-lander-minimal', 'gg-site/lander-minimal.html', 'lander — minimal', 'Site variants'],
+  ['gg-site-lander-shell', 'gg-site/lander-shell.html', 'lander — shell', 'Site variants'],
+  ['gg-site-lander-agent', 'gg-site/lander-agent.html', 'lander — the agent that helps your agents', 'Site variants'],
+  ['gg-site-design-terminal', 'gg-site/design-terminal.html', 'design A — terminal', 'Site variants'],
+  ['gg-site-design-pop', 'gg-site/design-pop.html', 'design B — pop', 'Site variants'],
+  ['gg-site-design-paper', 'gg-site/design-paper.html', 'design C — paper terminal', 'Site variants'],
+  ['ascii', 'ascii/', 'SUPERBOT.GG — ascii page', 'Site variants'],
+  ['console', 'console/', 'superbot console', 'Site variants'],
+  ['button-page', 'button-page/', 'button page', 'Site variants'],
+  ['button-page-feed-grid', 'button-page/feed-grid.html', 'button page — feed grid', 'Site variants'],
+  ['merge-mascot', 'merge-mascot/', 'merge — mascot cut', 'Site variants'],
+  ['merge-loop', 'merge-loop/', 'every ide, one loop', 'Site variants'],
+  ['hero-loading', 'hero-loading/', 'sphere collapse — loading fx', 'Hero reveal FX'],
+  ['hero-combine', 'hero-combine/', 'hero load fx — circular combine · 10 takes', 'Hero reveal FX'],
+  ['hero-finishers-dolly', 'hero-finishers/dolly.html', '3D dolly-in finishers', 'Hero reveal FX'],
+  ['hero-finishers-sheen', 'hero-finishers/sheen.html', '3D sheen finishers', 'Hero reveal FX'],
+  ['hero-flip-black-180', 'hero-flip/hero-flip-black-180.9f4c2e17.html', 'flip reveal · black back', 'Hero reveal FX'],
+  ['hero-flip-black-drop', 'hero-flip/hero-flip-black-drop.9f4c2e17.html', 'flip reveal · black drop', 'Hero reveal FX'],
+  ['hero-flip-black-edge', 'hero-flip/hero-flip-black-edge.9f4c2e17.html', 'flip reveal · black edge', 'Hero reveal FX'],
+  ['hero-flip-double-ramp', 'hero-flip/hero-flip-double-ramp.9f4c2e17.html', 'flip reveal · double flip', 'Hero reveal FX'],
+  ['hero-flip-icon-burst', 'hero-flip/hero-flip-icon-burst.9f4c2e17.html', 'flip reveal · icon burst', 'Hero reveal FX'],
+  ['hero-flip-icon-start', 'hero-flip/hero-flip-icon-start.9f4c2e17.html', 'flip reveal · icon size', 'Hero reveal FX'],
+  ['hero-flip-slow-cinema', 'hero-flip/hero-flip-slow-cinema.9f4c2e17.html', 'flip reveal · slow cinema', 'Hero reveal FX'],
+  ['hero-flip-snap', 'hero-flip/hero-flip-snap.9f4c2e17.html', 'flip reveal · snap', 'Hero reveal FX'],
+  ['hero-flip-reveals', 'hero-flip/hero-flip-reveals.356321a5.html', 'flip reveals — harness', 'Hero reveal FX'],
+  ['rainbow-bench', 'rainbow-bench/', 'rainbow bench — the mascot in every color', 'Mascot & toys'],
+  ['ai-dock', 'ai-dock/', 'AI dock — 10 AI apps, dock style', 'Mascot & toys'],
+  ['swarm-console', 'swarm-console/', 'SWARM // command', 'Mascot & toys'],
+  ['swarm-constellation', 'swarm-constellation/', 'SWARM.GG — agent constellation', 'Mascot & toys'],
+  ['agent-feed', 'agent-feed/', 'superbot optimizer — agent feed', 'Mascot & toys'],
+];
+for (const [name, src, title, group] of more) {
+  items.push({ id: name, type: 'animation', group, title, src: `animations/${src}`,
+    thumb: `assets/shots/${name}.png` });
+}
+
 for (const g of groups) {
   for (const f of readdirSync(g.dir).filter(f => f.endsWith('.png') && (!g.match || g.match(f))).sort()) {
     if (statSync(`${g.dir}/${f}`).isDirectory()) continue;

@@ -7,12 +7,18 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
+76 items, gathered from the workspace projects and the GitHub repos:
+
 - **Animations (8)** — the .gg landing (ASCII + textmode), the setup-wizard demo, the
-  IDE-merge / orbit hero spots and their variants. Each one is the real page, embedded
-  and playing.
-- **App screenshots (5)** — dashboard, activity, credits, settings, setup.
-- **SUPERBOT.GG shots (5)** — preview + mono textmode passes.
-- **IDE icons (8)** — the IDE set used by the merge spots.
+  IDE-merge / orbit hero spots and their variants.
+- **Ad spots (17)** — favorite color (the chat pitch), hi i am claude, the yes-man
+  family, and the superbot.gg / ads spots (fix board, comparison, they-said-we-did, spot).
+- **Site variants (14)** — superbot.gg landers and design studies, the ascii page,
+  console, button page, merge mascot + merge loop cuts.
+- **Hero reveal FX (13)** — sphere collapse, circular combine takes, dolly/sheen
+  finishers, and the flip-reveal variants.
+- **Mascot & toys (5)** — rainbow bench, AI dock, SWARM console + constellation, agent feed.
+- **Images (19)** — app screenshots, .GG/mono textmode shots, IDE icons, the superbot icon.
 
 ## Structure
 

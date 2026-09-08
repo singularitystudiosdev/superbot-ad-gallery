@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SUPERBOT · feed your superbot</title>
+<style>
+  /* ---------- page shell (button-page language) ---------- */
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: #0a0a0a;
+    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  #stars {
+    position: fixed; inset: 0; z-index: 0;
+    width: 100%; height: 100%;
+  }
+  .stage {
+    position: relative; z-index: 1;
+    min-height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 30px; padding: 56px 16px; box-sizing: border-box;
+  }
+
+  /* ---------- shared: the ring technique, verbatim geometry ---------- */
+  @property --superbot-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  @keyframes superbot-spin { to { --superbot-angle: 360deg; } }
+
+  /* ---------- text ---------- */
+  .sb-title {
+    font-size: 28px; font-weight: 700; letter-spacing: 0.35em; text-indent: 0.35em;
+    color: #b5b5b5; user-select: none;
+  }
+  .sb-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    color: #5f5f5f; user-select: none;
+  }
+  .sb-caption {
+    font-size: 11px; letter-spacing: 0.08em; color: #3a3a3a; user-select: none;
+  }
+
+  /* ---------- the grid of phones ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 26px; width: min(1080px, 100%);
+    justify-content: center;
+  }
+
+  /* ---------- phone frame: #050505 under the faint ring, like the textbox ---------- */
+  .phone {
+    position: relative; isolation: isolate;
+    background: #050505; border-radius: 34px;
+    min-height: 600px; max-width: 340px; width: 100%;
+    margin: 0 auto;
+    padding: 14px 18px 18px; box-sizing: border-box;
+    display: flex; flex-direction: column;
+  }
+  .phone::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 35px; padding: 1px;
+    background: conic-gradient(from var(--superbot-angle), #191919 0deg, #2a2a2a 40deg, #191919 120deg, #191919 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: superbot-spin 3s linear infinite; pointer-events: none; z-index: 1;
+  }
+  .phone:hover::before { filter: brightness(1.5); }
+
+  .p-status {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #f0f0f0;
+    padding: 2px 4px 10px;
+  }
+  .p-status .p-sig { color: #5f5f5f; letter-spacing: 0.18em; }
+  .p-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 0 2px;
+  }
+  .p-back { color: #5f5f5f; font-size: 13px; user-select: none; }
+  .p-title {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: #f0f0f0;
+    text-align: center; flex: 1; user-select: none;
+  }
+  .p-back { width: 13px; }
+  .p-sub {
+    text-align: center; font-size: 11px; letter-spacing: 0.08em; color: #5f5f5f;
+    padding-bottom: 14px; user-select: none;
+  }
+  .p-body { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+  /* ---------- provider rows ---------- */
+  .p-row {
+    display: flex; align-items: center; gap: 12px;
+    border: 1px solid #191919; border-radius: 14px;
+    padding: 12px 14px; background: #0a0a0a;
+  }
+  .p-icon {
+    width: 36px; height: 36px; flex: none;
+    border: 1px solid #191919; border-radius: 10px;
+    background: #050505; color: #f0f0f0;
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .p-icon.dim { color: #5f5f5f; }
+  .p-row .p-name { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #f0f0f0; }
+  .p-row .p-desc { font-size: 10px; letter-spacing: 0.06em; color: #5f5f5f; margin-top: 3px; }
+  .p-row .p-grow { flex: 1; min-width: 0; }
+  .p-chev { color: #3a3a3a; font-size: 14px; }
+
+  /* ---------- toggles ---------- */
+  .tog {
+    width: 36px; height: 20px; flex: none; border-radius: 999px;
+    background: #191919; position: relative; transition: background 0.25s ease;
+  }
+  .tog::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #3a3a3a; transition: transform 0.25s ease, background 0.25s ease;
+  }
+  .tog.on { background: #f0f0f0; }
+  .tog.on::after { transform: translateX(16px); background: #050505; }
+
+  /* ---------- pill / chip ---------- */
+  .pill {
+    align-self: center;
+    border: 1px solid #191919; border-radius: 999px;
+    padding: 8px 14px; font-size: 10px; letter-spacing: 0.08em;
+    color: #5f5f5f; background: #0a0a0a; user-select: none;
+  }
+  .pill.bright { color: #f0f0f0; }
+  .chiprow { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip {
+    border: 1px solid #191919; border-radius: 999px; padding: 8px 12px;
+    font-size: 10px; letter-spacing: 0.06em; color: #5f5f5f; background: #0a0a0a;
+    user-select: none;
+  }
+  .chip.bright { color: #f0f0f0; border-color: #2a2a2a; }
+
+  /* ---------- progress dots / steps ---------- */
+  .dots { display: flex; gap: 8px; justify-content: center; padding: 4px 0; }
+  .dots i {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #191919; border: 1px solid #2a2a2a;
+  }
+  .dots i.lit { background: #f0f0f0; border-color: #f0f0f0; box-shadow: 0 0 4px rgba(255,255,255,0.5); }
+  .steps { display: flex; align-items: flex-start; justify-content: center; gap: 0; padding: 6px 0 2px; }
+  .step { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 64px; }
+  .step .s-n {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid #2a2a2a; color: #5f5f5f;
+    display: grid; place-items: center; font-size: 10px; font-weight: 700;
+  }
+  .step.done .s-n { background: #f0f0f0; color: #050505; border-color: #f0f0f0; }
+  .step .s-l { font-size: 9px; letter-spacing: 0.08em; color: #5f5f5f; }
+  .s-dash { flex: none; width: 26px; border-top: 1px dashed #2a2a2a; margin-top: 11px; }
+
+  /* ---------- connect button (the verbatim superbot-btn look) ---------- */
+  .connect-row { display: flex; gap: 10px; align-items: stretch; }
+  .sb-cta {
+    position: relative; isolation: isolate; flex: 1;
+    border-radius: 999px; border: none; cursor: pointer;
+    background: #050505; color: #f0f0f0;
+    font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    padding: 12px 16px;
+    transition: color 0.25s ease, transform 0.15s ease;
+  }
+  .sb-cta::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 999px; padding: 1px;
+    background: conic-gradient(from var(--superbot-angle), #2a2a2a 0deg, #eeeeee 40deg, #2a2a2a 120deg, #2a2a2a 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: superbot-spin 3s linear infinite; pointer-events: none; z-index: 1;
+    transition: filter 0.3s ease;
+  }
+  .sb-cta:hover { color: #fff; }
+  .sb-cta:hover::before { filter: brightness(1.9); }
+  .sb-cta:active { transform: scale(0.97); }
+  .sb-heart {
+    flex: none; width: 44px; border-radius: 999px;
+    border: 1px solid #191919; background: #0a0a0a; color: #5f5f5f;
+    font-size: 12px; cursor: pointer; font-family: inherit;
+  }
+
+  /* ---------- textbox pill (verbatim geometry) ---------- */
+  .sb-input-wrap {
+    position: relative; display: flex; align-items: center; gap: 7px;
+    height: 36px; padding: 0 14px; border-radius: 999px;
+    background: #050505; isolation: isolate;
+  }
+  .sb-input-wrap::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 999px; padding: 1px;
+    background: conic-gradient(from var(--superbot-angle), #191919 0deg, #1c1c1c 40deg, #191919 120deg, #191919 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: superbot-spin 3s linear infinite; pointer-events: none; z-index: 1;
+  }
+  .sb-input {
+    flex: 1; min-width: 0;
+    background: transparent; border: none; outline: none;
+    font: inherit; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    color: #f0f0f0; caret-color: #f0f0f0;
+  }
+  .sb-input::placeholder { color: #5f5f5f; }
+  .sb-eye { color: #3a3a3a; font-size: 11px; user-select: none; }
+  .sb-send {
+    flex: none; width: 30px; height: 30px; border-radius: 50%; border: none; cursor: pointer;
+    background: #0a0a0a; color: #f0f0f0; font-family: inherit; font-size: 12px;
+    border: 1px solid #191919;
+  }
+
+  /* ---------- code panel ---------- */
+  .code-card {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    border: 1px solid #191919; border-radius: 14px; background: #0a0a0a;
+    padding: 16px 14px; margin: 6px 0 2px;
+  }
+  .code-card .p-code {
+    font-size: 22px; font-weight: 700; letter-spacing: 0.14em; color: #f0f0f0;
+  }
+  .code-card .p-copy { color: #5f5f5f; font-size: 12px; cursor: pointer; }
+
+  /* ---------- tiles (your providers / almost there) ---------- */
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tile {
+    position: relative; border: 1px solid #191919; border-radius: 14px; background: #0a0a0a;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 16px 10px 12px;
+  }
+  .tile.dashed { border-style: dashed; color: #5f5f5f; justify-content: center; }
+  .tile .p-icon { width: 40px; height: 40px; font-size: 14px; }
+  .tile .t-name { font-size: 10px; letter-spacing: 0.08em; color: #5f5f5f; }
+  .t-check {
+    position: absolute; top: 8px; right: 8px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #f0f0f0; color: #050505;
+    display: grid; place-items: center; font-size: 9px; font-weight: 700;
+  }
+  .t-off {
+    position: absolute; top: 8px; right: 8px;
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid #2a2a2a;
+  }
+  .tile .t-plus { font-size: 16px; color: #5f5f5f; }
+  .iconrow { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 10px 0 2px; }
+  .iconrow .p-icon { width: 44px; height: 44px; font-size: 15px; position: relative; }
+  .iconrow .p-icon.ghost { border-style: dashed; color: #3a3a3a; }
+  .iconrow .t-check { top: -6px; right: -6px; }
+
+  /* ---------- chat bubbles ---------- */
+  .chat { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .bubble-row { display: flex; align-items: flex-start; gap: 8px; }
+  .bubble-row.right { justify-content: flex-end; }
+  .bubble {
+    border: 1px solid #191919; border-radius: 14px; background: #0a0a0a;
+    padding: 10px 12px; font-size: 11px; letter-spacing: 0.04em;
+    color: #f0f0f0; max-width: 82%;
+  }
+  .bubble.right { border-radius: 14px 14px 4px 14px; background: #f0f0f0; color: #050505; border-color: #f0f0f0; font-weight: 700; }
+  .bubble .b-note { display: block; margin-top: 6px; color: #5f5f5f; font-size: 10px; }
+  .avatar {
+    width: 30px; height: 30px; flex: none; border-radius: 50%;
+    border: 1px solid #191919; background: #050505; color: #f0f0f0;
+    display: grid; place-items: center; font-size: 12px;
+  }
+
+  /* ---------- mascot ---------- */
+  .pet {
+    font: 8px/1.06 ui-monospace, 'SF Mono', Menlo, monospace;
+    color: #f0f0f0; text-align: center; margin: 0;
+    cursor: pointer; user-select: none;
+  }
+  .pet.pet-sm { font-size: 6px; }
+  .pet-slot { display: flex; justify-content: center; overflow: hidden; }
+  .peek { position: relative; }
+  .peek .pet-slot { position: absolute; right: -4px; bottom: -6px; }
+
+  .sparkles { color: #5f5f5f; text-align: center; font-size: 11px; letter-spacing: 0.4em; user-select: none; }
+  .footer-note {
+    text-align: center; font-size: 10px; letter-spacing: 0.08em; color: #3a3a3a;
+    padding-top: 6px; user-select: none;
+  }
+</style>
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="stage">
+  <div class="sb-title">SUPERBOT</div>
+  <div class="sb-tag">FEED YOUR SUPERBOT · CONNECT ACCOUNTS</div>
+
+  <div class="grid">
+
+    <!-- 1 · feed your superbot -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">feed your superbot</span><span style="width:13px"></span></div>
+      <div class="p-sub">connect accounts</div>
+      <div class="p-body">
+        <div class="p-row"><span class="p-icon">✳</span><span class="p-grow"><div class="p-name">openai</div><div class="p-desc">powerful &amp; reliable</div></span><span class="p-chev">›</span></div>
+        <div class="p-row"><span class="p-icon">A\</span><span class="p-grow"><div class="p-name">anthropic</div><div class="p-desc">safe &amp; helpful</div></span><span class="p-chev">›</span></div>
+        <div class="p-row peek"><span class="p-icon dim">X</span><span class="p-grow"><div class="p-name">xai</div><div class="p-desc">fast &amp; bold</div></span><span class="p-chev">›</span><div class="pet-slot"><pre class="pet pet-sm" id="pet-peek" aria-hidden="true"></pre></div></div>
+        <div class="pill">🐾 connect to feed superbot!</div>
+        <div class="footer-note">every key you paste is one snack</div>
+      </div>
+    </section>
+
+    <!-- 2 · feeding time! -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">feeding time!</span><span style="width:13px"></span></div>
+      <div class="p-body" style="justify-content:center; align-items:center; gap:14px;">
+        <div class="pet-slot"><pre class="pet" id="pet-feed" aria-hidden="true"></pre></div>
+        <div class="sb-tag">1 of 3 fed</div>
+        <div class="dots"><i class="lit"></i><i></i><i></i></div>
+        <div class="sb-caption">yummy api key snack!</div>
+      </div>
+    </section>
+
+    <!-- 3 · connect openai -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">connect openai</span><span style="width:13px"></span></div>
+      <div class="p-body" style="justify-content:center; gap:14px;">
+        <div class="p-icon" style="width:52px; height:52px; border-radius:14px; font-size:18px; align-self:center;">✳</div>
+        <div class="pet-slot"><pre class="pet" id="pet-key" aria-hidden="true"></pre></div>
+        <div class="sb-caption" style="text-align:center;">paste your api key</div>
+        <div class="sb-input-wrap">
+          <input class="sb-input" type="text" spellcheck="false" placeholder="sk-…" aria-label="OpenAI API key">
+          <span class="sb-eye">👁</span>
+        </div>
+        <div class="connect-row">
+          <button class="sb-cta" type="button">connect</button>
+          <button class="sb-heart" type="button" title="save for later">♥</button>
+        </div>
+        <div class="footer-note">🔒 we keep it safe</div>
+      </div>
+    </section>
+
+    <!-- 4 · a tasty surprise! -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">a tasty surprise!</span><span style="width:13px"></span></div>
+      <div class="p-body" style="justify-content:center; align-items:center; gap:16px;">
+        <div class="sparkles">✦ ✦ ✦</div>
+        <div class="p-icon" style="width:56px; height:56px; border-radius:14px; font-size:19px;">A\</div>
+        <div class="pet-slot"><pre class="pet" id="pet-box" aria-hidden="true"></pre></div>
+        <div class="pill bright">anthropic unlocked!</div>
+      </div>
+    </section>
+
+    <!-- 5 · manage providers -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">manage providers</span><span style="width:13px"></span></div>
+      <div class="p-body" style="justify-content:center;">
+        <div class="p-row"><span class="p-icon">✳</span><span class="p-grow"><div class="p-name">openai</div></span><span class="tog on"></span></div>
+        <div class="p-row"><span class="p-icon">A\</span><span class="p-grow"><div class="p-name">anthropic</div></span><span class="tog on"></span></div>
+        <div class="p-row"><span class="p-icon dim">X</span><span class="p-grow"><div class="p-name">xai</div></span><span class="tog"></span></div>
+        <div class="pet-slot"><pre class="pet pet-sm" id="pet-boss" aria-hidden="true"></pre></div>
+        <div class="bubble-row"><span class="bubble">you're doing great! <span class="b-note">★</span></span></div>
+      </div>
+    </section>
+
+    <!-- 6 · connect with device -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">connect with device</span><span style="width:13px"></span></div>
+      <div class="p-body" style="justify-content:center; gap:14px;">
+        <div class="sb-caption" style="text-align:center;">visit the link on your device</div>
+        <div class="code-card"><span class="p-code">ABCD-1234</span><span class="p-chev">⧉</span></div>
+        <div class="steps">
+          <div class="step done"><span class="s-n">1</span><span class="s-l">request</span></div><span class="s-dash"></span>
+          <div class="step done"><span class="s-n">2</span><span class="s-l">approve</span></div><span class="s-dash"></span>
+          <div class="step"><span class="s-n">3</span><span class="s-l">done</span></div>
+        </div>
+        <div class="pet-slot"><pre class="pet pet-sm" id="pet-device" aria-hidden="true"></pre></div>
+        <div class="pill">enter code to continue</div>
+      </div>
+    </section>
+
+    <!-- 7 · almost there! -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">almost there!</span><span style="width:13px"></span></div>
+      <div class="p-body" style="justify-content:center; align-items:center; gap:16px;">
+        <div class="pill bright">2 of 3 connected</div>
+        <div class="iconrow">
+          <span class="p-icon">✳<span class="t-check">✓</span></span>
+          <span class="p-icon">A\<span class="t-check">✓</span></span>
+          <span class="p-icon ghost">X</span>
+        </div>
+        <div class="pet-slot"><pre class="pet" id="pet-cheer" aria-hidden="true"></pre></div>
+        <div class="pill">★ one more snack!</div>
+      </div>
+    </section>
+
+    <!-- 8 · your providers -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">your providers</span><span style="width:13px"></span></div>
+      <div class="p-body" style="justify-content:center;">
+        <div class="tiles">
+          <div class="tile"><span class="t-check">✓</span><span class="p-icon">✳</span><span class="t-name">openai</span></div>
+          <div class="tile"><span class="t-check">✓</span><span class="p-icon">A\</span><span class="t-name">anthropic</span></div>
+          <div class="tile"><span class="t-off"></span><span class="p-icon dim">X</span><span class="t-name">xai</span></div>
+          <div class="tile dashed"><span class="t-plus">+</span><span class="t-name">add more</span></div>
+        </div>
+        <div class="pet-slot"><pre class="pet pet-sm" id="pet-thanks" aria-hidden="true"></pre></div>
+        <div class="pill">great team! ♥</div>
+      </div>
+    </section>
+
+    <!-- 9 · let's connect! -->
+    <section class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-sig">▂▄▆ ⌁ ▮</span></div>
+      <div class="p-nav"><span class="p-back">←</span><span class="p-title">let's connect!</span><span style="width:13px"></span></div>
+      <div class="p-body">
+        <div class="chat">
+          <div class="bubble-row"><span class="avatar">✳</span><span class="bubble">got an openai key?</span></div>
+          <div class="bubble-row right"><span class="bubble right">yep!</span></div>
+          <div class="bubble-row"><span class="avatar">🐾</span><span class="bubble">awesome! paste it when you're ready.</span></div>
+          <div class="chiprow">
+            <span class="chip bright">paste now</span>
+            <span class="chip">how to find it?</span>
+            <span class="chip">maybe later</span>
+          </div>
+        </div>
+        <div class="sb-input-wrap">
+          <input class="sb-input" type="text" spellcheck="false" placeholder="type here…" aria-label="message">
+          <button class="sb-send" type="button">➤</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="sb-caption">SUPERBOT LAB · MASCOT FROM XDxdxD.DSH.SH/CHAT · GLYPH ENGINE VERBATIM</div>
+</div>
+
+<script>
+  // ---------------- starfield: verbatim from index.html ----------------
+  (function () {
+    "use strict";
+    var canvas = document.getElementById("stars");
+    var ctx = canvas.getContext("2d");
+    var dpr = 1;
+    function resize() {
+      dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(innerWidth * dpr);
+      canvas.height = Math.floor(innerHeight * dpr);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+    var GLYPHS = ["*", "+", "·", "✦", "˚", "×"];
+    var stars = [];
+    for (var i = 0; i < 130; i++) {
+      stars.push({
+        x: Math.random(), y: Math.random(),
+        g: GLYPHS[(Math.random() * GLYPHS.length) | 0],
+        s: 8 + Math.random() * 8,
+        ph: Math.random() * Math.PI * 2,
+        sp: 0.15 + Math.random() * 0.7,
+        a: 0.10 + Math.random() * 0.5
+      });
+    }
+    function tick(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var time = t / 1000;
+      ctx.fillStyle = "#f0f0f0";
+      for (var i = 0; i < stars.length; i++) {
+        var st = stars[i];
+        var o = st.a * (0.5 + 0.5 * Math.sin(time * st.sp + st.ph));
+        if (o < 0.02) continue;
+        ctx.globalAlpha = o;
+        ctx.font = (st.s * dpr) + "px ui-monospace, 'SF Mono', Menlo, monospace";
+        ctx.fillText(st.g, st.x * canvas.width, st.y * canvas.height);
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+</script>
+
+<script type="module">
+  // ---------------- the mascot, VERBATIM engine from xdxdxd.dsh.sh/site/assets/mascot.js ----------------
+  const { Mascot } = await import('./mascot.js');
+
+  // the chat page's proven 34×15 grid, smolGrin variant — the site default character
+  const GRID = { cols: 34, rows: 15 };
+
+  new Mascot(document.getElementById('pet-feed'),   { ...GRID, variant: 'smolGrin', anim: 'calm'  });
+  new Mascot(document.getElementById('pet-key'),    { ...GRID, variant: 'smolGrin', anim: 'perky' });
+  new Mascot(document.getElementById('pet-box'),    { ...GRID, variant: 'smolWide', anim: 'perky' });
+  new Mascot(document.getElementById('pet-cheer'),  { ...GRID, variant: 'smolTall', anim: 'perky' });
+  new Mascot(document.getElementById('pet-peek'),   { ...GRID, variant: 'smolTiny', anim: 'statue' });
+  new Mascot(document.getElementById('pet-boss'),   { ...GRID, variant: 'smolGrin', anim: 'statue' });
+  new Mascot(document.getElementById('pet-device'), { ...GRID, variant: 'smolFloppy', anim: 'calm' });
+  new Mascot(document.getElementById('pet-thanks'), { ...GRID, variant: 'smolGrin', anim: 'perky' });
+
+  // a paste anywhere in the key field is a snack: celebrate like the site does
+  addEventListener('superbot:copied', () => {
+    for (const el of document.querySelectorAll('.pet')) {
+      el.dispatchEvent(new CustomEvent('superbot:celebrate'));
+    }
+  });
+</script>
+</body>
+</html>

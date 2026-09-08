@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>3D Sheen · finisher demos</title>
+<style>
+  body {
+    margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 28px;
+    background: #060607; font-family: -apple-system, "Segoe UI", sans-serif; color: #ccc;
+  }
+  .stage {
+    width: 460px; height: 460px; border-radius: 24px;
+    background: radial-gradient(circle at 50% 40%, #141419 0%, #060607 70%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #bloom {
+    position: relative; width: 250px; height: 250px; border-radius: 24%;
+    overflow: hidden;
+    background:
+      conic-gradient(from 210deg at 40% 35%, #7f5af0, #2cb67d 35%, #ff8906 60%, #7f5af0 85%, #2cb67d);
+    box-shadow: 0 0 0 6px rgba(255,255,255,.06), 0 24px 60px rgba(0,0,0,.65);
+    transform: scale(1);
+  }
+  .btns { display: flex; gap: 10px; }
+  button {
+    padding: 9px 16px; border-radius: 10px; border: 1px solid #2a2a31;
+    background: #16161b; color: #ddd; font-size: 13px; cursor: pointer;
+  }
+  button:hover { background: #1f1f26; }
+</style>
+</head>
+<body>
+
+<div class="stage"><div id="bloom"></div></div>
+
+<div class="btns">
+  <button onclick="play(sheenDiag)">Sheen · Diagonal</button>
+  <button onclick="play(sheenGleam)">Sheen · Gleam</button>
+  <button onclick="play(sheenTilt)">Sheen · Tilt</button>
+  <button onclick="play(sheenShine)">Sheen · Shine</button>
+  <button onclick="replay()">Replay</button>
+</div>
+
+<script>
+const bloom = document.getElementById("bloom");
+
+// ---- sheen family in-flight guard (paste alongside the effect entries) ----
+// One token per run on the shared `bloom`. A re-trigger supersedes the previous
+// instance: its pending timeouts are cleared and its band is removed by the new
+// run itself, so a stale overflow restore can never unclip a newer band.
+let sheenRun = 0;
+let sheenTimers = [];
+let sheenBand = null;
+
+function sheenBegin() {
+  sheenRun += 1;
+  sheenTimers.forEach(clearTimeout);
+  sheenTimers = [];
+  if (sheenBand) sheenBand.remove();
+  sheenBand = null;
+  bloom.style.transition = ""; // supersede mid-flight: hand bloom back instantly
+  bloom.style.transform = "scale(1)";
+  bloom.style.overflow = "hidden";
+  return sheenRun;
+}
+function sheenAt(run, ms, fn) {
+  sheenTimers.push(setTimeout(() => { if (sheenRun === run) fn(); }, ms));
+}
+function sheenSettle(run, band) {
+  band.remove();
+  sheenBand = null;
+  if (sheenRun !== run) return; // only the active run restores clipping
+  bloom.style.overflow = "";
+}
+
+// ---- paste-ready effect entries ({ id, name, run(done) }, `bloom` closed over) ----
+
+const sheenDiag = {
+  id: "sheen-diag",
+  name: "3D Sheen · Diagonal",
+  run(done) {
+    const run = sheenBegin();
+    const band = document.createElement("div");
+    band.style.cssText =
+      "position:absolute;top:0;left:-110%;width:220%;height:100%;pointer-events:none;" +
+      "background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);" +
+      "transform:translateX(-30%)";
+    sheenBand = band;
+    bloom.appendChild(band);
+    void band.offsetWidth; // commit start position before transitioning
+    band.style.transition = "transform .48s cubic-bezier(.4,0,.2,1)";
+    band.style.transform = "translateX(130%)";
+    sheenAt(run, 500, () => sheenSettle(run, band));
+    sheenAt(run, 520, done);
+  },
+};
+
+const sheenGleam = {
+  id: "sheen-gleam",
+  name: "3D Sheen · Gleam",
+  run(done) {
+    const run = sheenBegin();
+    const band = document.createElement("div");
+    band.style.cssText =
+      "position:absolute;top:0;left:-130%;width:260%;height:100%;pointer-events:none;" +
+      "background:linear-gradient(105deg,transparent 28%,rgba(255,255,255,.3) 46%,rgba(255,255,255,.18) 56%,transparent 72%);" +
+      "transform:translateX(-30%)";
+    sheenBand = band;
+    bloom.appendChild(band);
+    void band.offsetWidth;
+    band.style.transition = "transform 1.05s ease-in-out";
+    band.style.transform = "translateX(130%)";
+    sheenAt(run, 1080, () => sheenSettle(run, band));
+    sheenAt(run, 1120, done);
+  },
+};
+
+const sheenTilt = {
+  id: "sheen-tilt",
+  name: "3D Sheen · Tilt",
+  run(done) {
+    const run = sheenBegin();
+    const band = document.createElement("div");
+    band.style.cssText =
+      "position:absolute;top:0;left:-110%;width:220%;height:100%;pointer-events:none;" +
+      "background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.5) 50%,transparent 60%);" +
+      "transform:translateX(-30%)";
+    sheenBand = band;
+    bloom.appendChild(band);
+    void band.offsetWidth;
+    bloom.style.transition = "transform .45s ease-in-out";
+    bloom.style.transform = "perspective(700px) rotateY(8deg)";
+    band.style.transition = "transform .85s cubic-bezier(.4,0,.2,1)";
+    band.style.transform = "translateX(130%)";
+    sheenAt(run, 460, () => {
+      bloom.style.transform = "perspective(700px) rotateY(-8deg)";
+    });
+    sheenAt(run, 940, () => {
+      sheenSettle(run, band);
+      // Transition left intact: the return to scale(1) eases over .45s instead
+      // of snapping straight.
+      bloom.style.transform = "scale(1)";
+    });
+    sheenAt(run, 1440, () => {
+      bloom.style.transition = ""; // eased settle has finished; restore default
+      done();
+    });
+  },
+};
+
+const sheenShine = {
+  id: "sheen-shine",
+  name: "3D Sheen · Shine",
+  run(done) {
+    const run = sheenBegin();
+    const band = document.createElement("div");
+    band.style.cssText =
+      "position:absolute;top:0;left:-45%;width:90%;height:100%;pointer-events:none;" +
+      "background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.7) 50%,transparent 65%);" +
+      "transform:translateX(-30%)";
+    sheenBand = band;
+    bloom.appendChild(band);
+    void band.offsetWidth;
+    band.style.transition = "transform .35s ease-out";
+    band.style.transform = "translateX(180%)";
+    sheenAt(run, 380, () => sheenSettle(run, band));
+    sheenAt(run, 400, done);
+  },
+};
+
+// ---- demo plumbing ----
+
+let last = null;
+function play(fn) { last = fn; fn.run(() => {}); }
+function replay() { if (last) last.run(() => {}); }
+
+const q = new URLSearchParams(location.search);
+const fx = q.get("fx");
+if (fx) {
+  const map = {
+    "sheen-diag": sheenDiag,
+    "sheen-gleam": sheenGleam,
+    "sheen-tilt": sheenTilt,
+    "sheen-shine": sheenShine,
+  };
+  const entry = map[fx];
+  if (entry) setTimeout(() => play(entry), 150);
+}
+</script>
+
+</body>
+</html>

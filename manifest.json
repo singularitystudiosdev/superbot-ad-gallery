@@ -72,6 +72,398 @@
     "thumb": "assets/shots/orbit-hero-4s.png"
   },
   {
+    "id": "favorite-color",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "favorite color — the chat pitch",
+    "src": "animations/favorite-color/",
+    "thumb": "assets/shots/favorite-color.png"
+  },
+  {
+    "id": "favorite-color-variants",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "favorite color — variants",
+    "src": "animations/favorite-color/variants.html",
+    "thumb": "assets/shots/favorite-color-variants.png"
+  },
+  {
+    "id": "hi-i-am-claude",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "hi i am claude",
+    "src": "animations/hi-i-am-claude/",
+    "thumb": "assets/shots/hi-i-am-claude.png"
+  },
+  {
+    "id": "hi-i-am-claude-effects",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "pick your effect",
+    "src": "animations/hi-i-am-claude/effects.html",
+    "thumb": "assets/shots/hi-i-am-claude-effects.png"
+  },
+  {
+    "id": "yes-man",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "yes man",
+    "src": "animations/yes-man/",
+    "thumb": "assets/shots/yes-man.png"
+  },
+  {
+    "id": "yes-man-email",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "yes man · email",
+    "src": "animations/yes-man/email.html",
+    "thumb": "assets/shots/yes-man-email.png"
+  },
+  {
+    "id": "yes-man-pros",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "yes man · pros",
+    "src": "animations/yes-man/pros.html",
+    "thumb": "assets/shots/yes-man-pros.png"
+  },
+  {
+    "id": "yes-man-getreal",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "yes man · get real",
+    "src": "animations/yes-man/getreal.html",
+    "thumb": "assets/shots/yes-man-getreal.png"
+  },
+  {
+    "id": "yes-man-slides",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "yes man · slides",
+    "src": "animations/yes-man/slides.html",
+    "thumb": "assets/shots/yes-man-slides.png"
+  },
+  {
+    "id": "yes-man-feedback",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "yes man · feedback",
+    "src": "animations/yes-man/feedback.html",
+    "thumb": "assets/shots/yes-man-feedback.png"
+  },
+  {
+    "id": "yes-man-feedbacktag",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "yes man · feedback (tagged)",
+    "src": "animations/yes-man/feedbacktag.html",
+    "thumb": "assets/shots/yes-man-feedbacktag.png"
+  },
+  {
+    "id": "yes-man-variants",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "yes man — variants",
+    "src": "animations/yes-man/variants.html",
+    "thumb": "assets/shots/yes-man-variants.png"
+  },
+  {
+    "id": "ads-hub",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "advertisement videos — hub",
+    "src": "animations/ads/index.html",
+    "thumb": "assets/shots/ads-hub.png"
+  },
+  {
+    "id": "ads-board",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "the fix board",
+    "src": "animations/ads/board.html",
+    "thumb": "assets/shots/ads-board.png"
+  },
+  {
+    "id": "ads-compare",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "comparison spots",
+    "src": "animations/ads/compare.html",
+    "thumb": "assets/shots/ads-compare.png"
+  },
+  {
+    "id": "ads-said",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "they said · we did",
+    "src": "animations/ads/said.html",
+    "thumb": "assets/shots/ads-said.png"
+  },
+  {
+    "id": "ads-spot",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "spot",
+    "src": "animations/ads/spot.html",
+    "thumb": "assets/shots/ads-spot.png"
+  },
+  {
+    "id": "gg-site-variants",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "superbot.gg — character variants",
+    "src": "animations/gg-site/variants.html",
+    "thumb": "assets/shots/gg-site-variants.png"
+  },
+  {
+    "id": "gg-site-lander-zen",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "lander — zen",
+    "src": "animations/gg-site/lander-zen.html",
+    "thumb": "assets/shots/gg-site-lander-zen.png"
+  },
+  {
+    "id": "gg-site-lander-minimal",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "lander — minimal",
+    "src": "animations/gg-site/lander-minimal.html",
+    "thumb": "assets/shots/gg-site-lander-minimal.png"
+  },
+  {
+    "id": "gg-site-lander-shell",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "lander — shell",
+    "src": "animations/gg-site/lander-shell.html",
+    "thumb": "assets/shots/gg-site-lander-shell.png"
+  },
+  {
+    "id": "gg-site-lander-agent",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "lander — the agent that helps your agents",
+    "src": "animations/gg-site/lander-agent.html",
+    "thumb": "assets/shots/gg-site-lander-agent.png"
+  },
+  {
+    "id": "gg-site-design-terminal",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "design A — terminal",
+    "src": "animations/gg-site/design-terminal.html",
+    "thumb": "assets/shots/gg-site-design-terminal.png"
+  },
+  {
+    "id": "gg-site-design-pop",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "design B — pop",
+    "src": "animations/gg-site/design-pop.html",
+    "thumb": "assets/shots/gg-site-design-pop.png"
+  },
+  {
+    "id": "gg-site-design-paper",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "design C — paper terminal",
+    "src": "animations/gg-site/design-paper.html",
+    "thumb": "assets/shots/gg-site-design-paper.png"
+  },
+  {
+    "id": "ascii",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "SUPERBOT.GG — ascii page",
+    "src": "animations/ascii/",
+    "thumb": "assets/shots/ascii.png"
+  },
+  {
+    "id": "console",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "superbot console",
+    "src": "animations/console/",
+    "thumb": "assets/shots/console.png"
+  },
+  {
+    "id": "button-page",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "button page",
+    "src": "animations/button-page/",
+    "thumb": "assets/shots/button-page.png"
+  },
+  {
+    "id": "button-page-feed-grid",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "button page — feed grid",
+    "src": "animations/button-page/feed-grid.html",
+    "thumb": "assets/shots/button-page-feed-grid.png"
+  },
+  {
+    "id": "merge-mascot",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "merge — mascot cut",
+    "src": "animations/merge-mascot/",
+    "thumb": "assets/shots/merge-mascot.png"
+  },
+  {
+    "id": "merge-loop",
+    "type": "animation",
+    "group": "Site variants",
+    "title": "every ide, one loop",
+    "src": "animations/merge-loop/",
+    "thumb": "assets/shots/merge-loop.png"
+  },
+  {
+    "id": "hero-loading",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "sphere collapse — loading fx",
+    "src": "animations/hero-loading/",
+    "thumb": "assets/shots/hero-loading.png"
+  },
+  {
+    "id": "hero-combine",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "hero load fx — circular combine · 10 takes",
+    "src": "animations/hero-combine/",
+    "thumb": "assets/shots/hero-combine.png"
+  },
+  {
+    "id": "hero-finishers-dolly",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "3D dolly-in finishers",
+    "src": "animations/hero-finishers/dolly.html",
+    "thumb": "assets/shots/hero-finishers-dolly.png"
+  },
+  {
+    "id": "hero-finishers-sheen",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "3D sheen finishers",
+    "src": "animations/hero-finishers/sheen.html",
+    "thumb": "assets/shots/hero-finishers-sheen.png"
+  },
+  {
+    "id": "hero-flip-black-180",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveal · black back",
+    "src": "animations/hero-flip/hero-flip-black-180.9f4c2e17.html",
+    "thumb": "assets/shots/hero-flip-black-180.png"
+  },
+  {
+    "id": "hero-flip-black-drop",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveal · black drop",
+    "src": "animations/hero-flip/hero-flip-black-drop.9f4c2e17.html",
+    "thumb": "assets/shots/hero-flip-black-drop.png"
+  },
+  {
+    "id": "hero-flip-black-edge",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveal · black edge",
+    "src": "animations/hero-flip/hero-flip-black-edge.9f4c2e17.html",
+    "thumb": "assets/shots/hero-flip-black-edge.png"
+  },
+  {
+    "id": "hero-flip-double-ramp",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveal · double flip",
+    "src": "animations/hero-flip/hero-flip-double-ramp.9f4c2e17.html",
+    "thumb": "assets/shots/hero-flip-double-ramp.png"
+  },
+  {
+    "id": "hero-flip-icon-burst",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveal · icon burst",
+    "src": "animations/hero-flip/hero-flip-icon-burst.9f4c2e17.html",
+    "thumb": "assets/shots/hero-flip-icon-burst.png"
+  },
+  {
+    "id": "hero-flip-icon-start",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveal · icon size",
+    "src": "animations/hero-flip/hero-flip-icon-start.9f4c2e17.html",
+    "thumb": "assets/shots/hero-flip-icon-start.png"
+  },
+  {
+    "id": "hero-flip-slow-cinema",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveal · slow cinema",
+    "src": "animations/hero-flip/hero-flip-slow-cinema.9f4c2e17.html",
+    "thumb": "assets/shots/hero-flip-slow-cinema.png"
+  },
+  {
+    "id": "hero-flip-snap",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveal · snap",
+    "src": "animations/hero-flip/hero-flip-snap.9f4c2e17.html",
+    "thumb": "assets/shots/hero-flip-snap.png"
+  },
+  {
+    "id": "hero-flip-reveals",
+    "type": "animation",
+    "group": "Hero reveal FX",
+    "title": "flip reveals — harness",
+    "src": "animations/hero-flip/hero-flip-reveals.356321a5.html",
+    "thumb": "assets/shots/hero-flip-reveals.png"
+  },
+  {
+    "id": "rainbow-bench",
+    "type": "animation",
+    "group": "Mascot & toys",
+    "title": "rainbow bench — the mascot in every color",
+    "src": "animations/rainbow-bench/",
+    "thumb": "assets/shots/rainbow-bench.png"
+  },
+  {
+    "id": "ai-dock",
+    "type": "animation",
+    "group": "Mascot & toys",
+    "title": "AI dock — 10 AI apps, dock style",
+    "src": "animations/ai-dock/",
+    "thumb": "assets/shots/ai-dock.png"
+  },
+  {
+    "id": "swarm-console",
+    "type": "animation",
+    "group": "Mascot & toys",
+    "title": "SWARM // command",
+    "src": "animations/swarm-console/",
+    "thumb": "assets/shots/swarm-console.png"
+  },
+  {
+    "id": "swarm-constellation",
+    "type": "animation",
+    "group": "Mascot & toys",
+    "title": "SWARM.GG — agent constellation",
+    "src": "animations/swarm-constellation/",
+    "thumb": "assets/shots/swarm-constellation.png"
+  },
+  {
+    "id": "agent-feed",
+    "type": "animation",
+    "group": "Mascot & toys",
+    "title": "superbot optimizer — agent feed",
+    "src": "animations/agent-feed/",
+    "thumb": "assets/shots/agent-feed.png"
+  },
+  {
     "id": "screenshot-activity",
     "type": "image",
     "group": "App screenshots",
@@ -170,6 +562,16 @@
     "h": 1000,
     "src": "assets/img/mono.png",
     "thumb": "assets/img/mono.png"
+  },
+  {
+    "id": "superbot-icon",
+    "type": "image",
+    "group": "SUPERBOT.GG",
+    "title": "superbot-icon",
+    "w": 1024,
+    "h": 1024,
+    "src": "assets/img/superbot-icon.png",
+    "thumb": "assets/img/superbot-icon.png"
   },
   {
     "id": "claude-code",

@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Dock — 10 AI apps, macOS dock style</title>
+<style>
+  :root {
+    --icon: 88px;           /* asset box size (visual tile ~76px, per mac-dock spec) */
+    --dock-h: 116px;
+    --gap: 10px;
+    --side-pad: 18px;
+    --magnify: 1.9;
+    --spread: 110px;
+    --radius: 30px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    background:
+      radial-gradient(120% 90% at 50% 0%, #2a3140 0%, #232936 40%, #1b202b 100%);
+  }
+  h1 {
+    position: fixed;
+    top: 8vh; left: 0; right: 0;
+    text-align: center;
+    color: rgba(235, 238, 245, 0.85);
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    user-select: none;
+  }
+
+  .dock-wrap {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    pointer-events: none;
+  }
+  .dock {
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-end;
+    height: var(--dock-h);
+    padding: 0 var(--side-pad) 20px;
+    border-radius: var(--radius);
+    background: rgba(40, 44, 53, 0.72);
+    backdrop-filter: blur(30px) saturate(1.8);
+    -webkit-backdrop-filter: blur(30px) saturate(1.8);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 10px 30px rgba(0, 0, 0, 0.45);
+  }
+  .item {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: var(--icon);
+    margin: 0 calc(var(--gap) / 2);
+    cursor: default;
+  }
+  .item img.app {
+    display: block;
+    width: var(--icon);
+    height: var(--icon);
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.38));
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+  }
+  .item.bouncing img.app { animation: bounce 0.9s ease-out; }
+  @keyframes bounce {
+    0%   { transform: translateY(0); }
+    22%  { transform: translateY(-54px); animation-timing-function: cubic-bezier(.3,.0,.4,1); }
+    48%  { transform: translateY(0); animation-timing-function: cubic-bezier(.5,0,.7,.4); }
+    66%  { transform: translateY(-20px); animation-timing-function: cubic-bezier(.3,.0,.4,1); }
+    82%  { transform: translateY(0); animation-timing-function: cubic-bezier(.5,0,.7,.4); }
+    91%  { transform: translateY(-7px); }
+    100% { transform: translateY(0); }
+  }
+  .dot {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(200, 203, 210, 0.9);
+    box-shadow: 0 0 1px rgba(0,0,0,0.4);
+  }
+  .tooltip {
+    position: fixed;
+    transform: translate(-50%, -100%);
+    background: rgba(24, 24, 28, 0.92);
+    border: 0.5px solid rgba(255,255,255,0.18);
+    color: #f2f2f7;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 7px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    z-index: 10;
+    white-space: nowrap;
+  }
+  .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(24, 24, 28, 0.92);
+  }
+  .tooltip.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<h1>AI Dock</h1>
+<div class="tooltip" id="tooltip"></div>
+
+<div class="dock-wrap">
+  <div class="dock" id="dock"></div>
+</div>
+
+<script>
+// 10 AI apps, real brand icons (3 extracted from installed Mac apps, 7 from
+// each product's official touch-icon / App Store artwork / favicon service)
+const APPS = [
+  { id: "chatgpt",    name: "ChatGPT",        img: "icons/chatgpt.png"    },
+  { id: "claude",     name: "Claude",         img: "icons/claude.png"     },
+  { id: "gemini",     name: "Gemini",         img: "icons/gemini.png"     },
+  { id: "copilot",    name: "Microsoft Copilot", img: "icons/copilot.png" },
+  { id: "grok",       name: "Grok",           img: "icons/grok.png"       },
+  { id: "devin",      name: "Devin",          img: "icons/devin.png"      },
+  { id: "perplexity", name: "Perplexity",     img: "icons/perplexity.png" },
+  { id: "mistral",    name: "Mistral AI",     img: "icons/mistral.png"    },
+  { id: "cursor",     name: "Cursor",         img: "icons/cursor.png"     },
+  { id: "hermes",     name: "Hermes (Nous Research)", img: "icons/hermes.png" },
+];
+
+const dock = document.getElementById("dock");
+const tooltip = document.getElementById("tooltip");
+const items = [];
+const ICON = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--icon"));
+
+for (const a of APPS) {
+  const el = document.createElement("div");
+  el.className = "item";
+  el.dataset.id = a.id;
+  el.dataset.name = a.name;
+  const img = document.createElement("img");
+  img.className = "app";
+  img.src = a.img;
+  img.alt = a.name;
+  el.appendChild(img);
+  const dot = document.createElement("div");
+  dot.className = "dot";
+  el.appendChild(dot);
+  dock.appendChild(el);
+  items.push({ el, img, base: ICON, target: 1, scale: 1, v: 0 });
+}
+
+// Gaussian magnification with damped-spring smoothing (mac-dock spec)
+let mouseX = null, inDock = false, raf = null, lastT = 0;
+const MAG = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--magnify"));
+const SPREAD = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--spread"));
+
+dock.addEventListener("mousemove", (e) => { mouseX = e.clientX; inDock = true; start(); });
+dock.addEventListener("mouseleave", () => { clearTimeout(tipTimer); inDock = false; hideTooltip(); start(); });
+
+function start() { if (!raf) raf = requestAnimationFrame(tick); }
+
+function tick(now) {
+  raf = null;
+  const dt = Math.min((now - lastT) / 1000, 0.032) || 0.016;
+  lastT = now;
+  const rects = items.map(it => it.el.getBoundingClientRect()); // read pass
+  let allSettled = true;
+  items.forEach((it, i) => {                                     // write pass
+    let t = 1;
+    if (inDock && mouseX !== null) {
+      const d = mouseX - (rects[i].left + rects[i].width / 2);
+      t = 1 + (MAG - 1) * Math.exp(-(d * d) / (2 * SPREAD * SPREAD));
+    }
+    it.target = t;
+    it.v += (300 * (it.target - it.scale) - 22 * it.v) * dt;
+    it.scale += it.v * dt;
+    if (Math.abs(it.target - it.scale) > 0.002 || Math.abs(it.v) > 0.02) allSettled = false;
+    else { it.scale = it.target; it.v = 0; }
+
+    const s = Math.max(0.2, it.scale);
+    it.el.style.width = (it.base * s) + "px";
+    it.img.style.width = (it.base * s) + "px";
+    it.img.style.height = (it.base * s) + "px";
+  });
+  if (inDock) positionTooltip();
+  if (!allSettled || inDock) start();
+}
+
+let tipTimer = null, tipItem = null;
+dock.addEventListener("mousemove", (e) => {
+  clearTimeout(tipTimer);
+  tipTimer = setTimeout(() => {
+    let best = null, bestDist = Infinity;
+    for (const it of items) {
+      const r = it.el.getBoundingClientRect();
+      const d = Math.abs(e.clientX - (r.left + r.width / 2));
+      if (d < bestDist) { bestDist = d; best = it; }
+    }
+    if (best && bestDist < ICON * 0.8) {
+      if (best.el.classList.contains("bouncing")) { hideTooltip(); return; }
+      tipItem = best; tooltip.textContent = best.el.dataset.name; showTooltip();
+    }
+    else hideTooltip();
+  }, 220);
+});
+function positionTooltip() {
+  if (!tipItem) return;
+  const r = tipItem.el.getBoundingClientRect();
+  tooltip.style.left = (r.left + r.width / 2) + "px";
+  tooltip.style.top = (r.top - 8) + "px";
+}
+function showTooltip() { positionTooltip(); tooltip.classList.add("show"); }
+function hideTooltip() { tooltip.classList.remove("show"); tipItem = null; }
+
+dock.addEventListener("click", (e) => {
+  const el = e.target.closest(".item");
+  if (!el) return;
+  hideTooltip();
+  el.classList.remove("bouncing");
+  void el.offsetWidth;
+  el.classList.add("bouncing");
+  el.querySelector("img.app").addEventListener("animationend", () => el.classList.remove("bouncing"), { once: true });
+});
+</script>
+</body>
+</html>

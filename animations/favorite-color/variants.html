@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>superbot · favorite color — variants</title>
+<style>
+  body { margin: 0; background: #000; color: #eee; font: 13px/1.5 ui-monospace, Menlo, monospace; padding: 24px; }
+  h1 { font-size: 15px; font-weight: 700; margin: 0 0 4px; }
+  p { color: #999; margin: 0 0 20px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  figure { margin: 0; }
+  figcaption { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  figcaption b { color: #7cb389; }
+  figcaption a { color: #9a9a9f; text-decoration: none; }
+  figcaption a:hover { color: #fff; }
+  iframe { width: 100%; aspect-ratio: 16 / 9; border: 1px solid #232323; border-radius: 8px; background: #000; display: block; }
+</style>
+</head>
+<body>
+  <h1>favorite color — variants</h1>
+  <p>The judgement calls, side by side. Pick one and I'll bake it into the main spot; each opens full-size at the link.</p>
+  <div class="grid">
+    <figure>
+      <figcaption><b>emphasis A — all-the-way punch (7×, current)</b><a href="index.html">open full →</a></figcaption>
+      <iframe src="index.html" title="deep push"></iframe>
+    </figure>
+    <figure>
+      <figcaption><b>emphasis B — field-norm punch-in (2×)</b><a href="index.html?emph=2">open full →</a></figcaption>
+      <iframe src="index.html?emph=2" title="field-norm punch"></iframe>
+    </figure>
+    <figure>
+      <figcaption><b>emphasis C — gentle push (1.35×)</b><a href="index.html?emph=1.35">open full →</a></figcaption>
+      <iframe src="index.html?emph=1.35" title="gentle push"></iframe>
+    </figure>
+    <figure>
+      <figcaption><b>emphasis C — no zoom, hold on the word</b><a href="index.html?emph=1&hold=1.8">open full →</a></figcaption>
+      <iframe src="index.html?emph=1&hold=1.8" title="no zoom"></iframe>
+    </figure>
+    <figure>
+      <figcaption><b>fly-down — the current 0.9s</b><a href="index.html">open full →</a></figcaption>
+      <iframe src="index.html" title="fly 0.9"></iframe>
+    </figure>
+    <figure>
+      <figcaption><b>fly-down — snappier 0.7s</b><a href="index.html?fly=0.7">open full →</a></figcaption>
+      <iframe src="index.html?fly=0.7" title="fly 0.7"></iframe>
+    </figure>
+    <figure>
+      <figcaption><b>fly-down — longer 1.15s</b><a href="index.html?fly=1.15">open full →</a></figcaption>
+      <iframe src="index.html?fly=1.15" title="fly 1.15"></iframe>
+    </figure>
+  </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+---
+description: Where to research animation/effect ideas for this ASCII page — verified source map and the vocabulary that actually retrieves. Fetch before designing any new effect, easing, or interaction animation.
+alwaysApply: false
+---
+
+# Animation & effect research sources (verified 2026-08)
+
+The lesson this file encodes: "click effects" / "microinteractions" is the
+*trigger* vocabulary and retrieves interaction-design prose. The fields that
+own how motion FEELS are named below — search these instead, then map the
+concept onto the cell grid.
+
+## Vocabulary that retrieves
+
+- **Easing curves** (bouncy, springy, settle): Robert Penner's equations —
+  `easeOutBounce`, `easeOutElastic`, `easeOutBack`. Catalog with formulas:
+  `https://easings.net/` (fetch works, browser identity). An in-repo
+  `app/ease.js` existed and was culled with its effects in the 2026-08 trim;
+  recreate from easings.net when an effect needs a curve.
+- **Named animation vocabulary**: animate.css attention-seekers — bounce,
+  headShake, heartBeat, jello, rubberBand, swing, tada, wobble. Names from the
+  repo tree, no README parse needed:
+  `https://api.github.com/repos/animate-css/animate.css/contents/source/attention_seekers`
+  (pushed 2024-07, frozen but canonical; take names, not code).
+- **Terminal/ASCII effects**: ChrisBuilds/terminaltexteffects (MIT, alive) —
+  effect catalog at `https://chrisbuilds.github.io/terminaltexteffects/showroom/`
+  (fetch works). peterbrittain/asciimatics (Apache-2.0, alive 2026-07) —
+  Python terminal effects/scenes. Demoscene classics: doom melt, plasma,
+  starfield, marching ants — ertdfgcvb/play.core demos (Apache-2.0).
+- **Game feel / "juice"**: squash & stretch (12 principles), spring "boop"
+  (`joshwcomeau.com/react/boop/`, upd 2025-08 — pop then settle on a timer).
+- **CRT/terminal-native coherence** (what feels natural on this page):
+  phosphor afterglow/persistence, block-cursor blink, selection inversion,
+  visual bell, scanlines, VHS tracking, cipher decrypt.
+
+## Traps measured here
+
+- `m3.material.io` is bot-walled to every fetch identity (0-char stub) — its
+  state-layer concept (hover 8% / pressed 12% veil) is worth knowing but the
+  page is not retrievable; do not burn calls on it.
+- GitHub raw README paths move; the `contents/` API on a directory is the
+  stable way to harvest a name list.
+- In-repo integration contract: an effect is an `apply(buf, g, geo, env, age)`
+  transform in [app/fx.js](app/fx.js) under the `envOf` envelope, enabled via
+  the comma-separated `settings.fxOn` (the panel checkbox list follows
+  `fx.meta` automatically). The 2026-08 trim reduced the pool to
+  copied + highlight; the culled catalog (warp starfield, glitch, melt,
+  marching ants, typer, sweep, wave, ripple, rain, strobe, popout rings,
+  decrypt, black hole, slice, VHS, fireworks, button hover/press/click
+  styles) lives in git history if any is wanted back.

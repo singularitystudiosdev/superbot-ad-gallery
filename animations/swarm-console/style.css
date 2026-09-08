@@ -1,0 +1,384 @@
+/* ============================================================
+   SWARM // COMMAND — restyled on the Cosmos design system
+   (cosmos-dark). Every color/spacing flows from :root tokens.
+   ============================================================ */
+
+/* ---------- tokens (verbatim cosmos-dark) ---------- */
+:root {
+  color-scheme: dark;
+  --bg-root: #0b0d12; --bg-surface: #11141b; --bg-raised: #171b24;
+  --bg-hover: #1e2330; --bg-active: #232a3a;
+  --border: #232936; --border-strong: #303849;
+  --text: #d7dce6; --text-dim: #8b93a7; --text-faint: #7d8598;
+  --accent: #7aa2ff; --accent-strong: #5b8aff; --accent-fg: #0b0d12;
+  --ok: #55c78e; --warn: #e5b567; --err: #e06c75;
+  --thinking: #7eb0ff; --verify: #c08cff; --compact: #4ecbc4; --forget: #e08bd8;
+  --scrollbar: var(--border-strong);
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* local additions (not colors): motion + float shadow */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --shadow-float: 0 8px 32px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--bg-root);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); color: var(--text); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+input:focus-visible, textarea:focus-visible { outline: none; }
+
+/* ---------- scrollbar recipe ---------- */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar); border-radius: 5px;
+  border: 2px solid transparent; background-clip: content-box;
+}
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-corner { background: transparent; }
+
+/* ---------- stage layers ---------- */
+#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; }
+#world { position: fixed; inset: 0; z-index: 2; }
+#links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+/* ---------- status dots (8px, state tone) ---------- */
+.led { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.led-run    { background: var(--accent);   animation: blink 2.2s var(--ease) infinite; }
+.led-think  { background: var(--thinking); animation: blink 1.2s var(--ease) infinite; }
+.led-done   { background: var(--ok); }
+.led-block  { background: var(--err);      animation: blink 0.7s var(--ease) infinite; }
+.led-warn   { background: var(--warn);     animation: blink 1.1s var(--ease) infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ---------- nodes: one frame per agent, continuously scaled ----------
+   JS sets width inline from a geometric falloff over the agent count;
+   each context block phases out at its own width threshold (fx-*), so
+   detail degrades as a gradient, not in tier jumps. */
+.node {
+  position: absolute; left: 0; top: 0; width: 0; height: 0;
+  will-change: transform, opacity;
+  cursor: pointer;
+  z-index: 3;
+}
+.node.focused { z-index: 6; }
+.node > * { pointer-events: none; }
+.node > .frame { pointer-events: auto; }
+
+/* ---------- the frame (card recipe: bg-raised/60 + 1px flat border;
+   live ring + float shadow). Width animates as the count changes. */
+.frame {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  width: 300px; /* overridden inline per entry */
+  display: flex; flex-direction: column;
+  background: color-mix(in srgb, var(--bg-raised) 60%, transparent);
+  border: 1px solid var(--border); border-radius: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent),
+              var(--shadow-float);
+  opacity: 1; /* fade-in is driven on the parent .node by JS */
+  transition: width 0.45s var(--ease), height 0.45s var(--ease), max-height 0.45s var(--ease);
+  overflow: hidden;
+  cursor: default;
+}
+.node.focused { cursor: pointer; } /* clicking the frame head/void still exits via background; frame itself is interactive */
+
+/* per-count context phases: default all hidden, classes reveal */
+.frame .f-status { display: none; }
+.frame.fx-status .f-status { display: inline-block; }
+.frame .f-chip { display: none; }
+.frame.fx-chip .f-chip { display: inline-block; }
+.frame .frame-sub { display: none; }
+.frame.fx-brief .frame-sub { display: block; }
+.frame .f-activity { display: none; }
+.frame.fx-activity .f-activity { display: flex; }
+/* in thread modes the thread already shows the live line — don't duplicate */
+.frame.fx-thread .f-activity { display: none; }
+.frame .thread { display: none; }
+.frame.fx-thread .thread { display: flex; min-height: 60px; }
+.frame .frame-foot, .frame .composer { display: none; }
+.frame.fx-input .frame-foot { display: flex; }
+.frame.fx-input .composer { display: block; }
+.frame.fx-input .thread { min-height: 40px; }
+/* under-view kid cards: composer without the chip row — input + send only */
+.node.kid .cp-line { display: none; }
+/* compact mini-threads (3-12 agents): smaller message text */
+.frame.fx-compact .msg { font-size: 10.5px; line-height: 1.45; }
+.frame.fx-compact .msg-think { font-size: 9.5px; }
+.frame.fx-compact .frame-head { padding: 5px 9px; }
+/* title chips (25-30 agents): the head fills the whole frame — text
+   scales up via --cz, no divider floating over an empty body */
+.frame.fx-titlechip { justify-content: center; }
+.frame.fx-titlechip > .frame-head {
+  zoom: var(--cz, 1);
+  width: calc(100% / var(--cz, 1));
+  border-bottom: none;
+}
+/* just the dot + number — the word crowds the title out */
+.frame.fx-titlechip .f-sub-l { display: none; }
+
+/* card header row: 12px text, 6px 10px padding */
+.frame-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px; border-bottom: 1px solid var(--border);
+  flex: none;
+}
+.f-title {
+  flex: 1 1 auto; min-width: 3ch; /* never flex-collapses to zero */
+  font-size: 12.5px; font-weight: 600; line-height: 1.25;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* status pill: uppercase, semibold, tight */
+.f-status {
+  border: 1px solid transparent; border-radius: 999px;
+  padding: 1px 6px; font-size: 9px; font-weight: 600; line-height: 1.4;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--text-dim);
+}
+.f-status.running  { background: var(--accent); color: var(--accent-fg); }
+.f-status.thinking {
+  color: var(--thinking);
+  border-color: color-mix(in srgb, var(--thinking) 50%, transparent);
+  background: color-mix(in srgb, var(--thinking) 15%, transparent);
+}
+.f-status.blocked {
+  color: var(--err);
+  border-color: color-mix(in srgb, var(--err) 50%, transparent);
+  background: color-mix(in srgb, var(--err) 15%, transparent);
+}
+.f-status.done { color: var(--text-faint); border-color: var(--border); }
+/* small chip: subagent count */
+.f-sub {
+  margin-left: auto; flex: none;
+  font-size: 9px; line-height: 1.2; color: var(--text-dim);
+  border: 1px solid var(--border-strong); border-radius: 999px; padding: 1px 5px;
+}
+/* last-clicked agent: tiny marker in the grid — hidden on the focused card */
+.f-lastseen {
+  display: none; flex: none;
+  font-family: var(--font-mono); font-size: 9px; line-height: 1.2;
+  letter-spacing: 0.08em; color: var(--text-faint);
+}
+.node.last-seen .f-lastseen { display: inline; }
+/* tool mini-chip */
+.f-chip {
+  flex: none;
+  font-family: var(--font-mono); font-size: 10px; line-height: 1.3;
+  color: var(--text-dim);
+  border: 1px solid var(--border); border-radius: 4px; padding: 1px 4px;
+}
+/* close button: small ghost ✕ at the head's far right */
+.f-close {
+  flex: none; width: 16px; height: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: 4px;
+  background: transparent; color: var(--text-faint);
+  font-family: var(--font-sans); font-size: 9px; line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease),
+              border-color 0.15s var(--ease);
+}
+.f-close:hover {
+  background: var(--bg-hover); color: var(--err); border-color: var(--border-strong);
+}
+.f-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.frame-sub {
+  padding: 6px 10px; font-size: 11px; line-height: 1.35; color: var(--text-dim);
+  border-bottom: 1px solid var(--border); flex: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.f-activity {
+  align-items: center; gap: 8px;
+  padding: 7px 10px;
+  font-family: var(--font-sans); font-size: 11.5px; line-height: 1.35;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border); flex: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.thread {
+  flex: 1 1 auto; overflow-y: auto; padding: 10px 12px;
+  flex-direction: column; gap: 8px;
+  scrollbar-width: thin; scrollbar-color: var(--scrollbar) transparent;
+}
+.thread::-webkit-scrollbar { width: 10px; }
+.thread::-webkit-scrollbar-thumb {
+  background: var(--scrollbar); border-radius: 5px;
+  border: 2px solid transparent; background-clip: content-box;
+}
+.thread::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- messages (12.5px mono-adjacent surfaces) ---------- */
+.msg { max-width: min(88%, 620px); font-size: 12.5px; line-height: 1.5; animation: msg-in 0.35s var(--ease) both; }
+@keyframes msg-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.msg-user {
+  align-self: flex-end; color: var(--text);
+  background: var(--bg-active); border: 1px solid var(--border-strong);
+  border-radius: 8px 8px 2px 8px; padding: 7px 10px;
+}
+.msg-say {
+  align-self: flex-start; color: var(--text);
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: 8px 8px 8px 2px; padding: 7px 10px;
+}
+.msg-say .cursor {
+  display: inline-block; width: 6px; height: 11px; background: var(--accent);
+  vertical-align: -1px; margin-left: 2px;
+  animation: blink 0.8s steps(2) infinite;
+}
+.msg-think {
+  align-self: flex-start; color: var(--thinking);
+  border: 1px dashed color-mix(in srgb, var(--thinking) 35%, transparent);
+  background: color-mix(in srgb, var(--thinking) 6%, transparent);
+  border-radius: 8px; padding: 6px 9px; font-size: 11px; line-height: 1.4;
+}
+.msg-think .t-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 4px;
+  background: linear-gradient(90deg, var(--text-faint) 30%, var(--text) 50%, var(--text-faint) 70%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  animation: shimmer 2.2s linear infinite;
+}
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.msg-tool {
+  align-self: flex-start; display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); font-size: 10.5px; color: var(--text-dim);
+  padding: 4px 9px; border-left: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+  border-radius: 0 6px 6px 0;
+}
+.msg-tool .t-name { color: var(--accent); }
+.msg-tool .t-res { margin-left: auto; color: var(--text-faint); }
+.msg-sys {
+  align-self: center; font-family: var(--font-mono);
+  font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ---------- footer strip + input ---------- */
+.frame-foot {
+  gap: 12px; align-items: center;
+  padding: 6px 10px; border-top: 1px solid var(--border);
+  font-family: var(--font-mono); font-size: 10px; line-height: 1.3;
+  color: var(--text-faint);
+}
+.frame-foot .spacer { flex: 1; }
+
+/* ---------- composer (ported from cosmos chat/Composer.tsx +
+   ApprovalModeToggle.tsx — same structure and tokens) ---------- */
+.composer { border-top: 1px solid var(--border); background: var(--bg-surface); }
+.cp-row { display: flex; align-items: flex-end; gap: 6px; padding: 6px 8px; }
+.cp-box {
+  flex: 1; min-width: 0;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--bg-raised);
+}
+.cp-box:focus-within { border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
+.cp-box input {
+  width: 100%; background: transparent; border: none; outline: none;
+  color: var(--text); font-family: var(--font-mono); font-size: 12.5px;
+  padding: 9px 11px 3px;
+}
+.cp-box input::placeholder { color: var(--text-faint); }
+.cp-line {
+  display: flex; min-width: 0; flex-wrap: wrap; align-items: center; gap: 2px;
+  padding: 0 4px 3px;
+}
+.cp-chip {
+  display: inline-flex; align-items: center; gap: 4px; flex: none;
+  border: none; background: transparent; cursor: pointer;
+  color: var(--text-dim); font-family: var(--font-sans); font-size: 11px;
+  padding: 3px 6px; border-radius: 6px;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+.cp-chip:hover { background: var(--bg-hover); color: var(--text); }
+.cp-chip svg { display: block; }
+.cp-divider { width: 1px; height: 12px; background: var(--border); margin: 0 2px; flex: none; }
+.cp-model { cursor: default; font-family: var(--font-mono); }
+.cp-approval {
+  display: flex; align-items: center; gap: 1px; flex: none;
+  margin-left: auto; border: 1px solid var(--border); border-radius: 5px; padding: 1px;
+}
+.cp-approval button {
+  border: none; background: transparent; cursor: pointer;
+  border-radius: 3px; padding: 2px 6px;
+  font-family: var(--font-sans); font-size: 11px; line-height: 1;
+  color: var(--text-faint);
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+.cp-approval button:hover { background: var(--bg-hover); color: var(--text-dim); }
+.cp-approval button.on-ask { background: var(--bg-active); color: var(--text); font-weight: 500; }
+.cp-approval button.on-yolo {
+  background: color-mix(in srgb, var(--warn) 15%, transparent);
+  color: var(--warn); font-weight: 500;
+}
+.cp-send {
+  flex: none; width: 32px; height: 32px; margin-bottom: 4px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; border-radius: 8px; background: var(--accent); color: var(--accent-fg);
+  cursor: pointer;
+  transition: background 0.15s var(--ease), transform 0.1s var(--ease);
+}
+.cp-send:hover { background: var(--accent-strong); }
+.cp-send:active { transform: scale(0.96); }
+.cp-send:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* hover on zoomable nodes: calmer border raise, no filter lift */
+/* hover affordance without scaling: border raise + slight brightness
+   (a transform lift would overlap the cell-packed neighbors) */
+.node.zoomable:hover > .frame {
+  border-color: var(--border-strong);
+  filter: brightness(1.1);
+}
+
+/* ---------- add-agent tile: the next agent in waiting ----------
+   A real grid member (JS budgets it into the next open cell) rendered
+   as an inverted frame: dashed border, transparent body, plus + label. */
+.node.add-tile > .frame {
+  border: 1.5px dashed color-mix(in srgb, var(--border-strong) 80%, transparent);
+  background: color-mix(in srgb, var(--bg-raised) 40%, transparent);
+  box-shadow: none; backdrop-filter: none;
+  align-items: center; justify-content: center;
+  transition: width 0.45s var(--ease), height 0.45s var(--ease),
+              border-color 0.12s var(--ease), background 0.12s var(--ease);
+}
+.add-btn {
+  width: 100%; height: 100%; padding: 0; border: none; background: transparent;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; cursor: pointer;
+  color: var(--text-dim); font-family: var(--font-mono);
+}
+.add-plus {
+  font-size: 20px; line-height: 1; font-weight: 300; color: var(--text-faint);
+  transition: color 0.12s var(--ease);
+}
+.add-label { font-family: var(--font-sans); font-size: 13px; }
+.node.add-tile > .frame:hover,
+.node.add-tile > .frame:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.node.add-tile > .frame:hover .add-plus,
+.node.add-tile > .frame:focus-within .add-plus { color: var(--accent); }
+.add-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 6px; }
+/* chip tier: head-height cell — collapse to just the plus */
+.frame.add-slim { gap: 0; }
+.frame.add-slim .add-label { display: none; }
+.frame.add-slim .add-plus { font-size: 16px; }
+
+@media (max-width: 720px) {
+  .frame { width: 94vw !important; }
+}

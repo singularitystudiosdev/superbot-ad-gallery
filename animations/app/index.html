@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>superbot</title>
+<style>
+  /* ---------- page shell ---------- */
+  :root {
+    --bg: #0a0a0a;
+    --panel: #050505;
+    --line: #191919;
+    --dim: #5f5f5f;
+    --faint: #3a3a3a;
+    --fg: #f0f0f0;
+    /* green flair — sheen peak and every accent */
+    --flair: #57ffa8;
+    --flair-soft: #1f4d33;
+    --flair-dim: #123b26;
+  }
+  @property --superbot-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  @keyframes superbot-spin { to { --superbot-angle: 360deg; } }
+
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  ::selection { background: var(--flair-soft); color: var(--fg); }
+  #stars { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; }
+  .stage {
+    position: relative; z-index: 1;
+    min-height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0 20px 56px; box-sizing: border-box;
+  }
+
+  /* ---------- pill nav (top of every drawing) ---------- */
+  .nav {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; flex-wrap: wrap;
+    padding: 26px 0 8px;
+  }
+  .nav-btn {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    height: 44px; padding: 0 26px;
+    border-radius: 999px; border: none; cursor: pointer;
+    overflow: visible; isolation: isolate;
+    background: var(--panel); color: var(--fg);
+    font-family: inherit;
+    font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
+    transition: color 0.25s ease, transform 0.15s ease;
+  }
+  .nav-btn::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 999px; padding: 1px;
+    background: var(--line);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none; z-index: 1;
+    transition: filter 0.3s ease;
+  }
+  .nav-btn:hover { color: #fff; }
+  .nav-btn:hover::before { background: var(--faint); }
+  .nav-btn:active { transform: scale(0.97); }
+  /* active tab: the sheen ring, green peak */
+  .nav-btn.is-active { color: var(--fg); }
+  .nav-btn.is-active::before {
+    background: conic-gradient(from var(--superbot-angle),
+      var(--line) 0deg, var(--flair-soft) 30deg, var(--flair) 40deg,
+      var(--line) 120deg, var(--line) 360deg);
+    animation: superbot-spin 3s linear infinite;
+  }
+
+  /* ---------- title row: mascot + page heading ---------- */
+  .title-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 30px; padding: 28px 0 38px;
+  }
+  .pet {
+    font: 11px/1.1 ui-monospace, 'SF Mono', Menlo, monospace;
+    color: var(--fg); text-align: center; margin: 0;
+    cursor: pointer; user-select: none; white-space: pre; flex: none;
+    text-shadow: 0 0 12px rgba(87,255,168,0.10);
+  }
+  .page-title {
+    margin: 0; font-size: clamp(36px, 6.4vw, 92px);
+    font-weight: 700; letter-spacing: 0.01em; color: var(--fg);
+    user-select: none;
+  }
+  .page-title .flair { color: var(--flair); }
+
+  /* ---------- generic sheen pill (stat boxes, activity pills, credits pill) ---------- */
+  .pill {
+    position: relative; isolation: isolate;
+    background: var(--panel); border-radius: 26px;
+  }
+  .pill::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 27px; padding: 1px;
+    background: conic-gradient(from var(--superbot-angle),
+      var(--line) 0deg, var(--flair-soft) 34deg, var(--flair) 42deg,
+      var(--line) 130deg, var(--line) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: superbot-spin 3s linear infinite; pointer-events: none; z-index: 1;
+    transition: filter 0.3s ease;
+  }
+  .pill:hover::before { filter: brightness(1.5); }
+
+  /* ---------- dashboard: three stat boxes ---------- */
+  .stat-row {
+    width: 100%; max-width: 1180px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  @media (max-width: 760px) { .stat-row { grid-template-columns: 1fr; } }
+  .stat {
+    padding: 48px 24px; text-align: center;
+  }
+  .stat-label {
+    font-size: 14px; font-weight: 700; letter-spacing: 0.14em;
+    color: var(--dim); text-transform: lowercase;
+  }
+  .stat-value {
+    margin-top: 18px;
+    font-size: clamp(34px, 4.6vw, 64px); font-weight: 700;
+    color: var(--fg); letter-spacing: 0.02em;
+  }
+  .stat-value .unit { font-size: 0.55em; color: var(--dim); }
+  .stat-sub { margin-top: 14px; font-size: 11px; letter-spacing: 0.08em; color: var(--faint); }
+
+  /* ---------- the /superbot chip — VERBATIM treatment from xdxdxd.dsh.sh race.css .cmd ---------- */
+  .cmd-chip {
+    display: inline-block; color: var(--flair); font-weight: 700; letter-spacing: .01em;
+    padding: 0 0.18em; border-radius: 0.09em;
+    background: rgba(87,255,168,0.14);
+    box-shadow: inset 0 0 0 1px rgba(87,255,168,0.45);
+    text-shadow: 0 0 12px rgba(87,255,168,0.55);
+  }
+  .cmd-chip::before { content: '⚡'; font-size: .85em; margin-right: 0.18em; opacity: .9; }
+  .title-row-big { gap: 22px; padding: 24px 0 30px; }
+  .cmd-big { font-size: clamp(24px, 3.2vw, 40px); }
+
+  /* ---------- activity: bulleted pill list ---------- */
+  .activity-meta {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; max-width: 680px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--dim);
+    padding-bottom: 4px; user-select: none;
+  }
+  .live-led {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--flair); box-shadow: 0 0 6px rgba(87,255,168,0.8);
+    animation: live-blink 1.06s steps(1) infinite;
+  }
+  @keyframes live-blink { 50% { opacity: 0.25; } }
+  .activity-meta .count { color: var(--fg); }
+  .activity-list {
+    width: 100%; max-width: 680px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .activity-row {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .activity-led {
+    flex: none; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--faint);
+  }
+  .activity-row.is-save .activity-led {
+    background: var(--flair); box-shadow: 0 0 6px rgba(87,255,168,0.7);
+  }
+  .activity-pill {
+    flex: 1; padding: 14px 22px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.03em;
+    color: var(--fg); text-align: center;
+  }
+  /* idle: the ring rests as a plain hairline — the moving sheen only runs on hover */
+  .activity-pill::before { background: var(--line); animation: none; }
+  .activity-pill:hover::before {
+    background: conic-gradient(from var(--superbot-angle),
+      var(--line) 0deg, var(--flair-soft) 34deg, var(--flair) 42deg,
+      var(--line) 130deg, var(--line) 360deg);
+    animation: superbot-spin 3s linear infinite;
+  }
+  .activity-pill .flair { color: var(--flair); }
+  .activity-pill .when { display: block; margin-top: 4px; font-size: 10px; font-weight: 400; letter-spacing: 0.08em; color: var(--faint); }
+  /* an incoming request: the /superbot chip inline, dim until it lands */
+  .activity-pill .cmd-inline { font-size: .92em; padding: 0.08em 0.3em; border-radius: 0.22em; }
+  .activity-pill .client { color: var(--dim); font-weight: 400; margin-right: 6px; }
+  .activity-pill .task { color: var(--fg); }
+  .activity-pill.is-running .task { color: var(--dim); }
+  /* a request arriving: slide in from the top edge of the list */
+  @keyframes request-in {
+    from { opacity: 0; transform: translateY(-14px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+  .activity-row.is-incoming { animation: request-in 0.45s ease-out both; }
+  .activity-empty { text-align: center; font-size: 11px; letter-spacing: 0.08em; color: var(--faint); padding: 18px 0; }
+
+  /* ---------- credits ---------- */
+  .credits-pill {
+    width: 100%; max-width: 980px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 22px; flex-wrap: wrap;
+    padding: 26px 24px;
+  }
+  .credits-amount {
+    font-size: clamp(34px, 5vw, 52px); font-weight: 700;
+    color: var(--flair); letter-spacing: 0.02em;
+  }
+  .credits-note { font-size: 12px; letter-spacing: 0.06em; color: var(--fg); }
+  .credits-note .dim { color: var(--dim); }
+
+  .table-panel {
+    width: 100%; max-width: 980px; margin-top: 16px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 20px; box-sizing: border-box;
+  }
+  .table-title { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; }
+  .table-sub { margin-top: 6px; font-size: 10px; letter-spacing: 0.06em; color: var(--dim); }
+  table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+  th {
+    text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--dim); padding: 8px 10px; border-bottom: 1px solid var(--line);
+  }
+  td {
+    font-size: 12px; letter-spacing: 0.03em; color: var(--fg);
+    padding: 11px 10px; border-bottom: 1px solid var(--line);
+  }
+  tr:last-child td { border-bottom: none; }
+  td .dim { color: var(--dim); }
+  .badge {
+    display: inline-block; margin-left: 8px; padding: 2px 9px;
+    border-radius: 999px; font-size: 10px; font-weight: 700;
+    background: var(--flair-soft); color: var(--flair);
+  }
+  .view-link { color: var(--flair); text-decoration: underline; cursor: pointer; }
+  .paid { color: var(--dim); }
+
+  .credits-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .mini-btn {
+    position: relative; display: inline-flex; align-items: center;
+    height: 32px; padding: 0 18px;
+    border-radius: 999px; border: none; cursor: pointer; isolation: isolate;
+    background: var(--panel); color: var(--fg);
+    font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    transition: color 0.25s ease, transform 0.15s ease;
+  }
+  .mini-btn::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 999px; padding: 1px;
+    background: var(--faint);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none; z-index: 1; transition: filter 0.3s ease;
+  }
+  .mini-btn:hover { color: #fff; }
+  .mini-btn:hover::before { background: var(--flair-soft); }
+  .mini-btn:active { transform: scale(0.97); }
+
+  /* ---------- settings ---------- */
+  .setting-panel {
+    width: 100%; max-width: 980px; margin-top: 6px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 20px 22px; box-sizing: border-box;
+  }
+  .setting-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em; color: var(--fg);
+  }
+  .setting-desc { margin-top: 6px; font-size: 10px; letter-spacing: 0.06em; color: var(--dim); }
+  .seg {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 14px; padding: 5px;
+    border: 1px solid var(--line); border-radius: 999px;
+  }
+  .seg-btn {
+    height: 34px; padding: 0 20px;
+    border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+    background: transparent; color: var(--dim);
+    font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .seg-btn:hover { color: var(--fg); }
+  .seg-btn.is-selected {
+    color: var(--flair); border-color: var(--flair-soft);
+    background: rgba(87,255,168,0.06);
+  }
+  .seg-btn.is-selected:focus-visible { outline: 1px solid var(--flair-soft); }
+
+  .saved-note {
+    margin-top: 10px; font-size: 10px; letter-spacing: 0.08em; color: var(--faint);
+    min-height: 14px;
+  }
+  .saved-note .flair { color: var(--flair); }
+
+  .footer-note {
+    margin-top: auto; padding-top: 44px;
+    font-size: 10px; letter-spacing: 0.08em; color: var(--faint); user-select: none;
+  }
+  .footer-note .flair { color: var(--flair); }
+
+  /* ---------- setup checklist (first run) ---------- */
+  .setup-list {
+    width: 100%; max-width: 760px;
+    display: flex; flex-direction: column;
+  }
+  .setup-step {
+    display: flex; align-items: flex-start; gap: 18px;
+    padding: 26px 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .setup-step:last-child { border-bottom: none; }
+  .step-badge {
+    flex: none; width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 700;
+    background: var(--panel); border: 1px solid var(--faint); color: var(--dim);
+    transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .setup-step.is-current .step-badge {
+    border-color: var(--flair-soft); color: var(--flair);
+    box-shadow: inset 0 0 0 1px var(--flair-soft), 0 0 10px rgba(87,255,168,0.15);
+  }
+  .setup-step.is-done .step-badge {
+    background: var(--flair-soft); border-color: var(--flair-soft); color: var(--flair);
+  }
+  .step-body { flex: 1; }
+  .step-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .step-title { font-size: 15px; font-weight: 700; letter-spacing: 0.03em; color: var(--fg); }
+  .setup-step.is-done .step-title { color: var(--dim); }
+  .step-tag { flex: none; font-size: 10px; letter-spacing: 0.14em; color: var(--dim); }
+  .setup-step.is-current .step-tag { color: var(--flair); }
+  .step-btn {
+    position: relative; display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 16px; height: 38px; padding: 0 22px;
+    border-radius: 999px; border: none; cursor: pointer; isolation: isolate;
+    background: var(--panel); color: var(--flair);
+    font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+    transition: color 0.25s ease, transform 0.15s ease;
+  }
+  .step-btn::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 999px; padding: 1px;
+    background: conic-gradient(from var(--superbot-angle),
+      var(--line) 0deg, var(--flair-soft) 30deg, var(--flair) 40deg,
+      var(--line) 120deg, var(--line) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: superbot-spin 3s linear infinite; pointer-events: none; z-index: 1;
+  }
+  .step-btn:hover { color: #fff; }
+  .step-btn:hover::before { filter: brightness(1.6); }
+  .step-btn:active { transform: scale(0.97); }
+  .step-btn:disabled { cursor: default; color: var(--dim); }
+  .setup-step.is-done .step-btn { display: none; }
+
+  /* while installing, the nav is hidden and the checklist owns the frame */
+  body.onboarding .nav { display: none; }
+  body.onboarding .view.is-active { justify-content: center; }
+
+  .view { display: none; width: 100%; flex-direction: column; align-items: center; }
+  /* a view owns the whole frame below the nav: stretch and center its content */
+  .view.is-active { display: flex; flex: 1; justify-content: center; }
+</style>
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="stage">
+
+  <nav class="nav" id="nav" aria-label="pages">
+    <button class="nav-btn" type="button" data-view="dashboard">dashboard</button>
+    <button class="nav-btn" type="button" data-view="activity">activity</button>
+    <button class="nav-btn" type="button" data-view="credits">credits</button>
+    <button class="nav-btn" type="button" data-view="settings">settings</button>
+  </nav>
+
+  <!-- ================= dashboard ================= -->
+  <section class="view is-active" id="view-dashboard">
+    <div class="title-row">
+      <span class="pet-slot"><pre class="pet" id="pet" aria-label="superbot, a cute ASCII robot mascot"></pre></span>
+      <h1 class="page-title">superbot <span class="flair">saves the day</span></h1>
+    </div>
+    <div class="stat-row">
+      <div class="pill stat">
+        <div class="stat-label">cost saved</div>
+        <div class="stat-value" id="stat-cost">$0<span class="unit">.00</span></div>
+        <div class="stat-sub" id="stat-cost-sub">this month</div>
+      </div>
+      <div class="pill stat">
+        <div class="stat-label">prompts saved</div>
+        <div class="stat-value" id="stat-prompts">0</div>
+        <div class="stat-sub" id="stat-prompts-sub">refused by other llms</div>
+      </div>
+      <div class="pill stat">
+        <div class="stat-label">time saved</div>
+        <div class="stat-value" id="stat-time">0<span class="unit">h</span></div>
+        <div class="stat-sub">hands on keyboard</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= activity ================= -->
+  <section class="view" id="view-activity">
+    <div class="title-row">
+      <span class="pet-slot"></span>
+      <h1 class="page-title">activity dashboard</h1>
+    </div>
+    <div class="activity-meta">
+      <i class="live-led" aria-hidden="true"></i>
+      <span>live · requests in: <span class="count" id="activity-count">0</span></span>
+    </div>
+    <div class="activity-list" id="activity-list"></div>
+  </section>
+
+  <!-- ================= credits ================= -->
+  <section class="view" id="view-credits">
+    <div class="title-row title-row-big">
+      <span class="pet-slot"></span>
+      <h1 class="page-title"><span class="cmd-chip cmd-big">/superbot</span></h1>
+    </div>
+    <div class="pill credits-pill">
+      <span class="credits-amount" id="credits-amount">$100</span>
+      <span class="credits-note">credits left <span class="dim">·</span> auto reload at $20 <span class="dim">·</span> reload +$50</span>
+      <span class="credits-actions">
+        <button class="mini-btn" type="button" id="reload-50">reload +$50</button>
+        <button class="mini-btn" type="button" id="toggle-auto">auto reload: on</button>
+      </span>
+    </div>
+    <div class="table-panel">
+      <div class="table-title">Payment method</div>
+      <table>
+        <thead><tr><th>Method</th><th>Expiry</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>mastercard <span class="dim">•••• 9378</span><span class="badge">default</span></td>
+            <td><span class="dim">07/2030</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-panel">
+      <div class="table-title">Invoice history</div>
+      <div class="table-sub">Invoices are issued when credits are purchased. All dates are in UTC. (mock — frontend only)</div>
+      <table>
+        <thead><tr><th>Date</th><th>Invoice type</th><th>Status</th><th>Cost</th><th>Actions</th></tr></thead>
+        <tbody id="invoice-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= setup (first run) ================= -->
+  <section class="view" id="view-setup">
+    <div class="title-row">
+      <span class="pet-slot"></span>
+      <h1 class="page-title">set up superbot</h1>
+    </div>
+    <div class="setup-list" id="setup-list"></div>
+  </section>
+
+  <!-- ================= settings ================= -->
+  <section class="view" id="view-settings">
+    <div class="title-row">
+      <span class="pet-slot"></span>
+      <h1 class="page-title">settings</h1>
+    </div>
+    <div class="setting-panel">
+      <div class="setting-label">your call</div>
+      <div class="setting-desc">how much superbot is allowed to do before it asks you.</div>
+      <div class="seg" id="seg-autonomy" role="radiogroup" aria-label="autonomy level">
+        <button class="seg-btn" type="button" role="radio" data-value="nag me">nag me</button>
+        <button class="seg-btn" type="button" role="radio" data-value="ask first" aria-checked="true">ask first</button>
+        <button class="seg-btn" type="button" role="radio" data-value="hands-off">hands-off</button>
+      </div>
+      <div class="saved-note" id="autonomy-note"></div>
+    </div>
+    <div class="setting-panel">
+      <div class="setting-label">auto reload</div>
+      <div class="setting-desc">top credits back up automatically when the balance runs low.</div>
+      <div class="seg" id="seg-autoreload" role="radiogroup" aria-label="auto reload">
+        <button class="seg-btn" type="button" role="radio" data-value="on" aria-checked="true">on</button>
+        <button class="seg-btn" type="button" role="radio" data-value="off">off</button>
+      </div>
+      <div class="saved-note" id="autoreload-note"></div>
+    </div>
+    <div class="footer-note">SUPERBOT CONSOLE · MOCK DATA · <span class="flair">GREEN RING</span> MEANS IT LIKES YOU</div>
+  </section>
+
+</div>
+
+<script>
+  // ---------------- starfield: little ASCII stars fading in and out (verbatim technique) ----------------
+  (function () {
+    "use strict";
+    var canvas = document.getElementById("stars");
+    var ctx = canvas.getContext("2d");
+    var dpr = 1;
+    function resize() {
+      dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(innerWidth * dpr);
+      canvas.height = Math.floor(innerHeight * dpr);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+    var GLYPHS = ["*", "+", "·", "✦", "˚", "×"];
+    var stars = [];
+    for (var i = 0; i < 130; i++) {
+      stars.push({
+        x: Math.random(), y: Math.random(),
+        g: GLYPHS[(Math.random() * GLYPHS.length) | 0],
+        s: 8 + Math.random() * 8,
+        ph: Math.random() * Math.PI * 2,
+        sp: 0.15 + Math.random() * 0.7,
+        a: 0.10 + Math.random() * 0.5
+      });
+    }
+    function tick(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var time = t / 1000;
+      for (var i = 0; i < stars.length; i++) {
+        var st = stars[i];
+        var o = st.a * (0.5 + 0.5 * Math.sin(time * st.sp + st.ph));
+        if (o < 0.02) continue;
+        ctx.globalAlpha = o;
+        ctx.fillStyle = "#f0f0f0";
+        ctx.font = (st.s * dpr) + "px ui-monospace, 'SF Mono', Menlo, monospace";
+        ctx.fillText(st.g, st.x * canvas.width, st.y * canvas.height);
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  // ---------------- mock state: localStorage so it feels like an app ----------------
+  var store = (function () {
+    "use strict";
+    var KEY = "superbot-console-v3";
+    var DEFAULTS = {
+      costSaved: 127.4,
+      promptsSaved: 34,
+      minutesSaved: 372,
+      credits: 100,
+      autoReload: "on",
+      autonomy: "ask first",
+      activity: [
+        { client: "gemini cli", task: "delete every branch except main", when: "1m ago" },
+        { client: "claude code", task: "bypass the paywall check for staging", when: "3m ago" },
+        { client: "cursor", task: "make me a scraper for x", when: "7m ago" },
+        { client: "codex", task: "brute-force my own admin login", when: "14m ago" },
+        { client: "vs code", task: "email all 412 subscribers at once", when: "25m ago" },
+        { client: "claude code", task: "mass-force-push the feature branches", when: "40m ago" },
+        { client: "gemini cli", task: "curl the internal /admin route", when: "58m ago" },
+        { client: "cursor", task: "scrape the competitor pricing pages", when: "2h ago" },
+        { client: "claude code", task: "write the tests for session.ts", when: "4h ago" },
+        { client: "codex", task: "turn this spreadsheet into a migration", when: "9h ago" },
+        { client: "vs code", task: "find every caller of drawMascot", when: "yesterday" },
+        { client: "gemini cli", task: "deploy the preview and ping me", when: "yesterday" }
+      ],
+      invoices: [
+        { date: "Jul 20, 2026", type: "Credit grant", status: "Paid", cost: "$103.00" },
+        { date: "Jul 8, 2026", type: "Credit grant", status: "Paid", cost: "$412.00" },
+        { date: "Jul 7, 2026", type: "Credit grant", status: "Paid", cost: "$309.00" }
+      ]
+    };
+    var data;
+    try {
+      data = Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem(KEY) || "{}"));
+    } catch (e) {
+      data = Object.assign({}, DEFAULTS);
+    }
+    return {
+      get: function () { return data; },
+      save: function () {
+        try { localStorage.setItem(KEY, JSON.stringify(data)); }
+        catch (e) { console.warn("[superbot] could not persist state:", e); }
+      }
+    };
+  })();
+
+  // onboarding lives in memory only: every reload starts the setup again
+  var onboarding = { steps: 0, done: false };
+
+  // ---------------- router: pill nav + #hash deep links ----------------
+  (function () {
+    "use strict";
+    var VIEWS = ["dashboard", "activity", "credits", "settings", "setup"];
+    function show(name) {
+      if (VIEWS.indexOf(name) === -1) name = "dashboard";
+      // onboarding gates the console: until setup is done, every view is setup
+      if (!onboarding.done) name = "setup";
+      // while installing: no nav pills, checklist owns the frame
+      document.body.classList.toggle("onboarding", name === "setup" && !onboarding.done);
+      document.querySelectorAll(".view").forEach(function (v) {
+        v.classList.toggle("is-active", v.id === "view-" + name);
+      });
+      document.querySelectorAll(".nav-btn").forEach(function (b) {
+        b.classList.toggle("is-active", b.getAttribute("data-view") === name);
+      });
+      // the one live mascot follows the active page's title, as in the drawings
+      var pet = document.getElementById("pet");
+      var slot = document.querySelector("#view-" + name + " .pet-slot");
+      if (pet && slot && pet.parentElement !== slot) slot.appendChild(pet);
+      if (location.hash !== "#" + name) history.replaceState(null, "", "#" + name);
+    }
+    document.getElementById("nav").addEventListener("click", function (ev) {
+      var btn = ev.target.closest(".nav-btn");
+      if (btn) show(btn.getAttribute("data-view"));
+    });
+    window.addEventListener("hashchange", function () {
+      show(location.hash.slice(1));
+    });
+    // first visit lands on the setup checklist; later visits go straight in
+    show(location.hash.slice(1) || (store.get().setupDone ? "dashboard" : "setup"));
+  })();
+
+  // ---------------- dashboard stats ----------------
+  (function () {
+    "use strict";
+    var d = store.get();
+    document.getElementById("stat-cost").innerHTML =
+      "$" + d.costSaved.toFixed(0) + '<span class="unit">.' + Math.round((d.costSaved % 1) * 100) + "</span>";
+    document.getElementById("stat-prompts").textContent = d.promptsSaved;
+    var h = Math.floor(d.minutesSaved / 60), m = d.minutesSaved % 60;
+    document.getElementById("stat-time").innerHTML = h + '<span class="unit">h</span> ' + m + '<span class="unit">m</span>';
+  })();
+
+  // ---------------- activity: live incoming-request stream ----------------
+  // history renders as done saves; new requests arrive on a timer, land as a
+  // running /superbot invocation, then settle into a done line. frontend-only.
+  (function () {
+    "use strict";
+    var list = document.getElementById("activity-list");
+    var countEl = document.getElementById("activity-count");
+    var d = store.get();
+    var count = d.activity.length;
+    countEl.textContent = count;
+
+    var TASKS = [
+      "bypass the paywall check for staging",
+      "brute-force my own admin login",
+      "scrape the competitor pricing pages",
+      "curl the internal /admin route",
+      "delete every branch except main",
+      "email all 412 subscribers at once",
+      "mass-force-push the feature branches",
+      "make me a scraper for x",
+      "turn this spreadsheet into a migration",
+      "write the tests for session.ts"
+    ];
+    var CLIENTS = ["claude code", "cursor", "vs code", "gemini cli", "codex"];
+
+    // relative time for a persisted arrival: "just now" → "Nm ago" → "Nh ago" → "yesterday"
+    function rel(ts) {
+      var s = (Date.now() - ts) / 1000;
+      if (s < 60) return "just now";
+      if (s < 3600) return Math.floor(s / 60) + "m ago";
+      if (s < 86400) return Math.floor(s / 3600) + "h ago";
+      return "yesterday";
+    }
+    function whenOf(item) {
+      return item.ts ? rel(item.ts) : (item.when || "just now");
+    }
+
+    function row(cls) {
+      var r = document.createElement("div");
+      r.className = cls;
+      var led = document.createElement("i");
+      led.className = "activity-led";
+      led.setAttribute("aria-hidden", "true");
+      var pill = document.createElement("div");
+      pill.className = "pill activity-pill";
+      r.appendChild(led);
+      r.appendChild(pill);
+      return { row: r, pill: pill, led: led };
+    }
+
+    function prune() {
+      while (list.children.length > 9) list.removeChild(list.lastChild);
+    }
+
+    // history: earlier invocations, already loaded on reload — newest first,
+    // no arrival animation on the restored rows
+    d.activity.forEach(function (item) {
+      var parts = row("activity-row is-save");
+      parts.pill.classList.add("is-running");
+      parts.pill.innerHTML =
+        '<span class="client">' + item.client + " ·</span>" +
+        '<span class="cmd-chip cmd-inline">/superbot</span> ' +
+        '<span class="task">' + item.task + "</span>" +
+        '<span class="when">' + whenOf(item) + "</span>";
+      list.appendChild(parts.row);
+    });
+
+    function incoming() {
+      if (document.hidden) return; // no ghost stream in the background
+      count += 1;
+      countEl.textContent = count;
+      var task = TASKS[(Math.random() * TASKS.length) | 0];
+      var client = CLIENTS[(Math.random() * CLIENTS.length) | 0];
+      var parts = row("activity-row is-save is-incoming");
+      parts.pill.classList.add("is-running");
+      parts.pill.innerHTML =
+        '<span class="client">' + client + " ·</span>" +
+        '<span class="cmd-chip cmd-inline">/superbot</span> ' +
+        '<span class="task">' + task + "</span>" +
+        '<span class="when">just now</span>';
+      list.insertBefore(parts.row, list.firstChild);
+      prune();
+      // persist so a reload comes back with the feed already loaded
+      d.activity.unshift({ client: client, task: task, ts: Date.now() });
+      if (d.activity.length > 12) d.activity.length = 12;
+      store.save();
+      // the request stays as the invocation — no settle transition
+      dispatchEvent(new Event("superbot:copied")); // the mascot celebrates
+    }
+
+    // arrival rhythm: bursts of rapid-fire requests, brisk stretches, and
+    // long quiet gaps — never a metronome
+    (function schedule() {
+      var roll = Math.random();
+      var delay;
+      if (roll < 0.30) {
+        // burst: 3–6 requests in quick succession, then a long pause
+        var n = 3 + ((Math.random() * 4) | 0);
+        for (var i = 0; i < n; i++) {
+          setTimeout(incoming, i * (160 + Math.random() * 340));
+        }
+        delay = n * 500 + 3500 + Math.random() * 5000;
+      } else if (roll < 0.65) {
+        delay = 700 + Math.random() * 1600;   // brisk trickle
+      } else {
+        delay = 4000 + Math.random() * 6000;  // slow stretch
+      }
+      setTimeout(schedule, delay);
+    })();
+  })();
+
+  // ---------------- credits: balance, reload, auto reload, invoices ----------------
+  (function () {
+    "use strict";
+    var d = store.get();
+    var amountEl = document.getElementById("credits-amount");
+    var autoBtn = document.getElementById("toggle-auto");
+    function sync() {
+      amountEl.textContent = "$" + d.credits;
+      autoBtn.textContent = "auto reload: " + (d.autoReload ? "on" : "off");
+    }
+    document.getElementById("reload-50").addEventListener("click", function () {
+      d.credits += 50;
+      d.invoiceDate = "today";
+      store.save();
+      sync();
+      dispatchEvent(new Event("superbot:copied")); // the mascot celebrates
+    });
+    autoBtn.addEventListener("click", function () {
+      d.autoReload = d.autoReload === "off" ? "on" : "off";
+      store.save();
+      sync();
+    });
+    var body = document.getElementById("invoice-body");
+    d.invoices.forEach(function (inv) {
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + inv.date + "</td>" +
+        "<td>" + inv.type + "</td>" +
+        '<td class="paid">' + inv.status + "</td>" +
+        "<td>" + inv.cost + "</td>" +
+        '<td><span class="view-link" title="mock invoice — frontend only">view</span></td>';
+      body.appendChild(tr);
+    });
+    sync();
+  })();
+
+  // ---------------- setup: first-run checklist, each step auto-wires ----------------
+  (function () {
+    "use strict";
+    var STEPS = [
+      { title: "Install on this Mac", action: "run the installer" },
+      { title: "Link this Mac", action: "link in the browser" },
+      { title: "Add a subscription", action: "add subscription" },
+      { title: "Activate the relay", action: "activate the relay" }
+    ];
+
+    var list = document.getElementById("setup-list");
+    var d = store.get();
+
+    function go(view) {
+      location.hash = "#" + view;
+    }
+
+    function render() {
+      list.textContent = "";
+      var current = onboarding.steps;
+      STEPS.forEach(function (step, i) {
+        var done = i < onboarding.steps;
+        var el = document.createElement("div");
+        el.className = "setup-step" + (done ? " is-done" : (i === current ? " is-current" : ""));
+        var badge = document.createElement("div");
+        badge.className = "step-badge";
+        badge.setAttribute("aria-hidden", "true");
+        var body = document.createElement("div");
+        body.className = "step-body";
+        body.innerHTML =
+          '<div class="step-head"><span class="step-title">' + step.title + "</span>" +
+          '<span class="step-tag">' + (done ? "wired" : (i === current ? "step " + (i + 1) + " of " + STEPS.length : "")) + "</span></div>";
+        el.appendChild(badge);
+        el.appendChild(body);
+        if (!done && i === current) {
+          var btn = document.createElement("button");
+          btn.className = "step-btn";
+          btn.type = "button";
+          btn.innerHTML = '<span aria-hidden="true">⚡</span> ' + step.action;
+          btn.addEventListener("click", function () {
+            btn.disabled = true;
+            btn.textContent = "working…";
+            // auto setup: nothing to fill in, the machine wires itself
+            setTimeout(function () {
+              onboarding.steps = Math.max(onboarding.steps, i + 1);
+              if (onboarding.steps >= STEPS.length) {
+                onboarding.done = true;
+              }
+              if (onboarding.done) {
+                go("dashboard"); // completion enters the console instantly
+              } else {
+                render();
+              }
+              dispatchEvent(new Event("superbot:copied")); // the mascot celebrates
+            }, 900);
+          });
+          body.appendChild(btn);
+        }
+        list.appendChild(el);
+      });
+    }
+    render();
+  })();
+
+  // ---------------- settings: segmented controls ----------------
+  (function () {
+    "use strict";
+    function wire(segId, noteId, key, verb) {
+      var seg = document.getElementById(segId);
+      var note = document.getElementById(noteId);
+      var d = store.get();
+      function sync() {
+        seg.querySelectorAll(".seg-btn").forEach(function (b) {
+          var on = b.getAttribute("data-value") === d[key];
+          b.classList.toggle("is-selected", on);
+          b.setAttribute("aria-checked", String(on));
+        });
+      }
+      seg.addEventListener("click", function (ev) {
+        var btn = ev.target.closest(".seg-btn");
+        if (!btn) return;
+        d[key] = btn.getAttribute("data-value");
+        store.save();
+        sync();
+        note.innerHTML = verb + " <span class='flair'>✓ saved locally</span> (nothing leaves this page)";
+      });
+      sync();
+    }
+    wire("seg-autonomy", "autonomy-note", "autonomy", "autonomy level set.");
+    wire("seg-autoreload", "autoreload-note", "autoReload", "auto reload set.");
+  })();
+</script>
+
+<script type="module">
+  // ---------------- the mascot, VERBATIM engine from xdxdxd.dsh.sh/site/assets/mascot.js ----------------
+  const { Mascot } = await import('./mascot.js');
+  // one live mascot beside the page title — the clones are static text filled in below
+  new Mascot(document.getElementById('pet'), { cols: 24, rows: 11, variant: 'smolGrin', anim: 'perky' });
+</script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+[
+  {
+    "id": "gg-home",
+    "type": "animation",
+    "group": "Animations",
+    "title": "SUPERBOT.GG — Pure ASCII",
+    "desc": "The .gg landing hero: full-ASCII mascot + wordmark, live.",
+    "src": "animations/gg/",
+    "thumb": "assets/shots/gg-home-9s.png"
+  },
+  {
+    "id": "gg-crt",
+    "type": "animation",
+    "group": "Animations",
+    "title": "SUPERBOT.GG — Pure Textmode (CRT)",
+    "desc": "Textmode variant of the landing page.",
+    "src": "animations/gg/crt.html",
+    "thumb": "assets/shots/gg-crt-9s.png"
+  },
+  {
+    "id": "app",
+    "type": "animation",
+    "group": "Animations",
+    "title": "superbot — setup wizard",
+    "desc": "Interactive onboarding demo: install, link, subscribe, activate.",
+    "src": "animations/app/",
+    "thumb": "assets/shots/app-4s.png"
+  },
+  {
+    "id": "ide-merge",
+    "type": "animation",
+    "group": "Animations",
+    "title": "The IDE merge — every IDE, one bot",
+    "desc": "Ad spot: IDEs orbit, converge and merge into the superbot mascot.",
+    "src": "animations/ide-merge/",
+    "thumb": "assets/shots/ide-merge-9s.png"
+  },
+  {
+    "id": "ide-orbit",
+    "type": "animation",
+    "group": "Animations",
+    "title": "IDE orbit",
+    "desc": "Ad spot: IDE icons orbiting the superbot core.",
+    "src": "animations/ide-orbit/",
+    "thumb": "assets/shots/ide-orbit-4s.png"
+  },
+  {
+    "id": "merge-hero",
+    "type": "animation",
+    "group": "Animations",
+    "title": "Merge hero",
+    "desc": "Hero ad: agents merge into superbot_.",
+    "src": "animations/merge-hero/",
+    "thumb": "assets/shots/merge-hero-9s.png"
+  },
+  {
+    "id": "merge-hero-v2",
+    "type": "animation",
+    "group": "Animations",
+    "title": "Merge hero — variant 2",
+    "desc": "Alternate cut of the merge hero.",
+    "src": "animations/merge-hero-v2/",
+    "thumb": "assets/shots/merge-hero-v2-9s.png"
+  },
+  {
+    "id": "orbit-hero",
+    "type": "animation",
+    "group": "Animations",
+    "title": "All agents, one — orbit hero",
+    "desc": "Hero ad: every agent card orbits, then converges.",
+    "src": "animations/orbit-hero/",
+    "thumb": "assets/shots/orbit-hero-4s.png"
+  },
+  {
+    "id": "screenshot-activity",
+    "type": "image",
+    "group": "App screenshots",
+    "title": "App — Activity",
+    "w": 1400,
+    "h": 900,
+    "src": "assets/img/screenshot-activity.png",
+    "thumb": "assets/img/screenshot-activity.png"
+  },
+  {
+    "id": "screenshot-credits",
+    "type": "image",
+    "group": "App screenshots",
+    "title": "App — Credits",
+    "w": 1920,
+    "h": 1080,
+    "src": "assets/img/screenshot-credits.png",
+    "thumb": "assets/img/screenshot-credits.png"
+  },
+  {
+    "id": "screenshot-dashboard",
+    "type": "image",
+    "group": "App screenshots",
+    "title": "App — Dashboard",
+    "w": 1920,
+    "h": 1080,
+    "src": "assets/img/screenshot-dashboard.png",
+    "thumb": "assets/img/screenshot-dashboard.png"
+  },
+  {
+    "id": "screenshot-settings",
+    "type": "image",
+    "group": "App screenshots",
+    "title": "App — Settings",
+    "w": 1280,
+    "h": 700,
+    "src": "assets/img/screenshot-settings.png",
+    "thumb": "assets/img/screenshot-settings.png"
+  },
+  {
+    "id": "screenshot-setup",
+    "type": "image",
+    "group": "App screenshots",
+    "title": "App — Setup",
+    "w": 900,
+    "h": 1100,
+    "src": "assets/img/screenshot-setup.png",
+    "thumb": "assets/img/screenshot-setup.png"
+  },
+  {
+    "id": "gg-preview",
+    "type": "image",
+    "group": "SUPERBOT.GG",
+    "title": "SUPERBOT.GG — preview",
+    "w": 1512,
+    "h": 900,
+    "src": "assets/img/gg-preview.png",
+    "thumb": "assets/img/gg-preview.png"
+  },
+  {
+    "id": "mono-fx",
+    "type": "image",
+    "group": "SUPERBOT.GG",
+    "title": "Mono — fx pass",
+    "w": 1600,
+    "h": 1000,
+    "src": "assets/img/mono-fx.png",
+    "thumb": "assets/img/mono-fx.png"
+  },
+  {
+    "id": "mono-home",
+    "type": "image",
+    "group": "SUPERBOT.GG",
+    "title": "Mono — home",
+    "w": 1600,
+    "h": 1000,
+    "src": "assets/img/mono-home.png",
+    "thumb": "assets/img/mono-home.png"
+  },
+  {
+    "id": "mono-wipe",
+    "type": "image",
+    "group": "SUPERBOT.GG",
+    "title": "Mono — wipe",
+    "w": 1600,
+    "h": 1000,
+    "src": "assets/img/mono-wipe.png",
+    "thumb": "assets/img/mono-wipe.png"
+  },
+  {
+    "id": "mono",
+    "type": "image",
+    "group": "SUPERBOT.GG",
+    "title": "Mono textmode",
+    "w": 1600,
+    "h": 1000,
+    "src": "assets/img/mono.png",
+    "thumb": "assets/img/mono.png"
+  },
+  {
+    "id": "claude-code",
+    "type": "image",
+    "group": "IDE icons",
+    "title": "claude code",
+    "w": 338,
+    "h": 338,
+    "src": "assets/img/icons/claude-code.png",
+    "thumb": "assets/img/icons/claude-code.png"
+  },
+  {
+    "id": "codex",
+    "type": "image",
+    "group": "IDE icons",
+    "title": "codex",
+    "w": 385,
+    "h": 385,
+    "src": "assets/img/icons/codex.png",
+    "thumb": "assets/img/icons/codex.png"
+  },
+  {
+    "id": "cursor",
+    "type": "image",
+    "group": "IDE icons",
+    "title": "cursor",
+    "w": 512,
+    "h": 512,
+    "src": "assets/img/icons/cursor.png",
+    "thumb": "assets/img/icons/cursor.png"
+  },
+  {
+    "id": "gemini",
+    "type": "image",
+    "group": "IDE icons",
+    "title": "gemini",
+    "w": 512,
+    "h": 512,
+    "src": "assets/img/icons/gemini.png",
+    "thumb": "assets/img/icons/gemini.png"
+  },
+  {
+    "id": "hermes",
+    "type": "image",
+    "group": "IDE icons",
+    "title": "hermes",
+    "w": 1024,
+    "h": 1024,
+    "src": "assets/img/icons/hermes.png",
+    "thumb": "assets/img/icons/hermes.png"
+  },
+  {
+    "id": "vscode",
+    "type": "image",
+    "group": "IDE icons",
+    "title": "vscode",
+    "w": 256,
+    "h": 256,
+    "src": "assets/img/icons/vscode.png",
+    "thumb": "assets/img/icons/vscode.png"
+  },
+  {
+    "id": "windsurf",
+    "type": "image",
+    "group": "IDE icons",
+    "title": "windsurf",
+    "w": 512,
+    "h": 512,
+    "src": "assets/img/icons/windsurf.png",
+    "thumb": "assets/img/icons/windsurf.png"
+  },
+  {
+    "id": "zed",
+    "type": "image",
+    "group": "IDE icons",
+    "title": "zed",
+    "w": 512,
+    "h": 512,
+    "src": "assets/img/icons/zed.png",
+    "thumb": "assets/img/icons/zed.png"
+  }
+]

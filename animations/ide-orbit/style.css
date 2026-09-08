@@ -1,0 +1,216 @@
+/* superbot — orbit hero: eight IDEs pop in, wind up on a ring, collapse into
+   one superbot. Tokens and pane chrome lifted from superbot.gg/benchmarks. */
+
+:root {
+  --bg: #050505;
+  --stage: #0a0b0d;
+  --fg: #e8e4d9;
+  --muted: #8b8778;
+  --line: #232323;
+  --card: #101010;
+  --raised: #161616;
+  --accent: #7cb389;
+  --accent-ink: #06120a;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-std: cubic-bezier(0.2, 0, 0, 1);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--accent); }
+
+/* ---------- header (referent chrome) ---------- */
+.sb-header { border-bottom: 1px solid var(--line); }
+.sb-header-in {
+  max-width: 1120px; margin: 0 auto; padding: 0 20px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sb-word { font-size: 14px; letter-spacing: -0.01em; }
+.sb-word .gg { color: var(--muted); }
+.sb-nav { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+.sb-nav a[aria-current] { color: var(--fg); }
+.sb-nav .pill {
+  border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; color: var(--fg);
+}
+.sb-nav .pill:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- stage ---------- */
+.hero { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+.stage {
+  position: relative;
+  height: clamp(420px, 68vh, 640px);
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--stage);
+  overflow: hidden;
+}
+.stage-flash {
+  position: absolute; inset: 0; pointer-events: none;
+  background: var(--accent); opacity: 0; /* driven by JS at capture */
+}
+
+/* dotted orbit guide (radius driven by JS) */
+.guide {
+  position: absolute; left: 50%; top: 50%;
+  border: 1px dashed rgba(139, 135, 120, 0.28);
+  border-radius: 50%;
+  opacity: 0; pointer-events: none;
+}
+
+/* the central circle */
+.core {
+  position: absolute; left: 50%; top: 50%;
+  width: 232px; height: 232px;
+  margin: -116px 0 0 -116px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+  opacity: 0;
+  will-change: transform, opacity;
+  contain: paint;
+}
+.core-label {
+  position: absolute; bottom: 18px; left: 0; right: 0;
+  text-align: center; font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+}
+.core-label b { color: var(--accent); font-weight: 500; }
+
+.mascot-wrap { clip-path: inset(0 0 100% 0); } /* revealed top-down at capture */
+.mascot-wrap pre {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 12px;
+  color: var(--fg);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* shockwave ring at capture */
+.shockwave {
+  position: absolute; left: 50%; top: 50%;
+  width: 232px; height: 232px;
+  margin: -116px 0 0 -116px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  opacity: 0; pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ---------- IDE panes ---------- */
+.pane {
+  position: absolute; left: 0; top: 0;
+  width: 168px; height: 118px;
+  background: var(--stage);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0;
+  will-change: transform, opacity;
+  contain: paint;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.pane-bar {
+  display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 10px; color: var(--muted); white-space: nowrap;
+}
+.pane-bar i { width: 6px; height: 6px; border-radius: 50%; flex: none; border: 1px solid var(--line); background: var(--raised); }
+.pane-bar i.dot { background: var(--pane-accent, var(--raised)); border-color: var(--pane-accent, var(--line)); }
+.pane-bar span { margin-left: 4px; overflow: hidden; text-overflow: ellipsis; }
+.pane-body {
+  margin: 0; padding: 8px 10px;
+  font-size: 9.5px; line-height: 14px;
+  color: var(--fg); white-space: pre;
+}
+.pane-body .k { color: var(--pane-accent, var(--fg)); }
+.pane-body .s { color: var(--muted); }
+.pane-body .c { color: #5d5a4e; }
+.pane-body .cur::after { content: '▌'; color: var(--pane-accent, var(--accent)); }
+
+/* satellite chip post-merge */
+.satellite {
+  position: absolute; left: 0; top: 0;
+  padding: 4px 10px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--raised);
+  font-size: 10px; color: var(--muted);
+  opacity: 0; white-space: nowrap;
+  will-change: transform, opacity;
+}
+
+/* ---------- hero copy ---------- */
+.hero-copy { text-align: center; padding: 28px 0 8px; }
+.hero-copy h1 { margin: 0 0 10px; font-size: clamp(22px, 3.4vw, 34px); font-weight: 500; letter-spacing: -0.02em; }
+.hero-copy h1 code { color: var(--accent); }
+.hero-copy p { margin: 0 auto; max-width: 62ch; font-size: 13px; line-height: 20px; color: var(--muted); }
+.hero-copy p b { color: var(--fg); font-weight: 500; }
+
+.chips {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  padding: 18px 0 6px;
+}
+.chips .chip {
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 4px 11px; font-size: 11px; color: var(--muted);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.chips .chip i { width: 6px; height: 6px; border-radius: 50%; background: var(--chip-accent, var(--muted)); }
+.chip, .hero-copy, .actions { opacity: 0; transform: translateY(10px); }
+.chip { transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); transition-delay: var(--d, 0ms); }
+.hero-copy { transition: opacity .7s var(--ease-out) 60ms, transform .7s var(--ease-out) 60ms; }
+.actions { transition: opacity .7s var(--ease-out) 340ms, transform .7s var(--ease-out) 340ms; }
+.on-set .chip, .on-set .hero-copy, .on-set .actions { opacity: 1; transform: none; }
+
+.actions { display: flex; justify-content: center; gap: 12px; padding: 14px 0 40px; }
+.actions button, .actions a.btn {
+  font-family: var(--font-mono); font-size: 12px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: none; color: var(--fg);
+  padding: 8px 16px; cursor: pointer;
+}
+.actions button:hover, .actions a.btn:hover { border-color: var(--accent); color: var(--accent); }
+
+footer {
+  border-top: 1px solid var(--line); color: var(--muted);
+  font-size: 11px; text-align: center; padding: 18px 0 26px;
+}
+footer a { color: var(--fg); }
+footer a:hover { color: var(--accent); }
+
+/* ---------- JS rise-in (mirrors sb-reveal) ---------- */
+.rise { animation: sb-rise 0.7s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms); }
+@keyframes sb-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- ?reduced=1: the merged state, as markup ---------- */
+/* class-based, not OS-based: the animation is this page's entire point */
+body.reduced .core, body.reduced .hero-copy,
+body.reduced .chip, body.reduced .actions { opacity: 1; transform: none; }
+body.reduced .mascot-wrap { clip-path: none; }
+body.reduced .pane, body.reduced .satellite, body.reduced .shockwave,
+body.reduced .stage-flash, body.reduced .guide { display: none; }
+body.reduced #replay { display: none; }
+
+@media (max-width: 720px) {
+  .pane { width: 132px; height: 96px; }
+  .pane-body { font-size: 8.5px; line-height: 12.5px; padding: 6px 8px; }
+  .stage { height: clamp(380px, 60vh, 520px); }
+  .core { width: 200px; height: 200px; margin: -100px 0 0 -100px; }
+}

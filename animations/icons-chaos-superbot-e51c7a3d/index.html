@@ -6,13 +6,12 @@
         chaos; one shared 3-frame pulse at 2.0s (the system noticing its own noise);
         a time-dilation wave eases the whole field into a near-freeze before the slam
      2. the superbot tile (brand/tile.svg, the site's own app icon) SLAMS into dead
-        center — drop, flip (fv-flip-icon-grow, exact curve),
-        shockwave, flash; items inside the pad get shoved clear
+        center — drop, flip (fv-flip-icon-grow, exact curve), flash; items inside
+        the pad get shoved clear
      3. 0.3s hold, then the farthest-first suck; duplicate icons visibly converge on
-        their twin first (80 in -> 29 out is the dedupe, which is the pitch)
-     4. gulp, the mark settles as a center hub, spokes draw to four quadrant groups,
-        and it spits everything back out organized ~0.7s later: EDITORS & BUILDERS,
-        AGENTS, SKILLS, MCP
+        their twin first (92 in -> 41 out is the dedupe, which is the pitch)
+     4. gulp, the mark settles as a center hub, and it spits everything back out
+        organized ~0.7s later: EDITORS & BUILDERS, AGENTS, SKILLS, MCP
      5. hard cut to "Your agent, for your agents"
      6. end screen: same sequence as the urgent-email-slow ad
      Loop 13.8s @ 30fps, ?t=<s> seek-hold (frame capture), ?play=1 seek+run. -->
@@ -57,14 +56,9 @@
   #mark .flip3d { width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
   #mark img { width: 100%; height: 100%; display: block; }
 
-  #ring { position: absolute; left: 960px; top: 540px; width: 120px; height: 120px;
-          margin: -60px 0 0 -60px; border: 3px solid rgba(255,255,255,.9); border-radius: 50%;
-          opacity: 0; will-change: transform, opacity; z-index: 15; }
   #flash { position: absolute; inset: 0; opacity: 0; pointer-events: none; z-index: 30;
            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.85), rgba(255,255,255,0) 46%); }
 
-  #spokes { position: absolute; inset: 0; opacity: 0; z-index: 12; pointer-events: none; }
-  #spokes line { stroke: url(#spoke-grad); stroke-width: 3; }
 
   /* the organized spit-out: same item chrome, drawn from the hub outward */
   .org { position: absolute; left: 0; top: 0; opacity: 0; will-change: transform, opacity; z-index: 18; }
@@ -110,10 +104,6 @@
       <g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g>
       <g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g>
     </mask>
-    <linearGradient id="spoke-grad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#2b6bff"/><stop offset=".45" stop-color="#6a1fd8"/>
-      <stop offset=".75" stop-color="#c026d3"/><stop offset="1" stop-color="#ff3d9a"/>
-    </linearGradient>
   </defs>
 </svg>
 
@@ -122,13 +112,6 @@
   <section class="scene" id="main" aria-label="your agent, for your agents">
     <div id="shakeWrap">
       <div id="field"></div>
-      <svg id="spokes" viewBox="0 0 1920 1080">
-        <line id="sp-ed" x1="960" y1="540" x2="620" y2="330"/>
-        <line id="sp-ag" x1="960" y1="540" x2="1420" y2="330"/>
-        <line id="sp-sk" x1="960" y1="540" x2="540" y2="810"/>
-        <line id="sp-mc" x1="960" y1="540" x2="1600" y2="810"/>
-      </svg>
-      <div id="ring"></div>
       <div id="mark"><div class="flip3d" id="mark3d"><img src="assets/tile.svg" alt=""></div></div>
       <div id="flash"></div>
       <div id="org"></div>
@@ -247,12 +230,24 @@ const CHIPS = [
   { text: 'scaffold-migration.md', color: 'var(--a)', grp: 'skills' },
   { text: 'draft-the-reply.md', color: 'var(--b)', grp: 'skills' },
   { text: 'sweep-todos.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'chase-flaky-tests.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'bump-dependencies.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'rotate-the-keys.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'backfill-metrics.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'caption-the-clip.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'prune-dead-code.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'stage-the-release.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'reconcile-the-ledger.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'warm-the-cache.md', color: 'var(--b)', grp: 'skills' },
   { text: 'github', color: 'var(--blue)', grp: 'mcp' },
   { text: 'slack', color: 'var(--blue)', grp: 'mcp' },
   { text: 'postgres', color: 'var(--blue)', grp: 'mcp' },
+  { text: 'stripe', color: 'var(--blue)', grp: 'mcp' },
+  { text: 'notion', color: 'var(--blue)', grp: 'mcp' },
+  { text: 'linear', color: 'var(--blue)', grp: 'mcp' },
 ];
 
-// ---------- build the chaos field: 17 icons x4 + 12 chips = 80 items ----------
+// ---------- build the chaos field: 17 icons x4 + 24 chips = 92 items ----------
 const rng = mulberry32(0xe51c7a3);
 const field = $('field'), orgLayer = $('org');
 const items = [];
@@ -270,7 +265,7 @@ for (const ch of CHIPS) {
   field.appendChild(el);
   items.push({ el, chip: ch });
 }
-const N = items.length;   // 80
+const N = items.length;   // 92
 for (let i = 0; i < N; i++) {
   const it = items[i];
   const u = rng();
@@ -323,7 +318,7 @@ function chaosPos(it, t) {
   return { x: reflect(it.x0 + it.vx * e, BX0, BX1 - BX0), y: reflect(it.y0 + it.vy * e, BY0, BY1 - BY0) };
 }
 
-// ---------- the organized spit-out: 17 deduped icons + 12 chips = 29, four quadrants ----------
+// ---------- the organized spit-out: 17 deduped icons + 24 chips = 41, four quadrants ----------
 const CELL = 84, GAP = 18;
 const ORG = [];
 ICONS.forEach((ic) => ORG.push({ kind: 'tile', icon: ic, grp: ic.grp }));
@@ -332,8 +327,8 @@ CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
   const groups = {
     editors: { x0: 96, y0: 128, cols: 5, label: 'editors & builders', lx: 96, ly: 88 },
     agents: { x0: 1434, y0: 128, cols: 4, label: 'agents', lx: 1434, ly: 88 },
-    skills: { x0: 96, y0: 756, cols: 3, cw: 244, ch: 56, cgap: 14, label: 'skills', lx: 96, ly: 720 },
-    mcp: { x0: 1604, y0: 822, cols: 1, cw: 220, ch: 56, cgap: 10, label: 'mcp', lx: 1604, ly: 782 },
+    skills: { x0: 96, y0: 660, cols: 3, cw: 244, ch: 56, cgap: 10, label: 'skills', lx: 96, ly: 620 },
+    mcp: { x0: 1604, y0: 660, cols: 1, cw: 220, ch: 56, cgap: 10, label: 'mcp', lx: 1604, ly: 620 },
   };
   const counts = { editors: 0, agents: 0, skills: 0, mcp: 0 };
   for (const o of ORG) {
@@ -356,7 +351,7 @@ CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
   // first-landing time per group drives its label
   const first = {};
   ORG.forEach((o, i) => {
-    const at = B.spit + i * 0.03;
+    const at = B.spit + i * 0.02;
     if (!(o.grp in first) || at < first[o.grp]) first[o.grp] = at;
     o.spitAt = at;
   });
@@ -378,13 +373,7 @@ for (const o of ORG) {
 
 // ---------- elements ----------
 const main = $('main'), tag = $('tag'), end = $('end');
-const mark = $('mark'), mark3d = $('mark3d'), ring = $('ring'), flash = $('flash'), dip = $('dip');
-const spokes = { ed: $('sp-ed'), ag: $('sp-ag'), sk: $('sp-sk'), mc: $('sp-mc') };
-const SPOKE_LEN = {};
-for (const key of Object.keys(spokes)) {
-  const l = spokes[key];
-  SPOKE_LEN[key] = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value, l.y2.baseVal.value - l.y1.baseVal.value);
-}
+const mark = $('mark'), mark3d = $('mark3d'), flash = $('flash'), dip = $('dip');
 const tagLines = document.querySelector('#tag .lines');
 
 // ---------- render: a frame is a function of its number ----------
@@ -413,10 +402,7 @@ function render(t) {
   mark.style.filter = `brightness(${mb.toFixed(3)})`;
   mark3d.style.transform = `rotateY(${ry.toFixed(2)}deg)`;
 
-  // shockwave + flash at the landing
-  const rp = seg(t, B.land, B.land + 0.68);
-  op(ring, rp > 0 && rp < 1 ? (1 - rp) * 0.55 : 0);
-  ring.style.transform = `scale(${lerp(0.7, 6.4, outCubic(rp)).toFixed(3)})`;
+  // flash at the landing
   const ff = seg(t, B.land, B.land + 0.3);
   op(flash, ff > 0 && ff < 1 ? (1 - ff) * 0.5 : 0);
 
@@ -452,14 +438,6 @@ function render(t) {
     el.style.visibility = 'visible';
     op(el, o);
     el.style.transform = `translate(${(x - it.w / 2).toFixed(1)}px, ${(y - it.h / 2).toFixed(1)}px) rotate(${rot.toFixed(2)}deg) scale(${s.toFixed(3)})`;
-  }
-
-  // spokes draw from the hub to each group (hub-and-spoke: one agent managing your agents)
-  const spDraw = seg(t, B.spit, B.spit + 0.34);
-  op($('spokes'), spDraw * 0.5);
-  for (const key of Object.keys(spokes)) {
-    spokes[key].style.strokeDasharray = String(SPOKE_LEN[key]);
-    spokes[key].style.strokeDashoffset = String(SPOKE_LEN[key] * (1 - outCubic(spDraw)));
   }
 
   // the organized spit-out: fly from the hub to the slot (slots are top-left

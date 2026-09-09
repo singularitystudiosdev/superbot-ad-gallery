@@ -2,14 +2,14 @@
 <!-- superbot ad spot — "icons chaos"
      1. app icons + skill chips pop in (front-loaded stagger, outBack) and bounce
         DVD-screensaver style — closed-form triangle-wave reflection, a pure function
-        of t, frame-quantized at 30fps. 0 -> 40 items by ~2.7s, then 1.3s of mature
+        of t, frame-quantized at 30fps. 0 -> 80 items by ~3.2s, then ~0.8s of mature
         chaos; one shared 3-frame pulse at 2.0s (the system noticing its own noise);
         a time-dilation wave eases the whole field into a near-freeze before the slam
      2. the superbot tile (brand/tile.svg, the site's own app icon) SLAMS into dead
-        center — drop, flip (fv-flip-icon-grow, exact curve), 9-frame shake table,
+        center — drop, flip (fv-flip-icon-grow, exact curve),
         shockwave, flash; items inside the pad get shoved clear
      3. 0.3s hold, then the farthest-first suck; duplicate icons visibly converge on
-        their twin first (40 in -> 23 out is the dedupe, which is the pitch)
+        their twin first (80 in -> 29 out is the dedupe, which is the pitch)
      4. gulp, the mark settles as a center hub, spokes draw to four quadrant groups,
         and it spits everything back out organized ~0.7s later: EDITORS & BUILDERS,
         AGENTS, SKILLS, MCP
@@ -71,11 +71,11 @@
   .org.tile { border-radius: 18px; background: var(--raised); border: 1px solid var(--line);
               display: grid; place-items: center; box-shadow: 0 10px 26px rgba(0,0,0,.55); }
   .org.tile img, .org.tile svg { width: 62%; height: 62%; object-fit: contain; border-radius: 14%; }
-  .org.chip { height: 56px; padding: 0 20px; border-radius: 28px; background: var(--raised);
-              border: 1px solid var(--line); display: flex; align-items: center; gap: 10px;
+  .org.chip { height: 56px; padding: 0 14px; border-radius: 28px; background: var(--raised);
+              border: 1px solid var(--line); display: flex; align-items: center; gap: 8px;
               box-shadow: 0 8px 22px rgba(0,0,0,.5); }
   .org.chip i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
-  .org.chip b { font-size: 21px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+  .org.chip b { font-size: 17px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
   .glabel { position: absolute; font-size: 20px; font-weight: 600; letter-spacing: .04em;
             text-transform: uppercase; color: var(--muted); opacity: 0; z-index: 25;
             will-change: transform, opacity; }
@@ -196,7 +196,7 @@ const B = {
   popA: 0.10,                // first pop; the field is fully formed by ~2.7s
   sync: 2.0,                 // one shared 3-frame pulse — chaos notices itself
   dil: 3.6, dilEnd: 4.05,    // time dilation 1.0 -> 0.22: the field freezes into the slam
-  slamIn: 4.0, land: 4.34,   // the tile drops, lands: shake + shockwave + flash
+  slamIn: 4.0, land: 4.34,   // the tile drops, lands: shockwave + flash
   flipEnd: 4.86,             // the flip finishes (fv-flip-icon-grow)
   suck: 5.16,                // 0.3s hold after the flip, then the farthest-first suck
   hub: 5.76, hubEnd: 6.2,    // the mark settles to hub scale as the field drains
@@ -238,20 +238,25 @@ const ICONS = [
   { src: 'assets/hermes.png', grp: 'agents' },
 ];
 const CHIPS = [
-  { text: 'release', color: 'var(--a)', grp: 'skills' },
-  { text: 'triage', color: 'var(--b)', grp: 'skills' },
-  { text: 'no em dashes', color: 'var(--a)', grp: 'skills' },
-  { text: 'ask before deploy', color: 'var(--b)', grp: 'skills' },
+  { text: 'write-release-notes.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'inbox-triage.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'no-em-dashes.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'deploy-approval.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'review-the-diff.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'summarize-thread.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'scaffold-migration.md', color: 'var(--a)', grp: 'skills' },
+  { text: 'draft-the-reply.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'sweep-todos.md', color: 'var(--a)', grp: 'skills' },
   { text: 'github', color: 'var(--blue)', grp: 'mcp' },
   { text: 'slack', color: 'var(--blue)', grp: 'mcp' },
   { text: 'postgres', color: 'var(--blue)', grp: 'mcp' },
 ];
 
-// ---------- build the chaos field: 17 icons x2 + 6 chips ----------
+// ---------- build the chaos field: 17 icons x4 + 12 chips = 80 items ----------
 const rng = mulberry32(0xe51c7a3);
 const field = $('field'), orgLayer = $('org');
 const items = [];
-for (let rep = 0; rep < 2; rep++) for (const ic of ICONS) {
+for (let rep = 0; rep < 4; rep++) for (const ic of ICONS) {
   const el = document.createElement('div');
   el.className = 'it tile';
   el.innerHTML = `<img src="${ic.src}" alt="" draggable="false">`;
@@ -265,14 +270,13 @@ for (const ch of CHIPS) {
   field.appendChild(el);
   items.push({ el, chip: ch });
 }
-const N = items.length;   // 40
+const N = items.length;   // 80
 for (let i = 0; i < N; i++) {
   const it = items[i];
   const u = rng();
   it.tier = it.chip ? 'chip' : (it.icon.hero && u < 0.9 ? 'hero' : u < 0.62 ? 'std' : 'far');
   const S = it.tier === 'hero' ? 104 : it.tier === 'std' ? 84 : it.tier === 'far' ? 72 : 0;
   if (S) { it.el.style.width = S + 'px'; it.el.style.height = S + 'px'; }
-  if (it.tier === 'far') it.el.style.filter = 'brightness(.88)';
   const r = it.el.getBoundingClientRect();          // measure AFTER sizing
   it.w = r.width; it.h = it.chip ? 52 : r.height;
 }
@@ -293,7 +297,7 @@ for (let i = 0; i < N; i++) {
   it.tilt = (rng() - 0.5) * 18;
 }
 // pop order: near-linear ramp (mild front-load) so the field fills across the full
-// 4 seconds — 40 up by ~3.2s, leaving ~0.8s of mature chaos before the freeze
+// 4 seconds — 80 up by ~3.2s, leaving ~0.8s of mature chaos before the freeze
 const popOrder = items.map((_, i) => i).sort(() => rng() - 0.5);
 popOrder.forEach((i, k) => { items[i].popAt = B.popA + 2.60 * Math.pow(k / (N - 1), 0.75); });
 // farthest-from-center-first suck order
@@ -301,7 +305,7 @@ const suckOrder = items.map((_, i) => i).sort((a, b) => {
   const da = Math.hypot(items[a].x0 - CX, items[a].y0 - CY), db = Math.hypot(items[b].x0 - CX, items[b].y0 - CY);
   return db - da;
 });
-suckOrder.forEach((i, k) => { items[i].suckAt = B.suck + 0.05 + k * 0.018; });
+suckOrder.forEach((i, k) => { items[i].suckAt = B.suck + 0.05 + k * 0.008; });
 // duplicate pairs: the second instance of each icon converges on its twin (the dedupe)
 const twinOf = new Map();
 {
@@ -319,7 +323,7 @@ function chaosPos(it, t) {
   return { x: reflect(it.x0 + it.vx * e, BX0, BX1 - BX0), y: reflect(it.y0 + it.vy * e, BY0, BY1 - BY0) };
 }
 
-// ---------- the organized spit-out: 17 deduped icons + 6 chips, four quadrants ----------
+// ---------- the organized spit-out: 17 deduped icons + 12 chips = 29, four quadrants ----------
 const CELL = 84, GAP = 18;
 const ORG = [];
 ICONS.forEach((ic) => ORG.push({ kind: 'tile', icon: ic, grp: ic.grp }));
@@ -328,7 +332,7 @@ CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
   const groups = {
     editors: { x0: 96, y0: 128, cols: 5, label: 'editors & builders', lx: 96, ly: 88 },
     agents: { x0: 1434, y0: 128, cols: 4, label: 'agents', lx: 1434, ly: 88 },
-    skills: { x0: 96, y0: 822, cols: 2, cw: 220, ch: 56, cgap: 20, label: 'skills', lx: 96, ly: 782 },
+    skills: { x0: 96, y0: 756, cols: 3, cw: 244, ch: 56, cgap: 14, label: 'skills', lx: 96, ly: 720 },
     mcp: { x0: 1604, y0: 822, cols: 1, cw: 220, ch: 56, cgap: 10, label: 'mcp', lx: 1604, ly: 782 },
   };
   const counts = { editors: 0, agents: 0, skills: 0, mcp: 0 };
@@ -352,7 +356,7 @@ CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
   // first-landing time per group drives its label
   const first = {};
   ORG.forEach((o, i) => {
-    const at = B.spit + i * 0.035;
+    const at = B.spit + i * 0.03;
     if (!(o.grp in first) || at < first[o.grp]) first[o.grp] = at;
     o.spitAt = at;
   });
@@ -373,7 +377,7 @@ for (const o of ORG) {
 }
 
 // ---------- elements ----------
-const main = $('main'), tag = $('tag'), end = $('end'), shakeWrap = $('shakeWrap');
+const main = $('main'), tag = $('tag'), end = $('end');
 const mark = $('mark'), mark3d = $('mark3d'), ring = $('ring'), flash = $('flash'), dip = $('dip');
 const spokes = { ed: $('sp-ed'), ag: $('sp-ag'), sk: $('sp-sk'), mc: $('sp-mc') };
 const SPOKE_LEN = {};
@@ -382,18 +386,10 @@ for (const key of Object.keys(spokes)) {
   SPOKE_LEN[key] = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value, l.y2.baseVal.value - l.y1.baseVal.value);
 }
 const tagLines = document.querySelector('#tag .lines');
-const SHK = [[0, 0], [13, -8], [-11, 7], [8, -5], [-6, 4], [5, -3], [-3, 2], [2, -1], [0, 0]]; // frame table, no sin aliasing
 
 // ---------- render: a frame is a function of its number ----------
 function render(t) {
   scene(main, t < B.tag); scene(tag, t >= B.tag && t < B.end); scene(end, t >= B.end);
-
-  // 9-frame shake table around the landing
-  const sf = Math.floor((t - B.land) * FPS);
-  if (sf >= 0 && sf < SHK.length) {
-    const k = 1 - outCubic(sf / (SHK.length - 1));
-    shakeWrap.style.transform = `translate(${(SHK[sf][0] * k).toFixed(1)}px, ${(SHK[sf][1] * k).toFixed(1)}px)`;
-  } else shakeWrap.style.transform = '';
 
   // the mark: drop + flip (fv-flip-icon-grow) -> hold -> hub
   let ms = 0, mb = 1, ry = 0, my = CY;

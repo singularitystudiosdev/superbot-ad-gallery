@@ -1,21 +1,5 @@
 [
   {
-    "id": "icons-bounce-slam-superbot-9c4e17b3",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "skills + app icons pop in and bounce, pack tight, the superbot mark flips in and slams them back, vacuums them in, spits out organized lists + an apps dropdown, then the tagline and lockup (21.6s loop)",
-    "src": "animations/icons-bounce-slam-superbot-9c4e17b3/",
-    "thumb": "assets/shots/icons-bounce-slam-superbot-9c4e17b3.png"
-  },
-  {
-    "id": "ai-aggregator-superbot-a3f7c25e",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "the AI aggregator is here — the site expand beat, cursor clicks through every chat at 0.8s, pink/blue/purple tagline, superbot.gg end lockup (19.6s loop)",
-    "src": "animations/ai-aggregator-superbot-a3f7c25e/",
-    "thumb": "assets/shots/ai-aggregator-superbot-a3f7c25e.png"
-  },
-  {
     "id": "gpt-refusal-superbot-824cef28",
     "type": "animation",
     "group": "Ad spots",

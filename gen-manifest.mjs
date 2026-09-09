@@ -45,8 +45,6 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
-  ['icons-bounce-slam-superbot-9c4e17b3', 'icons-bounce-slam-superbot-9c4e17b3/', 'skills + app icons pop in and bounce, pack tight, the superbot mark flips in and slams them back, vacuums them in, spits out organized lists + an apps dropdown, then the tagline and lockup (21.6s loop)', 'Ad spots'],
-  ['ai-aggregator-superbot-a3f7c25e', 'ai-aggregator-superbot-a3f7c25e/', 'the AI aggregator is here — the site expand beat, cursor clicks through every chat at 0.8s, pink/blue/purple tagline, superbot.gg end lockup (19.6s loop)', 'Ad spots'],
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot can do it — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop)', 'Ad spots'],
   ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? superbot can do it — URGENT email, ChatGPT dribbles at 30 wpm, superbot writes the whole email with a fade typewriter, one-click copy (30.5s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],

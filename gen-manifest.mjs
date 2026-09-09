@@ -49,6 +49,7 @@ const more = [
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot can do it — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop)', 'Ad spots'],
   ['email-slowdown', 'email-slowdown/', 'agents getting slowww? — ChatGPT 1:1 email slowdown, superbot cleanup (54s loop)', 'Ad spots'],
   ['chatgpt-slowdown-superbot-d9ffd5a7', 'chatgpt-slowdown-superbot-d9ffd5a7/', 'agents getting slowww? superbot can do it — ChatGPT 1:1 email stream 300→10 WPM, hub boot, 43 unused rules Yes/No (41s loop)', 'Ad spots'],
+  ['gpt-slowdown-superbot-05dcc43a', 'gpt-slowdown-superbot-05dcc43a/', 'agents getting slowww? superbot can do it — ChatGPT 1:1 email stream 300→10 wpm, popup + chat bubble, click into the superbot.gg intro, 43-rules cleanup prompt, gradient cards, lockup (42.6s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],
   ['yes-man-pros', 'yes-man/pros.html', 'yes man · pros', 'Ad spots'],

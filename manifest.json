@@ -32,6 +32,14 @@
     "thumb": "assets/shots/chatgpt-slowdown-superbot-d9ffd5a7.png"
   },
   {
+    "id": "gpt-slowdown-superbot-05dcc43a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "agents getting slowww? superbot can do it — ChatGPT 1:1 email stream 300→10 wpm, popup + chat bubble, click into the superbot.gg intro, 43-rules cleanup prompt, gradient cards, lockup (42.6s loop)",
+    "src": "animations/gpt-slowdown-superbot-05dcc43a/",
+    "thumb": "assets/shots/gpt-slowdown-superbot-05dcc43a.png"
+  },
+  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",

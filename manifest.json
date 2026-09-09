@@ -8,22 +8,6 @@
     "thumb": "assets/shots/gpt-refusal-superbot-824cef28.png"
   },
   {
-    "id": "scraper-bypass-gpt-refusal",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "agents refusing? superbot can do it — GPT refusal cut",
-    "src": "animations/scraper-bypass-gpt-refusal/",
-    "thumb": "assets/shots/scraper-bypass-gpt-refusal.png"
-  },
-  {
-    "id": "scraper-bypass-chat-storm",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "login walls? superbot can do it — storm cut (white mark, blue/purple/pink)",
-    "src": "animations/scraper-bypass-chat-storm/",
-    "thumb": "assets/shots/scraper-bypass-chat-storm.png"
-  },
-  {
     "id": "scraper-refusal-rescue",
     "type": "animation",
     "group": "Ad spots",
@@ -48,27 +32,11 @@
     "thumb": "assets/shots/hi-i-am-claude.png"
   },
   {
-    "id": "yes-man",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "yes man",
-    "src": "animations/yes-man/",
-    "thumb": "assets/shots/yes-man.png"
-  },
-  {
     "id": "yes-man-pros",
     "type": "animation",
     "group": "Ad spots",
     "title": "yes man · pros",
     "src": "animations/yes-man/pros.html",
     "thumb": "assets/shots/yes-man-pros.png"
-  },
-  {
-    "id": "yes-man-feedback",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "yes man · feedback",
-    "src": "animations/yes-man/feedback.html",
-    "thumb": "assets/shots/yes-man-feedback.png"
   }
 ]

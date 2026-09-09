@@ -12,7 +12,8 @@
         their twin first (92 in -> 41 out is the dedupe, which is the pitch)
      4. gulp, the mark settles as a center hub, and it spits everything back out
         organized ~0.7s later: EDITORS & BUILDERS, AGENTS, SKILLS, MCP — each group
-        inside its own storm-gradient-outline frame with a light drop shadow
+        inside its own storm-gradient-outline frame with a light drop shadow; chips
+        carry their real icons (markdown glyph for .md skills, mcp brand logos)
      5. hard cut to "Your agent, for your agents"
      6. end screen: same sequence as the urgent-email-slow ad
      Loop 13.8s @ 30fps, ?t=<s> seek-hold (frame capture), ?play=1 seek+run. -->
@@ -67,9 +68,11 @@
               display: grid; place-items: center; box-shadow: 0 10px 26px rgba(0,0,0,.55); }
   .org.tile img, .org.tile svg { width: 62%; height: 62%; object-fit: contain; border-radius: 14%; }
   .org.chip { height: 56px; padding: 0 14px; border-radius: 28px; background: var(--raised);
-              border: 1px solid var(--line); display: flex; align-items: center; gap: 8px;
-              box-shadow: 0 8px 22px rgba(0,0,0,.5); }
-  .org.chip i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+              border: 1px solid var(--line); display: flex; align-items: center; gap: 10px;
+              box-shadow: 0 5px 14px rgba(0,0,0,.45); }
+  .org.chip .cico { width: 18px; height: 18px; flex: none;
+                    -webkit-mask: var(--ico) center / contain no-repeat;
+                    mask: var(--ico) center / contain no-repeat; }
   .org.chip b { font-size: 16px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
   .gframe { position: absolute; border-radius: 30px; border: 2px solid transparent;
             background: linear-gradient(rgba(16,16,22,.78), rgba(16,16,22,.78)) padding-box,
@@ -328,13 +331,17 @@ function chaosPos(it, t) {
 const CELL = 84, GAP = 18;
 const ORG = [];
 ICONS.forEach((ic) => ORG.push({ kind: 'tile', icon: ic, grp: ic.grp }));
-CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
+CHIPS.forEach((ch) => ORG.push({
+  kind: 'chip', chip: ch, grp: ch.grp,
+  ico: ch.grp === 'skills' ? 'markdown' : (ch.text === 'postgres' ? 'postgresql' : ch.text),
+  icol: ch.grp === 'skills' ? ch.color : '#e8e8e8',   // real icon, tinted per group
+}));
 {
   const groups = {
     editors: { x0: 96, y0: 128, cols: 5, ch: CELL, cgap: GAP, label: 'editors & builders', lx: 96, ly: 88 },
     agents: { x0: 1434, y0: 128, cols: 4, ch: CELL, cgap: GAP, label: 'agents', lx: 1434, ly: 88 },
-    skills: { x0: 96, y0: 650, cols: 3, ch: 56, cgap: 10, label: 'skills', lx: 96, ly: 598 },
-    mcp: { x0: 1190, y0: 650, cols: 3, ch: 56, cgap: 14, label: 'mcp', lx: 1190, ly: 598 },
+    skills: { x0: 96, y0: 430, cols: 2, ch: 56, cgap: 14, label: 'skills', lx: 96, ly: 384 },
+    mcp: { x0: 1500, y0: 790, cols: 2, ch: 56, cgap: 16, label: 'mcp', lx: 1500, ly: 734 },
   };
   const FPAD = 26;      // even padding between the grid and its frame edge
   // build first, measure, then lay out to the measured cell widths — frames hug
@@ -344,7 +351,7 @@ CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
     el.className = 'org ' + (o.kind === 'tile' ? 'tile' : 'chip');
     el.innerHTML = o.kind === 'tile'
       ? `<img src="${o.icon.src}" alt="" draggable="false">`
-      : `<i style="background:${o.chip.color}"></i><b>${o.chip.text}</b>`;
+      : `<i class="cico" style="--ico:url(assets/${o.ico}.svg);background:${o.icol}"></i><b>${o.chip.text}</b>`;
     if (o.kind === 'tile') { el.style.width = CELL + 'px'; el.style.height = CELL + 'px'; }
     orgLayer.appendChild(el);
     const r = el.getBoundingClientRect();
@@ -355,6 +362,12 @@ CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
   for (const key of Object.keys(groups)) {
     const g = groups[key];
     g.cw = Math.max(...ORG.filter(o => o.grp === key).map(o => o.nw));
+  }
+  // right-align the mcp grid's content edge with the agents column's content edge
+  {
+    const m = groups.mcp;
+    m.x0 = 1824 - (m.cw * m.cols + m.cgap * (m.cols - 1));
+    m.lx = m.x0;
   }
   const counts = { editors: 0, agents: 0, skills: 0, mcp: 0 };
   for (const o of ORG) {

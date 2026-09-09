@@ -34,6 +34,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 
 /* ---------- scene 1: the ChatGPT clone (designed at 1536x864, scaled 1.25) ---------- */
 #gpt { width: 1536px; height: 864px; transform: scale(1.25); transform-origin: 0 0; background: var(--gpt-main); font-family: var(--gpt-font); color: var(--gpt-text); display: grid; grid-template-columns: minmax(0, 1fr); }
+.g-main { position: relative; display: flex; flex-direction: column; min-width: 0; }
 .g-thread { flex: 1; min-height: 0; overflow: hidden; position: relative; }
 .g-col { position: absolute; left: 50%; top: 0; width: 768px; margin-left: -384px; padding: 20px 20px 0; }
 .g-user { display: flex; justify-content: flex-end; margin: 12px 0 28px; }

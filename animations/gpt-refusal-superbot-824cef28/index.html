@@ -27,13 +27,15 @@ html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
 body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antialiased; }
 
 /* ---------- the 1920x1080 stage, scaled to the viewport ---------- */
-#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 0 0; background: #000; overflow: hidden; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 50% 50%; background: #000; overflow: hidden; }
 .scene { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
 .scene.on { visibility: visible; }
 #dip { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; z-index: 50; }
 
 /* ---------- scene 1: the ChatGPT clone (designed at 1536x864, scaled 1.25) ---------- */
-#gpt { width: 1536px; height: 864px; transform: scale(1.25); transform-origin: 0 0; background: var(--gpt-main); font-family: var(--gpt-font); color: var(--gpt-text); display: grid; grid-template-columns: 260px minmax(0, 1fr); }
+#gpt { width: 1536px; height: 864px; transform: scale(1.25); transform-origin: 0 0; background: var(--gpt-main); font-family: var(--gpt-font); color: var(--gpt-text); display: grid; grid-template-columns: minmax(0, 1fr); }
+/* the frame is the conversation only (owner, 2026-09-09): no sidebar, no header — the column, the composer, the disclaimer */
+#gpt .g-side, #gpt .g-head { display: none; }
 .g-side { background: var(--gpt-side); display: flex; flex-direction: column; padding: 10px 8px; font-size: 14px; color: var(--gpt-text); }
 .g-side .top { display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 0 8px 0 6px; margin-bottom: 8px; }
 .g-side .top svg { width: 22px; height: 22px; }
@@ -54,7 +56,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .g-head .share svg { width: 16px; height: 16px; }
 .g-head .av { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #7c5cff, #2b6bff); display: grid; place-items: center; font-weight: 600; font-size: 13px; color: #fff; }
 .g-thread { flex: 1; min-height: 0; overflow: hidden; position: relative; }
-.g-col { position: absolute; left: 50%; top: 0; width: 768px; margin-left: -384px; padding: 8px 20px 0; }
+.g-col { position: absolute; left: 50%; top: 0; width: 768px; margin-left: -384px; padding: 20px 20px 0; }
 .g-user { display: flex; justify-content: flex-end; margin: 12px 0 28px; }
 .g-user .bub { max-width: 70%; padding: 10px 20px; border-radius: 24px; background: var(--gpt-bubble); font-size: 16px; line-height: 28px; white-space: pre-wrap; }
 .g-ai { position: relative; font-size: 16px; line-height: 28px; color: var(--gpt-text); white-space: pre-wrap; word-break: break-word; }
@@ -87,12 +89,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #popup .p-head { display: flex; align-items: center; gap: 12px; font-size: 29px; font-weight: 800; letter-spacing: -.02em; color: #fff; }
 #popup .p-head img { width: 34px; height: 34px; }
 #popup .p-head .gg { color: var(--muted); font-weight: 600; }
-#chatbtn { position: relative; margin-top: 16px; display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 18px; background: #fff; color: #000; font-size: 20px; font-weight: 700; transform-origin: 50% 50%; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+#chatbtn { position: relative; margin-top: 16px; display: block; padding: 14px 18px; border-radius: 18px; background: #fff; color: #000; font-size: 24px; font-weight: 700; text-align: center; transform-origin: 50% 50%; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
 #chatbtn::before { content: ""; position: absolute; left: 22px; top: -9px; width: 18px; height: 18px; background: #fff; transform: rotate(45deg); border-radius: 3px; }
-#chatbtn .ic { width: 30px; height: 30px; border-radius: 50%; background: #000; display: grid; place-items: center; }
-#chatbtn .ic img { width: 18px; height: 18px; }
-#chatbtn .arr { margin-left: auto; color: #6a1fd8; font-weight: 800; }
-#chatbtn small { display: block; font-size: 13px; font-weight: 500; color: #555; }
 
 /* ---------- the cursor ---------- */
 #cursor { position: absolute; left: 0; top: 0; width: 34px; height: 44px; z-index: 40; opacity: 0; filter: drop-shadow(0 3px 6px rgba(0,0,0,.5)); }
@@ -297,7 +295,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   <!-- the rescue popup: black frame, storm stroke, white chat bubble -->
   <div id="popup" aria-hidden="true">
     <div class="p-head"><img src="assets/mark-clean.svg" alt=""/>superbot can do it!</div>
-    <div id="chatbtn"><span class="ic"><img src="assets/mark-clean.svg" alt=""/></span><span>chat with superbot<small>free while in beta</small></span><span class="arr">→</span></div>
+    <div id="chatbtn">chat</div>
   </div>
 
   <!-- ============ scene 2: superbot.gg loads, then the hub ============ -->

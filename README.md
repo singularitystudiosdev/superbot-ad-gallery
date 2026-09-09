@@ -7,10 +7,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-5 ad spots, gathered from the workspace projects and the GitHub repos:
+7 ad spots, gathered from the workspace projects and the GitHub repos:
 
 - **all your agents in one** — spin-merge sting: the site's app sphere spins up, merges into the superbot tile, tri-colour "one", lockup reveal (9.8s loop).
 - **agents refusing? superbot can do it** — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop).
+- **agents getting slowww?** — ChatGPT 1:1 email slowdown, superbot cleanup (54s loop).
 - **agents getting slowww? superbot can do it** — ChatGPT 1:1 email stream slowing 300→10 WPM, hub boot, the 43-unused-rules Yes/No (41s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
 - **hi i am claude**.

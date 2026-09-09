@@ -1,5 +1,13 @@
 [
   {
+    "id": "superbot-spin-merge",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "all your agents in one — spin-merge sting (sphere → superbot tile → tri-colour one → lockup reveal, 9.8s loop)",
+    "src": "animations/superbot-spin-merge/",
+    "thumb": "assets/shots/superbot-spin-merge.png"
+  },
+  {
     "id": "gpt-refusal-superbot-824cef28",
     "type": "animation",
     "group": "Ad spots",

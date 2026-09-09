@@ -7,8 +7,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-4 ad spots, gathered from the workspace projects and the GitHub repos:
+5 ad spots, gathered from the workspace projects and the GitHub repos:
 
+- **all your agents in one** — spin-merge sting: the site's app sphere spins up, merges into the superbot tile, tri-colour "one", lockup reveal (9.8s loop).
 - **agents refusing? superbot can do it** — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
 - **hi i am claude**.

@@ -45,6 +45,7 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
+  ['scraper-bypass-gpt-refusal', 'scraper-bypass-gpt-refusal/', 'agents refusing? superbot can do it — GPT refusal cut', 'Ad spots'],
   ['scraper-bypass-chat-storm', 'scraper-bypass-chat-storm/', 'login walls? superbot can do it — storm cut (white mark, blue/purple/pink)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],

@@ -1,5 +1,13 @@
 [
   {
+    "id": "scraper-bypass-gpt-refusal",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "agents refusing? superbot can do it — GPT refusal cut",
+    "src": "animations/scraper-bypass-gpt-refusal/",
+    "thumb": "assets/shots/scraper-bypass-gpt-refusal.png"
+  },
+  {
     "id": "scraper-bypass-chat-storm",
     "type": "animation",
     "group": "Ad spots",

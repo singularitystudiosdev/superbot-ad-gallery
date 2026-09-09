@@ -46,7 +46,6 @@ const items = anims.map(([id, src, title, desc]) => ({
 // [name, pagePath, title, group]
 const more = [
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot can do it — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop)', 'Ad spots'],
-  ['scraper-refusal-rescue', 'scraper-refusal-rescue/', 'agents refusing? superbot can do it — refusal rescue cut (black frame, purple/blue/pink)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],
   ['yes-man-pros', 'yes-man/pros.html', 'yes man · pros', 'Ad spots'],

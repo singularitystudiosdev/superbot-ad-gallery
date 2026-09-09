@@ -8,14 +8,6 @@
     "thumb": "assets/shots/gpt-refusal-superbot-824cef28.png"
   },
   {
-    "id": "scraper-refusal-rescue",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "agents refusing? superbot can do it — refusal rescue cut (black frame, purple/blue/pink)",
-    "src": "animations/scraper-refusal-rescue/",
-    "thumb": "assets/shots/scraper-refusal-rescue.png"
-  },
-  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",

@@ -48,6 +48,7 @@ const more = [
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot can do it — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop)', 'Ad spots'],
   ['scraper-bypass-gpt-refusal', 'scraper-bypass-gpt-refusal/', 'agents refusing? superbot can do it — GPT refusal cut', 'Ad spots'],
   ['scraper-bypass-chat-storm', 'scraper-bypass-chat-storm/', 'login walls? superbot can do it — storm cut (white mark, blue/purple/pink)', 'Ad spots'],
+  ['scraper-refusal-rescue', 'scraper-refusal-rescue/', 'agents refusing? superbot can do it — refusal rescue cut (black frame, purple/blue/pink)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],
   ['yes-man', 'yes-man/', 'yes man', 'Ad spots'],

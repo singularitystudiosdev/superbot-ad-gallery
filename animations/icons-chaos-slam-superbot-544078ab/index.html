@@ -35,11 +35,13 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 30px rgba(0,0,0,.55);
   will-change: transform, opacity; }
 .app img { width: 100%; height: 100%; display: block; border-radius: 24%; }
-.app svg { width: 62%; height: 62%; color: var(--secondary); }
+.app svg { width: 62%; height: 62%; color: var(--secondary); fill: currentColor; }
 
-/* the agent-artifact files: desktop-file chips — doc glyph over the filename */
+/* the agent-artifact files: desktop-file chips — doc glyph over the filename.
+   the glyph is pixel-sized from JS: percentage sizing inside this flex column
+   lets flex-shrink collapse the svg to zero height */
 .app.doc { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border-radius: 14%; padding-top: 4%; }
-.app.doc svg { width: 42%; height: 42%; }
+.app.doc svg { flex: none; }
 .app.doc span { font-weight: 600; color: var(--secondary); white-space: nowrap; }
 
 /* the slam: the tile carries the flip; the ring and flash carry the impact */
@@ -248,8 +250,9 @@ for (let i = 0; i < N; i++) {
   el.style.width = iw.toFixed(0) + 'px';
   el.style.height = s + 'px';
   if (isFile) el.style.fontSize = (s * 0.18).toFixed(1) + 'px';
+  const gs = Math.round(s * 0.46);
   el.innerHTML = isPng ? `<img src="${PNGS.find((p) => p[0] === type)[1]}" alt="">`
-    : isFile ? `<svg><use href="#ic-${file[1]}"/></svg><span>${file[0]}</span>`
+    : isFile ? `<svg style="width:${gs}px;height:${gs}px;flex:none"><use href="#ic-${file[1]}"/></svg><span>${file[0]}</span>`
     : `<svg><use href="#ic-${type}"/></svg>`;
   field.appendChild(el);
   icons.push({

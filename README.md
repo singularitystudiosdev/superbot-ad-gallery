@@ -7,12 +7,12 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-17 ad spots, gathered from the workspace projects and the GitHub repos:
+4 ad spots, gathered from the workspace projects and the GitHub repos:
 
-- **favorite color** (+ variants) — the chat pitch: "whats ur favorite color".
-- **hi i am claude** (+ the effect picker).
-- **the yes-man family (8)** — yes man, email, pros, get real, slides, feedback, tagged, variants.
-- **superbot.gg / ads (5)** — the hub, the fix board, comparison spots, they-said-we-did, spot.
+- **agents refusing? superbot can do it** — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop).
+- **favorite color** — the chat pitch: "whats ur favorite color".
+- **hi i am claude**.
+- **yes man · pros**.
 
 The other creative groups (hero animations, site variants, hero reveal FX, mascot toys,
 images) are still defined in `gen-manifest.mjs` — re-enable by changing `ONLY_GROUP`.

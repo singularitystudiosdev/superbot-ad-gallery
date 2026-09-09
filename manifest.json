@@ -24,6 +24,14 @@
     "thumb": "assets/shots/email-slowdown.png"
   },
   {
+    "id": "chatgpt-slowdown-superbot-d9ffd5a7",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "agents getting slowww? superbot can do it — ChatGPT 1:1 email stream 300→10 WPM, hub boot, 43 unused rules Yes/No (41s loop)",
+    "src": "animations/chatgpt-slowdown-superbot-d9ffd5a7/",
+    "thumb": "assets/shots/chatgpt-slowdown-superbot-d9ffd5a7.png"
+  },
+  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",

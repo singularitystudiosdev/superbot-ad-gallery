@@ -16,6 +16,14 @@
     "thumb": "assets/shots/gpt-refusal-superbot-824cef28.png"
   },
   {
+    "id": "email-slowdown",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "agents getting slowww? — ChatGPT 1:1 email slowdown, superbot cleanup (54s loop)",
+    "src": "animations/email-slowdown/",
+    "thumb": "assets/shots/email-slowdown.png"
+  },
+  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",

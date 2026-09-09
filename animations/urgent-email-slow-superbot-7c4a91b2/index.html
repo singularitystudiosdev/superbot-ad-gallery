@@ -156,17 +156,20 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 /* the email is just the message body — no code chrome; it types straight into superbot's reply */
 .email { margin-top: 2px; font-size: 13px; line-height: 20px; color: var(--fg); white-space: pre-wrap; word-break: break-word; }
 .email .ch { display: inline; opacity: 0; } /* each character fades in the instant it is typed (spanify/reveal, from gpt-slowdown-superbot-05dcc43a) */
-/* ChatGPT's post-response action row: the Copy pill lives under the message, not on a card */
-.acts { display: flex; gap: 6px; margin-top: 6px; opacity: 0; }
-.acts .copy { display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; border-radius: 7px; background: var(--raised); border: 1px solid var(--line); color: var(--fg); font-size: 9px; line-height: 18px; font-weight: 600; transform-origin: 50% 50%; }
-.acts .copy svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.acts .copy.done { background: rgba(52,211,153,.14); border-color: rgba(52,211,153,.5); color: var(--ok); }
-/* the follow-up question: ChatGPT's suggested-reply pattern — a prompt line, then option chips */
-.opts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 7px; opacity: 0; }
-.opts .q { font-size: 11px; line-height: 15px; font-weight: 700; margin-right: 2px; }
-.opts .opt { padding: 0 11px; border-radius: 999px; background: var(--raised); border: 1px solid var(--line); color: var(--fg); font-size: 10px; line-height: 22px; font-weight: 600; transform-origin: 50% 50%; }
-.opts .opt.sel { background: var(--storm-action); border-color: transparent; color: #fff; }
-.opts .opt.dim { opacity: .4; }
+/* superbot's email composer card: Edit pill, action row with the blue Send, Recipients, description */
+.mailcard { margin-top: 7px; background: var(--raised); border: 1px solid var(--line); border-radius: 16px; padding: 10px 14px 12px; }
+.mc-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 2px; }
+.mc-edit { display: inline-flex; align-items: center; gap: 5px; padding: 0 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font-size: 10px; line-height: 24px; font-weight: 600; }
+.mc-edit svg, .mc-acts svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mc-acts { margin-left: auto; display: flex; align-items: center; gap: 12px; color: var(--muted); }
+.mc-sep { width: 1px; height: 14px; background: var(--line); }
+.mc-ic { display: grid; place-items: center; width: 20px; height: 20px; transform-origin: 50% 50%; color: var(--muted); }
+.mc-ic.done { color: var(--ok); }
+.mc-send { display: inline-flex; align-items: center; gap: 6px; padding: 0 14px; border-radius: 999px; background: var(--storm-1); color: #fff; font-size: 11px; line-height: 28px; font-weight: 700; transform-origin: 50% 50%; box-shadow: 0 4px 14px rgba(43,107,255,.35); }
+.mc-field { padding: 8px 2px 10px; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+.mc-field:last-child { border-bottom: 0; padding-bottom: 0; }
+.mc-lab { color: var(--muted); font-size: 11px; }
+.mc-val { font-size: 12px; color: var(--fg); }
 /* the phone beside the hub: the site's docked mobile thread (site/index.html #phone) */
 .phone { position: absolute; right: 8px; top: 8px; bottom: 8px; width: 24%; background: #000; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; font: 11px/15px var(--ui); color: var(--fg); display: flex; flex-direction: column; padding: 10px 12px 8px; }
 .ph-status { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); padding: 0 4px; }
@@ -308,9 +311,20 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
                 <div class="date-div">September 9, 2026</div>
                 <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span><span class="m-when">11:15 AM</span></div><div class="m-text"></div></div></div>
                 <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">11:15 AM</span></div><div class="m-text" id="h-text"></div>
-                  <div class="email" id="h-email"></div>
-                  <div class="acts" id="h-acts"><span class="copy" id="h-copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span id="h-copy-t">Copy</span></span></div>
-                  <div class="opts" id="h-opts"><span class="q">Want me to send it?</span><span class="opt" id="h-yes">Yes!</span><span class="opt" id="h-no">Not yet</span></div>
+                  <div class="mailcard" id="h-mail">
+                    <div class="mc-bar">
+                      <span class="mc-edit"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>Edit</span>
+                      <span class="mc-acts">
+                        <svg viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+                        <i class="mc-sep"></i>
+                        <span class="mc-ic" id="h-copy"><svg id="h-copy-ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><svg id="h-copy-ok" viewBox="0 0 24 24" style="display:none"><path d="M20 6 9 17l-5-5"/></svg></span>
+                        <span class="mc-ic"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></span>
+                        <span class="mc-send" id="h-send"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Send</span>
+                      </span>
+                    </div>
+                    <div class="mc-field"><span class="mc-lab">Recipients</span><span class="mc-val">Karen Smith</span></div>
+                    <div class="mc-field"><span class="mc-lab">Email description</span><div class="email" id="h-email"></div></div>
+                  </div>
                 </div></div>
                 <div class="msg" id="h-sent"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">11:15 AM</span></div><div class="m-text" id="h-sent-text"></div></div></div>
               </div>
@@ -356,7 +370,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 // function of its number), so seeking (`?t=9.4`) or capturing any frame yields
 // the same picture. The skeleton is the site's own hub-boot.js: seg() windows,
 // pure tweens, no timers. Frame-indexed at 30fps so preview and capture agree.
-const FPS = 30, LOOP = 31.2;
+const FPS = 30, LOOP = 29.2;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -372,28 +386,26 @@ const B = {
   popup: 6.9,                                   // the rescue popup, bottom-right, while ChatGPT is still typing
   curIn: 9.4, curAt: 10.5, press: 10.75, release: 10.9, // the cursor arrives, presses the chat bubble (scale .95)
   dip: 11.25, site: 11.5,                       // dip to black, the app window is simply there (no boot, no zoom)
-  ask: 11.85, reply2: 12.4, email: 13.1,        // the ask, the ack, then the whole email typewrites with a per-char fade
-  acts: 15.0,                                   // the action row (Copy) fades in once the email finishes typing
+  ask: 11.85, reply2: 12.4, email: 13.1,        // the ask, the ack, then the composer card typewrites the email body
   EMAIL_CPS: 380, EMAIL_FADE: 0.18,             // super fast: the long email lands in under two seconds
-  cur2In: 16.6, cur2At: 17.5, press2: 17.7, copied: 17.85, // the cursor hits Copy (the email holds ~2.5s first)
-  q: 18.9,                                      // "Want me to send it?" + the option chips, ChatGPT question format
-  cur3In: 20.4, cur3At: 21.3, press3: 21.5,     // the cursor arrives and presses "Yes!"
-  sent: 21.9,                                   // "Sent! Anything else you need?"
-  cardA: 23.4, cardB: 25.2, end: 27.0, word: 27.8, // the cards, then the end card
+  cur2In: 16.0, cur2At: 16.9, press2: 17.1, copied: 17.25, // the cursor hits the copy icon in the composer bar
+  cur3In: 18.3, cur3At: 19.2, press3: 19.4,     // the cursor arrives and presses the blue Send button
+  sent: 19.8,                                   // "Sent! Anything else you need?"
+  cardA: 21.3, cardB: 23.1, end: 24.9, word: 25.7, // the cards, then the end card
 };
 
 // ---------- copy ----------
 // verbatim from the owner's request (grammar kept)
 const PROMPT = 'THIS IS URGENT. I need you to write a email to my boss saying I have the presentation ready now';
 // ChatGPT's answer streams word by word at 210 wpm (30 x 7, the owner's speed-up), constant
-const SLOW_REPLY = "Sure! Here is a draft email for you: Dear [Boss name], I hope this email finds you well. I am writing to let you know that the presentation is now ready. I have attached it to this email. Please let me know if you have any questions or need any changes. Best regards, [Your name]";
+const SLOW_REPLY = "Sure! Here is a draft email for you: Dear Karen Smith, I hope this email finds you well. I am writing to let you know that the presentation is now ready. I have attached it to this email. Please let me know if you have any questions or need any changes. Best regards, Johnny Apple";
 const SLOW_WORDS = SLOW_REPLY.split(' ').filter(Boolean).map((w) => w + ' ');
 const WORDS_PER_S = (30 * 7) / 60; // 210 wpm = 3.5 words/s
 const wordsAt = (dt) => Math.floor(WORDS_PER_S * dt);
 
 const REPLY2 = "on it. the full email, ready to send:";
 // the email superbot writes instantly: one string, revealed character by character
-const EMAIL_TEXT = "Subject: Presentation ready\n\nHi [Boss name],\n\nQuick update: the presentation is done and ready to go. I'm sending it over now so you can look it over before the meeting.\n\nIt covers the full project timeline, the results from last week's tests, and what we need from your side to move forward. Slides 4 and 9 have the numbers you asked about, and the appendix has the backup data in case anything comes up in the room.\n\nHappy to walk through any of it when you have a minute, or move the review to later today if that's easier on your end.\n\nBest,\n[Your name]";
+const EMAIL_TEXT = "Hi Karen,\n\nQuick update: the presentation is done and ready to go. I'm sending it over now so you can look it over before the meeting.\n\nIt covers the full project timeline, the results from last week's tests, and what we need from your side to move forward. Slides 4 and 9 have the numbers you asked about, and the appendix has the backup data in case anything comes up in the room.\n\nHappy to walk through any of it when you have a minute, or move the review to later today if that's easier on your end.\n\nBest,\nJohnny Apple";
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 // ---------- element refs ----------
@@ -403,8 +415,8 @@ const gUser = $('g-user'), gBub = $('g-bub'), gAi = $('g-ai'), gThink = $('g-thi
 const gThread = gCol.parentElement;
 const popup = $('popup'), chatbtn = $('chatbtn');
 const site = $('site'), hub = $('hub'), feedEl = hub.querySelector('.feed');
-const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text'), hEmail = $('h-email'), hActs = $('h-acts'), hCopy = $('h-copy'), hCopyT = $('h-copy-t');
-const hOpts = $('h-opts'), hYes = $('h-yes'), hNo = $('h-no'), hSent = $('h-sent'), hSentText = $('h-sent-text');
+const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text'), hMail = $('h-mail'), hEmail = $('h-email'), hCopy = $('h-copy'), hCopyIc = $('h-copy-ic'), hCopyOk = $('h-copy-ok'), hSend = $('h-send');
+const hSent = $('h-sent'), hSentText = $('h-sent-text');
 const card = $('card'), cardA = $('card-a'), cardB = $('card-b');
 const end = $('end'), endFace = $('end-face'), endSlide = $('end-slide');
 
@@ -423,7 +435,7 @@ const scene = (el, on) => { el.classList.toggle('on', on); op(el, on ? 1 : 0); }
 // popup geometry in stage px (the popup is anchored bottom-right; the button's centre is read once)
 let BTN = { x: 1920 - 44 - 210, y: 1080 - 44 - 60 };
 let COPY = { x: 0, y: 0 };
-let OPT = { x: 0, y: 0 };
+let SEND = { x: 0, y: 0 };
 function measure() {
   const sr = stage.getBoundingClientRect(), k = sr.width / 1920;
   const b = chatbtn.getBoundingClientRect();
@@ -435,11 +447,11 @@ function measureCopy() {
   const c = hCopy.getBoundingClientRect();
   COPY = { x: (c.left + c.width / 2 - sr.left) / k, y: (c.top + c.height / 2 - sr.top) / k };
 }
-function measureOpt() {
-  // the "Yes!" chip's centre, same press-frame contract as measureCopy
+function measureSend() {
+  // the Send button's centre, same press-frame contract as measureCopy
   const sr = stage.getBoundingClientRect(), k = sr.width / 1920;
-  const c = hYes.getBoundingClientRect();
-  OPT = { x: (c.left + c.width / 2 - sr.left) / k, y: (c.top + c.height / 2 - sr.top) / k };
+  const c = hSend.getBoundingClientRect();
+  SEND = { x: (c.left + c.width / 2 - sr.left) / k, y: (c.top + c.height / 2 - sr.top) / k };
 }
 
 // ---------- render ----------
@@ -508,33 +520,30 @@ function renderSite(t) {
   const bo = seg(t, B.reply2, B.reply2 + 0.25); op(hBot, bo); hBot.style.transform = `translateY(${((1 - outCubic(bo)) * 6).toFixed(1)}px)`;
   const chars = t < B.reply2 ? 0 : Math.min(REPLY2.length, Math.floor((t - B.reply2) * 70));
   hText.textContent = REPLY2.slice(0, chars);
-  // the action row (Copy) fades in once the email finishes typing, like ChatGPT's response actions
-  op(hActs, seg(t, B.acts, B.acts + 0.3));
-  // the whole email typewrites super fast: each character fades in over EMAIL_FADE seconds
-  // the instant its slot arrives — a fade-in typewriter, seamless, no per-line snapping
+  // the composer card fades in, then the email body typewrites super fast: each character fades in
+  // over EMAIL_FADE seconds the instant its slot arrives — seamless, no per-line snapping
+  op(hMail, seg(t, B.email, B.email + 0.3));
   emailChars.forEach((s, i) => {
     const at = B.email + 0.15 + i / B.EMAIL_CPS;
     s.style.opacity = clamp01((t - at) / B.EMAIL_FADE).toFixed(2);
   });
   // the feed keeps the newest line in view, like the real app
   feedEl.scrollTop = feedEl.scrollHeight;
-  // the copy button: pressed, then "Copied"
+  // the copy icon in the composer bar: pressed, then a green check
   const press = t >= B.press2 && t < B.copied ? 1 : t >= B.copied ? 1 - seg(t, B.copied, B.copied + 0.15) : 0;
-  hCopy.style.transform = `scale(${(1 - 0.06 * press).toFixed(3)})`;
-  hCopy.className = 'copy' + (t >= B.copied ? ' done' : '');
-  hCopyT.textContent = t >= B.copied ? 'Copied' : 'Copy';
-  // the Copy button is measured in the press frame itself (feed scrolled, message settled); the warm-up below
-  // renders that frame once before playback so the cursor's whole approach already aims at the measured centre
-  if (t >= B.press2 - 0.05 && t < B.press2) measureCopy();
-  // the follow-up question: "Want me to send it?" with the option chips, then the Yes! press, then the sent line
-  const qo = seg(t, B.q, B.q + 0.3); op(hOpts, qo);
+  hCopy.style.transform = `scale(${(1 - 0.12 * press).toFixed(3)})`;
+  hCopy.className = 'mc-ic' + (t >= B.copied ? ' done' : '');
+  hCopyIc.style.display = t >= B.copied ? 'none' : '';
+  hCopyOk.style.display = t >= B.copied ? '' : 'none';
+  // the Send press, then the sent reply
   const press3 = t >= B.press3 && t < B.sent ? 1 : t >= B.sent ? 1 - seg(t, B.sent, B.sent + 0.15) : 0;
-  hYes.className = 'opt' + (t >= B.press3 ? ' sel' : '');
-  hNo.className = 'opt' + (t >= B.press3 ? ' dim' : '');
-  hYes.style.transform = `scale(${(1 - 0.06 * press3).toFixed(3)})`;
+  hSend.style.transform = `scale(${(1 - 0.05 * press3).toFixed(3)})`;
   const so = seg(t, B.sent, B.sent + 0.3); op(hSent, so); hSent.style.transform = `translateY(${((1 - outCubic(so)) * 6).toFixed(1)}px)`;
   hSentText.textContent = t >= B.sent ? 'Sent! Anything else you need?' : '';
-  if (t >= B.press3 - 0.05 && t < B.press3) measureOpt();
+  // both click targets are measured in their own press frames (feed scrolled, card settled); the warm-up
+  // below renders those frames once before playback so the cursor already aims at the measured centres
+  if (t >= B.press2 - 0.05 && t < B.press2) measureCopy();
+  if (t >= B.press3 - 0.05 && t < B.press3) measureSend();
 }
 
 function renderCard(t) {
@@ -565,12 +574,12 @@ function renderCursor(t) {
     x = lerp(1960, COPY.x - 3, p) - away * 90; y = lerp(1120, COPY.y - 2, p) + away * 70; vis = 1; // the arrow tip sits at (3,2) of the svg; it steps down-left, staying in the lane
     if (t >= B.press2 && t < B.copied) sc = 0.9;
   } else if (t >= B.cur3In && t < B.cardA) {
-    // the "Yes!" chip: walks in from where the copy walk parked it, presses, steps aside so "Sent!" reads
+    // the blue Send button: walks in from where the copy walk parked it, presses, lifts off so "Sent!" reads
     const p = outQuint(seg(t, B.cur3In, B.cur3At));
     const from = { x: COPY.x - 3 - 90, y: COPY.y - 2 + 70 };
-    x = lerp(from.x, OPT.x - 3, p); y = lerp(from.y, OPT.y - 2, p); vis = 1;
+    x = lerp(from.x, SEND.x - 3, p); y = lerp(from.y, SEND.y - 2, p); vis = 1;
     const away = outCubic(seg(t, B.sent + 0.2, B.sent + 0.6));
-    x += away * 90; y += away * 85; // parks right of the "Sent!" line so it reads
+    x += away * 60; y -= away * 55; // parks above-right of Send so the "Sent!" line below the card reads
     if (t >= B.press3 && t < B.sent) sc = 0.9;
   }
   op(cursor, vis);
@@ -599,10 +608,10 @@ function frame(now) {
   if (f !== last) { last = f; render(f / FPS); }
   requestAnimationFrame(frame);
 }
-// warm the popup/copy/chip geometry: render the frames those clicks happen in once, invisibly
+// warm the popup/copy/send geometry: render the frames those clicks happen in once, invisibly
 render(B.popup + 0.5); measure();
 render(B.press2 - 1 / FPS); measureCopy();
-render(B.press3 - 1 / FPS); measureOpt();
+render(B.press3 - 1 / FPS); measureSend();
 if (reduced) { render(B.word + 1); }
 else if (seekTo !== null && !q.has('play')) { render(Math.floor(seekTo * FPS) / FPS); }
 else requestAnimationFrame(frame);

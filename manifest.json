@@ -1,13 +1,5 @@
 [
   {
-    "id": "speed-race",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "the speed race — superbot vs claude",
-    "src": "animations/speed-race/",
-    "thumb": "assets/shots/speed-race.png"
-  },
-  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",
@@ -32,14 +24,6 @@
     "thumb": "assets/shots/yes-man.png"
   },
   {
-    "id": "yes-man-email",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "yes man · email",
-    "src": "animations/yes-man/email.html",
-    "thumb": "assets/shots/yes-man-email.png"
-  },
-  {
     "id": "yes-man-pros",
     "type": "animation",
     "group": "Ad spots",
@@ -48,35 +32,11 @@
     "thumb": "assets/shots/yes-man-pros.png"
   },
   {
-    "id": "yes-man-getreal",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "yes man · get real",
-    "src": "animations/yes-man/getreal.html",
-    "thumb": "assets/shots/yes-man-getreal.png"
-  },
-  {
-    "id": "yes-man-slides",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "yes man · slides",
-    "src": "animations/yes-man/slides.html",
-    "thumb": "assets/shots/yes-man-slides.png"
-  },
-  {
     "id": "yes-man-feedback",
     "type": "animation",
     "group": "Ad spots",
     "title": "yes man · feedback",
     "src": "animations/yes-man/feedback.html",
     "thumb": "assets/shots/yes-man-feedback.png"
-  },
-  {
-    "id": "yes-man-feedbacktag",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "yes man · feedback (tagged)",
-    "src": "animations/yes-man/feedbacktag.html",
-    "thumb": "assets/shots/yes-man-feedbacktag.png"
   }
 ]

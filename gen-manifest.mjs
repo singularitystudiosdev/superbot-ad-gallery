@@ -45,16 +45,11 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
-  ['speed-race', 'speed-race/', 'the speed race — superbot vs claude', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],
   ['yes-man', 'yes-man/', 'yes man', 'Ad spots'],
-  ['yes-man-email', 'yes-man/email.html', 'yes man · email', 'Ad spots'],
   ['yes-man-pros', 'yes-man/pros.html', 'yes man · pros', 'Ad spots'],
-  ['yes-man-getreal', 'yes-man/getreal.html', 'yes man · get real', 'Ad spots'],
-  ['yes-man-slides', 'yes-man/slides.html', 'yes man · slides', 'Ad spots'],
   ['yes-man-feedback', 'yes-man/feedback.html', 'yes man · feedback', 'Ad spots'],
-  ['yes-man-feedbacktag', 'yes-man/feedbacktag.html', 'yes man · feedback (tagged)', 'Ad spots'],
   ['gg-site-variants', 'gg-site/variants.html', 'superbot.gg — character variants', 'Site variants'],
   ['gg-site-lander-zen', 'gg-site/lander-zen.html', 'lander — zen', 'Site variants'],
   ['gg-site-lander-minimal', 'gg-site/lander-minimal.html', 'lander — minimal', 'Site variants'],

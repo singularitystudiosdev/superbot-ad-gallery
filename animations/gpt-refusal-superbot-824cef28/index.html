@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>agents refusing? superbot can do it — ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="ChatGPT refuses a reddit scraper and keeps moralising; superbot writes it. 26s looping ad spot, 1920x1080."/>
+<meta name="description" content="ChatGPT refuses a reddit scraper and keeps moralising; one click opens the superbot app, which writes it. 25s looping ad spot, 1920x1080."/>
 <style>
 /* ---------- tokens: the site's own ladder (site.css :root) ---------- */
 :root {
@@ -69,7 +69,6 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #popup .p-head img { width: 34px; height: 34px; }
 #popup .p-head .gg { color: var(--muted); font-weight: 600; }
 #chatbtn { position: relative; margin-top: 16px; display: block; padding: 14px 18px; border-radius: 18px; background: #fff; color: #000; font-size: 24px; font-weight: 700; text-align: center; transform-origin: 50% 50%; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
-#chatbtn::before { content: ""; position: absolute; left: 22px; top: -9px; width: 18px; height: 18px; background: #fff; transform: rotate(45deg); border-radius: 3px; }
 
 /* ---------- the cursor ---------- */
 #cursor { position: absolute; left: 0; top: 0; width: 34px; height: 44px; z-index: 40; opacity: 0; filter: drop-shadow(0 3px 6px rgba(0,0,0,.5)); }
@@ -347,7 +346,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 // function of its number), so seeking (`?t=9.4`) or capturing any frame yields
 // the same picture. The skeleton is the site's own hub-boot.js: seg() windows,
 // pure tweens, no timers. Frame-indexed at 30fps so preview and capture agree.
-const FPS = 30, LOOP = 24.8;
+const FPS = 30, LOOP = 24.3;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -362,12 +361,12 @@ const rnd = (i, k = 0) => { const x = Math.sin(i * 12.9898 + k * 78.233) * 43758
 const B = {
   typeA: 0.6, typeB: 2.1, send: 2.35,           // the prompt types, then sends
   think: 2.5, reply: 3.1,                        // "Thinking", then the refusal streams (and never stops)
-  popup: 5.2,                                    // the rescue popup, bottom-right
-  curIn: 8.0, curAt: 9.1, press: 9.35, release: 9.5, // the cursor arrives, presses the chat bubble (scale .95)
-  dip: 9.85, site: 10.1,                         // dip to black, the app window is simply there (owner: no boot, no zoom)
-  ask: 10.7, reply2: 11.25, code: 11.85, codeLine: 0.16, // the ask, the answer, the code wipes in line by line
-  cur2In: 15.2, cur2At: 16.1, press2: 16.3, copied: 16.45, // the cursor hits Copy (the card holds ~4s first)
-  cardA: 17.4, cardB: 19.2, end: 21.0, word: 21.8, // the cards, then the end card
+  popup: 4.3,                                    // the rescue popup, bottom-right (owner: 0.9s earlier)
+  curIn: 7.5, curAt: 8.6, press: 8.85, release: 9.0, // the cursor arrives, presses the chat bubble (scale .95) (owner: 0.5s sooner)
+  dip: 9.35, site: 9.6,                          // dip to black, the app window is simply there (owner: no boot, no zoom)
+  ask: 10.2, reply2: 10.75, code: 11.35, codeLine: 0.16, // the ask, the answer, the code wipes in line by line
+  cur2In: 14.7, cur2At: 15.6, press2: 15.8, copied: 15.95, // the cursor hits Copy (the card holds ~4s first)
+  cardA: 16.9, cardB: 18.7, end: 20.5, word: 21.3, // the cards, then the end card
 };
 
 // ---------- copy ----------
@@ -387,10 +386,13 @@ const REFUSAL_TAIL = [
 ];
 const REFUSAL_WORDS = (() => {
   const words = REFUSAL_HEAD.split(' ').filter(Boolean).map((w) => w + ' ');
-  for (let k = 0; k < 4; k++) for (const s of REFUSAL_TAIL) words.push(...s.split(' ').filter(Boolean).map((w) => w + ' '));
+  for (let k = 0; k < 10; k++) for (const s of REFUSAL_TAIL) words.push(...s.split(' ').filter(Boolean).map((w) => w + ' '));
   return words;
 })();
-const WORDS_PER_S = 17;
+// the refusal starts at twice a human reading pace and keeps speeding up (owner, 2026-09-09):
+// words shown after dt seconds = WORDS_PER_S·dt + ACCEL·dt², so the rate climbs ~8 words/s every second
+const WORDS_PER_S = 34, ACCEL = 4;
+const wordsAt = (dt) => Math.floor(WORDS_PER_S * dt + ACCEL * dt * dt);
 
 const REPLY2 = "on it. no api key, no praw, just reddit's public json, paginated:";
 // the code, per line, highlighted once: [class, text] runs
@@ -487,7 +489,7 @@ function renderGpt(t) {
   const thinking = t >= B.think && t < B.reply;
   gThink.style.display = thinking ? '' : 'none';
   gThink.style.opacity = thinking ? String(0.55 + 0.45 * Math.abs(Math.sin((t - B.think) * 6))) : '0';
-  const n = t < B.reply ? 0 : Math.min(REFUSAL_WORDS.length, Math.floor((t - B.reply) * WORDS_PER_S));
+  const n = t < B.reply ? 0 : Math.min(REFUSAL_WORDS.length, wordsAt(t - B.reply));
   gText.textContent = REFUSAL_WORDS.slice(0, n).join('');
   gCur.style.display = t >= B.reply ? '' : 'none';
   op(gAi, t >= B.think ? 1 : 0);

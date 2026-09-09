@@ -153,16 +153,14 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .m-when { font-size: 9px; color: var(--muted); }
 .app { padding: 0 4px; border-radius: 3px; background: var(--storm-1); color: #fff; font: 700 8px/12px var(--ui); letter-spacing: .04em; }
 .m-text { font-size: 11px; line-height: 15px; white-space: pre-wrap; }
-/* the email card: same chrome as the reference's code card; Copy stays in reach while the feed scrolls */
-.code { position: relative; width: 100%; max-width: 100%; background: #000; border: 1px solid var(--line); border-radius: 8px; }
-.code .c-bar { position: sticky; top: -10px; z-index: 1; display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-bottom: 1px solid var(--line); border-radius: 8px 8px 0 0; background: #000; color: var(--muted); font-size: 9px; }
-.code .c-bar .lang { margin-left: 6px; padding: 0 5px; border-radius: 4px; background: var(--raised); color: var(--secondary); }
-.code .copy { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding: 0 7px; border-radius: 6px; background: var(--raised); border: 1px solid var(--line); color: var(--fg); font-size: 9px; line-height: 16px; font-weight: 600; transform-origin: 50% 50%; }
-.code .copy svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.code .copy.done { background: rgba(52,211,153,.14); border-color: rgba(52,211,153,.5); color: var(--ok); }
-/* pre-wrap: the email fills the card edge to edge instead of running off to the right */
-.code pre { margin: 0; padding: 9px 12px; font: 12px/19px var(--mono); color: var(--fg); white-space: pre-wrap; word-break: break-word; }
-.code pre .ch { display: inline; opacity: 0; } /* each character fades in the instant it is typed (spanify/reveal, from gpt-slowdown-superbot-05dcc43a) */
+/* the email is just the message body — no code chrome; it types straight into superbot's reply */
+.email { margin-top: 2px; font-size: 13px; line-height: 20px; color: var(--fg); white-space: pre-wrap; word-break: break-word; }
+.email .ch { display: inline; opacity: 0; } /* each character fades in the instant it is typed (spanify/reveal, from gpt-slowdown-superbot-05dcc43a) */
+/* ChatGPT's post-response action row: the Copy pill lives under the message, not on a card */
+.acts { display: flex; gap: 6px; margin-top: 6px; opacity: 0; }
+.acts .copy { display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; border-radius: 7px; background: var(--raised); border: 1px solid var(--line); color: var(--fg); font-size: 9px; line-height: 18px; font-weight: 600; transform-origin: 50% 50%; }
+.acts .copy svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.acts .copy.done { background: rgba(52,211,153,.14); border-color: rgba(52,211,153,.5); color: var(--ok); }
 /* the follow-up question: ChatGPT's suggested-reply pattern — a prompt line, then option chips */
 .opts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 7px; opacity: 0; }
 .opts .q { font-size: 11px; line-height: 15px; font-weight: 700; margin-right: 2px; }
@@ -310,7 +308,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
                 <div class="date-div">September 9, 2026</div>
                 <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span><span class="m-when">11:15 AM</span></div><div class="m-text"></div></div></div>
                 <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">11:15 AM</span></div><div class="m-text" id="h-text"></div>
-                  <div class="code" id="h-code"><div class="c-bar"><span>email.txt</span><span class="lang">text</span><span class="copy" id="h-copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span id="h-copy-t">Copy</span></span></div><pre id="h-pre"></pre></div>
+                  <div class="email" id="h-email"></div>
+                  <div class="acts" id="h-acts"><span class="copy" id="h-copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span id="h-copy-t">Copy</span></span></div>
                   <div class="opts" id="h-opts"><span class="q">Want me to send it?</span><span class="opt" id="h-yes">Yes!</span><span class="opt" id="h-no">Not yet</span></div>
                 </div></div>
                 <div class="msg" id="h-sent"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">11:15 AM</span></div><div class="m-text" id="h-sent-text"></div></div></div>
@@ -374,6 +373,7 @@ const B = {
   curIn: 9.4, curAt: 10.5, press: 10.75, release: 10.9, // the cursor arrives, presses the chat bubble (scale .95)
   dip: 11.25, site: 11.5,                       // dip to black, the app window is simply there (no boot, no zoom)
   ask: 11.85, reply2: 12.4, email: 13.1,        // the ask, the ack, then the whole email typewrites with a per-char fade
+  acts: 15.0,                                   // the action row (Copy) fades in once the email finishes typing
   EMAIL_CPS: 380, EMAIL_FADE: 0.18,             // super fast: the long email lands in under two seconds
   cur2In: 16.6, cur2At: 17.5, press2: 17.7, copied: 17.85, // the cursor hits Copy (the email holds ~2.5s first)
   q: 18.9,                                      // "Want me to send it?" + the option chips, ChatGPT question format
@@ -403,7 +403,7 @@ const gUser = $('g-user'), gBub = $('g-bub'), gAi = $('g-ai'), gThink = $('g-thi
 const gThread = gCol.parentElement;
 const popup = $('popup'), chatbtn = $('chatbtn');
 const site = $('site'), hub = $('hub'), feedEl = hub.querySelector('.feed');
-const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text'), hCode = $('h-code'), hPre = $('h-pre'), hCopy = $('h-copy'), hCopyT = $('h-copy-t');
+const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text'), hEmail = $('h-email'), hActs = $('h-acts'), hCopy = $('h-copy'), hCopyT = $('h-copy-t');
 const hOpts = $('h-opts'), hYes = $('h-yes'), hNo = $('h-no'), hSent = $('h-sent'), hSentText = $('h-sent-text');
 const card = $('card'), cardA = $('card-a'), cardB = $('card-b');
 const end = $('end'), endFace = $('end-face'), endSlide = $('end-slide');
@@ -411,11 +411,11 @@ const end = $('end'), endFace = $('end-face'), endSlide = $('end-slide');
 // ---------- static builds ----------
 { // the email, one span per character (spanify/reveal, from gpt-slowdown-superbot-05dcc43a);
   // render() sets each span's opacity from its own reveal time, so any seeked frame matches playback
-  hPre.innerHTML = [...EMAIL_TEXT].map((c) => `<span class="ch">${esc(c)}</span>`).join('');
+  hEmail.innerHTML = [...EMAIL_TEXT].map((c) => `<span class="ch">${esc(c)}</span>`).join('');
   gBub.textContent = PROMPT;
   hUser.querySelector('.m-text').textContent = PROMPT;
 }
-const emailChars = [...hPre.querySelectorAll('.ch')];
+const emailChars = [...hEmail.querySelectorAll('.ch')];
 // ---------- style helpers (transform/opacity only) ----------
 const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
 const scene = (el, on) => { el.classList.toggle('on', on); op(el, on ? 1 : 0); };
@@ -508,7 +508,8 @@ function renderSite(t) {
   const bo = seg(t, B.reply2, B.reply2 + 0.25); op(hBot, bo); hBot.style.transform = `translateY(${((1 - outCubic(bo)) * 6).toFixed(1)}px)`;
   const chars = t < B.reply2 ? 0 : Math.min(REPLY2.length, Math.floor((t - B.reply2) * 70));
   hText.textContent = REPLY2.slice(0, chars);
-  const ci = seg(t, B.email, B.email + 0.3); op(hCode, ci);
+  // the action row (Copy) fades in once the email finishes typing, like ChatGPT's response actions
+  op(hActs, seg(t, B.acts, B.acts + 0.3));
   // the whole email typewrites super fast: each character fades in over EMAIL_FADE seconds
   // the instant its slot arrives — a fade-in typewriter, seamless, no per-line snapping
   emailChars.forEach((s, i) => {

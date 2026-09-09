@@ -1,5 +1,13 @@
 [
   {
+    "id": "gpt-refusal-superbot-824cef28",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "agents refusing? superbot can do it — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop)",
+    "src": "animations/gpt-refusal-superbot-824cef28/",
+    "thumb": "assets/shots/gpt-refusal-superbot-824cef28.png"
+  },
+  {
     "id": "scraper-bypass-gpt-refusal",
     "type": "animation",
     "group": "Ad spots",

@@ -1,5 +1,13 @@
 [
   {
+    "id": "ai-aggregator-superbot-a3f7c25e",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "the AI aggregator is here — the site expand beat, cursor clicks through every chat at 0.8s, pink/blue/purple tagline, superbot.gg end lockup (19.6s loop)",
+    "src": "animations/ai-aggregator-superbot-a3f7c25e/",
+    "thumb": "assets/shots/ai-aggregator-superbot-a3f7c25e.png"
+  },
+  {
     "id": "gpt-refusal-superbot-824cef28",
     "type": "animation",
     "group": "Ad spots",

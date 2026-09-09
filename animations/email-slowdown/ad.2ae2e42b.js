@@ -113,7 +113,9 @@ function renderChat(t) {
   $('prompt-input').textContent = sent ? 'Ask anything' : PROMPT.slice(0, Math.floor(PROMPT.length * part(t, .5, 4.7)));
   $('prompt-input').style.color = sent ? '#999' : '#ececec';
   visible($('typing-status'), t >= TIMES.ack);
-  $('typing-status').textContent = t - TIMES.stream > 4 ? 'typing at ' + Math.round(300 * (1 - clamp(part(t - TIMES.stream, 2, 4))) + 10) + ' words per minute…' : 'generating…';
+  const streamT = t - TIMES.stream;
+  const wpm = streamT < 0 ? null : streamT < 2 ? 300 : streamT < 4 ? lerp(300, 10, part(streamT, 2, 4)) : 10;
+  $('typing-status').textContent = wpm === null ? 'generating…' : 'typing at ' + Math.round(wpm) + ' words per minute…';
   $('send').textContent = t >= TIMES.ack ? '■' : '↑';
   $('send').style.transform = `scale(${t >= 5.6 && t < 5.8 ? .92 : 1})`;
   visible($('assistant-message'), t >= TIMES.ack);

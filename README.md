@@ -7,9 +7,10 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-4 ad spots, gathered from the workspace projects and the GitHub repos:
+5 ad spots, gathered from the workspace projects and the GitHub repos:
 
 - **agents refusing? superbot can do it** — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop).
+- **agents slow? superbot can do it** — URGENT email, ChatGPT dribbles at 30 wpm, superbot writes the whole email with a fade typewriter, one-click copy (30.5s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
 - **hi i am claude**.
 - **yes man · pros**.

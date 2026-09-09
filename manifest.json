@@ -1,21 +1,5 @@
 [
   {
-    "id": "ai-aggregator-chat-tour",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "The AI Aggregator is here — frontend expand, agent icons merge into superbot, cursor clicks through every chat at a 0.900s metronome (15s loop)",
-    "src": "animations/ai-aggregator-chat-tour/",
-    "thumb": "assets/shots/ai-aggregator-chat-tour.png"
-  },
-  {
-    "id": "ai-aggregator-tour-e4ddea16",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "the AI aggregator is here — frontend expands, superbot clicks through every agent chat on a 0.8s metronome, gradient title card, brand lockup (15s loop)",
-    "src": "animations/ai-aggregator-tour-e4ddea16/",
-    "thumb": "assets/shots/ai-aggregator-tour-e4ddea16.png"
-  },
-  {
     "id": "gpt-refusal-superbot-824cef28",
     "type": "animation",
     "group": "Ad spots",

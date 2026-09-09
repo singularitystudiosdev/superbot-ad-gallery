@@ -70,7 +70,7 @@
               border: 1px solid var(--line); display: flex; align-items: center; gap: 8px;
               box-shadow: 0 8px 22px rgba(0,0,0,.5); }
   .org.chip i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
-  .org.chip b { font-size: 17px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+  .org.chip b { font-size: 16px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
   .gframe { position: absolute; border-radius: 30px; border: 2px solid transparent;
             background: linear-gradient(rgba(16,16,22,.78), rgba(16,16,22,.78)) padding-box,
                         linear-gradient(120deg, #2b6bff, #6a1fd8 45%, #c026d3 75%, #ff3d9a) border-box;
@@ -331,30 +331,51 @@ ICONS.forEach((ic) => ORG.push({ kind: 'tile', icon: ic, grp: ic.grp }));
 CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
 {
   const groups = {
-    editors: { x0: 96, y0: 128, cols: 5, label: 'editors & builders', lx: 96, ly: 88,
-               frame: { x: 70, y: 74, w: 544, h: 268 } },
-    agents: { x0: 1434, y0: 128, cols: 4, label: 'agents', lx: 1434, ly: 88,
-              frame: { x: 1408, y: 74, w: 442, h: 268 } },
-    skills: { x0: 96, y0: 650, cols: 3, cw: 244, ch: 56, cgap: 10, label: 'skills', lx: 96, ly: 598,
-              frame: { x: 70, y: 584, w: 768, h: 448 } },
-    mcp: { x0: 1190, y0: 650, cols: 3, cw: 200, ch: 56, cgap: 14, label: 'mcp', lx: 1190, ly: 598,
-           frame: { x: 1164, y: 584, w: 660, h: 220 } },
+    editors: { x0: 96, y0: 128, cols: 5, ch: CELL, cgap: GAP, label: 'editors & builders', lx: 96, ly: 88 },
+    agents: { x0: 1434, y0: 128, cols: 4, ch: CELL, cgap: GAP, label: 'agents', lx: 1434, ly: 88 },
+    skills: { x0: 96, y0: 650, cols: 3, ch: 56, cgap: 10, label: 'skills', lx: 96, ly: 598 },
+    mcp: { x0: 1190, y0: 650, cols: 3, ch: 56, cgap: 14, label: 'mcp', lx: 1190, ly: 598 },
   };
+  const FPAD = 26;      // even padding between the grid and its frame edge
+  // build first, measure, then lay out to the measured cell widths — frames hug
+  // the real extents, so nothing clips and no column trails dead space
+  for (const o of ORG) {
+    const el = document.createElement('div');
+    el.className = 'org ' + (o.kind === 'tile' ? 'tile' : 'chip');
+    el.innerHTML = o.kind === 'tile'
+      ? `<img src="${o.icon.src}" alt="" draggable="false">`
+      : `<i style="background:${o.chip.color}"></i><b>${o.chip.text}</b>`;
+    if (o.kind === 'tile') { el.style.width = CELL + 'px'; el.style.height = CELL + 'px'; }
+    orgLayer.appendChild(el);
+    const r = el.getBoundingClientRect();
+    o.el = el; o.nw = r.width; o.w = r.width; o.h = o.kind === 'chip' ? 56 : r.height;
+    o.rot = (rng() - 0.5) * 28;
+  }
+  // cell width per group = its widest item; every chip stretches to fill the column
+  for (const key of Object.keys(groups)) {
+    const g = groups[key];
+    g.cw = Math.max(...ORG.filter(o => o.grp === key).map(o => o.nw));
+  }
   const counts = { editors: 0, agents: 0, skills: 0, mcp: 0 };
   for (const o of ORG) {
     const g = groups[o.grp], k = counts[o.grp]++;
     const col = k % g.cols, row = Math.floor(k / g.cols);
-    o.x = g.x0 + col * ((g.cw || CELL) + (g.cgap || GAP));
-    o.y = g.y0 + row * ((g.ch || CELL) + (g.cgap || GAP));
+    o.x = g.x0 + col * (g.cw + g.cgap);
+    o.y = g.y0 + row * (g.ch + g.cgap);
+    if (o.kind === 'chip') { o.el.style.width = g.cw + 'px'; o.w = g.cw; }
     o.g = g;
   }
-  // label elements
+  // frames + labels: frame bbox = laid-out grid extents with even padding
   for (const key of Object.keys(groups)) {
     const g = groups[key];
+    const members = ORG.filter(o => o.grp === key);
+    const right = Math.max(...members.map(o => o.x + o.w));
+    const bottom = Math.max(...members.map(o => o.y + o.h));
     const fr = document.createElement('div');
     fr.className = 'gframe';
-    fr.style.left = g.frame.x + 'px'; fr.style.top = g.frame.y + 'px';
-    fr.style.width = g.frame.w + 'px'; fr.style.height = g.frame.h + 'px';
+    fr.style.left = (g.x0 - FPAD) + 'px'; fr.style.top = (g.ly - 14) + 'px';
+    fr.style.width = (right - g.x0 + 2 * FPAD) + 'px';
+    fr.style.height = (bottom + FPAD - (g.ly - 14)) + 'px';
     orgLayer.appendChild(fr);
     g.frameEl = fr;
     const el = document.createElement('div');
@@ -373,18 +394,6 @@ CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
   });
   for (const key of Object.keys(groups)) groups[key].labelAt = first[key] + 0.72;
   ORG.groups = groups;
-}
-for (const o of ORG) {
-  const el = document.createElement('div');
-  el.className = 'org ' + (o.kind === 'tile' ? 'tile' : 'chip');
-  el.innerHTML = o.kind === 'tile'
-    ? `<img src="${o.icon.src}" alt="" draggable="false">`
-    : `<i style="background:${o.chip.color}"></i><b>${o.chip.text}</b>`;
-  if (o.kind === 'tile') { el.style.width = CELL + 'px'; el.style.height = CELL + 'px'; }
-  orgLayer.appendChild(el);
-  const r = el.getBoundingClientRect();
-  o.el = el; o.w = r.width; o.h = o.kind === 'chip' ? 56 : r.height;
-  o.rot = (rng() - 0.5) * 28;
 }
 
 // ---------- elements ----------

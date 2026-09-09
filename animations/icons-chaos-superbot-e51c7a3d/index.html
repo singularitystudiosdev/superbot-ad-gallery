@@ -11,7 +11,8 @@
      3. 0.3s hold, then the farthest-first suck; duplicate icons visibly converge on
         their twin first (92 in -> 41 out is the dedupe, which is the pitch)
      4. gulp, the mark settles as a center hub, and it spits everything back out
-        organized ~0.7s later: EDITORS & BUILDERS, AGENTS, SKILLS, MCP
+        organized ~0.7s later: EDITORS & BUILDERS, AGENTS, SKILLS, MCP — each group
+        inside its own storm-gradient-outline frame with a light drop shadow
      5. hard cut to "Your agent, for your agents"
      6. end screen: same sequence as the urgent-email-slow ad
      Loop 13.8s @ 30fps, ?t=<s> seek-hold (frame capture), ?play=1 seek+run. -->
@@ -70,6 +71,11 @@
               box-shadow: 0 8px 22px rgba(0,0,0,.5); }
   .org.chip i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
   .org.chip b { font-size: 17px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+  .gframe { position: absolute; border-radius: 30px; border: 2px solid transparent;
+            background: linear-gradient(rgba(16,16,22,.78), rgba(16,16,22,.78)) padding-box,
+                        linear-gradient(120deg, #2b6bff, #6a1fd8 45%, #c026d3 75%, #ff3d9a) border-box;
+            box-shadow: 0 16px 36px rgba(0,0,0,.5), 0 2px 18px rgba(106,31,216,.18);
+            opacity: 0; will-change: opacity; }
   .glabel { position: absolute; font-size: 20px; font-weight: 600; letter-spacing: .04em;
             text-transform: uppercase; color: var(--muted); opacity: 0; z-index: 25;
             will-change: transform, opacity; }
@@ -325,10 +331,14 @@ ICONS.forEach((ic) => ORG.push({ kind: 'tile', icon: ic, grp: ic.grp }));
 CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
 {
   const groups = {
-    editors: { x0: 96, y0: 128, cols: 5, label: 'editors & builders', lx: 96, ly: 88 },
-    agents: { x0: 1434, y0: 128, cols: 4, label: 'agents', lx: 1434, ly: 88 },
-    skills: { x0: 96, y0: 660, cols: 3, cw: 244, ch: 56, cgap: 10, label: 'skills', lx: 96, ly: 620 },
-    mcp: { x0: 1604, y0: 660, cols: 1, cw: 220, ch: 56, cgap: 10, label: 'mcp', lx: 1604, ly: 620 },
+    editors: { x0: 96, y0: 128, cols: 5, label: 'editors & builders', lx: 96, ly: 88,
+               frame: { x: 70, y: 74, w: 544, h: 268 } },
+    agents: { x0: 1434, y0: 128, cols: 4, label: 'agents', lx: 1434, ly: 88,
+              frame: { x: 1408, y: 74, w: 442, h: 268 } },
+    skills: { x0: 96, y0: 650, cols: 3, cw: 244, ch: 56, cgap: 10, label: 'skills', lx: 96, ly: 598,
+              frame: { x: 70, y: 584, w: 768, h: 448 } },
+    mcp: { x0: 1190, y0: 650, cols: 3, cw: 200, ch: 56, cgap: 14, label: 'mcp', lx: 1190, ly: 598,
+           frame: { x: 1164, y: 584, w: 660, h: 220 } },
   };
   const counts = { editors: 0, agents: 0, skills: 0, mcp: 0 };
   for (const o of ORG) {
@@ -341,6 +351,12 @@ CHIPS.forEach((ch) => ORG.push({ kind: 'chip', chip: ch, grp: ch.grp }));
   // label elements
   for (const key of Object.keys(groups)) {
     const g = groups[key];
+    const fr = document.createElement('div');
+    fr.className = 'gframe';
+    fr.style.left = g.frame.x + 'px'; fr.style.top = g.frame.y + 'px';
+    fr.style.width = g.frame.w + 'px'; fr.style.height = g.frame.h + 'px';
+    orgLayer.appendChild(fr);
+    g.frameEl = fr;
     const el = document.createElement('div');
     el.className = 'glabel';
     el.textContent = g.label;
@@ -452,6 +468,7 @@ function render(t) {
   }
   for (const key of Object.keys(ORG.groups)) {
     const g = ORG.groups[key], lp = seg(t, g.labelAt, g.labelAt + 0.4);
+    op(g.frameEl, lp);
     op(g.labelEl, lp); g.labelEl.style.transform = `translateY(${(lerp(8, 0, outQuint(lp))).toFixed(1)}px)`;
   }
 

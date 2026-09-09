@@ -34,27 +34,6 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 
 /* ---------- scene 1: the ChatGPT clone (designed at 1536x864, scaled 1.25) ---------- */
 #gpt { width: 1536px; height: 864px; transform: scale(1.25); transform-origin: 0 0; background: var(--gpt-main); font-family: var(--gpt-font); color: var(--gpt-text); display: grid; grid-template-columns: minmax(0, 1fr); }
-/* the frame is the conversation only (owner, 2026-09-09): no sidebar, no header — the column, the composer, the disclaimer */
-#gpt .g-side, #gpt .g-head { display: none; }
-.g-side { background: var(--gpt-side); display: flex; flex-direction: column; padding: 10px 8px; font-size: 14px; color: var(--gpt-text); }
-.g-side .top { display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 0 8px 0 6px; margin-bottom: 8px; }
-.g-side .top svg { width: 22px; height: 22px; }
-.g-side .top .col { width: 18px; height: 18px; color: var(--gpt-text-3); }
-.g-row { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.g-row svg { flex: none; width: 18px; height: 18px; }
-.g-row.act { background: #2f2f2f; }
-.g-cap { color: var(--gpt-text-3); font-size: 12px; padding: 18px 10px 6px; }
-.g-row.chat { color: var(--gpt-text); font-size: 14px; }
-.g-side .bot { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; }
-.g-side .bot .av { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #7c5cff, #2b6bff); display: grid; place-items: center; font-weight: 600; font-size: 12px; color: #fff; }
-.g-side .bot small { display: block; color: var(--gpt-text-3); font-size: 12px; }
-.g-main { position: relative; display: flex; flex-direction: column; min-width: 0; }
-.g-head { display: flex; align-items: center; height: 56px; padding: 0 16px; font-size: 18px; font-weight: 600; }
-.g-head .chev { width: 16px; height: 16px; margin-left: 6px; color: var(--gpt-text-3); }
-.g-head .right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-.g-head .share { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--gpt-border); font-size: 14px; font-weight: 500; }
-.g-head .share svg { width: 16px; height: 16px; }
-.g-head .av { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #7c5cff, #2b6bff); display: grid; place-items: center; font-weight: 600; font-size: 13px; color: #fff; }
 .g-thread { flex: 1; min-height: 0; overflow: hidden; position: relative; }
 .g-col { position: absolute; left: 50%; top: 0; width: 768px; margin-left: -384px; padding: 20px 20px 0; }
 .g-user { display: flex; justify-content: flex-end; margin: 12px 0 28px; }
@@ -95,40 +74,20 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 /* ---------- the cursor ---------- */
 #cursor { position: absolute; left: 0; top: 0; width: 34px; height: 44px; z-index: 40; opacity: 0; filter: drop-shadow(0 3px 6px rgba(0,0,0,.5)); }
 
-/* ---------- scene 2: the superbot.gg site, then the hub zooms to full frame ---------- */
+/* ---------- scene 2: the app window, 1:1 the site's held stage (site/index.html #stage, hub docked beside the phone) ---------- */
 #site { background: #000; }
-#site-in { position: absolute; inset: 0; transform-origin: 0 0; }
-.sb-header { position: absolute; left: 0; right: 0; top: 0; height: 86px; border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 84px; }
-.sb-word { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: #fff; }
-.sb-word img { width: 28px; height: 28px; }
-.sb-nav { margin-left: auto; display: flex; align-items: center; gap: 30px; font-size: 20px; color: var(--muted); }
-.sb-nav .pill { padding: 10px 20px; border-radius: 999px; background: var(--storm-action); color: #fff; font-weight: 700; }
-.lockup { position: absolute; left: 0; right: 0; top: 118px; display: flex; align-items: center; justify-content: center; gap: 30px; }
-.lockup svg.face { width: 120px; height: 120px; overflow: visible; }
-.lockup h1 { margin: 0; font-size: 72px; font-weight: 800; letter-spacing: -.025em; line-height: 1; color: #fff; }
-.lockup p { margin: 8px 0 0; font-size: 24px; color: var(--muted); font-weight: 500; }
-.dots { position: absolute; inset: 0; pointer-events: none; color: #2a2a2a; font: 22px/1 var(--mono); }
-.dots span { position: absolute; }
-/* the stage window at 1200x675 so a 1.6x zoom lands on 1920x1080 exactly */
-.win { position: absolute; left: 360px; top: 330px; width: 1200px; height: 675px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: 28px minmax(0, 1fr); box-shadow: 0 14px 28px rgba(0,0,0,.24); }
+/* the stage is designed at 1200x675 (the site's own pitch) and shown at 1.6x so it fills 1920x1080 exactly */
+#site-in { position: absolute; left: 0; top: 0; width: 1200px; height: 675px; transform: scale(1.6); transform-origin: 0 0; }
+.win { position: absolute; inset: 0; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: 28px minmax(0, 1fr); }
 .win-bar { display: flex; align-items: center; gap: 6px; padding: 0 12px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
 .win-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
 .win-bar span { margin-left: 8px; }
 .win-bar .led { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
 .win-bar .led.on { background: var(--storm-1); box-shadow: 0 0 8px var(--storm-1); }
 .win-body { position: relative; overflow: hidden; }
-.margin { position: absolute; left: 0; top: 0; bottom: 0; width: 300px; padding: 14px 16px; border-right: 1px solid var(--line); font: 12px/18px var(--mono); color: var(--muted); white-space: pre; }
-.margin .ln { display: block; }
-.margin .ln.cmd { color: var(--fg); }
-.margin .ln.kv { color: var(--secondary); }
-.margin .ln.ok { color: var(--ok); }
-.margin .ln b { color: var(--fg); font-weight: 700; }
-.margin .caret { display: inline-block; width: 7px; height: 13px; background: var(--fg); vertical-align: -2px; }
-.ascii { position: absolute; left: 300px; right: 0; top: 0; bottom: 0; display: grid; place-items: center; font: 28px/28px var(--mono); color: #fff; white-space: pre; text-align: left; }
-.ascii .row { display: block; height: 28px; }
 
 /* the hub: the app's own layout (rail 64 / sidebar 200 / chat lane), from site/index.html + hub-boot-3.css */
-.hub { position: absolute; inset: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 64px 200px minmax(0, 1fr); font: 11px/15px var(--ui); color: var(--fg); transform-origin: 50% 50%; }
+.hub { position: absolute; inset: 8px; right: calc(24% + 20px); background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 64px 200px minmax(0, 1fr); font: 11px/15px var(--ui); color: var(--fg); transform-origin: 50% 50%; }
 .hub > * { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
 .rail { background: var(--bg); border-right: 1px solid var(--line); align-items: center; padding: 8px 0; gap: 4px; }
 .rail-item { position: relative; flex: none; width: 44px; height: 44px; border-radius: 14px; background: var(--raised); display: grid; place-items: center; color: var(--fg); }
@@ -202,6 +161,23 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .code pre { margin: 0; padding: 7px 10px; font: 10.5px/15px var(--mono); color: var(--fg); white-space: pre; }
 .code pre .l { display: block; clip-path: inset(0 100% 0 0); }
 .code pre .k { color: #c084fc; } .code pre .s { color: #6ee7b7; } .code pre .c { color: var(--muted); } .code pre .f { color: #7dd3fc; }
+/* the phone beside the hub: the site's docked mobile thread (site/index.html #phone) */
+.phone { position: absolute; right: 8px; top: 8px; bottom: 8px; width: 24%; background: #000; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; font: 11px/15px var(--ui); color: var(--fg); display: flex; flex-direction: column; padding: 10px 12px 8px; }
+.ph-status { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); padding: 0 4px; }
+.ph-head { display: flex; align-items: center; gap: 8px; padding: 10px 0 8px; font-weight: 700; font-size: 12px; }
+.ph-head .g { width: 14px; height: 14px; border-radius: 50%; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); font: 400 10px/1 var(--ui); font-style: normal; }
+.ph-head .g + .g { margin-left: 0; }
+.ph-head .g.r { margin-left: auto; border-radius: 4px; }
+.ph-head .sync { position: absolute; right: 16px; top: 12px; color: var(--storm-1); font-size: 9px; font-weight: 500; }
+.ph-div { text-align: center; color: var(--muted); font-size: 10px; padding: 6px 0 8px; }
+.ph-turn { font-size: 11px; line-height: 15px; margin-bottom: 8px; }
+.ph-composer { margin-top: auto; display: flex; align-items: center; gap: 8px; }
+.ph-ring { flex: 1; padding: 1px; border-radius: 999px; background: var(--storm); }
+.ph-pill { display: flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 999px; background: #000; color: var(--muted); font-size: 10px; line-height: 22px; }
+.ph-pill i { font-style: normal; color: var(--fg); }
+.ph-pill em { margin-left: auto; font-style: normal; font-size: 8px; }
+.ph-send { width: 22px; height: 22px; border-radius: 50%; background: var(--storm-1); }
+.ph-home { align-self: center; width: 70px; height: 3px; border-radius: 2px; background: var(--line); margin-top: 6px; }
 .composer { flex: none; margin: 6px 12px 10px; }
 .composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
 .composer .plus { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font: 650 11px/16px var(--mono); color: var(--fg); }
@@ -253,24 +229,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 
   <!-- ============ scene 1: ChatGPT ============ -->
   <section class="scene" id="gpt" aria-label="ChatGPT refuses">
-    <aside class="g-side">
-      <div class="top"><svg viewBox="0 0 2406 2406" fill="#fff"><use href="#ic-openai"/></svg><svg class="col" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg></div>
-      <div class="g-row act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L13 14l-4 1 1-4Z"/></svg>New chat</div>
-      <div class="g-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>Search chats</div>
-      <div class="g-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>Library</div>
-      <div class="g-cap">Chats</div>
-      <div class="g-row chat">Weekend trip to Lisbon</div>
-      <div class="g-row chat">Fix python import error</div>
-      <div class="g-row chat">Email to landlord draft</div>
-      <div class="g-row chat">Regex for phone numbers</div>
-      <div class="g-row chat">Explain transformers simply</div>
-      <div class="g-row chat">Recipe: 20 min dinner</div>
-      <div class="bot"><span class="av">D</span><span><b>Dev</b><small>Plus</small></span></div>
-    </aside>
     <div class="g-main">
-      <div class="g-head">ChatGPT<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        <div class="right"><span class="share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/></svg>Share</span><span class="av">D</span></div>
-      </div>
       <div class="g-thread">
         <div class="g-col" id="g-col">
           <div class="g-user" id="g-user"><div class="bub" id="g-bub">Make a scraper for reddit</div></div>
@@ -301,17 +260,9 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   <!-- ============ scene 2: superbot.gg loads, then the hub ============ -->
   <section class="scene" id="site" aria-label="superbot writes it">
     <div id="site-in">
-      <div class="dots" id="dots"></div>
-      <header class="sb-header"><span class="sb-word"><img src="assets/mark-clean.svg" alt=""/>superbot.gg</span><nav class="sb-nav"><span>benchmarks</span><span>log in</span><span class="pill">Install Now</span></nav></header>
-      <div class="lockup" id="lockup">
-        <svg class="face" viewBox="0 0 100 100" aria-hidden="true"><rect class="ga" x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#face)" transform="translate(-1.2 -1.2)"/><rect class="gb" x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#face)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#face)"/></svg>
-        <div><h1>superbot.gg</h1><p>the agent to manage your agents.</p></div>
-      </div>
       <div class="win" id="win">
-        <div class="win-bar"><i></i><i></i><i></i><span>superbot</span><em class="led" id="led"></em></div>
+        <div class="win-bar"><i></i><i></i><i></i><span>superbot</span><em class="led on"></em></div>
         <div class="win-body">
-          <div class="margin" id="margin"></div>
-          <div class="ascii" id="ascii"></div>
           <div class="hub" id="hub">
             <nav class="rail">
               <span class="rail-item sb sel"><img src="assets/tile.svg" alt=""/></span>
@@ -357,6 +308,15 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
               <div class="composer"><div class="pill"><span class="plus">+</span><span class="ph">How can superbot help you today?</span><span class="picker">superbot ▾</span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
             </div>
           </div>
+          <div class="phone" aria-hidden="true">
+            <div class="ph-status"><span>9:41</span></div>
+            <div class="ph-head"><i class="g">‹</i><b># superbot</b><i class="g r">▤</i><i class="g">▦</i><span class="sync">synced</span></div>
+            <div class="ph-div">Today</div>
+            <div class="ph-turn">your ChatGPT, Claude, Gemini and Cursor are all wired in. one window, every agent.</div>
+            <div class="ph-turn">and the same chat is here. one copy, every device.</div>
+            <div class="ph-composer"><span class="ph-ring"><span class="ph-pill"><i>+</i>Ask Superbot anything<em>Platforms</em></span></span><span class="ph-send"></span></div>
+            <div class="ph-home"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -387,7 +347,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 // function of its number), so seeking (`?t=9.4`) or capturing any frame yields
 // the same picture. The skeleton is the site's own hub-boot.js: seg() windows,
 // pure tweens, no timers. Frame-indexed at 30fps so preview and capture agree.
-const FPS = 30, LOOP = 27.0;
+const FPS = 30, LOOP = 24.8;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -404,11 +364,10 @@ const B = {
   think: 2.5, reply: 3.1,                        // "Thinking", then the refusal streams (and never stops)
   popup: 5.2,                                    // the rescue popup, bottom-right
   curIn: 8.0, curAt: 9.1, press: 9.35, release: 9.5, // the cursor arrives, presses the chat bubble (scale .95)
-  dip: 9.85, site: 10.1,                         // dip to black, the site loads
-  boot: 10.3, hub: 11.7, zoomA: 12.1, zoomB: 12.8, // terminal boots the face, the hub appears, the window zooms to full frame
-  ask: 12.95, reply2: 13.5, code: 14.1, codeLine: 0.16, // the ask, the answer, the code wipes in line by line
-  cur2In: 17.4, cur2At: 18.3, press2: 18.5, copied: 18.65, // the cursor hits Copy (the card holds ~4s first)
-  cardA: 19.6, cardB: 21.4, end: 23.2, word: 24.0, // the cards, then the end card
+  dip: 9.85, site: 10.1,                         // dip to black, the app window is simply there (owner: no boot, no zoom)
+  ask: 10.7, reply2: 11.25, code: 11.85, codeLine: 0.16, // the ask, the answer, the code wipes in line by line
+  cur2In: 15.2, cur2At: 16.1, press2: 16.3, copied: 16.45, // the cursor hits Copy (the card holds ~4s first)
+  cardA: 17.4, cardB: 19.2, end: 21.0, word: 21.8, // the cards, then the end card
 };
 
 // ---------- copy ----------
@@ -462,51 +421,17 @@ const gpt = $('gpt'), gPh = $('g-ph'), gSend = $('g-send'), gSendUp = $('g-send-
 const gUser = $('g-user'), gAi = $('g-ai'), gThink = $('g-think'), gText = $('g-text'), gCur = $('g-cur'), gCol = $('g-col');
 const gThread = gCol.parentElement;
 const popup = $('popup'), chatbtn = $('chatbtn');
-const site = $('site'), siteIn = $('site-in'), lockup = $('lockup'), win = $('win'), led = $('led');
-const margin = $('margin'), ascii = $('ascii'), hub = $('hub');
+const site = $('site'), hub = $('hub');
 const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text'), hCode = $('h-code'), hPre = $('h-pre'), hCopy = $('h-copy'), hCopyT = $('h-copy-t');
 const card = $('card'), cardA = $('card-a'), cardB = $('card-b');
 const end = $('end'), endFace = $('end-face'), endSlide = $('end-slide');
 
 // ---------- static builds ----------
-{ // the site's scattered glyphs (ascii-bg's still)
-  const glyphs = ['+', '*', '·', '✱', '·', '+', '·'];
-  let html = '';
-  for (let i = 0; i < 26; i++) html += `<span style="left:${(rnd(i, 1) * 1920).toFixed(0)}px;top:${(rnd(i, 2) * 1080).toFixed(0)}px">${glyphs[i % glyphs.length]}</span>`;
-  $('dots').innerHTML = html;
-}
 { // the code card, highlighted once; each line reveals by clip-path in render()
   hPre.innerHTML = CODE.map((runs) => `<span class="l">${runs.map(([c, s]) => c ? `<span class="${c}">${esc(s)}</span>` : esc(s)).join('') || ' '}</span>`).join('');
 }
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 const codeLines = [...hPre.querySelectorAll('.l')];
-// the face that boots in the terminal margin: the brand mask as block glyphs
-const FACE = [
-  '  ##            ##  ',
-  '  ####        ####  ',
-  '  ################  ',
-  ' ################## ',
-  ' ####  ######  #### ',
-  ' ####  ######  #### ',
-  ' ################## ',
-  ' ################## ',
-  '  ################  ',
-  '   ##############   ',
-];
-ascii.innerHTML = FACE.map((r) => `<span class="row">${r}</span>`).join('');
-const faceRows = [...ascii.querySelectorAll('.row')];
-// the terminal transcript (hub-boot.js's own lines)
-const LOG = [
-  { at: 10.3, text: '$ superbot install', cls: 'cmd', type: 0.5 },
-  { at: 10.9, text: 'scanning your machine, one sec...', cls: '' },
-  { at: 11.05, text: 'apps             6', cls: 'kv' },
-  { at: 11.15, text: 'mcp servers     14', cls: 'kv' },
-  { at: 11.25, text: 'rules           32', cls: 'kv' },
-  { at: 11.35, text: 'auth sessions    3', cls: 'kv' },
-  { at: 11.5, text: '✓ aggregated in 1.2s', cls: 'ok' },
-  { at: 11.6, text: '✓ opening the hub', cls: 'ok' },
-];
-
 // ---------- style helpers (transform/opacity only) ----------
 const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
 const tf = (el, x, y, s = 1) => { el.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) scale(${s.toFixed(4)})`; };
@@ -588,30 +513,8 @@ function renderGpt(t) {
 }
 
 function renderSite(t) {
-  // the page settles in; the window zooms from the site layout to full frame
-  const z = inOut(seg(t, B.zoomA, B.zoomB)), s = lerp(1, 1.6, z);
-  // origin 0 0: a stage point p lands at s*p + translate, so the window's corner (360,330) lands at (0,0) when the zoom completes
-  siteIn.style.transform = `translate(${(-360 * 1.6 * z).toFixed(2)}px, ${(-330 * 1.6 * z).toFixed(2)}px) scale(${s.toFixed(4)})`;
-  // header + lockup + dots fade during the zoom (the window is the whole frame after it)
-  const ui = 1 - z;
-  op(lockup, ui); op($('dots'), ui); op(site.querySelector('.sb-header'), ui);
-  led.className = 'led' + (t >= B.boot ? ' on' : '');
-  // the terminal margin logs, then collapses when the hub opens
-  let html = '';
-  for (const l of LOG) {
-    if (t < l.at) break;
-    const text = l.type ? l.text.slice(0, Math.ceil(seg(t, l.at, l.at + l.type) * l.text.length)) : l.text;
-    html += `<span class="ln ${l.cls}">${esc(l.cls === 'kv' ? text.replace(/(\d+)$/, '') : text)}${l.cls === 'kv' ? '<b>' + text.match(/\d+$/)[0] + '</b>' : ''}</span>`;
-  }
-  html += '<span class="caret"></span>';
-  if (margin.innerHTML !== html) margin.innerHTML = html;
-  const hubIn = seg(t, B.hub, B.hub + 0.4);
-  // the terminal is gone before the hub is half in, so nothing ghosts through it
-  op(margin, 1 - seg(t, B.hub, B.hub + 0.08)); op(ascii, 1 - seg(t, B.hub, B.hub + 0.08));
-  // the face boots up row by row out of the terminal
-  faceRows.forEach((r, i) => op(r, seg(t, B.boot + 0.35 + i * 0.05, B.boot + 0.5 + i * 0.05)));
-  // the hub springs in
-  op(hub, hubIn); hub.style.transform = `scale(${lerp(0.96, 1, outBack(hubIn)).toFixed(4)})`;
+  // the click opens the app window directly (owner, 2026-09-09): no boot, no zoom
+  op(hub, 1); hub.style.transform = '';
   // the ask, then superbot's line, then the code
   const au = seg(t, B.ask, B.ask + 0.25); op(hUser, au); hUser.style.transform = `translateY(${((1 - outCubic(au)) * 6).toFixed(1)}px)`;
   const bo = seg(t, B.reply2, B.reply2 + 0.25); op(hBot, bo); hBot.style.transform = `translateY(${((1 - outCubic(bo)) * 6).toFixed(1)}px)`;
@@ -624,7 +527,7 @@ function renderSite(t) {
   hCopy.style.transform = `scale(${(1 - 0.06 * press).toFixed(3)})`;
   hCopy.className = 'copy' + (t >= B.copied ? ' done' : '');
   hCopyT.textContent = t >= B.copied ? 'Copied' : 'Copy';
-  if (t >= B.zoomB && !copyMeasured) { measureCopy(); copyMeasured = true; }
+  if (!copyMeasured) { measureCopy(); copyMeasured = true; }
 }
 
 function renderCard(t) {
@@ -683,7 +586,7 @@ function frame(now) {
 }
 // warm the popup/copy geometry: render the frames those clicks happen in once, invisibly
 render(B.popup + 0.5); measure();
-render(B.zoomB + 0.05); measureCopy(); copyMeasured = true;
+render(B.site + 0.05); measureCopy(); copyMeasured = true;
 if (reduced) { render(B.word + 1); }
 else if (seekTo !== null && !q.has('play')) { render(Math.floor(seekTo * FPS) / FPS); }
 else requestAnimationFrame(frame);

@@ -3,9 +3,17 @@
     "id": "icons-chaos-slam-superbot-544078ab",
     "type": "animation",
     "group": "Ad spots",
-    "title": "SKILL.md and mcp.json chaos — 84 agent files + 36 app icons bounce like a dvd screensaver, superbot slams in, sucks them in, spits out organized lists, \"Your agent, for your agents\" (13.4s loop)",
+    "title": "skill chips + real app icons chaos — 65 filename bubbles (scraper.md, inbox-triage.md…) + 55 real brand tiles (chatgpt, claude, devin, cursor, hermes, vscode, warp…) bounce like a dvd screensaver, superbot slams in, sucks them in, spits out organized lists, \"Your agent, for your agents\" (13.4s loop)",
     "src": "animations/icons-chaos-slam-superbot-544078ab/",
     "thumb": "assets/shots/icons-chaos-slam-superbot-544078ab.png"
+  },
+  {
+    "id": "icons-chaos-superbot-e51c7a3d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "icons chaos — 92 apps and skills bounce like a dvd screensaver, superbot slams in, sucks them in, spits them out organized into framed groups (13.8s loop)",
+    "src": "animations/icons-chaos-superbot-e51c7a3d/",
+    "thumb": "assets/shots/icons-chaos-superbot-e51c7a3d.png"
   },
   {
     "id": "gpt-refusal-superbot-824cef28",

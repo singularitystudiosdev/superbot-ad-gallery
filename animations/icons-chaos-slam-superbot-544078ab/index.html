@@ -28,21 +28,23 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 /* ---------- scene 1: the chaos field, the slam, the lists ---------- */
 #chaos { background: #000; }
 
-/* the DVD-bounce icons: rounded app tiles from the site's rail, glyph centered.
-   will-change only on the animating sprites — never on the static text rows. */
+/* the DVD-bounce icons: the real brand tiles — full-bleed artwork on black,
+   border only (the grey card fill is gone). will-change only on the sprites. */
 .app { position: absolute; left: 0; top: 0; display: grid; place-items: center;
-  background: var(--card); border: 1px solid var(--line); border-radius: 24%;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 30px rgba(0,0,0,.55);
+  background: #000; border: 1px solid var(--line); border-radius: 24%;
+  box-shadow: 0 10px 30px rgba(0,0,0,.55);
   will-change: transform, opacity; }
 .app img { width: 100%; height: 100%; display: block; border-radius: 24%; }
 .app svg { width: 62%; height: 62%; color: var(--secondary); fill: currentColor; }
 
-/* the agent-artifact files: desktop-file chips — doc glyph over the filename.
-   the glyph is pixel-sized from JS: percentage sizing inside this flex column
-   lets flex-shrink collapse the svg to zero height */
-.app.doc { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border-radius: 14%; padding-top: 4%; }
-.app.doc svg { flex: none; }
-.app.doc span { font-weight: 600; color: var(--secondary); white-space: nowrap; }
+/* the agent's skills: chips like the client's reference — dark pill, colored
+   dot, white filename. dot hue follows the extension. width measured after
+   insert (system font, so it's stable). */
+.app.doc { display: flex; align-items: center; gap: .45em;
+  background: #1d1d1f; border: 1px solid #2c2c2e; border-radius: 999px; padding: 0 .8em; }
+.app.doc::before { content: ''; width: .3em; height: .3em; border-radius: 50%;
+  background: var(--dot, var(--storm-0)); flex: none; }
+.app.doc span { font-weight: 700; color: #fff; white-space: nowrap; }
 
 /* the slam: the tile carries the flip; the ring and flash carry the impact */
 #tile { position: absolute; left: 50%; top: 50%; width: 260px; height: 260px; margin: -130px 0 0 -130px;
@@ -198,15 +200,14 @@ const B = {
 const W = 1920, H = 1080, CX = W / 2, CY = H / 2;
 
 // ---------- the icon registry (the site's rail + the sibling ads' assets) ----------
-const GLYPHS = ['openai', 'claude', 'gemini', 'cursor', 'copilot', 'terminal', 'git', 'layers', 'tool', 'db', 'code'];
-const PNGS = [['devin', 'assets/devin.png'], ['grok', 'assets/grok.png'], ['hermes', 'assets/hermes.png']];
-// the agent's own scattered artifacts — the mess the slam resolves
-const FILES = [
-  ['SKILL.md', 'md'], ['.mcp.json', 'json'], ['agents.md', 'md'], ['rules.mdc', 'md'],
-  ['prompt.md', 'md'], ['workflow.json', 'json'], ['talent.ts', 'filecode'],
-  ['CLAUDE.md', 'md'], ['subagent.md', 'md'], ['server.mcp', 'json'],
-];
-const TYPES = [...GLYPHS, ...PNGS.map((p) => p[0])];
+// real brand artwork, straight from the site hero's own registry (sphere-intro's tiles)
+const BRANDS = ['chatgpt.webp', 'claude.png', 'gemini-app-icon.png', 'cursor.png', 'copilot.svg',
+  'devin.png', 'grok.png', 'hermes.png', 'kiro.ico', 'replit.png', 'lovable.png',
+  'jetbrains.png', 'bolt.png', 'base44.png', 'v0.svg', 'vscode.png', 'warp.png'];
+// the agent's own scattered skills — the mess the slam resolves
+const FILES = ['SKILL.md', '.mcp.json', 'agents.md', 'rules.mdc', 'CLAUDE.md', 'subagent.md',
+  'prompt.md', 'workflow.json', 'talent.ts', 'server.mcp', 'scraper.md', 'release-notes.md',
+  'inbox-triage.md', 'deploy-approval.md'];
 const N = 120;
 
 // seeded RNG so the field is identical on every load (seek == playback)
@@ -224,15 +225,13 @@ const rng = mulberry32(0x544078ab);
 const frac = (v) => v - Math.floor(v);
 const icons = [];
 for (let i = 0; i < N; i++) {
-  const isFile = rng() < 0.72;                                     // mostly files, some apps
+  const isFile = rng() < 0.55;                                     // half bubbles, half real apps
   const file = FILES[Math.floor(rng() * FILES.length)];
-  const type = isFile ? file[0] : TYPES[Math.floor(rng() * TYPES.length)];
-  const isPng = !isFile && PNGS.some((p) => p[0] === type);
+  const type = isFile ? file : BRANDS[Math.floor(rng() * BRANDS.length)];
   // depth tiers: big=near=fast is the parallax cue that turns 40 same sprites
   // into a pile; each tier bounces in its own fold box so tiers can't phase-lock
   const tier = rng() < 0.34 ? 0 : rng() < 0.5 ? 1 : 2;
   const s = [lerp(84, 96, rng()), lerp(64, 80, rng()), lerp(52, 62, rng())][tier];
-  const iw = isFile ? s * lerp(1.15, 1.45, rng()) : s;             // files run wide
   const speed = [lerp(300, 340, rng()), lerp(210, 260, rng()), lerp(140, 170, rng())][tier];
   const box = [[70, 1850, 110, 970], [110, 1810, 140, 940], [150, 1770, 170, 910]][tier];
   const fadeIn = lerp(1, 0.8, tier / 2);                       // the far tier sits back
@@ -247,14 +246,18 @@ for (let i = 0; i < N; i++) {
   const x0 = lerp(box[0] + 40, box[1] - 40, rng()), y0 = lerp(box[2] + 40, box[3] - 40, rng());
   const el = document.createElement('div');
   el.className = 'app' + (isFile ? ' doc' : '');
-  el.style.width = iw.toFixed(0) + 'px';
   el.style.height = s + 'px';
-  if (isFile) el.style.fontSize = (s * 0.18).toFixed(1) + 'px';
-  const gs = Math.round(s * 0.46);
-  el.innerHTML = isPng ? `<img src="${PNGS.find((p) => p[0] === type)[1]}" alt="">`
-    : isFile ? `<svg style="width:${gs}px;height:${gs}px;flex:none"><use href="#ic-${file[1]}"/></svg><span>${file[0]}</span>`
-    : `<svg><use href="#ic-${type}"/></svg>`;
+  if (isFile) {
+    el.style.fontSize = (s * 0.38).toFixed(1) + 'px';
+    // dot hue follows the extension, so the bubbles read differentiated
+    const ext = file.slice(file.lastIndexOf('.') + 1);
+    el.style.setProperty('--dot', { md: 'var(--storm-0)', json: 'var(--storm-1)', mdc: 'var(--storm-3)', ts: 'var(--storm-4)', mcp: 'var(--storm-2)' }[ext] || 'var(--storm-0)');
+  } else el.style.width = s + 'px';
+  el.innerHTML = isFile ? `<span>${file}</span>` : `<img src="assets/${type}" alt="">`;
   field.appendChild(el);
+  // bubbles size to their text: measure after insert (system font, stable);
+  // tiles are square
+  const iw = isFile ? Math.max(el.offsetWidth, s * 1.15) : s;
   icons.push({
     el, s, iw, box, fadeIn, spawnAt, x0, y0,
     vx: Math.cos(ang) * speed, vy: Math.sin(ang) * speed,

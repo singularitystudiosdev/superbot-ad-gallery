@@ -9,7 +9,8 @@
 <style>
   /* ============================================================
      scraper-bypass-chat — STORM cut. The same ad spot as
-     scraper-bypass-chat.1aa9395a.html (animation JS verbatim), re-skinned
+     scraper-bypass-chat.1aa9395a.html (animation JS lifted from it, with the
+     unused cursorClickAt helper dropped; every timing and offset kept), re-skinned
      to the superbot.gg site (singularitystudiosdev.github.io/cloned-xdxdxd):
        - page chrome: the site's header / hero lockup / window frame / footer
          (site.css + hero-6.css + hub-boot-3.css tokens, copied inline)
@@ -111,8 +112,9 @@
   .sb-glitch { flex: none; width: 96px; height: 96px; display: block; overflow: visible; }
   .sb-glitch-a { transform: translate(-1.2px, -1.2px); animation: sb-glitch-a 7s ease-in-out infinite; }
   .sb-glitch-b { transform: translate(1.2px, 1.2px); animation: sb-glitch-b 11s ease-in-out infinite; }
-  @keyframes sb-glitch-a { 0%, 100% { transform: translate(-1.2px, -1.2px); } 38% { transform: translate(-0.5px, -0.6px); } 70% { transform: translate(-2.2px, -1.8px); } }
-  @keyframes sb-glitch-b { 0%, 100% { transform: translate(1.2px, 1.2px); } 27% { transform: translate(0.6px, 0.5px); } 64% { transform: translate(2px, 2.2px); } }
+  /* the ghosts' breathing: hero-6.css's own keyframes, copied stop for stop */
+  @keyframes sb-glitch-a { 0%, 100% { transform: translate(-1.2px, -1.2px); } 38% { transform: translate(-0.5px, -0.6px); } 41% { transform: translate(-2.2px, -1px); } 44% { transform: translate(-1.2px, -1.2px); } 72% { transform: translate(-0.7px, -0.5px); } }
+  @keyframes sb-glitch-b { 0%, 100% { transform: translate(1.2px, 1.2px); } 27% { transform: translate(0.6px, 0.5px); } 61% { transform: translate(1.2px, 1.2px); } 63% { transform: translate(2px, 0.6px); } 66% { transform: translate(1.2px, 1.2px); } 84% { transform: translate(0.5px, 0.8px); } }
   .sb-words { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
   .sb-words h1 { font-size: 48px; line-height: 1; letter-spacing: -.025em; font-weight: 800; color: #fff; }
   .sb-words .tag { font-size: 15px; line-height: 1.2; color: var(--muted); font-weight: 500; }

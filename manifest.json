@@ -1,5 +1,13 @@
 [
   {
+    "id": "scraper-bypass-chat-storm",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "login walls? superbot can do it — storm cut (white mark, blue/purple/pink)",
+    "src": "animations/scraper-bypass-chat-storm/",
+    "thumb": "assets/shots/scraper-bypass-chat-storm.png"
+  },
+  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",

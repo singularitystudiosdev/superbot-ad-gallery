@@ -8,6 +8,14 @@
     "thumb": "assets/shots/gpt-refusal-superbot-824cef28.png"
   },
   {
+    "id": "urgent-email-slow-superbot-7c4a91b2",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "agents slow? superbot can do it — URGENT email, ChatGPT dribbles at 30 wpm, superbot writes the whole email with a fade typewriter, one-click copy (30.5s loop)",
+    "src": "animations/urgent-email-slow-superbot-7c4a91b2/",
+    "thumb": "assets/shots/urgent-email-slow-superbot-7c4a91b2.png"
+  },
+  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",

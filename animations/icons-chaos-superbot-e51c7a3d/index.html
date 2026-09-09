@@ -9,14 +9,11 @@
         center — drop, flip (fv-flip-icon-grow, exact curve), flash; items inside
         the pad get shoved clear
      3. 0.3s hold, then the farthest-first suck; duplicate icons visibly converge on
-        their twin first (92 in -> 41 out is the dedupe, which is the pitch)
-     4. gulp, the mark settles as a center hub, and it spits everything back out
-        organized ~0.7s later: EDITORS & BUILDERS, AGENTS, SKILLS, MCP — each group
-        inside its own storm-gradient-outline frame with a light drop shadow; chips
-        carry their real icons (markdown glyph for .md skills, mcp brand logos)
-     5. hard cut to "Your agent, for your agents"
-     6. end screen: same sequence as the urgent-email-slow ad
-     Loop 13.8s @ 30fps, ?t=<s> seek-hold (frame capture), ?play=1 seek+run. -->
+        their twin first (88 in -> 43 out is the dedupe, which is the pitch)
+     4. the 17 apps pop back out in a grid under the mark (like the site's stage),
+        glide to the left half, while skills / rules / mcp lists fill the right
+     5. after ~1s the whole thing dips smoothly into the end lockup
+     Loop 13.4s @ 30fps, ?t=<s> seek-hold (frame capture), ?play=1 seek+run. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -74,22 +71,11 @@
                     -webkit-mask: var(--ico) center / contain no-repeat;
                     mask: var(--ico) center / contain no-repeat; }
   .org.chip b { font-size: 16px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
-  .gframe { position: absolute; border-radius: 30px; border: 2px solid transparent;
-            background: linear-gradient(rgba(16,16,22,.78), rgba(16,16,22,.78)) padding-box,
-                        linear-gradient(120deg, #2b6bff, #6a1fd8 45%, #c026d3 75%, #ff3d9a) border-box;
-            box-shadow: 0 16px 36px rgba(0,0,0,.5), 0 2px 18px rgba(106,31,216,.18);
-            opacity: 0; will-change: opacity; }
-  .glabel { position: absolute; font-size: 20px; font-weight: 600; letter-spacing: .04em;
+  .glabel { position: absolute; font-size: 18px; font-weight: 600; letter-spacing: .04em;
             text-transform: uppercase; color: var(--muted); opacity: 0; z-index: 25;
             will-change: transform, opacity; }
 
-  /* ---- scene 4: tagline ---- */
-  #tag { display: grid; place-items: center; background: #000; }
-  #tag .lines { text-align: center; }
-  #tag h1 { margin: 0; font-size: 140px; font-weight: 800; letter-spacing: -.03em; line-height: 1.08; color: #fff; }
-  #tag h1 .grad { background: var(--storm-x); -webkit-background-clip: text; background-clip: text; color: transparent; }
-
-  /* ---- scene 5: logo lockup end (same style as urgent-email-slow) ---- */
+  /* ---- scene 4: logo lockup end (same style as urgent-email-slow) ---- */
   #end { display: grid; place-items: center; background: #000; }
   #end .lock { display: flex; align-items: center; gap: 44px; }
   #end svg.face { width: 220px; height: 220px; overflow: visible; opacity: 0; will-change: transform, opacity; }
@@ -125,10 +111,6 @@
       <div id="flash"></div>
       <div id="org"></div>
     </div>
-  </section>
-
-  <section class="scene" id="tag" aria-label="your agent, for your agents">
-    <div class="lines"><h1>Your agent,<br><span class="grad">for your agents</span></h1></div>
   </section>
 
   <section class="scene" id="end" aria-label="superbot.gg">
@@ -192,12 +174,13 @@ const B = {
   flipEnd: 4.86,             // the flip finishes (fv-flip-icon-grow)
   suck: 5.16,                // 0.3s hold after the flip, then the farthest-first suck
   hub: 5.76, hubEnd: 6.2,    // the mark settles to hub scale as the field drains
-  spit: 6.9,                 // ~0.7s after the suck completes: the organized spit-out
-  tag: 9.0,                  // HARD cut to the tagline
-  dipEnd: 10.8, end: 11.1, word: 11.8, // dip, then the logo lockup (urgent-email sequence)
-  dipOut: 13.4,              // loop seam goes through black
+  apps: 6.9,                 // the apps pop back out in a grid under the mark
+  glide: 8.1,                // ...and the grid glides to the left half
+  lists: 8.35,               // skills / rules / mcp rows fill the right half
+  out: 10.5, end: 10.8, word: 11.5, // hold ~1s, then a smooth dip into the lockup
+  dipOut: 13.0,              // loop seam goes through black
 };
-const FPS = 30, LOOP = 13.8;
+const FPS = 30, LOOP = 13.4;
 const CX = 960, CY = 540;
 const BX0 = 110, BX1 = 1810, BY0 = 130, BY1 = 950;   // item-center bounds
 
@@ -232,8 +215,6 @@ const ICONS = [
 const CHIPS = [
   { text: 'write-release-notes.md', color: 'var(--a)', grp: 'skills' },
   { text: 'inbox-triage.md', color: 'var(--b)', grp: 'skills' },
-  { text: 'no-em-dashes.md', color: 'var(--a)', grp: 'skills' },
-  { text: 'deploy-approval.md', color: 'var(--b)', grp: 'skills' },
   { text: 'review-the-diff.md', color: 'var(--a)', grp: 'skills' },
   { text: 'summarize-thread.md', color: 'var(--b)', grp: 'skills' },
   { text: 'scaffold-migration.md', color: 'var(--a)', grp: 'skills' },
@@ -248,6 +229,10 @@ const CHIPS = [
   { text: 'stage-the-release.md', color: 'var(--b)', grp: 'skills' },
   { text: 'reconcile-the-ledger.md', color: 'var(--a)', grp: 'skills' },
   { text: 'warm-the-cache.md', color: 'var(--b)', grp: 'skills' },
+  { text: 'no-em-dashes.md', color: 'var(--a)', grp: 'rules' },
+  { text: 'deploy-approval.md', color: 'var(--b)', grp: 'rules' },
+  { text: 'cite-your-sources.md', color: 'var(--a)', grp: 'rules' },
+  { text: 'no-force-pushes.md', color: 'var(--b)', grp: 'rules' },
   { text: 'github', color: 'var(--blue)', grp: 'mcp' },
   { text: 'slack', color: 'var(--blue)', grp: 'mcp' },
   { text: 'postgres', color: 'var(--blue)', grp: 'mcp' },
@@ -256,7 +241,7 @@ const CHIPS = [
   { text: 'linear', color: 'var(--blue)', grp: 'mcp' },
 ];
 
-// ---------- build the chaos field: 17 icons x4 + 24 chips = 92 items ----------
+// ---------- build the chaos field: 17 icons x4 + 20 chips = 88 items ----------
 const rng = mulberry32(0xe51c7a3);
 const field = $('field'), orgLayer = $('org');
 const items = [];
@@ -274,7 +259,7 @@ for (const ch of CHIPS) {
   field.appendChild(el);
   items.push({ el, chip: ch });
 }
-const N = items.length;   // 92
+const N = items.length;   // 88
 for (let i = 0; i < N; i++) {
   const it = items[i];
   const u = rng();
@@ -329,94 +314,70 @@ function chaosPos(it, t) {
 
 // ---------- the organized spit-out: 17 deduped icons + 24 chips = 41, four quadrants ----------
 const CELL = 84, GAP = 18;
-const ORG = [];
-ICONS.forEach((ic) => ORG.push({ kind: 'tile', icon: ic, grp: ic.grp }));
-CHIPS.forEach((ch) => ORG.push({
-  kind: 'chip', chip: ch, grp: ch.grp,
-  ico: ch.grp === 'skills' ? 'markdown' : (ch.text === 'postgres' ? 'postgresql' : ch.text),
-  icol: ch.grp === 'skills' ? ch.color : '#e8e8e8',   // real icon, tinted per group
-}));
+// ---------- the finale: apps pop under the hub, glide left; lists fill the right ----------
+const APPS = ICONS.map((ic) => ({ icon: ic }));
 {
-  const groups = {
-    editors: { x0: 96, y0: 128, cols: 5, ch: CELL, cgap: GAP, label: 'editors & builders', lx: 96, ly: 88 },
-    agents: { x0: 1434, y0: 128, cols: 4, ch: CELL, cgap: GAP, label: 'agents', lx: 1434, ly: 88 },
-    skills: { x0: 96, y0: 430, cols: 2, ch: 56, cgap: 14, label: 'skills', lx: 96, ly: 384 },
-    mcp: { x0: 1500, y0: 790, cols: 2, ch: 56, cgap: 16, label: 'mcp', lx: 1500, ly: 734 },
-  };
-  const FPAD = 26;      // even padding between the grid and its frame edge
-  // build first, measure, then lay out to the measured cell widths — frames hug
-  // the real extents, so nothing clips and no column trails dead space
-  for (const o of ORG) {
+  // 17 apps in a 6/6/5 grid centered under the mark (the site's stage choreography)
+  const rows = [6, 6, 5], gap = 24, y0 = 680;
+  let k = 0;
+  for (let r = 0; r < rows.length; r++) {
+    const n = rows[r];
+    const startX = CX - (n * CELL + (n - 1) * gap) / 2;
+    for (let c = 0; c < n; c++, k++) {
+      APPS[k].x = startX + c * (CELL + gap);
+      APPS[k].y = y0 + r * (CELL + gap);
+    }
+  }
+  APPS.forEach((o, i) => {
     const el = document.createElement('div');
-    el.className = 'org ' + (o.kind === 'tile' ? 'tile' : 'chip');
-    el.innerHTML = o.kind === 'tile'
-      ? `<img src="${o.icon.src}" alt="" draggable="false">`
-      : `<i class="cico" style="--ico:url(assets/${o.ico}.svg);background:${o.icol}"></i><b>${o.chip.text}</b>`;
-    if (o.kind === 'tile') { el.style.width = CELL + 'px'; el.style.height = CELL + 'px'; }
+    el.className = 'org tile';
+    el.style.width = CELL + 'px'; el.style.height = CELL + 'px';
+    el.innerHTML = `<img src="${o.icon.src}" alt="" draggable="false">`;
     orgLayer.appendChild(el);
-    const r = el.getBoundingClientRect();
-    o.el = el; o.nw = r.width; o.w = r.width; o.h = o.kind === 'chip' ? 56 : r.height;
-    o.rot = (rng() - 0.5) * 28;
-  }
-  // cell width per group = its widest item; every chip stretches to fill the column
-  for (const key of Object.keys(groups)) {
-    const g = groups[key];
-    g.cw = Math.max(...ORG.filter(o => o.grp === key).map(o => o.nw));
-  }
-  // right-align the mcp grid's content edge with the agents column's content edge
-  {
-    const m = groups.mcp;
-    m.x0 = 1824 - (m.cw * m.cols + m.cgap * (m.cols - 1));
-    m.lx = m.x0;
-  }
-  const counts = { editors: 0, agents: 0, skills: 0, mcp: 0 };
-  for (const o of ORG) {
-    const g = groups[o.grp], k = counts[o.grp]++;
-    const col = k % g.cols, row = Math.floor(k / g.cols);
-    o.x = g.x0 + col * (g.cw + g.cgap);
-    o.y = g.y0 + row * (g.ch + g.cgap);
-    if (o.kind === 'chip') { o.el.style.width = g.cw + 'px'; o.w = g.cw; }
-    o.g = g;
-  }
-  // frames + labels: frame bbox = laid-out grid extents with even padding
-  for (const key of Object.keys(groups)) {
-    const g = groups[key];
-    const members = ORG.filter(o => o.grp === key);
-    const right = Math.max(...members.map(o => o.x + o.w));
-    const bottom = Math.max(...members.map(o => o.y + o.h));
-    const fr = document.createElement('div');
-    fr.className = 'gframe';
-    fr.style.left = (g.x0 - FPAD) + 'px'; fr.style.top = (g.ly - 14) + 'px';
-    fr.style.width = (right - g.x0 + 2 * FPAD) + 'px';
-    fr.style.height = (bottom + FPAD - (g.ly - 14)) + 'px';
-    orgLayer.appendChild(fr);
-    g.frameEl = fr;
+    o.el = el; o.w = CELL; o.h = CELL;
+    o.at = B.apps + i * 0.04;
+    o.x2 = o.x - 480; o.y2 = o.y - 220;   // glide target: left half, vertically centered
+  });
+}
+// the right half: skills / rules / mcp as labeled lists
+const LISTS = [
+  { key: 'skills', label: 'skills', x: 1080, y0: 196, ly: 150 },
+  { key: 'rules', label: 'rules', x: 1540, y0: 196, ly: 150 },
+  { key: 'mcp', label: 'mcp', x: 1540, y0: 446, ly: 400 },
+];
+{
+  const byGrp = { skills: [], rules: [], mcp: [] };
+  CHIPS.forEach((ch) => byGrp[ch.grp].push(ch));
+  const rows = [];
+  for (const L of LISTS) {
+    L.first = rows.length;
+    byGrp[L.key].forEach((ch, i) => {
+      const el = document.createElement('div');
+      el.className = 'org chip';
+      const ico = L.key === 'mcp' ? (ch.text === 'postgres' ? 'postgresql' : ch.text) : 'markdown';
+      const icol = L.key === 'mcp' ? '#e8e8e8' : ch.color;
+      el.innerHTML = `<i class="cico" style="--ico:url(assets/${ico}.svg);background:${icol}"></i><b>${ch.text}</b>`;
+      orgLayer.appendChild(el);
+      rows.push({ el, w: el.getBoundingClientRect().width, h: 38, x: L.x, y: L.y0 + i * 44, at: B.lists + rows.length * 0.02 });
+    });
     const el = document.createElement('div');
     el.className = 'glabel';
-    el.textContent = g.label;
-    el.style.left = g.lx + 'px'; el.style.top = g.ly + 'px';
+    el.textContent = L.label;
+    el.style.left = L.x + 'px'; el.style.top = L.ly + 'px';
     orgLayer.appendChild(el);
-    g.labelEl = el;
+    L.labelEl = el;
+    L.labelAt = B.lists + L.first * 0.02 + 0.3;
   }
-  // first-landing time per group drives its label
-  const first = {};
-  ORG.forEach((o, i) => {
-    const at = B.spit + i * 0.02;
-    if (!(o.grp in first) || at < first[o.grp]) first[o.grp] = at;
-    o.spitAt = at;
-  });
-  for (const key of Object.keys(groups)) groups[key].labelAt = first[key] + 0.72;
-  ORG.groups = groups;
+  APPS.rows = rows;
 }
 
 // ---------- elements ----------
-const main = $('main'), tag = $('tag'), end = $('end');
+const main = $('main'), end = $('end');
 const mark = $('mark'), mark3d = $('mark3d'), flash = $('flash'), dip = $('dip');
-const tagLines = document.querySelector('#tag .lines');
 
 // ---------- render: a frame is a function of its number ----------
 function render(t) {
-  scene(main, t < B.tag); scene(tag, t >= B.tag && t < B.end); scene(end, t >= B.end);
+  scene(main, t < B.end); scene(end, t >= B.end);
 
   // the mark: drop + flip (fv-flip-icon-grow) -> hold -> hub
   let ms = 0, mb = 1, ry = 0, my = CY;
@@ -432,7 +393,7 @@ function render(t) {
     }
     const hp = GLIDE(seg(t, B.hub, B.hubEnd));
     if (hp > 0) ms = lerp(ms, 0.72, hp);
-    const gp = seg(t, B.spit, B.spit + 0.3);           // the spit pulse
+    const gp = seg(t, B.apps, B.apps + 0.3);           // the pop-back-out pulse
     if (gp > 0 && gp < 1) { mb = 1 + 0.18 * Math.sin(Math.PI * gp); ms *= 1 + 0.04 * Math.sin(Math.PI * gp); }
   }
   op(mark, p1 * 4);
@@ -478,25 +439,32 @@ function render(t) {
     el.style.transform = `translate(${(x - it.w / 2).toFixed(1)}px, ${(y - it.h / 2).toFixed(1)}px) rotate(${rot.toFixed(2)}deg) scale(${s.toFixed(3)})`;
   }
 
-  // the organized spit-out: fly from the hub to the slot (slots are top-left
-  // corners), settle, labels rise
-  for (const o of ORG) {
-    const p = seg(t, o.spitAt, o.spitAt + 0.6);
+  // the apps: pop out of the mark into the grid under it, then glide left
+  for (const o of APPS) {
+    const p = seg(t, o.at, o.at + 0.42);
+    if (p <= 0) { op(o.el, 0); o.el.style.visibility = 'hidden'; continue; }
+    const e = outBack(p);
+    const gp = GLIDE(seg(t, B.glide, B.glide + 0.7));
+    o.el.style.visibility = 'visible';
+    op(o.el, Math.min(1, p * 3));
+    const x = lerp(lerp(CX, o.x, e), o.x2, gp);
+    const y = lerp(lerp(CY, o.y, e), o.y2, gp);
+    o.el.style.transform = `translate(${(x - o.w / 2).toFixed(1)}px, ${(y - o.h / 2).toFixed(1)}px) scale(${lerp(0.3, 1, e).toFixed(3)})`;
+  }
+  // the right half: skills / rules / mcp rows slide in under their labels
+  for (const o of APPS.rows) {
+    const p = seg(t, o.at, o.at + 0.3);
     if (p <= 0) { op(o.el, 0); o.el.style.visibility = 'hidden'; continue; }
     const e = outQuint(p);
     o.el.style.visibility = 'visible';
     op(o.el, Math.min(1, p * 3));
-    o.el.style.transform = `translate(${lerp(CX - o.w / 2, o.x, e).toFixed(1)}px, ${lerp(CY - o.h / 2, o.y, e).toFixed(1)}px) rotate(${(o.rot * (1 - e)).toFixed(2)}deg) scale(${lerp(0.3, 1, e).toFixed(3)})`;
+    o.el.style.transform = `translate(${(o.x + (1 - e) * 30).toFixed(1)}px, ${(o.y - o.h / 2).toFixed(1)}px)`;
   }
-  for (const key of Object.keys(ORG.groups)) {
-    const g = ORG.groups[key], lp = seg(t, g.labelAt, g.labelAt + 0.4);
-    op(g.frameEl, lp);
-    op(g.labelEl, lp); g.labelEl.style.transform = `translateY(${(lerp(8, 0, outQuint(lp))).toFixed(1)}px)`;
+  for (const L of LISTS) {
+    const lp = seg(t, L.labelAt, L.labelAt + 0.35);
+    op(L.labelEl, lp);
+    L.labelEl.style.transform = `translateY(${(lerp(8, 0, outQuint(lp))).toFixed(1)}px)`;
   }
-
-  // tagline (hard cut in via the scene switch, then a quick settle)
-  const tp = seg(t, B.tag + 0.1, B.tag + 0.7);
-  op(tagLines, outQuint(tp));
 
   // logo lockup end (same sequence as the urgent-email spot)
   const ef = seg(t, B.end, B.end + 0.5), ew = seg(t, B.word, B.word + 0.7);

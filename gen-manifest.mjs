@@ -46,7 +46,6 @@ const items = anims.map(([id, src, title, desc]) => ({
 // [name, pagePath, title, group]
 const more = [
   ['icons-chaos-slam-superbot-544078ab', 'icons-chaos-slam-superbot-544078ab/', 'skill chips + real app icons chaos — 65 filename bubbles (scraper.md, inbox-triage.md…) + 55 real brand tiles (chatgpt, claude, devin, cursor, hermes, vscode, warp…) bounce like a dvd screensaver, superbot slams in, sucks them in, spits out organized lists, "Your agent, for your agents" (13.4s loop)', 'Ad spots'],
-  ['icons-chaos-superbot-e51c7a3d', 'icons-chaos-superbot-e51c7a3d/', 'icons chaos — 92 apps and skills bounce like a dvd screensaver, superbot slams in, sucks them in, spits them out organized into framed groups (13.8s loop)', 'Ad spots'],
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot can do it — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop)', 'Ad spots'],
   ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? superbot can do it — URGENT email, ChatGPT dribbles at 30 wpm, superbot writes the whole email with a fade typewriter, one-click copy (30.5s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],

@@ -1,5 +1,13 @@
 [
   {
+    "id": "ai-aggregator-chat-tour",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "The AI Aggregator is here — frontend expand, agent icons merge into superbot, cursor clicks through every chat at a 0.900s metronome (15s loop)",
+    "src": "animations/ai-aggregator-chat-tour/",
+    "thumb": "assets/shots/ai-aggregator-chat-tour.png"
+  },
+  {
     "id": "gpt-refusal-superbot-824cef28",
     "type": "animation",
     "group": "Ad spots",

@@ -1,5 +1,21 @@
 [
   {
+    "id": "icons-chaos-superbot-e51c7a3d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "icons chaos — 40 apps and skills bounce like a dvd screensaver, superbot slams in, sucks them in, spits them out organized (13.8s loop)",
+    "src": "animations/icons-chaos-superbot-e51c7a3d/",
+    "thumb": "assets/shots/icons-chaos-superbot-e51c7a3d.png"
+  },
+  {
+    "id": "icons-bounce-slam-superbot-9c4e17b3",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "icons bounce-slam — crowd tightens, superbot flips in, vacuums the field, spits one organized list (24s loop)",
+    "src": "animations/icons-bounce-slam-superbot-9c4e17b3/",
+    "thumb": "assets/shots/icons-bounce-slam-superbot-9c4e17b3.png"
+  },
+  {
     "id": "gpt-refusal-superbot-824cef28",
     "type": "animation",
     "group": "Ad spots",

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>one agent? superbot runs them all — ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="ChatGPT hands back a fourteen-step how-to; one click opens superbot, which splits the job across Cursor, Claude, Gemini and ChatGPT and ships the page. 27s looping ad spot, 1920x1080."/>
+<meta name="description" content="ChatGPT hands back a fourteen-step how-to; one click opens superbot, which splits a bakery website across Cursor, Claude, Gemini and ChatGPT and puts it online. 27s looping ad spot, 1920x1080."/>
 <style>
 :root {
   --bg: #000000; --card: #0d0d0d; --raised: #181818; --line: #262626;
@@ -220,7 +220,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
       <div class="g-steps" id="g-steps">steps for you to do: <b id="g-n">0</b></div>
       <div class="g-thread">
         <div class="g-col" id="g-col">
-          <div class="g-user" id="g-user"><div class="bub">build the landing page for v2, write the copy, make the hero image, and deploy it</div></div>
+          <div class="g-user" id="g-user"><div class="bub">make me a website for my bakery, write the words for it, make a nice photo for the top, and put it online</div></div>
           <div class="g-ai" id="g-ai"><span class="g-thinking" id="g-think"><i></i>Thinking</span><span id="g-text"></span><span class="cur" id="g-cur"></span></div>
         </div>
         <div class="g-fade"></div>
@@ -238,7 +238,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   </section>
 
   <div id="popup" aria-hidden="true">
-    <div class="p-head"><img src="assets/mark-clean.svg" alt=""/>superbot runs them all.</div>
+    <div class="p-head"><img src="assets/mark-clean.svg" alt=""/>superbot can do it!</div>
     <div id="chatbtn">chat</div>
   </div>
 
@@ -272,9 +272,9 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
               <span class="row"><svg viewBox="0 0 24 24"><path d="m3 6 2 2 4-4"/><path d="m3 14 2 2 4-4"/><path d="M13 6h8"/><path d="M13 16h8"/></svg>Setup<i class="cnt">3</i></span>
               <div class="cap-row"><span>⌄ Recents</span><span>1</span></div>
               <div class="today">Today</div>
-              <span class="row on"><svg><use href="#ic-chat"/></svg>v2 landing page<em>now</em></span>
-              <span class="row"><svg><use href="#ic-chat"/></svg>changelog v2<em>2h</em></span>
-              <span class="row"><svg><use href="#ic-chat"/></svg>domain + dns<em>1d</em></span>
+              <span class="row on"><svg><use href="#ic-chat"/></svg>bakery website<em>now</em></span>
+              <span class="row"><svg><use href="#ic-chat"/></svg>menu prices<em>2h</em></span>
+              <span class="row"><svg><use href="#ic-chat"/></svg>logo ideas<em>1d</em></span>
               <div class="user"><span class="av">D<i></i></span><span><b>hi@superbot.gg</b><small>8 agents wired in</small></span></div>
             </div>
             <div class="main">
@@ -282,14 +282,14 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
               <div class="feed" id="feed">
                 <div class="welcome"><span class="w-ic"><img src="assets/mark-clean.svg" alt=""/></span><span><b>Welcome to #chat</b><small>This is the start of your conversation with Superbot.</small></span></div>
                 <div class="date-div">September 11, 2026</div>
-                <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span><span class="m-when">4:20 PM</span></div><div class="m-text">build the landing page for v2, write the copy, make the hero image, and deploy it</div></div></div>
+                <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span><span class="m-when">4:20 PM</span></div><div class="m-text">make me a website for my bakery, write the words for it, make a nice photo for the top, and put it online</div></div></div>
                 <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">4:20 PM</span></div><div class="m-text" id="h-text"></div>
                   <div class="board" id="board">
-                    <div class="b-bar"><span>v2 landing page</span><span class="lang">4 agents</span><span class="pct" id="pct">0/4 done</span></div>
+                    <div class="b-bar"><span>bakery website</span><span class="lang">4 agents</span><span class="pct" id="pct">0/4 done</span></div>
                     <div id="jobs"></div>
                   </div>
                   <div class="m-text" id="h-text2"></div>
-                  <div class="live" id="live"><span class="led"></span><b>v2.superbot.gg</b> is live<em id="live-em">200 · built in 41s</em></div>
+                  <div class="live" id="live"><span class="led"></span><b>sweetcrumb.bakery</b> is online<em id="live-em">live · 41s</em></div>
                 </div></div>
               </div>
               <div class="composer"><div class="pill"><span class="plus">+</span><span class="ph">How can superbot help you today?</span><span class="picker">superbot ▾</span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
@@ -299,7 +299,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
             <div class="ph-status"><span>4:20</span></div>
             <div class="ph-head"><i class="g">‹</i><b># superbot</b><i class="g r">▤</i><span class="sync">synced</span></div>
             <div class="ph-div">Today</div>
-            <div class="ph-turn">one ask, four agents: Cursor builds, Claude writes, Gemini draws, ChatGPT handles SEO.</div>
+            <div class="ph-turn">one ask, four agents: Cursor builds, Claude writes, Gemini draws, ChatGPT handles Google.</div>
             <div class="ph-turn">superbot splits the job, runs them in parallel, and <b>merges the result</b>.</div>
             <div class="ph-composer"><span class="ph-ring"><span class="ph-pill"><i>+</i>Ask Superbot anything</span></span><span class="ph-send"></span></div>
             <div class="ph-home"></div>
@@ -348,23 +348,23 @@ const B = {
   bot2: 20.6, live: 21.2,                  // the merge line, the live card
   cardA: 22.1, cardB: 23.9, end: 25.6, word: 26.4,
 };
-const PROMPT = 'build the landing page for v2, write the copy, make the hero image, and deploy it';
-const R_HEAD = "I can't build, generate images, or deploy websites directly, but here's a step-by-step guide so you can do it yourself:\n\n";
+const PROMPT = 'make me a website for my bakery, write the words for it, make a nice photo for the top, and put it online';
+const R_HEAD = "I can't build websites, make photos, or put anything online directly, but here's a step-by-step guide so you can do it yourself:\n\n";
 const R_STEPS = [
-  "1. Set up the project\nInstall Node.js, then run npx create-next-app@latest and choose the defaults.\n\n",
-  "2. Write the copy\nStart with a clear headline. Consider your audience. A/B testing is recommended.\n\n",
-  "3. Create the hero image\nUse a tool such as Figma, Canva, or Photoshop. Aim for 1920×1080 or larger.\n\n",
-  "4. Deploy\nSign up for a hosting provider like Vercel or Netlify and connect your repository.\n\n",
-  "5. Configure your domain\nLog in to your registrar and add the DNS records your provider gives you.\n\n",
-  "6. Add SEO metadata\nDon't forget the title tag, meta description, and Open Graph image.\n\n",
-  "7. Test on mobile\nOpen the page on your phone. Consider responsive breakpoints.\n\n",
-  "8. Consider accessibility\nUse semantic HTML and check color contrast.\n\n",
-  "9. Set up analytics\nChoose an analytics provider and paste the snippet before </head>.\n\n",
-  "10. Ask a designer friend\nA second pair of eyes helps!\n\n",
-  "11. Write the changelog\nUsers appreciate transparency.\n\n",
+  "1. Choose a website builder\nSign up for a service like Squarespace, Wix or WordPress and pick a template.\n\n",
+  "2. Write the words\nStart with a warm welcome. Consider your audience. Keep sentences short.\n\n",
+  "3. Create the photo\nUse a tool such as Canva, or hire a photographer. Aim for 1920×1080 or larger.\n\n",
+  "4. Put it online\nChoose a plan, buy a domain name, and click Publish.\n\n",
+  "5. Connect your domain\nLog in to your registrar and add the DNS records your builder gives you.\n\n",
+  "6. Add your bakery to Google\nDon't forget the title, description, and preview image.\n\n",
+  "7. Test on your phone\nOpen the site on your phone. Consider how it looks on small screens.\n\n",
+  "8. Consider accessibility\nCheck text size and color contrast.\n\n",
+  "9. Add your hours and address\nCustomers look for these first.\n\n",
+  "10. Ask a friend to look at it\nA second pair of eyes helps!\n\n",
+  "11. Write a blog post\nCustomers appreciate the story.\n\n",
   "12. Take a break\nYou've earned it.\n\n",
-  "13. Revisit step 2\nCopy is never really finished.\n\n",
-  "14. Repeat steps 1–13 for the pricing page\n\n",
+  "13. Revisit step 2\nThe words are never really finished.\n\n",
+  "14. Repeat steps 1–13 for your online ordering page\n\n",
   "Would you like me to elaborate on any of these steps? ",
 ];
 const R_WORDS = (() => {
@@ -374,16 +374,16 @@ const R_WORDS = (() => {
 })();
 const WORDS_PER_S = 22, ACCEL = 6;
 const wordsAt = (dt) => Math.floor(WORDS_PER_S * dt + ACCEL * dt * dt);
-const BOT = 'on it. splitting the job across four agents and running them in parallel:';
-const BOT2 = 'all four landed. merged the copy and the hero into the build, deployed:';
+const BOT = 'on it. splitting the job across four agents and running them at the same time:';
+const BOT2 = "all four are done. put the words and the photo into the site, and it's online:";
 
 // ---------- the board ----------
 // [id, rail id, fav html, who, what, run from, done at, waits-on label until, chips: [label, at]]
 const JOBS = [
-  ['cursor', 'r-cursor', '<span class="fav" style="background:#000;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)"><svg><use href="#ic-cursor"/></svg></span>', 'Cursor', 'scaffold the page, wire the sections, deploy', 15.2, 20.2, 18.9, [['npx create-next-app', 15.4], ['sections/*.tsx', 16.4], ['git push', 19.0], ['vercel --prod', 19.5]]],
-  ['claude', 'r-claude', '<span class="fav" style="background:#d97757"><svg><use href="#ic-claude"/></svg></span>', 'Claude', 'copy: hero, features, FAQ, footer', 15.3, 17.9, null, [['hero.md', 15.7], ['features.md', 16.5], ['faq.md', 17.2], ['footer.md', 17.7]]],
-  ['gemini', 'r-gemini', '<span class="fav" style="background:#fff;color:#1f1f1f"><svg><use href="#ic-gemini"/></svg></span>', 'Gemini', 'hero image, 2400×1350, brand palette', 15.4, 18.7, null, [['prompt v1', 15.6], ['prompt v2', 16.9], ['hero.png', 18.4]]],
-  ['openai', 'r-openai', '<span class="fav" style="background:#000;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)"><svg><use href="#ic-openai"/></svg></span>', 'ChatGPT', 'SEO: title, meta, Open Graph, sitemap', 15.5, 18.2, null, [['meta.json', 15.9], ['og.png', 17.0], ['sitemap.xml', 17.9]]],
+  ['cursor', 'r-cursor', '<span class="fav" style="background:#000;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)"><svg><use href="#ic-cursor"/></svg></span>', 'Cursor', 'build the site, set up the pages, put it online', 15.2, 20.2, 18.9, [['new site', 15.4], ['pages: home, menu, hours', 16.4], ['domain', 19.0], ['publish', 19.5]]],
+  ['claude', 'r-claude', '<span class="fav" style="background:#d97757"><svg><use href="#ic-claude"/></svg></span>', 'Claude', 'words: welcome, menu, hours, contact', 15.3, 17.9, null, [['welcome.md', 15.7], ['menu.md', 16.5], ['hours.md', 17.2], ['contact.md', 17.7]]],
+  ['gemini', 'r-gemini', '<span class="fav" style="background:#fff;color:#1f1f1f"><svg><use href="#ic-gemini"/></svg></span>', 'Gemini', 'top photo: warm bakery, morning light', 15.4, 18.7, null, [['prompt v1', 15.6], ['prompt v2', 16.9], ['top-photo.png', 18.4]]],
+  ['openai', 'r-openai', '<span class="fav" style="background:#000;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)"><svg><use href="#ic-openai"/></svg></span>', 'ChatGPT', 'Google listing: title, description, preview image', 15.5, 18.2, null, [['title + description', 15.9], ['preview.png', 17.0], ['sitemap', 17.9]]],
 ];
 const jobsEl = $('jobs');
 JOBS.forEach(([id, , fav, who, what, , , , chips]) => {
@@ -468,7 +468,7 @@ function renderSite(t) {
     const running = t >= from && !isDone;
     row.className = 'job' + (isDone ? ' done' : waiting ? ' wait' : running ? ' run' : '');
     const tag = $('tag-' + id);
-    tag.textContent = isDone ? 'done' : waiting ? 'waiting on copy' : running ? 'running' + '.'.repeat(1 + Math.floor((t * 3) % 3)) : 'queued';
+    tag.textContent = isDone ? 'done' : waiting ? 'waiting on words' : running ? 'running' + '.'.repeat(1 + Math.floor((t * 3) % 3)) : 'queued';
     // the bar: eased progress, held while waiting
     let p = isDone ? 1 : running ? outCubic(seg(t, from, doneAt)) : 0;
     if (waiting) p = Math.min(p, 0.72);

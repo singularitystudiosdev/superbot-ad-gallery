@@ -236,7 +236,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   </section>
 
   <div id="popup" aria-hidden="true">
-    <div class="p-head2"><img src="assets/mark-clean.svg" alt=""/>superbot: one window.</div>
+    <div class="p-head2"><img src="assets/mark-clean.svg" alt=""/>superbot can do it!</div>
     <div id="chatbtn">chat</div>
   </div>
 
@@ -270,9 +270,9 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
               <span class="row"><svg viewBox="0 0 24 24"><path d="m3 6 2 2 4-4"/><path d="m3 14 2 2 4-4"/><path d="M13 6h8"/><path d="M13 16h8"/></svg>Setup<i class="cnt">3</i></span>
               <div class="cap-row"><span>⌄ Recents</span><span>1</span></div>
               <div class="today">Today</div>
-              <span class="row on"><svg><use href="#ic-chat"/></svg>launch email<em>now</em></span>
-              <span class="row"><svg><use href="#ic-chat"/></svg>changelog v2<em>2h</em></span>
-              <span class="row"><svg><use href="#ic-chat"/></svg>pricing page copy<em>1d</em></span>
+              <span class="row on"><svg><use href="#ic-chat"/></svg>customer email<em>now</em></span>
+              <span class="row"><svg><use href="#ic-chat"/></svg>what's new list<em>2h</em></span>
+              <span class="row"><svg><use href="#ic-chat"/></svg>website words<em>1d</em></span>
               <div class="user"><span class="av">D<i></i></span><span><b>hi@superbot.gg</b><small>8 agents wired in</small></span></div>
             </div>
             <div class="main">
@@ -280,11 +280,11 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
               <div class="feed" id="feed">
                 <div class="welcome"><span class="w-ic"><img src="assets/mark-clean.svg" alt=""/></span><span><b>Welcome to #chat</b><small>This is the start of your conversation with Superbot.</small></span></div>
                 <div class="date-div">September 11, 2026</div>
-                <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span><span class="m-when">2:14 PM</span></div><div class="m-text"><span class="to">@all</span>write the launch email for v2</div></div></div>
+                <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span><span class="m-when">2:14 PM</span></div><div class="m-text"><span class="to">@all</span>help me write an email to my customers about our new update</div></div></div>
                 <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">2:14 PM</span></div><div class="m-text" id="h-text"></div>
                   <div class="quad" id="quad"></div>
                   <div class="m-text" id="h-text2"></div>
-                  <div class="draft" id="draft"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg><b>launch-email-v2.md</b>saved to Gmail drafts<em>Claude's opener · ChatGPT's CTA</em></div>
+                  <div class="draft" id="draft"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg><b>customer-update-email.md</b>saved to Gmail drafts<em>Claude's opener · ChatGPT's CTA</em></div>
                 </div></div>
               </div>
               <div class="composer"><div class="pill"><span class="plus">+</span><span class="ph" id="c-ph">How can superbot help you today?</span><span class="picker" id="picker">superbot ▾</span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
@@ -342,24 +342,24 @@ const B = {
   picked: 21.6, bot2: 21.9, draft: 22.8,               // the pick, the merge, the draft
   cardA: 23.5, cardB: 25.2, end: 26.9, word: 27.7,
 };
-const PROMPT = 'write the launch email for v2';
+const PROMPT = 'help me write an email to my customers about our new update';
 
 // ---------- the fourteen tabs ----------
 // [title, host, favicon (svg symbol id | img | letter), fav bg, panel tokens {bg, fg, bub, comp, acc, muted}, opening lines]
 const TABS = [
-  ['ChatGPT', 'chatgpt.com', 'svg:ic-openai', '#fff', { bg: '#212121', fg: '#ececec', bub: '#323232', comp: '#303030', acc: '#fff', muted: '#afafaf' }, "Subject: 🚀 v2 is here!\n\nHi {first_name},\n\nWe're thrilled to announce that v2 is officially live! Over the past few months, our team has been hard at work reimagining every corner of the product, and today we're excited to"],
-  ['Claude', 'claude.ai', 'svg:ic-claude', '#d97757', { bg: '#2b2a27', fg: '#eeece7', bub: '#3a3835', comp: '#33312e', acc: '#d97757', muted: '#a8a49c' }, "Subject: v2 is live\n\nHi Sam,\n\nv2 shipped this morning. Three things changed: the editor is twice as fast, projects sync across your devices, and the free tier now includes"],
-  ['Gemini', 'gemini.google.com', 'svg:ic-gemini', '#4c8df6', { bg: '#131314', fg: '#e3e3e3', bub: '#333537', comp: '#1e1f20', acc: '#4c8df6', muted: '#9aa0a6' }, "Subject: Introducing v2 ✨\n\nHello!\n\nToday marks a new chapter. v2 brings a redesigned experience built around the way you actually work, with a faster editor, seamless sync, and"],
-  ['Grok', 'grok.com', 'img:assets/grok.png', '#000', { bg: '#000', fg: '#f2f2f2', bub: '#1f1f1f', comp: '#161616', acc: '#fff', muted: '#8a8a8a' }, "Subject: v2. Finally.\n\nSam,\n\nYou asked for a faster editor. We built one. v2 is out today: 2× faster, syncs everywhere, and the free tier got"],
-  ['Perplexity', 'perplexity.ai', 'P', '#20808d', { bg: '#191a1a', fg: '#e8e8e6', bub: '#2a2b2b', comp: '#202222', acc: '#20808d', muted: '#8d9191' }, "Subject: v2 is now available\n\nHi Sam,\n\nAccording to your changelog [1], v2 introduces a faster editor, cross-device sync, and an expanded free tier [2]. Here's a launch email that"],
-  ['Microsoft Copilot', 'copilot.microsoft.com', 'svg:ic-copilot', '#24292f', { bg: '#1f1f1f', fg: '#ececec', bub: '#2f2f2f', comp: '#2a2a2a', acc: '#7b61ff', muted: '#9a9a9a' }, "Subject: Say hello to v2 👋\n\nHi Sam,\n\nGreat news! v2 has arrived, and it's packed with improvements designed to help you do more, faster. Here's what's new:"],
-  ['Le Chat', 'chat.mistral.ai', 'M', '#ff7000', { bg: '#1a1a1a', fg: '#ececec', bub: '#2c2c2c', comp: '#242424', acc: '#ff7000', muted: '#9a9a9a' }, "Subject: v2 is out\n\nBonjour Sam,\n\nv2 is available today. The editor is faster, your projects follow you across devices, and the free plan"],
-  ['DeepSeek', 'chat.deepseek.com', 'D', '#4d6bfe', { bg: '#171a24', fg: '#e6e8ef', bub: '#252a3a', comp: '#1f2331', acc: '#4d6bfe', muted: '#8c92a8' }, "Subject: Announcing v2\n\nDear Sam,\n\nWe are pleased to announce the release of v2. This version includes a significantly faster editor, synchronization across"],
-  ['Poe', 'poe.com', 'P', '#7c3aed', { bg: '#181818', fg: '#ececec', bub: '#2a2a2a', comp: '#222', acc: '#7c3aed', muted: '#9a9a9a' }, "Subject: v2 launches today\n\nHey Sam,\n\nBig day: v2 is live. Faster editor, sync across all your devices, and a bigger free tier. Here's the"],
-  ['Meta AI', 'meta.ai', '∞', '#0866ff', { bg: '#1c1e21', fg: '#e4e6eb', bub: '#303236', comp: '#28292c', acc: '#0866ff', muted: '#a8abb0' }, "Subject: v2 is here\n\nHi Sam!\n\nWe've been busy. v2 is rolling out today with a faster editor, sync across devices and more room on the free"],
-  ['Kimi', 'kimi.com', 'K', '#111', { bg: '#141414', fg: '#ececec', bub: '#262626', comp: '#1e1e1e', acc: '#fff', muted: '#9a9a9a' }, "Subject: v2 is live\n\nHi Sam,\n\nv2 is out."],
-  ['Qwen', 'chat.qwen.ai', 'Q', '#6a4cff', { bg: '#151521', fg: '#ececec', bub: '#262638', comp: '#1e1e2e', acc: '#6a4cff', muted: '#9a9ab0' }, "Subject: Introducing v2\n\nHi Sam,"],
-  ['Cursor', 'cursor.com', 'svg:ic-cursor', '#000', { bg: '#0f0f0f', fg: '#ececec', bub: '#222', comp: '#1a1a1a', acc: '#fff', muted: '#9a9a9a' }, "Subject: v2"],
+  ['ChatGPT', 'chatgpt.com', 'svg:ic-openai', '#fff', { bg: '#212121', fg: '#ececec', bub: '#323232', comp: '#303030', acc: '#fff', muted: '#afafaf' }, "Subject: 🚀 Our new update is here!\n\nHi {first_name},\n\nWe're thrilled to announce that our latest update is officially live! Over the past few months, our team has been hard at work reimagining every corner of the experience, and today we're excited to"],
+  ['Claude', 'claude.ai', 'svg:ic-claude', '#d97757', { bg: '#2b2a27', fg: '#eeece7', bub: '#3a3835', comp: '#33312e', acc: '#d97757', muted: '#a8a49c' }, "Subject: What's new this week\n\nHi Sam,\n\nThe update went out this morning. Three things changed: everything loads faster, your work now syncs across your devices, and the free plan includes"],
+  ['Gemini', 'gemini.google.com', 'svg:ic-gemini', '#4c8df6', { bg: '#131314', fg: '#e3e3e3', bub: '#333537', comp: '#1e1f20', acc: '#4c8df6', muted: '#9aa0a6' }, "Subject: Introducing our new update ✨\n\nHello!\n\nToday marks a new chapter. Our latest update brings a refreshed experience built around the way you actually work, with faster loading, easy sync, and"],
+  ['Grok', 'grok.com', 'img:assets/grok.png', '#000', { bg: '#000', fg: '#f2f2f2', bub: '#1f1f1f', comp: '#161616', acc: '#fff', muted: '#8a8a8a' }, "Subject: The update. Finally.\n\nSam,\n\nYou asked for faster. We built faster. The new update is out today: 2× quicker, syncs everywhere, and the free plan got"],
+  ['Perplexity', 'perplexity.ai', 'P', '#20808d', { bg: '#191a1a', fg: '#e8e8e6', bub: '#2a2b2b', comp: '#202222', acc: '#20808d', muted: '#8d9191' }, "Subject: Our new update is now available\n\nHi Sam,\n\nAccording to your release notes [1], the update introduces faster loading, cross-device sync, and an expanded free plan [2]. Here's an email that"],
+  ['Microsoft Copilot', 'copilot.microsoft.com', 'svg:ic-copilot', '#24292f', { bg: '#1f1f1f', fg: '#ececec', bub: '#2f2f2f', comp: '#2a2a2a', acc: '#7b61ff', muted: '#9a9a9a' }, "Subject: Say hello to our new update 👋\n\nHi Sam,\n\nGreat news! Our new update has arrived, and it's packed with improvements designed to help you do more, faster. Here's what's new:"],
+  ['Le Chat', 'chat.mistral.ai', 'M', '#ff7000', { bg: '#1a1a1a', fg: '#ececec', bub: '#2c2c2c', comp: '#242424', acc: '#ff7000', muted: '#9a9a9a' }, "Subject: Something new for you\n\nBonjour Sam,\n\nOur new update is available today. Everything is faster, your work follows you across devices, and the free plan"],
+  ['DeepSeek', 'chat.deepseek.com', 'D', '#4d6bfe', { bg: '#171a24', fg: '#e6e8ef', bub: '#252a3a', comp: '#1f2331', acc: '#4d6bfe', muted: '#8c92a8' }, "Subject: Announcing our latest update\n\nDear Sam,\n\nWe are pleased to announce the release of our latest update. This version includes significantly faster loading, synchronization across"],
+  ['Poe', 'poe.com', 'P', '#7c3aed', { bg: '#181818', fg: '#ececec', bub: '#2a2a2a', comp: '#222', acc: '#7c3aed', muted: '#9a9a9a' }, "Subject: Big update today\n\nHey Sam,\n\nBig day: the new update is live. Faster, syncs across all your devices, and a bigger free plan. Here's the"],
+  ['Meta AI', 'meta.ai', '∞', '#0866ff', { bg: '#1c1e21', fg: '#e4e6eb', bub: '#303236', comp: '#28292c', acc: '#0866ff', muted: '#a8abb0' }, "Subject: Our new update is here\n\nHi Sam!\n\nWe've been busy. The new update is rolling out today with faster loading, sync across devices and more room on the free"],
+  ['Kimi', 'kimi.com', 'K', '#111', { bg: '#141414', fg: '#ececec', bub: '#262626', comp: '#1e1e1e', acc: '#fff', muted: '#9a9a9a' }, "Subject: New update\n\nHi Sam,\n\nThe update is out."],
+  ['Qwen', 'chat.qwen.ai', 'Q', '#6a4cff', { bg: '#151521', fg: '#ececec', bub: '#262638', comp: '#1e1e2e', acc: '#6a4cff', muted: '#9a9ab0' }, "Subject: Introducing our new update\n\nHi Sam,"],
+  ['Cursor', 'cursor.com', 'svg:ic-cursor', '#000', { bg: '#0f0f0f', fg: '#ececec', bub: '#222', comp: '#1a1a1a', acc: '#fff', muted: '#9a9a9a' }, "Subject: Update"],
   ['Devin', 'app.devin.ai', 'img:assets/devin.png', '#000', { bg: '#0b0e14', fg: '#e6e8ef', bub: '#1b2130', comp: '#141a26', acc: '#3b82f6', muted: '#8c92a8' }, "I'll start by exploring the repository to find your email templates. Cloning… this may take a few minutes."],
 ];
 // visits: [tab index, when the tab is clicked (or opened, for a first visit)]

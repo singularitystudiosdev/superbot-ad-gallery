@@ -7,8 +7,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-8 ad spots, gathered from the workspace projects and the GitHub repos:
+11 ad spots, gathered from the workspace projects and the GitHub repos:
 
+- **agents forgetting?** — ChatGPT asks for the migration plan a fourth time; superbot picks it up at step 3 (27.5s loop).
+- **14 tabs?** — the same prompt pasted into fourteen AI tabs; superbot asks every agent from one window (28s loop).
+- **one agent?** — ChatGPT hands back a 14-step how-to; superbot splits the job across four agents and ships it (27s loop).
 - **a voice clone of you** — superbot takes the next support calls in the rep's cloned voice (~48s loop).
 - **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop).
 - **icons chaos** — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop).

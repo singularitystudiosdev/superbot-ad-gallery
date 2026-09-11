@@ -1,5 +1,13 @@
 [
   {
+    "id": "agent-sales-superbot-c8416897",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "in meetings all day? superbot works your sales pipeline: six deals moved, one closed won (~46s loop)",
+    "src": "animations/agent-sales-superbot-c8416897/",
+    "thumb": "assets/shots/agent-sales-superbot-c8416897.png"
+  },
+  {
     "id": "agent-dataentry-superbot-59d77e34",
     "type": "animation",
     "group": "Ad spots",

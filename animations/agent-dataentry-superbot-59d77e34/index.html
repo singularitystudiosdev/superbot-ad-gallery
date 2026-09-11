@@ -80,21 +80,25 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   #end .lock > * { transform: none !important; opacity: 1 !important; }
 }
 /* ---------- the hub's story card: the job analysis, on the app's own .card ---------- */
-.m-main .card { margin-top: 3px; max-width: 340px; padding: 7px 9px; gap: 4px; }
-.card .c-head { display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--fg); }
-.card .c-head small { margin-left: auto; font: 500 .91em/12px var(--font-mono); color: var(--muted); }
-.an-scan { display: flex; align-items: center; gap: 6px; color: var(--muted); }
-.an-scan .bar { flex: 1; height: 3px; border-radius: 2px; background: var(--raised); overflow: hidden; }
+.m-main .card { margin-top: 4px; max-width: 360px; padding: 9px 11px 10px; gap: 0; border-radius: 8px; }
+.card .c-head { display: flex; align-items: baseline; gap: 8px; font-weight: 700; color: var(--fg); padding-bottom: 7px; }
+.card .c-head small { margin-left: auto; font-size: .91em; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+.an-scan { display: grid; grid-template-columns: 1fr 34px; align-items: center; gap: 6px 8px; color: var(--muted); font-size: .91em; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.an-scan .bar { grid-column: 1 / -1; height: 3px; border-radius: 2px; background: var(--raised); overflow: hidden; }
 .an-scan .bar i { display: block; height: 100%; width: 0; border-radius: 2px; background: var(--accent); }
-.an-scan b { font: 600 .91em/12px var(--font-mono); color: var(--fg); min-width: 62px; text-align: right; }
-.an-row { display: flex; align-items: center; gap: 6px; min-height: 17px; opacity: 0; }
-.an-row .n { color: var(--fg); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.an-row .n small { color: var(--muted); margin-left: 4px; font-size: .91em; }
-.an-row .tag { flex: none; padding: 0 5px; border-radius: 3px; font: 700 .82em/14px var(--ui); letter-spacing: .04em; text-transform: uppercase; background: var(--raised); color: var(--muted); min-width: 56px; text-align: center; }
-.an-row .tag.auto { background: rgba(52,211,153,.14); color: var(--ok, #34d399); }
-.an-row .tag.keep { background: rgba(217,184,107,.14); color: var(--warn); }
-.an-sum { display: grid; gap: 3px; padding-top: 3px; border-top: 1px solid var(--line); color: var(--secondary); opacity: 0; }
-.an-sum b { color: var(--fg); }
+.an-scan b { text-align: right; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+#an-rows { display: grid; gap: 1px; padding: 6px 0 7px; border-bottom: 1px solid var(--line); }
+.an-row { display: grid; grid-template-columns: minmax(0, 1fr) 44px 66px; align-items: center; gap: 8px; height: 19px; opacity: 0; }
+.an-row .n { color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.an-row .f { color: var(--muted); font-size: .91em; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.an-row .tag { display: flex; align-items: center; justify-content: center; gap: 4px; height: 16px; border-radius: 4px; font-size: .82em; font-weight: 600; background: var(--raised); color: var(--muted); }
+.an-row .tag::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .9; }
+.an-row .tag.auto { background: rgba(52,211,153,.12); color: #34d399; }
+.an-row .tag.keep { background: rgba(217,184,107,.12); color: var(--warn); }
+.an-sum { display: grid; gap: 5px; padding-top: 8px; color: var(--muted); font-size: .91em; opacity: 0; }
+.an-sum .top { display: flex; align-items: baseline; justify-content: space-between; }
+.an-sum .big { font-size: 1.2em; font-weight: 700; color: var(--fg); font-variant-numeric: tabular-nums; }
+.an-sum b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .an-sum .bar { height: 4px; border-radius: 2px; background: var(--raised); overflow: hidden; }
 .an-sum .bar i { display: block; height: 100%; width: 0; border-radius: 2px; background: var(--storm-x); }
 
@@ -243,7 +247,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
                   <div class="date-div">September 11, 2026</div>
                   <div class="msg" id="h-user"><span class="avatar" style="--c:#fb7185">D</span><div class="m-main"><div class="m-head"><span class="m-name">dan</span><span class="m-when">9:02 AM</span></div><div class="m-text" id="h-ask"></div></div></div>
                   <div class="msg" id="h-bot1"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">9:02 AM</span></div><div class="m-text" id="h-r1"></div>
-                    <div class="card" id="acard"><div class="c-head">Analyzing your job<small id="an-n">0 tasks</small></div><div class="an-scan"><span id="an-lab">watching 2 weeks of activity</span><span class="bar"><i id="an-bar"></i></span><b id="an-pct">0%</b></div><div id="an-rows"></div><div class="an-sum" id="an-sum"><span><b id="an-auto">0</b> of <b id="an-tot">0</b> tasks are routine entry · <b id="an-share">0%</b> automatable</span><span class="bar"><i id="an-sbar"></i></span></div></div>
+                    <div class="card" id="acard"><div class="c-head">Analyzing your job<small id="an-n">0 tasks</small></div><div class="an-scan"><span id="an-lab">watching 2 weeks of activity</span><b id="an-pct">0%</b><span class="bar"><i id="an-bar"></i></span></div><div id="an-rows"></div><div class="an-sum" id="an-sum"><div class="top"><span class="big" id="an-share">0% automatable</span><span><b id="an-auto">0</b> of <b id="an-tot">0</b> tasks</span></div><span class="bar"><i id="an-sbar"></i></span></div></div>
                   </div></div>
                   <div class="msg" id="h-bot2"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">9:03 AM</span></div><div class="m-text" id="h-r2"></div></div></div>
                 </div>
@@ -329,7 +333,7 @@ const PROMPT = "I am data entry operator. I want you to automate any parts of th
 const R1 = 'On it. Let me look at how you actually spend the day.';
 const TASKS = [
   { n: 'Copy invoice fields into the ERP', s: '61 / wk', tag: 'auto' },
-  { n: 'Create customer records from signup CSV', s: '38 / wk', tag: 'auto' },
+  { n: 'Create customers from signup CSV', s: '38 / wk', tag: 'auto' },
   { n: 'Reconcile mismatched totals', s: '9 / wk', tag: 'keep' },
   { n: 'Receive stock and log quantities', s: '44 / wk', tag: 'auto' },
   { n: 'Approve vendor exceptions', s: '6 / wk', tag: 'keep' },
@@ -366,7 +370,7 @@ const CUTS = [B.card1, B.back, B.erp, B.card2, B.end, B.loop];
 const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 const anRows = TASKS.map((k) => {
   const r = document.createElement('div'); r.className = 'an-row';
-  r.innerHTML = `<span class="n">${esc(k.n)}<small>${k.s}</small></span><span class="tag">…</span>`;
+  r.innerHTML = `<span class="n">${esc(k.n)}</span><span class="f">${k.s}</span><span class="tag">…</span>`;
   $('an-rows').appendChild(r); return r;
 });
 $('er-recent').innerHTML = RECENT.map((r) => `<div class="er-row"><b>${r[0]}</b><span>${r[1]}</span><span>${r[2]}</span><span>${r[3]}</span><span class="pill">Posted</span></div>`).join('');
@@ -429,15 +433,16 @@ function renderHub(t) {
   anLab.textContent = sc >= 1 ? 'activity scanned' : 'watching 2 weeks of activity';
   anRows.forEach((r, i) => {
     const at = B.rows[i], p = seg(t, at, at + 0.25);
+    r.style.display = t >= at - 0.01 ? '' : 'none';
     r.style.opacity = String(p); r.style.transform = `translateY(${((1 - outCubic(p)) * 4).toFixed(1)}px)`;
     const tag = r.querySelector('.tag'), on = t >= at + B.verdict;
     tag.className = 'tag' + (on ? ' ' + TASKS[i].tag : '');
-    tag.textContent = on ? (TASKS[i].tag === 'auto' ? 'automate' : 'keep') : '…';
+    tag.textContent = on ? (TASKS[i].tag === 'auto' ? 'automate' : 'keep') : 'scanning';
   });
   const sp = seg(t, B.sum, B.sum + 0.5);
-  op(anSum, sp * 2);
+  op(anSum, sp * 2); anSum.style.display = t >= B.sum - 0.01 ? '' : 'none';
   anAuto.textContent = String(Math.round(outCubic(sp) * AUTO)); anTot.textContent = String(TOTAL);
-  anShare.textContent = `${Math.round(outCubic(sp) * 100 * AUTO / TOTAL)}%`;
+  anShare.textContent = `${Math.round(outCubic(sp) * 100 * AUTO / TOTAL)}% automatable`;
   anSbar.style.width = `${(outCubic(sp) * 100 * AUTO / TOTAL).toFixed(1)}%`;
   feedEl.scrollTop = feedEl.scrollHeight;
 }

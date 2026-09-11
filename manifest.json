@@ -1,13 +1,5 @@
 [
   {
-    "id": "agents-forgetting-superbot-6f50ea56",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "agents forgetting? ChatGPT asks for the migration plan a fourth time while superbot picks it up at step 3 (27.5s loop)",
-    "src": "animations/agents-forgetting-superbot-6f50ea56/",
-    "thumb": "assets/shots/agents-forgetting-superbot-6f50ea56.png"
-  },
-  {
     "id": "tabs-chaos-superbot-6f50ea56",
     "type": "animation",
     "group": "Ad spots",
@@ -19,7 +11,7 @@
     "id": "agents-managed-superbot-6f50ea56",
     "type": "animation",
     "group": "Ad spots",
-    "title": "one agent? ChatGPT hands back a 14-step how-to, superbot splits the job across Cursor, Claude, Gemini and ChatGPT and ships it (27s loop)",
+    "title": "one agent? ChatGPT hands back a 14-step how-to, superbot splits a bakery website across Cursor, Claude, Gemini and ChatGPT and puts it online (27s loop)",
     "src": "animations/agents-managed-superbot-6f50ea56/",
     "thumb": "assets/shots/agents-managed-superbot-6f50ea56.png"
   },

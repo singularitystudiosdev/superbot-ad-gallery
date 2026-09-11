@@ -25,7 +25,7 @@
 // asset paths rebased to assets/, and the IIFE wrapped so the ad can re-run it on each loop and be
 // told when the frontend has fully extended (onDone). Nothing else changed.
 // tabs-chaos-superbot-6f50ea56: runSphereIntro(onDone, startMs) — startMs jumps into the timeline (the bench's ?intro= pattern,
-// exposed as an argument) so the ad can hand off from its tab-strip blur straight into the spinning, converging apps
+// exposed as an argument) so the ad can hand off from its open tab strip straight into the mark's flip (MERGE_T)
 window.runSphereIntro = (onDone, startMs) => {
   let doneFired = false;
   const fireDone = () => { if (doneFired) return; doneFired = true; if (onDone) onDone(); };

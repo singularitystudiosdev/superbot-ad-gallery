@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>kill the tabs — superbot ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="Fourteen AI tabs open in a 1:1 Chrome, the camera dives into the tab strip and pans across them faster and faster until they blur into the spinning apps of the superbot.gg hero: the mark flips, the rail drops, the frontend extends. Then: kill the tabs. ~22s loop, 1920x1080."/>
+<meta name="description" content="Fourteen AI tabs open in a 1:1 Chrome, a run through them, then straight into the superbot.gg hero: the mark flips, the rail drops, the frontend extends. Then: kill the tabs. ~19s loop, 1920x1080."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"/>
 <!-- the hero box: the site's own stylesheet, verbatim (cloned-xdxdxd site/site/assets/hub-boot-3.css) -->
@@ -49,7 +49,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 
 /* ---------- scene 1: Chrome (macOS, dark), designed at 1536x864 and shown at 1.25 ---------- */
 #bwrap { z-index: 10; background: #000; }
-#cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; will-change: transform, filter; }
+#cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
 #browser { position: absolute; left: 0; top: 0; width: 1536px; height: 864px; transform: scale(1.25); transform-origin: 0 0; background: var(--ch-frame); color: var(--ch-text); display: grid; grid-template-rows: 40px 40px minmax(0, 1fr); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
 /* the tab strip: traffic lights, the tabs (34px, bottom-aligned), the new-tab button, the tab-search chevron */
 .strip { position: relative; display: flex; align-items: flex-end; padding: 6px 44px 0 80px; }
@@ -149,8 +149,6 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <!-- the motion blur: a horizontal gaussian whose deviation render(t) sets from the camera's speed -->
-    <filter id="mb" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB"><feGaussianBlur id="mb-b" stdDeviation="0 0"/></filter>
     <!-- the brand face: mark-clean.svg's mask geometry (site/site/assets/brand) -->
     <mask id="face" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160">
       <g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g>
@@ -279,10 +277,10 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 <script>
 // ---------- the clocks ----------
 // Act 1 (the browser) is one renderBrowser(tb), a pure function of browser time: fourteen tabs
-// open, the camera dives into the strip and pans across them until they blur. At the peak it
-// hands to the site's own sphere-intro (real-time WAAPI, verbatim), joined at its spin-up so the
-// blurred favicons become the spinning apps: they merge, the mark flips, the rail drops, the
-// frontend extends. From that moment Act 3 is one render(t) of story time: the frontend holds,
+// open, then a run through them. As the run ends it hands to the site's own sphere-intro
+// (real-time WAAPI, verbatim), joined at its merge so the very next thing on screen is the
+// mark's flip: the mark flips, the rail drops, the frontend extends. From that moment Act 3 is
+// one render(t) of story time: the frontend holds,
 // the card, the end card. `?b=<s>` holds a browser frame, `?t=<s>` a story frame (the hub
 // composed in its end state), `?t=<s>&play=1` runs on from there.
 const FPS = 30;
@@ -291,7 +289,6 @@ const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
 const outQuint = (p) => 1 - Math.pow(1 - p, 5);
 const outCubic = (p) => 1 - Math.pow(1 - p, 3);
-const inOutCubic = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
 const outBack = (p) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
 const lerp = (a, b, p) => a + (b - a) * p;
 const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
@@ -322,12 +319,9 @@ const N = TABS.length;
 const TB = {
   spawn0: 0.4, spawnGap: 0.19,             // tab 2 opens at 0.4, then one every 0.19s (tab 14 at 2.68)
   flickA: 2.95, flickB: 4.15,              // then a run through all fourteen, faster and faster
-  zoomA: 4.25, zoomB: 4.95,                // the camera dives into the strip
-  panA: 5.0, panB: 7.1,                    // and pans across the tabs, accelerating into a blur
-  hand: 6.75, out: 7.25,                   // the sphere joins under it at 6.75; the browser is gone by 7.25
+  hand: 4.2, out: 4.6,                     // the mark's flip starts under it at 4.2; the browser is gone by 4.6
 };
-const INTRO_START_MS = 3050;               // sphere-intro joined here: every app already up, spinning fast, 950ms before the merge
-const Z = 4.4;                             // the dive: a tab ends up ~540px wide on the 1920 frame
+const INTRO_START_MS = 4000;               // sphere-intro's MERGE_T: joined at the flip itself, no spin-up, no blur
 
 function fav(spec, size) {
   const [kind, bg, fg] = spec.split('|');
@@ -356,38 +350,13 @@ TABS.forEach(([title, host, f, p], i) => {
   pane.insertAdjacentHTML('beforeend', `<div class="pg" id="pg${i}" style="${vars}">${side}<div class="mid">${greet}${comp}</div><div class="foot">${esc(title)} can make mistakes. Check important info.</div></div>`);
 });
 const tabEls = TABS.map((_, i) => $('tab' + i)), pgEls = TABS.map((_, i) => $('pg' + i));
-const cam = $('cam'), mbB = $('mb-b'), bwrap = $('bwrap'), urlEl = $('url');
+const bwrap = $('bwrap'), urlEl = $('url');
 const openAt = (i) => (i === 0 ? -1 : TB.spawn0 + (i - 1) * TB.spawnGap);
 
-// the camera: focus the frame point (sx, sy) at zoom k, held at the frame's centre-top third
-function camera(sx, sy, k, cy = 400) {
-  // the frame never looks past the browser's edges: the translation is clamped to keep it covered
-  const tx = Math.max(1920 - k * 1920, Math.min(0, 960 - k * sx)), ty = Math.max(1080 - k * 1080, Math.min(0, cy - k * sy));
-  cam.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${k.toFixed(4)})`;
-}
-// tab i's centre, in FRAME px (the strip is drawn at 1.25x): measured live, the strip reflows as tabs open
-function tabCentre(i) {
-  const r = tabEls[i].getBoundingClientRect(), b = $('browser').getBoundingClientRect();
-  const k = b.width / 1536; // frame px per design px, whatever the viewport scale and the camera zoom
-  return { x: (r.left + r.width / 2 - b.left) / k * 1.25, y: (r.top + r.height / 2 - b.top) / k * 1.25, w: r.width / k * 1.25 };
-}
-let lastBlur = -1;
-function setBlur(sd) {
-  sd = Math.round(sd * 2) / 2;
-  if (sd === lastBlur) return;
-  lastBlur = sd;
-  mbB.setAttribute('stdDeviation', `${sd} 0`);
-  cam.style.filter = sd > 0 ? 'url(#mb)' : 'none';
-}
 // the run through the tabs: index as a function of time, accelerating (each step shorter than the last)
 function flickIndex(tb) {
   const p = seg(tb, TB.flickA, TB.flickB);
   return Math.min(N - 1, Math.floor(p * p * N));
-}
-// the pan: a continuous tab index that accelerates exponentially, past the last tab and off into the blur
-function panU(tb) {
-  const p = seg(tb, TB.panA, TB.panB), k = 3.4;
-  return (Math.exp(k * p) - 1) / (Math.exp(k) - 1) * (N + 1.2) - 0.6; // starts just left of tab 1, ends just past tab 14
 }
 function renderBrowser(tb) {
   // which tabs are open, which one is active
@@ -396,7 +365,6 @@ function renderBrowser(tb) {
   let act = 0;
   for (let i = N - 1; i >= 0; i--) if (tb >= openAt(i)) { act = i; break; }
   if (flicking) act = flickIndex(tb);
-  if (tb >= TB.zoomA) act = Math.max(0, Math.min(N - 1, Math.round(panU(tb)))); // the pan lights the tab under the camera
   let prevOpen = -1;
   TABS.forEach((_, i) => {
     const isOpen = tb >= openAt(i);
@@ -412,24 +380,8 @@ function renderBrowser(tb) {
   });
   urlEl.innerHTML = `<b>${TABS[act][1]}</b>`;
   // the tab counter Chrome's tab search offers, once it has got bad
-  const tc = seg(tb, 1.9, 2.2) * (1 - seg(tb, TB.zoomA - 0.2, TB.zoomA));
+  const tc = seg(tb, 1.9, 2.2) * (1 - seg(tb, TB.hand - 0.2, TB.hand));
   op($('tabcount'), tc); $('tabcount-n').textContent = String(open);
-  // the camera: still, then the dive into the strip, then the pan
-  if (tb < TB.zoomA) { camera(960, 540, 1, 540); setBlur(0); return; }
-  const zp = inOutCubic(seg(tb, TB.zoomA, TB.zoomB));
-  const u = panU(tb);
-  // the focus point: tab u's centre (interpolated between neighbours, extrapolated past the ends)
-  const c0 = tabCentre(0), c1 = tabCentre(N - 1);
-  const pitch = (c1.x - c0.x) / (N - 1);
-  const fx = c0.x + u * pitch, fy = c0.y;
-  const k = lerp(1, Z, zp);
-  // the browser's top edge stays pinned to the frame's top while the camera dives: the strip grows down from it
-  const sy = lerp(540, fy, zp), cy = lerp(540, k * fy, zp);
-  camera(lerp(960, fx, zp), sy, k, cy);
-  // motion blur from the camera's own speed (frame px per frame, across the horizontal)
-  const dt = 1 / FPS, v = (panU(tb + dt) - u) / dt * pitch * k; // px/s on the frame
-  const sd = tb < TB.panA ? 0 : Math.min(44, (v / FPS) * 0.5);
-  setBlur(sd);
 }
 
 // ---------- act 3: story time (0 = the frontend has fully extended) ----------
@@ -493,14 +445,13 @@ function showBrowser(on) { bwrap.classList.toggle('on', on); op(bwrap, on ? 1 : 
 function startBrowser() {
   phase = 'browser'; tb0 = performance.now(); last = -1; handed = false;
   for (const k in scenes) { scenes[k].classList.remove('on'); op(scenes[k], 0); }
-  setBlur(0); camera(960, 540, 1, 540);
   showBrowser(true);
   op(dip, 1);
   dip.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards', easing: 'ease-out' });
 }
 function startStory() { t0 = performance.now(); last = -1; phase = 'story'; }
 function handoff() {
-  // the sphere joins under the blur: the hero scene comes on beneath the browser, the intro runs from its spin-up
+  // the flip starts under the browser: the hero scene comes on beneath it, the intro runs from its merge
   handed = true;
   scenes.site.classList.add('on'); op(scenes.site, 1);
   phase = 'intro';
@@ -514,7 +465,7 @@ function tick(now) {
     if (f !== last) {
       last = f;
       if (tb < TB.out) { renderBrowser(f / FPS); op(bwrap, 1 - seg(tb, TB.hand, TB.out)); }
-      else if (bwrap.classList.contains('on')) { showBrowser(false); setBlur(0); }
+      else if (bwrap.classList.contains('on')) showBrowser(false);
     }
     if (!handed && tb >= TB.hand) handoff();
     return;

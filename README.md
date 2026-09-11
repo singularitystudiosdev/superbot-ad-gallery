@@ -7,7 +7,7 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-6 ad spots, gathered from the workspace projects and the GitHub repos:
+8 ad spots, gathered from the workspace projects and the GitHub repos:
 
 - **a voice clone of you** — superbot takes the next support calls in the rep's cloned voice (~48s loop).
 - **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop).

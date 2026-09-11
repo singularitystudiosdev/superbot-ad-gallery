@@ -9,7 +9,7 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 9 ad spots, gathered from the workspace projects and the GitHub repos:
 
-- **14 tabs?** — the same prompt pasted into fourteen AI tabs; superbot asks every agent from one window (28s loop).
+- **14 tabs?** — the same prompt pasted into fourteen AI tabs; superbot asks every agent from one window (15s loop).
 - **a voice clone of you** — superbot takes the next support calls in the rep's cloned voice (~48s loop).
 - **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop).
 - **icons chaos** — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop).

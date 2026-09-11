@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>kill the tabs — superbot ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="Fourteen AI tabs open in a 1:1 Chrome, a run through them, then straight into the superbot.gg hero: the mark flips, the rail drops, the frontend extends. Then: kill the tabs. ~19s loop, 1920x1080."/>
+<meta name="description" content="Fourteen AI tabs open in a 1:1 Chrome, a run through them, then straight into the superbot.gg hero: the mark flips, the rail drops, the frontend extends. Then: kill the tabs. ~15s loop, 1920x1080."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"/>
 <!-- the hero box: the site's own stylesheet, verbatim (cloned-xdxdxd site/site/assets/hub-boot-3.css) -->
@@ -386,9 +386,9 @@ function renderBrowser(tb) {
 
 // ---------- act 3: story time (0 = the frontend has fully extended) ----------
 const B = {
-  hello: 0.5,                        // superbot's line lands in the chat lane
-  card: 3.6, cardOut: 5.6,           // dip, "kill the tabs.", dip
-  end: 6.0, word: 6.7, loop: 9.8,    // the end card, then the loop restarts the browser
+  hello: 0.15,                       // superbot's line lands in the chat lane (before the dip starts at card-0.3)
+  card: 0.9, cardOut: 2.9,           // dip, "kill the tabs.", dip — the frontend holds 0.9s (was 3.6s, x4 shorter)
+  end: 3.3, word: 4.0, loop: 7.1,    // the end card, then the loop restarts the browser
 };
 const CUTS = [B.card, B.end, B.loop];
 const frame = $('frame'), dip = $('dip');

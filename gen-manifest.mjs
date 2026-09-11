@@ -45,7 +45,7 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
-  ['tabs-chaos-superbot-6f50ea56', 'tabs-chaos-superbot-6f50ea56/', '14 tabs? the same prompt pasted into fourteen AI tabs, then superbot asks every agent from one window (28s loop)', 'Ad spots'],
+  ['tabs-chaos-superbot-6f50ea56', 'tabs-chaos-superbot-6f50ea56/', '14 tabs? the same prompt pasted into fourteen AI tabs, then superbot asks every agent from one window (15s loop)', 'Ad spots'],
   ['agent-voice-superbot-59d77e34', 'agent-voice-superbot-59d77e34/', 'a voice clone of you — superbot takes the next support calls in the rep\'s cloned voice (~48s loop)', 'Ad spots'],
   ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop)', 'Ad spots'],
   ['icons-chaos-slam-superbot-544078ab', 'icons-chaos-slam-superbot-544078ab/', 'icons chaos — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop)', 'Ad spots'],

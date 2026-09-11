@@ -45,6 +45,7 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
+  ['agent-recruiting-superbot-bf27373d', 'agent-recruiting-superbot-bf27373d/', 'hire faster — superbot screens 84 applicants on the ATS board and books the phone screens (~39s loop)', 'Ad spots'],
   ['agent-sales-superbot-c8416897', 'agent-sales-superbot-c8416897/', 'in meetings all day? superbot works your sales pipeline: six deals moved, one closed won (~46s loop)', 'Ad spots'],
   ['agent-dataentry-superbot-59d77e34', 'agent-dataentry-superbot-59d77e34/', 'automate the routine — superbot audits a data-entry backlog and automates it across six ERP pages (35s loop)', 'Ad spots'],
   ['agent-voice-superbot-59d77e34', 'agent-voice-superbot-59d77e34/', 'a voice clone of you — superbot takes the next support calls in the rep\'s cloned voice (~48s loop)', 'Ad spots'],

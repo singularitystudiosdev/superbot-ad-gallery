@@ -1,5 +1,13 @@
 [
   {
+    "id": "agent-recruiting-superbot-bf27373d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "hire faster — superbot screens 84 applicants on the ATS board and books the phone screens (~39s loop)",
+    "src": "animations/agent-recruiting-superbot-bf27373d/",
+    "thumb": "assets/shots/agent-recruiting-superbot-bf27373d.png"
+  },
+  {
     "id": "agent-sales-superbot-c8416897",
     "type": "animation",
     "group": "Ad spots",

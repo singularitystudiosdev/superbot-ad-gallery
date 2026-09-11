@@ -329,7 +329,7 @@ const lerp = (a, b, p) => a + (b - a) * p;
 const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
 
 // ---------- copy ----------
-const PROMPT = "I am data entry operator. I want you to automate any parts of the job that don't require any creative or problem solving skills.";
+const PROMPT = "I do data entry, help me do it";
 const R1 = 'On it. Let me look at how you actually spend the day.';
 const TASKS = [
   { n: 'Copy invoice fields into the ERP', s: '61 / wk', tag: 'auto' },
@@ -354,15 +354,15 @@ const RECENT = [['INV-10230', 'Acme Freight', 'Invoice', '$2,310.00'], ['CUS-551
 // ---------- the beat sheet (story seconds, 0 = the frontend has fully extended) ----------
 const B = {
   card1: 1.0, card1Out: 2.55, back: 2.9,
-  typeA: 3.5, typeB: 6.1, send: 6.3, ask: 6.4,             // the operator's prompt
-  r1: 7.1, cps: 60,                                        // "let me look at how you spend the day"
-  acard: 8.1, scanA: 8.3, scanB: 9.7,                     // the analysis card, the scan counter climbs
-  rows: [9, 9.35, 9.7, 10.05, 10.4, 10.75], verdict: 0.45, // each task lands, its verdict flips in
-  sum: 11.4,                                               // the summary bar
-  r2: 12.1,                                                // "Starting now…"
-  erp: 13.8,                                               // dip to the ERP
-  pageAt: [14.2, 15.4, 16.6, 17.8, 19, 20.2], pageDur: 1.2, fieldStep: 0.09, fieldIn: 0.15, save: 0.98, // six pages, ~6.2s of entry
-  card2: 22, card2Out: 24.5, end: 24.9, word: 25.6, loop: 28.9,
+  typeA: 3.5, typeB: 4.29, send: 4.49, ask: 4.59,             // the operator's prompt
+  r1: 5.29, cps: 60,                                        // "let me look at how you spend the day"
+  acard: 6.29, scanA: 6.49, scanB: 7.89,                     // the analysis card, the scan counter climbs
+  rows: [7.19, 7.54, 7.89, 8.24, 8.59, 8.94], verdict: 0.45, // each task lands, its verdict flips in
+  sum: 9.59,                                               // the summary bar
+  r2: 10.29,                                                // "Starting now…"
+  erp: 11.99,                                               // dip to the ERP
+  pageAt: [12.39, 13.59, 14.79, 15.99, 17.19, 18.39], pageDur: 1.2, fieldStep: 0.09, fieldIn: 0.15, save: 0.98, // six pages, ~4.39s of entry
+  card2: 20.19, card2Out: 22.69, end: 23.09, word: 23.79, loop: 27.09,
 };
 const CUTS = [B.card1, B.back, B.erp, B.card2, B.end, B.loop];
 

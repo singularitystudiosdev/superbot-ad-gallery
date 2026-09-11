@@ -45,9 +45,9 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
-  ['agent-dataentry-superbot-59d77e34', 'agent-dataentry-superbot-59d77e34/', 'automate the routine — superbot audits a data-entry backlog and automates it across six ERP pages (37s loop)', 'Ad spots'],
-  ['agent-voice-superbot-59d77e34', 'agent-voice-superbot-59d77e34/', 'a voice clone of you — superbot takes the next support calls in the rep\'s cloned voice (~50s loop)', 'Ad spots'],
-  ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~33s loop)', 'Ad spots'],
+  ['agent-dataentry-superbot-59d77e34', 'agent-dataentry-superbot-59d77e34/', 'automate the routine — superbot audits a data-entry backlog and automates it across six ERP pages (35s loop)', 'Ad spots'],
+  ['agent-voice-superbot-59d77e34', 'agent-voice-superbot-59d77e34/', 'a voice clone of you — superbot takes the next support calls in the rep\'s cloned voice (~48s loop)', 'Ad spots'],
+  ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop)', 'Ad spots'],
   ['icons-chaos-slam-superbot-544078ab', 'icons-chaos-slam-superbot-544078ab/', 'icons chaos — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop)', 'Ad spots'],
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper (27s loop)', 'Ad spots'],
   ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email (30.5s loop)', 'Ad spots'],

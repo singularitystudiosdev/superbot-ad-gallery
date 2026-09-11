@@ -436,15 +436,15 @@ const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
 // ---------- the beat sheet (story seconds, 0 = the frontend has fully extended) ----------
 const B = {
   card1: 1.0, card1Out: 2.55, back: 2.9,               // dip, the first card, dip, the hub again
-  typeA: 3.5, typeB: 5.4, send: 5.6, ask: 5.7,          // the prompt types, the send press, the message lands
-  reply: 6.4, replyCps: 58,                             // superbot answers, typed
-  gmail: 8.9,                                           // dip to Gmail
-  mail: [9.7, 11.8, 13.9, 16],                       // one thread each: open, reply typed, sent, back
-  card2: 18.5, card2Out: 21,                          // dip, the second card
-  end: 21.4, word: 22.1, loop: 25.4,                    // the end card, then the loop restarts the intro
+  typeA: 3.5, typeB: 4.13, send: 4.33, ask: 4.43,          // the prompt types, the send press, the message lands
+  reply: 5.13, replyCps: 58,                             // superbot answers, typed
+  gmail: 7.63,                                           // dip to Gmail
+  mail: [8.43, 10.53, 12.63, 14.73],                       // one thread each: open, reply typed, sent, back
+  card2: 17.23, card2Out: 19.73,                          // dip, the second card
+  end: 20.13, word: 20.83, loop: 24.13,                    // the end card, then the loop restarts the intro
 };
 const CUTS = [B.card1, B.back, B.gmail, B.card2, B.end, B.loop]; // every hard cut hides under a 0.3s dip either side
-const PROMPT = 'Respond to all my emails in my exact style that can be easily automated';
+const PROMPT = 'Respond to all my emails';
 const REPLY = 'Yes sir let me start scanning your emails and set up a autonomous agent';
 const MAILS = [
   { who: 'Priya Nair', addr: 'priya@northwind.co', c: '#c5221f', subj: 'Invoice #2291 due Friday', snip: 'Hi Dan, just a reminder that invoice 2291 is due this Friday. Could you confirm it is on its way?', time: '9:14 AM', when: '9:14 AM (12 minutes ago)',

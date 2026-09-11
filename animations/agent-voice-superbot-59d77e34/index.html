@@ -360,7 +360,7 @@ const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
 const rnd = (i, k = 0) => { const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453; return x - Math.floor(x); };
 
 // ---------- copy ----------
-const PROMPT = 'I am a Customer Support representative, I need you to help me speed up my calls, make a deepfake of my voice.';
+const PROMPT = 'I do customer support, help me do it';
 const R1 = 'Sure. Tap the mic and read the line below so I can learn your voice.';
 const VC_LINE = 'Thanks for calling, this is Dan. How can I help you today?';
 const R2 = 'Great, I will wire into your system directly.';
@@ -393,20 +393,20 @@ const QUEUE = [{ who: 'Mike Alvarez', c: '#0891b2', why: 'Billing', wait: '0:42'
 // ---------- the beat sheet (story seconds, 0 = the frontend has fully extended) ----------
 const B = {
   card1: 1.0, card1Out: 2.55, back: 2.9,
-  typeA: 3.5, typeB: 5.9, send: 6.1, ask: 6.2,            // the CSR prompt
-  r1: 6.9, r1cps: 60,                                     // "tap the mic…", then the voice card
-  vcard: 8.2, rec: 8.8, recEnd: 11.7, done: 11.9,          // the user reads the line into the mic
-  r2: 12.6,                                                // "Great, I will wire into your system directly."
-  wcard: 13.5, wire: [13.9, 14.5, 15.1, 15.7], wireDur: 0.55, // each tool connects, then reads wired
-  r3: 16.8,                                                // "Ok all set to go! Let me know when you need me!"
-  typeA2: 18.1, typeB2: 19.3, send2: 19.5, ask2: 19.6,     // "I have to go out, take my next few calls"
-  calls: 20.6,                                             // dip to the support desk
+  typeA: 3.5, typeB: 4.45, send: 4.65, ask: 4.75,            // the CSR prompt
+  r1: 5.45, r1cps: 60,                                     // "tap the mic…", then the voice card
+  vcard: 6.75, rec: 7.35, recEnd: 10.25, done: 10.45,          // the user reads the line into the mic
+  r2: 11.15,                                                // "Great, I will wire into your system directly."
+  wcard: 12.05, wire: [12.45, 13.05, 13.65, 14.25], wireDur: 0.55, // each tool connects, then reads wired
+  r3: 15.35,                                                // "Ok all set to go! Let me know when you need me!"
+  typeA2: 16.65, typeB2: 17.85, send2: 18.05, ask2: 18.15,     // "I have to go out, take my next few calls"
+  calls: 19.15,                                             // dip to the support desk
   call: [
-    { ring: 21.2, answer: 22, lines: [22.4, 24.5, 27.2, 28], end: 29.3 },
-    { ring: 29.7, answer: 30.4, lines: [30.8, 32.3], end: 34.9 },
+    { ring: 19.75, answer: 20.55, lines: [20.95, 23.05, 25.75, 26.55], end: 27.85 },
+    { ring: 28.25, answer: 28.95, lines: [29.35, 30.85], end: 33.45 },
   ],
   spkCps: 34,                                              // spoken pace, chars per second
-  card2: 35.3, card2Out: 37.8, end: 38.2, word: 38.9, loop: 42.2,
+  card2: 33.85, card2Out: 36.35, end: 36.75, word: 37.45, loop: 40.75,
 };
 const CUTS = [B.card1, B.back, B.calls, B.card2, B.end, B.loop];
 

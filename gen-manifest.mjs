@@ -45,12 +45,12 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
-  ['agent-dataentry-superbot-59d77e34', 'agent-dataentry-superbot-59d77e34/', 'automate the routine — the superbot.gg hero boots 1:1, title card, a data entry operator asks superbot to automate everything that needs no creativity or judgement, superbot scans two weeks of work and classifies each task (automate / keep), then enters records across six ERP pages in seven seconds, second card, end screen (~38s loop)', 'Ad spots'],
-  ['agent-voice-superbot-59d77e34', 'agent-voice-superbot-59d77e34/', 'a deepfake of my voice — the superbot.gg hero boots 1:1, title card, a support rep asks superbot to clone their voice, reads a line into the mic (live waveform), superbot wires into Twilio/Zendesk/HubSpot/Calendar, then takes the next calls on a support desk softphone in their voice, second card, end screen (~51s loop)', 'Ad spots'],
-  ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all in one agent workspace — the superbot.gg hero boots 1:1 (apps spin, mark flips, rail drops, frontend extends), title card, the user asks superbot to answer every email in their style, 1:1 Gmail with the agent replying to each thread, second card, end screen (~34s loop)', 'Ad spots'],
-  ['icons-chaos-slam-superbot-544078ab', 'icons-chaos-slam-superbot-544078ab/', 'skill chips + real app icons chaos — 65 filename bubbles (scraper.md, inbox-triage.md…) + 55 real brand tiles (chatgpt, claude, devin, cursor, hermes, vscode, warp…) bounce like a dvd screensaver, superbot slams in, sucks them in, spits out organized lists, "Your agent, for your agents" (13.4s loop)', 'Ad spots'],
-  ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot can do it — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop)', 'Ad spots'],
-  ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? superbot can do it — URGENT email, ChatGPT dribbles at 30 wpm, superbot writes the whole email with a fade typewriter, one-click copy (30.5s loop)', 'Ad spots'],
+  ['agent-dataentry-superbot-59d77e34', 'agent-dataentry-superbot-59d77e34/', 'automate the routine — superbot scans two weeks of data-entry work and automates it across six ERP pages (~38s loop)', 'Ad spots'],
+  ['agent-voice-superbot-59d77e34', 'agent-voice-superbot-59d77e34/', 'a voice clone of you — superbot takes the next support calls in the rep\'s cloned voice (~51s loop)', 'Ad spots'],
+  ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~34s loop)', 'Ad spots'],
+  ['icons-chaos-slam-superbot-544078ab', 'icons-chaos-slam-superbot-544078ab/', 'icons chaos — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop)', 'Ad spots'],
+  ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper (27s loop)', 'Ad spots'],
+  ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email (30.5s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],
   ['yes-man-pros', 'yes-man/pros.html', 'yes man · pros', 'Ad spots'],

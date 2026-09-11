@@ -7,12 +7,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-7 ad spots, gathered from the workspace projects and the GitHub repos:
+9 ad spots, gathered from the workspace projects and the GitHub repos:
 
-- **your all in one agent workspace** — the superbot.gg hero boots 1:1 (apps spin, mark flips, rail drops, frontend extends), title card, the user asks superbot to answer every email in their style, 1:1 Gmail with the agent replying to each thread, second card, end screen (~34s loop).
-- **skill chips + real app icons chaos** — 65 filename bubbles (scraper.md, inbox-triage.md…) + 55 real brand tiles (chatgpt, claude, devin, cursor, hermes, vscode, warp…) bounce like a dvd screensaver, superbot slams in, sucks them in, spits out organized lists, "Your agent, for your agents" (13.4s loop).
-- **agents refusing? superbot can do it** — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop).
-- **agents slow? superbot can do it** — URGENT email, ChatGPT dribbles at 30 wpm, superbot writes the whole email with a fade typewriter, one-click copy (30.5s loop).
+- **automate the routine** — superbot scans two weeks of data-entry work and automates it across six ERP pages (~38s loop).
+- **a voice clone of you** — superbot takes the next support calls in the rep's cloned voice (~51s loop).
+- **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~34s loop).
+- **icons chaos** — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop).
+- **agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper** (27s loop).
+- **agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email** (30.5s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
 - **hi i am claude**.
 - **yes man · pros**.

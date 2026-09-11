@@ -45,6 +45,7 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
+  ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all in one agent workspace — the superbot.gg hero boots 1:1 (apps spin, mark flips, rail drops, frontend extends), title card, the user asks superbot to answer every email in their style, 1:1 Gmail with the agent replying to each thread, second card, end screen (~34s loop)', 'Ad spots'],
   ['icons-chaos-slam-superbot-544078ab', 'icons-chaos-slam-superbot-544078ab/', 'skill chips + real app icons chaos — 65 filename bubbles (scraper.md, inbox-triage.md…) + 55 real brand tiles (chatgpt, claude, devin, cursor, hermes, vscode, warp…) bounce like a dvd screensaver, superbot slams in, sucks them in, spits out organized lists, "Your agent, for your agents" (13.4s loop)', 'Ad spots'],
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot can do it — ChatGPT 1:1 refusal, hub zoom, copy-paste scraper (27s loop)', 'Ad spots'],
   ['agent-workspace-superbot-e55f63e5', 'agent-workspace-superbot-e55f63e5/', 'your all-in-one agent workspace — the cloned-xdxdxd hero box 1:1 (apps spin, mark flip, app dropdown, frontend display), superbot answers the email prompt, then a 1:1 Gmail where the agent replies to every email (34.6s loop)', 'Ad spots'],

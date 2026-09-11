@@ -1,5 +1,13 @@
 [
   {
+    "id": "agent-voice-superbot-59d77e34",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "a deepfake of my voice — the superbot.gg hero boots 1:1, title card, a support rep asks superbot to clone their voice, reads a line into the mic (live waveform), superbot wires into Twilio/Zendesk/HubSpot/Calendar, then takes the next calls on a support desk softphone in their voice, second card, end screen (~51s loop)",
+    "src": "animations/agent-voice-superbot-59d77e34/",
+    "thumb": "assets/shots/agent-voice-superbot-59d77e34.png"
+  },
+  {
     "id": "agent-workspace-superbot-59d77e34",
     "type": "animation",
     "group": "Ad spots",

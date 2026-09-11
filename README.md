@@ -7,11 +7,10 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-9 ad spots, gathered from the workspace projects and the GitHub repos:
+6 ad spots, gathered from the workspace projects and the GitHub repos:
 
-- **automate the routine** — superbot scans two weeks of data-entry work and automates it across six ERP pages (~38s loop).
-- **a voice clone of you** — superbot takes the next support calls in the rep's cloned voice (~51s loop).
-- **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~34s loop).
+- **a voice clone of you** — superbot takes the next support calls in the rep's cloned voice (~48s loop).
+- **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop).
 - **icons chaos** — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop).
 - **agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper** (27s loop).
 - **agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email** (30.5s loop).

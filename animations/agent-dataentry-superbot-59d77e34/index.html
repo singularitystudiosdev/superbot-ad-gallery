@@ -353,16 +353,16 @@ const RECENT = [['INV-10230', 'Acme Freight', 'Invoice', '$2,310.00'], ['CUS-551
 
 // ---------- the beat sheet (story seconds, 0 = the frontend has fully extended) ----------
 const B = {
-  card1: 1.0, card1Out: 3.55, back: 3.9,
-  typeA: 4.5, typeB: 7.1, send: 7.3, ask: 7.4,             // the operator's prompt
-  r1: 8.1, cps: 60,                                        // "let me look at how you spend the day"
-  acard: 9.1, scanA: 9.3, scanB: 10.7,                     // the analysis card, the scan counter climbs
-  rows: [10.0, 10.35, 10.7, 11.05, 11.4, 11.75], verdict: 0.45, // each task lands, its verdict flips in
-  sum: 12.4,                                               // the summary bar
-  r2: 13.1,                                                // "Starting now…"
-  erp: 14.8,                                               // dip to the ERP
-  pageAt: [15.2, 16.4, 17.6, 18.8, 20.0, 21.2], pageDur: 1.2, fieldStep: 0.09, fieldIn: 0.15, save: 0.98, // six pages, ~7.2s of entry
-  card2: 23.0, card2Out: 25.5, end: 25.9, word: 26.6, loop: 29.9,
+  card1: 1.0, card1Out: 2.55, back: 2.9,
+  typeA: 3.5, typeB: 6.1, send: 6.3, ask: 6.4,             // the operator's prompt
+  r1: 7.1, cps: 60,                                        // "let me look at how you spend the day"
+  acard: 8.1, scanA: 8.3, scanB: 9.7,                     // the analysis card, the scan counter climbs
+  rows: [9, 9.35, 9.7, 10.05, 10.4, 10.75], verdict: 0.45, // each task lands, its verdict flips in
+  sum: 11.4,                                               // the summary bar
+  r2: 12.1,                                                // "Starting now…"
+  erp: 13.8,                                               // dip to the ERP
+  pageAt: [14.2, 15.4, 16.6, 17.8, 19, 20.2], pageDur: 1.2, fieldStep: 0.09, fieldIn: 0.15, save: 0.98, // six pages, ~6.2s of entry
+  card2: 22, card2Out: 24.5, end: 24.9, word: 25.6, loop: 28.9,
 };
 const CUTS = [B.card1, B.back, B.erp, B.card2, B.end, B.loop];
 

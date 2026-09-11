@@ -392,21 +392,21 @@ const QUEUE = [{ who: 'Mike Alvarez', c: '#0891b2', why: 'Billing', wait: '0:42'
 
 // ---------- the beat sheet (story seconds, 0 = the frontend has fully extended) ----------
 const B = {
-  card1: 1.0, card1Out: 3.55, back: 3.9,
-  typeA: 4.5, typeB: 6.9, send: 7.1, ask: 7.2,            // the CSR prompt
-  r1: 7.9, r1cps: 60,                                     // "tap the mic…", then the voice card
-  vcard: 9.2, rec: 9.8, recEnd: 12.7, done: 12.9,          // the user reads the line into the mic
-  r2: 13.6,                                                // "Great, I will wire into your system directly."
-  wcard: 14.5, wire: [14.9, 15.5, 16.1, 16.7], wireDur: 0.55, // each tool connects, then reads wired
-  r3: 17.8,                                                // "Ok all set to go! Let me know when you need me!"
-  typeA2: 19.1, typeB2: 20.3, send2: 20.5, ask2: 20.6,     // "I have to go out, take my next few calls"
-  calls: 21.6,                                             // dip to the support desk
+  card1: 1.0, card1Out: 2.55, back: 2.9,
+  typeA: 3.5, typeB: 5.9, send: 6.1, ask: 6.2,            // the CSR prompt
+  r1: 6.9, r1cps: 60,                                     // "tap the mic…", then the voice card
+  vcard: 8.2, rec: 8.8, recEnd: 11.7, done: 11.9,          // the user reads the line into the mic
+  r2: 12.6,                                                // "Great, I will wire into your system directly."
+  wcard: 13.5, wire: [13.9, 14.5, 15.1, 15.7], wireDur: 0.55, // each tool connects, then reads wired
+  r3: 16.8,                                                // "Ok all set to go! Let me know when you need me!"
+  typeA2: 18.1, typeB2: 19.3, send2: 19.5, ask2: 19.6,     // "I have to go out, take my next few calls"
+  calls: 20.6,                                             // dip to the support desk
   call: [
-    { ring: 22.2, answer: 23.0, lines: [23.4, 25.5, 28.2, 29.0], end: 30.3 },
-    { ring: 30.7, answer: 31.4, lines: [31.8, 33.3], end: 35.9 },
+    { ring: 21.2, answer: 22, lines: [22.4, 24.5, 27.2, 28], end: 29.3 },
+    { ring: 29.7, answer: 30.4, lines: [30.8, 32.3], end: 34.9 },
   ],
   spkCps: 34,                                              // spoken pace, chars per second
-  card2: 36.3, card2Out: 38.8, end: 39.2, word: 39.9, loop: 43.2,
+  card2: 35.3, card2Out: 37.8, end: 38.2, word: 38.9, loop: 42.2,
 };
 const CUTS = [B.card1, B.back, B.calls, B.card2, B.end, B.loop];
 

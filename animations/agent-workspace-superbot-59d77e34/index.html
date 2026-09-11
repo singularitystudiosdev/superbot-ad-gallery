@@ -435,13 +435,13 @@ const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
 
 // ---------- the beat sheet (story seconds, 0 = the frontend has fully extended) ----------
 const B = {
-  card1: 1.0, card1Out: 3.55, back: 3.9,               // dip, the first card, dip, the hub again
-  typeA: 4.5, typeB: 6.4, send: 6.6, ask: 6.7,          // the prompt types, the send press, the message lands
-  reply: 7.4, replyCps: 58,                             // superbot answers, typed
-  gmail: 9.9,                                           // dip to Gmail
-  mail: [10.7, 12.8, 14.9, 17.0],                       // one thread each: open, reply typed, sent, back
-  card2: 19.5, card2Out: 22.0,                          // dip, the second card
-  end: 22.4, word: 23.1, loop: 26.4,                    // the end card, then the loop restarts the intro
+  card1: 1.0, card1Out: 2.55, back: 2.9,               // dip, the first card, dip, the hub again
+  typeA: 3.5, typeB: 5.4, send: 5.6, ask: 5.7,          // the prompt types, the send press, the message lands
+  reply: 6.4, replyCps: 58,                             // superbot answers, typed
+  gmail: 8.9,                                           // dip to Gmail
+  mail: [9.7, 11.8, 13.9, 16],                       // one thread each: open, reply typed, sent, back
+  card2: 18.5, card2Out: 21,                          // dip, the second card
+  end: 21.4, word: 22.1, loop: 25.4,                    // the end card, then the loop restarts the intro
 };
 const CUTS = [B.card1, B.back, B.gmail, B.card2, B.end, B.loop]; // every hard cut hides under a 0.3s dip either side
 const PROMPT = 'Respond to all my emails in my exact style that can be easily automated';

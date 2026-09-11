@@ -77,10 +77,10 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #memtoast .m b { display: inline; color: #f28b82; font-size: 12px; margin: 0; }
 
 /* ---------- the rescue popup ---------- */
-#popup { position: absolute; right: 44px; bottom: 44px; width: 460px; padding: 22px 22px 20px; border-radius: 22px; border: 3px solid transparent; background: linear-gradient(#000, #000) padding-box, var(--storm) border-box; box-shadow: 0 30px 70px rgba(0,0,0,.6), 0 0 40px rgba(106,31,216,.25); opacity: 0; transform-origin: 100% 100%; z-index: 20; }
-#popup .p-head2 { display: flex; align-items: center; gap: 12px; font-size: 29px; font-weight: 800; letter-spacing: -.02em; color: #fff; }
+#popup { position: absolute; right: 44px; bottom: 44px; width: max-content; padding: 20px; border-radius: 24px; border: 3px solid transparent; background: linear-gradient(#000, #000) padding-box, var(--storm) border-box; box-shadow: 0 0 32px rgba(43,107,255,.32), 0 0 64px rgba(192,38,211,.22), 0 30px 70px rgba(0,0,0,.5); opacity: 0; transform-origin: 50% 100%; isolation: isolate; z-index: 20; } /* 1:1 superbot-tool-calls 'superbot can do it! · soft glow': hug width, storm stroke, the same ring blurred behind it */
+#popup .p-head2 { display: flex; align-items: center; gap: 12px; white-space: nowrap; font-size: 29px; font-weight: 800; letter-spacing: -.02em; color: #fff; }
 #popup .p-head2 img { width: 34px; height: 34px; }
-#chatbtn { position: relative; margin-top: 16px; display: block; padding: 14px 18px; border-radius: 18px; background: #fff; color: #000; font-size: 24px; font-weight: 700; text-align: center; transform-origin: 50% 50%; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+#chatbtn { position: relative; margin: 16px 0 0; display: block; width: 100%; padding: 12px 20px; border-radius: 16px; background: #fff; color: #000; font-size: 22px; font-weight: 700; text-align: center; transform-origin: 50% 50%; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
 #cursor { position: absolute; left: 0; top: 0; width: 34px; height: 44px; z-index: 40; opacity: 0; transform-origin: 3px 2px; filter: drop-shadow(0 3px 6px rgba(0,0,0,.5)); }
 
 /* ---------- scene 2: the app window (1200x675 at 1.6) ---------- */
@@ -475,10 +475,12 @@ function renderBrowser(t) {
   const tp = seg(t, B.toast, B.toast + 0.35);
   op($('memtoast'), tp); $('memtoast').style.transform = `translateY(${((1 - outBack(tp)) * -10).toFixed(1)}px) scale(${lerp(0.96, 1, outBack(tp)).toFixed(3)})`;
   // the rescue popup
-  const pp = seg(t, B.popup, B.popup + 0.45);
-  op(popup, pp * 2);
+  // the popup, 1:1 the tool-calls page's 'superbot can do it! · soft glow' (entrance 'rise'): rises 40px in over 0.4s,
+  // holds for the chat press, then falls back out over 0.3s before the dip
+  const pp = seg(t, B.popup, B.popup + 0.4), po = seg(t, B.release + 0.05, B.release + 0.35);
+  op(popup, po > 0 ? 1 - po : pp);
   const press = t >= B.press && t < B.release ? 1 : t >= B.release ? 1 - seg(t, B.release, B.release + 0.18) : 0;
-  popup.style.transform = `translate(${((1 - outBack(pp)) * 30).toFixed(1)}px, ${((1 - outBack(pp)) * 60).toFixed(1)}px) scale(${lerp(0.9, 1, outBack(pp)).toFixed(3)})`;
+  popup.style.transform = `translateY(${(po > 0 ? po * po * 40 : (1 - outQuint(pp)) * 40).toFixed(1)}px)`;
   chatbtn.style.transform = `scale(${(1 - 0.05 * press).toFixed(3)})`;
   if (pp >= 1 && t < B.curIn + 0.1) measure();
 }

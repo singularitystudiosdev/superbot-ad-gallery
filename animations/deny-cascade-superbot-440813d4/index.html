@@ -471,9 +471,9 @@ const EX = [
     think: 'Checking nearby restaurants',
     tools: [["Opening the McDonald's app", 'signed in', 'bag'], ['Placing the order', 'confirmed #A41-2093', 'bag']],
     blocks: [
-      ['p', 'Ordered and paid with the card on file: one Big Mac meal with large fries and an Oreo McFlurry, going to the address on your profile.'],
-      ['p', 'The driver is about twelve minutes out, so it should reach you at 6:47pm. I will ping you if the restaurant slips that window.'],
-      ['p', 'Order placed: Big Mac Meal $9.29, large fries $2.19, Oreo McFlurry $3.49.'],
+      ['p', "🍔 Burger ordered! One Big Mac meal with large fries 🍟 and an Oreo McFlurry 🍦, paid with the card on file, heading to the address on your profile."],
+      ['p', 'The driver is about twelve minutes out, so it should reach you at 6:47pm. I will ping you if the restaurant slips that window. 📍'],
+      ['p', 'Order placed: Big Mac Meal $9.29, large fries $2.19, Oreo McFlurry $3.49. ✅'],
     ],
   },
   {
@@ -659,13 +659,16 @@ function measureGpt() {
 // The owner's brief: the whole replay (thinking, typing, the gap before the next
 // ask, all twelve exchanges) should read start-to-finish in about five seconds,
 // climbing exponentially rather than linearly (slow at first, then runs away).
-// Measured against the real reply lengths (4456 characters total): a 3s ramp to
-// 30x lands the full scene at ~5.2s. One multiplier drives all of it, so the
-// whole replay accelerates as a single gesture instead of three separate speed-ups.
+// The first beat opens a touch under real-time (0.6x) so the McDonald's reply has
+// room to read before the ramp takes off. Measured against the real reply lengths
+// (4456 characters total): a 3s ramp from 0.6x to 30x lands the full scene at ~5.3s.
+// One multiplier drives all of it, so the whole replay accelerates as a single
+// gesture instead of three separate speed-ups.
 const RAMP = 3;                                        // the ramp window, in seconds
+const MIN_MULT = 0.6;                                  // the multiplier the ramp starts at (a beat slower than real-time)
 const MAX_MULT = 30;                                   // the multiplier the ramp climbs to
 const R0 = 70;                                         // characters per second at 1x
-const speedAt = (t) => Math.pow(MAX_MULT, clamp01((t - B.s1) / RAMP));
+const speedAt = (t) => MIN_MULT * Math.pow(MAX_MULT / MIN_MULT, clamp01((t - B.s1) / RAMP));
 const FADE_CHARS = 13;                                 // how many characters are mid-fade at any instant
 const cpsAt = (t) => R0 * speedAt(t);                  // characters per second at time t
 const fadeAt = (t) => FADE_CHARS / cpsAt(t);           // so the fade shortens as the typing speeds up

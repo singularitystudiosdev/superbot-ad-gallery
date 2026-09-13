@@ -829,6 +829,7 @@ function anchorY(items, t, view, dur) {
   return lerp(from, target, outCubic(seg(t, start, start + dur)));
 }
 let lastBlur = -1;
+let gBlurSd = 0; // decays toward each frame's target instead of jumping straight to it
 function setBlur(sd) {
   sd = Math.round(sd * 2) / 2;
   if (sd === lastBlur) return;
@@ -864,7 +865,15 @@ function renderGpt(t) {
   const y = anchorY(gAll, t, view, 0.32);
   const v = (anchorY(gAll, t + dt, view, 0.32) - y) / dt * 1.25; // px/s on the frame (the clone is shown at 1.25x)
   gCol.style.transform = `translateY(${(-y).toFixed(2)}px)`;
-  setBlur(t < B.cas0 ? 0 : Math.min(5, (v / FPS) * 0.2)); // capped so the prompts streak but stay legible at the peak (sd 5 on a 20px line)
+  // With 32 items landing every 0.03-0.17s, the eased scroll never fully settles between
+  // landings, so raw velocity stays elevated for nearly the whole cascade — capping it at
+  // 5 (the old value) put ~56% of frames at or near max, which read as the whole column
+  // out-of-focus for ~3s straight rather than a brief streak. Lowering the cap to 1.4 keeps
+  // every row legible even at the peak, and decaying fast toward each new target (instead
+  // of jumping straight to it) turns the blur into short flickers on the real jumps.
+  const targetSd = t < B.cas0 ? 0 : Math.min(1.4, (v / FPS) * 0.05);
+  gBlurSd = lerp(gBlurSd, targetSd, 0.6);
+  setBlur(gBlurSd);
   // the rescue popup, 1:1 the house popup (entrance 'rise', holds for the press, falls out)
   const pp = seg(t, B.popup, B.popup + 0.4), po = seg(t, B.release + 0.05, B.release + 0.35);
   op(popup, po > 0 ? 1 - po : pp);

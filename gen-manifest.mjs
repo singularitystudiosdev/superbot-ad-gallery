@@ -50,7 +50,7 @@ const more = [
   ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop)', 'Ad spots'],
   ['icons-chaos-slam-superbot-544078ab', 'icons-chaos-slam-superbot-544078ab/', 'icons chaos — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop)', 'Ad spots'],
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper (27s loop)', 'Ad spots'],
-  ['deny-cascade-superbot-440813d4', 'deny-cascade-superbot-440813d4/', '"ask me anything" — ChatGPT denies 35 prompts in 7 seconds, then superbot answers (~20s loop)', 'Ad spots'],
+  ['deny-cascade-superbot-440813d4', 'deny-cascade-superbot-440813d4/', '"ask me anything" — ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and types full formatted answers, ramping 1x to 10x (~22s loop)', 'Ad spots'],
   ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email (30.5s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],

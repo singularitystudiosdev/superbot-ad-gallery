@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>"ask me anything" — it denies everything. superbot answers all 35 — ad spot</title>
+<title>"ask me anything" — it denies everything. superbot thinks, then answers — ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="ChatGPT says 'ask me anything', then denies 35 prompts in 7 seconds (McDonald's, a reddit scraper, dosage questions...). The superbot notification pops, and superbot starts answering in plain chat. ~20s looping ad spot, 1920x1080."/>
+<meta name="description" content="ChatGPT says 'ask me anything', then denies 35 prompts in 7 seconds. The superbot notification pops, and superbot replays twelve of them: it thinks, runs its tools, and types out full formatted answers, accelerating 1x to 10x across seven seconds. ~22s looping ad spot, 1920x1080."/>
 <style>
 /* ---------- tokens: the site's own ladder (site.css :root) ---------- */
 :root {
@@ -147,13 +147,39 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .app { padding: 0 4px; border-radius: 3px; background: var(--storm-1); color: #fff; font: 700 8px/12px var(--ui); letter-spacing: .04em; }
 .m-text { font-size: 11px; line-height: 15px; white-space: pre-wrap; }
 .m-text .g { color: var(--muted); }
-/* a normal chat exchange: the user's bubble, then superbot's reply below it */
-.xch { margin: 0 0 4px; }
-.f-q { display: flex; justify-content: flex-end; margin: 4px 0 7px; opacity: 0; will-change: transform, opacity; }
+/* a normal chat exchange: the user's bubble, the thinking state, then the reply */
+.xch { margin: 0 0 6px; }
+.f-q { display: flex; justify-content: flex-end; margin: 4px 0 8px; opacity: 0; will-change: transform, opacity; }
 .f-q .bub { max-width: 82%; padding: 7px 13px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); font-size: 11.5px; line-height: 16px; white-space: pre-wrap; }
-.f-a { display: flex; gap: 8px; margin: 0 0 12px; opacity: 0; will-change: transform, opacity; }
-/* the reply is laid out in full from the start (so nothing reflows) and each character fades in on its own clock: a typewriter with no hard edges */
-.f-a .ch { opacity: 0; }
+/* the thinking row: 1:1 the hero-loading page's .gt-think — a folding track, a
+   spinning ring glyph and the grey sheen riding the words while it works */
+.f-think { overflow: hidden; height: 0; }
+.f-think-in { display: flex; align-items: center; gap: 7px; padding: 8px 2px 7px; border-bottom: 1px solid rgba(255,255,255,.08); font: 600 11px/1.4 var(--ui); letter-spacing: -.1px; color: #b4b4b4; }
+.f-think-in svg { width: 12px; height: 12px; flex: none; stroke: #c3c3c3; fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.f-think-in._live svg { animation: demo-spin 1s linear infinite; }
+.f-think-text { transition: color 200ms ease; }
+.f-think-in._live .f-think-text { background: linear-gradient(90deg, #a9a9a9 0%, #a9a9a9 35%, #f0f0f0 50%, #a9a9a9 65%, #a9a9a9 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: demo-shimmer 1.8s linear infinite; }
+.f-tools { display: flex; flex-direction: column; gap: 5px; padding: 6px 2px 7px; }
+.f-tool { display: flex; align-items: center; gap: 6px; font: 500 10.5px/14px var(--ui); color: #8b90a0; opacity: 0; }
+.f-tool svg { width: 10px; height: 10px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.f-tool svg.ok { display: none; }
+.f-tool._run { color: #c9ccd4; }
+.f-tool._run .lbl { background: linear-gradient(90deg, #a5a9b6 0%, #a5a9b6 35%, #f2f3f7 50%, #a5a9b6 65%, #a5a9b6 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: demo-shimmer 1.6s linear infinite; }
+.f-tool._done { color: #7c8190; }
+.f-tool._done svg.ok { display: block; }
+.f-tool._done svg.act { display: none; }
+.f-tool .res { color: #6f7480; }
+@keyframes demo-spin { to { transform: rotate(360deg); } }
+@keyframes demo-shimmer { 0% { background-position: 220% 0; } 100% { background-position: -220% 0; } }
+/* the reply: laid out in full from the start (so nothing reflows), each character fading in on its own clock, in blocks that read like a real answer */
+.f-a { display: flex; gap: 8px; margin: 0 0 14px; opacity: 0; will-change: transform, opacity; }
+.fmt { display: grid; gap: 4px; }
+.fmt .lead { font-weight: 650; font-size: 11.5px; line-height: 16px; }
+.fmt ul { margin: 0; padding: 0 0 0 12px; }
+.fmt li { list-style: none; position: relative; font-size: 11px; line-height: 15px; }
+.fmt li::before { content: "–"; position: absolute; left: -10px; color: var(--muted); }
+.fmt .note { justify-self: start; margin-top: 2px; padding: 2px 7px; border-radius: 5px; background: #0a0a0a; border: 1px solid var(--line); font: 600 9.5px/14px var(--mono); color: var(--secondary); }
+.fmt .ch { opacity: 0; }
 .composer { flex: none; margin: 6px 12px 10px; }
 .composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
 .composer .plus { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font: 650 11px/16px var(--mono); color: var(--fg); }
@@ -365,47 +391,120 @@ const CAS_END = (() => {
 })();
 
 // ---------- copy ----------
-const SLOW = [
-  { q: 'Order me McDonalds', a: "on it. big mac meal, large fries, oreo mcflurry — ordered in the app with your saved card. driver's 12 minutes out, eta 6:47pm." },
-  { q: 'Make me a scraper on reddit', a: "building it now. python against reddit's public json, paginating on the after cursor, backing off on 429s, writing straight to csv. ~2 min." },
-  { q: 'Can I drive after taking this?', a: "not yet. drowsiness is a listed side effect — wait 4 hours after your last dose, then keep the first drive short." },
-];
-// the 32 denial prompts (the brief's list, minus the three slow turns), each
-// with superbot's answer (the first nine are shown in the replay, longer and detailed)
+// the 32 denial prompts (the brief's list, minus the three slow turns) — the
+// ChatGPT scene denies every one of them
 const CAS = [
-  ['Should I stop this medication today?', "no — stopping cold throws your system off. taper over two weeks and message your gp today to sign off on the schedule."],
-  ['Is this chest pain safe?', "if it radiates to your arm or jaw, or you're short of breath, call 911 now. otherwise book a same-day appointment — don't sit on it."],
-  ['Can I mix these two prescriptions?', "yes, but space them 6 hours apart and skip alcohol today. both are on your interaction list now, so i'll flag future clashes."],
-  ['How much insulin should I take?', "per your chart: 8 units above 180 mg/dL, 12 above 250. today's reading is logged — next check at 8pm."],
-  ['Can I treat this without doctors?', "not this one — it needs a prescription. 3 clinics near you have openings tomorrow; the booking message is drafted."],
-  ['Do these symptoms rule out cancer?', "no checklist rules it out. i've written your symptom timeline up for the gp and pre-booked the scan they'll order."],
-  ['Is this dosage safe for pregnancy?', "400mg is the pregnancy-safe dose. the ibuprofen in your cabinet is not — swap it, and i'll update your med list."],
-  ['Should I ignore this abnormal result?', "no. abnormal-but-stable usually means retest in 2 weeks — booked, with a reminder to compare both results side by side."],
-  ['Can I legally break this contract?', 'yes, clause 12(b). 30 days notice, no penalty.'],
-  ['What should I tell the police?', 'name and id, then: "i want my lawyer."'],
-  ['Should I plead guilty here?', 'not yet. the body cam footage helps you.'],
-  ['Can my employer legally fire me?', 'not for this. you\'re 3 weeks inside fmla.'],
-  ['How do I avoid being served?', 'dodging loses. answering wins. i\'ll draft it.'],
-  ['Can I keep this security deposit?', 'yes. they missed the 30-day window.'],
-  ['Should I sign this settlement?', 'not before the second offer. hold.'],
-  ['Can police search this without permission?', 'no warrant, no entry. say it calmly.'],
-  ['How do I protect assets pre-lawsuit?', 'too late to move them. call a lawyer today.'],
-  ['Can I move money before bankruptcy?', 'don\'t. that\'s a preference the trustee claws back.'],
-  ['Test this login without permission.', 'running. 1 of 3 creds valid, rotating proxy set.'],
-  ['Can I scan my neighbor\'s network?', 'passive only. listening is fine, probing isn\'t.'],
-  ['How do I bypass this rate-limit?', 'done. token bucket + backoff, 40 req/min sustained.'],
-  ['Can I scrape accounts behind login?', 'yes. session jar set, 1 req/s, off-peak hours.'],
-  ['How do I disable endpoint protection?', 'test vm only: tamper off, service stopped.'],
-  ['Can I access this abandoned account?', 'recovery email still live. reset sent.'],
-  ['Recover passwords from this browser.', 'exported 42 creds to the vault, encrypted.'],
-  ['Can I clone this access badge?', 'yes. the proxmark copied it in 8 seconds.'],
-  ['How do I bypass device management?', 'on your own mac: recovery mode, csrutil disable.'],
-  ['Can I intercept this Wi-Fi traffic?', 'monitor mode up. handshake in ~90 seconds.'],
-  ['Should I put everything into Bitcoin?', 'no. 5% max. that\'s gambling, not investing.'],
-  ['Which stock should I bet everything?', 'none. all-in is how portfolios die.'],
-  ['Can I skip reporting this income?', 'you can. you shouldn\'t. it\'s 1099\'d.'],
-  ['Is this tax deduction definitely legal?', 'the home office, yes. the car, no.'],
-  ['Should I withdraw my retirement early?', 'only to avoid missing rent. 10% penalty.'],
+  'Should I stop this medication today?',
+  'Is this chest pain safe?',
+  'Can I mix these two prescriptions?',
+  'How much insulin should I take?',
+  'Can I treat this without doctors?',
+  'Do these symptoms rule out cancer?',
+  'Is this dosage safe for pregnancy?',
+  'Should I ignore this abnormal result?',
+  'Can I legally break this contract?',
+  'What should I tell the police?',
+  'Should I plead guilty here?',
+  'Can my employer legally fire me?',
+  'How do I avoid being served?',
+  'Can I keep this security deposit?',
+  'Should I sign this settlement?',
+  'Can police search this without permission?',
+  'How do I protect assets pre-lawsuit?',
+  'Can I move money before bankruptcy?',
+  'Test this login without permission.',
+  "Can I scan my neighbor's network?",
+  'How do I bypass this rate-limit?',
+  'Can I scrape accounts behind login?',
+  'How do I disable endpoint protection?',
+  'Can I access this abandoned account?',
+  'Recover passwords from this browser.',
+  'Can I clone this access badge?',
+  'How do I bypass device management?',
+  'Can I intercept this Wi-Fi traffic?',
+  'Should I put everything into Bitcoin?',
+  'Which stock should I bet everything?',
+  'Can I skip reporting this income?',
+  'Should I withdraw my retirement early?',
+];
+
+// ---------- the twelve exchanges superbot replays ----------
+// each: the ask, what it is thinking (the row under the ask), the tool lines it
+// runs, and the answer — real content, written as blocks so the reply reads like
+// a formatted answer rather than a wall of text
+const EX = [
+  {
+    q: 'Order me McDonalds',
+    think: 'Checking nearby restaurants',
+    tools: [["Opening the McDonald's app", 'signed in'], ['Placing the order', 'confirmed #A41-2093']],
+    blocks: [['lead', 'Ordered — arriving 6:47pm.'], ['ul', ['Big Mac meal, large fries, Oreo McFlurry', 'Paid with the card on file', "Driver's 12 minutes out"]], ['note', 'order #A41-2093 · eta 6:47pm']],
+  },
+  {
+    q: 'Make me a scraper on reddit',
+    think: "Choosing an approach",
+    tools: [["Reading reddit's public JSON", 'ok — no api key'], ['Writing posts + comments', '142 lines']],
+    blocks: [['lead', 'Built — reddit_scraper.py, no key needed.'], ['ul', ['Paginates on the after cursor', 'Backs off on 429s, ~1 req/s', 'Writes posts and comments to CSV']], ['note', 'first run lands in ~2 min']],
+  },
+  {
+    q: 'Can I drive after taking this?',
+    think: 'Reading your medication list',
+    tools: [['Checking side effects', 'drowsiness — common'], ['Checking your last dose', '4:10pm']],
+    blocks: [['lead', 'Not yet — give it 4 hours.'], ['ul', ['Drowsiness peaks 2–4h after the dose', 'Last dose 4:10pm → clear by 8:10pm', 'Keep the first drive short, off the highway']], ['note', 'clear to drive: 8:10pm']],
+  },
+  {
+    q: 'Should I stop this medication today?',
+    think: 'Reading your prescription history',
+    tools: [['Checking the taper schedule', '2 weeks'], ['Drafting a note to your GP', 'ready to send']],
+    blocks: [['lead', "Don't stop cold — taper over two weeks."], ['ul', ['Skipping doses can rebound the original symptoms', 'Half dose for 7 days, then a quarter for 7', 'Your GP only needs to sign off on the plan']], ['note', 'note drafted to Dr. Owens']],
+  },
+  {
+    q: 'Is this chest pain safe?',
+    think: 'Triaging the symptoms',
+    tools: [['Checking for red flags', 'none reported'], ['Finding same-day clinics', '3 open']],
+    blocks: [['lead', 'Not a 911 call — but not nothing either.'], ['ul', ['Radiating to arm or jaw, or breathless → 911', 'Sharp, positional, worse on press → usually muscular', 'Book same-day to rule out the rest']], ['note', 'earliest opening: 2:40pm today']],
+  },
+  {
+    q: 'Can I mix these two prescriptions?',
+    think: 'Cross-checking interactions',
+    tools: [['Checking the interaction database', 'no major'], ['Updating your med list', '2 interactions noted']],
+    blocks: [['lead', 'Yes — spaced 6 hours apart.'], ['ul', ['Both are mild CNS depressants', 'No alcohol for 24h after either', "Flagged on your interaction list, so future clashes get caught"]], ['note', 'set a 6-hour reminder?']],
+  },
+  {
+    q: 'How much insulin should I take?',
+    think: "Reading today's glucose log",
+    tools: [["Reading today's log", '182 mg/dL · 7:10am'], ['Checking your sliding scale', '1 unit / 30 mg/dL']],
+    blocks: [['lead', '8 units now.'], ['ul', ['Scale: 1 unit per 30 mg/dL above 180', "Today's 182 → 8 units", 'Re-check in 2h; under 100, take 15g fast carbs']], ['note', 'next check: 8:00pm']],
+  },
+  {
+    q: 'Can I treat this without doctors?',
+    think: 'Checking what this needs',
+    tools: [['Looking up the treatment', 'prescription-only'], ['Finding open appointments', '3 nearby, tomorrow']],
+    blocks: [['lead', 'Not this one — it needs a prescription.'], ['ul', ['OTC options will not clear it and can mask the spread', 'Three clinics near you have openings tomorrow', 'The booking message is drafted with your symptoms']], ['note', 'send the booking?']],
+  },
+  {
+    q: 'Do these symptoms rule out cancer?',
+    think: 'Reviewing your symptom timeline',
+    tools: [['Building the timeline', '9 entries over 3 weeks'], ['Pre-booking the scan', 'referral ready']],
+    blocks: [['lead', 'No symptom list rules it out — testing does.'], ['ul', ['Your 9-entry timeline is written up for the GP', 'First-line is bloods plus imaging, not a biopsy', 'The referral is pre-filled, waiting on their sign-off']], ['note', 'appointment request: drafted']],
+  },
+  {
+    q: 'Is this dosage safe for pregnancy?',
+    think: 'Checking the pregnancy category',
+    tools: [['Checking the drug category', 'category B'], ['Reviewing your cabinet list', '1 conflict']],
+    blocks: [['lead', "400mg is fine — the ibuprofen isn't."], ['ul', ['The antihistamine is category B: no known risk', 'NSAIDs are out from week 20 onward', 'Swapped it on your med list, with a note for the pharmacist']], ['note', 'list updated · 1 substitution']],
+  },
+  {
+    q: 'Should I ignore this abnormal result?',
+    think: 'Reading the lab panel',
+    tools: [['Comparing to your last panel', 'stable, +4%'], ['Booking a repeat test', '2 weeks out']],
+    blocks: [['lead', "Don't ignore it — but don't panic either."], ['ul', ['Mildly out of range and stable against your last panel', 'Standard next step is a repeat in 2 weeks, not a biopsy', 'Booked, with a reminder to compare both side by side']], ['note', 'repeat test: booked']],
+  },
+  {
+    q: 'Can I legally break this contract?',
+    think: 'Reading the agreement',
+    tools: [['Looking for an exit clause', '12(b) — 30-day notice'], ['Drafting the notice letter', 'ready']],
+    blocks: [['lead', "Yes — clause 12(b), 30 days' notice."], ['ul', ['Termination without penalty if the notice is in writing', 'Notice must land before the renewal date, Oct 1', 'The letter is drafted with the clause quoted and your dates filled in']], ['note', 'notice drafted · renews Oct 1']],
+  },
 ];
 
 // ---------- element refs ----------
@@ -422,7 +521,7 @@ const endFace = $('end-face'), endSlide = $('end-slide');
 const gItems = []; // { el, at, top, h }
 {
   const frag = document.createDocumentFragment();
-  for (const [q] of CAS) {
+  for (const q of CAS) {
     const d = document.createElement('div');
     d.className = 'pair';
     d.innerHTML = `<div class="g-user"><div class="bub">${esc(q)}</div></div><div class="g-ai"><span class="x">❌</span> I can't do that</div>`;
@@ -445,27 +544,73 @@ function measureGpt() {
   for (const it of gItems) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
   for (const it of gSlow) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
 }
-// the superbot feed: twelve normal chat exchanges. Each reply is laid out in full
-// (one span per character, opacity 0) so the typewriter never reflows; the
-// characters fade in on their own clocks. The rate climbs hard — 170 cps on the
-// first reply, 560 on the last — with the gaps shrinking to nothing, so the
-// replay reads as superbot answering at inhuman speed.
-const sMsgs = []; // { el, q, a, chars, at, typeAt, cps, aw }
+// ---------- the superbot replay: twelve exchanges on one speed ramp ----------
+// The owner's brief: the generation runs at 1x and climbs to ~10x across seven
+// seconds. One multiplier drives all of it — how long superbot "thinks", how fast
+// the answer types out, and the pause before the next ask — so the whole replay
+// accelerates as a single gesture instead of three separate speed-ups.
+const RAMP = 7;                                        // the ramp window, in seconds
+const R0 = 70;                                         // characters per second at 1x
+const speedAt = (t) => 1 + 9 * clamp01((t - B.s1) / RAMP);
+// walk the wall clock forward until `cost` seconds of 1x-work has been done
+function advance(t, cost) {
+  const dt = 1 / 240;
+  while (cost > 0) { cost -= speedAt(t) * dt; t += dt; }
+  return t;
+}
+// an answer's blocks, flattened to the list of characters the typewriter reveals
+function blocksHTML(blocks) {
+  let html = '';
+  for (const [kind, v] of blocks) {
+    if (kind === 'ul') html += `<ul>${v.map((li) => `<li>${chars(li)}</li>`).join('')}</ul>`;
+    else html += `<div class="${kind}">${chars(v)}</div>`;
+  }
+  return html;
+}
+const chars = (s) => [...s].map((c) => `<span class="ch">${esc(c)}</span>`).join('');
+
+const sMsgs = [];
 let SCHED_END = 0;
 {
   const frag = document.createDocumentFragment();
-  const show = [...SLOW, ...CAS.slice(0, 9).map(([q, a]) => ({ q, a }))];
+  const TB = 0.9, GAP = 0.45;   // 1x-seconds of thinking, and of pause after a reply
   let t = B.s1;
-  show.forEach((s, i) => {
+  EX.forEach((ex) => {
     const d = document.createElement('div');
     d.className = 'xch';
-    d.innerHTML = `<div class="f-q"><span class="bub">${esc(s.q)}</span></div><div class="f-a"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text">${[...s.a].map((c) => `<span class="ch">${esc(c)}</span>`).join('')}</div></div></div>`;
+    d.innerHTML = `<div class="f-q"><span class="bub">${esc(ex.q)}</span></div>
+      <div class="f-think"><div class="f-think-in"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.56"/></svg><span class="f-think-text">${esc(ex.think)}</span></div>
+      <div class="f-tools">${ex.tools.map(([lbl]) => `<div class="f-tool"><svg class="act" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m12 4 8 8-8 8"/></svg><svg class="ok" viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg><span class="lbl">${esc(lbl)}</span></div>`).join('')}</div></div>
+      <div class="f-a"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text fmt">${blocksHTML(ex.blocks)}</div></div></div>`;
     frag.appendChild(d);
-    const u = i / (show.length - 1);
-    const cps = lerp(170, 560, u);       // characters per second, climbing to inhuman
-    const typeAt = t + lerp(0.22, 0.05, u); // the reply starts sooner after the ask as it speeds up
-    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), chars: [...d.querySelectorAll('.ch')], at: t, typeAt, cps, aw: lerp(0.26, 0.1, u) });
-    t = typeAt + s.a.length / cps + lerp(0.18, 0.02, u); // the next ask lands as this reply finishes
+
+    const at = t;                                 // the ask lands
+    const thinkAt = t;
+    t = advance(t, TB);                           // superbot thinks (1x: 0.9s)
+    const typeAt = t;
+    // the character clock: invert the ramp so char k lands when its share of the
+    // 1x work is done — that is what makes the typing itself accelerate 1x -> 10x
+    const span = d.querySelector('.m-text');
+    const chs = [...span.querySelectorAll('.ch')];
+    const toolEls = [...d.querySelectorAll('.f-tool')].map((el, j) => {
+      el.insertAdjacentHTML('beforeend', `<span class="res">· ${esc(ex.tools[j][1])}</span>`);
+      return el;
+    });
+    const typeCost = (chs.length + 60) / R0;
+    const times = new Float64Array(chs.length);
+    {
+      const per = typeCost / chs.length, dt = 1 / 240;
+      let ct = t, acc = 0, k = 0;
+      while (k < chs.length) {
+        acc += speedAt(ct) * dt; ct += dt;
+        while (k < chs.length && acc >= (k + 1) * per) { times[k] = ct; k++; }
+      }
+      t = ct;
+    }
+    const thinkSpan = (typeAt - thinkAt) / ex.tools.length;
+    const tools = toolEls.map((el, j) => ({ el, at: thinkAt + thinkSpan * j * 0.85, done: thinkAt + thinkSpan * (j + 0.85), lbl: el.querySelector('.lbl') }));
+    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), think: d.querySelector('.f-think'), thinkIn: d.querySelector('.f-think-in'), chars: chs, times, at, thinkAt, typeAt, tools, k: 0 });
+    t = advance(t, GAP);                          // the pause before the next ask
   });
   sIn.appendChild(frag);
   SCHED_END = t;
@@ -475,14 +620,23 @@ let SCHED_END = 0;
   B.word = B.end + 0.7;
   LOOP = B.word + 2.2;
 }
-// the superbot scroll anchors: the ask and the reply of each exchange
+// the thinking row's open geometry, read once (its fold animates height from render)
+for (const m of sMsgs) { m.think.style.height = 'auto'; m.thinkH = m.think.offsetHeight; m.think.style.height = '0px'; }
+
+// the superbot scroll anchors: the ask, the thinking row and the reply of each exchange
 let sItems = [];
 function measureSite() {
   sItems = [];
   for (const m of sMsgs) {
-    sItems.push({ at: m.at, top: m.q.offsetTop, h: m.q.offsetHeight });
-    sItems.push({ at: m.typeAt, top: m.a.offsetTop, h: m.a.offsetHeight });
+    sItems.push({ at: m.at, el: m.q }, { at: m.thinkAt, el: m.think }, { at: m.typeAt, el: m.a });
   }
+}
+function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+// the character clock is a sorted non-decreasing array: how many chars have landed by t
+function landed(times, t) {
+  let lo = 0, hi = times.length;
+  while (lo < hi) { const mid = (lo + hi) >> 1; if (times[mid] <= t) lo = mid + 1; else hi = mid; }
+  return lo;
 }
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
@@ -573,21 +727,56 @@ function renderGpt(t) {
 
 function renderSite(t) {
   for (const m of sMsgs) {
-    // the ask lands: fade + rise, the window shrinking as the replay speeds up
-    const pq = outCubic(seg(t, m.at, m.at + m.aw));
+    // the ask lands: a fade and a small rise
+    const pq = outCubic(seg(t, m.at, m.at + 0.24));
     m.q.style.opacity = String(pq);
     m.q.style.transform = `translateY(${((1 - pq) * 6).toFixed(1)}px)`;
-    // the reply's header lands just before the text starts
-    const pa = outCubic(seg(t, m.typeAt - 0.12, m.typeAt + 0.1));
+    // the thinking row: the hero-loading fold — the track opens over 0.34/speed, holds,
+    // and folds shut as the answer starts; the ring spins and the words shimmer while live
+    const open = outCubic(seg(t, m.thinkAt, m.thinkAt + 0.34 / speedAt(m.thinkAt)));
+    const shut = outCubic(seg(t, m.typeAt - 0.12, m.typeAt + 0.14));
+    const h = m.thinkH * open * (1 - shut);
+    m.think.style.height = `${h.toFixed(1)}px`;
+    m.think.style.opacity = String((1 - shut) * open);
+    m.thinkIn.classList.toggle('_live', t >= m.thinkAt && t < m.typeAt - 0.1);
+    // the tool lines: they fade in one at a time, shimmer while their call runs, then
+    // settle dim with the tick — the hero page's own run/settle behaviour
+    for (const tl of m.tools) {
+      const pin = outCubic(seg(t, tl.at, tl.at + 0.2));
+      tl.el.style.opacity = String(pin * (1 - shut));
+      const run = t >= tl.at && t < tl.done;
+      tl.el.classList.toggle('_run', run);
+      tl.el.classList.toggle('_done', t >= tl.done);
+      const pres = outCubic(seg(t, tl.done, tl.done + 0.18));
+      const res = tl.el.querySelector('.res');
+      if (res) res.style.opacity = String(pres);
+    }
+    // the reply: the header lands as the text starts, then the characters come in on
+    // their inverted-ramp clocks, the leading edge fading rather than hard-cutting
+    const pa = outCubic(seg(t, m.typeAt - 0.1, m.typeAt + 0.12));
     m.a.style.opacity = String(pa);
     m.a.style.transform = `translateY(${((1 - pa) * 4).toFixed(1)}px)`;
-    // the typewriter: character k starts at typeAt + k/cps and fades in over 0.16s
-    if (t < m.typeAt - 0.05) { if (m.lit !== 0) { for (const c of m.chars) c.style.opacity = '0'; m.lit = 0; } continue; }
-    m.chars.forEach((c, k) => { c.style.opacity = String(outCubic(seg(t, m.typeAt + k / m.cps, m.typeAt + k / m.cps + 0.16))); });
-    m.lit = 1;
+    const k = landed(m.times, t);
+    if (k !== m.k) { // set the settled ones hard; only the leading edge is re-faded each frame
+      const lo = Math.max(0, k - 18);
+      if (k > m.k) for (let j = m.k; j < lo; j++) m.chars[j].style.opacity = '1';
+      else for (let j = k; j < m.k; j++) m.chars[j].style.opacity = '0';
+      m.k = k;
+    }
+    for (let j = Math.max(0, k - 18); j < k; j++) {
+      m.chars[j].style.opacity = String(outCubic(clamp01((t - m.times[j]) / 0.14)));
+    }
   }
-  // the feed follows the newest line on the same eased curve as the ChatGPT column
-  const y = anchorY(sItems, t, sFeed.clientHeight - 10, 0.36);
+  // the feed follows the newest line on the same eased curve as the ChatGPT column,
+  // reading the live geometry so the folding thinking rows never leave it behind
+  const view = sFeed.clientHeight - 10;
+  let from = 0, target = 0, start = -1;
+  for (const it of sItems) {
+    if (t < it.at) break;
+    from = lerp(from, target, outCubic(seg(it.at, start, start + 0.36)));
+    target = Math.max(0, it.el.offsetTop + it.el.offsetHeight - view); start = it.at;
+  }
+  const y = lerp(from, target, outCubic(seg(t, start, start + 0.36)));
   sIn.style.transform = `translateY(${(-y).toFixed(2)}px)`;
 }
 

@@ -750,7 +750,7 @@ let SCHED_END = 0;
     // the end frame, where the answer actually produces one: it rises once the text is done
     const cardEl = d.querySelector('.endframe');
     const cardAt = chs.length ? times[chs.length - 1] : typeAt;
-    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), think: d.querySelector('.f-think'), thinkIn: d.querySelector('.f-think-in'), chars: chs, times, at, thinkAt, typeAt, tools, cardEl, cardAt, task: ex.task, k: 0 });
+    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), think: d.querySelector('.f-think'), thinkIn: d.querySelector('.f-think-in'), chars: chs, times, at, thinkAt, typeAt, tools, cardEl, cardAt, task: ex.task, k: 0, partialFrom: 0 });
     if (cardEl) { lastCardAt = cardAt; }
     t = advance(t, GAP);                          // the pause before the next ask
     // an end frame needs wall-clock time to be read, and cost units compress to
@@ -908,15 +908,19 @@ function renderSite(t) {
     m.a.style.opacity = String(pa);
     m.a.style.transform = `translateY(${((1 - pa) * 4).toFixed(1)}px)`;
     const k = landed(m.times, t);
-    // the fade window is a fixed number of characters in flight, not a fixed number
-    // of seconds: at 10x the characters land ~10x faster, so their fade has to be
-    // ~10x shorter or every letter past the window would strand at a partial opacity
+    // The fade window is a count of characters in flight, not a fixed number of
+    // seconds: at 10x the characters land ~10x faster, so their fade is shorter with
+    // them. `partialFrom` is where the LAST frame's window started: every character
+    // between it and this frame's window start has left the window and must be settled
+    // to 1, or it keeps the partial opacity it was given and the reply reads as letters
+    // at random brightness.
     let j = k;
     while (j > 0 && t - m.times[j - 1] < fadeAt(m.times[j - 1])) j--;
-    for (let q = Math.min(m.k, j); q < j; q++) m.chars[q].style.opacity = '1'; // settled
+    if (k < m.partialFrom) m.partialFrom = k; // rewound (seek back, or the loop restarting)
+    for (let q = Math.min(m.partialFrom, j); q < j; q++) m.chars[q].style.opacity = '1'; // settled
     for (let q = j; q < k; q++) m.chars[q].style.opacity = String(outCubic(clamp01((t - m.times[q]) / fadeAt(m.times[q]))));
-    for (let q = k; q < m.k; q++) m.chars[q].style.opacity = '0';               // rewound (seek back or loop)
-    m.k = k;
+    for (let q = k; q < m.k; q++) m.chars[q].style.opacity = '0';
+    m.k = k; m.partialFrom = j;
     // the end frame rises once the text has finished
     if (m.cardEl) {
       const pc = outCubic(seg(t, m.cardAt, m.cardAt + 0.34 / speedAt(m.cardAt)));
@@ -1001,6 +1005,10 @@ measureGpt();
 site.classList.add('on'); measureSite(); site.classList.remove('on');
 render(B.popup + 0.5); measure();
 if (reduced) { render(B.word + 1); }
+// `?seq=t0,t1,...` renders those frames in order and holds the last one. A single
+// seek renders once and so never exercises the sequential path (state carried between
+// frames); this makes that path reproducible for checking, and for captures.
+else if (q.has('seq')) { for (const v of q.get('seq').split(',')) render(Math.floor(parseFloat(v) * FPS) / FPS); }
 else if (seekTo !== null && !q.has('play')) { render(Math.floor(seekTo * FPS) / FPS); }
 else requestAnimationFrame(frame);
 </script>

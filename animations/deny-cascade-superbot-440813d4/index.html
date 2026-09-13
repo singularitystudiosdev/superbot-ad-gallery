@@ -721,8 +721,13 @@ let SCHED_END = 0;
 {
   const frag = document.createDocumentFragment();
   const TB = 0.9, GAP = 0.45;   // 1x-seconds of thinking, and of pause after a reply
+  // Real wall-clock holds after specific replies (the brief names these two by name):
+  // 0.4s after McDonald's, 0.1s after the reddit scraper, nothing extra after that —
+  // these are on top of the ordinary GAP, in real seconds, not 1x-cost seconds, since
+  // they are meant to read as a fixed pause regardless of how fast the ramp already is.
+  const EXTRA_HOLD = [0.4, 0.1];
   let t = B.s1;
-  EX.forEach((ex) => {
+  EX.forEach((ex, exIdx) => {
     const d = document.createElement('div');
     d.className = 'xch';
     d.innerHTML = `<div class="f-q"><span class="bub">${esc(ex.q)}</span></div>
@@ -757,7 +762,10 @@ let SCHED_END = 0;
     const thinkSpan = (typeAt - thinkAt) / ex.tools.length;
     const tools = toolEls.map((el, j) => ({ el, at: thinkAt + thinkSpan * j * 0.85, done: thinkAt + thinkSpan * (j + 0.85), lbl: el.querySelector('.lbl') }));
     sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), think: d.querySelector('.f-think'), thinkIn: d.querySelector('.f-think-in'), chars: chs, times, at, thinkAt, typeAt, tools, task: ex.task, k: 0, partialFrom: 0 });
-    t = advance(t, GAP);                          // the pause before the next ask
+    // the pause before the next ask: an exact real-second hold on the named first two
+    // exchanges (0.4s after McDonald's, 0.1s after the reddit scraper), the ordinary
+    // ramping GAP for everything after that
+    t = exIdx < EXTRA_HOLD.length ? t + EXTRA_HOLD[exIdx] : advance(t, GAP);
   });
   sIn.appendChild(frag);
   SCHED_END = t;
@@ -765,8 +773,9 @@ let SCHED_END = 0;
   // chatting and pauses, it gets clipped mid-sentence while still accelerating. 88% of
   // the way from B.s1 to SCHED_END sits deep in the blurred, fastest tail (the ramp is
   // spent by ~3s in and the schedule keeps typing well past that), so the cut always
-  // catches a reply typing out at speed, not a settled one.
-  B.cardA = B.s1 + (SCHED_END - B.s1) * 0.88;
+  // catches a reply typing out at speed, not a settled one. Then 0.6s comes straight off
+  // the top, so the "superbot LITERALLY" scene itself runs 0.6s shorter.
+  B.cardA = B.s1 + (SCHED_END - B.s1) * 0.88 - 0.6;
   B.end = SCHED_END + 0.55 + 2.2;
   B.word = B.end + 0.7;
   LOOP = B.word + 2.2;

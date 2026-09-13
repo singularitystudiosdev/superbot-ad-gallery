@@ -43,25 +43,9 @@
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",
-    "title": "\"ask me anything\" — ChatGPT denies 35 prompts in 7 seconds, then superbot answers every single one (~22s loop)",
+    "title": "\"ask me anything\" — ChatGPT denies 35 prompts in 7 seconds, then superbot answers (~20s loop)",
     "src": "animations/deny-cascade-superbot-440813d4/",
     "thumb": "assets/shots/deny-cascade-superbot-440813d4.png"
-  },
-  {
-    "id": "deny-cascade-split-superbot-440813d4",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "the same 35 questions, side by side — ChatGPT denies on the left while superbot answers at the same tempo on the right (~14.5s loop)",
-    "src": "animations/deny-cascade-split-superbot-440813d4/",
-    "thumb": "assets/shots/deny-cascade-split-superbot-440813d4.png"
-  },
-  {
-    "id": "deny-cascade-counter-superbot-440813d4",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "the denial counter — 35 refusals tick up, then superbot runs the score back: 35 answered (~22s loop)",
-    "src": "animations/deny-cascade-counter-superbot-440813d4/",
-    "thumb": "assets/shots/deny-cascade-counter-superbot-440813d4.png"
   },
   {
     "id": "urgent-email-slow-superbot-7c4a91b2",

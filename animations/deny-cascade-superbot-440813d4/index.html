@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>"ask me anything" — it denies everything. superbot answers all 35 — ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="ChatGPT says 'ask me anything', then denies 35 prompts in 7 seconds (McDonald's, a reddit scraper, dosage questions...). The superbot notification pops, and superbot answers every single one. ~22s looping ad spot, 1920x1080."/>
+<meta name="description" content="ChatGPT says 'ask me anything', then denies 35 prompts in 7 seconds (McDonald's, a reddit scraper, dosage questions...). The superbot notification pops, and superbot starts answering in plain chat. ~20s looping ad spot, 1920x1080."/>
 <style>
 /* ---------- tokens: the site's own ladder (site.css :root) ---------- */
 :root {
@@ -135,7 +135,6 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .date-div { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 9px; }
 .date-div::before, .date-div::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 .msg { display: flex; gap: 8px; }
-.msg.hidden { display: none; } /* not-yet-landed rows take no space, so the feed's scroll anchor tracks the revealed rows */
 .avatar { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--raised); color: var(--fg); font: 700 10px/24px var(--ui); text-align: center; }
 .avatar.sb { background: #000; box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; }
 .avatar.sb img { width: 62%; height: 62%; display: block; }
@@ -146,6 +145,12 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .app { padding: 0 4px; border-radius: 3px; background: var(--storm-1); color: #fff; font: 700 8px/12px var(--ui); letter-spacing: .04em; }
 .m-text { font-size: 11px; line-height: 15px; white-space: pre-wrap; }
 .m-text .g { color: var(--muted); }
+/* a normal chat exchange: the user's bubble, then superbot's reply below it */
+.xch { margin: 0 0 4px; }
+.xch.hidden { display: none; } /* not-yet-landed exchanges take no space, so the feed's scroll anchor tracks the revealed ones */
+.f-q { display: flex; justify-content: flex-end; margin: 4px 0 7px; }
+.f-q .bub { max-width: 82%; padding: 7px 13px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); font-size: 11.5px; line-height: 16px; white-space: pre-wrap; }
+.f-a { display: flex; gap: 8px; margin: 0 0 12px; }
 .composer { flex: none; margin: 6px 12px 10px; }
 .composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
 .composer .plus { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font: 650 11px/16px var(--mono); color: var(--fg); }
@@ -327,7 +332,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 // Same rule as the house ads (gpt-refusal): every visual is recomputed from t
 // each frame, so seeking (`?t=7.8`) or capturing any frame yields the same
 // picture. Frame-indexed at 30fps so preview and capture agree.
-const FPS = 30, LOOP = 22.0;
+const FPS = 30, LOOP = 20.0;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -344,8 +349,8 @@ const B = {
   cas0: 3.9,                                                 // the cascade takes over
   popup: 7.4, curIn: 8.0, curAt: 8.7, press: 8.9, release: 9.05, // the popup, then the press
   dip: 9.35, site: 9.6,                                      // dip to black, the app is simply there
-  s1: 10.25, s2: 10.65, s3: 11.05, scas0: 11.45,             // superbot replays: 3 slow, then the cascade
-  cardA: 15.4, cardB: 17.0, end: 18.8, word: 19.5,           // the cards, then the end card
+  s1: 10.25,                                                 // superbot answers, sped up, shrinking delays
+  cardA: 13.4, cardB: 15.0, end: 16.8, word: 17.5,           // the cards, then the end card
 };
 // the cascade: shrinking intervals summing so it ends right at ~7.0s
 const CAS_END = (() => {
@@ -434,25 +439,24 @@ function measureGpt() {
   for (const it of gItems) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
   for (const it of gSlow) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
 }
-// the superbot feed: one row per prompt, superbot's answer under each
+// the superbot feed: seven normal chat exchanges, sped up on shrinking delays
 const sMsgs = [];
 {
   const frag = document.createDocumentFragment();
-  const all = [...SLOW.map((s) => [s.q, s.a]), ...CAS];
-  for (const [q, a] of all) {
+  const show = [...SLOW, ...CAS.slice(0, 4).map(([q, a]) => ({ q, a }))];
+  for (const s of show) {
     const d = document.createElement('div');
-    d.className = 'msg hidden';
-    d.innerHTML = `<span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span></div><div class="m-text">${esc(q)}</div></div><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text"><span class="g">·</span> ${esc(a)}</div></div>`;
+    d.className = 'xch hidden';
+    d.innerHTML = `<div class="f-q"><span class="bub">${esc(s.q)}</span></div><div class="f-a"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text">${esc(s.a)}</div></div></div>`;
     frag.appendChild(d);
   }
   sFeed.appendChild(frag);
-  sFeed.querySelectorAll('.msg').forEach((el) => sMsgs.push({ el }));
+  sFeed.querySelectorAll('.xch').forEach((el) => sMsgs.push({ el }));
 }
-// land times: three slow, then the accelerating cascade
-sMsgs[0].at = B.s1; sMsgs[1].at = B.s2; sMsgs[2].at = B.s3;
+// land times: accelerating from B.s1, so the replies speed up like the denials did
 {
-  let t = B.scas0;
-  for (let i = 3; i < sMsgs.length; i++) { sMsgs[i].at = t; t += lerp(0.15, 0.03, (i - 3) / (sMsgs.length - 4)); }
+  let t = B.s1;
+  for (let i = 0; i < sMsgs.length; i++) { sMsgs[i].at = t; t += lerp(0.42, 0.14, i / (sMsgs.length - 1)); }
 }
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 

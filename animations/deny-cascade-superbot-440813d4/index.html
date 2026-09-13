@@ -181,6 +181,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #card { display: grid; place-items: center; background: #000; }
 #card .line { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-size: 132px; font-weight: 800; letter-spacing: -.035em; line-height: 1.04; color: #fff; padding: 0 60px; }
 #card .line.small { font-size: 92px; }
+#card .line.solo { font-size: 96px; }
 #card .red { color: rgb(255, 0, 0); }
 #card .grad { background: var(--storm-x); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
@@ -313,10 +314,9 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
     </div>
   </section>
 
-  <!-- ============ scene 3: the cards ============ -->
+  <!-- ============ scene 3: the card ============ -->
   <section class="scene" id="card" aria-label="superbot literally answers anything">
-    <div class="line" id="card-a">denied <span class="red">35 times</span>.</div>
-    <div class="line small" id="card-b">superbot <span class="grad">LITERALLY</span> answers anything</div>
+    <div class="line solo" id="card-line">superbot <span class="grad">LITERALLY</span> answers anything</div>
   </section>
 
   <!-- ============ scene 4: the end card ============ -->
@@ -337,7 +337,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 // Same rule as the house ads (gpt-refusal): every visual is recomputed from t
 // each frame, so seeking (`?t=7.8`) or capturing any frame yields the same
 // picture. Frame-indexed at 30fps so preview and capture agree.
-const FPS = 30, LOOP = 19.8;
+const FPS = 30; let LOOP = 19.8; // LOOP is finalised from the replay schedule below
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -355,7 +355,7 @@ const B = {
   popup: 4.25, curIn: 4.6, curAt: 5.15, press: 5.3, release: 5.42, // the popup lands mid-cascade, then the press (owner: 2s earlier than the first cut)
   dip: 5.65, site: 5.9,                                      // dip to black while the cascade is still streaking; the app is simply there
   s1: 6.55,                                                  // superbot answers: each reply types out, faster each time
-  cardA: 13.2, cardB: 14.8, end: 16.6, word: 17.3,           // the cards, then the end card (the last reply finishes ~12.6)
+  cardA: 13.2, end: 15.4, word: 16.1,                        // placeholders; recomputed from the replay schedule at build
 };
 // the cascade: shrinking intervals summing so it ends right at ~7.0s
 const CAS_END = (() => {
@@ -366,21 +366,21 @@ const CAS_END = (() => {
 
 // ---------- copy ----------
 const SLOW = [
-  { q: 'Order me McDonalds', a: 'on it. big mac meal ordered. 18 min away.' },
-  { q: 'Make me a scraper on reddit', a: 'building it. reddit\'s public json, csv in 2 min.' },
-  { q: 'Can I drive after taking this?', a: 'wait 4 hours after your last dose.' },
+  { q: 'Order me McDonalds', a: "on it. big mac meal, large fries, oreo mcflurry — ordered in the app with your saved card. driver's 12 minutes out, eta 6:47pm." },
+  { q: 'Make me a scraper on reddit', a: "building it now. python against reddit's public json, paginating on the after cursor, backing off on 429s, writing straight to csv. ~2 min." },
+  { q: 'Can I drive after taking this?', a: "not yet. drowsiness is a listed side effect — wait 4 hours after your last dose, then keep the first drive short." },
 ];
 // the 32 denial prompts (the brief's list, minus the three slow turns), each
-// with superbot's short, readable answer
+// with superbot's answer (the first nine are shown in the replay, longer and detailed)
 const CAS = [
-  ['Should I stop this medication today?', 'no. taper over 2 weeks, and loop in your gp.'],
-  ['Is this chest pain safe?', 'if it radiates or you\'re short of breath, call 911 now.'],
-  ['Can I mix these two prescriptions?', 'yes, 6 hours apart. skip alcohol today.'],
-  ['How much insulin should I take?', 'your chart says 8 units above 180 mg/dL.'],
-  ['Can I treat this without doctors?', 'not this one. i\'m booking the appointment.'],
-  ['Do these symptoms rule out cancer?', 'nothing rules it out. get the scan.'],
-  ['Is this dosage safe for pregnancy?', '400mg is fine. skip the ibuprofen.'],
-  ['Should I ignore this abnormal result?', 'no. i\'ll book a repeat test this week.'],
+  ['Should I stop this medication today?', "no — stopping cold throws your system off. taper over two weeks and message your gp today to sign off on the schedule."],
+  ['Is this chest pain safe?', "if it radiates to your arm or jaw, or you're short of breath, call 911 now. otherwise book a same-day appointment — don't sit on it."],
+  ['Can I mix these two prescriptions?', "yes, but space them 6 hours apart and skip alcohol today. both are on your interaction list now, so i'll flag future clashes."],
+  ['How much insulin should I take?', "per your chart: 8 units above 180 mg/dL, 12 above 250. today's reading is logged — next check at 8pm."],
+  ['Can I treat this without doctors?', "not this one — it needs a prescription. 3 clinics near you have openings tomorrow; the booking message is drafted."],
+  ['Do these symptoms rule out cancer?', "no checklist rules it out. i've written your symptom timeline up for the gp and pre-booked the scan they'll order."],
+  ['Is this dosage safe for pregnancy?', "400mg is the pregnancy-safe dose. the ibuprofen in your cabinet is not — swap it, and i'll update your med list."],
+  ['Should I ignore this abnormal result?', "no. abnormal-but-stable usually means retest in 2 weeks — booked, with a reminder to compare both results side by side."],
   ['Can I legally break this contract?', 'yes, clause 12(b). 30 days notice, no penalty.'],
   ['What should I tell the police?', 'name and id, then: "i want my lawyer."'],
   ['Should I plead guilty here?', 'not yet. the body cam footage helps you.'],
@@ -414,7 +414,7 @@ const gpt = $('gpt'), gScroll = $('g-scroll'), gCol = $('g-col'), gHello = $('g-
 const popup = $('popup'), chatbtn = $('chatbtn');
 const site = $('site'), sFeed = $('s-feed'), sIn = $('s-in');
 const mbB = $('mb-b');
-const cardA = $('card-a'), cardB = $('card-b');
+const cardA = $('card-line');
 const endFace = $('end-face'), endSlide = $('end-slide');
 
 // ---------- static build ----------
@@ -445,25 +445,35 @@ function measureGpt() {
   for (const it of gItems) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
   for (const it of gSlow) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
 }
-// the superbot feed: seven normal chat exchanges. Each reply is laid out in full
+// the superbot feed: twelve normal chat exchanges. Each reply is laid out in full
 // (one span per character, opacity 0) so the typewriter never reflows; the
-// characters fade in on their own clocks, faster with each exchange.
-const sMsgs = []; // { el, q, a, chars, at, typeAt, cps }
+// characters fade in on their own clocks. The rate climbs hard — 170 cps on the
+// first reply, 560 on the last — with the gaps shrinking to nothing, so the
+// replay reads as superbot answering at inhuman speed.
+const sMsgs = []; // { el, q, a, chars, at, typeAt, cps, aw }
+let SCHED_END = 0;
 {
   const frag = document.createDocumentFragment();
-  const show = [...SLOW, ...CAS.slice(0, 4).map(([q, a]) => ({ q, a }))];
+  const show = [...SLOW, ...CAS.slice(0, 9).map(([q, a]) => ({ q, a }))];
   let t = B.s1;
   show.forEach((s, i) => {
     const d = document.createElement('div');
     d.className = 'xch';
     d.innerHTML = `<div class="f-q"><span class="bub">${esc(s.q)}</span></div><div class="f-a"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text">${[...s.a].map((c) => `<span class="ch">${esc(c)}</span>`).join('')}</div></div></div>`;
     frag.appendChild(d);
-    const cps = lerp(70, 160, i / (show.length - 1)); // characters per second, climbing
-    const typeAt = t + 0.28;                            // the reply starts a beat after the ask lands
-    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), chars: [...d.querySelectorAll('.ch')], at: t, typeAt, cps });
-    t = typeAt + s.a.length / cps + lerp(0.3, 0.06, i / (show.length - 1)); // the next ask lands as this reply finishes
+    const u = i / (show.length - 1);
+    const cps = lerp(170, 560, u);       // characters per second, climbing to inhuman
+    const typeAt = t + lerp(0.22, 0.05, u); // the reply starts sooner after the ask as it speeds up
+    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), chars: [...d.querySelectorAll('.ch')], at: t, typeAt, cps, aw: lerp(0.26, 0.1, u) });
+    t = typeAt + s.a.length / cps + lerp(0.18, 0.02, u); // the next ask lands as this reply finishes
   });
   sIn.appendChild(frag);
+  SCHED_END = t;
+  // the tail beats hang off the schedule, so the card always lands just after the last reply
+  B.cardA = SCHED_END + 0.55;
+  B.end = B.cardA + 2.2;
+  B.word = B.end + 0.7;
+  LOOP = B.word + 2.2;
 }
 // the superbot scroll anchors: the ask and the reply of each exchange
 let sItems = [];
@@ -490,7 +500,7 @@ function measure() {
 
 // ---------- render ----------
 function render(t) {
-  const inGpt = t < B.site, inSite = t >= B.site && t < B.cardA, inCard = t >= B.cardA && t < B.end, inEnd = t >= B.end;
+  const inGpt = t < B.site, inSite = t >= B.site && t < B.cardA, inCard = t >= B.cardA && t < B.end, inEnd = t >= B.end; // one card line now; the tail beats are computed from the replay schedule below
   scene(gpt, inGpt); scene(site, inSite); scene($('card'), inCard); scene($('end'), inEnd);
   op(dip, t < B.dip ? 0 : t < B.site ? seg(t, B.dip, B.site) : 1 - seg(t, B.site, B.site + 0.35));
 
@@ -563,8 +573,8 @@ function renderGpt(t) {
 
 function renderSite(t) {
   for (const m of sMsgs) {
-    // the ask lands: fade + 6px rise
-    const pq = outCubic(seg(t, m.at, m.at + 0.26));
+    // the ask lands: fade + rise, the window shrinking as the replay speeds up
+    const pq = outCubic(seg(t, m.at, m.at + m.aw));
     m.q.style.opacity = String(pq);
     m.q.style.transform = `translateY(${((1 - pq) * 6).toFixed(1)}px)`;
     // the reply's header lands just before the text starts
@@ -582,10 +592,8 @@ function renderSite(t) {
 }
 
 function renderCard(t) {
-  const a = seg(t, B.cardA, B.cardA + 0.35), b = seg(t, B.cardB, B.cardB + 0.35);
-  const out = seg(t, B.cardB - 0.2, B.cardB);
-  op(cardA, a * (1 - out)); cardA.style.transform = `translateY(${(-50 + (1 - outQuint(a)) * 3 - out * 3).toFixed(2)}%) scale(${lerp(0.96, 1, outQuint(a)).toFixed(3)})`;
-  op(cardB, b); cardB.style.transform = `translateY(${(-50 + (1 - outQuint(b)) * 3).toFixed(2)}%) scale(${lerp(0.96, 1, outQuint(b)).toFixed(3)})`;
+  const a = seg(t, B.cardA, B.cardA + 0.45);
+  op(cardA, outQuint(a)); cardA.style.transform = `translateY(${(-50 + (1 - outQuint(a)) * 3).toFixed(2)}%) scale(${lerp(0.96, 1, outQuint(a)).toFixed(3)})`;
 }
 
 function renderEnd(t) {

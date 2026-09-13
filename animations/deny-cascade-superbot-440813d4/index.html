@@ -155,7 +155,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .m-text .code .kw { color: #d98cff; }
 .m-text .code .fn { color: #6ea8ff; }
 .m-text .code .str { color: #7ed99a; }
-.m-text .code .cm { color: #6f7480; }
+.m-text .code .cm { color: #6f7480; font-style: italic; }
+.m-text .code .num { color: #ffb340; }
 /* a normal chat exchange: the user's bubble, the thinking state, then the reply */
 .xch { margin: 0 0 6px; }
 .f-q { display: flex; justify-content: flex-end; margin: 4px 0 8px; opacity: 0; will-change: transform, opacity; }
@@ -679,12 +680,26 @@ function blocksHTML(blocks) {
   let html = '';
   for (const [kind, v] of blocks) {
     if (kind === 'ul') html += `<ul>${v.map((li) => `<li>${chars(li)}</li>`).join('')}</ul>`;
-    else if (kind === 'code') html += `<div class="code"><div class="code-head"><i></i><i></i><i></i><span>${esc(v.name)}</span></div><pre>${chars(v.body)}</pre></div>`;
+    else if (kind === 'code') html += `<div class="code"><div class="code-head"><i></i><i></i><i></i><span>${esc(v.name)}</span></div><pre>${codeChars(v.body)}</pre></div>`;
     else html += `<div class="${kind}">${chars(v)}</div>`;
   }
   return html;
 }
 const chars = (s) => [...s].map((c) => `<span class="ch">${esc(c)}</span>`).join('');
+// a tiny Python tokenizer: every character still becomes its own .ch span (so the
+// typewriter's flat querySelectorAll('.ch') index is untouched by the extra
+// wrapping), just grouped inside a coloured token span per run.
+const PY_KW = /^(?:def|return|while|for|in|if|not|break|with|as|import|None|True|False|and|or|is)$/;
+function codeChars(s) {
+  const re = /(#.*$)|("""[\s\S]*?"""|'[^'\n]*'|"[^"\n]*")|(\b\d+\.?\d*\b)|([A-Za-z_][A-Za-z0-9_]*)(?=\()|([A-Za-z_][A-Za-z0-9_]*)|([^\s\w]+|\s+)/gm;
+  let html = '', m;
+  while ((m = re.exec(s))) {
+    const [tok, cm, str, num, fn, word] = m;
+    const cls = cm ? 'cm' : str ? 'str' : num ? 'num' : fn ? 'fn' : word && PY_KW.test(word) ? 'kw' : null;
+    html += cls ? `<span class="${cls}">${chars(tok)}</span>` : chars(tok);
+  }
+  return html;
+}
 
 // the end frames: one per kind of result, so the frame matches the request
 // a line icon per kind of work, so the tool rows change with the request too

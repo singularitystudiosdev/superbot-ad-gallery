@@ -743,9 +743,13 @@ let SCHED_END = 0;
   });
   sIn.appendChild(frag);
   SCHED_END = t;
-  // the tail beats hang off the schedule, so the card always lands just after the last reply
-  B.cardA = SCHED_END + 0.55;
-  B.end = B.cardA + 2.2;
+  // The cut to the card lands INSIDE the replay, not after it: superbot never finishes
+  // chatting and pauses, it gets clipped mid-sentence while still accelerating. 88% of
+  // the way from B.s1 to SCHED_END sits deep in the blurred, fastest tail (the ramp is
+  // spent by ~3s in and the schedule keeps typing well past that), so the cut always
+  // catches a reply typing out at speed, not a settled one.
+  B.cardA = B.s1 + (SCHED_END - B.s1) * 0.88;
+  B.end = SCHED_END + 0.55 + 2.2;
   B.word = B.end + 0.7;
   LOOP = B.word + 2.2;
 }

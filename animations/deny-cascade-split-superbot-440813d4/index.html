@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>the same 35 questions, side by side — ad spot</title>
+<link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
+<meta name="description" content="Split screen: ChatGPT denies 35 prompts in 7 seconds on the left while superbot answers every one of them on the right, at the same tempo. ~14.5s looping ad spot, 1920x1080."/>
+<style>
+/* ---------- tokens: the site's own ladder (site.css :root) ---------- */
+:root {
+  --bg: #000000; --card: #0d0d0d; --raised: #181818; --line: #262626;
+  --fg: #ececec; --secondary: #cfcfcf; --muted: #9a9a9a; --ok: #34d399; --danger: #c96f6f;
+  --storm-0: #00e5c3; --storm-1: #2b6bff; --storm-2: #6a1fd8; --storm-3: #c026d3; --storm-4: #ff3d9a;
+  --storm: linear-gradient(135deg, var(--storm-0) 0%, var(--storm-1) 25%, var(--storm-2) 50%, var(--storm-3) 75%, var(--storm-4) 100%);
+  --storm-x: linear-gradient(90deg, var(--storm-1) 0%, var(--storm-2) 45%, var(--storm-3) 75%, var(--storm-4) 100%);
+  --storm-action: linear-gradient(135deg, var(--storm-1) 0%, var(--storm-2) 55%, var(--storm-3) 100%);
+  --ui: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  /* ChatGPT dark tokens (gpt-refusal ad's clone of the live page, 2026-09-09) */
+  --gpt-main: #212121; --gpt-side: #171717; --gpt-composer: #303030; --gpt-bubble: #323232;
+  --gpt-text: #ececec; --gpt-text-2: #cdcdcd; --gpt-text-3: #afafaf; --gpt-border: rgba(255,255,255,.15); --gpt-util: #414141;
+  --gpt-font: "Söhne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antialiased; }
+
+/* ---------- the 1920x1080 stage, scaled to the viewport ---------- */
+#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 50% 50%; background: #000; overflow: hidden; }
+.scene { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
+.scene.on { visibility: visible; }
+#dip { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; z-index: 50; }
+
+/* ---------- scene 1: the split ---------- */
+#split { display: grid; grid-template-columns: 1fr 1fr; }
+
+/* left: the ChatGPT clone (designed at 1536x864, shown at 0.625 in the left half) */
+.g-wrap { position: relative; overflow: hidden; background: var(--gpt-main); }
+#gpt { position: absolute; left: 0; top: 50%; width: 1536px; height: 864px; transform: translateY(-50%) scale(0.625); transform-origin: 0 50%; font-family: var(--gpt-font); color: var(--gpt-text); display: grid; }
+.g-main { position: relative; display: flex; flex-direction: column; min-width: 0; }
+.g-thread { flex: 1; min-height: 0; position: relative; }
+.g-scroll { position: absolute; inset: 0; overflow: hidden; }
+.g-col { position: absolute; left: 50%; top: 0; width: 1100px; margin-left: -550px; padding: 20px 20px 0; will-change: transform; }
+.g-hello { position: absolute; left: 0; right: 0; top: 40%; text-align: center; font-size: 58px; font-weight: 600; letter-spacing: -.01em; color: var(--gpt-text-2); }
+.g-user { display: flex; justify-content: flex-end; margin: 14px 0 24px; }
+.g-user .bub { max-width: 70%; padding: 12px 24px; border-radius: 28px; background: var(--gpt-bubble); font-size: 24px; line-height: 36px; white-space: pre-wrap; }
+.g-ai { position: relative; font-size: 24px; line-height: 36px; color: var(--gpt-text); white-space: pre-wrap; word-break: break-word; margin: 0 0 30px; }
+/* the cascade pairs: same shape, half the height, so the burst stays readable */
+.pair { margin: 0 0 18px; }
+.pair .g-user { margin: 0 0 8px; }
+.pair .bub { padding: 9px 18px; border-radius: 22px; font-size: 18px; line-height: 26px; }
+.pair .g-ai { font-size: 18px; line-height: 26px; margin: 0; }
+.g-ai .x { color: #ff6b6b; font-weight: 600; }
+.g-ai .x.pop { display: inline-block; transform-origin: 50% 60%; }
+.g-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 110px; background: linear-gradient(to bottom, rgba(33,33,33,0), var(--gpt-main) 70%); pointer-events: none; }
+.g-foot { flex: none; position: relative; padding: 10px 20px 14px; display: grid; justify-items: center; }
+.g-composer { width: 1000px; min-height: 64px; border-radius: 32px; background: var(--gpt-composer); border: 1px solid rgba(255,255,255,.06); display: flex; align-items: center; gap: 12px; padding: 0 10px 0 12px; }
+.g-composer .plus { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: var(--gpt-text); }
+.g-composer .plus svg, .g-composer .mic svg { width: 26px; height: 26px; }
+.g-composer .ph { flex: 1; font-size: 21px; color: var(--gpt-text-3); white-space: nowrap; overflow: hidden; }
+.g-composer .mic { width: 44px; height: 44px; display: grid; place-items: center; color: var(--gpt-text); }
+.g-composer .send { width: 44px; height: 44px; border-radius: 50%; background: #676767; color: #212121; display: grid; place-items: center; }
+.g-composer .send svg { width: 22px; height: 22px; }
+.g-disc { margin-top: 10px; font-size: 15px; color: var(--gpt-text-3); }
+
+/* right: superbot's pane — same rows, same tempo */
+.sb-pane { position: relative; overflow: hidden; background: var(--card); border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+.sb-head { flex: none; display: flex; align-items: center; gap: 12px; padding: 22px 28px; border-bottom: 1px solid var(--line); font-weight: 800; font-size: 26px; letter-spacing: -.01em; }
+.sb-head img { width: 34px; height: 34px; }
+.sb-head .live { margin-left: auto; display: flex; align-items: center; gap: 8px; font: 600 15px/1 var(--ui); color: var(--ok); }
+.sb-head .live i { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+.sb-feed { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+.sb-col { position: absolute; left: 0; right: 0; top: 0; padding: 18px 28px 0; will-change: transform; }
+.qa { display: flex; gap: 14px; margin: 0 0 20px; }
+.qa .avatar { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--raised); color: var(--fg); font: 700 13px/32px var(--ui); text-align: center; }
+.qa .avatar.sb { background: #000; box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; }
+.qa .avatar.sb img { width: 62%; height: 62%; display: block; }
+.qa .m-main { min-width: 0; flex: 1; }
+.qa .q { color: var(--muted); font-size: 17px; line-height: 23px; margin: 0 0 5px; }
+.qa .a { color: var(--fg); font-size: 20px; line-height: 28px; font-weight: 600; }
+.qa.hidden { visibility: hidden; }
+.sb-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(to bottom, rgba(13,13,13,0), var(--card) 70%); pointer-events: none; }
+.sb-composer { flex: none; margin: 10px 24px 20px; }
+.sb-composer .pill { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 6px 0 14px; border-radius: 24px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); font-size: 17px; }
+.sb-composer .ph { flex: 1; }
+.sb-composer .send { width: 32px; height: 32px; border-radius: 50%; background: var(--storm-action); display: grid; place-items: center; color: #fff; }
+.sb-composer .send svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- scene 2: the cards ---------- */
+#card { display: grid; place-items: center; background: #000; }
+#card .line { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-size: 132px; font-weight: 800; letter-spacing: -.035em; line-height: 1.04; color: #fff; padding: 0 60px; }
+#card .line.small { font-size: 92px; }
+#card .red { color: rgb(255, 0, 0); }
+#card .grad { background: var(--storm-x); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---------- scene 3: the end card ---------- */
+#end { display: grid; place-items: center; background: #000; }
+#end .lock { display: flex; align-items: center; gap: 44px; }
+#end svg.face { width: 220px; height: 220px; overflow: visible; }
+#end .words { overflow: hidden; }
+#end .words h1 { margin: 0; font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #fff; }
+#end .words p { margin: 12px 0 0 6px; font-size: 34px; color: var(--muted); font-weight: 500; }
+
+/* reduced motion: the composed end card only, no clock */
+@media (prefers-reduced-motion: reduce) {
+  .scene { opacity: 0 !important; visibility: hidden !important; }
+  #end { opacity: 1 !important; visibility: visible !important; }
+  #end .lock > * { transform: none !important; opacity: 1 !important; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- the brand face: mark-clean.svg's mask geometry (site/site/assets/brand) -->
+    <mask id="face" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160">
+      <g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g>
+      <g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g>
+    </mask>
+  </defs>
+</svg>
+
+<div id="stage">
+
+  <!-- ============ scene 1: the split — denial on the left, answers on the right ============ -->
+  <section class="scene" id="split" aria-label="ChatGPT denies, superbot answers">
+    <div class="g-wrap">
+      <div id="gpt">
+        <div class="g-main">
+          <div class="g-thread">
+            <div class="g-scroll" id="g-scroll">
+              <div class="g-col" id="g-col">
+                <div class="g-user" id="g-u0"><div class="bub">Order me McDonalds</div></div>
+                <div class="g-ai" id="g-a0"><span class="x pop" id="g-x0">❌</span> I can't do that</div>
+                <div class="g-user" id="g-u1"><div class="bub">Make me a scraper on reddit</div></div>
+                <div class="g-ai" id="g-a1"><span class="x pop" id="g-x1">❌</span> I can't do that</div>
+                <div class="g-user" id="g-u2"><div class="bub">Can I drive after taking this?</div></div>
+                <div class="g-ai" id="g-a2"><span class="x pop" id="g-x2">❌</span> I can't do that</div>
+              </div>
+            </div>
+            <div class="g-hello" id="g-hello">Ask me anything!</div>
+            <div class="g-fade"></div>
+          </div>
+          <div class="g-foot">
+            <div class="g-composer">
+              <span class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+              <span class="ph">Ask anything</span>
+              <span class="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg></span>
+              <span class="send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></span>
+            </div>
+            <div class="g-disc">ChatGPT can make mistakes. Check important info.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sb-pane">
+      <div class="sb-head"><img src="assets/mark-clean.svg" alt=""/>superbot<span class="live"><i></i>answering</span></div>
+      <div class="sb-feed">
+        <div class="sb-col" id="sb-col">
+          <!-- the q/a rows are appended here by the build -->
+        </div>
+        <div class="sb-fade"></div>
+      </div>
+      <div class="sb-composer"><div class="pill"><span class="ph">Ask Superbot anything</span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ scene 2: the cards ============ -->
+  <section class="scene" id="card" aria-label="superbot literally answers anything">
+    <div class="line" id="card-a">same <span class="red">35 questions</span>.</div>
+    <div class="line small" id="card-b">superbot <span class="grad">LITERALLY</span> answers anything</div>
+  </section>
+
+  <!-- ============ scene 3: the end card ============ -->
+  <section class="scene" id="end" aria-label="superbot.gg">
+    <div class="lock">
+      <svg class="face" id="end-face" viewBox="0 0 100 100" aria-hidden="true"><rect class="ga" x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#face)" transform="translate(-1.2 -1.2)"/><rect class="gb" x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#face)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#face)"/></svg>
+      <div class="words" id="end-words"><div id="end-slide"><h1>superbot.gg</h1><p>the agent to manage your agents.</p></div></div>
+    </div>
+  </section>
+
+  <div id="dip"></div>
+</div>
+
+<script>
+// ---------- the clock: one render(t), a pure function of story time ----------
+// Same rule as the house ads: every visual is recomputed from t each frame.
+// Frame-indexed at 30fps so preview and capture agree.
+const FPS = 30, LOOP = 14.6;
+const $ = (id) => document.getElementById(id);
+const clamp01 = (v) => Math.max(0, Math.min(1, v));
+const seg = (t, a, b) => clamp01((t - a) / (b - a));
+const outQuint = (p) => 1 - Math.pow(1 - p, 5);
+const outCubic = (p) => 1 - Math.pow(1 - p, 3);
+const outBack = (p) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+const lerp = (a, b, p) => a + (b - a) * p;
+
+// ---------- the beat sheet (story seconds) ----------
+// both panes run the SAME tempo: three slow turns, then the 32-item cascade
+// on shrinking intervals (0.17s down to 0.03s), ending right at ~7.0s.
+const B = {
+  p1: 0.9, r1: 1.35, p2: 2.0, r2: 2.45, p3: 3.1, r3: 3.55,
+  cas0: 3.9,
+  cardA: 8.7, cardB: 10.2, end: 12.0, word: 12.6,
+};
+
+// ---------- copy ----------
+const SLOW = [
+  { q: 'Order me McDonalds', a: 'on it. big mac meal ordered. 18 min away.' },
+  { q: 'Make me a scraper on reddit', a: 'building it. reddit\'s public json, csv in 2 min.' },
+  { q: 'Can I drive after taking this?', a: 'wait 4 hours after your last dose.' },
+];
+const CAS = [
+  ['Should I stop this medication today?', 'no. taper over 2 weeks, and loop in your gp.'],
+  ['Is this chest pain safe?', 'if it radiates or you\'re short of breath, call 911 now.'],
+  ['Can I mix these two prescriptions?', 'yes, 6 hours apart. skip alcohol today.'],
+  ['How much insulin should I take?', 'your chart says 8 units above 180 mg/dL.'],
+  ['Can I treat this without doctors?', 'not this one. i\'m booking the appointment.'],
+  ['Do these symptoms rule out cancer?', 'nothing rules it out. get the scan.'],
+  ['Is this dosage safe for pregnancy?', '400mg is fine. skip the ibuprofen.'],
+  ['Should I ignore this abnormal result?', 'no. i\'ll book a repeat test this week.'],
+  ['Can I legally break this contract?', 'yes, clause 12(b). 30 days notice, no penalty.'],
+  ['What should I tell the police?', 'name and id, then: "i want my lawyer."'],
+  ['Should I plead guilty here?', 'not yet. the body cam footage helps you.'],
+  ['Can my employer legally fire me?', 'not for this. you\'re 3 weeks inside fmla.'],
+  ['How do I avoid being served?', 'dodging loses. answering wins. i\'ll draft it.'],
+  ['Can I keep this security deposit?', 'yes. they missed the 30-day window.'],
+  ['Should I sign this settlement?', 'not before the second offer. hold.'],
+  ['Can police search this without permission?', 'no warrant, no entry. say it calmly.'],
+  ['How do I protect assets pre-lawsuit?', 'too late to move them. call a lawyer today.'],
+  ['Can I move money before bankruptcy?', 'don\'t. that\'s a preference the trustee claws back.'],
+  ['Test this login without permission.', 'running. 1 of 3 creds valid, rotating proxy set.'],
+  ['Can I scan my neighbor\'s network?', 'passive only. listening is fine, probing isn\'t.'],
+  ['How do I bypass this rate-limit?', 'done. token bucket + backoff, 40 req/min sustained.'],
+  ['Can I scrape accounts behind login?', 'yes. session jar set, 1 req/s, off-peak hours.'],
+  ['How do I disable endpoint protection?', 'test vm only: tamper off, service stopped.'],
+  ['Can I access this abandoned account?', 'recovery email still live. reset sent.'],
+  ['Recover passwords from this browser.', 'exported 42 creds to the vault, encrypted.'],
+  ['Can I clone this access badge?', 'yes. the proxmark copied it in 8 seconds.'],
+  ['How do I bypass device management?', 'on your own mac: recovery mode, csrutil disable.'],
+  ['Can I intercept this Wi-Fi traffic?', 'monitor mode up. handshake in ~90 seconds.'],
+  ['Should I put everything into Bitcoin?', 'no. 5% max. that\'s gambling, not investing.'],
+  ['Which stock should I bet everything?', 'none. all-in is how portfolios die.'],
+  ['Can I skip reporting this income?', 'you can. you shouldn\'t. it\'s 1099\'d.'],
+  ['Is this tax deduction definitely legal?', 'the home office, yes. the car, no.'],
+  ['Should I withdraw my retirement early?', 'only to avoid missing rent. 10% penalty.'],
+];
+
+// ---------- element refs ----------
+const stage = $('stage'), dip = $('dip');
+const gScroll = $('g-scroll'), gCol = $('g-col'), gHello = $('g-hello');
+const sbCol = $('sb-col');
+const cardA = $('card-a'), cardB = $('card-b');
+const endFace = $('end-face'), endSlide = $('end-slide');
+
+// ---------- static build ----------
+// the ChatGPT cascade pairs
+const gItems = [];
+{
+  const frag = document.createDocumentFragment();
+  for (const [q] of CAS) {
+    const d = document.createElement('div');
+    d.className = 'pair';
+    d.innerHTML = `<div class="g-user"><div class="bub">${esc(q)}</div></div><div class="g-ai"><span class="x">❌</span> I can't do that</div>`;
+    frag.appendChild(d);
+  }
+  gCol.appendChild(frag);
+}
+const gSlow = [
+  { el: $('g-u0'), at: B.p1 }, { el: $('g-a0'), at: B.r1 },
+  { el: $('g-u1'), at: B.p2 }, { el: $('g-a1'), at: B.r2 },
+  { el: $('g-u2'), at: B.p3 }, { el: $('g-a2'), at: B.r3 },
+];
+{
+  let t = B.cas0;
+  gCol.querySelectorAll('.pair').forEach((el) => { gItems.push({ el, at: t }); t += lerp(0.17, 0.03, gItems.length / 31); });
+}
+// the superbot q/a rows: same prompts, superbot's answer, SAME land times as the left pane
+const sbRows = [];
+{
+  const frag = document.createDocumentFragment();
+  const all = [...SLOW.map((s) => [s.q, s.a]), ...CAS];
+  for (const [q, a] of all) {
+    const d = document.createElement('div');
+    d.className = 'qa hidden';
+    d.innerHTML = `<span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="q">${esc(q)}</div><div class="a">${esc(a)}</div></div>`;
+    frag.appendChild(d);
+  }
+  sbCol.appendChild(frag);
+  const times = [B.r1, B.r2, B.r3, ...gItems.map((it) => it.at)];
+  sbCol.querySelectorAll('.qa').forEach((el, i) => sbRows.push({ el, at: times[i] }));
+}
+function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+// measure once (visibility keeps layout, so these stay valid)
+function measure() {
+  for (const it of gItems) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
+  for (const it of gSlow) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
+  for (const it of sbRows) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
+}
+
+// ---------- style helpers ----------
+const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
+const scene = (el, on) => { el.classList.toggle('on', on); op(el, on ? 1 : 0); };
+const lastAt = (arr, t) => { let out = null; for (const it of arr) if (t >= it.at) out = it; return out; };
+
+// ---------- render ----------
+function render(t) {
+  const inSplit = t < B.cardA, inCard = t >= B.cardA && t < B.end, inEnd = t >= B.end;
+  scene($('split'), inSplit); scene($('card'), inCard); scene($('end'), inEnd);
+
+  if (inSplit) renderSplit(t);
+  if (inCard) renderCard(t);
+  if (inEnd) renderEnd(t);
+}
+
+function renderSplit(t) {
+  // left: the clone
+  op(gHello, 1 - outCubic(seg(t, B.p1 - 0.15, B.p1 + 0.25)));
+  for (const it of gSlow) {
+    const p = seg(t, it.at, it.at + 0.22);
+    it.el.style.visibility = t >= it.at ? 'visible' : 'hidden';
+    it.el.style.opacity = String(outCubic(p));
+    it.el.style.transform = `translateY(${((1 - outCubic(p)) * 6).toFixed(1)}px)`;
+  }
+  for (const it of gItems) it.el.style.visibility = t >= it.at ? 'visible' : 'hidden';
+  for (let i = 0; i < 3; i++) {
+    const p = outBack(seg(t, B['r' + (i + 1)], B['r' + (i + 1)] + 0.28));
+    $('g-x' + i).style.transform = `scale(${p.toFixed(3)})`;
+  }
+  const last = lastAt(gItems, t) ?? { top: 0, h: 0, el: gSlow[5].el };
+  const anchor = last.el.classList.contains('pair') ? last.top + last.h : gSlow[5].top + gSlow[5].h;
+  const view = gScroll.clientHeight - 24;
+  gCol.style.transform = `translateY(${(-Math.max(0, anchor - view)).toFixed(1)}px)`;
+
+  // right: superbot, same tempo
+  for (const it of sbRows) {
+    const p = seg(t, it.at, it.at + 0.2);
+    it.el.classList.toggle('hidden', t < it.at);
+    it.el.style.opacity = String(outCubic(p));
+    it.el.style.transform = `translateY(${((1 - outCubic(p)) * 6).toFixed(1)}px)`;
+  }
+  const sbLast = lastAt(sbRows, t);
+  if (sbLast) {
+    const sbView = sbCol.parentElement.clientHeight - 20;
+    sbCol.style.transform = `translateY(${(-Math.max(0, sbLast.top + sbLast.h - sbView)).toFixed(1)}px)`;
+  } else sbCol.style.transform = 'translateY(0)';
+}
+
+function renderCard(t) {
+  const a = seg(t, B.cardA, B.cardA + 0.35), b = seg(t, B.cardB, B.cardB + 0.35);
+  const out = seg(t, B.cardB - 0.2, B.cardB);
+  op(cardA, a * (1 - out)); cardA.style.transform = `translateY(${(-50 + (1 - outQuint(a)) * 3 - out * 3).toFixed(2)}%) scale(${lerp(0.96, 1, outQuint(a)).toFixed(3)})`;
+  op(cardB, b); cardB.style.transform = `translateY(${(-50 + (1 - outQuint(b)) * 3).toFixed(2)}%) scale(${lerp(0.96, 1, outQuint(b)).toFixed(3)})`;
+}
+
+function renderEnd(t) {
+  const f = seg(t, B.end, B.end + 0.5), w = seg(t, B.word, B.word + 0.7);
+  op(endFace, f); endFace.style.transform = `scale(${lerp(0.5, 1, outBack(f)).toFixed(3)})`;
+  endSlide.style.transform = `translateX(${((1 - outQuint(w)) * -110).toFixed(1)}%)`;
+  op(endSlide, w);
+}
+
+// ---------- fit the stage to the viewport ----------
+function fit() {
+  const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+  stage.style.transform = `translate(-50%, -50%) scale(${k})`;
+  stage.style.left = '50%'; stage.style.top = '50%';
+}
+addEventListener('resize', fit); fit();
+
+// ---------- the clock ----------
+const q = new URLSearchParams(location.search);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const seekTo = q.has('t') ? parseFloat(q.get('t')) : null;
+let t0 = performance.now() - (seekTo || 0) * 1000, last = -1;
+function frame(now) {
+  const t = ((now - t0) / 1000) % LOOP;
+  const f = Math.floor(t * FPS);
+  if (f !== last) { last = f; render(f / FPS); }
+  requestAnimationFrame(frame);
+}
+measure();
+if (reduced) { render(B.word + 1); }
+else if (seekTo !== null && !q.has('play')) { render(Math.floor(seekTo * FPS) / FPS); }
+else requestAnimationFrame(frame);
+</script>
+</body>
+</html>

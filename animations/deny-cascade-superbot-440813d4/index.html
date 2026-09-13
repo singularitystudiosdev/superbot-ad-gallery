@@ -37,7 +37,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .g-main { position: relative; display: flex; flex-direction: column; min-width: 0; }
 .g-thread { flex: 1; min-height: 0; position: relative; }
 .g-scroll { position: absolute; inset: 0; overflow: hidden; }
-.g-col { position: absolute; left: 50%; top: 0; width: 768px; margin-left: -384px; padding: 20px 20px 0; will-change: transform; }
+.g-col { position: absolute; left: 50%; top: 0; width: 768px; margin-left: -384px; padding: 20px 20px 0; will-change: transform, filter; } /* the column scrolls as one eased curve; render(t) sets a vertical motion blur from its speed */
+.g-user, .g-ai, .pair { will-change: transform, opacity; }
 /* the empty-state heading: "Ask me anything!" */
 .g-hello { position: absolute; left: 0; right: 0; top: 42%; text-align: center; font-size: 44px; font-weight: 600; letter-spacing: -.01em; color: var(--gpt-text-2); }
 .g-user { display: flex; justify-content: flex-end; margin: 12px 0 20px; }
@@ -126,7 +127,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .chat-head .ask img { width: 12px; height: 12px; }
 .chat-head .pt { width: 20px; height: 20px; border-radius: 8px; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
 .chat-head .pt svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; }
-.feed { flex: 1; min-height: 0; padding: 10px 12px; display: grid; align-content: start; gap: 9px; overflow: hidden; }
+.feed { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+.feed-in { position: absolute; left: 0; right: 0; top: 0; padding: 10px 12px; display: grid; align-content: start; gap: 9px; will-change: transform; } /* the same eased scroll curve as the ChatGPT column */
 .welcome { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
 .welcome .w-ic { width: 24px; height: 24px; border-radius: 50%; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; }
 .welcome .w-ic img { width: 14px; height: 14px; }
@@ -147,10 +149,11 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .m-text .g { color: var(--muted); }
 /* a normal chat exchange: the user's bubble, then superbot's reply below it */
 .xch { margin: 0 0 4px; }
-.xch.hidden { display: none; } /* not-yet-landed exchanges take no space, so the feed's scroll anchor tracks the revealed ones */
-.f-q { display: flex; justify-content: flex-end; margin: 4px 0 7px; }
+.f-q { display: flex; justify-content: flex-end; margin: 4px 0 7px; opacity: 0; will-change: transform, opacity; }
 .f-q .bub { max-width: 82%; padding: 7px 13px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); font-size: 11.5px; line-height: 16px; white-space: pre-wrap; }
-.f-a { display: flex; gap: 8px; margin: 0 0 12px; }
+.f-a { display: flex; gap: 8px; margin: 0 0 12px; opacity: 0; will-change: transform, opacity; }
+/* the reply is laid out in full from the start (so nothing reflows) and each character fades in on its own clock: a typewriter with no hard edges */
+.f-a .ch { opacity: 0; }
 .composer { flex: none; margin: 6px 12px 10px; }
 .composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
 .composer .plus { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font: 650 11px/16px var(--mono); color: var(--fg); }
@@ -201,6 +204,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <!-- the brand face: mark-clean.svg's mask geometry (site/site/assets/brand) -->
+    <!-- the motion blur: a vertical gaussian whose deviation render(t) sets from the column's scroll speed (the house technique: tabs-chaos, gpt-slowdown) -->
+    <filter id="mb" x="-10%" y="-25%" width="120%" height="150%" color-interpolation-filters="sRGB"><feGaussianBlur id="mb-b" stdDeviation="0 0"/></filter>
     <mask id="face" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160">
       <g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g>
       <g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g>
@@ -286,11 +291,11 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
             </div>
             <div class="main">
               <div class="chat-head"><b>chat</b><span class="search">Search<kbd>⌘K</kbd></span><span class="ask"><img src="assets/mark-clean.svg" alt=""/>Ask Superbot</span><span class="pt"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/></svg></span></div>
-              <div class="feed" id="s-feed">
+              <div class="feed" id="s-feed"><div class="feed-in" id="s-in">
                 <div class="welcome"><span class="w-ic"><img src="assets/mark-clean.svg" alt=""/></span><span><b>Welcome to #chat</b><small>This is the start of your conversation with Superbot.</small></span></div>
                 <div class="date-div">September 13, 2026</div>
-                <!-- the 35 q/a messages are appended here by the build -->
-              </div>
+                <!-- the seven exchanges are appended here by the build -->
+              </div></div>
               <div class="composer"><div class="pill"><span class="plus">+</span><span class="ph">How can superbot help you today?</span><span class="picker">superbot ▾</span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
             </div>
           </div>
@@ -332,7 +337,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 // Same rule as the house ads (gpt-refusal): every visual is recomputed from t
 // each frame, so seeking (`?t=7.8`) or capturing any frame yields the same
 // picture. Frame-indexed at 30fps so preview and capture agree.
-const FPS = 30, LOOP = 20.0;
+const FPS = 30, LOOP = 23.5;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -349,8 +354,8 @@ const B = {
   cas0: 3.9,                                                 // the cascade takes over
   popup: 7.4, curIn: 8.0, curAt: 8.7, press: 8.9, release: 9.05, // the popup, then the press
   dip: 9.35, site: 9.6,                                      // dip to black, the app is simply there
-  s1: 10.25,                                                 // superbot answers, sped up, shrinking delays
-  cardA: 13.4, cardB: 15.0, end: 16.8, word: 17.5,           // the cards, then the end card
+  s1: 10.25,                                                 // superbot answers: each reply types out, faster each time
+  cardA: 16.9, cardB: 18.5, end: 20.3, word: 21.0,           // the cards, then the end card (the last reply finishes ~16.3)
 };
 // the cascade: shrinking intervals summing so it ends right at ~7.0s
 const CAS_END = (() => {
@@ -407,7 +412,8 @@ const CAS = [
 const stage = $('stage'), dip = $('dip'), cursor = $('cursor');
 const gpt = $('gpt'), gScroll = $('g-scroll'), gCol = $('g-col'), gHello = $('g-hello');
 const popup = $('popup'), chatbtn = $('chatbtn');
-const site = $('site'), sFeed = $('s-feed');
+const site = $('site'), sFeed = $('s-feed'), sIn = $('s-in');
+const mbB = $('mb-b');
 const cardA = $('card-a'), cardB = $('card-b');
 const endFace = $('end-face'), endSlide = $('end-slide');
 
@@ -439,24 +445,34 @@ function measureGpt() {
   for (const it of gItems) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
   for (const it of gSlow) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
 }
-// the superbot feed: seven normal chat exchanges, sped up on shrinking delays
-const sMsgs = [];
+// the superbot feed: seven normal chat exchanges. Each reply is laid out in full
+// (one span per character, opacity 0) so the typewriter never reflows; the
+// characters fade in on their own clocks, faster with each exchange.
+const sMsgs = []; // { el, q, a, chars, at, typeAt, cps }
 {
   const frag = document.createDocumentFragment();
   const show = [...SLOW, ...CAS.slice(0, 4).map(([q, a]) => ({ q, a }))];
-  for (const s of show) {
-    const d = document.createElement('div');
-    d.className = 'xch hidden';
-    d.innerHTML = `<div class="f-q"><span class="bub">${esc(s.q)}</span></div><div class="f-a"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text">${esc(s.a)}</div></div></div>`;
-    frag.appendChild(d);
-  }
-  sFeed.appendChild(frag);
-  sFeed.querySelectorAll('.xch').forEach((el) => sMsgs.push({ el }));
-}
-// land times: accelerating from B.s1, so the replies speed up like the denials did
-{
   let t = B.s1;
-  for (let i = 0; i < sMsgs.length; i++) { sMsgs[i].at = t; t += lerp(0.42, 0.14, i / (sMsgs.length - 1)); }
+  show.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'xch';
+    d.innerHTML = `<div class="f-q"><span class="bub">${esc(s.q)}</span></div><div class="f-a"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text">${[...s.a].map((c) => `<span class="ch">${esc(c)}</span>`).join('')}</div></div></div>`;
+    frag.appendChild(d);
+    const cps = lerp(70, 160, i / (show.length - 1)); // characters per second, climbing
+    const typeAt = t + 0.28;                            // the reply starts a beat after the ask lands
+    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), chars: [...d.querySelectorAll('.ch')], at: t, typeAt, cps });
+    t = typeAt + s.a.length / cps + lerp(0.3, 0.06, i / (show.length - 1)); // the next ask lands as this reply finishes
+  });
+  sIn.appendChild(frag);
+}
+// the superbot scroll anchors: the ask and the reply of each exchange
+let sItems = [];
+function measureSite() {
+  sItems = [];
+  for (const m of sMsgs) {
+    sItems.push({ at: m.at, top: m.q.offsetTop, h: m.q.offsetHeight });
+    sItems.push({ at: m.typeAt, top: m.a.offsetTop, h: m.a.offsetHeight });
+  }
 }
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
@@ -485,28 +501,57 @@ function render(t) {
   renderCursor(t);
 }
 
+// ---------- the eased scroll curve ----------
+// Each landed item pulls the column's target to "its bottom sits above the
+// composer"; the column eases from wherever it was at that moment toward the
+// new target over `dur`. Landings closer together than `dur` chain, so the
+// cascade reads as one continuous, accelerating scroll instead of 32 jumps.
+function anchorY(items, t, view, dur) {
+  let from = 0, target = 0, start = -1;
+  for (const it of items) {
+    if (t < it.at) break;
+    from = lerp(from, target, outCubic(seg(it.at, start, start + dur)));
+    target = Math.max(0, it.top + it.h - view); start = it.at;
+  }
+  return lerp(from, target, outCubic(seg(t, start, start + dur)));
+}
+let lastBlur = -1;
+function setBlur(sd) {
+  sd = Math.round(sd * 2) / 2;
+  if (sd === lastBlur) return;
+  lastBlur = sd;
+  mbB.setAttribute('stdDeviation', `0 ${sd}`);
+  gCol.style.filter = sd > 0 ? 'url(#mb)' : 'none';
+}
+const gAll = [...gSlow, ...gItems].sort((a, b) => a.at - b.at);
+
 function renderGpt(t) {
   // the empty-state heading fades as the first prompt lands
   op(gHello, 1 - outCubic(seg(t, B.p1 - 0.15, B.p1 + 0.25)));
-  // each item lands: rise + fade (slow items), the pairs just appear (they're the speed)
+  // every item lands the same way: a fade and a 6px rise, eased; the pairs use a shorter window as the intervals shrink
   for (const it of gSlow) {
-    const p = seg(t, it.at, it.at + 0.22);
+    const p = outCubic(seg(t, it.at, it.at + 0.24));
     it.el.style.visibility = t >= it.at ? 'visible' : 'hidden';
-    it.el.style.opacity = String(outCubic(p));
-    it.el.style.transform = `translateY(${((1 - outCubic(p)) * 6).toFixed(1)}px)`;
+    it.el.style.opacity = String(p);
+    it.el.style.transform = `translateY(${((1 - p) * 6).toFixed(1)}px)`;
   }
-  for (const it of gItems) it.el.style.visibility = t >= it.at ? 'visible' : 'hidden';
+  gItems.forEach((it, i) => {
+    const p = outCubic(seg(t, it.at, it.at + lerp(0.2, 0.08, i / 31)));
+    it.el.style.visibility = t >= it.at ? 'visible' : 'hidden';
+    it.el.style.opacity = String(p);
+    it.el.style.transform = `translateY(${((1 - p) * 8).toFixed(1)}px)`;
+  });
   // the ❌ pops in with a little overshoot on the slow refusals
   for (let i = 0; i < 3; i++) {
     const p = outBack(seg(t, B['r' + (i + 1)], B['r' + (i + 1)] + 0.28));
     $('g-x' + i).style.transform = `scale(${p.toFixed(3)})`;
   }
-  // the column anchors the newest visible item above the composer
-  const last = lastAt(gItems, t) ?? { top: 0, h: 0, el: gSlow[5].el, at: 0 };
-  const anchor = last.el.classList.contains('pair') ? last.top + last.h : topOf(gSlow[5]) + hOf(gSlow[5]);
-  const view = gScroll.clientHeight - 24;
-  const y = Math.max(0, anchor - view);
-  gCol.style.transform = `translateY(${(-y).toFixed(1)}px)`;
+  // the column scrolls on one eased curve; the blur is the column's own speed (frame px per frame × 0.5, capped)
+  const view = gScroll.clientHeight - 24, dt = 1 / FPS;
+  const y = anchorY(gAll, t, view, 0.32);
+  const v = (anchorY(gAll, t + dt, view, 0.32) - y) / dt * 1.25; // px/s on the frame (the clone is shown at 1.25x)
+  gCol.style.transform = `translateY(${(-y).toFixed(2)}px)`;
+  setBlur(t < B.cas0 ? 0 : Math.min(5, (v / FPS) * 0.2)); // capped so the prompts streak but stay legible at the peak (sd 5 on a 20px line)
   // the rescue popup, 1:1 the house popup (entrance 'rise', holds for the press, falls out)
   const pp = seg(t, B.popup, B.popup + 0.4), po = seg(t, B.release + 0.05, B.release + 0.35);
   op(popup, po > 0 ? 1 - po : pp);
@@ -517,9 +562,23 @@ function renderGpt(t) {
 }
 
 function renderSite(t) {
-  for (const m of sMsgs) m.el.classList.toggle('hidden', t < m.at);
-  // the feed keeps the newest row in view, like the real app
-  sFeed.scrollTop = sFeed.scrollHeight;
+  for (const m of sMsgs) {
+    // the ask lands: fade + 6px rise
+    const pq = outCubic(seg(t, m.at, m.at + 0.26));
+    m.q.style.opacity = String(pq);
+    m.q.style.transform = `translateY(${((1 - pq) * 6).toFixed(1)}px)`;
+    // the reply's header lands just before the text starts
+    const pa = outCubic(seg(t, m.typeAt - 0.12, m.typeAt + 0.1));
+    m.a.style.opacity = String(pa);
+    m.a.style.transform = `translateY(${((1 - pa) * 4).toFixed(1)}px)`;
+    // the typewriter: character k starts at typeAt + k/cps and fades in over 0.16s
+    if (t < m.typeAt - 0.05) { if (m.lit !== 0) { for (const c of m.chars) c.style.opacity = '0'; m.lit = 0; } continue; }
+    m.chars.forEach((c, k) => { c.style.opacity = String(outCubic(seg(t, m.typeAt + k / m.cps, m.typeAt + k / m.cps + 0.16))); });
+    m.lit = 1;
+  }
+  // the feed follows the newest line on the same eased curve as the ChatGPT column
+  const y = anchorY(sItems, t, sFeed.clientHeight - 10, 0.36);
+  sIn.style.transform = `translateY(${(-y).toFixed(2)}px)`;
 }
 
 function renderCard(t) {
@@ -547,10 +606,6 @@ function renderCursor(t) {
   if (vis) cursor.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${sc})`;
 }
 
-// helpers over the measured geometry
-const topOf = (it) => it.top, hOf = (it) => it.h;
-function lastAt(arr, t) { let out = null; for (const it of arr) if (t >= it.at) out = it; return out; }
-
 // ---------- fit the stage to the viewport ----------
 function fit() {
   const k = Math.min(innerWidth / 1920, innerHeight / 1080);
@@ -573,8 +628,9 @@ function frame(now) {
   if (f !== last) { last = f; render(f / FPS); }
   requestAnimationFrame(frame);
 }
-// warm the geometry: render the popup frame once, invisibly, then measure
+// warm the geometry: measure both columns with every item laid out, then render the popup frame once, invisibly, and read the button
 measureGpt();
+site.classList.add('on'); measureSite(); site.classList.remove('on');
 render(B.popup + 0.5); measure();
 if (reduced) { render(B.word + 1); }
 else if (seekTo !== null && !q.has('play')) { render(Math.floor(seekTo * FPS) / FPS); }

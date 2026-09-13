@@ -128,7 +128,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .chat-head .pt { width: 20px; height: 20px; border-radius: 8px; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
 .chat-head .pt svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; }
 .feed { flex: 1; min-height: 0; position: relative; overflow: hidden; }
-.feed-in { position: absolute; left: 0; right: 0; top: 0; padding: 10px 12px; display: grid; align-content: start; gap: 9px; will-change: transform; } /* the same eased scroll curve as the ChatGPT column */
+.feed-in { position: absolute; left: 0; right: 0; top: 0; padding: 10px 12px; display: grid; align-content: start; gap: 9px; will-change: transform, filter; } /* the same eased scroll curve and motion blur as the ChatGPT column */
 .welcome { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
 .welcome .w-ic { width: 24px; height: 24px; border-radius: 50%; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; }
 .welcome .w-ic img { width: 14px; height: 14px; }
@@ -147,6 +147,15 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .app { padding: 0 4px; border-radius: 3px; background: var(--storm-1); color: #fff; font: 700 8px/12px var(--ui); letter-spacing: .04em; }
 .m-text { font-size: 11px; line-height: 15px; white-space: pre-wrap; }
 .m-text .g { color: var(--muted); }
+/* a real fenced code block: monospace, dark plate, a filename tab, matching a chat app's own code rendering */
+.m-text .code { margin: 6px 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); background: #0b0d10; }
+.m-text .code .code-head { display: flex; align-items: center; gap: 6px; padding: 5px 9px; background: #14171b; border-bottom: 1px solid var(--line); font: 600 9.5px/1 var(--mono); color: var(--muted); letter-spacing: .02em; }
+.m-text .code .code-head i { width: 6px; height: 6px; border-radius: 50%; background: #4a4e57; }
+.m-text .code pre { margin: 0; padding: 8px 10px; font: 10px/15px var(--mono); color: #d6dde6; white-space: pre; overflow-x: hidden; }
+.m-text .code .kw { color: #d98cff; }
+.m-text .code .fn { color: #6ea8ff; }
+.m-text .code .str { color: #7ed99a; }
+.m-text .code .cm { color: #6f7480; }
 /* a normal chat exchange: the user's bubble, the thinking state, then the reply */
 .xch { margin: 0 0 6px; }
 .f-q { display: flex; justify-content: flex-end; margin: 4px 0 8px; opacity: 0; will-change: transform, opacity; }
@@ -249,6 +258,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
     <!-- the brand face: mark-clean.svg's mask geometry (site/site/assets/brand) -->
     <!-- the motion blur: a vertical gaussian whose deviation render(t) sets from the column's scroll speed (the house technique: tabs-chaos, gpt-slowdown) -->
     <filter id="mb" x="-10%" y="-25%" width="120%" height="150%" color-interpolation-filters="sRGB"><feGaussianBlur id="mb-b" stdDeviation="0 0"/></filter>
+    <!-- the same technique on the superbot feed, so it reads as speeding up the same way the ChatGPT column did -->
+    <filter id="mb2" x="-10%" y="-25%" width="120%" height="150%" color-interpolation-filters="sRGB"><feGaussianBlur id="mb2-b" stdDeviation="0 0"/></filter>
     <mask id="face" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160">
       <g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g>
       <g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g>
@@ -470,9 +481,31 @@ const EX = [
     think: 'Choosing an approach',
     tools: [["Reading reddit's public JSON", 'ok, no api key', 'code'], ['Writing posts and comments', '142 lines', 'code']],
     blocks: [
-      ['p', "I wrote it against Reddit's public JSON endpoints, so there is no key, no app registration and no PRAW involved. It paginates on the after cursor and holds itself to about one request a second, backing off whenever it sees a 429."],
-      ['p', 'It pulls posts and their top-level comments and writes them straight to CSV. The first run should land in a couple of minutes, and I will hand you the file when it finishes.'],
-      ['p', 'reddit_scraper.py, 142 lines, running now.'],
+      ['p', "Wrote it against Reddit's public JSON endpoints, so there is no key, no app registration and no PRAW involved. It paginates on the after cursor, holds itself to about one request a second, and backs off whenever it sees a 429."],
+      ['code', { name: 'reddit_scraper.py', body:
+`import requests, csv, time
+
+def fetch(sub, after=None):
+    url = f"https://www.reddit.com/r/{sub}/new.json"
+    r = requests.get(url, params={"after": after, "limit": 100},
+                      headers={"User-Agent": "superbot/1.0"})
+    if r.status_code == 429:
+        time.sleep(2); return fetch(sub, after)
+    data = r.json()["data"]
+    return data["children"], data["after"]
+
+rows, after = [], None
+while len(rows) < 500:
+    posts, after = fetch("all", after)
+    for p in posts:
+        d = p["data"]
+        rows.append([d["title"], d["author"], d["score"], d["url"]])
+    if not after: break
+    time.sleep(1)
+
+with open("reddit_scraper.csv", "w", newline="") as f:
+    csv.writer(f).writerows(rows)` } ],
+      ['p', 'First run should land in a couple of minutes, and I will hand you the file when it finishes.'],
     ],
   },
   {
@@ -586,7 +619,7 @@ const EX = [
 const stage = $('stage'), dip = $('dip'), cursor = $('cursor');
 const gpt = $('gpt'), gScroll = $('g-scroll'), gCol = $('g-col'), gHello = $('g-hello');
 const popup = $('popup'), chatbtn = $('chatbtn');
-const site = $('site'), sFeed = $('s-feed'), sIn = $('s-in');
+const site = $('site'), sFeed = $('s-feed'), sIn = $('s-in'), mb2B = $('mb2-b');
 const bThink = $('b-think'), bThinkIn = $('b-think-in'), bText = $('b-think-text');
 let barH = 0;
 const mbB = $('mb-b');
@@ -622,13 +655,15 @@ function measureGpt() {
   for (const it of gSlow) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
 }
 // ---------- the superbot replay: twelve exchanges on one speed ramp ----------
-// The owner's brief: the generation runs at 1x and climbs to ~10x across seven
-// seconds. One multiplier drives all of it: how long superbot "thinks", how fast
-// the answer types out, and the pause before the next ask, so the whole replay
-// accelerates as a single gesture instead of three separate speed-ups.
-const RAMP = 7;                                        // the ramp window, in seconds
+// The owner's brief: the generation runs at 1x and climbs to ~10x across five
+// seconds, exponentially rather than linearly (so it feels slow at first and
+// then runs away, instead of a steady climb). One multiplier drives all of it:
+// how long superbot "thinks", how fast the answer types out, and the pause
+// before the next ask, so the whole replay accelerates as a single gesture
+// instead of three separate speed-ups.
+const RAMP = 5;                                        // the ramp window, in seconds
 const R0 = 70;                                         // characters per second at 1x
-const speedAt = (t) => 1 + 9 * clamp01((t - B.s1) / RAMP);
+const speedAt = (t) => Math.pow(10, clamp01((t - B.s1) / RAMP));
 const FADE_CHARS = 13;                                 // how many characters are mid-fade at any instant
 const cpsAt = (t) => R0 * speedAt(t);                  // characters per second at time t
 const fadeAt = (t) => FADE_CHARS / cpsAt(t);           // so the fade shortens as the typing speeds up
@@ -643,6 +678,7 @@ function blocksHTML(blocks) {
   let html = '';
   for (const [kind, v] of blocks) {
     if (kind === 'ul') html += `<ul>${v.map((li) => `<li>${chars(li)}</li>`).join('')}</ul>`;
+    else if (kind === 'code') html += `<div class="code"><div class="code-head"><i></i><i></i><i></i><span>${esc(v.name)}</span></div><pre>${chars(v.body)}</pre></div>`;
     else html += `<div class="${kind}">${chars(v)}</div>`;
   }
   return html;
@@ -783,6 +819,15 @@ function setBlur(sd) {
   mbB.setAttribute('stdDeviation', `0 ${sd}`);
   gCol.style.filter = sd > 0 ? 'url(#mb)' : 'none';
 }
+let lastBlur2 = -1;
+let sBlurSd = 0; // the same decay-toward-target technique as the ChatGPT column
+function setBlur2(sd) {
+  sd = Math.round(sd * 2) / 2;
+  if (sd === lastBlur2) return;
+  lastBlur2 = sd;
+  mb2B.setAttribute('stdDeviation', `0 ${sd}`);
+  sIn.style.filter = sd > 0 ? 'url(#mb2)' : 'none';
+}
 const gAll = [...gSlow, ...gItems].sort((a, b) => a.at - b.at);
 
 function renderGpt(t) {
@@ -894,14 +939,30 @@ function renderSite(t) {
   // the feed follows the newest line on the same eased curve as the ChatGPT column,
   // reading the live geometry so the folding thinking rows never leave it behind
   const view = sFeed.clientHeight - 10;
-  let from = 0, target = 0, start = -1;
-  for (const it of sItems) {
-    if (t < it.at) break;
-    from = lerp(from, target, outCubic(seg(it.at, start, start + 0.36)));
-    target = Math.max(0, it.el.offsetTop + it.el.offsetHeight - view); start = it.at;
-  }
-  const y = lerp(from, target, outCubic(seg(t, start, start + 0.36)));
+  const feedY = (at) => {
+    let from = 0, target = 0, start = -1;
+    for (const it of sItems) {
+      if (at < it.at) break;
+      from = lerp(from, target, outCubic(seg(it.at, start, start + 0.36)));
+      target = Math.max(0, it.el.offsetTop + it.el.offsetHeight - view); start = it.at;
+    }
+    return lerp(from, target, outCubic(seg(at, start, start + 0.36)));
+  };
+  const dt2 = 1 / FPS;
+  const y = feedY(t);
+  const v2 = (feedY(t + dt2) - y) / dt2;
   sIn.style.transform = `translateY(${(-y).toFixed(2)}px)`;
+  // The blur should read as "it just went very fast at the end", not a gradual haze
+  // over the whole scene: it stays at 0 until the ramp is mostly spent (progress past
+  // 0.75 of the 5s window, i.e. speedAt(t) already north of ~6x), then rises sharply
+  // over the ramp's last quarter. A per-jump spike from scroll velocity is layered on
+  // top (capped low, 1.4) so an early message landing never smears settled text.
+  const rp = clamp01((t - B.s1) / RAMP);                 // ramp progress, 0..1
+  const rampSd = Math.min(2.6, 2.6 * outCubic(seg(rp, 0.75, 1)));
+  const jumpSd = Math.min(1.4, (v2 / FPS) * 0.05);
+  const targetSd2 = t < B.s1 ? 0 : Math.max(rampSd, jumpSd);
+  sBlurSd = lerp(sBlurSd, targetSd2, targetSd2 > sBlurSd ? 0.5 : 0.15);
+  setBlur2(sBlurSd);
 }
 
 function renderCard(t) {

@@ -655,15 +655,16 @@ function measureGpt() {
   for (const it of gSlow) { it.top = it.el.offsetTop; it.h = it.el.offsetHeight; }
 }
 // ---------- the superbot replay: twelve exchanges on one speed ramp ----------
-// The owner's brief: the generation runs at 1x and climbs to ~10x across five
-// seconds, exponentially rather than linearly (so it feels slow at first and
-// then runs away, instead of a steady climb). One multiplier drives all of it:
-// how long superbot "thinks", how fast the answer types out, and the pause
-// before the next ask, so the whole replay accelerates as a single gesture
-// instead of three separate speed-ups.
-const RAMP = 5;                                        // the ramp window, in seconds
+// The owner's brief: the whole replay (thinking, typing, the gap before the next
+// ask, all twelve exchanges) should read start-to-finish in about five seconds,
+// climbing exponentially rather than linearly (slow at first, then runs away).
+// Measured against the real reply lengths (4456 characters total): a 3s ramp to
+// 30x lands the full scene at ~5.2s. One multiplier drives all of it, so the
+// whole replay accelerates as a single gesture instead of three separate speed-ups.
+const RAMP = 3;                                        // the ramp window, in seconds
+const MAX_MULT = 30;                                   // the multiplier the ramp climbs to
 const R0 = 70;                                         // characters per second at 1x
-const speedAt = (t) => Math.pow(10, clamp01((t - B.s1) / RAMP));
+const speedAt = (t) => Math.pow(MAX_MULT, clamp01((t - B.s1) / RAMP));
 const FADE_CHARS = 13;                                 // how many characters are mid-fade at any instant
 const cpsAt = (t) => R0 * speedAt(t);                  // characters per second at time t
 const fadeAt = (t) => FADE_CHARS / cpsAt(t);           // so the fade shortens as the typing speeds up
@@ -948,20 +949,16 @@ function renderSite(t) {
     }
     return lerp(from, target, outCubic(seg(at, start, start + 0.36)));
   };
-  const dt2 = 1 / FPS;
   const y = feedY(t);
-  const v2 = (feedY(t + dt2) - y) / dt2;
   sIn.style.transform = `translateY(${(-y).toFixed(2)}px)`;
-  // The blur should read as "it just went very fast at the end", not a gradual haze
-  // over the whole scene: it stays at 0 until the ramp is mostly spent (progress past
-  // 0.75 of the 5s window, i.e. speedAt(t) already north of ~6x), then rises sharply
-  // over the ramp's last quarter. A per-jump spike from scroll velocity is layered on
-  // top (capped low, 1.4) so an early message landing never smears settled text.
-  const rp = clamp01((t - B.s1) / RAMP);                 // ramp progress, 0..1
-  const rampSd = Math.min(2.6, 2.6 * outCubic(seg(rp, 0.75, 1)));
-  const jumpSd = Math.min(1.4, (v2 / FPS) * 0.05);
-  const targetSd2 = t < B.s1 ? 0 : Math.max(rampSd, jumpSd);
-  sBlurSd = lerp(sBlurSd, targetSd2, targetSd2 > sBlurSd ? 0.5 : 0.15);
+  // The blur must stay at exactly 0 for the whole scene except the very last 0.7s of
+  // wall-clock time (keyed off SCHED_END, the actual computed end of the replay, not
+  // a fraction of the ramp curve — the ramp finishes well before the scene does).
+  // No velocity-driven spike is layered in any more: every earlier frame must render
+  // fully sharp, full stop.
+  const untilEnd = SCHED_END - t;
+  const targetSd2 = (SCHED_END > 0 && untilEnd <= 0.7) ? 2.6 * outCubic(1 - clamp01(untilEnd / 0.7)) : 0;
+  sBlurSd = lerp(sBlurSd, targetSd2, targetSd2 > sBlurSd ? 0.6 : 0.5);
   setBlur2(sBlurSd);
 }
 

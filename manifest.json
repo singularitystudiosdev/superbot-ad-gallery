@@ -43,7 +43,7 @@
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",
-    "title": "\"ask me anything\" — ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and types full formatted answers, ramping 1x to 10x (~22s loop)",
+    "title": "\"ask me anything\", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)",
     "src": "animations/deny-cascade-superbot-440813d4/",
     "thumb": "assets/shots/deny-cascade-superbot-440813d4.png"
   },

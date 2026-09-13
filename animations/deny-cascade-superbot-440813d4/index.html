@@ -181,31 +181,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .fmt li::before { content: "·"; position: absolute; left: -9px; color: var(--muted); }
 .fmt .note { justify-self: start; margin-top: 1px; padding: 2px 7px; border-radius: 5px; background: #0a0a0a; border: 1px solid var(--line); font: 600 9.5px/14px var(--mono); color: var(--secondary); }
 .fmt .ch { opacity: 0; }
-/* the end frame: the hero-loading page's framed plate (spinning conic border), but the
-   inside changes with what the answer actually produced. the four kinds are the order
-   receipt, the script file, the appointment and the notice letter. */
 @property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
-.endframe { --rainbow: conic-gradient(from var(--angle), #2b6bff, #6a1fd8, #c026d3, #ff3d9a, #2b6bff); position: relative; justify-self: start; margin-top: 4px; opacity: 0; will-change: transform, opacity; }
-.ef-plate { box-sizing: border-box; width: 236px; padding: 9px 11px 9px; border: 2px solid transparent; border-radius: 13px; background: linear-gradient(#0d0d0d, #0d0d0d) padding-box, var(--rainbow) border-box; animation: spin 7s linear infinite; }
-.ef-head { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 11px; letter-spacing: -.1px; }
-.ef-head svg { width: 12px; height: 12px; flex: none; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.ef-plate._order .ef-head svg { stroke: #ffb340; }
-.ef-plate._file .ef-head svg { stroke: #6ea8ff; }
-.ef-plate._calendar .ef-head svg { stroke: #34d399; }
-.ef-plate._doc .ef-head svg { stroke: #d98cff; }
-.ef-hr { height: 1px; margin: 7px 0; background: var(--line); }
-.ef-row { display: flex; align-items: baseline; gap: 8px; font-size: 10px; line-height: 14px; color: var(--secondary); }
-.ef-row + .ef-row { margin-top: 3px; }
-.ef-row b { margin-left: auto; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums; }
-.ef-prog { position: relative; height: 3px; margin-top: 8px; border-radius: 2px; background: var(--raised); }
-.ef-prog i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: linear-gradient(90deg, #ffb340, #ff7a45); }
-.ef-foot { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 9.5px; line-height: 14px; color: var(--muted); }
-.ef-code { font: 600 9.5px/14px var(--mono); color: #cdd6e0; }
-.ef-code + .ef-code { margin-top: 3px; }
-.ef-quote { margin: 7px 0 0; padding-left: 8px; border-left: 2px solid var(--storm-3); font-size: 10px; line-height: 14px; color: var(--secondary); }
-.ef-when { margin-top: 7px; font-size: 13px; font-weight: 700; letter-spacing: -.2px; }
-.ef-where { margin-top: 2px; font-size: 10px; line-height: 14px; color: var(--muted); }
-.ef-chip { display: inline-block; margin-top: 7px; padding: 2px 7px; border-radius: 5px; background: #0a0a0a; border: 1px solid var(--line); font: 600 9.5px/14px var(--mono); color: var(--secondary); }
 /* the composer: the hero-loading page's spinning rainbow ring, with the thinking row opening above the input row inside it */
 .composer { isolation: isolate; } /* the ring's bloom layers sit behind the plate, so the glow hugs the border instead of washing over it */
 .composer .ring { position: relative; --surface: #1a1a1c; --radius: 13px; --speed: 3.5s; --rainbow: conic-gradient(from var(--angle), #2b6bff, #6a1fd8, #c026d3, #ff3d9a, #2b6bff); display: flex; flex-direction: column; border-radius: var(--radius); background: linear-gradient(var(--surface), var(--surface)) padding-box, var(--rainbow) border-box; border: 1.5px solid transparent; animation: spin var(--speed) linear infinite; }
@@ -485,7 +461,7 @@ const EX = [
     blocks: [
       ['p', 'Ordered and paid with the card on file: one Big Mac meal with large fries and an Oreo McFlurry, going to the address on your profile.'],
       ['p', 'The driver is about twelve minutes out, so it should reach you at 6:47pm. I will ping you if the restaurant slips that window.'],
-      ['card', { kind: 'order', title: 'Order placed', items: [['Big Mac Meal', '$9.29'], ['Large fries', '$2.19'], ['Oreo McFlurry', '$3.49']], progress: 0.55, status: 'Driver 12 min out' }],
+      ['p', 'Order placed: Big Mac Meal $9.29, large fries $2.19, Oreo McFlurry $3.49.'],
     ],
   },
   {
@@ -496,7 +472,7 @@ const EX = [
     blocks: [
       ['p', "I wrote it against Reddit's public JSON endpoints, so there is no key, no app registration and no PRAW involved. It paginates on the after cursor and holds itself to about one request a second, backing off whenever it sees a 429."],
       ['p', 'It pulls posts and their top-level comments and writes them straight to CSV. The first run should land in a couple of minutes, and I will hand you the file when it finishes.'],
-      ['card', { kind: 'file', title: 'reddit_scraper.py', lines: ['posts + comments → posts.csv', 'no api key · ~1 req/s'], meta: '142 lines · running now' }],
+      ['p', 'reddit_scraper.py, 142 lines, running now.'],
     ],
   },
   {
@@ -559,7 +535,7 @@ const EX = [
     blocks: [
       ['p', 'Not this one. It needs a prescription, and the over-the-counter options will not clear it. They mostly mask the spread until it is worse.'],
       ['p', 'Three clinics near you have openings tomorrow morning, and I have the booking message drafted with your symptoms attached, so it is one tap when you are ready.'],
-      ['card', { kind: 'calendar', title: 'Appointment request', when: 'Tomorrow, 10:30am', where: 'Riverside Clinic · 2.1 mi away', chip: 'symptoms attached' }],
+      ['p', 'Appointment request: tomorrow 10:30am, Riverside Clinic, 2.1 mi away.'],
     ],
   },
   {
@@ -601,7 +577,7 @@ const EX = [
     blocks: [
       ['p', 'Yes. Clause 12(b) lets you terminate without penalty, as long as the notice is in writing.'],
       ['p', 'The timing is the part that matters: the notice has to land before the renewal date on October 1. The letter is drafted, with the clause quoted and your dates already filled in.'],
-      ['card', { kind: 'doc', title: 'Notice letter', quote: 'Clause 12(b): terminate without penalty on 30 days written notice.', chip: 'send before Oct 1' }],
+      ['p', 'Notice letter drafted, quoting clause 12(b). Send before Oct 1.'],
     ],
   },
 ];
@@ -667,7 +643,6 @@ function blocksHTML(blocks) {
   let html = '';
   for (const [kind, v] of blocks) {
     if (kind === 'ul') html += `<ul>${v.map((li) => `<li>${chars(li)}</li>`).join('')}</ul>`;
-    else if (kind === 'card') html += cardHTML(v);
     else html += `<div class="${kind}">${chars(v)}</div>`;
   }
   return html;
@@ -686,33 +661,12 @@ const TOOL_ICON = {
   calendar: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>',
   search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',
 };
-const EF_ICON = {
-  order: '<svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
-  file: '<svg viewBox="0 0 24 24"><path d="M5 6l4 6-4 6"/><path d="M12 18h7"/></svg>',
-  calendar: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>',
-  doc: '<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>',
-};
-function cardHTML(c) {
-  const head = `<div class="ef-head">${EF_ICON[c.kind]}<span>${esc(c.title)}</span></div>`;
-  let body = '';
-  if (c.kind === 'order') {
-    body = `<div class="ef-hr"></div>${c.items.map(([n, p]) => `<div class="ef-row"><span>${esc(n)}</span><b>${esc(p)}</b></div>`).join('')}<div class="ef-prog"><i style="width:${(c.progress * 100).toFixed(0)}%"></i></div><div class="ef-foot">${esc(c.status)}</div>`;
-  } else if (c.kind === 'file') {
-    body = `<div class="ef-hr"></div>${c.lines.map((l) => `<div class="ef-code">${esc(l)}</div>`).join('')}<div class="ef-foot">${esc(c.meta)}</div>`;
-  } else if (c.kind === 'calendar') {
-    body = `<div class="ef-when">${esc(c.when)}</div><div class="ef-where">${esc(c.where)}</div><span class="ef-chip">${esc(c.chip)}</span>`;
-  } else {
-    body = `<div class="ef-quote">${esc(c.quote)}</div><span class="ef-chip">${esc(c.chip)}</span>`;
-  }
-  return `<div class="endframe"><div class="ef-plate _${c.kind}">${head}${body}</div></div>`;
-}
-
 const sMsgs = [];
 let SCHED_END = 0;
 {
   const frag = document.createDocumentFragment();
   const TB = 0.9, GAP = 0.45;   // 1x-seconds of thinking, and of pause after a reply
-  let t = B.s1, lastCardAt = 0;
+  let t = B.s1;
   EX.forEach((ex) => {
     const d = document.createElement('div');
     d.className = 'xch';
@@ -747,21 +701,13 @@ let SCHED_END = 0;
     }
     const thinkSpan = (typeAt - thinkAt) / ex.tools.length;
     const tools = toolEls.map((el, j) => ({ el, at: thinkAt + thinkSpan * j * 0.85, done: thinkAt + thinkSpan * (j + 0.85), lbl: el.querySelector('.lbl') }));
-    // the end frame, where the answer actually produces one: it rises once the text is done
-    const cardEl = d.querySelector('.endframe');
-    const cardAt = chs.length ? times[chs.length - 1] : typeAt;
-    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), think: d.querySelector('.f-think'), thinkIn: d.querySelector('.f-think-in'), chars: chs, times, at, thinkAt, typeAt, tools, cardEl, cardAt, task: ex.task, k: 0, partialFrom: 0 });
-    if (cardEl) { lastCardAt = cardAt; }
+    sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), think: d.querySelector('.f-think'), thinkIn: d.querySelector('.f-think-in'), chars: chs, times, at, thinkAt, typeAt, tools, task: ex.task, k: 0, partialFrom: 0 });
     t = advance(t, GAP);                          // the pause before the next ask
-    // an end frame needs wall-clock time to be read, and cost units compress to
-    // almost nothing at 10x, so cards get a floor in seconds instead
-    if (cardEl) t = Math.max(t, cardAt + 0.75);
   });
   sIn.appendChild(frag);
   SCHED_END = t;
-  // the tail beats hang off the schedule, so the card always lands just after the last
-  // reply (and the closing end frame gets its own beat on screen either way)
-  B.cardA = Math.max(SCHED_END + 0.55, lastCardAt + 1.35);
+  // the tail beats hang off the schedule, so the card always lands just after the last reply
+  B.cardA = SCHED_END + 0.55;
   B.end = B.cardA + 2.2;
   B.word = B.end + 0.7;
   LOOP = B.word + 2.2;
@@ -930,12 +876,6 @@ function renderSite(t) {
     for (let q = j; q < k; q++) m.chars[q].style.opacity = String(outCubic(clamp01((t - m.times[q]) / fadeAt(m.times[q]))));
     for (let q = k; q < m.k; q++) m.chars[q].style.opacity = '0';
     m.k = k; m.partialFrom = j;
-    // the end frame rises once the text has finished
-    if (m.cardEl) {
-      const pc = outCubic(seg(t, m.cardAt, m.cardAt + 0.34 / speedAt(m.cardAt)));
-      m.cardEl.style.opacity = String(pc);
-      m.cardEl.style.transform = `translateY(${((1 - pc) * 8).toFixed(1)}px)`;
-    }
   }
   // the composer bar: the hero's thinking row, riding the input row inside the ring
   // while superbot works on the current ask, folding shut when the answer starts

@@ -178,10 +178,12 @@ function renderTitles(t) {
   opacity($('title-caret'), Math.sin(t * 7) > 0 ? 1 : .15);
   const slide = ease(part(t, 50.2, 51.5));
   const pop = ease(part(t, TIMES.end, TIMES.end + .65));
-  $('end-mascot').style.transform = `translateX(${365 * (1 - slide)}px) scale(${lerp(.8, 1, pop)})`;
-  opacity($('end-mascot'), pop);
-  $('wordmark').style.transform = `translateX(${-740 * (1 - slide)}px)`;
-  opacity($('wordmark'), slide);
+  const lockup = $('end-lockup'), mascot = $('end-mascot'), wordmark = $('wordmark');
+  const centre = (lockup.offsetWidth - mascot.offsetWidth) / 2; // the mark alone sits centred until the words slide in
+  mascot.style.transform = `translateX(${centre * (1 - slide)}px) scale(${lerp(.8, 1, pop)})`;
+  opacity(mascot, pop);
+  wordmark.style.transform = `translateX(${-(wordmark.offsetWidth + 20) * (1 - slide)}px)`;
+  opacity(wordmark, slide);
 }
 const stamp = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 function render(t) {

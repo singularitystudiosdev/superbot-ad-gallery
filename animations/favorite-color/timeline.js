@@ -11,12 +11,10 @@
 // back to the chat bar (user ask), which now takes "/superbot" — the previous
 // animation's cmd-glow chip, ⚡ bolt and breathing glow verbatim (user ask)
 // — and answers "Black." (user ask). "Stop burning tokens." Then the
-// superbot.gg end card: the mascot lands beside the logo and laughs on a
-// cycle (same as the previous animation).
+// superbot.gg end card: the mark lands, then the wordmark and tagline fade
+// in beside it (the tabs-chaos end sequence).
 // render(t) rebuilds every scene from scratch; every effect is computed
 // from t, so ?t=SECONDS freeze-frames exactly. Arrows step ±0.25s in freeze.
-
-import { Mascot } from './mascot.js';
 
 /* variant overrides (?key=value — variants.html compares treatments side by
    side): the emphasis depth, its hold, and the fly-down length */
@@ -78,10 +76,7 @@ const SIMPLE_AT = EMPH_END + 0.7;
 /* ---- scene 6: the superbot.gg end card ---- */
 const END_AT = SIMPLE_AT + 1.8;
 const DRIFT_AT = 0.7;
-const SETTLE = DRIFT_AT + 1.0;
-const LAUGH_PERIOD = 2.4;
-const LAUGH_DUR = 0.9;
-const LOGO_GAP = 24;
+const LOGO_GAP = 44;         // tabs-chaos end card gap, in 1080-frame px
 const END_LEN = 4.8;
 const CYCLE = END_AT + END_LEN + 1.8;
 
@@ -112,20 +107,6 @@ function renderChrome(t) {
 const tiradeChars = (u) => Math.floor((TIRADE_V0 / TIRADE_K) * (Math.exp(TIRADE_K * Math.min(u, TIRADE_END - TIRADE_AT)) - 1));
 
 /* ---- the chat interface ---- */
-
-let inited = false;
-let endBot = null;
-let endLaugh = false;
-
-function initChat() {
-  if (inited) return;
-  inited = true;
-  try {
-    endBot = new Mascot(document.getElementById('endBot'), { cols: 30, rows: 15, anim: 'perky', autoMorph: false });
-  } catch (err) {
-    console.warn('[color] end-card mascot unavailable:', err);
-  }
-}
 
 function renderChat(t) {
   const chat = document.getElementById('chatui');
@@ -346,7 +327,7 @@ function renderSimple(t) {
   simple.style.filter = s < 0.4 ? `blur(${(4 * (1 - inP(s, 0.4))).toFixed(2)}px)` : 'none';
 }
 
-/* ---- the end card (same as the previous animation) ---- */
+/* ---- the end card: the superbot.gg lockup (the tabs-chaos end sequence) ---- */
 
 function renderEndcard(t) {
   const overlay = document.getElementById('endcard');
@@ -354,40 +335,32 @@ function renderEndcard(t) {
   const word = document.getElementById('endWord');
   if (t < END_AT || t >= CYCLE) {
     overlay.style.display = 'none';
-    endLaugh = false;
     return;
   }
   overlay.style.display = '';
   const s = t - END_AT;
   overlay.style.opacity = easeOutQuint(clamp(s / 0.5, 0, 1)).toFixed(3);
 
+  // the lockup is the 1080-frame end card scaled to this stage
   const stage = overlay.getBoundingClientRect();
+  const k = stage.height / 1080;
+  overlay.style.setProperty('--k', k.toFixed(4));
+  const gap = LOGO_GAP * k;
+
+  // the mark lands centre-screen, then the whole lockup (mark + words,
+  // measured as one unit) drifts into a centered rest position
   const shift = easeOutQuint(clamp((s - DRIFT_AT) / 1.0, 0, 1));
   const w = bot.offsetWidth, h = bot.offsetHeight;
-  const scale = 1.22;
   const wordW = word.offsetWidth;
-  const total = w * scale + LOGO_GAP + wordW;
+  const total = w + gap + wordW;
   const left = (stage.width - total) / 2;
   const midY = stage.height / 2;
-  const logoX = stage.width / 2 + (left + (w * scale) / 2 - stage.width / 2) * shift;
-  bot.style.transform =
-    `translate(${(logoX - w / 2).toFixed(1)}px, ${(midY - h / 2).toFixed(1)}px) scale(${scale.toFixed(3)})`;
+  const logoX = stage.width / 2 + (left + w / 2 - stage.width / 2) * shift;
+  bot.style.transform = `translate(${(logoX - w / 2).toFixed(1)}px, ${(midY - h / 2).toFixed(1)}px)`;
   word.style.opacity = shift.toFixed(3);
   word.style.filter = shift < 1 ? `blur(${(6 * (1 - shift)).toFixed(1)}px)` : 'none';
   word.style.transform =
-    `translate(${(left + w * scale + LOGO_GAP + 20 * (1 - shift)).toFixed(1)}px, -50%)`;
-
-  if (endBot) {
-    const laughing = s >= SETTLE && ((s - SETTLE) % LAUGH_PERIOD) < LAUGH_DUR;
-    Object.assign(endBot.expr, laughing
-      ? { eyeL: 'happy', eyeR: 'happy', mouth: 'grin' }
-      : { eyeL: 'open', eyeR: 'open', mouth: 'smile' });
-    if (laughing && !endLaugh) {
-      endBot.excitedUntil = performance.now() + LAUGH_DUR * 1000;
-    }
-    endLaugh = laughing;
-    endBot.lookAt = { x: 0.05 + 0.1 * Math.sin(s * 0.9), y: -0.05 + 0.06 * Math.sin(s * 1.1) };
-  }
+    `translate(${(left + w + gap + 20 * (1 - shift)).toFixed(1)}px, -50%)`;
 }
 
 /* ---- driving ---- */
@@ -401,7 +374,6 @@ function render(t) {
 
 const urlT = new URLSearchParams(location.search).get('t');
 
-initChat();
 
 let t0 = performance.now();
 

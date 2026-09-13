@@ -20,7 +20,7 @@ deterministic and seekable, rendered live in a 16:9 frame:
    looping clips of the family's own spots, pre-rendered to
    `assets/camp-*.webm` from the live pages (headless frames + ffmpeg)
 4. the cursor glides in, about to click campaign 03 — hard cut: **WE LIKE
-   WINNING** → the superbot.gg end card (mascot + wordmark, laugh cycle)
+   WINNING** → the superbot.gg end card (the mark, then wordmark + tagline)
 
 ## Render
 

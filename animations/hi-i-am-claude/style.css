@@ -344,28 +344,25 @@ body.freeze .rec-btn { display: none; }
   backdrop-filter: blur(6px);
   will-change: opacity;
 }
+/* the lockup is the tabs-chaos end card (220px face, 128px wordmark, 34px
+   tagline, 44px gap on a 1080-high frame); --k is this stage's scale
+   against that frame, set every frame by timeline.js */
 .endcard-bot {
   position: absolute; left: 0; top: 0; z-index: 2;
-  margin: 0;
-  font: clamp(9px, 1.5vw, 14px) / 1 var(--font-mono);
-  color: #fff;
-  filter: drop-shadow(0 0 18px rgba(255, 255, 255, .26));
+  width: calc(220px * var(--k, .667)); height: calc(220px * var(--k, .667));
   pointer-events: none; user-select: none;
   will-change: transform;
 }
-/* the wordmark, matched to the site's: heavy rounded sans, "superbot"
-   white + ".gg" green */
+.endcard-face { width: 100%; height: 100%; display: block; overflow: visible; }
 .endcard-word {
   position: absolute; left: 0; top: 50%; z-index: 2;
-  font-family: "Arial Rounded MT Bold", ui-rounded, "Nunito", "Segoe UI", system-ui, sans-serif;
-  font-weight: 800;
-  font-size: clamp(30px, 4vw, 54px);
-  letter-spacing: -0.01em;
-  color: #fff;
+  font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif;
+  color: #fff; white-space: nowrap;
   opacity: 0;
   will-change: transform, opacity, filter;
 }
-.endcard-word em { font-style: normal; color: var(--accent); }
+.endcard-word h1 { margin: 0; font-size: calc(128px * var(--k, .667)); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.endcard-word p { margin: calc(12px * var(--k, .667)) 0 0 calc(6px * var(--k, .667)); font-size: calc(34px * var(--k, .667)); font-weight: 500; color: #9a9a9a; }
 
 /* ---- loop veil + hint ---- */
 .veil {

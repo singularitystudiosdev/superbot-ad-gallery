@@ -88,9 +88,12 @@
 
   /* ── scene 4: the mascot icon, then the superbot.gg logo slides in ── */
   #lock { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 30px; font-family: var(--ui); }
-  #tile { width: 150px; height: 150px; display: block; flex: none; opacity: 0; will-change: transform, opacity; }
-  #word { font-size: 92px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; color: #fff; white-space: nowrap; opacity: 0; will-change: transform, opacity, clip-path; }
-  #word .gg { color: #fff; }
+  /* the superbot.gg lockup — the tabs-chaos end card (220 / 128 / 34 / 44 on a
+     1080 frame) at this 720-high stage's scale */
+  #tile { width: 147px; height: 147px; display: block; flex: none; overflow: visible; opacity: 0; will-change: transform, opacity; }
+  #word { color: #fff; white-space: nowrap; opacity: 0; will-change: transform, opacity, clip-path; }
+  #word h1 { margin: 0; font-size: 85px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  #word p { margin: 8px 0 0 4px; font-size: 23px; font-weight: 500; color: #9a9a9a; }
 
   /* ── the pointer and the loop fade ── */
   #cursor { position: absolute; left: 0; top: 0; width: 26px; height: 30px; opacity: 0; pointer-events: none; z-index: 40; will-change: transform, opacity; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .5)); }
@@ -155,7 +158,7 @@
   <div class="scene card" id="s3"><div class="big" id="slow"></div><div class="big" id="cando"></div></div>
 
   <!-- ══ scene 4: the end card ══ -->
-  <div class="scene card" id="s4"><div id="lock"><img id="tile" src="assets/tile.svg" alt="" width="150" height="150"/><div id="word">superbot<span class="gg">.gg</span></div></div></div>
+  <div class="scene card" id="s4"><div id="lock"><svg id="tile" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="slowEndFace" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#slowEndFace)" transform="translate(-1.2 -1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#slowEndFace)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#slowEndFace)"/></svg><div id="word"><h1>superbot.gg</h1><p>the agent to manage your agents.</p></div></div></div>
 
   <div id="toast"><img src="assets/mark-clean.svg" alt=""/>superbot can do it!</div>
   <div id="bubble"><svg class="mk" viewBox="0 0 100 100" aria-hidden="true"><defs><mask id="bm" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#000" mask="url(#bm)"/></svg>chat</div>

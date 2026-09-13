@@ -105,8 +105,8 @@
   .sb-btn:active { transform: scale(0.96); }
   .sb-btn.pill { border-radius: var(--r-pill); }
 
-  /* ---- hero lockup: the bare mark with its two RGB-split ghosts (blue up-left,
-          pink down-right, white on top — hero-6.css .sb-glitch), the wordmark
+  /* ---- hero lockup: the bare mark with its two RGB-split ghosts (cyan up-left,
+          magenta down-right, white on top — the current site mark), the wordmark
           and one grey tagline ---- */
   main { flex: 1; width: 100%; max-width: var(--container); margin: 0 auto; padding: var(--sp-10) var(--gutter) 0; }
   .sb-lockup { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: var(--sp-8); }
@@ -283,10 +283,12 @@
     from { background-position: 0% 50%; }
     to { background-position: -200% 50%; }
   }
+  /* the superbot.gg lockup — the tabs-chaos end card's proportions (face 1.72×
+     the wordmark, the grey tagline under it) at this outro's 58px wordmark */
   .outro-bot {
     position: absolute; left: 0; top: 0;
     z-index: 2;
-    width: 132px; height: 132px;
+    width: 100px; height: 100px;
     opacity: 0;
     will-change: transform, opacity, filter;
   }
@@ -295,24 +297,12 @@
     position: absolute; left: 0; top: 50%;
     z-index: 1;
     white-space: nowrap;
-    font-weight: 800; font-size: 58px; letter-spacing: -0.03em;
     color: #fff;
     opacity: 0;
     will-change: transform, opacity, filter;
   }
-  /* .gg — was a 360° hue cycle; now the storm ramp panning across the suffix */
-  .outro-word em {
-    font-style: normal;
-    background: var(--storm-text);
-    background-size: 300% 100%;
-    -webkit-background-clip: text; background-clip: text;
-    color: transparent;
-    animation: gg-storm 6s linear infinite;
-  }
-  @keyframes gg-storm {
-    from { background-position: 0% 50%; }
-    to { background-position: -300% 50%; }
-  }
+  .outro-word h1 { margin: 0; font-weight: 800; font-size: 58px; letter-spacing: -0.03em; line-height: 1; }
+  .outro-word p { margin: 5px 0 0 3px; font-weight: 500; font-size: 15.5px; color: #9a9a9a; }
   @keyframes blink { 50% { opacity: 0; } }
   .pill-tools { margin-left: auto; display: inline-flex; align-items: center; gap: 9px; flex-shrink: 0; }
   .pill-think { display: inline-flex; align-items: center; gap: 4px; color: #9b9b9b; font-size: 12.5px; }
@@ -699,7 +689,7 @@
     .bc-softwrap .composer::after,
     .caret, .sb-btn, #chatBtn, .sb-glitch-a, .sb-glitch-b { animation: none; }
     .outro-line .rainbow { animation: none; }
-    .outro-word em, .bcs-word em { animation: none; }
+    .bcs-word em { animation: none; }
   }
 </style>
 </head>
@@ -717,8 +707,8 @@
           <g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g>
         </mask>
       </defs>
-      <rect class="sb-glitch-a" x="-30" y="-30" width="160" height="160" fill="#2b6bff" mask="url(#sb-lockup-face)"/>
-      <rect class="sb-glitch-b" x="-30" y="-30" width="160" height="160" fill="#ff3d9a" mask="url(#sb-lockup-face)"/>
+      <rect class="sb-glitch-a" x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#sb-lockup-face)"/>
+      <rect class="sb-glitch-b" x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#sb-lockup-face)"/>
       <rect x="-30" y="-30" width="160" height="160" fill="#ffffff" mask="url(#sb-lockup-face)"/>
     </svg>
     <div class="sb-words">
@@ -762,7 +752,7 @@
           <div class="outro-line" id="outroL1">Agents <span class="red">refusing?</span></div>
           <div class="outro-line" id="outroL2">Your <span class="rainbow">hero</span> is here!</div>
           <div class="outro-bot" id="outroBot">
-            <!-- the bare white mark with its RGB-split ghosts (the site's hero lockup) -->
+            <!-- the bare white mark with its cyan / magenta ghosts (the current end-sequence lockup) -->
             <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
               <defs>
                 <mask id="sb-outro-face" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160">
@@ -770,12 +760,12 @@
                   <g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g>
                 </mask>
               </defs>
-              <rect class="sb-glitch-a" x="-30" y="-30" width="160" height="160" fill="#2b6bff" mask="url(#sb-outro-face)"/>
-              <rect class="sb-glitch-b" x="-30" y="-30" width="160" height="160" fill="#ff3d9a" mask="url(#sb-outro-face)"/>
+              <rect class="sb-glitch-a" x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#sb-outro-face)"/>
+              <rect class="sb-glitch-b" x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#sb-outro-face)"/>
               <rect x="-30" y="-30" width="160" height="160" fill="#ffffff" mask="url(#sb-outro-face)"/>
             </svg>
           </div>
-          <div class="outro-word" id="outroWord">superbot<em>.gg</em></div>
+          <div class="outro-word" id="outroWord"><h1>superbot.gg</h1><p>the agent to manage your agents.</p></div>
         </div>
 
         <!-- the frames -->
@@ -1252,8 +1242,8 @@ If any of those match what you're actually trying to do, tell me more and I'll h
       if (!alive(gen)) return;
     }
 
-    /* mascot pops in centered, then drifts left as the wordmark fades in beside it */
-    const W = 816, H = 459, GAP = 24;
+    /* the mark pops in centered, then drifts left as the wordmark + tagline fade in beside it */
+    const W = 816, H = 459, GAP = 20;
     const bw = bot.offsetWidth, bh = bot.offsetHeight, ww = word.offsetWidth;
     const total = bw + GAP + ww;
     const left = (W - total) / 2;

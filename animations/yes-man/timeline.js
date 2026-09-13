@@ -1,8 +1,8 @@
 // The pitch, "yes man" — TRUNCATED at AND YOU LIKE THAT?: that card holds
 // 1.15s and then the transition: the card exits CLEAN — opaque black while
 // the text leaves the frame entirely, a pure-black beat with nothing on
-// screen, and only then the superbot.gg end card arrives (mascot + wordmark,
-// laugh cycle). Nothing overlaps; exit, black, arrival. Both cards and
+// screen, and only then the superbot.gg end card arrives (the mark, then the
+// wordmark + tagline). Nothing overlaps; exit, black, arrival. Both cards and
 // the outro sit on PURE black — the chat never flashes through (user ask). Same deterministic
 // seekable anatomy as the "favorite color" spot. The user pastes
 // carbkiller.com (plain text — verified 1:1 against chatgpt.com, 2026-09-03:
@@ -17,7 +17,6 @@
 // render(t) rebuilds every scene from scratch; every effect is computed
 // from t, so ?t=SECONDS freeze-frames exactly. Arrows step ±0.25s in freeze.
 
-import { Mascot } from './mascot.js';
 import { EXTRA_TRX } from './transitions/index.js';
 
 /* variant overrides (?key=value — variants.html compares treatments side by
@@ -145,10 +144,7 @@ const OUT_AT = CARDS_END + (X.sim || X.d === 0 ? 0 : X.d + (X.beat ?? TRANS_BEAT
 
 /* ---- scene 3: the superbot.gg end card, after the transition ---- */
 const DRIFT_AT = 0.7;
-const SETTLE = DRIFT_AT + 1.0;
-const LAUGH_PERIOD = 2.4;
-const LAUGH_DUR = 0.9;
-const LOGO_GAP = 24;
+const LOGO_GAP = 44;         // tabs-chaos end card gap, in 1080-frame px
 const END_LEN = 4.8;
 const CYCLE = OUT_AT + END_LEN + 1.8;
 
@@ -186,20 +182,6 @@ function renderChrome(t) {
 }
 
 /* ---- the chat interface ---- */
-
-let inited = false;
-let endBot = null;
-let endLaugh = false;
-
-function initChat() {
-  if (inited) return;
-  inited = true;
-  try {
-    endBot = new Mascot(document.getElementById('endBot'), { cols: 30, rows: 15, anim: 'perky', autoMorph: false });
-  } catch (err) {
-    console.warn('[yesman] end-card mascot unavailable:', err);
-  }
-}
 
 function renderChat(t) {
   const chat = document.getElementById('chatui');
@@ -359,7 +341,6 @@ function renderEndcard(t) {
   const word = document.getElementById('endWord');
   if (t < OUT_AT || t >= CYCLE) {
     overlay.style.display = 'none';
-    endLaugh = false;
     return;
   }
   overlay.style.display = '';
@@ -376,44 +357,38 @@ function renderEndcard(t) {
   overlay.style.zIndex = X === TRX['slide-over'] ? '7' : '';
   if (X.in) X.in(overlay, q);
 
+  // the lockup is the 1080-frame tabs-chaos end card scaled to this stage
   const stage = overlay.getBoundingClientRect();
+  const k = stage.height / 1080;
+  overlay.style.setProperty('--k', k.toFixed(4));
+  const gap = LOGO_GAP * k;
+
+  // the mark lands centre-screen, then the whole lockup (mark + words,
+  // measured as one unit) drifts into a centered rest position
   const shift = X.snap ? 1 : easeOutQuint(clamp((s - DRIFT_AT) / 1.0, 0, 1));
   const w = bot.offsetWidth, h = bot.offsetHeight;
-  const scale = 1.22;
   const wordW = word.offsetWidth;
-  const total = w * scale + LOGO_GAP + wordW;
+  const total = w + gap + wordW;
   const left = (stage.width - total) / 2;
   const midY = stage.height / 2;
-  const logoX = stage.width / 2 + (left + (w * scale) / 2 - stage.width / 2) * shift;
+  const logoX = stage.width / 2 + (left + w / 2 - stage.width / 2) * shift;
   const baseBotTransform =
-    `translate(${(logoX - w / 2).toFixed(1)}px, ${(midY - h / 2).toFixed(1)}px) scale(${scale.toFixed(3)})`;
+    `translate(${(logoX - w / 2).toFixed(1)}px, ${(midY - h / 2).toFixed(1)}px)`;
   bot.style.transform = baseBotTransform;
   if (X.botFx) X.botFx(s, bot, baseBotTransform);
   word.style.opacity = shift.toFixed(3);
   word.style.filter = shift < 1 ? `blur(${(6 * (1 - shift)).toFixed(1)}px)` : 'none';
   word.style.transform =
-    `translate(${(left + w * scale + LOGO_GAP + 20 * (1 - shift)).toFixed(1)}px, -50%)`;
+    `translate(${(left + w + gap + 20 * (1 - shift)).toFixed(1)}px, -50%)`;
   if (X.wordFx) X.wordFx(s, word, shift);
 
-  // the tag rides the same drift as the wordmark: same x, one line below it
-  // (24px gap — clears the wordmark's descender room; was 14, overlapped)
+  // the tag rides the same drift as the words: same x, one line below them
+  // (24px gap — clears the tagline's descender room)
   if (TAG_TEXT) {
     tag.style.opacity = shift.toFixed(3);
     tag.style.filter = shift < 1 ? `blur(${(6 * (1 - shift)).toFixed(1)}px)` : 'none';
     tag.style.transform =
-      `translate(${(left + w * scale + LOGO_GAP + 20 * (1 - shift)).toFixed(1)}px, ${(midY + word.offsetHeight / 2 + 24).toFixed(1)}px)`;
-  }
-
-  if (endBot) {
-    const laughing = s >= SETTLE && ((s - SETTLE) % LAUGH_PERIOD) < LAUGH_DUR;
-    Object.assign(endBot.expr, laughing
-      ? { eyeL: 'happy', eyeR: 'happy', mouth: 'grin' }
-      : { eyeL: 'open', eyeR: 'open', mouth: 'smile' });
-    if (laughing && !endLaugh) {
-      endBot.excitedUntil = performance.now() + LAUGH_DUR * 1000;
-    }
-    endLaugh = laughing;
-    endBot.lookAt = { x: 0.05 + 0.1 * Math.sin(s * 0.9), y: -0.05 + 0.06 * Math.sin(s * 1.1) };
+      `translate(${(left + w + gap + 20 * (1 - shift)).toFixed(1)}px, ${(midY + word.offsetHeight / 2 + 24).toFixed(1)}px)`;
   }
 }
 
@@ -436,8 +411,6 @@ const urlT = new URLSearchParams(location.search).get('t');
 const PART_ONLY = !!Q.get('tr');
 const LOOP_AT = PART_ONLY ? CARD2_AT - 0.35 : 0;     // a beat of pure black, then the card pops
 const LOOP_END = PART_ONLY ? OUT_AT + 1.6 : CYCLE;   // hold the arrival briefly, then loop
-
-initChat();
 
 /* the wordmark tag (pros/getreal variants): text set once, revealed with the
    wordmark's own shift */

@@ -224,19 +224,17 @@
   @keyframes grad-slide { from { background-position: 0% 0; } to { background-position: 100% 0; } }
 
   /* ============ scene 6: end card ============ */
-  .endcard { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; background: #000; }
-  .endcard .mark { width: 150px; height: 150px; position: relative; animation: markFloat 3.4s ease-in-out infinite; }
-  .endcard .mark img { width: 100%; height: 100%; }
-  .endcard .mark::before { content: ""; position: absolute; inset: -16px; border-radius: 40px;
-    background: conic-gradient(from var(--angle), var(--pu), var(--bl), var(--pi), var(--pu));
-    filter: blur(26px); opacity: .5; animation: stroke-spin 6s linear infinite; z-index: -1; }
-  @keyframes markFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-  .endcard .wordmark { display: flex; align-items: center; gap: 13px; opacity: 0; }
+  /* the superbot.gg lockup — the tabs-chaos end card (220 / 128 / 34 / 44 on a
+     1080 frame) at this 1180-wide frame's scale */
+  .endcard { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 28px; background: #000;
+    font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; }
+  .endcard .mark { width: 142px; height: 142px; flex: none; }
+  .endcard .mark svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .endcard .wordmark { opacity: 0; white-space: nowrap; color: #fff; }
   .endcard .wordmark.slide { animation: slideIn .7s cubic-bezier(.2,.9,.25,1.05) both; }
   @keyframes slideIn { from { opacity: 0; transform: translateX(-90px); } to { opacity: 1; transform: none; } }
-  .endcard .wordmark img { width: 46px; height: 46px; }
-  .endcard .wordmark .w { font-size: 46px; font-weight: 800; letter-spacing: -.035em; color: #fff; }
-  .endcard .wordmark .gg { background: linear-gradient(90deg, var(--pi), var(--bl), var(--pu)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .endcard .wordmark h1 { margin: 0; font-size: 83px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+  .endcard .wordmark p { margin: 7px 0 0 4px; font-size: 22px; font-weight: 500; color: #9a9a9a; }
 
   /* replay control */
   .replay { position: absolute; right: 16px; bottom: 12px; z-index: 70; display: none; align-items: center; gap: 7px;
@@ -396,8 +394,8 @@
 
   <!-- scene 5: end card -->
   <div class="scene endcard" id="sc-end">
-    <div class="mark"><img src="assets/tile.svg" alt="superbot"/></div>
-    <div class="wordmark" id="wordmark"><img src="assets/mark-clean.svg" alt=""/><span class="w">superbot<span class="gg">.gg</span></span></div>
+    <div class="mark"><svg viewBox="0 0 100 100" role="img" aria-label="superbot"><defs><mask id="rescueEndFace" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#rescueEndFace)" transform="translate(-1.2 -1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#rescueEndFace)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#rescueEndFace)"/></svg></div>
+    <div class="wordmark" id="wordmark"><h1>superbot.gg</h1><p>the agent to manage your agents.</p></div>
   </div>
 
   <button class="replay" id="replay" type="button">↻ replay</button>

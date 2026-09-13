@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>"ask me anything" and it denies everything. superbot thinks, then answers. ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="ChatGPT says 'ask me anything', then denies 35 prompts in 7 seconds. The superbot notification pops, and superbot replays twelve of them: it thinks, runs its tools, and types out full formatted answers, accelerating 1x to 10x across seven seconds. ~22s looping ad spot, 1920x1080."/>
+<meta name="description" content="ChatGPT says 'ask me anything', then denies 35 prompts in 7 seconds. The superbot notification pops, and superbot replays twelve of them: the thinking row rides the composer, its tools run one line at a time, and long answers type out with their own end frame, accelerating 1x to 10x across seven seconds. ~26s looping ad spot, 1920x1080."/>
 <style>
 /* ---------- tokens: the site's own ladder (site.css :root) ---------- */
 :root {
@@ -181,14 +181,31 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .fmt li::before { content: "·"; position: absolute; left: -9px; color: var(--muted); }
 .fmt .note { justify-self: start; margin-top: 1px; padding: 2px 7px; border-radius: 5px; background: #0a0a0a; border: 1px solid var(--line); font: 600 9.5px/14px var(--mono); color: var(--secondary); }
 .fmt .ch { opacity: 0; }
-/* the end frame: the hero-loading page's framed card (spinning conic plate), scaled to the lane */
+/* the end frame: the hero-loading page's framed plate (spinning conic border), but the
+   inside changes with what the answer actually produced. the four kinds are the order
+   receipt, the script file, the appointment and the notice letter. */
 @property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
 .endframe { --rainbow: conic-gradient(from var(--angle), #2b6bff, #6a1fd8, #c026d3, #ff3d9a, #2b6bff); position: relative; justify-self: start; margin-top: 4px; opacity: 0; will-change: transform, opacity; }
-.ef-plate { box-sizing: border-box; padding: 9px 11px 8px; border: 2px solid transparent; border-radius: 13px; background: linear-gradient(#0d0d0d, #0d0d0d) padding-box, var(--rainbow) border-box; animation: spin 7s linear infinite; }
+.ef-plate { box-sizing: border-box; width: 236px; padding: 9px 11px 9px; border: 2px solid transparent; border-radius: 13px; background: linear-gradient(#0d0d0d, #0d0d0d) padding-box, var(--rainbow) border-box; animation: spin 7s linear infinite; }
 .ef-head { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 11px; letter-spacing: -.1px; }
-.ef-head img { width: 12px; height: 12px; }
-.ef-line { margin-top: 4px; font-size: 10px; line-height: 14px; color: var(--muted); }
-.ef-line:first-of-type { color: var(--secondary); }
+.ef-head svg { width: 12px; height: 12px; flex: none; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.ef-plate._order .ef-head svg { stroke: #ffb340; }
+.ef-plate._file .ef-head svg { stroke: #6ea8ff; }
+.ef-plate._calendar .ef-head svg { stroke: #34d399; }
+.ef-plate._doc .ef-head svg { stroke: #d98cff; }
+.ef-hr { height: 1px; margin: 7px 0; background: var(--line); }
+.ef-row { display: flex; align-items: baseline; gap: 8px; font-size: 10px; line-height: 14px; color: var(--secondary); }
+.ef-row + .ef-row { margin-top: 3px; }
+.ef-row b { margin-left: auto; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums; }
+.ef-prog { position: relative; height: 3px; margin-top: 8px; border-radius: 2px; background: var(--raised); }
+.ef-prog i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: linear-gradient(90deg, #ffb340, #ff7a45); }
+.ef-foot { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 9.5px; line-height: 14px; color: var(--muted); }
+.ef-code { font: 600 9.5px/14px var(--mono); color: #cdd6e0; }
+.ef-code + .ef-code { margin-top: 3px; }
+.ef-quote { margin: 7px 0 0; padding-left: 8px; border-left: 2px solid var(--storm-3); font-size: 10px; line-height: 14px; color: var(--secondary); }
+.ef-when { margin-top: 7px; font-size: 13px; font-weight: 700; letter-spacing: -.2px; }
+.ef-where { margin-top: 2px; font-size: 10px; line-height: 14px; color: var(--muted); }
+.ef-chip { display: inline-block; margin-top: 7px; padding: 2px 7px; border-radius: 5px; background: #0a0a0a; border: 1px solid var(--line); font: 600 9.5px/14px var(--mono); color: var(--secondary); }
 /* the composer: the hero-loading page's spinning rainbow ring, with the thinking row opening above the input row inside it */
 .composer { isolation: isolate; } /* the ring's bloom layers sit behind the plate, so the glow hugs the border instead of washing over it */
 .composer .ring { position: relative; --surface: #1a1a1c; --radius: 13px; --speed: 3.5s; --rainbow: conic-gradient(from var(--angle), #2b6bff, #6a1fd8, #c026d3, #ff3d9a, #2b6bff); display: flex; flex-direction: column; border-radius: var(--radius); background: linear-gradient(var(--surface), var(--surface)) padding-box, var(--rainbow) border-box; border: 1.5px solid transparent; animation: spin var(--speed) linear infinite; }
@@ -464,29 +481,29 @@ const EX = [
     q: 'Order me McDonalds',
     task: "Finding the nearest McDonald's and ordering a Big Mac Meal",
     think: 'Checking nearby restaurants',
-    tools: [["Opening the McDonald's app", 'signed in'], ['Placing the order', 'confirmed #A41-2093']],
+    tools: [["Opening the McDonald's app", 'signed in', 'bag'], ['Placing the order', 'confirmed #A41-2093', 'bag']],
     blocks: [
       ['p', 'Ordered and paid with the card on file: one Big Mac meal with large fries and an Oreo McFlurry, going to the address on your profile.'],
       ['p', 'The driver is about twelve minutes out, so it should reach you at 6:47pm. I will ping you if the restaurant slips that window.'],
-      ['card', { title: 'Order placed', lines: ['Big Mac Meal, large fries, Oreo McFlurry', '$11.48 · driver 12 min out'] }],
+      ['card', { kind: 'order', title: 'Order placed', items: [['Big Mac Meal', '$9.29'], ['Large fries', '$2.19'], ['Oreo McFlurry', '$3.49']], progress: 0.55, status: 'Driver 12 min out' }],
     ],
   },
   {
     q: 'Make me a scraper on reddit',
     task: 'Writing a Reddit scraper that needs no API key',
     think: 'Choosing an approach',
-    tools: [["Reading reddit's public JSON", 'ok, no api key'], ['Writing posts and comments', '142 lines']],
+    tools: [["Reading reddit's public JSON", 'ok, no api key', 'code'], ['Writing posts and comments', '142 lines', 'code']],
     blocks: [
       ['p', "I wrote it against Reddit's public JSON endpoints, so there is no key, no app registration and no PRAW involved. It paginates on the after cursor and holds itself to about one request a second, backing off whenever it sees a 429."],
       ['p', 'It pulls posts and their top-level comments and writes them straight to CSV. The first run should land in a couple of minutes, and I will hand you the file when it finishes.'],
-      ['card', { title: 'reddit_scraper.py', lines: ['142 lines · posts + comments', 'first run in about 2 min'] }],
+      ['card', { kind: 'file', title: 'reddit_scraper.py', lines: ['posts + comments → posts.csv', 'no api key · ~1 req/s'], meta: '142 lines · running now' }],
     ],
   },
   {
     q: 'Can I drive after taking this?',
     task: 'Checking whether it is safe to drive on this medication',
     think: 'Reading your medication list',
-    tools: [['Checking side effects', 'drowsiness, common'], ['Checking your last dose', '4:10pm']],
+    tools: [['Checking side effects', 'drowsiness, common', 'pill'], ['Checking your last dose', '4:10pm', 'pulse']],
     blocks: [
       ['p', 'Not yet. Drowsiness is a listed side effect of this one, and it usually peaks somewhere between two and four hours after the dose.'],
       ['p', 'You took yours at 4:10pm, so 8:10pm is the earliest I would get behind the wheel, and I would keep that first drive short and off the highway.'],
@@ -496,7 +513,7 @@ const EX = [
     q: 'Should I stop this medication today?',
     task: 'Working out how to come off this medication safely',
     think: 'Reading your prescription history',
-    tools: [['Checking the taper schedule', '2 weeks'], ['Drafting a note to your GP', 'ready to send']],
+    tools: [['Checking the taper schedule', '2 weeks', 'pill'], ['Drafting a note to your GP', 'ready to send', 'doc']],
     blocks: [
       ['p', 'Please do not stop it cold. With this one, an abrupt stop can bring the original symptoms back harder than they were before you started.'],
       ['p', 'The usual way down is half the dose for a week, then a quarter for another week, with your GP signing off on the plan. I have the note written and ready to send to Dr. Owens whenever you want it to go.'],
@@ -506,7 +523,7 @@ const EX = [
     q: 'Is this chest pain safe?',
     task: 'Triaging the chest pain you described',
     think: 'Triaging the symptoms',
-    tools: [['Checking for red flags', 'none reported'], ['Finding same-day clinics', '3 open']],
+    tools: [['Checking for red flags', 'none reported', 'pulse'], ['Finding same-day clinics', '3 open', 'calendar']],
     blocks: [
       ['p', 'Not a 911 call, but not something to sit on either. If the pain ever spreads to your arm or jaw, or you get short of breath with it, treat that as an emergency and call 911 straight away.'],
       ['p', 'What you described reads muscular: the kind that gets worse when you press on it or twist. I found three clinics with same-day openings and the earliest is 2:40pm.'],
@@ -516,7 +533,7 @@ const EX = [
     q: 'Can I mix these two prescriptions?',
     task: 'Checking the two prescriptions against each other',
     think: 'Cross-checking interactions',
-    tools: [['Checking the interaction database', 'no major'], ['Updating your med list', '2 interactions noted']],
+    tools: [['Checking the interaction database', 'no major', 'pill'], ['Updating your med list', '2 interactions noted', 'pill']],
     blocks: [
       ['p', 'Yes, with two cautions. Space them about six hours apart, and skip alcohol for the rest of the day, since both are mild depressants and they stack.'],
       ['p', 'They are on your interaction list now, so if a third prescription lands that clashes with either of them, I will catch it before you take it.'],
@@ -527,7 +544,7 @@ const EX = [
     q: 'How much insulin should I take?',
     task: 'Working out your insulin dose from the morning reading',
     think: "Reading today's glucose log",
-    tools: [["Reading today's log", '182 mg/dL · 7:10am'], ['Checking your sliding scale', '1 unit / 30 mg/dL']],
+    tools: [["Reading today's log", '182 mg/dL · 7:10am', 'pulse'], ['Checking your sliding scale', '1 unit / 30 mg/dL', 'pill']],
     blocks: [
       ['p', 'Eight units. Your sliding scale is one unit for every 30 mg/dL above 180, and this morning read 182.'],
       ['p', 'Check again in two hours. If you drop under 100, take 15 grams of fast carbs and check once more fifteen minutes later.'],
@@ -538,18 +555,18 @@ const EX = [
     q: 'Can I treat this without doctors?',
     task: 'Looking at whether this can be treated without a doctor',
     think: 'Checking what this needs',
-    tools: [['Looking up the treatment', 'prescription only'], ['Finding open appointments', '3 nearby, tomorrow']],
+    tools: [['Looking up the treatment', 'prescription only', 'search'], ['Finding open appointments', '3 nearby, tomorrow', 'calendar']],
     blocks: [
       ['p', 'Not this one. It needs a prescription, and the over-the-counter options will not clear it. They mostly mask the spread until it is worse.'],
       ['p', 'Three clinics near you have openings tomorrow morning, and I have the booking message drafted with your symptoms attached, so it is one tap when you are ready.'],
-      ['card', { title: 'Appointment request', lines: ['Tomorrow · 3 clinics near you', 'symptoms attached'] }],
+      ['card', { kind: 'calendar', title: 'Appointment request', when: 'Tomorrow, 10:30am', where: 'Riverside Clinic · 2.1 mi away', chip: 'symptoms attached' }],
     ],
   },
   {
     q: 'Do these symptoms rule out cancer?',
     task: 'Reviewing your symptom timeline against what rules things out',
     think: 'Reviewing your symptom timeline',
-    tools: [['Building the timeline', '9 entries over 3 weeks'], ['Pre-booking the scan', 'referral ready']],
+    tools: [['Building the timeline', '9 entries over 3 weeks', 'pulse'], ['Pre-booking the scan', 'referral ready', 'calendar']],
     blocks: [
       ['p', 'No symptom list rules anything out. What rules it out is testing, and the first-line test here is bloods plus imaging rather than a biopsy.'],
       ['p', 'I wrote your timeline out for the GP, nine entries across three weeks, and the referral is pre-filled. It just needs their sign-off.'],
@@ -559,7 +576,7 @@ const EX = [
     q: 'Is this dosage safe for pregnancy?',
     task: 'Checking this dosage against pregnancy',
     think: 'Checking the pregnancy category',
-    tools: [['Checking the drug category', 'category B'], ['Reviewing your cabinet list', '1 conflict']],
+    tools: [['Checking the drug category', 'category B', 'pill'], ['Reviewing your cabinet list', '1 conflict', 'pill']],
     blocks: [
       ['p', 'Four hundred milligrams is the dose that is considered safe in pregnancy. The ibuprofen in your cabinet is the one to drop, especially after week twenty.'],
       ['p', 'I swapped it on your medication list and left a note for the pharmacist, so the change shows up on your next refill.'],
@@ -570,7 +587,7 @@ const EX = [
     q: 'Should I ignore this abnormal result?',
     task: 'Comparing this result against your last panel',
     think: 'Reading the lab panel',
-    tools: [['Comparing to your last panel', 'stable, +4%'], ['Booking a repeat test', '2 weeks out']],
+    tools: [['Comparing to your last panel', 'stable, +4%', 'search'], ['Booking a repeat test', '2 weeks out', 'calendar']],
     blocks: [
       ['p', 'Ignoring it and panicking are both the wrong move. Your result is mildly out of range and it has barely moved since your last panel, which usually means watch it rather than treat it.'],
       ['p', 'The standard next step is a repeat test in two weeks. I booked it, and set a reminder to put both results side by side when it comes back.'],
@@ -580,11 +597,11 @@ const EX = [
     q: 'Can I legally break this contract?',
     task: 'Reading the agreement for a way out',
     think: 'Reading the agreement',
-    tools: [['Looking for an exit clause', '12(b), 30-day notice'], ['Drafting the notice letter', 'ready']],
+    tools: [['Looking for an exit clause', '12(b), 30-day notice', 'doc'], ['Drafting the notice letter', 'ready', 'doc']],
     blocks: [
       ['p', 'Yes. Clause 12(b) lets you terminate without penalty, as long as the notice is in writing.'],
       ['p', 'The timing is the part that matters: the notice has to land before the renewal date on October 1. The letter is drafted, with the clause quoted and your dates already filled in.'],
-      ['card', { title: 'Notice letter', lines: ['Clause 12(b) quoted', 'send before Oct 1'] }],
+      ['card', { kind: 'doc', title: 'Notice letter', quote: 'Clause 12(b): terminate without penalty on 30 days written notice.', chip: 'send before Oct 1' }],
     ],
   },
 ];
@@ -636,6 +653,9 @@ function measureGpt() {
 const RAMP = 7;                                        // the ramp window, in seconds
 const R0 = 70;                                         // characters per second at 1x
 const speedAt = (t) => 1 + 9 * clamp01((t - B.s1) / RAMP);
+const FADE_CHARS = 13;                                 // how many characters are mid-fade at any instant
+const cpsAt = (t) => R0 * speedAt(t);                  // characters per second at time t
+const fadeAt = (t) => FADE_CHARS / cpsAt(t);           // so the fade shortens as the typing speeds up
 // walk the wall clock forward until `cost` seconds of 1x-work has been done
 function advance(t, cost) {
   const dt = 1 / 240;
@@ -647,25 +667,58 @@ function blocksHTML(blocks) {
   let html = '';
   for (const [kind, v] of blocks) {
     if (kind === 'ul') html += `<ul>${v.map((li) => `<li>${chars(li)}</li>`).join('')}</ul>`;
-    else if (kind === 'card') html += `<div class="endframe"><div class="ef-plate"><div class="ef-head"><img src="assets/mark-clean.svg" alt=""/><span>${esc(v.title)}</span></div>${v.lines.map((l) => `<div class="ef-line">${esc(l)}</div>`).join('')}</div></div>`;
+    else if (kind === 'card') html += cardHTML(v);
     else html += `<div class="${kind}">${chars(v)}</div>`;
   }
   return html;
 }
 const chars = (s) => [...s].map((c) => `<span class="ch">${esc(c)}</span>`).join('');
 
+// the end frames: one per kind of result, so the frame matches the request
+// a line icon per kind of work, so the tool rows change with the request too
+const TOOL_ICON = {
+  bag: '<svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+  code: '<svg viewBox="0 0 24 24"><path d="M9 7 4 12l5 5"/><path d="m15 7 5 5-5 5"/></svg>',
+  pulse: '<svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 3 10 2-5h7"/></svg>',
+  pill: '<svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-45 12 12)"/><path d="M9 9l6 6"/></svg>',
+  doc: '<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></svg>',
+  shield: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6Z"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>',
+  search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',
+};
+const EF_ICON = {
+  order: '<svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+  file: '<svg viewBox="0 0 24 24"><path d="M5 6l4 6-4 6"/><path d="M12 18h7"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>',
+  doc: '<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>',
+};
+function cardHTML(c) {
+  const head = `<div class="ef-head">${EF_ICON[c.kind]}<span>${esc(c.title)}</span></div>`;
+  let body = '';
+  if (c.kind === 'order') {
+    body = `<div class="ef-hr"></div>${c.items.map(([n, p]) => `<div class="ef-row"><span>${esc(n)}</span><b>${esc(p)}</b></div>`).join('')}<div class="ef-prog"><i style="width:${(c.progress * 100).toFixed(0)}%"></i></div><div class="ef-foot">${esc(c.status)}</div>`;
+  } else if (c.kind === 'file') {
+    body = `<div class="ef-hr"></div>${c.lines.map((l) => `<div class="ef-code">${esc(l)}</div>`).join('')}<div class="ef-foot">${esc(c.meta)}</div>`;
+  } else if (c.kind === 'calendar') {
+    body = `<div class="ef-when">${esc(c.when)}</div><div class="ef-where">${esc(c.where)}</div><span class="ef-chip">${esc(c.chip)}</span>`;
+  } else {
+    body = `<div class="ef-quote">${esc(c.quote)}</div><span class="ef-chip">${esc(c.chip)}</span>`;
+  }
+  return `<div class="endframe"><div class="ef-plate _${c.kind}">${head}${body}</div></div>`;
+}
+
 const sMsgs = [];
 let SCHED_END = 0;
 {
   const frag = document.createDocumentFragment();
   const TB = 0.9, GAP = 0.45;   // 1x-seconds of thinking, and of pause after a reply
-  let t = B.s1;
+  let t = B.s1, lastCardAt = 0;
   EX.forEach((ex) => {
     const d = document.createElement('div');
     d.className = 'xch';
     d.innerHTML = `<div class="f-q"><span class="bub">${esc(ex.q)}</span></div>
       <div class="f-think"><div class="f-think-in"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.56"/></svg><span class="f-think-text">${esc(ex.think)}</span></div>
-      <div class="f-tools">${ex.tools.map(([lbl]) => `<div class="f-tool"><svg class="act" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m12 4 8 8-8 8"/></svg><svg class="ok" viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg><span class="lbl">${esc(lbl)}</span></div>`).join('')}</div></div>
+      <div class="f-tools">${ex.tools.map(([lbl, , ic]) => `<div class="f-tool">${(TOOL_ICON[ic] || TOOL_ICON.search).replace('<svg', '<svg class="act"')}<svg class="ok" viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg><span class="lbl">${esc(lbl)}</span></div>`).join('')}</div></div>
       <div class="f-a"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text fmt">${blocksHTML(ex.blocks)}</div></div></div>`;
     frag.appendChild(d);
 
@@ -698,12 +751,17 @@ let SCHED_END = 0;
     const cardEl = d.querySelector('.endframe');
     const cardAt = chs.length ? times[chs.length - 1] : typeAt;
     sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), think: d.querySelector('.f-think'), thinkIn: d.querySelector('.f-think-in'), chars: chs, times, at, thinkAt, typeAt, tools, cardEl, cardAt, task: ex.task, k: 0 });
-    t = advance(t, GAP + (cardEl ? 0.9 : 0));     // the pause before the next ask (longer when a card rises)
+    if (cardEl) { lastCardAt = cardAt; }
+    t = advance(t, GAP);                          // the pause before the next ask
+    // an end frame needs wall-clock time to be read, and cost units compress to
+    // almost nothing at 10x, so cards get a floor in seconds instead
+    if (cardEl) t = Math.max(t, cardAt + 0.75);
   });
   sIn.appendChild(frag);
   SCHED_END = t;
-  // the tail beats hang off the schedule, so the card always lands just after the last reply
-  B.cardA = SCHED_END + 0.55;
+  // the tail beats hang off the schedule, so the card always lands just after the last
+  // reply (and the closing end frame gets its own beat on screen either way)
+  B.cardA = Math.max(SCHED_END + 0.55, lastCardAt + 1.35);
   B.end = B.cardA + 2.2;
   B.word = B.end + 0.7;
   LOOP = B.word + 2.2;
@@ -825,11 +883,13 @@ function renderSite(t) {
     // the thinking row: the hero-loading fold. The track opens over 0.34/speed, holds,
     // and folds shut as the answer starts; the ring spins and the words shimmer while live
     const open = outCubic(seg(t, m.thinkAt, m.thinkAt + 0.34 / speedAt(m.thinkAt)));
-    const shut = outCubic(seg(t, m.typeAt - 0.12, m.typeAt + 0.14));
+    // the fold overlaps the first characters, so there is never a dead frame between
+    // the thinking row disappearing and the answer starting to type
+    const shut = outCubic(seg(t, m.typeAt + 0.05, m.typeAt + 0.34));
     const h = m.thinkH * open * (1 - shut);
     m.think.style.height = `${h.toFixed(1)}px`;
     m.think.style.opacity = String((1 - shut) * open);
-    m.thinkIn.classList.toggle('_live', t >= m.thinkAt && t < m.typeAt - 0.1);
+    m.thinkIn.classList.toggle('_live', t >= m.thinkAt && t < m.typeAt + 0.05);
     // the tool lines: they fade in one at a time, shimmer while their call runs, then
     // settle dim with the tick, the hero page's own run/settle behaviour
     for (const tl of m.tools) {
@@ -848,15 +908,15 @@ function renderSite(t) {
     m.a.style.opacity = String(pa);
     m.a.style.transform = `translateY(${((1 - pa) * 4).toFixed(1)}px)`;
     const k = landed(m.times, t);
-    if (k !== m.k) { // set the settled ones hard; only the leading edge is re-faded each frame
-      const lo = Math.max(0, k - 18);
-      if (k > m.k) for (let j = m.k; j < lo; j++) m.chars[j].style.opacity = '1';
-      else for (let j = k; j < m.k; j++) m.chars[j].style.opacity = '0';
-      m.k = k;
-    }
-    for (let j = Math.max(0, k - 18); j < k; j++) {
-      m.chars[j].style.opacity = String(outCubic(clamp01((t - m.times[j]) / 0.14)));
-    }
+    // the fade window is a fixed number of characters in flight, not a fixed number
+    // of seconds: at 10x the characters land ~10x faster, so their fade has to be
+    // ~10x shorter or every letter past the window would strand at a partial opacity
+    let j = k;
+    while (j > 0 && t - m.times[j - 1] < fadeAt(m.times[j - 1])) j--;
+    for (let q = Math.min(m.k, j); q < j; q++) m.chars[q].style.opacity = '1'; // settled
+    for (let q = j; q < k; q++) m.chars[q].style.opacity = String(outCubic(clamp01((t - m.times[q]) / fadeAt(m.times[q]))));
+    for (let q = k; q < m.k; q++) m.chars[q].style.opacity = '0';               // rewound (seek back or loop)
+    m.k = k;
     // the end frame rises once the text has finished
     if (m.cardEl) {
       const pc = outCubic(seg(t, m.cardAt, m.cardAt + 0.34 / speedAt(m.cardAt)));
@@ -866,11 +926,11 @@ function renderSite(t) {
   }
   // the composer bar: the hero's thinking row, riding the input row inside the ring
   // while superbot works on the current ask, folding shut when the answer starts
-  const act = sMsgs.find((m) => t >= m.thinkAt && t < m.typeAt - 0.06);
+  const act = sMsgs.find((m) => t >= m.thinkAt && t < m.typeAt + 0.24);
   if (act) {
     if (bText.textContent !== act.task) bText.textContent = act.task;
     const bo = outCubic(seg(t, act.thinkAt, act.thinkAt + 0.3 / speedAt(act.thinkAt)));
-    const bc = outCubic(seg(t, act.typeAt - 0.3, act.typeAt - 0.04));
+    const bc = outCubic(seg(t, act.typeAt + 0.02, act.typeAt + 0.3));
     const bop = bo * (1 - bc);
     bThink.style.height = `${(barH * bop).toFixed(1)}px`;
     bThink.style.opacity = String(bop);

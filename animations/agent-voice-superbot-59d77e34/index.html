@@ -185,11 +185,15 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #agent .p-line i { width: 10px; height: 10px; border-radius: 50%; background: #34d399; box-shadow: 0 0 10px #34d399; }
 #agent .p-line b { color: #fff; font-variant-numeric: tabular-nums; margin-left: auto; }
 
-/* ---------- aspect ratios: per-scene scale under the shared assets/ar.css stage ---------- */
-html[data-ar="1x1"] #calls { --ar-s: .75; }
-html[data-ar="4x5"] #calls { --ar-s: .65; }
-html[data-ar="4x5"] #site { --ar-s: .85; }
-html[data-ar]:not([data-ar="16x9"]) #agent { right: calc(44px + var(--ar-vis-r)); }
+/* ---------- aspect ratios (assets/ar.css): the scenes reflow to the frame ---------- */
+html { --site-k: 1.43402; } /* the hero is drawn at 1205x753 and shown at 1.434 (assets/ar.css reflows it per ratio) */
+/* the call desk goes fluid on narrower frames: the main lane stretches, the side column hugs the right, the nav then the side column drop */
+html[data-ar]:not([data-ar="16x9"]) .cb-main { width: auto; right: 448px; }
+html[data-ar]:not([data-ar="16x9"]) .cb-side { left: auto; right: 24px; }
+html[data-ar="1x1"] .cb-nav, html[data-ar="4x5"] .cb-nav { display: none; }
+html[data-ar="1x1"] .cb-main, html[data-ar="4x5"] .cb-main { left: 24px; }
+html[data-ar="4x5"] .cb-side { display: none; }
+html[data-ar="4x5"] .cb-main { right: 24px; }
 </style>
 </head>
 <body>

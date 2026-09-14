@@ -210,11 +210,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   #end .lock > * { transform: none !important; opacity: 1 !important; }
 }
 
-/* ---------- aspect ratios: per-scene scale under the shared assets/ar.css stage ---------- */
-html[data-ar="4x5"] #gpt { --ar-s: .9; }
-html[data-ar="4x5"] .g-col { width: 700px; margin-left: -350px; }
-html[data-ar="4x5"] .g-composer { width: 700px; }
-html[data-ar="4x5"] #site { --ar-s: .85; }
+/* ---------- aspect ratios (assets/ar.css): the scenes reflow to the frame ---------- */
+html { --site-k: 1.6; } /* the app window is drawn at 1200x675 and shown at 1.6 (assets/ar.css reflows it per ratio) */
 </style>
 </head>
 <body>

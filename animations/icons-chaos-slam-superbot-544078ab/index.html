@@ -80,8 +80,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #end .words h1 { margin: 0; font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #fff; }
 #end .words p { margin: 12px 0 0 6px; font-size: 34px; color: var(--muted); font-weight: 500; }
 
-/* ---------- aspect ratios: the physics scene is simulated at the stage width (W = AR.w), never cropped ---------- */
-html[data-ar] #chaos { left: 0; right: 0; width: auto; transform: none; }
+/* ---------- aspect ratios (assets/ar.css): the scenes reflow to the frame ---------- */
+/* the physics scene is simulated at the stage width (W = AR.w) */
 </style>
 </head>
 <body>

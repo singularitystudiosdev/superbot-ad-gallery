@@ -12,10 +12,10 @@ const RATIOS = [['4x5', '4:5', 4 / 5], ['16x9', '16:9', 16 / 9], ['4x3', '4:3', 
 let ar = localStorage.getItem('gallery.ar') || '16x9';
 if (!RATIOS.some(r => r[0] === ar)) ar = '16x9';
 
-function renderAr(show) {
+function renderAr() {
   const box = $('lbAr');
-  box.hidden = !show;
   box.innerHTML = '';
+  document.documentElement.style.setProperty('--tile-ar', RATIOS.find(x => x[0] === ar)[1].replace(':', '/'));
   for (const [key, label] of RATIOS) {
     const b = document.createElement('button');
     b.type = 'button';
@@ -32,8 +32,8 @@ function setAr(key) {
   if (key === ar) return;
   ar = key;
   localStorage.setItem('gallery.ar', key);
-  renderAr(true);
-  renderStage(); // reloads the frame at the new ratio; every spot loops anyway
+  renderAr();
+  if (!$('lb').hidden) renderStage(); // reloads the open frame at the new ratio; every spot loops anyway
 }
 
 // the frame fits the same box the 16:9 frame used (92vw x 82vh, capped at 1280x720) at the chosen ratio
@@ -111,7 +111,6 @@ function renderStage() {
       img.classList.toggle('zoomed');
     };
     stage.appendChild(img);
-    renderAr(false);
   } else {
     const f = document.createElement('iframe');
     f.src = `${it.src}${it.src.includes('?') ? '&' : '?'}ar=${ar}`;
@@ -121,7 +120,6 @@ function renderStage() {
     f.addEventListener('load', () => $('lbClose').focus());
     stage.appendChild(f);
     sizeFrame();
-    renderAr(true);
   }
   $('lbTitle').textContent = it.title;
   $('lbPos').textContent = `${openIdx + 1} / ${list.length} · ${it.group}${it.type === 'animation' ? ` · ${RATIOS.find(x => x[0] === ar)[1]}` : ''}`;
@@ -134,12 +132,14 @@ function open(item, e) {
     $('lbStage').style.setProperty('--oy', `${(e.clientY / innerHeight) * 100}%`);
   }
   $('lb').hidden = false;
+  document.body.classList.add('lb-open');
   document.body.style.overflow = 'hidden';
   renderStage();
 }
 
 function close() {
   $('lb').hidden = true;
+  document.body.classList.remove('lb-open');
   $('lbStage').innerHTML = ''; // kills the iframe rAF + audio
   document.body.style.overflow = '';
 }
@@ -164,7 +164,7 @@ document.addEventListener('keydown', (e) => {
 // ---- boot ----
 fetch('manifest.json')
   .then(r => r.json())
-  .then(data => { ITEMS = data; renderChips(); renderGrid(); })
+  .then(data => { ITEMS = data; renderAr(); renderChips(); renderGrid(); })
   .catch(err => {
     console.error(err);
     document.getElementById('empty').hidden = false;

@@ -147,12 +147,8 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   #end .lock > * { transform: none !important; opacity: 1 !important; }
 }
 
-/* ---------- aspect ratios: per-scene scale under the shared assets/ar.css stage ---------- */
-html[data-ar]:not([data-ar="16x9"]) #bwrap { --ar-fx: 1045px; } /* the tab pages centre right of the frame (their sidebars) */
-html[data-ar="1x1"] #bwrap { --ar-s: .9; }
-html[data-ar="4x5"] #bwrap { --ar-s: .75; }
-html[data-ar="4x5"] #site { --ar-s: .85; }
-html[data-ar]:not([data-ar="16x9"]) #tabcount { right: calc(60px + var(--ar-vis-r)); }
+/* ---------- aspect ratios (assets/ar.css): the scenes reflow to the frame ---------- */
+html { --site-k: 1.43402; } /* the hero is drawn at 1205x753 and shown at 1.434 (assets/ar.css reflows it per ratio) */
 </style>
 </head>
 <body>

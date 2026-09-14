@@ -200,11 +200,12 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
   #end .lock > * { transform: none !important; opacity: 1 !important; }
 }
 
-/* ---------- aspect ratios: per-scene scale under the shared assets/ar.css stage ---------- */
-html[data-ar="1x1"] #gmail { --ar-s: .8; }
-html[data-ar="4x5"] #gmail { --ar-s: .62; }
-html[data-ar="4x5"] #site { --ar-s: .85; }
-html[data-ar]:not([data-ar="16x9"]) #agent { right: calc(80px + var(--ar-vis-r)); }
+/* ---------- aspect ratios (assets/ar.css): the scenes reflow to the frame ---------- */
+html { --site-k: 1.43402; } /* the hero is drawn at 1205x753 and shown at 1.434 (assets/ar.css reflows it per ratio) */
+/* Gmail is left/right anchored already; on 1:1 and 4:5 the label nav folds away and the card takes its room */
+html[data-ar="1x1"] .gm-nav, html[data-ar="4x5"] .gm-nav { display: none; }
+html[data-ar="1x1"] .gm-card, html[data-ar="4x5"] .gm-card { left: 84px; }
+html[data-ar="4x5"] .gm-search { width: auto; flex: 1; margin-left: 12px; }
 </style>
 </head>
 <body>

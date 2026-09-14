@@ -368,18 +368,31 @@ function renderEndcard(t) {
   const shift = X.snap ? 1 : easeOutQuint(clamp((s - DRIFT_AT) / 1.0, 0, 1));
   const w = bot.offsetWidth, h = bot.offsetHeight;
   const wordW = word.offsetWidth;
-  const total = w + gap + wordW;
-  const left = (stage.width - total) / 2;
   const midY = stage.height / 2;
-  const logoX = stage.width / 2 + (left + w / 2 - stage.width / 2) * shift;
+  // 1:1 and 4:5 frames (the gallery's ratio pick, assets/ar.js): the words sit under the mark
+  const stacked = stage.width / stage.height < 1.2;
+  overlay.classList.toggle('stacked', stacked);
+  let logoX, logoY = midY, wordX, wordY = 0; // wordY: the words' offset from their own top:50% anchor
+  if (stacked) {
+    const top = (stage.height - (h + gap + word.offsetHeight)) / 2;
+    logoX = stage.width / 2;
+    logoY = midY + (top + h / 2 - midY) * shift;
+    wordX = (stage.width - wordW) / 2;
+    wordY = top + h + gap - midY;
+  } else {
+    const total = w + gap + wordW;
+    const left = (stage.width - total) / 2;
+    logoX = stage.width / 2 + (left + w / 2 - stage.width / 2) * shift;
+    wordX = left + w + gap;
+  }
   const baseBotTransform =
-    `translate(${(logoX - w / 2).toFixed(1)}px, ${(midY - h / 2).toFixed(1)}px)`;
+    `translate(${(logoX - w / 2).toFixed(1)}px, ${(logoY - h / 2).toFixed(1)}px)`;
   bot.style.transform = baseBotTransform;
   if (X.botFx) X.botFx(s, bot, baseBotTransform);
   word.style.opacity = shift.toFixed(3);
   word.style.filter = shift < 1 ? `blur(${(6 * (1 - shift)).toFixed(1)}px)` : 'none';
   word.style.transform =
-    `translate(${(left + w + gap + 20 * (1 - shift)).toFixed(1)}px, -50%)`;
+    `translate(${(wordX + 20 * (1 - shift)).toFixed(1)}px, ${stacked ? wordY.toFixed(1) + 'px' : '-50%'})`;
   if (X.wordFx) X.wordFx(s, word, shift);
 
   // the tag rides the same drift as the words: same x, one line below them
@@ -387,8 +400,10 @@ function renderEndcard(t) {
   if (TAG_TEXT) {
     tag.style.opacity = shift.toFixed(3);
     tag.style.filter = shift < 1 ? `blur(${(6 * (1 - shift)).toFixed(1)}px)` : 'none';
+    const tagX = stacked ? (stage.width - tag.offsetWidth) / 2 : wordX;
+    const tagY = stacked ? midY + wordY + word.offsetHeight + 24 : midY + word.offsetHeight / 2 + 24;
     tag.style.transform =
-      `translate(${(left + w + gap + 20 * (1 - shift)).toFixed(1)}px, ${(midY + word.offsetHeight / 2 + 24).toFixed(1)}px)`;
+      `translate(${(tagX + 20 * (1 - shift)).toFixed(1)}px, ${tagY.toFixed(1)}px)`;
   }
 }
 

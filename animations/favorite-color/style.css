@@ -40,8 +40,9 @@ body {
 
 .stage {
   position: relative;
-  width: min(1280px, 96vw, calc(92vh * 16 / 9));
-  aspect-ratio: 16 / 9;
+  /* the frame follows the gallery's ratio pick (assets/ar.js: --ar-f / --ar-ratio), 16:9 by default */
+  width: min(1280px, 96vw, calc(92vh * var(--ar-f, 1.7778)));
+  aspect-ratio: var(--ar-ratio, 16 / 9);
   display: grid;
   grid-template-rows: minmax(0, 1fr);
   /* the ad frame IS the stage: anything pushed past it (the composer, the
@@ -264,3 +265,13 @@ body.freeze .hint { display: none; }
 }
 .rec-hud .rec-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); animation: rec-blink 1s steps(2) infinite; }
 body.freeze .rec-btn { display: none; }
+
+/* ---- narrow frames (the gallery's 1:1 / 4:5 pick, assets/ar.js) ---- */
+.endcard.stacked .endcard-word { text-align: center; }
+.endcard.stacked .endcard-word p { margin-left: 0; }
+html[data-ar="1x1"] .chatui > * { width: min(100%, 86%); }
+html[data-ar="4x5"] .chatui > * { width: 100%; }
+html[data-ar="4x5"] .input-pill { gap: 6px; padding: 9px 10px 9px 12px; }
+html[data-ar="4x5"] .mic-ic { display: none; } /* the 4:5 pill keeps the typed prompt readable: no mic, no Think, tighter gaps */
+html[data-ar="1x1"] .input-pill .input-text, html[data-ar="4x5"] .input-pill .input-text { white-space: pre-wrap; flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
+html[data-ar="4x5"] .think-chip { display: none; }

@@ -107,7 +107,7 @@ h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; letter-spacing: .5px; }
 }
 .lb-stage img.zoomed { transform: scale(2.4); cursor: zoom-out; }
 .lb-stage iframe {
-  width: min(92vw, 1280px); height: min(82vh, 720px);
+  width: min(92vw, 1280px); height: min(82vh, 720px); /* overridden inline by sizeFrame() per ratio */
   border: 1px solid var(--line); border-radius: 0; background: #000;
   display: block;
 }
@@ -117,6 +117,22 @@ h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; letter-spacing: .5px; }
   font-size: 30px; cursor: pointer; font-family: var(--mono);
 }
 .lb-close:hover { color: var(--acc); }
+/* the aspect-ratio picker, top right beside the close button */
+.lb-ar {
+  position: fixed; top: 20px; right: 64px; z-index: 11;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--panel); border: 1px solid var(--line);
+}
+.lb-ar[hidden] { display: none; }
+.lb-ar button {
+  font-family: var(--mono); font-size: 12px; line-height: 1;
+  background: none; color: var(--dim); border: none; border-radius: 0;
+  padding: 7px 9px; cursor: pointer; min-width: 44px;
+}
+.lb-ar button:hover { color: var(--fg); }
+.lb-ar button.on { background: var(--acc); color: var(--bg); }
+.lb-ar button:focus-visible { outline: 1px solid var(--acc); outline-offset: 1px; }
+@media (max-width: 640px) { .lb-ar { right: 52px; } .lb-ar button { padding: 7px 6px; min-width: 36px; } }
 .lb-nav {
   position: fixed; top: 50%; transform: translateY(-50%);
   background: var(--panel); color: var(--fg);

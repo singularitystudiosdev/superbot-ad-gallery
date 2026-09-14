@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>icons chaos slam — superbot.gg</title>
+<script src="../../assets/ar.js"></script>
+<link rel="stylesheet" href="../../assets/ar.css">
 <style>
 /* ---------- tokens: the site's own ladder (site.css :root) ---------- */
 :root {
@@ -77,6 +79,9 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #end .words { overflow: hidden; }
 #end .words h1 { margin: 0; font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #fff; }
 #end .words p { margin: 12px 0 0 6px; font-size: 34px; color: var(--muted); font-weight: 500; }
+
+/* ---------- aspect ratios: the physics scene is simulated at the stage width (W = AR.w), never cropped ---------- */
+html[data-ar] #chaos { left: 0; right: 0; width: auto; transform: none; }
 </style>
 </head>
 <body>
@@ -194,7 +199,7 @@ const B = {
   end: 10.55, word: 11.25,                      // the end sequence (the reference ad's, verbatim)
   loopDip: 13.02,                               // the loop seam dips to black before LOOP
 };
-const W = 1920, H = 1080, CX = W / 2, CY = H / 2;
+const W = AR.w, H = AR.h, CX = W / 2, CY = H / 2;
 
 // ---------- the icon registry (the site's rail + the sibling ads' assets) ----------
 // real brand artwork, straight from the site hero's own registry (sphere-intro's tiles)
@@ -391,7 +396,7 @@ function render(t) {
 
 // ---------- fit the stage to the viewport ----------
 function fit() {
-  const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+  const k = Math.min(innerWidth / AR.w, innerHeight / AR.h);
   stage.style.transform = `translate(-50%, -50%) scale(${k})`;
   stage.style.left = '50%'; stage.style.top = '50%';
 }

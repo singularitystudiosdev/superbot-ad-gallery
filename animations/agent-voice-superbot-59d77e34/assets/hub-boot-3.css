@@ -429,7 +429,7 @@
 .beam .g-hot { stop-color: var(--accent); stop-opacity: 1; }
 
 /* ---------- breakpoints ---------- */
-@media (max-width: 900px) {
+@media (max-width: 0px) { /* ad spot: the hero is always drawn at 1205px, so the live site's viewport cuts never apply (the gallery's 4:5 / 1:1 frames would otherwise trigger them) */
   .hub { grid-template-columns: 48px minmax(0, 1fr); }
   .chats { display: none; }
   .phone { width: 30%; }
@@ -468,7 +468,7 @@
    LAST lines (a flex column pinned to the end; the old nth-last-child trick
    counted the parked mascot and keys and hid every line), the hub down to
    rail + chat lane at 12px, and no phone/beam (the viewer is already on one). */
-@media (max-width: 640px) {
+@media (max-width: 0px) { /* ad spot: see the note on the 900px cut above */
   .stage { aspect-ratio: 4 / 5; }
   .body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 54px; } /* 54 = 6px padding x2 + exactly three 14px lines, so no fourth line peeks half-clipped at the top */
   .margin { order: 2; border-right: 0; border-top: 1px solid var(--line); padding: 6px 10px; font-size: 12px; line-height: 14px; display: flex; flex-direction: column; justify-content: flex-end; white-space: nowrap; }

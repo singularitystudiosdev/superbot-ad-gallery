@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"/>
 <!-- the stage box: the site's own stylesheet, verbatim (site/site/assets/hub-boot-3.css) -->
 <link rel="stylesheet" href="assets/hub-boot-3.css"/>
+<script src="../../assets/ar.js"></script>
+<link rel="stylesheet" href="../../assets/ar.css">
 <style>
 /* ---------- tokens: the site's own ladder (site/site/assets/site.css :root), verbatim ---------- */
 :root {
@@ -182,6 +184,12 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #agent .p-line { margin-top: 10px; display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 600; color: var(--secondary); }
 #agent .p-line i { width: 10px; height: 10px; border-radius: 50%; background: #34d399; box-shadow: 0 0 10px #34d399; }
 #agent .p-line b { color: #fff; font-variant-numeric: tabular-nums; margin-left: auto; }
+
+/* ---------- aspect ratios: per-scene scale under the shared assets/ar.css stage ---------- */
+html[data-ar="1x1"] #calls { --ar-s: .75; }
+html[data-ar="4x5"] #calls { --ar-s: .65; }
+html[data-ar="4x5"] #site { --ar-s: .85; }
+html[data-ar]:not([data-ar="16x9"]) #agent { right: calc(44px + var(--ar-vis-r)); }
 </style>
 </head>
 <body>
@@ -610,7 +618,7 @@ function composeHubEnd() {
 
 // ---------- fit the frame to the viewport ----------
 function fit() {
-  const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+  const k = Math.min(innerWidth / AR.w, innerHeight / AR.h);
   frame.style.transform = `translate(-50%, -50%) scale(${k})`;
 }
 addEventListener('resize', fit); fit();

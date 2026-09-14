@@ -47,8 +47,8 @@ body::before {
   position: relative;
   /* the whole spot is contained in a 4:3 box (user ask): aspect-ratio fixes
      the shape, the width min keeps it inside the viewport on any screen */
-  width: min(1120px, 96vw, calc(92vh * 4 / 3));
-  aspect-ratio: 4 / 3;
+  width: min(1280px, 96vw, calc(92vh * var(--ar-f, 1.3333)));
+  aspect-ratio: var(--ar-ratio, 4 / 3); /* the gallery's ratio pick (assets/ar.js) overrides the 4:3 default */
   display: grid;
   grid-template-rows: minmax(0, 1fr);
 }
@@ -374,3 +374,7 @@ body.freeze .rec-btn { display: none; }
   font-size: 11px; color: var(--muted); opacity: .6; user-select: none;
 }
 body.freeze .hint { display: none; }
+
+/* ---- narrow frames (the gallery's 1:1 / 4:5 pick, assets/ar.js) ---- */
+.endcard.stacked .endcard-word { text-align: center; }
+.endcard.stacked .endcard-word p { margin-left: 0; }

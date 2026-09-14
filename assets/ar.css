@@ -1,0 +1,48 @@
+/* ar.css — the aspect-ratio stage shared by the 1920x1080 ad spots (pairs with ar.js).
+   The stage keeps its 1080 height and takes --ar-w for its width. Every .scene stays a
+   1920x1080 layer, cropped inside the narrower stage around a focal point and optionally
+   scaled about that point. Per-scene, per-ratio knobs (set in the ad):
+     --ar-s     scene scale (1 = crop only)
+     --ar-fx    the scene x (in its own 1920 px) that lands on the frame's centre line; 960 by default
+     --ar-fs    title-card zoom for the .line headlines (per ratio, defaults below)
+   Derived, for anchors inside a scene that must stay in frame (scene px):
+     --ar-vis-l / --ar-vis-r   how much of the scene's width is cut off on the left / right */
+html[data-ar] body > #stage, html[data-ar] body > #frame { width: var(--ar-w, 1920px); } /* body > : the hero clone carries its own inner #stage */
+
+html { --ar-fs: 1; }
+html[data-ar="4x3"] { --ar-fs: .84; }
+html[data-ar="1x1"] { --ar-fs: .68; }
+html[data-ar="4x5"] { --ar-fs: .56; }
+
+html[data-ar]:not([data-ar="16x9"]) .scene {
+  --ar-vis-l: calc(var(--ar-fx, 960px) - var(--ar-w) / (2 * var(--ar-s, 1)));
+  --ar-vis-r: calc(1920px - var(--ar-fx, 960px) - var(--ar-w) / (2 * var(--ar-s, 1)));
+  left: calc(-1 * var(--ar-crop) + (960px - var(--ar-fx, 960px)) * var(--ar-s, 1)); right: auto; width: 1920px;
+  transform: scale(var(--ar-s, 1)); transform-origin: 50% 50%;
+}
+/* the ChatGPT clone scene is drawn at 1536x864 and carries its own 1.25 transform: compose it.
+   --ar-fx is still given in 1920 px (after the 1.25); the vis values come out in the 1536 space */
+html[data-ar]:not([data-ar="16x9"]) #gpt {
+  --ar-vis-l: calc((var(--ar-fx, 960px) - var(--ar-w) / (2 * var(--ar-s, 1))) / 1.25);
+  --ar-vis-r: calc((1920px - var(--ar-fx, 960px) - var(--ar-w) / (2 * var(--ar-s, 1))) / 1.25);
+  width: 1536px; right: auto; bottom: auto;
+  left: calc(960px - var(--ar-crop) - var(--ar-fx, 960px) * var(--ar-s, 1));
+  top: calc(540px * (1 - var(--ar-s, 1)));
+  transform: scale(calc(1.25 * var(--ar-s, 1))); transform-origin: 0 0;
+}
+
+/* title cards: the headline wraps inside the visible width and zooms down with the frame */
+html[data-ar]:not([data-ar="16x9"]) .card-scene .line,
+html[data-ar]:not([data-ar="16x9"]) #card .line,
+html[data-ar]:not([data-ar="16x9"]) #tag .line {
+  zoom: var(--ar-fs);
+  left: calc(var(--ar-vis-l) / var(--ar-fs)); right: calc(var(--ar-vis-r) / var(--ar-fs));
+}
+
+/* the end card: face beside the words on wide frames, face above the words on 1:1 and 4:5 */
+html[data-ar="1x1"] #end .lock, html[data-ar="4x5"] #end .lock {
+  flex-direction: column; gap: 28px; text-align: center;
+}
+html[data-ar="1x1"] #end .words p, html[data-ar="4x5"] #end .words p { margin-left: 0; }
+html[data-ar="1x1"] #end .lock { zoom: .95; }
+html[data-ar="4x5"] #end .lock { zoom: .86; }

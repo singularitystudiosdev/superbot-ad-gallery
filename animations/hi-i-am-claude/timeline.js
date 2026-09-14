@@ -720,13 +720,25 @@ function renderEndcard(t) {
   const shift = easeOutQuint(clamp((s - DRIFT_AT) / 1.0, 0, 1));
   const w = bot.offsetWidth, h = bot.offsetHeight;
   const wordW = word.offsetWidth;
-  const total = w + gap + wordW;
-  const left = (stage.width - total) / 2;
   const midY = stage.height / 2;
-  const logoX = stage.width / 2 + (left + w / 2 - stage.width / 2) * shift;
-  bot.style.transform = `translate(${(logoX - w / 2).toFixed(1)}px, ${(midY - h / 2).toFixed(1)}px)`;
   word.style.opacity = shift.toFixed(3);
   word.style.filter = shift < 1 ? `blur(${(6 * (1 - shift)).toFixed(1)}px)` : 'none';
+  // 1:1 and 4:5 frames (the gallery's ratio pick, assets/ar.js): the words sit under the mark
+  const stacked = stage.width / stage.height < 1.2;
+  overlay.classList.toggle('stacked', stacked);
+  if (stacked) {
+    const wordH = word.offsetHeight;
+    const top = (stage.height - (h + gap + wordH)) / 2;
+    const logoY = midY + (top + h / 2 - midY) * shift;
+    bot.style.transform = `translate(${((stage.width - w) / 2).toFixed(1)}px, ${(logoY - h / 2).toFixed(1)}px)`;
+    word.style.transform =
+      `translate(${((stage.width - wordW) / 2).toFixed(1)}px, ${(top + h + gap - midY + 20 * (1 - shift)).toFixed(1)}px)`;
+    return;
+  }
+  const total = w + gap + wordW;
+  const left = (stage.width - total) / 2;
+  const logoX = stage.width / 2 + (left + w / 2 - stage.width / 2) * shift;
+  bot.style.transform = `translate(${(logoX - w / 2).toFixed(1)}px, ${(midY - h / 2).toFixed(1)}px)`;
   word.style.transform =
     `translate(${(left + w + gap + 20 * (1 - shift)).toFixed(1)}px, -50%)`;
 }

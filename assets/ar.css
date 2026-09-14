@@ -44,3 +44,12 @@ html[data-ar="1x1"] #end .lock, html[data-ar="4x5"] #end .lock {
 html[data-ar="1x1"] #end .words p, html[data-ar="4x5"] #end .words p { margin-left: 0; }
 html[data-ar="1x1"] #end .lock { zoom: .95; }
 html[data-ar="4x5"] #end .lock { zoom: .86; }
+
+/* the phone beside the hub (the ChatGPT-style spots' app window): 24% of a square window is a
+   sliver, so it keeps a real phone width on 1:1 and folds away on 4:5 where the chat needs the room */
+html[data-ar="1x1"] .win-body .phone, html[data-ar="4x3"] .win-body .phone { width: max(24%, 230px); }
+html[data-ar="1x1"] .win-body .hub, html[data-ar="4x3"] .win-body .hub { right: calc(max(24%, 230px) + 20px); }
+html[data-ar="4x5"] .win-body .phone { display: none; }
+html[data-ar="4x5"] .win-body .hub { right: 8px; }
+html[data-ar="1x1"] .win-body .ph-pill, html[data-ar="4x3"] .win-body .ph-pill { white-space: nowrap; overflow: hidden; }
+html[data-ar="1x1"] .win-body .ph-pill em, html[data-ar="4x3"] .win-body .ph-pill em { display: none; } /* the Platforms tag does not fit the narrow pill */

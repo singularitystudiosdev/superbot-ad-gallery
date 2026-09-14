@@ -16,7 +16,6 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 - **agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper** (27s loop).
 - **agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email** (30.5s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
-- **yes man · pros**.
 
 The other creative groups (hero animations, site variants, hero reveal FX, mascot toys,
 images) are still defined in `gen-manifest.mjs` — re-enable by changing `ONLY_GROUP`.

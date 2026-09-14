@@ -62,13 +62,5 @@
     "title": "favorite color — the chat pitch",
     "src": "animations/favorite-color/",
     "thumb": "assets/shots/favorite-color.png"
-  },
-  {
-    "id": "yes-man-pros",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "yes man · pros",
-    "src": "animations/yes-man/pros.html",
-    "thumb": "assets/shots/yes-man-pros.png"
   }
 ]

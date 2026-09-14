@@ -64,14 +64,6 @@
     "thumb": "assets/shots/favorite-color.png"
   },
   {
-    "id": "hi-i-am-claude",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "hi i am claude",
-    "src": "animations/hi-i-am-claude/",
-    "thumb": "assets/shots/hi-i-am-claude.png"
-  },
-  {
     "id": "yes-man-pros",
     "type": "animation",
     "group": "Ad spots",

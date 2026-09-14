@@ -53,7 +53,6 @@ const more = [
   ['deny-cascade-superbot-440813d4', 'deny-cascade-superbot-440813d4/', '"ask me anything", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)', 'Ad spots'],
   ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email (30.5s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
-  ['hi-i-am-claude', 'hi-i-am-claude/', 'hi i am claude', 'Ad spots'],
   ['yes-man-pros', 'yes-man/pros.html', 'yes man · pros', 'Ad spots'],
   ['gg-site-variants', 'gg-site/variants.html', 'superbot.gg — character variants', 'Site variants'],
   ['gg-site-lander-zen', 'gg-site/lander-zen.html', 'lander — zen', 'Site variants'],

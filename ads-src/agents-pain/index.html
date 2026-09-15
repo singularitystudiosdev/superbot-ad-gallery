@@ -14,7 +14,7 @@
   <main class="poster">
     <div class="lock">
       <div class="line" id="l1">agents <span class="pain" id="pain">slow</span>?</div>
-      <div class="line" id="l2"><span class="brand">superbot</span> can fix it!</div>
+      <div class="line" id="l2"><span class="brand">superbot</span> can <span id="verb">fix</span> it!</div>
       <img class="face" src="face.svg" alt="superbot">
     </div>
   </main>
@@ -26,6 +26,7 @@
     const id = params.get('id') || window.PAIN_ADS[0].id;
     const ad = window.PAIN_ADS.find(a => a.id === id) || window.PAIN_ADS[0];
     document.getElementById('pain').textContent = ad.word;
+    document.getElementById('verb').textContent = ad.verb || 'fix';
     document.documentElement.style.setProperty('--pain', ad.color);
     document.title = `superbot · agents ${ad.word}?`;
     document.getElementById('dl').href = `../../assets/ads/${ad.id}.16x9.png`;

@@ -18,14 +18,11 @@ const groups = [
     'gg-preview': 'SUPERBOT.GG — preview', 'mono': 'Mono textmode', 'mono-fx': 'Mono — fx pass',
     'mono-home': 'Mono — home', 'mono-wipe': 'Mono — wipe' } },
   { dir: 'assets/img/icons', group: 'IDE icons', type: 'image', titles: null },
-  // Static image ads: the "stop burning tokens" poster set (v7-spb-vd, 2026-09-02).
-  // 900x1125 (4:5) exports plus the 2:1 mascot lockup rendered from stop-burning-tokens/index.html.
+  // Static image ads: the "stop burning tokens" poster set (v7-spb-vd, 2026-09-02),
+  // 900x1125 (4:5) exports with the superbot icon in place of the /superbot chip.
   { dir: 'assets/ads', group: 'Ad spots', type: 'image', titles: {
-    'stop-burning-tokens-4x5': 'stop burning tokens · the three-word poster with the /superbot chip (static 4:5)',
-    'stop-burning-tokens-scraper-4x5': 'stop burning tokens · ChatGPT writes a 60-line scraper essay, superbot hands over scraper.py (static 4:5)',
-    'stop-burning-tokens-mascot-2x1': 'stop burning tokens. · the ASCII mascot lockup, headline to its right (static 2:1)',
-    'done-shipped-4x5': '"Make a ad for superbot and post it on reddit" · Done. Shipped (static 4:5)',
-    'what-more-do-you-want-4x5': 'faster cheaper more coherent responses, what more do you want (static 4:5)' } },
+    'stop-burning-tokens-4x5': 'stop burning tokens · the three-word poster with the superbot icon (static 4:5)',
+    'done-shipped-4x5': '"Make a ad for superbot and post it on reddit" · Done. Shipped (static 4:5)' } },
 ];
 
 const anims = [

@@ -23,6 +23,7 @@ Static image ads (`assets/ads/`):
   gallery ratio (`assets/ads/stop-burning-tokens.<ar>.png`, height 1350), so the ratio picker
   reshapes the poster the same way it reshapes the animations.
 - **agents refusing? superbot can do it!** · the refusal poster (imported 1920x1080 art).
+- **agents slow? superbot can do it!** · the speed poster (imported 1920x1080 art).
 - **your all in one agent workspace** · the workspace poster (imported 1920x1080 art).
 - **agents forgetting? / agents lying? / agents looping?** · the same format, built from
   `ads-src/agents-pain/` and rendered per ratio by `ads-src/agents-pain/render.mjs`

@@ -3,7 +3,7 @@ import { copyFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 const H = 1080; // the imported art is 1920x1080 — native height, so 16:9 stays byte-identical
 const ARS = { '4x5': 4/5, '16x9': 16/9, '4x3': 4/3, '1x1': 1 };
-const ADS = ['agents-refusing-poster', 'agent-workspace-poster'];
+const ADS = ['agents-refusing-poster', 'agent-workspace-poster', 'agents-slow-poster'];
 const frame = 'file://' + resolve('.tmp/compose/frame.html');
 const b = await chromium.launch();
 for (const id of ADS) {

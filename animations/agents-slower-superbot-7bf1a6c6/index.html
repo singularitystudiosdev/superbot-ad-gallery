@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>agents getting slower overtime? · superbot knows why · ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="Two title cards and the end screen, each popping in the way the 'agents refusing?' card does: 'agents getting slower overtime?' with slower in storm blue for one second, then 'superbot knows why' with superbot on the storm-x wordmark gradient, then the superbot.gg end card. 5.6s looping ad spot, 1920x1080."/>
+<meta name="description" content="Two title cards and the end screen, each popping in the way the 'agents refusing?' card does: 'agents getting slower overtime?' with slower in storm blue for 1.9 seconds, then 'superbot knows why' with superbot on the storm-x wordmark gradient, then the superbot.gg end card. 6.5s looping ad spot, 1920x1080."/>
 <script src="../../assets/ar.js"></script>
 <link rel="stylesheet" href="../../assets/ar.css">
 <style>
@@ -94,7 +94,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 // The title cards use the house card entrance verbatim (gpt-refusal-superbot-824cef28
 // renderCard): a 0.35s rise-and-settle, opacity with translateY 3% and scale .96 -> 1 on
 // outQuint, and a 0.2s fall-out on the outgoing card. Nothing else moves.
-const FPS = 30, LOOP = 5.6;
+const FPS = 30, LOOP = 6.5;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -104,9 +104,9 @@ const lerp = (a, b, p) => a + (b - a) * p;
 
 // ---------- the beat sheet (story seconds) ----------
 const B = {
-  cardA: 0,            // "agents get slower overtime?" pops in and holds one second flat
-  cardB: 1,            // it falls out and "superbot knows why" pops in
-  end: 2.6, word: 2.95 // the end card, then the words slide out from behind the face
+  cardA: 0,            // "agents get slower overtime?" pops in and holds 1.9 seconds flat
+  cardB: 1.9,          // it falls out and "superbot knows why" pops in
+  end: 3.5, word: 3.85 // the end card, then the words slide out from behind the face
 };
 
 const stage = $('stage');

@@ -3,42 +3,42 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>agents get slower overtime · superbot knows why · ad spot</title>
+<title>agents get slower overtime? · superbot knows why · ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="Two title cards and the end screen: 'agents get slower overtime' (the word slower drags in letter by letter in blue), then a hard cut to 'superbot knows why' in pink and purple, then a cut to the superbot.gg end card. 9.6s looping ad spot, 1920x1080."/>
+<meta name="description" content="Two title cards and the end screen, cut with no effects: 'agents get slower overtime?' with slower in poster blue, then 'superbot knows why' with superbot on the poster family's blue-violet-pink wordmark gradient, then the superbot.gg end card. 9s looping ad spot, 1920x1080."/>
 <script src="../../assets/ar.js"></script>
 <link rel="stylesheet" href="../../assets/ar.css">
 <style>
-/* ---------- tokens: the site's own ladder (site.css :root) ---------- */
+/* ---------- tokens ---------- */
+/* The type and colour are the poster family's, not this file's invention:
+   ads-src/agents-pain/style.css — .line (800 / -.035em / 1.02), #l1 (SF Pro Display 900),
+   .pain (flat brand colour) and .brand (the wordmark gradient), copied verbatim so the
+   spot and the "agents refusing? superbot can do it!" posters read as one set. */
 :root {
-  --bg: #000000; --fg: #ececec; --muted: #9a9a9a;
-  --storm-0: #00e5c3; --storm-1: #2b6bff; --storm-2: #6a1fd8; --storm-3: #c026d3; --storm-4: #ff3d9a;
-  /* the pink-and-purple run of the storm ramp: purple -> magenta -> pink */
-  --pinkpurple: linear-gradient(94deg, var(--storm-2) 0%, var(--storm-3) 52%, var(--storm-4) 100%);
-  --ui: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif;
+  --fg: #ffffff; --muted: #9a9a9a;
+  --font-ui: "Helvetica Neue", Helvetica, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-head: "SF Pro Display", -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --pain-blue: #2f6bff;
+  --brand: linear-gradient(90deg, #2f6bff 0%, #6d2ff0 38%, #b029e0 62%, #ff2d92 100%);
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
-body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-ui); color: var(--fg); -webkit-font-smoothing: antialiased; }
 
 /* ---------- the 1920x1080 stage, scaled to the viewport ---------- */
 #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 50% 50%; background: #000; overflow: hidden; }
 .scene { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
 .scene.on { visibility: visible; }
 
-/* ---------- the title cards (house anatomy: #card > .line, .blue, .grad) ---------- */
+/* ---------- the title cards: flat type on black, no motion and no glow ---------- */
 #card { display: grid; place-items: center; background: #000; }
 #card .line { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center;
   font-size: 150px; font-weight: 800; letter-spacing: -.035em; line-height: 1.02; color: #fff; }
 #card .line .row { display: block; }
-#card .blue { color: var(--storm-1); }
-#card .grad { background: var(--pinkpurple); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
-/* the letters of "slower" arrive one at a time — the only thing on screen that is not instant */
-#card .ch { display: inline-block; will-change: transform, opacity, filter; }
-/* the glow behind each card: blue under the slow line, pink-purple under the superbot line */
-.glow { position: absolute; left: 50%; top: 50%; width: 1500px; height: 700px; margin: -350px 0 0 -750px; border-radius: 50%; filter: blur(170px); opacity: 0; pointer-events: none; }
-#glow-a { background: radial-gradient(closest-side, rgba(43,107,255,.55), transparent 72%); }
-#glow-b { background: radial-gradient(closest-side, rgba(192,38,211,.5), transparent 72%); }
+/* card 1 sits at the posters' row-1 weight (SF Pro Black), like "agents refusing?" */
+#card-a { font-family: var(--font-head); font-weight: 900; }
+#card .blue { color: var(--pain-blue); }
+#card .grad { background-image: var(--brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 /* ---------- the end card (house lockup: face beside the words) ---------- */
 #end { display: grid; place-items: center; background: #000; }
@@ -70,16 +70,14 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 <div id="stage">
 
   <!-- ============ the two title cards ============ -->
-  <section class="scene" id="card" aria-label="agents get slower overtime. superbot knows why">
-    <div class="glow" id="glow-a"></div>
-    <div class="glow" id="glow-b"></div>
+  <section class="scene" id="card" aria-label="agents get slower overtime? superbot knows why">
     <div class="line" id="card-a">
-      <span class="row" id="a-top">agents get</span>
-      <span class="row" id="a-bot"><span class="blue" id="a-slow"></span><span id="a-over"> overtime</span></span>
+      <span class="row">agents get</span>
+      <span class="row"><span class="blue">slower</span> overtime?</span>
     </div>
     <div class="line" id="card-b">
-      <span class="row"><span class="grad" id="b-sb">superbot</span></span>
-      <span class="row" id="b-why">knows why</span>
+      <span class="row"><span class="grad">superbot</span></span>
+      <span class="row">knows why</span>
     </div>
   </section>
 
@@ -94,86 +92,40 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 
 <script>
 // ---------- the clock: one render(t), a pure function of story time ----------
-// Every visual is recomputed from t each frame, so seeking (`?t=6.8`) or capturing any
+// Every visual is recomputed from t each frame, so seeking (`?t=4.2`) or capturing any
 // frame yields the same picture. Frame-indexed at 30fps so preview and capture agree.
-const FPS = 30, LOOP = 9.6;
+// The two title cards carry no animation at all: they are the poster art, cut to and
+// cut away from. The only motion in the spot is the house end-card lockup.
+const FPS = 30, LOOP = 9;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
 const outQuint = (p) => 1 - Math.pow(1 - p, 5);
-const outCubic = (p) => 1 - Math.pow(1 - p, 3);
 const outBack = (p) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
 const lerp = (a, b, p) => a + (b - a) * p;
 
-// ---------- the beat sheet (story seconds) ----------
+// ---------- the beat sheet (story seconds): three cuts, equal holds ----------
 const B = {
-  top: 0.35,                 // "agents get" snaps in
-  slow: 0.95, STEP: 0.14, CH: 0.55, // "slower" crawls: one letter every STEP, each easing in over CH
-  over: 2.55,                // "overtime" lands once the crawl finishes
-  cardB: 4.15,               // hard cut: the slow card is gone, "superbot knows why" is already there
-  why: 4.35, sheen: 4.45,    // the second line, then one sweep across the gradient
-  end: 6.7, word: 7.05,      // hard cut to the end card, then the words slide out from behind the face
+  cardB: 3,          // cut: "agents get slower overtime?" -> "superbot knows why"
+  end: 6, word: 6.35 // cut to the end card, then the words slide out from behind the face
 };
 
-// ---------- copy (verbatim from the request) ----------
-const SLOW = 'slower';
-
-// ---------- element refs ----------
 const stage = $('stage');
 const card = $('card'), cardA = $('card-a'), cardB = $('card-b');
-const aTop = $('a-top'), aSlow = $('a-slow'), aOver = $('a-over');
-const bSb = $('b-sb'), bWhy = $('b-why');
-const glowA = $('glow-a'), glowB = $('glow-b');
 const end = $('end'), endFace = $('end-face'), endSlide = $('end-slide');
 
-// ---------- static build: one span per letter of "slower" ----------
-aSlow.innerHTML = [...SLOW].map((c) => `<span class="ch">${c}</span>`).join('');
-const slowChars = [...aSlow.querySelectorAll('.ch')];
-const SLOW_END = B.slow + (slowChars.length - 1) * B.STEP + B.CH; // when the last letter has settled
-
-// ---------- style helpers (transform/opacity/filter only) ----------
 const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
 const scene = (el, on) => { el.classList.toggle('on', on); op(el, on ? 1 : 0); };
 
-// ---------- render ----------
 function render(t) {
-  const inCard = t < B.end, inEnd = t >= B.end;
-  scene(card, inCard); scene(end, inEnd);
-  if (inCard) renderCard(t); else renderEnd(t);
-}
-
-function renderCard(t) {
-  const onA = t < B.cardB;
-  // the two cards never crossfade: the cut between them is a single frame
-  op(cardA, onA ? 1 : 0); op(cardB, onA ? 0 : 1);
-  op(glowA, onA ? seg(t, B.top, B.top + 1.2) * 0.9 : 0);
-  op(glowB, onA ? 0 : seg(t, B.cardB, B.cardB + 0.5));
-
-  if (onA) {
-    // "agents get" snaps in — 0.32s, the speed everything else is measured against
-    const a = seg(t, B.top, B.top + 0.32);
-    op(aTop, a); aTop.style.transform = `translateY(${((1 - outQuint(a)) * 16).toFixed(1)}px)`;
-    // "slower" does not snap: one letter at a time, each drifting up out of blur
-    slowChars.forEach((s, i) => {
-      const p = seg(t, B.slow + i * B.STEP, B.slow + i * B.STEP + B.CH), e = outQuint(p);
-      s.style.opacity = p.toFixed(3);
-      s.style.transform = `translateY(${((1 - e) * 26).toFixed(1)}px) scale(${lerp(0.88, 1, e).toFixed(3)})`;
-      s.style.filter = `blur(${((1 - e) * 12).toFixed(1)}px)`;
-    });
-    // "overtime" waits for the crawl, then lands at the snap speed
-    const o = seg(t, B.over, B.over + 0.32);
-    op(aOver, o); aOver.style.transform = `translateY(${((1 - outQuint(o)) * 16).toFixed(1)}px)`;
-    // the whole slow line settles a hair upward as it completes
-    cardA.style.transform = `translateY(${(-50 + (1 - outCubic(seg(t, B.top, B.over + 0.4))) * 1.2).toFixed(2)}%)`;
+  const inCard = t < B.end;
+  scene(card, inCard); scene(end, !inCard);
+  if (inCard) {
+    // a single frame separates the two cards: no fade, no move, no scale
+    const onA = t < B.cardB;
+    op(cardA, onA ? 1 : 0); op(cardB, onA ? 0 : 1);
   } else {
-    // the answer card is instant: it is already at full size on the first frame, then a 0.2s settle
-    const b = seg(t, B.cardB, B.cardB + 0.2);
-    cardB.style.transform = `translateY(-50%) scale(${lerp(0.965, 1, outQuint(b)).toFixed(3)})`;
-    const w = seg(t, B.why, B.why + 0.26);
-    op(bWhy, w); bWhy.style.transform = `translateY(${((1 - outQuint(w)) * 14).toFixed(1)}px)`;
-    // one sweep of the pink-purple ramp across "superbot"
-    const s = seg(t, B.sheen, B.sheen + 1.1);
-    bSb.style.backgroundPosition = `${(100 - outCubic(s) * 100).toFixed(1)}% 0`;
+    renderEnd(t);
   }
 }
 

@@ -10,20 +10,19 @@
 <link rel="stylesheet" href="../../assets/ar.css">
 <style>
 /* ---------- tokens ---------- */
-/* The type and colour are the poster family's, not this file's invention:
-   ads-src/agents-pain/style.css — .line (800 / -.035em / 1.02), #l1 (SF Pro Display 900),
-   .pain (flat brand colour) and .brand (the wordmark gradient), copied verbatim so the
-   spot and the "agents refusing? superbot can do it!" posters read as one set. */
+/* The type and colour are the house card's, not this file's invention: the same
+   ladder the "agents refusing? superbot can do it!" title cards and posters use
+   (SF Pro Rounded 800, -.035em, line-height 1; the pain word flat storm-1; superbot
+   on storm-x), so the spot and that family read as one set. */
 :root {
   --fg: #ffffff; --muted: #9a9a9a;
-  --font-ui: "Helvetica Neue", Helvetica, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-  --font-head: "SF Pro Display", -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --pain-blue: #2f6bff;
-  --brand: linear-gradient(90deg, #2f6bff 0%, #6d2ff0 38%, #b029e0 62%, #ff2d92 100%);
+  --ui: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif;
+  --storm-1: #2b6bff; --storm-2: #6a1fd8; --storm-3: #c026d3; --storm-4: #ff3d9a;
+  --storm-x: linear-gradient(90deg, var(--storm-1) 0%, var(--storm-2) 45%, var(--storm-3) 75%, var(--storm-4) 100%);
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
-body { font-family: var(--font-ui); color: var(--fg); -webkit-font-smoothing: antialiased; }
+body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antialiased; }
 
 /* ---------- the 1920x1080 stage, scaled to the viewport ---------- */
 #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 50% 50%; background: #000; overflow: hidden; }
@@ -33,12 +32,10 @@ body { font-family: var(--font-ui); color: var(--fg); -webkit-font-smoothing: an
 /* ---------- the title cards: flat type on black, no motion and no glow ---------- */
 #card { display: grid; place-items: center; background: #000; }
 #card .line { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center;
-  font-size: 150px; font-weight: 800; letter-spacing: -.035em; line-height: 1.02; color: #fff; }
+  font-size: 140px; font-weight: 800; letter-spacing: -.035em; line-height: 1; color: #fff; }
 #card .line .row { display: block; }
-/* card 1 sits at the posters' row-1 weight (SF Pro Black), like "agents refusing?" */
-#card-a { font-family: var(--font-head); font-weight: 900; }
-#card .blue { color: var(--pain-blue); }
-#card .grad { background-image: var(--brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+#card .blue { color: var(--storm-1); }
+#card .grad { background: var(--storm-x); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 /* ---------- the end card (house lockup: face beside the words) ---------- */
 #end { display: grid; place-items: center; background: #000; }

@@ -16,7 +16,14 @@ if (!RATIOS.some(r => r[0] === ar)) ar = '16x9';
 function renderDl() {
   const a = $('lbDl');
   const it = $('lb').hidden ? null : filtered()[openIdx];
-  if (!it || it.type !== 'animation') { a.hidden = true; return; }
+  if (!it) { a.hidden = true; return; }
+  if (it.type === 'image') { // a static ad downloads as the full-size PNG itself
+    a.href = it.src;
+    a.download = it.src.split('/').pop();
+    a.textContent = `⤓ download ${it.w}×${it.h}`;
+    a.hidden = false;
+    return;
+  }
   const label = RATIOS.find(x => x[0] === ar)[1];
   a.href = `assets/video/${it.id}.${ar}.mp4`;
   a.download = `${it.id}-${label.replace(':', 'x')}.mp4`;

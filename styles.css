@@ -69,7 +69,7 @@ h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; letter-spacing: .5px; }
 .tile::after { top: 6px; right: 6px; border-top: 2px solid var(--acc); border-right: 2px solid var(--acc); }
 .tile:hover { border-color: var(--acc); box-shadow: 0 0 24px -6px #3dff7a55; }
 .tile:hover::before, .tile:hover::after { opacity: 1; }
-.tile img { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; opacity: 0; transition: opacity .25s; }
+.tile img { width: 100%; height: auto; display: block; opacity: 0; transition: opacity .25s; } /* static ads keep their own ratio (4:5, 2:1) */
 .tile img.loaded { opacity: 1; }
 .tile.anim img { aspect-ratio: var(--tile-ar, 16/9); object-position: center; }
 .tile .meta { padding: 9px 12px 11px; }

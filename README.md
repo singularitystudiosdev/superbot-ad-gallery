@@ -17,6 +17,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 - **agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email** (30.5s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
 
+Static image ads (the "stop burning tokens" poster set, `assets/ads/`):
+
+- **stop burning tokens** · the three-word poster with the /superbot chip (4:5).
+- **stop burning tokens** · ChatGPT writes a 60-line scraper essay, superbot hands over scraper.py (4:5).
+- **stop burning tokens.** · the ASCII mascot lockup, headline to its right (2:1).
+- **Done. Shipped** · "Make a ad for superbot and post it on reddit" (4:5).
+- **faster cheaper more coherent responses, what more do you want** (4:5).
+
 The other creative groups (hero animations, site variants, hero reveal FX, mascot toys,
 images) are still defined in `gen-manifest.mjs` — re-enable by changing `ONLY_GROUP`.
 

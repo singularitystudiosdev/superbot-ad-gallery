@@ -62,5 +62,55 @@
     "title": "favorite color — the chat pitch",
     "src": "animations/favorite-color/",
     "thumb": "assets/shots/favorite-color.png"
+  },
+  {
+    "id": "done-shipped-4x5",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "\"Make a ad for superbot and post it on reddit\" · Done. Shipped (static 4:5)",
+    "w": 900,
+    "h": 1125,
+    "src": "assets/ads/done-shipped-4x5.png",
+    "thumb": "assets/ads/done-shipped-4x5.png"
+  },
+  {
+    "id": "stop-burning-tokens-4x5",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "stop burning tokens · the three-word poster with the /superbot chip (static 4:5)",
+    "w": 900,
+    "h": 1125,
+    "src": "assets/ads/stop-burning-tokens-4x5.png",
+    "thumb": "assets/ads/stop-burning-tokens-4x5.png"
+  },
+  {
+    "id": "stop-burning-tokens-mascot-2x1",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "stop burning tokens. · the ASCII mascot lockup, headline to its right (static 2:1)",
+    "w": 1200,
+    "h": 600,
+    "src": "assets/ads/stop-burning-tokens-mascot-2x1.png",
+    "thumb": "assets/ads/stop-burning-tokens-mascot-2x1.png"
+  },
+  {
+    "id": "stop-burning-tokens-scraper-4x5",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "stop burning tokens · ChatGPT writes a 60-line scraper essay, superbot hands over scraper.py (static 4:5)",
+    "w": 900,
+    "h": 1125,
+    "src": "assets/ads/stop-burning-tokens-scraper-4x5.png",
+    "thumb": "assets/ads/stop-burning-tokens-scraper-4x5.png"
+  },
+  {
+    "id": "what-more-do-you-want-4x5",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "faster cheaper more coherent responses, what more do you want (static 4:5)",
+    "w": 900,
+    "h": 1125,
+    "src": "assets/ads/what-more-do-you-want-4x5.png",
+    "thumb": "assets/ads/what-more-do-you-want-4x5.png"
   }
 ]

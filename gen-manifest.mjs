@@ -21,8 +21,7 @@ const groups = [
   // Static image ads: the "stop burning tokens" poster set (v7-spb-vd, 2026-09-02),
   // 900x1125 (4:5) exports with the superbot icon in place of the /superbot chip.
   { dir: 'assets/ads', group: 'Ad spots', type: 'image', titles: {
-    'stop-burning-tokens-4x5': 'stop burning tokens · the three-word poster with the superbot icon (static 4:5)',
-    'done-shipped-4x5': '"Make a ad for superbot and post it on reddit" · Done. Shipped (static 4:5)' } },
+    'stop-burning-tokens-4x5': 'stop burning tokens · the three-word poster with the superbot icon (static 4:5)' } },
 ];
 
 const anims = [

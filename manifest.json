@@ -64,16 +64,6 @@
     "thumb": "assets/shots/favorite-color.png"
   },
   {
-    "id": "done-shipped-4x5",
-    "type": "image",
-    "group": "Ad spots",
-    "title": "\"Make a ad for superbot and post it on reddit\" · Done. Shipped (static 4:5)",
-    "w": 900,
-    "h": 1126,
-    "src": "assets/ads/done-shipped-4x5.png",
-    "thumb": "assets/ads/done-shipped-4x5.png"
-  },
-  {
     "id": "stop-burning-tokens-4x5",
     "type": "image",
     "group": "Ad spots",

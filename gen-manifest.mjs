@@ -18,10 +18,16 @@ const groups = [
     'gg-preview': 'SUPERBOT.GG — preview', 'mono': 'Mono textmode', 'mono-fx': 'Mono — fx pass',
     'mono-home': 'Mono — home', 'mono-wipe': 'Mono — wipe' } },
   { dir: 'assets/img/icons', group: 'IDE icons', type: 'image', titles: null },
-  // Static image ads: the "stop burning tokens" poster set (v7-spb-vd, 2026-09-02),
-  // 900x1125 (4:5) exports with the superbot icon in place of the /superbot chip.
-  { dir: 'assets/ads', group: 'Ad spots', type: 'image', titles: {
-    'stop-burning-tokens-4x5': 'stop burning tokens · the three-word poster with the superbot icon (static 4:5)' } },
+];
+
+// Static image ads (v7-spb-vd sources). Each ships one PNG per gallery ratio —
+// assets/ads/<id>.<ar>.png, height 1350 — so the poster reshapes with the ratio
+// picker instead of sitting at a fixed 4:5. `src` carries the {ar} slot the
+// gallery fills in; `sizes` gives each ratio's pixels for the tile and the
+// download label.
+const AD_ARS = ['4x5', '16x9', '4x3', '1x1'];
+const ads = [
+  ['stop-burning-tokens', 'stop burning tokens · the three-word poster with the superbot icon (static)'],
 ];
 
 const anims = [
@@ -104,6 +110,13 @@ for (const g of groups.filter(g => g.group === ONLY_GROUP)) {
     items.push({ id: base, type: 'image', group: g.group, title, w, h,
       src: `${g.dir}/${f}`, thumb: `${g.dir}/${f}` });
   }
+}
+
+for (const [id, title] of ads) {
+  const sizes = {};
+  for (const k of AD_ARS) sizes[k] = pngSize(`assets/ads/${id}.${k}.png`);
+  items.push({ id, type: 'image', group: 'Ad spots', title, ars: AD_ARS, sizes,
+    src: `assets/ads/${id}.{ar}.png`, thumb: `assets/ads/${id}.{ar}.png` });
 }
 
 // Ship only the ad spots; the other groups stay defined above for easy re-enable.

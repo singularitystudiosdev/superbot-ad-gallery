@@ -17,10 +17,12 @@ function renderDl() {
   const a = $('lbDl');
   const it = $('lb').hidden ? null : filtered()[openIdx];
   if (!it) { a.hidden = true; return; }
-  if (it.type === 'image') { // a static ad downloads as the full-size PNG itself
-    a.href = it.src;
-    a.download = it.src.split('/').pop();
-    a.textContent = `⤓ download ${it.w}×${it.h}`;
+  if (it.type === 'image') { // a static ad downloads as the PNG for the picked ratio
+    const k = arOf(it);
+    a.href = srcFor(it, it.src);
+    a.download = `${it.id}-${k}.png`;
+    const s = sizeOf(it, k);
+    a.textContent = s ? `⤓ download ${s.w}×${s.h}` : '⤓ download png';
     a.hidden = false;
     return;
   }
@@ -29,6 +31,20 @@ function renderDl() {
   a.download = `${it.id}-${label.replace(':', 'x')}.mp4`;
   a.textContent = `⤓ download ${label}`;
   a.hidden = false;
+}
+
+// a static ad ships one PNG per ratio (assets/ads/<id>.<ar>.png) and its src
+// carries a {ar} slot; an item without `ars` is served as-is
+function arOf(it) {
+  if (!it.ars || !it.ars.length) return ar;
+  return it.ars.includes(ar) ? ar : it.ars[0];
+}
+function srcFor(it, path) {
+  return it.ars ? path.replace('{ar}', arOf(it)) : path;
+}
+function sizeOf(it, key) {
+  const s = it.sizes && it.sizes[key || arOf(it)];
+  return s || (it.w ? { w: it.w, h: it.h } : null);
 }
 
 function renderAr() {
@@ -52,6 +68,7 @@ function setAr(key) {
   ar = key;
   localStorage.setItem('gallery.ar', key);
   renderAr();
+  renderGrid(); // the static ads swap to the PNG rendered at this ratio
   if (!$('lb').hidden) renderStage(); // reloads the open frame at the new ratio; every spot loops anyway
   renderDl();
 }
@@ -102,9 +119,10 @@ function renderGrid() {
   for (const it of list) {
     const t = document.createElement('button');
     t.className = 'tile' + (it.type === 'animation' ? ' anim' : '');
-    const wh = it.w ? ` width="${it.w}" height="${it.h}"` : '';
+    const s = sizeOf(it);
+    const wh = s ? ` width="${s.w}" height="${s.h}"` : '';
     t.innerHTML =
-      `<img src="${it.thumb}" alt="${it.title}" loading="lazy"${wh}>` +
+      `<img src="${srcFor(it, it.thumb)}" alt="${it.title}" loading="lazy"${wh}>` +
       `<span class="meta"><span class="badge">${it.type === 'animation' ? '▶ play' : '⤢ zoom'}</span>` +
       `<span class="g">${it.group}</span><br><span class="t">${it.title}</span></span>`;
     const im = t.querySelector('img');
@@ -123,7 +141,7 @@ function renderStage() {
   stage.innerHTML = '';
   if (it.type === 'image') {
     const img = document.createElement('img');
-    img.src = it.src;
+    img.src = srcFor(it, it.src);
     img.alt = it.title;
     img.onclick = (e) => { // click-to-zoom, origin follows the click
       img.style.setProperty('--zx', `${(e.clientX / innerWidth) * 100}%`);
@@ -143,7 +161,8 @@ function renderStage() {
   }
   renderDl();
   $('lbTitle').textContent = it.title;
-  $('lbPos').textContent = `${openIdx + 1} / ${list.length} · ${it.group}${it.type === 'animation' ? ` · ${RATIOS.find(x => x[0] === ar)[1]}` : ''}`;
+  const arLabel = RATIOS.find(x => x[0] === (it.type === 'image' ? arOf(it) : ar))[1];
+  $('lbPos').textContent = `${openIdx + 1} / ${list.length} · ${it.group}${it.type === 'animation' || it.ars ? ` · ${arLabel}` : ''}`;
 }
 
 function open(item, e) {

@@ -19,7 +19,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 Static image ads (`assets/ads/`):
 
-- **stop burning tokens** · the three-word poster with the superbot icon (4:5).
+- **stop burning tokens** · the three-word poster with the superbot icon. Rendered at every
+  gallery ratio (`assets/ads/stop-burning-tokens.<ar>.png`, height 1350), so the ratio picker
+  reshapes the poster the same way it reshapes the animations.
 
 The other creative groups (hero animations, site variants, hero reveal FX, mascot toys,
 images) are still defined in `gen-manifest.mjs` — re-enable by changing `ONLY_GROUP`.

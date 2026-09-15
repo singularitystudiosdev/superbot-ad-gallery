@@ -64,13 +64,35 @@
     "thumb": "assets/shots/favorite-color.png"
   },
   {
-    "id": "stop-burning-tokens-4x5",
+    "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",
-    "title": "stop burning tokens · the three-word poster with the superbot icon (static 4:5)",
-    "w": 900,
-    "h": 1126,
-    "src": "assets/ads/stop-burning-tokens-4x5.png",
-    "thumb": "assets/ads/stop-burning-tokens-4x5.png"
+    "title": "stop burning tokens · the three-word poster with the superbot icon (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      },
+      "16x9": {
+        "w": 2400,
+        "h": 1350
+      },
+      "4x3": {
+        "w": 1800,
+        "h": 1350
+      },
+      "1x1": {
+        "w": 1350,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/stop-burning-tokens.{ar}.png",
+    "thumb": "assets/ads/stop-burning-tokens.{ar}.png"
   }
 ]

@@ -94,5 +94,69 @@
     },
     "src": "assets/ads/stop-burning-tokens.{ar}.png",
     "thumb": "assets/ads/stop-burning-tokens.{ar}.png"
+  },
+  {
+    "id": "agents-refusing-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "agents refusing? superbot can do it! · the refusal poster (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/agents-refusing-poster.{ar}.png",
+    "thumb": "assets/ads/agents-refusing-poster.{ar}.png"
+  },
+  {
+    "id": "agent-workspace-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "your all in one agent workspace · the workspace poster (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/agent-workspace-poster.{ar}.png",
+    "thumb": "assets/ads/agent-workspace-poster.{ar}.png"
   }
 ]

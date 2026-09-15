@@ -47,6 +47,14 @@ body {
   text-align: center;
 }
 
+/* row 1 carries the pain word and reads as heavy as the reference art's
+   "agents refusing?": SF Pro's Black weight, which Helvetica Neue does not
+   have, so the family is pinned here rather than on .line */
+#l1 {
+  font-family: "SF Pro Display", -apple-system, system-ui, var(--font-ui);
+  font-weight: 900;
+}
+
 /* the pain word: flat brand colour, one per ad (set from ads.js) */
 .pain { color: var(--pain, #2f6bff); }
 

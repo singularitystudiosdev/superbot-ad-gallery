@@ -32,9 +32,9 @@ const ads = [
   ['agents-slow-poster', 'agents slow? superbot can do it! · the speed poster (static)'],
   ['agent-workspace-poster', 'your all in one agent workspace · the workspace poster (static)'],
   // the pain family, built from ads-src/agents-pain (complaint sweep, 2026-09-14)
-  ['agents-forgetting-poster', 'agents forgetting? superbot can do it! · the context-amnesia poster (static)'],
-  ['agents-lying-poster', 'agents lying? superbot can do it! · the confidently-wrong poster (static)'],
-  ['agents-looping-poster', 'agents looping? superbot can do it! · the burning-a-loop poster (static)'],
+  ['agents-forgetting-poster', 'agents forgetting? superbot can fix it! · the context-amnesia poster (static)'],
+  ['agents-lying-poster', 'agents lying? superbot can fix it! · the confidently-wrong poster (static)'],
+  ['agents-looping-poster', 'agents looping? superbot can fix it! · the burning-a-loop poster (static)'],
 ];
 
 const anims = [

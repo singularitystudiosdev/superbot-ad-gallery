@@ -1,3 +1,6 @@
+// Row 2 reads "superbot can fix it!" on this family (the imported refusing /
+// slow art says "can do it!"); row 1 is SF Pro Black to match that art.
+//
 // The pain words, picked from a complaint sweep of Hacker News comments
 // (hn.algolia.com search, 2026-09-14) and the top year of r/AI_Agents,
 // r/ChatGPTCoding, r/ClaudeAI, r/cursor and r/vibecoding.

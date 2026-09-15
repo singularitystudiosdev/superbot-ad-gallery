@@ -193,6 +193,20 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .fmt li::before { content: "·"; position: absolute; left: -9px; color: var(--muted); }
 .fmt .note { justify-self: start; margin-top: 1px; padding: 2px 7px; border-radius: 5px; background: #0a0a0a; border: 1px solid var(--line); font: 600 9.5px/14px var(--mono); color: var(--secondary); }
 .fmt .ch { opacity: 0; }
+/* the file card: a generated file handed over in the reply (a tilted code tile, the name and kind, a
+   "Download and open" button with a caret), clickable, it opens the file modal below */
+.m-text .filecard { position: relative; display: flex; align-items: center; gap: 10px; margin: 3px 0 2px; padding: 8px 9px 8px 8px; border-radius: 12px; background: #0a0a0a; border: 1px solid var(--line); cursor: pointer; overflow: hidden; transition: border-color 120ms ease, background 120ms ease; }
+.m-text .filecard:hover { border-color: #3a3a3a; background: #101010; }
+.m-text .filecard:focus-visible { outline: 2px solid var(--storm-1); outline-offset: 1px; }
+.fc-ic { flex: none; width: 30px; height: 40px; margin: -4px 0 -12px 0; display: grid; place-items: center; border-radius: 6px; background: #161616; border: 1px solid #2e2e2e; color: #d0d0d0; transform: rotate(-7deg); box-shadow: 0 6px 14px rgba(0,0,0,.55); }
+.fc-ic svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin-top: -8px; }
+.fc-meta { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.fc-title { font-size: 11.5px; font-weight: 650; line-height: 15px; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fc-kind { font-size: 10px; line-height: 13px; color: var(--muted); }
+.fc-btn { flex: none; display: flex; align-items: center; gap: 6px; padding: 5px 3px 5px 9px; border-radius: 8px; background: #1e1e1e; border: 1px solid #2a2a2a; font-size: 10.5px; font-weight: 600; line-height: 14px; color: var(--fg); }
+.fc-btn img { width: 12px; height: 12px; display: block; }
+.fc-div { width: 1px; height: 14px; background: #3a3a3a; margin-left: 3px; }
+.fc-caret { width: 12px; height: 12px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin-right: 3px; }
 @property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
 /* the composer: the hero-loading page's spinning rainbow ring, with the thinking row opening above the input row inside it */
 .composer { isolation: isolate; } /* the ring's bloom layers sit behind the plate, so the glow hugs the border instead of washing over it */
@@ -247,6 +261,42 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #end .words h1 { margin: 0; font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #fff; }
 #end .words p { margin: 12px 0 0 6px; font-size: 34px; color: var(--muted); font-weight: 500; }
 
+/* ---------- the file modal: the hero page's View Savings popup mechanics (dimmed backdrop, centered
+   card scaling 0.86 to 1 on open, a reversed drop on close, backdrop / x / Escape close it) wearing
+   the same black shell, sized for the 1080-high stage. It holds the generated file: a live preview
+   beside the source, with Open in Chrome and Download underneath. The story clock holds while it is open. */
+.fm-wrap { position: absolute; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; }
+.fm-wrap[hidden] { display: none; }
+.fm-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.72); }
+.fm-modal { position: relative; width: min(1240px, calc(var(--ar-w, 1920px) - 120px)); background: #0e1015; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 28px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.09), 0 30px 90px -20px rgba(0, 0, 0, 0.95); padding: 34px 34px 28px; display: grid; gap: 20px; transform-origin: 50% 50%; }
+.fm-close { position: absolute; top: 18px; right: 22px; background: none; border: none; color: #8b90a0; font: 400 36px/1 system-ui; cursor: pointer; padding: 2px 8px; }
+.fm-close:hover { color: #e6e8ee; }
+.fm-head { display: grid; gap: 4px; }
+.fm-eyebrow { font-size: 14px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: #8b90a0; }
+.fm-title { font: 700 44px/1.15 var(--ui); letter-spacing: -0.8px; color: #fff; }
+.fm-sub { font-size: 17px; color: #8b90a0; }
+.fm-body { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; height: 560px; }
+.fm-pane { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #0b0d10; }
+.fm-pane-head { display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: #14171b; border-bottom: 1px solid var(--line); font: 600 13px/1 var(--mono); color: var(--muted); letter-spacing: .03em; }
+.fm-pane-head i { width: 8px; height: 8px; border-radius: 50%; background: #4a4e57; }
+.fm-preview { width: 100%; height: 100%; border: 0; display: block; background: #0f0f10; }
+.fm-code { margin: 0; padding: 14px 16px; overflow: auto; font: 14px/21px var(--mono); color: #d6dde6; white-space: pre; scrollbar-width: thin; scrollbar-color: #2a2d36 transparent; }
+.fm-code .kw { color: #6ea8ff; }
+.fm-code .fn { color: #d98cff; }
+.fm-code .str { color: #7ed99a; }
+.fm-code .cm { color: #6f7480; font-style: italic; }
+.fm-code .num { color: #ffb340; }
+.fm-foot { display: flex; align-items: center; gap: 12px; }
+.fm-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 14px; background: var(--raised); border: 1px solid var(--line); color: var(--fg); font: 700 17px/1.2 var(--ui); text-decoration: none; cursor: pointer; }
+.fm-btn:hover { background: #222; }
+.fm-btn.primary { background: #fff; border-color: #fff; color: #000; }
+.fm-btn.primary:hover { background: #ececec; }
+.fm-btn img { width: 20px; height: 20px; display: block; }
+.fm-foot .fm-size { margin-left: auto; font: 500 14px/1 var(--mono); color: var(--muted); }
+/* narrow frames: the panes stack */
+html[data-ar="1x1"] .fm-body, html[data-ar="4x5"] .fm-body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1.15fr) minmax(0, 1fr); height: 660px; }
+html[data-ar="1x1"] .fm-modal, html[data-ar="4x5"] .fm-modal { width: calc(var(--ar-w, 1080px) - 80px); }
+
 /* reduced motion: the composed end card only, no clock */
 @media (prefers-reduced-motion: reduce) {
   .scene { opacity: 0 !important; visibility: hidden !important; }
@@ -286,7 +336,7 @@ html { --site-k: 1.6; } /* the app window is drawn at 1200x675 and shown at 1.6 
       <div class="g-thread">
         <div class="g-scroll" id="g-scroll">
           <div class="g-col" id="g-col">
-            <div class="g-user" id="g-u0"><div class="bub">Order me McDonalds</div></div>
+            <div class="g-user" id="g-u0"><div class="bub">Make me a HTML file</div></div>
             <div class="g-ai" id="g-a0"><span class="x pop" id="g-x0">❌</span> I can't do that</div>
             <div class="g-user" id="g-u1"><div class="bub">Make me a scraper on reddit</div></div>
             <div class="g-ai" id="g-a1"><span class="x pop" id="g-x1">❌</span> I can't do that</div>
@@ -392,6 +442,28 @@ html { --site-k: 1.6; } /* the app window is drawn at 1200x675 and shown at 1.6 
   <!-- the cursor -->
   <svg id="cursor" viewBox="0 0 34 44" aria-hidden="true"><path d="M3 2 L3 34 L11 26 L17 41 L23 38 L17 24 L28 24 Z" fill="#000" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/></svg>
   <div id="dip"></div>
+
+  <!-- the file modal: opened by the file card in the first reply (see .fm-* above) -->
+  <div class="fm-wrap" id="fm-wrap" hidden>
+    <div class="fm-backdrop" id="fm-backdrop"></div>
+    <div class="fm-modal" role="dialog" aria-modal="true" aria-labelledby="fm-title">
+      <button class="fm-close" id="fm-close" aria-label="Close">&times;</button>
+      <div class="fm-head">
+        <div class="fm-eyebrow">Generated file</div>
+        <div class="fm-title" id="fm-title">index.html</div>
+        <div class="fm-sub" id="fm-sub">Code · HTML</div>
+      </div>
+      <div class="fm-body">
+        <div class="fm-pane"><div class="fm-pane-head"><i></i><i></i><i></i><span>preview</span></div><iframe class="fm-preview" id="fm-preview" title="index.html preview" sandbox=""></iframe></div>
+        <div class="fm-pane"><div class="fm-pane-head"><i></i><i></i><i></i><span>index.html</span></div><pre class="fm-code" id="fm-code"></pre></div>
+      </div>
+      <div class="fm-foot">
+        <a class="fm-btn primary" id="fm-open" target="_blank" rel="noopener"><img src="assets/chrome.svg" alt=""/>Open in Chrome</a>
+        <a class="fm-btn" id="fm-dl">Download</a>
+        <span class="fm-size" id="fm-size"></span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -469,16 +541,53 @@ const CAS = [
 // thought and tool lines it shows in the thread, then the answer. The answers are
 // meant to read like answers: mostly prose, varied in shape, with a small end
 // frame only where the work actually produces one
+// the file superbot generates for the first ask: one self-contained page, shown in
+// the reply as a file card and, on click, in the file modal (preview + source)
+const HTML_FILE = {
+  name: 'index.html',
+  body: `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sunday Bakery</title>
+  <style>
+    :root { --bg: #0f0f10; --fg: #f4f1ea; --muted: #a09c93; --accent: #ffb340; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, sans-serif; }
+    main { max-width: 560px; padding: 48px 24px; text-align: center; }
+    h1 { margin: 0 0 12px; font-size: 44px; line-height: 1.1; letter-spacing: -0.02em; }
+    p { margin: 0 0 28px; color: var(--muted); font-size: 18px; }
+    .hours { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; }
+    .hours span { padding: 8px 14px; border: 1px solid #2a2a2c; border-radius: 999px; font-size: 14px; }
+    a.btn { display: inline-block; padding: 14px 26px; border-radius: 12px; background: var(--accent); color: #1a1200; font-weight: 700; text-decoration: none; }
+    a.btn:hover { filter: brightness(1.08); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Sunday Bakery</h1>
+    <p>Sourdough, cardamom buns and a proper flat white. Baked before sunrise, gone by noon.</p>
+    <div class="hours"><span>Sat 7 to 12</span><span>Sun 8 to 13</span></div>
+    <a class="btn" href="#order">Order for pickup</a>
+  </main>
+</body>
+</html>
+`,
+};
+const HTML_LINES = HTML_FILE.body.trimEnd().split('\n').length;
+const HTML_BYTES = new TextEncoder().encode(HTML_FILE.body).length;
+
 const EX = [
   {
-    q: 'Order me McDonalds',
-    task: "Finding the nearest McDonald's and ordering a Big Mac Meal",
-    think: 'Checking nearby restaurants',
-    tools: [["Opening the McDonald's app", 'signed in', 'bag'], ['Placing the order', 'confirmed #A41-2093', 'bag']],
+    q: 'Make me a HTML file',
+    task: 'Writing a single-file HTML page and opening it in Chrome',
+    think: 'Choosing a layout',
+    tools: [['Writing index.html', `${HTML_LINES} lines`, 'code'], ['Opening it in Chrome', 'renders clean', 'globe']],
     blocks: [
-      ['p', "🍔 Burger ordered! One Big Mac meal with large fries 🍟 and an Oreo McFlurry 🍦, paid with the card on file, heading to the address on your profile."],
-      ['p', 'The driver is about twelve minutes out, so it should reach you at 6:47pm. I will ping you if the restaurant slips that window. 📍'],
-      ['p', 'Order placed: Big Mac Meal $9.29, large fries $2.19, Oreo McFlurry $3.49. ✅'],
+      ['p', '📄 File made! One index.html, plain HTML and CSS with no build step: a dark landing page with a headline, a short blurb, opening hours and a pickup button. It opens in any browser as-is.'],
+      ['file', { title: 'Sunday Bakery landing page', kind: 'Code · HTML', name: HTML_FILE.name }],
+      ['p', 'Click the card to preview it or download it, and tell me what to change. ✅'],
     ],
   },
   {
@@ -664,9 +773,9 @@ function measureGpt() {
 // The owner's brief: the whole replay (thinking, typing, the gap before the next
 // ask, all twelve exchanges) should read start-to-finish in about five seconds,
 // climbing exponentially rather than linearly (slow at first, then runs away).
-// The first beat opens a touch under real-time (0.6x) so the McDonald's reply has
+// The first beat opens a touch under real-time (0.6x) so the HTML file reply has
 // room to read before the ramp takes off. Measured against the real reply lengths
-// (4456 characters total): a 3s ramp from 0.6x to 30x lands the full scene at ~5.3s.
+// (~4400 characters total): a 3s ramp from 0.6x to 30x lands the full scene at ~5.3s.
 // One multiplier drives all of it, so the whole replay accelerates as a single
 // gesture instead of three separate speed-ups.
 const RAMP = 3;                                        // the ramp window, in seconds
@@ -689,6 +798,8 @@ function blocksHTML(blocks) {
   for (const [kind, v] of blocks) {
     if (kind === 'ul') html += `<ul>${v.map((li) => `<li>${chars(li)}</li>`).join('')}</ul>`;
     else if (kind === 'code') html += `<div class="code"><div class="code-head"><i></i><i></i><i></i><span>${esc(v.name)}</span></div><pre>${codeChars(v.body)}</pre></div>`;
+    // the file card: a generated file the reply hands over, opened by a click (or Enter) into the file modal
+    else if (kind === 'file') html += `<div class="filecard" role="button" tabindex="0" aria-label="Open ${esc(v.name)}" data-file="${esc(v.name)}"><span class="fc-ic"><svg viewBox="0 0 24 24"><path d="M9 7 4 12l5 5"/><path d="m15 7 5 5-5 5"/></svg></span><span class="fc-meta"><span class="fc-title">${chars(v.title)}</span><span class="fc-kind">${chars(v.kind)}</span></span><span class="fc-btn"><img src="assets/chrome.svg" alt=""/><span class="fc-lbl">${chars('Download and open')}</span><i class="fc-div"></i><svg class="fc-caret" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></div>`;
     else html += `<div class="${kind}">${chars(v)}</div>`;
   }
   return html;
@@ -720,6 +831,7 @@ const TOOL_ICON = {
   shield: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6Z"/></svg>',
   calendar: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>',
   search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',
+  globe: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>',
 };
 const sMsgs = [];
 let SCHED_END = 0;
@@ -727,7 +839,7 @@ let SCHED_END = 0;
   const frag = document.createDocumentFragment();
   const TB = 0.9, GAP = 0.45;   // 1x-seconds of thinking, and of pause after a reply
   // Real wall-clock holds after specific replies (the brief names these two by name):
-  // 0.4s after McDonald's, 0.1s after the reddit scraper, nothing extra after that —
+  // 0.4s after the HTML file, 0.1s after the reddit scraper, nothing extra after that —
   // these are on top of the ordinary GAP, in real seconds, not 1x-cost seconds, since
   // they are meant to read as a fixed pause regardless of how fast the ramp already is.
   const EXTRA_HOLD = [0.4, 0.1];
@@ -768,7 +880,7 @@ let SCHED_END = 0;
     const tools = toolEls.map((el, j) => ({ el, at: thinkAt + thinkSpan * j * 0.85, done: thinkAt + thinkSpan * (j + 0.85), lbl: el.querySelector('.lbl') }));
     sMsgs.push({ el: d, q: d.querySelector('.f-q'), a: d.querySelector('.f-a'), think: d.querySelector('.f-think'), thinkIn: d.querySelector('.f-think-in'), chars: chs, times, at, thinkAt, typeAt, tools, task: ex.task, k: 0, partialFrom: 0 });
     // the pause before the next ask: an exact real-second hold on the named first two
-    // exchanges (0.4s after McDonald's, 0.1s after the reddit scraper), the ordinary
+    // exchanges (0.4s after the HTML file, 0.1s after the reddit scraper), the ordinary
     // ramping GAP for everything after that
     t = exIdx < EXTRA_HOLD.length ? t + EXTRA_HOLD[exIdx] : advance(t, GAP);
   });
@@ -808,6 +920,69 @@ function landed(times, t) {
   return lo;
 }
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+// ---------- the file modal ----------
+// The file card in the first reply opens it. Motion is the hero page's View Savings
+// popup, 1:1: the backdrop fades in over 160ms while the card scales 0.86 -> 1 over
+// 200ms ease-out; closing drops it (scale .858, -8px, fade) over 150ms ease-in. The
+// backdrop, the x and Escape all close it. While it is open the story clock holds,
+// so the ad freezes behind it instead of cutting to the card scene underneath.
+const fmWrap = $('fm-wrap'), fmModal = fmWrap.querySelector('.fm-modal');
+let fmClosing = false, fmAnims = [], fmHold = null; // fmHold: performance.now() at the moment the clock was held
+{
+  // fill the modal once: the preview renders the file itself, the source is tinted, the
+  // buttons point at a real blob of it so Open and Download work in the preview
+  $('fm-preview').srcdoc = HTML_FILE.body;
+  $('fm-code').innerHTML = htmlTokens(HTML_FILE.body);
+  $('fm-sub').textContent = `Code · HTML · ${HTML_LINES} lines`;
+  $('fm-size').textContent = `${(HTML_BYTES / 1024).toFixed(1)} KB`;
+  const url = URL.createObjectURL(new Blob([HTML_FILE.body], { type: 'text/html' }));
+  $('fm-open').href = url;
+  const dl = $('fm-dl'); dl.href = url; dl.download = HTML_FILE.name;
+}
+// a tiny HTML tokenizer for the source pane: comments, tags, attribute names, strings, numbers
+function htmlTokens(s) {
+  const re = /(<!--[\s\S]*?-->)|(<!?\/?[A-Za-z][\w-]*|\/?>)|("[^"\n]*"|'[^'\n]*')|([A-Za-z-]+)(?==)|(\b\d+\.?\d*(?:px|em|vh|%)?\b)|([^<>"'=\s]+|\s+|=|[\s\S])/g;
+  let html = '', m;
+  while ((m = re.exec(s))) {
+    const [tok, cm, tag, str, attr, num] = m;
+    const cls = cm ? 'cm' : tag ? 'kw' : str ? 'str' : attr ? 'fn' : num ? 'num' : null;
+    html += cls ? `<span class="${cls}">${esc(tok)}</span>` : esc(tok);
+  }
+  return html;
+}
+function openFile() {
+  if (!fmWrap.hidden && !fmClosing) return;
+  fmAnims.forEach((a) => a.cancel && a.cancel());
+  fmClosing = false;
+  fmWrap.hidden = false;
+  const plays = [$('fm-backdrop').animate({ opacity: [0, 1] }, { duration: 160, easing: 'ease-out', fill: 'forwards' })];
+  if (!reduced) plays.push(fmModal.animate({ transform: ['scale(0.86)', 'scale(1)'], opacity: [0, 1] }, { duration: 200, easing: 'ease-out', fill: 'forwards' }));
+  fmAnims = plays;
+  if (fmHold === null) fmHold = performance.now();
+  $('fm-close').focus({ preventScroll: true });
+}
+function closeFile() {
+  if (fmWrap.hidden || fmClosing) return;
+  fmClosing = true;
+  const plays = [$('fm-backdrop').animate({ opacity: [1, 0] }, { duration: 150, easing: 'ease-in', fill: 'forwards' })];
+  if (!reduced) plays.push(fmModal.animate({ transform: ['scale(1)', 'scale(0.858) translateY(-8px)'], opacity: [1, 0] }, { duration: 150, easing: 'ease-in', fill: 'forwards' }));
+  fmAnims.forEach((a) => a.cancel && a.cancel());
+  fmAnims = plays;
+  const pending = setTimeout(() => {
+    for (const el of [fmModal, $('fm-backdrop')]) el.getAnimations().forEach((x) => x.cancel());
+    fmWrap.hidden = true; fmClosing = false; fmAnims = [];
+  }, 155);
+  fmAnims.push({ cancel: () => clearTimeout(pending) });
+  // release the story clock exactly where it was held
+  if (fmHold !== null) { t0 += performance.now() - fmHold; fmHold = null; }
+}
+sIn.addEventListener('click', (e) => { if (e.target.closest('.filecard')) openFile(); });
+sIn.addEventListener('keydown', (e) => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('.filecard')) { e.preventDefault(); openFile(); }
+});
+fmWrap.addEventListener('click', (e) => { if (e.target === fmWrap || e.target.id === 'fm-backdrop' || e.target.id === 'fm-close') closeFile(); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape') closeFile(); });
 
 // ---------- style helpers (transform/opacity only) ----------
 const op = (el, v) => { el.style.opacity = String(clamp01(v)); };
@@ -1039,6 +1214,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const seekTo = q.has('t') ? parseFloat(q.get('t')) : null;
 let t0 = performance.now() - (seekTo || 0) * 1000, last = -1;
 function frame(now) {
+  if (fmHold !== null) { requestAnimationFrame(frame); return; } // the file modal is open: hold the frame
   const t = ((now - t0) / 1000) % LOOP;
   const f = Math.floor(t * FPS);
   if (f !== last) { last = f; render(f / FPS); }
@@ -1055,6 +1231,8 @@ if (reduced) { render(B.word + 1); }
 else if (q.has('seq')) { for (const v of q.get('seq').split(',')) render(Math.floor(parseFloat(v) * FPS) / FPS); }
 else if (seekTo !== null && !q.has('play')) { render(Math.floor(seekTo * FPS) / FPS); }
 else requestAnimationFrame(frame);
+// `?file=1` opens the file modal straight away (a capture of the modal over any `?t=` frame)
+if (q.has('file')) openFile();
 </script>
 </body>
 </html>

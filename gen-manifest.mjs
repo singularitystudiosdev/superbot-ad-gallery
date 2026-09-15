@@ -69,6 +69,7 @@ const more = [
   ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper (27s loop)', 'Ad spots'],
   ['deny-cascade-superbot-440813d4', 'deny-cascade-superbot-440813d4/', '"ask me anything", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)', 'Ad spots'],
   ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email (30.5s loop)', 'Ad spots'],
+  ['agents-slower-superbot-7bf1a6c6', 'agents-slower-superbot-7bf1a6c6/', 'agents get slower overtime · the word slower crawls in blue, then a hard cut to superbot knows why in pink and purple, then the end screen (9.6s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['gg-site-variants', 'gg-site/variants.html', 'superbot.gg — character variants', 'Site variants'],
   ['gg-site-lander-zen', 'gg-site/lander-zen.html', 'lander — zen', 'Site variants'],

@@ -56,6 +56,14 @@
     "thumb": "assets/shots/urgent-email-slow-superbot-7c4a91b2.png"
   },
   {
+    "id": "agents-slower-superbot-7bf1a6c6",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "agents get slower overtime · the word slower crawls in blue, then a hard cut to superbot knows why in pink and purple, then the end screen (9.6s loop)",
+    "src": "animations/agents-slower-superbot-7bf1a6c6/",
+    "thumb": "assets/shots/agents-slower-superbot-7bf1a6c6.png"
+  },
+  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",

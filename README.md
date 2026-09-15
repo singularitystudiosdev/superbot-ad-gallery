@@ -24,10 +24,16 @@ Static image ads (`assets/ads/`):
   reshapes the poster the same way it reshapes the animations.
 - **agents refusing? superbot can do it!** · the refusal poster (imported 1920x1080 art).
 - **your all in one agent workspace** · the workspace poster (imported 1920x1080 art).
+- **agents forgetting? / agents lying? / agents looping?** · the same format, built from
+  `ads-src/agents-pain/` and rendered per ratio by `ads-src/agents-pain/render.mjs`
+  (serve that folder on :8613, then `node ads-src/agents-pain/render.mjs` from the repo root). The pain
+  words come from a complaint sweep of Hacker News and the top year of r/AI_Agents,
+  r/ChatGPTCoding, r/ClaudeAI, r/cursor and r/vibecoding; the evidence per word is in
+  `ads-src/agents-pain/ads.js`. Add a word there and re-render to get a new ad.
 
 The two imported posters are flat-black art, so their other ratios are composed rather than
 re-drawn: the artwork is scaled to the frame width and the frame is padded with the same black
-(`.tmp/compose-ads.e5b2148a.mjs`, native height 1080; the 16:9 file is the original bytes).
+(`ads-src/compose-imported.mjs`, native height 1080; the 16:9 file is the original bytes).
 
 The other creative groups (hero animations, site variants, hero reveal FX, mascot toys,
 images) are still defined in `gen-manifest.mjs` — re-enable by changing `ONLY_GROUP`.

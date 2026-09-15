@@ -158,5 +158,101 @@
     },
     "src": "assets/ads/agent-workspace-poster.{ar}.png",
     "thumb": "assets/ads/agent-workspace-poster.{ar}.png"
+  },
+  {
+    "id": "agents-forgetting-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "agents forgetting? superbot can do it! · the context-amnesia poster (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/agents-forgetting-poster.{ar}.png",
+    "thumb": "assets/ads/agents-forgetting-poster.{ar}.png"
+  },
+  {
+    "id": "agents-lying-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "agents lying? superbot can do it! · the confidently-wrong poster (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/agents-lying-poster.{ar}.png",
+    "thumb": "assets/ads/agents-lying-poster.{ar}.png"
+  },
+  {
+    "id": "agents-looping-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "agents looping? superbot can do it! · the burning-a-loop poster (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/agents-looping-poster.{ar}.png",
+    "thumb": "assets/ads/agents-looping-poster.{ar}.png"
   }
 ]

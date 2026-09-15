@@ -12,6 +12,18 @@ const RATIOS = [['4x5', '4:5', 4 / 5], ['16x9', '16:9', 16 / 9], ['4x3', '4:3', 
 let ar = localStorage.getItem('gallery.ar') || '16x9';
 if (!RATIOS.some(r => r[0] === ar)) ar = '16x9';
 
+// the download link: assets/video/<id>.<ratio>.mp4, rendered offline by .tmp/ar-render (one loop, 1080 high)
+function renderDl() {
+  const a = $('lbDl');
+  const it = $('lb').hidden ? null : filtered()[openIdx];
+  if (!it || it.type !== 'animation') { a.hidden = true; return; }
+  const label = RATIOS.find(x => x[0] === ar)[1];
+  a.href = `assets/video/${it.id}.${ar}.mp4`;
+  a.download = `${it.id}-${label.replace(':', 'x')}.mp4`;
+  a.textContent = `⤓ download ${label}`;
+  a.hidden = false;
+}
+
 function renderAr() {
   const box = $('lbAr');
   box.innerHTML = '';
@@ -34,6 +46,7 @@ function setAr(key) {
   localStorage.setItem('gallery.ar', key);
   renderAr();
   if (!$('lb').hidden) renderStage(); // reloads the open frame at the new ratio; every spot loops anyway
+  renderDl();
 }
 
 // the frame fits the same box the 16:9 frame used (92vw x 82vh, capped at 1280x720) at the chosen ratio
@@ -121,6 +134,7 @@ function renderStage() {
     stage.appendChild(f);
     sizeFrame();
   }
+  renderDl();
   $('lbTitle').textContent = it.title;
   $('lbPos').textContent = `${openIdx + 1} / ${list.length} · ${it.group}${it.type === 'animation' ? ` · ${RATIOS.find(x => x[0] === ar)[1]}` : ''}`;
 }
@@ -140,6 +154,7 @@ function open(item, e) {
 function close() {
   $('lb').hidden = true;
   document.body.classList.remove('lb-open');
+  $('lbDl').hidden = true;
   $('lbStage').innerHTML = ''; // kills the iframe rAF + audio
   document.body.style.overflow = '';
 }

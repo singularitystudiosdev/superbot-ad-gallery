@@ -79,6 +79,7 @@ const DRIFT_AT = 0.7;
 const LOGO_GAP = 44;         // tabs-chaos end card gap, in 1080-frame px
 const END_LEN = 4.8;
 const CYCLE = END_AT + END_LEN + 1.8;
+window.CYCLE = CYCLE; // read by the gallery's render script (one download = one loop)
 
 const Q_TEXT = 'whats ur favorite color';
 const SB_PREFIX = '/superbot';

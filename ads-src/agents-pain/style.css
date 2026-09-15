@@ -6,7 +6,11 @@
 :root {
   --bg: #000;
   --fg: #ffffff;
-  --font-ui: "Helvetica Neue", Helvetica, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  /* the ad-spot type, taken verbatim from the gpt-refusal animation's
+     "agents refusing? / superbot can do it!" card (animations/
+     gpt-refusal-superbot-824cef28: --ui, #card .line, --storm-x) so the
+     posters and the spot read as one family */
+  --font-ui: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -42,17 +46,10 @@ body {
 .line {
   white-space: nowrap;
   font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.02;
+  letter-spacing: -.035em;
+  line-height: 1;
   text-align: center;
-}
-
-/* row 1 carries the pain word and reads as heavy as the reference art's
-   "agents refusing?": SF Pro's Black weight, which Helvetica Neue does not
-   have, so the family is pinned here rather than on .line */
-#l1 {
-  font-family: "SF Pro Display", -apple-system, system-ui, var(--font-ui);
-  font-weight: 900;
+  color: #fff;
 }
 
 /* the pain word: flat brand colour, one per ad (set from ads.js) */
@@ -60,7 +57,8 @@ body {
 
 /* superbot: the blue → violet → pink wordmark gradient */
 .brand {
-  background-image: linear-gradient(90deg, #2f6bff 0%, #6d2ff0 38%, #b029e0 62%, #ff2d92 100%);
+  /* --storm-x from the animation, verbatim */
+  background-image: linear-gradient(90deg, #2b6bff 0%, #6a1fd8 45%, #c026d3 75%, #ff3d9a 100%);
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
 }

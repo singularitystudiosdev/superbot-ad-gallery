@@ -44,4 +44,30 @@
 
   apply(locked || nearest());
   if (!locked) addEventListener('resize', function () { apply(nearest()); });
+
+  /* Hold the first paint until ar.css has applied, but only on a narrower-than-16:9 frame,
+     where its rules are what reflow the scene. ar.js is a <script> in <head> and always runs
+     before the body parses, while the ar.css <link> beside it can still be in flight when the
+     iframe starts painting: in that window every scene designed at 1920 wide sits wider than
+     the stage and is clipped on the right. Hiding for those few frames shows black instead of
+     a broken frame. The reveal is unconditional: a 1.5s cap and the load event both release it,
+     so a missing or failed ar.css costs a short delay, never a blank spot. */
+  if ((window.AR && window.AR.key) !== '16x9') {
+    var revealed = false;
+    var reveal = function () {
+      if (revealed) return;
+      revealed = true;
+      doc.style.visibility = '';
+    };
+    doc.style.visibility = 'hidden';
+    var give_up_at = Date.now() + 1500;
+    var poll = function () {
+      var ready = getComputedStyle(doc).getPropertyValue('--ar-ready').trim() === '1';
+      if (ready || Date.now() > give_up_at) reveal();
+      else requestAnimationFrame(poll);
+    };
+    requestAnimationFrame(poll);
+    addEventListener('load', reveal);
+    setTimeout(reveal, 1600);
+  }
 })();

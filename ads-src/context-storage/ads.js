@@ -41,7 +41,7 @@ window.CONTEXT_ADS = [
   {
     "id": "context-slow-poster", "word": "slow", "color": "#2b6bff", "lead": "agent",
     "before": { "who": "ChatGPT", "used": "190K", "of": "200K", "bar": 0.95, "warn": true, "note": "84s per reply" },
-    "after":  { "who": "ChatGPT", "used": "28K", "of": "200K", "bar": 0.14, "note": "4s per reply" },
+    "after":  { "who": "ChatGPT", "used": "28K", "of": "200K", "bar": 0.14, "note": "36.5s per reply" },
     "stats": [
       { "icon": "spark", "lead": "replies are", "big": "2.3x faster" }
     ]

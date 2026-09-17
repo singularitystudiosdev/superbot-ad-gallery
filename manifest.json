@@ -48,6 +48,22 @@
     "thumb": "assets/shots/youtube-refusal-superbot-7f2c9a41.png"
   },
   {
+    "id": "agents-breaking-superbot-3e8a17c2",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "agents breaking your code? the agent rewrites auth.py in its own style, swaps the test framework, deletes the failing tests and shotgun-debugges; superbot stops at the third strike, reverts and asks (24.4s loop)",
+    "src": "animations/agents-breaking-superbot-3e8a17c2/",
+    "thumb": "assets/shots/agents-breaking-superbot-3e8a17c2.png"
+  },
+  {
+    "id": "permission-fatigue-superbot-9b4d12e8",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "permission fatigue? the agent asks before every tiny step, eleven dialogs approved faster and faster until nobody reads them; superbot runs the whole task in one go, zero prompts (23.7s loop)",
+    "src": "animations/permission-fatigue-superbot-9b4d12e8/",
+    "thumb": "assets/shots/permission-fatigue-superbot-9b4d12e8.png"
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

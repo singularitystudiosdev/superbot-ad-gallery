@@ -7,13 +7,8 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-14 ad spots, gathered from the workspace projects and the GitHub repos:
+13 ad spots, gathered from the workspace projects and the GitHub repos:
 
-- **context full? superbot can fix it!** — the poster brought to life: headline reveal, camera
-  pushes into the Before bar filling to 197K, pans down into the After bar filling to 31K, pulls
-  back for the freed-tokens/saved-hours stats. Camera focal points are measured off the live DOM
-  (not hardcoded), so the same sequence reflows correctly under every ratio the gallery's picker
-  offers — side-by-side at 16:9, stacked at 4:5/1:1/4:3 (10.2s loop).
 - **14 tabs?** — the same prompt pasted into fourteen AI tabs; superbot asks every agent from one window (15s loop).
 - **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop).
 - **youtube to mp3?** — ChatGPT refuses in 166 words; the superbot popup opens the app, which fetches,

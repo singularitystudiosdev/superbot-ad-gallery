@@ -64,7 +64,6 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
-  ['context-full-reveal-superbot-2f8b16e9', 'context-full-reveal-superbot-2f8b16e9/', 'context full? superbot can fix it! — the poster brought to life: headline reveal, camera pushes into the Before bar filling to 197K, pans down into the After bar filling to 31K, pulls back for the freed-tokens/saved-hours stats (10.2s loop)', 'Ad spots'],
   ['tabs-chaos-superbot-6f50ea56', 'tabs-chaos-superbot-6f50ea56/', '14 tabs? the same prompt pasted into fourteen AI tabs, then superbot asks every agent from one window (15s loop)', 'Ad spots'],
   ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop)', 'Ad spots'],
   ['youtube-refusal-superbot-7f2c9a41', 'youtube-refusal-superbot-7f2c9a41/', "youtube to mp3? ChatGPT refuses with the terms-of-service lecture; superbot pops in mid-refusal and the click downloads instantly; the pain words cascade, accelerating to 3x (21.9s loop)", 'Ad spots'],

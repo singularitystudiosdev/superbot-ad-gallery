@@ -3,6 +3,8 @@
 // ---- data ----
 let ITEMS = [];
 let filter = 'All';
+let typeFilter = localStorage.getItem('gallery.type') || 'all'; // 'all' | 'animation' | 'image'
+if (!['all', 'animation', 'image'].includes(typeFilter)) typeFilter = 'all';
 let openIdx = -1; // index into filtered list currently shown in the lightbox
 
 const $ = (id) => document.getElementById(id);
@@ -90,14 +92,21 @@ function sizeFrame() {
 }
 addEventListener('resize', sizeFrame);
 
+// group filter and type filter apply together (AND); each picker's own
+// counts are computed against the OTHER filter's current selection, so the
+// numbers shown always match what picking that option would actually show
+function byGroup(list) { return list.filter(i => filter === 'All' || i.group === filter); }
+function byType(list) { return list.filter(i => typeFilter === 'all' || i.type === typeFilter); }
 function filtered() {
-  return ITEMS.filter(i => filter === 'All' || i.group === filter);
+  return byType(byGroup(ITEMS));
 }
 
 // ---- grid + filters ----
 function renderChips() {
-  const counts = { All: ITEMS.length };
-  for (const it of ITEMS) counts[it.group] = (counts[it.group] || 0) + 1;
+  const base = byType(ITEMS);
+  const counts = { All: base.length };
+  for (const it of base) counts[it.group] = (counts[it.group] || 0) + 1;
+  if (!(filter in counts)) filter = 'All'; // the active group vanished under the current type filter
   const chips = $('chips');
   chips.innerHTML = '';
   if (Object.keys(counts).length < 3) { chips.hidden = true; return; } // one real group: no filters
@@ -107,6 +116,32 @@ function renderChips() {
     b.textContent = `[${name.toLowerCase()} ${n}]`;
     b.onclick = () => { filter = name; renderChips(); renderGrid(); };
     chips.appendChild(b);
+  }
+}
+
+// the media-type picker: All / Videos (animation) / Images, same chip look
+function renderTypePicker() {
+  const base = byGroup(ITEMS);
+  const counts = {
+    all: base.length,
+    animation: base.filter(i => i.type === 'animation').length,
+    image: base.filter(i => i.type === 'image').length,
+  };
+  const box = $('typePick');
+  box.innerHTML = '';
+  const LABELS = [['all', 'all'], ['animation', '▶ videos'], ['image', '⤢ images']];
+  for (const [key, label] of LABELS) {
+    const b = document.createElement('button');
+    b.className = 'chip' + (typeFilter === key ? ' on' : '');
+    b.textContent = `[${label} ${counts[key]}]`;
+    b.onclick = () => {
+      typeFilter = key;
+      localStorage.setItem('gallery.type', key);
+      renderTypePicker();
+      renderChips();
+      renderGrid();
+    };
+    box.appendChild(b);
   }
 }
 
@@ -205,7 +240,7 @@ document.addEventListener('keydown', (e) => {
 // ---- boot ----
 fetch('manifest.json')
   .then(r => r.json())
-  .then(data => { ITEMS = data; renderAr(); renderChips(); renderGrid(); })
+  .then(data => { ITEMS = data; renderAr(); renderTypePicker(); renderChips(); renderGrid(); })
   .catch(err => {
     console.error(err);
     document.getElementById('empty').hidden = false;

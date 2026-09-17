@@ -7,7 +7,7 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-9 ad spots, gathered from the workspace projects and the GitHub repos:
+18 ad spots, gathered from the workspace projects and the GitHub repos:
 
 - **14 tabs?** — the same prompt pasted into fourteen AI tabs; superbot asks every agent from one window (15s loop).
 - **a voice clone of you** — superbot takes the next support calls in the rep's cloned voice (~48s loop).
@@ -28,14 +28,7 @@ Static image ads (`assets/ads/`):
 - **agents refusing? superbot can do it!** · the refusal poster (imported 1920x1080 art).
 - **agents slow? superbot can do it!** · the speed poster (imported 1920x1080 art).
 - **your all in one agent workspace** · the workspace poster (imported 1920x1080 art).
-- **agents forgetting? / agents lying? / agents looping?** · the same format, built from
-  `ads-src/agents-pain/` and rendered per ratio by `ads-src/agents-pain/render.mjs`
-  (serve that folder on :8613, then `node ads-src/agents-pain/render.mjs` from the repo root). The pain
-  words come from a complaint sweep of Hacker News and the top year of r/AI_Agents,
-  r/ChatGPTCoding, r/ClaudeAI, r/cursor and r/vibecoding; the evidence per word is in
-  `ads-src/agents-pain/ads.js`. Add a word there and re-render to get a new ad.
-
-- **context full? / bloated? / compacting? / slow? / costly?** · the before/after family
+- **context full? / slow? / costly?** · the before/after family
   (`assets/ads/context-<pain>-poster.<ar>.png`), built from `ads-src/context-storage/`: the
   phone-cleaner "Optimize Storage" ad (a red Before bar at 250GB of 256GB, a green After bar
   at 50GB, then "you have cleaned 200GB · saved 1.2 hours") re-drawn for an agent's context
@@ -44,22 +37,13 @@ Static image ads (`assets/ads/`):
   beside the headline, a tall one stacks them. The numbers per ad live in
   `ads-src/context-storage/ads.js`.
 
-- **the context-cleanup family** · six more before/after ads from the same App Store
-  storage-cleaner reference, built from `ads-src/context-cleanup/`. Three sit inside a white
-  phone on the blue / violet / pink storm gradient, the reference's own layout: **Optimize
-  Context** (`context-optimize-phone`, the Before / After bars, 197k of 200k down to 38k,
-  then "Congratulations! You have freed 159k tokens"), **Clean Context & Keep the Rules**
-  (`context-cleaner-phone`, the inbox-cleaner list with stale history, repeated instructions
-  and file dumps ticked and the rules kept, "Free 159k tokens") and **Remember Rules, every
-  session** (`rules-remembered-phone`, AGENTS.md with every rule ignored, then 12 of 12 kept).
-  Three are flat on the house black in the pain-poster type: **context bloated?**
-  (`context-optimize-flat`), **rules ignored?** (`rules-ignored-flat`) and **what fills your
-  context?** (`context-breakdown-flat`, a storage-style segmented bar). Pink is the full /
-  ignored state and blue the clean / kept state, so the family stays in the brand palette with
-  no red or green. Serve the folder on :8615, then `node ads-src/context-cleanup/render.mjs`
-  from the repo root (`OUT=<dir>` renders previews elsewhere); a wide frame puts the title
-  beside the phone or the cards side by side, a tall one stacks them. Scenes and copy live in
-  `ads-src/context-cleanup/build.js`, the id list in `ads.js`.
+- **Optimize Context** (`context-optimize-phone`) · one surviving ad from the context-cleanup
+  family, built from `ads-src/context-cleanup/`: a white phone on the blue / violet / pink
+  storm gradient showing the Before / After bars, 197k of 200k down to 38k, then
+  "Congratulations! You have freed 159k tokens". Serve the folder on :8615, then
+  `node ads-src/context-cleanup/render.mjs` from the repo root (`OUT=<dir>` renders previews
+  elsewhere); a wide frame puts the title beside the phone, a tall one stacks them. Scenes and
+  copy live in `ads-src/context-cleanup/build.js`, the id list in `ads.js`.
 
 The two imported posters are flat-black art, so their other ratios are composed rather than
 re-drawn: the artwork is scaled to the frame width and the frame is padded with the same black

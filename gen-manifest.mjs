@@ -31,27 +31,16 @@ const ads = [
   ['agents-refusing-poster', 'agents refusing? superbot can do it! · the refusal poster (static)'],
   ['agents-slow-poster', 'agents slow? superbot can do it! · the speed poster (static)'],
   ['agent-workspace-poster', 'your all in one agent workspace · the workspace poster (static)'],
-  // the pain family, built from ads-src/agents-pain (complaint sweep, 2026-09-14)
-  ['agents-forgetting-poster', 'agents forgetting? superbot can fix it! · the context-amnesia poster (static)'],
-  ['agents-lying-poster', 'agents lying? superbot can fix it! · the confidently-wrong poster (static)'],
-  ['agents-looping-poster', 'agents looping? superbot can fix it! · the burning-a-loop poster (static)'],
   // the context before/after family, built from ads-src/context-storage (the
   // phone-cleaner "Optimize Storage" before/after bars, re-drawn for an agent's
   // context window; 2026-09-16)
   ['context-full-poster', 'context full? superbot can fix it! · before/after: ChatGPT at 197K of 200K, superbot at 31K; 166K tokens freed (static)'],
-  ['context-bloated-poster', 'context bloated? superbot can fix it! · before/after: Claude Code at 184K with 38 files read twice, superbot at 22K; 162K tokens freed (static)'],
-  ['context-compacting-poster', 'context compacting? superbot can fix it! · before/after: Cursor at 200K with 12 compactions and 4 tasks lost, superbot at 44K with none (static)'],
   ['context-slow-poster', 'context slow? superbot can fix it! · before/after: 190K context and 84s replies, superbot at 28K and 4s; 21x faster (static)'],
   ['context-costly-poster', 'context costly? superbot can fix it! · before/after: $46.80 of a $50 daily cap by 4:10 pm, superbot at $8.20; $38.60 a day saved (static)'],
   // the context-cleanup family, built from ads-src/context-cleanup (2026-09-16): the
   // App Store storage-cleaner before/after format, three inside a phone on the storm
   // gradient and three flat on the house black
   ['context-optimize-phone', 'Optimize Context · phone: the storage-cleaner before/after bars, 197k of 200k down to 38k, 159k tokens freed, 1.2 hours of re-explaining saved (static)'],
-  ['context-cleaner-phone', 'Clean Context & Keep the Rules · phone: the inbox-cleaner list, stale history, repeated instructions and file dumps ticked, your rules and the task kept, "Free 159k tokens" (static)'],
-  ['rules-remembered-phone', 'Remember Rules, every session · phone: AGENTS.md before with every rule ignored, after with 12 of 12 kept, "Rules loaded, every session" (static)'],
-  ['context-optimize-flat', 'context bloated? superbot can fix it! · flat before/after context bars, 197k of 200k down to 38k (static)'],
-  ['rules-ignored-flat', 'rules ignored? superbot can fix it! · flat before/after AGENTS.md cards, 0 of 12 kept to 12 of 12 (static)'],
-  ['context-breakdown-flat', 'what fills your context? superbot cleans it. · flat storage-style segmented breakdown, stale history / file dumps / repeated instructions / your task before, task + rules + 162k free after (static)'],
 ];
 
 const anims = [

@@ -122,8 +122,25 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .tune { margin-top: 7px; display: grid; gap: 6px; }
 .tune-row { display: flex; align-items: center; gap: 7px; padding: 6px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--raised); font: 10.5px/14px var(--ui); opacity: 0; }
 .tune-row .tk { flex: none; width: 16px; height: 16px; border-radius: 50%; background: var(--ok); color: #000; display: grid; place-items: center; font: 800 9px/16px var(--ui); }
+.tune-row .ai { flex: none; width: 16px; height: 16px; border-radius: 5px; background: #000; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line); }
+.tune-row .ai svg { width: 10px; height: 10px; fill: #fff; }
 .tune-row b { font-weight: 700; }
 .tune-row small { color: var(--muted); margin-left: auto; font-size: 9.5px; }
+/* the connection card: superbot reaching into chatgpt, the owner's round-3 note */
+#h-connect { margin-top: 8px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 10px; background: #000; display: flex; align-items: center; gap: 9px; opacity: 0; }
+#h-connect .ic { flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; }
+#h-connect .ic.oa { background: #000; box-shadow: inset 0 0 0 1px var(--line); }
+#h-connect .ic.oa svg { width: 17px; height: 17px; fill: #fff; }
+#h-connect .ic.sb { background: #000; }
+#h-connect .ic.sb img { width: 22px; height: 22px; }
+#h-connect .lbl { font: 700 10.5px/13px var(--ui); }
+#h-connect .lbl small { display: block; color: var(--muted); font-weight: 500; font-size: 9px; }
+#h-connect .wire { flex: 1; height: 2px; border-radius: 1px; background: linear-gradient(90deg, var(--line), var(--storm-1)); position: relative; overflow: hidden; }
+#h-connect .wire i { position: absolute; top: -2px; width: 14px; height: 6px; border-radius: 3px; background: var(--storm-1); filter: blur(1px); }
+#h-connect .state { flex: none; font: 700 9.5px/12px var(--mono); color: var(--storm-1); }
+#h-connect.done .state { color: var(--ok); }
+#h-connect.done .wire { background: linear-gradient(90deg, var(--ok), rgba(52,211,153,.2)); }
+#h-connect.done .wire i { background: var(--ok); }
 .composer { flex: none; margin: 6px 12px 10px; }
 .composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
 .composer .ph { flex: 1; }
@@ -230,12 +247,17 @@ html { --site-k: 1.6; }
               <div class="feed">
                 <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span></div><div class="m-text">my chatgpt keeps forgetting everything i tell it</div></div></div>
                 <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span></div><div class="m-text" id="h-text"></div>
+                  <div id="h-connect">
+                    <span class="ic oa"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg></span>
+                    <span class="lbl">chatgpt<small>your setup, not the model</small></span>
+                    <span class="wire"><i id="h-pulse"></i></span>
+                    <span class="ic sb"><img src="assets/mark-clean.svg" alt=""/></span>
+                    <span class="state" id="h-state">tuning…</span>
+                  </div>
                   <div class="tune" id="h-tune">
-                    <div class="tune-row" id="t1"><span class="tk">✓</span><b>14 rules organized</b><small>were scattered in chats</small></div>
-                    <div class="tune-row" id="t2"><span class="tk">✓</span><b>37 skills curated to 8</b><small>the rest were noise</small></div>
-                    <div class="tune-row" id="t3"><span class="tk">✓</span><b>stale context trimmed</b><small>82% lighter</small></div>
-                    <div class="tune-row" id="t4"><span class="tk">✓</span><b>your facts pinned</b><small>april · $2k · no seafood</small></div>
-                    <div class="tune-row" id="t5"><span class="tk">✓</span><b>chatgpt, claude, gemini</b><small>all tuned</small></div>
+                    <div class="tune-row" id="t1"><span class="ai"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg></span><span class="tk">✓</span><b>14 rules organized</b><small>were scattered in chats</small></div>
+                    <div class="tune-row" id="t2"><span class="ai"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg></span><span class="tk">✓</span><b>37 skills curated to 8</b><small>the rest were noise</small></div>
+                    <div class="tune-row" id="t3"><span class="ai"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg></span><span class="tk">✓</span><b>your facts pinned</b><small>april · $2k · no seafood</small></div>
                   </div>
                 </div></div>
               </div>
@@ -300,7 +322,7 @@ html { --site-k: 1.6; }
 
 <script>
 // the house clock: one render(t), a pure function of story time
-const FPS = 30, LOOP = 26.2;
+const FPS = 30, LOOP = 28.0;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -316,11 +338,11 @@ const B = {
   popup: 4.95, curIn: 4.85, curAt: 5.90, press: 6.10, release: 6.30, // the house popup, click 1.15s after it appears
   verdict1: 6.35,                             // the red verdict chip lands just before the dip
   dip1: 6.55, site: 6.85,                     // the tune-up
-  ask: 7.45, reply2: 8.0, tune: 8.6, tuneGap: 0.6, tuned: 12.2, // the tune-up rows land
-  dip2: 12.6, back: 12.9,                     // back to ChatGPT
-  think2: 13.4, reply3: 13.9,                 // the crisp answer streams fast
-  verdict2: 17.3,                             // the green verdict chip
-  cardA: 18.7, cardStep: 1.45, end: 25.0, word: 25.6,
+  ask: 7.45, reply2: 8.0, connect: 8.7, tune: 9.6, tuneGap: 1.15, tuned: 13.3, // three rows, slow, one at a time
+  dip2: 13.8, back: 14.1,                     // back to ChatGPT
+  think2: 14.6, reply3: 15.1,                 // the crisp answer streams fast
+  verdict2: 18.5,                             // the green verdict chip
+  cardA: 19.9, cardStep: 1.45, end: 26.2, word: 26.8,
 };
 
 // ---------- copy ----------
@@ -342,7 +364,8 @@ const gThread = gCol.parentElement;
 const popup = $('popup'), chatbtn = $('chatbtn');
 const site = $('site'), hub = $('hub'), feedEl = hub.querySelector('.feed');
 const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text');
-const tuneRows = ['t1','t2','t3','t4','t5'].map($);
+const hConnect = $('h-connect'), hPulse = $('h-pulse'), hState = $('h-state');
+const tuneRows = ['t1','t2','t3'].map($);
 const card = $('card'); const cardLines = [...card.querySelectorAll('.line')];
 const end = $('end'), endFace = $('end-face'), endSlide = $('end-slide');
 
@@ -398,8 +421,15 @@ function renderSite(t) {
   const bo = seg(t, B.reply2, B.reply2 + 0.25); op(hBot, bo); hBot.style.transform = `translateY(${((1 - outCubic(bo)) * 6).toFixed(1)}px)`;
   const chars = t < B.reply2 ? 0 : Math.min(TUNE_REPLY.length, Math.floor((t - B.reply2) * 60));
   hText.textContent = TUNE_REPLY.slice(0, chars);
+  // the connection card: the wire pulses while superbot works inside chatgpt, then flips to tuned
+  const cc = seg(t, B.connect, B.connect + 0.3); op(hConnect, cc);
+  const done = t >= B.tuned;
+  hConnect.classList.toggle('done', done);
+  hState.textContent = done ? 'tuned ✓' : 'tuning…';
+  hPulse.style.left = done ? '100%' : `${(8 + 78 * ((t * 1.4) % 1)).toFixed(1)}%`;
+  // the rows land one at a time, slow enough to read
   tuneRows.forEach((el, i) => {
-    const at = B.tune + i * B.tuneGap, p = seg(t, at, at + 0.3);
+    const at = B.tune + i * B.tuneGap, p = seg(t, at, at + 0.45);
     op(el, p);
     el.style.transform = `translateY(${((1 - outQuint(p)) * 6).toFixed(1)}px)`;
   });

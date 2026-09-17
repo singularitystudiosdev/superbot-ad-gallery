@@ -40,6 +40,14 @@
     "thumb": "assets/shots/gpt-refusal-superbot-824cef28.png"
   },
   {
+    "id": "youtube-refusal-superbot-7f2c9a41",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "youtube to mp3? ChatGPT refuses with the terms-of-service lecture; superbot pops in mid-refusal and hands back a clean download (30.6s loop)",
+    "src": "animations/youtube-refusal-superbot-7f2c9a41/",
+    "thumb": "assets/shots/youtube-refusal-superbot-7f2c9a41.png"
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

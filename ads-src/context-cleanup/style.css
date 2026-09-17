@@ -110,7 +110,6 @@ body { background: #000; overflow: hidden; -webkit-font-smoothing: antialiased; 
 .bar { position: relative; height: 1.05em; margin-top: .5em; border-radius: .3em; background: #eceef5; overflow: hidden; }
 .bar i { position: absolute; inset: 0 auto 0 0; width: var(--p); border-radius: .3em; }
 .meter.bad .bar i { background: linear-gradient(90deg, var(--storm-3), var(--storm-4)); }
-.meter.bad .bar::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 1.5%; background: var(--storm-1); border-radius: 0 .3em .3em 0; }
 .meter.good .bar i { background: linear-gradient(90deg, var(--storm-1), #5a8dff); }
 .meter.good .bar::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 .6em, rgba(43,107,255,.08) .6em .62em); }
 

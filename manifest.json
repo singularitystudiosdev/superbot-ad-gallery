@@ -243,7 +243,7 @@
     "id": "context-slow-poster",
     "type": "image",
     "group": "Ad spots",
-    "title": "context slow? superbot can fix it! · before/after: 190K context and 84s replies, superbot at 28K and 4s; 21x faster (static)",
+    "title": "agent slow? superbot can fix it! · before/after: ChatGPT at 190K and 84s replies, ChatGPT (with superbot) at 28K and 4s; 21x faster (static)",
     "ars": [
       "4x5",
       "16x9",

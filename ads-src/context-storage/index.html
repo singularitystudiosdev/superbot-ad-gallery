@@ -60,8 +60,9 @@
     const ad = window.CONTEXT_ADS.find(a => a.id === id) || window.CONTEXT_ADS[0];
 
     document.getElementById('pain').textContent = ad.word;
+    document.getElementById('l1').firstChild.textContent = `${ad.lead || 'context'} `;
     document.documentElement.style.setProperty('--pain', ad.color);
-    document.title = `superbot · context ${ad.word}?`;
+    document.title = `superbot · ${ad.lead || 'context'} ${ad.word}?`;
     document.getElementById('dl').href = `../../assets/ads/${ad.id}.16x9.png`;
 
     for (const key of ['before', 'after']) {

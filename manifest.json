@@ -462,5 +462,197 @@
     },
     "src": "assets/ads/context-costly-poster.{ar}.png",
     "thumb": "assets/ads/context-costly-poster.{ar}.png"
+  },
+  {
+    "id": "context-optimize-phone",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Optimize Context · phone: the storage-cleaner before/after bars, 197k of 200k down to 38k, 159k tokens freed, 1.2 hours of re-explaining saved (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-optimize-phone.{ar}.png",
+    "thumb": "assets/ads/context-optimize-phone.{ar}.png"
+  },
+  {
+    "id": "context-cleaner-phone",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Clean Context & Keep the Rules · phone: the inbox-cleaner list, stale history, repeated instructions and file dumps ticked, your rules and the task kept, \"Free 159k tokens\" (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-cleaner-phone.{ar}.png",
+    "thumb": "assets/ads/context-cleaner-phone.{ar}.png"
+  },
+  {
+    "id": "rules-remembered-phone",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Remember Rules, every session · phone: AGENTS.md before with every rule ignored, after with 12 of 12 kept, \"Rules loaded, every session\" (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/rules-remembered-phone.{ar}.png",
+    "thumb": "assets/ads/rules-remembered-phone.{ar}.png"
+  },
+  {
+    "id": "context-optimize-flat",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "context bloated? superbot can fix it! · flat before/after context bars, 197k of 200k down to 38k (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-optimize-flat.{ar}.png",
+    "thumb": "assets/ads/context-optimize-flat.{ar}.png"
+  },
+  {
+    "id": "rules-ignored-flat",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "rules ignored? superbot can fix it! · flat before/after AGENTS.md cards, 0 of 12 kept to 12 of 12 (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/rules-ignored-flat.{ar}.png",
+    "thumb": "assets/ads/rules-ignored-flat.{ar}.png"
+  },
+  {
+    "id": "context-breakdown-flat",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "what fills your context? superbot cleans it. · flat storage-style segmented breakdown, stale history / file dumps / repeated instructions / your task before, task + rules + 162k free after (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-breakdown-flat.{ar}.png",
+    "thumb": "assets/ads/context-breakdown-flat.{ar}.png"
   }
 ]

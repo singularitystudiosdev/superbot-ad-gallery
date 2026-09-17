@@ -48,14 +48,6 @@
     "thumb": "assets/shots/youtube-refusal-superbot-7f2c9a41.png"
   },
   {
-    "id": "agent-tuneup-superbot-cc47ab91",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "your agent's a mess? chatgpt flails at a simple trip plan, forgetting what you just told it; the superbot popup tunes your rules and skills, and the same question lands instantly on the first try (26.2s loop)",
-    "src": "animations/agent-tuneup-superbot-cc47ab91/",
-    "thumb": "assets/shots/agent-tuneup-superbot-cc47ab91.png"
-  },
-  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>youtube to mp3? superbot can do it · ad spot</title>
 <link rel="icon" href="assets/mark-clean.svg" type="image/svg+xml"/>
-<meta name="description" content="The user asks ChatGPT for a youtube to mp3 download and gets a terms-of-service lecture; halfway through, superbot pops in and hands back a clean download link. 30.6s looping ad spot, 1920x1080."/>
+<meta name="description" content="The user asks ChatGPT for a youtube to mp3 download and gets a terms-of-service lecture; superbot pops in mid-refusal and hands back a clean download link. 23.9s looping ad spot, 1920x1080."/>
 <script src="../../assets/ar.js"></script>
 <link rel="stylesheet" href="../../assets/ar.css">
 <style>
@@ -175,10 +175,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .dl-meta b { display: block; font: 700 10px/13px var(--ui); color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dl-meta small { display: block; font: 9px/12px var(--mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dl-btn { margin: 8px 10px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 10px; border-radius: 8px; background: #fff; color: #000; font: 700 10px/12px var(--ui); position: relative; overflow: hidden; transform-origin: 50% 50%; }
-.dl-btn i { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: rgba(52,211,153,.3); }
-.dl-btn > :not(i) { position: relative; }
 .dl-btn.done { background: rgba(52,211,153,.14); color: var(--ok); box-shadow: inset 0 0 0 1px rgba(52,211,153,.5); }
-.dl-btn.done i { background: none; }
 .dl-btn svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 /* the phone beside the hub: the site's docked mobile thread (site/index.html #phone) */
 .phone { position: absolute; right: 8px; top: 8px; bottom: 8px; width: 24%; background: #000; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; font: 11px/15px var(--ui); color: var(--fg); display: flex; flex-direction: column; padding: 10px 12px 8px; }
@@ -330,7 +327,7 @@ html { --site-k: 1.6; } /* the app window is drawn at 1200x675 and shown at 1.6 
                 <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">11:15 AM</span></div><div class="m-text" id="h-text"></div>
                   <div class="code" id="h-code"><div class="c-bar"><span>youtube → audio</span><span class="lang">mp3</span></div>
                     <div class="dl-row"><span class="dl-thumb"></span><span class="dl-meta"><b>The video you linked</b><small>youtube.com/watch?v=dQw4w9WgXcQ</small></span><span class="lang">3:53</span></div>
-                    <div class="dl-btn" id="h-dlbtn"><i id="h-dlbar"></i><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg><span id="h-dl-t">Download MP3</span></div>
+                    <div class="dl-btn" id="h-dlbtn"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg><span id="h-dl-t">Download MP3</span></div>
                   </div>
                 </div></div>
               </div>
@@ -379,7 +376,7 @@ html { --site-k: 1.6; } /* the app window is drawn at 1200x675 and shown at 1.6 
 // function of its number), so seeking (`?t=9.4`) or capturing any frame yields
 // the same picture. The skeleton is the site's own hub-boot.js: seg() windows,
 // pure tweens, no timers. Frame-indexed at 30fps so preview and capture agree.
-const FPS = 30, LOOP = 30.6;
+const FPS = 30, LOOP = 23.9;
 const $ = (id) => document.getElementById(id);
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
@@ -392,13 +389,13 @@ const lerp = (a, b, p) => a + (b - a) * p;
 const B = {
   typeA: 0.6, typeB: 2.5, send: 2.75,           // the prompt types (text, then the youtube link chip), then sends
   think: 2.95, reply: 3.45,                      // "Thinking", then the refusal streams word for word
-  popup: 7.85,                                   // the rescue popup pops in mid-refusal (owner: halfway through the message)
-  curIn: 11.0, curAt: 12.0, press: 12.25, release: 12.45, // the cursor arrives, presses the chat bubble (scale .95)
-  dip: 12.7, site: 12.95,                        // dip to black, the app window is simply there
-  ask: 13.55, reply2: 14.1, dl: 14.7,            // the ask, "I can help you with that!", then the download card
-  cur2In: 17.0, cur2At: 17.9, press2: 18.1, prog: 18.25, saved: 19.0, // the cursor hits Download, the bar sweeps, saved
-  cardA: 20.5, cardStep: 1.45,                   // the five word cards cascade, refusing → unorganized
-  end: 28.0, word: 28.7,                         // the end card, then the words slide out
+  popup: 6.95,                                   // the rescue popup pops in mid-refusal (owner: 0.9s sooner)
+  curIn: 6.85, curAt: 7.90, press: 8.10, release: 8.30, // the click lands 1.15s after the popup appears (scale .95)
+  dip: 8.55, site: 8.80,                         // dip to black, the app window is simply there
+  ask: 9.40, reply2: 9.95, dl: 10.55,            // the ask, "I can help you with that!", then the download card
+  cur2In: 12.85, cur2At: 13.75, press2: 13.95, saved: 14.10, // the click downloads instantly: no bar, Saved right at the press
+  cardA: 16.35,                                  // the five word cards cascade, accelerating to ~3x by unorganized
+  end: 21.3, word: 22.0,                         // the end card 0.4s after the last card, then the words slide out
 };
 
 // ---------- copy ----------
@@ -423,7 +420,7 @@ const gBub = $('g-bub');
 const gThread = gCol.parentElement;
 const popup = $('popup'), chatbtn = $('chatbtn');
 const site = $('site'), hub = $('hub'), feedEl = hub.querySelector('.feed');
-const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text'), hCode = $('h-code'), hDlbtn = $('h-dlbtn'), hDlbar = $('h-dlbar'), hDlT = $('h-dl-t');
+const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text'), hCode = $('h-code'), hDlbtn = $('h-dlbtn'), hDlT = $('h-dl-t');
 const card = $('card'); const cardLines = [...card.querySelectorAll('.line')];
 const end = $('end'), endFace = $('end-face'), endSlide = $('end-slide');
 
@@ -510,7 +507,7 @@ function renderGpt(t) {
   const press = t >= B.press && t < B.release ? 1 : t >= B.release ? 1 - seg(t, B.release, B.release + 0.18) : 0;
   popup.style.transform = `translateY(${(po > 0 ? po * po * 40 : (1 - outQuint(pp)) * 40).toFixed(1)}px)`;
   chatbtn.style.transform = `scale(${(1 - 0.05 * press).toFixed(3)})`; // the 5% press
-  if (pp >= 1 && t < B.curIn + 0.1) measure();
+  if (pp >= 1 && t < B.press) measure();
 }
 
 function renderSite(t) {
@@ -525,10 +522,9 @@ function renderSite(t) {
   hCode.style.transform = `translateY(${((1 - outCubic(ci)) * 8).toFixed(2)}px)`;
   // the feed keeps the newest line in view, like the real app
   feedEl.scrollTop = feedEl.scrollHeight;
-  // the download button: pressed, then the bar sweeps and it reads "Saved"
-  const press = t >= B.press2 && t < B.prog ? 1 : t >= B.prog ? 1 - seg(t, B.prog, B.prog + 0.15) : 0;
+  // the download button: pressed, and the download is instant — it reads "Saved" right at the press
+  const press = t >= B.press2 && t < B.saved ? 1 : t >= B.saved ? 1 - seg(t, B.saved, B.saved + 0.15) : 0;
   hDlbtn.style.transform = `scale(${(1 - 0.06 * press).toFixed(3)})`;
-  hDlbar.style.width = `${(100 * seg(t, B.prog, B.saved)).toFixed(1)}%`;
   const done = t >= B.saved;
   hDlbtn.className = 'dl-btn' + (done ? ' done' : '');
   hDlT.textContent = done ? 'Saved ✓' : 'Download MP3';
@@ -537,14 +533,19 @@ function renderSite(t) {
   if (t >= B.press2 - 0.05 && t < B.press2) measureCopy();
 }
 
-// the word cascade (the house card entrance, stretched): each card rises in and
-// settles, holds, then lifts up out of the frame while the next rises in behind it
+// the word cascade: the house card entrance at full step for refusing, the step
+// shrinking card over card to about a third of a step by unorganized, so the
+// switches visibly speed up; each card exits as the next rises in behind it
+const STEPS = [1.45, 1.10, 0.84, 0.64, 0.48];
 function renderCard(t) {
+  let at = B.cardA;
   cardLines.forEach((line, i) => {
-    const at = B.cardA + i * B.cardStep, a = seg(t, at, at + 0.35);
-    const out = seg(t, at + 1.15, at + 1.45);
+    const k = STEPS[i] / 1.45;
+    const a = seg(t, at, at + 0.35 * k);
+    const out = seg(t, at + STEPS[i] - 0.3 * k, at + STEPS[i]);
     op(line, a * (1 - out));
     line.style.transform = `translateY(${(-50 + (1 - outQuint(a)) * 22 - outCubic(out) * 40).toFixed(2)}%)`;
+    at += STEPS[i];
   });
 }
 
@@ -567,7 +568,7 @@ function renderCursor(t) {
     // after the click the cursor steps aside so "Copied" reads
     const away = outCubic(seg(t, B.saved + 0.2, B.saved + 0.6));
     x = lerp(1960, COPY.x - 3, p) - away * 90; y = lerp(1120, COPY.y - 2, p) + away * 70; vis = 1; // the arrow tip sits at (3,2) of the svg; it steps down-left, staying in the lane
-    if (t >= B.press2 && t < B.prog) sc = 0.9;
+    if (t >= B.press2 && t < B.saved) sc = 0.9;
   }
   op(cursor, vis);
   if (vis) cursor.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${sc})`;

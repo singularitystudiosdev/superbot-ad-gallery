@@ -80,14 +80,6 @@
     "thumb": "assets/shots/yt-mp3-refusal-superbot-0f46615a.png"
   },
   {
-    "id": "yt-mp3-refusal-superbot-018070ad",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "youtube to mp3? ChatGPT refuses with a list of alternatives, superbot fetches it and hands over the clean mp3 link, then agents refusing / slow / forgetting / lying / unorganized? swap in place (23.5s loop)",
-    "src": "animations/yt-mp3-refusal-superbot-018070ad/",
-    "thumb": "assets/shots/yt-mp3-refusal-superbot-018070ad.png"
-  },
-  {
     "id": "favorite-color",
     "type": "animation",
     "group": "Ad spots",

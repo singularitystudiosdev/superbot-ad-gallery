@@ -1,9 +1,6 @@
 /* hub-boot: the boot-sequence hero. One rAF clock in hub-boot.js drives every
    beat; this sheet holds layout, rest states and the reduced-motion frame.
-   Tokens copied from site.css :root (colors, spacing, radii, durations, eases).
-   The hub inside the arena is NOT drawn here: it is the gallery's shared
-   desktop-frame sheet (../../assets/desktop-frame.css, linked after this file)
-   at 1:1 app pixels. See "the hub" section below for what stayed and why. */
+   Tokens copied from site.css :root (colors, spacing, radii, durations, eases). */
 
 /* STAGE-ONLY SHEET. It loads beside site.css and hero.css on / (the promoted
    hero, 2026-09-06), so it must not carry page-level rules: the mock page's
@@ -112,108 +109,232 @@
 .badge { left: 50%; top: 50%; width: 88px; height: 88px; margin: -44px 0 0 -44px; opacity: 0; z-index: 5; filter: drop-shadow(0 8px 16px rgba(0,0,0,.4)); }
 .badge img { display: block; width: 100%; height: 100%; }
 
-/* ---------- the hub: the real app, at 1:1 app pixels ----------
-   The window's whole interior is drawn by the gallery's shared sheet,
-   ../../assets/desktop-frame.css, linked after this file: #hub carries .sd-hub
-   and every part inside it carries the sheet's .sd-* class (rail, sidebar,
-   header, feed, composer). What is left here is only what the sheet cannot
-   know:
-
-     * the ad's own box for the window — the stage inset, the boot's rest
-       state, the skin cross-fade (below);
-     * the rest states the ad's clock drives: .hub .inner, .hub .msg and the
-       intro's own runtime tiles;
-     * the vendor skins of the `tabs` cut's act two, re-expressed as remaps of
-       the sheet's --color-* tokens.
-
-   Geometry and colour come from the sheet's own tokens (rail --size-rail 72,
-   tiles --size-rail-item-lg 48 r16 on --color-rail #121213, sidebar
-   --size-sidebar 240, header --spacing-48 48, the .storm-action fill, the
-   --color-* greys). The mock's own hub rules are gone with its markup: the
-   64/200 grid, the 11px em ladder, the five-stop --storm-action ramp, the
-   sidebar's Manage Context / View Savings / View Usage rows and the RECENTS
-   cap-row, the .cap/.row/.today/.chat-head/.composer.pill anatomies. The
-   sheet's .sd-* recipes replace every one of them.
-
-   Animation hooks sphere-intro.js drives, all still in the markup: #hub,
-   .rail, .rail > * (opacity/transform), .rail-item.sb (the landing slot),
-   .rail-item + .rail-item.bleed + [data-app] on the tiles it builds at
-   runtime, .inner (opacity), .body/.margin (its collapsed transcript column).
-   The ad's own clock drives #h-bot and .hub .inner. */
-
-/* the window box. Two classes so this out-orders the sheet's own .sd-hub: its
-   `height: 100%` would over-constrain an inset box (top + bottom + height
-   cannot all bind) and the frame would hang 8px through the arena's floor. */
-.hub.sd-hub {
-  inset: 8px;
-  height: auto;
-  grid-template-columns: var(--size-rail) var(--size-sidebar) minmax(0, 1fr); /* 72 / 240 / chat lane */
-  background: var(--color-bg);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-16);
-  overflow: hidden;
-  color: var(--color-fg);
-  font-family: var(--font-ui);
-  font-size: var(--text-body);                 /* 13px — the app's body size */
-  line-height: var(--text-body--line-height);  /* 19px */
-  opacity: 0;                                  /* the boot's rest state; the clock raises it */
-  transform-origin: 0 0;
-  z-index: 6;
-}
-/* every column the clock fades in carries .inner (sphere-intro.js:
-   hub.querySelectorAll('.inner'), the rail excluded and driven separately) */
+/* ---------- the hub: the real app's layout ---------- */
+/* the hub is ONE miniature of the real app, so its type ladder rides em off
+   this 11px base rather than a scatter of px values: rescale the scene from
+   this line and every label follows. The 12px design floor is a rule for
+   real UI; the sizes declared below are the miniature's, relative to this
+   base (.82em reads 9px, .91em reads 10px, 1em reads 11px). */
+.hub { inset: 8px; right: 8px; background: var(--win); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; display: grid; grid-template-columns: 64px 200px minmax(0, 1fr); font: 11px/15px var(--ui); opacity: 0; transform-origin: 0 0; z-index: 6; } /* the app's 72px rail / 240px sidebar at the stage's scale, panel collapsed to its toggle (user, 2026-09-08): 64 / 200 / chat lane takes the rest */
+.hub > * { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
 .hub .inner { opacity: 0; }
-/* the one message the ad's own render() lands (index.html holds the same rest
-   state on #h-bot; this keeps a frame rendered before the first tick from
-   flashing the line) */
-.hub .msg { opacity: 0; }
+.hub .cap { font-size: .82em; line-height: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.hub .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.hub .dot.warn { background: var(--warn); }
+.hub .dot.bad { background: var(--danger); }
+.hub .dot.off { background: var(--line); }
+.hub .act { display: inline-block; padding: 0 7px; border-radius: var(--r-control); background: var(--raised); border: 1px solid var(--line); color: var(--fg); font-size: .91em; line-height: 16px; }
 
-/* ---------- the intro's own tiles ----------
-   sphere-intro.js builds its thirteen spinning tiles at runtime with the rail's
-   class alone — `t.className = "rail-item" + (a.img ? " bleed" : "")` plus
-   `data-app` — and appends them inside its own .sphere-intro overlay, which is
-   NOT inside .sd-hub, so the sheet's .sd-rail-item recipe and its --color-*
-   tokens never reach them. They keep the site ladder's brand pairs (--brand-*
-   above) at the sheet's tile radius: the tiles that land in the rail are the
-   rail's own .sd-rail-item and take the sheet's ground and ink, which for every
-   vendor here is the same brand pair. */
-.sphere-intro .rail-item {
-  display: grid;
-  place-items: center;
-  border-radius: 16px;   /* the sheet's --radius-16 for the 48px tile: this overlay lives outside .sd-hub, so the token is not in scope */
-  background: var(--surface);
-  color: var(--fg);
-  opacity: 0;            /* each tile pops in on the clock */
-}
-.sphere-intro .rail-item[data-app="openai"]  { background: var(--brand-openai);  color: var(--brand-openai-ink);  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.sphere-intro .rail-item[data-app="claude"]  { background: var(--brand-claude);  color: var(--brand-claude-ink); }
-.sphere-intro .rail-item[data-app="gemini"]  { background: var(--brand-gemini);  color: var(--brand-gemini-ink); }
-.sphere-intro .rail-item[data-app="cursor"]  { background: var(--brand-cursor);  color: var(--brand-cursor-ink);  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.sphere-intro .rail-item[data-app="copilot"] { background: var(--brand-copilot); color: var(--brand-copilot-ink); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-/* full-bleed brand tiles (Devin, Hermes, Grok ship their own ground): the image
-   fills the box and carries the radius and hairline itself */
-.sphere-intro .rail-item.bleed { background: #000; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.sphere-intro .rail-item.bleed img { width: 100%; height: 100%; display: block; object-fit: cover; border-radius: inherit; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
+.rail { background: var(--bg); border-right: 1px solid var(--line); align-items: center; padding: 8px 0; gap: 4px; } /* gap 4 (was 6): eight app tiles plus the folder and add tiles fit the stage's fixed-height rail (user, 2026-09-09) */
+/* 44px tiles at radius 14px = the app's 48px/16px at the rail's 64/72 scale
+   (rail-item.tsx: the rounded-square server icon, Discord style). The mark
+   rides at ~60% of the tile face. */
+.rail-item { position: relative; flex: none; width: 44px; height: 44px; border-radius: 14px; background: var(--surface); display: grid; place-items: center; color: var(--fg); opacity: 0; }
+.rail-item svg { width: 26px; height: 26px; }
+.rail .rail-item .dot { position: absolute; right: -2px; bottom: -2px; background: var(--ok); box-shadow: 0 0 0 2px var(--bg); } /* green = online (the referent), amber/bad keep their classes; .rail prefix out-weighs .hub .dot's default */
+/* the Superbot tile is the BRAND TILE, not the accent fill: a black tile whose
+   storm aurora (three blurred storm blobs drifting on the kit's 9/13/17s
+   periods) shows through the ringless mark at 72%. Declared here, not in
+   site.css, because this is the one surface where the tile animates — the kit
+   allows the aurora exactly where it can move. min(52px, 100%) keeps it inside
+   whichever rail width is in force (56px desktop, 48px at the 900px media,
+   44px on a phone) without a per-tier override. */
+.rail-item.sb { width: 44px; height: 44px; border-radius: 0; background: transparent; color: var(--accent-ink); overflow: visible; } /* same 44/14 box as every tile — the referent's uniform rail (rail-item-lg 48 with the rest 40 is the app's ratio at full size; the miniature keeps them equal) */
+/* Superbot's tile is the kit's static ring tile, full bleed (owner, 2026-09-08:
+   the box carries no radius and no clip of its own, or the tile.svg ring, drawn at
+   the kit's 22.5% corner, gets trimmed by a tighter box corner;
+   "change it back to this icon actually, more crisp"): tile.svg carries the
+   black ground, the storm ring and the offset mark at every size, so the tile
+   box paints nothing of its own and the aura is retired here. The mark never
+   changes with the open client; the left pill alone marks selection. */
+.rail-item.sb img { width: 100%; height: 100%; display: block; }
+/* the active pill, inset at the tile's own left edge: the tile clips its
+   contents (overflow: hidden keeps the icon inside the rounded corner), so a
+   pill hung outside it in the rail gutter never rendered at all */
+/* the pill marks the SELECTED client, and the `tabs` cut moves it, so it hangs
+   off a class the script sets rather than being welded to .sb (which merely
+   starts with it). */
+.rail-item.sel::before { content: ""; position: absolute; left: -10px; top: 50%; transform: translateY(-50%); width: 3px; height: 26px; border-radius: 0 999px 999px 0; background: var(--fg); } /* in the rail GUTTER, flush with the rail's edge, not on the tile face (user, 2026-09-09): the rail column is 64px and the tile 44px, so the gutter is 10px */
+/* a selected VENDOR tile keeps its brand ground: the app never repaints a
+   client's own icon when it is the one open (Rail.tsx), the left pill alone
+   marks selection — the old accent wash fought each brand pair */
+/* Superbot's tile never changes with the open client (owner, 2026-09-08: "our
+   mascot shouldn't change color as diff tabs are selected"): the storm aurora
+   is the kit's liveliness rule for his ground and it drifts at every beat of
+   the tour. Selection is the left pill alone, the same rule the vendor tiles
+   follow, so the old accent tint that flattened him while ChatGPT or Claude
+   was open is gone. */
+/* vendor tiles: the app's own icons, COLORED, each within its own box (user,
+   2026-09-08 — "The way they're presented, they're not colored. They're not
+   within a box"). Ground + ink per brand pair; the two black grounds get a
+   hairline so the tile still reads as a box on the rail's black. */
+.rail-item[data-app="openai"]   { background: var(--brand-openai);   color: var(--brand-openai-ink);   box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
+.rail-item[data-app="claude"]   { background: var(--brand-claude);   color: var(--brand-claude-ink); }
+.rail-item[data-app="gemini"]   { background: var(--brand-gemini);   color: var(--brand-gemini-ink); }
+.rail-item[data-app="cursor"]   { background: var(--brand-cursor);   color: var(--brand-cursor-ink);   box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
+.rail-item[data-app="copilot"]  { background: var(--brand-copilot);  color: var(--brand-copilot-ink);  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
+/* full-bleed brand tiles (Devin, Hermes, Grok ship their own ground): the
+   image fills the box and carries the radius and hairline itself — the tile
+   stays overflow-visible so the status dot still hangs off its corner */
+.rail-item.bleed { background: #000; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
+.rail-item.bleed img { width: 100%; height: 100%; display: block; object-fit: cover; border-radius: inherit; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
+/* the Utilities folder: a RAISED tile holding four 10px glyphs in a 2x2 grid,
+   with the green count dot bottom-right */
+.rail-item.folder { background: var(--surface); display: grid; grid-template-columns: 10px 10px; grid-template-rows: 10px 10px; gap: 3px; place-content: center; }
+.rail-item.folder svg { width: 10px; height: 10px; color: var(--fg); }
+/* the add tile sits on the raised surface, as in the app */
+.rail-item.add { background: var(--surface); font: 16px/44px var(--font-mono); color: var(--muted); }
+.rail-div { flex: none; width: 22px; height: 1px; background: var(--line); }
 
-/* ---------- vendor skins (the `tabs` cut's act two) ----------
-   Selecting a client once repainted the whole window onto that vendor's own
-   grounds. The real app's hub-fronts.css does not: it remaps accent and focus
-   per vendor and leaves every ground the app's. So these are remaps of the
-   sheet's tokens — the accent and its focus ring only — and the window keeps
-   --color-bg / --color-card / --color-rail under every skin. A custom property
-   is not animatable without @property, so the cross-fade is carried by the
-   transition below on the properties that consume them. */
-.hub[data-app="openai"] { --color-accent: #10a37f; --color-focus-ring: #10a37f; }
-.hub[data-app="claude"] { --color-accent: #d97757; --color-focus-ring: #d97757; }
-/* every descendant, not a hand-kept list: the hub is ~150 static nodes, and an
-   enumerated list left the rail's selection pill, the meter fill, the send
-   circle and the unread spine snapping at each switch while their neighbours
-   faded. None of these four properties is one the clock animates (it drives
-   opacity and transform), so nothing here fights it. */
+/* ---------- client themes (the `tabs` cut's act two) ----------
+   Selecting a client retints the HUB — never the stage frame, which is
+   Superbot's own window — to that vendor's palette, so the hero shows what it
+   claims: the app wears each client's skin, and coming home to Superbot reads
+   as the neutral overview. The palettes are our own tokens picked to read as
+   the vendor; nothing is lifted beyond the rail's existing monochrome marks.
+   Only custom properties change here. A custom property is not itself
+   animatable without @property, so the cross-fade is carried by the transition
+   below on the background-color / color / border-color that consume them.
+   300ms is design-motion's cap: this is incidental motion, not the one
+   deliberate gesture the 700ms terminal collapse is. */
+.hub[data-app="openai"] { --bg: #0c0d0d; --side: #131414; --surface: #1b1c1c; --raised: #212322; --window: #101111; --win: #0a0b0b; --line: #2a2c2b; --accent: #10a37f; --accent-ink: #03130e; }
+.hub[data-app="claude"] { --bg: #191817; --side: #201f1d; --surface: #2a2825; --raised: #322f2b; --window: #1f1e1c; --win: #151413; --line: #3a3733; --muted: #a49c90; --accent: #d97757; --accent-ink: #1c0c05; }
+/* every descendant, not a hand-kept list: the hub is ~150 static nodes and an
+   enumerated list left the hub's own ground, the status dots, the meter fills,
+   the rail dividers and the code tinting snapping at each switch while their
+   neighbours faded. box-shadow is in the list for .row.on's inset accent bar.
+   None of these four properties is one the script animates (it drives opacity
+   and transform), so nothing here fights the clock. */
 .hub, .hub * {
-  transition: background-color var(--duration-200) var(--ease-standard), border-color var(--duration-200) var(--ease-standard),
-              color var(--duration-200) var(--ease-standard), box-shadow var(--duration-200) var(--ease-standard);
+  transition: background-color var(--dur-4) var(--ease-std), border-color var(--dur-4) var(--ease-std),
+              color var(--dur-4) var(--ease-std), box-shadow var(--dur-4) var(--ease-std);
 }
+
+.chats { background: var(--side); border-right: 1px solid var(--line); }
+.side-head { flex: none; display: flex; align-items: center; gap: 5px; min-height: 40px; padding: 9px 12px; font-weight: 700; font-size: 12px; color: var(--fg); }
+.side-head img { flex: none; width: 14px; height: 14px; }
+.side-head .side-ic { flex: none; display: grid; place-items: center; font-style: normal; font-weight: 400; color: var(--muted); }
+.side-head .side-ic + .side-ic { margin-left: 0; }
+.side-head .side-ic:first-of-type { margin-left: auto; } /* the two glyphs push right: round search button, then the collapse glyph */
+.side-head .side-ic.ic-btn { width: 16px; height: 16px; border-radius: 50%; background: var(--raised); border: 1px solid var(--line); }
+.side-head .side-ic svg { width: 9px; height: 9px; }
+.cap-row { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 12px 2px; color: var(--muted); font-size: .91em; }
+.cap-row .cap { display: inline-flex; align-items: center; gap: 4px; }
+.cap-row .cap svg { width: 9px; height: 9px; }
+.cap-row .cnt-r { font: 400 .91em/1 var(--font-mono); color: var(--muted); }
+.today { padding: 5px 12px 2px; color: var(--muted); font-size: .82em; } /* the 'Today' caption above the day's chat rows */
+.row { display: flex; align-items: center; gap: 6px; min-height: 26px; margin: 0 6px; padding: 0 8px; border-radius: var(--r-control); color: var(--muted); white-space: nowrap; overflow: hidden; }
+.row svg { flex: none; width: 12px; height: 12px; stroke-width: 2; }
+.row .sp { flex: none; } /* the chat-bubble slot at a chat row's left edge: title, bubble, timestamp = the three slots a row needs */
+.row em { margin-left: auto; font-style: normal; font-size: .91em; }
+.row .t { min-width: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; } /* the title truncates, the timestamp always shows */
+.row .cnt { margin-left: auto; flex: none; min-width: 13px; padding: 0 3px; border-radius: var(--r-pill); background: var(--danger); color: #ffffff; font: 700 8px/13px var(--font-mono); text-align: center; }
+.row.on { background: var(--raised); color: var(--fg); box-shadow: inset 3px 0 0 var(--accent); }
+.row.new { color: var(--fg); }
+.user { margin-top: auto; display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-top: 1px solid var(--line); }
+.user .avatar { position: relative; } /* the green presence dot rides the avatar's own corner, ringed in the sidebar ground */
+.user .avatar .dot { position: absolute; right: -1px; bottom: -1px; box-shadow: 0 0 0 2px var(--side); }
+.user .u-tx { min-width: 0; flex: 1; }
+.user .u-tx b { white-space: nowrap; } /* the address shows whole (hi@superbot.gg fits the 200px sidebar; owner, 2026-09-08) */
+.user .u-gear { flex: none; width: 12px; height: 12px; color: var(--muted); }
+.hub .dot.ok { background: var(--ok); }
+/* Once the phone has gone the chat list steps in and the two numbers worth
+   carrying — spend and context — dock directly above the user row, which is
+   where the eye already goes for "me" (user, 2026-09-06: the alternative was a
+   corner of the screen, and the corner is where the replay button lives).
+   0fr -> 1fr is the collapse: it animates where `height: auto` cannot, and it
+   keeps the block in flow at zero height so the user row never jumps. */
+.chats .ctx-mini { margin-top: auto; display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows var(--dur-4) var(--ease-out), opacity var(--dur-4) var(--ease-std); }
+.chats .ctx-mini > .cx-in { overflow: hidden; display: grid; gap: 4px; padding: 8px 12px 6px; border-top: 1px solid var(--line); }
+.chats .ctx-mini .cx { display: flex; align-items: baseline; gap: 6px; color: var(--muted); font-size: .82em; line-height: 12px; }
+.chats .ctx-mini .cx b { margin-left: auto; color: var(--fg); font-size: 1.22em; font-weight: 700; }
+.ctx-mini + .user { margin-top: 0; } /* the mini owns the auto margin now */
+.hub.slim .ctx-mini { grid-template-rows: 1fr; opacity: 1; }
+/* the stepped-in list has no room for the timestamps, and a half-clipped "12m"
+   reads as broken where a clipped title reads as truncated */
+.hub.slim .row em { display: none; }
+/* the step-in itself, scoped to the widest stage tier: below 820px the chat
+   list is already hidden and the narrower templates own the grid, so a slim
+   override down there would only leave a dead column. */
+/* one combined list: a second `.hub { transition: ... }` here would out-order
+   the retint transition above (same specificity, later wins) and leave the
+   hub's own --win ground snapping while every descendant faded */
+.hub { transition: right var(--dur-5) var(--ease-out), background-color var(--dur-4) var(--ease-std), border-color var(--dur-4) var(--ease-std),
+       color var(--dur-4) var(--ease-std), box-shadow var(--dur-4) var(--ease-std),
+       grid-template-columns var(--dur-4) var(--ease-out); }
+@container stage (min-width: 821px) { .hub.slim { grid-template-columns: 56px 150px minmax(0, 1fr); } } /* the perched step-in keeps a compact rail but holds the sidebar at 75% of the app's: 112px is the "too small" the user rejected — the meter and user row need the room to read as the app's */
+.user b { display: block; font-size: 1em; }
+.user small { color: var(--muted); font-size: .82em; }
+
+.main { background: var(--side); }
+.chat-head { flex: none; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--line); font-weight: 700; font-size: 12px; }
+.chat-head .topic { flex: 0 1 auto; min-width: 0; font-weight: 400; color: var(--muted); font-size: .83em; border-left: 1px solid var(--line); padding-left: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* header chrome, exactly the real app's: channel name left, then the rounded
+   search field and the one filled action on the storm ramp with the bare mark */
+.chat-head .search { margin-left: auto; display: flex; align-items: center; gap: 6px; flex: none; padding: 0 8px; border-radius: var(--r-control); background: var(--raised); border: 1px solid var(--line); color: var(--muted); font-weight: 400; font-size: .91em; line-height: 20px; }
+.chat-head .search kbd { font: 9px/12px var(--font-mono); color: var(--muted); }
+.chat-head .ask { display: flex; align-items: center; gap: 4px; flex: none; padding: 0 9px; border-radius: var(--r-control); background: var(--storm-action); color: #ffffff; font-weight: 650; font-size: .91em; line-height: 20px; box-shadow: var(--action-glow); }
+.chat-head .ask img { flex: none; width: 12px; height: 12px; } /* static header glyph below 24px: the bare mark, never the ring (kit rule) */
+/* the collapsed health-board's only remnant, exactly as in the app: one small
+   panel-toggle icon at the far right edge of the header */
+.chat-head .ptoggle { flex: none; display: grid; place-items: center; width: 20px; height: 20px; border-radius: var(--r-control); background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
+.chat-head .ptoggle svg { width: 11px; height: 11px; }
+.feed { flex: 1; min-height: 0; padding: 10px 12px; display: grid; align-content: start; gap: 9px; overflow: hidden; }
+/* the channel's welcome block, the real app's: a round bot chip, the welcome
+   line, the one-sentence start. The story's messages follow it. */
+.welcome { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+.welcome .w-ic { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; }
+.welcome .w-ic img { width: 14px; height: 14px; }
+.welcome .w-tx { min-width: 0; }
+.welcome b { display: block; color: var(--fg); }
+.welcome small { display: block; color: var(--muted); font-size: .91em; }
+.date-div { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .82em; }
+.date-div::before, .date-div::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.msg { display: flex; gap: 8px; opacity: 0; }
+.msg.cont .avatar { visibility: hidden; }
+.avatar { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--c, #facc15); color: var(--ink); font: 700 10px/24px var(--ui); text-align: center; }
+/* Superbot's avatar is the kit's bare mark on the black tile (a static surface,
+   so no ring): the same glyph the rail, the header and the sidebar carry */
+.avatar.sb { background: var(--tile-bg, #000000); box-shadow: inset 0 0 0 1px var(--line); font-size: 0; overflow: hidden; display: grid; place-items: center; }
+.avatar.sb img { width: 62%; height: 62%; display: block; }
+.m-main { min-width: 0; flex: 1; display: grid; gap: 5px; }
+.m-head { display: flex; gap: 6px; align-items: baseline; }
+.m-name { font-weight: 700; }
+.m-when { font-size: .82em; color: var(--muted); }
+.app { padding: 0 4px; border-radius: 3px; background: var(--accent); color: var(--accent-ink); font: 700 8px/12px var(--ui); letter-spacing: .04em; }
+.m-text { font-size: 1em; line-height: 15px; }
+.ref { display: inline-block; padding: 0 4px; border-radius: 4px; background: var(--raised); color: var(--accent); font-weight: 650; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; display: grid; gap: 3px; }
+.arena .card { position: static; width: auto; } /* hero.css's .card is absolutely positioned at min(280px,42%) for the incident cards; that must not leak into the hub's chat cards or the phone's */
+.card.rule { border-left: 3px solid var(--accent); justify-items: start; max-width: 200px; }
+.card.rule b { font-size: 1em; }
+.card.rule small { color: var(--muted); font-size: .82em; }
+.card.council { border-left: 3px solid var(--accent); font-size: .91em; }
+.c-head { display: flex; gap: 6px; align-items: center; color: var(--muted); }
+.c-head .cost { margin-left: auto; font: 10px var(--font-mono); }
+.tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.tags span { padding: 0 5px; border-radius: 3px; background: color-mix(in srgb, var(--accent) 22%, var(--surface)); color: var(--accent); font-size: .9em; line-height: 14px; }
+.tags span.dim { background: var(--raised); color: var(--muted); }
+/* the composer: the desktop's message bar as it is today (owner, 2026-09-08:
+   "it still has the old rainbow blur on the input box that we don't have on
+   the main UI anymore"): one raised bar, a hairline, no glow; the + circle on
+   the left, the placeholder, then the picker and the send circle at the RIGHT
+   edge of the bar. */
+.composer { flex: none; position: relative; margin: 6px 12px 10px; border-radius: var(--r-surface); }
+.composer .pill { position: relative; display: flex; align-items: center; gap: 6px; width: 100%; min-height: 30px; padding: 0 4px 0 9px; border-radius: var(--r-surface); background: var(--raised); border: 1px solid var(--line); color: var(--muted); font-size: 1em; }
+.composer .plus { flex: none; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font: 650 11px/16px var(--font-mono); color: var(--fg); }
+.composer .ph { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.composer .picker { flex: none; padding: 0 6px; border-radius: var(--r-control); background: var(--surface); color: var(--fg); font-size: .91em; line-height: 18px; }
+.composer .send { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--storm-action); color: #ffffff; display: grid; place-items: center; }
+.composer .send svg { width: 11px; height: 11px; }
+
+/* the tour transcript: a SECOND feed stacked on the story's own, holding
+   whichever client's exchange act two is showing. Two feeds rather than
+   rewriting #feed's innerHTML, because the story's messages are captured as
+   element refs at module load and rewriting the container would drop them
+   (the same trap renderMargin() documents for the parked mascot). */
+.main { position: relative; }
+.feed.tour { position: absolute; inset: 34px 0 44px; opacity: 0; }
 .card.code { background: var(--win); padding: 0; gap: 0; overflow: hidden; }
 .card.code .c-bar { display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .82em; }
 .card.code pre { margin: 0; padding: 6px 8px; font: 9px/14px var(--font-mono); color: var(--fg); white-space: pre; overflow: hidden; }
@@ -374,8 +495,8 @@
   .margin .caret, .bubble .caret { animation: none; }
   /* the still composes its end state in one go, so the retint, the grid
      collapse and the readout unfold must not play themselves in on load.
-     A screenshot taken after the 200ms window cannot catch this. */
-  .hub, .hub * { transition: none; }
+     A screenshot taken after the 300ms window cannot catch this. */
+  .hub, .hub *, .chats .ctx-mini { transition: none; }
   .stage.still .hub, .stage.still .hub .inner, .stage.still .rail-item, .stage.still .msg, .stage.still .panel .pc, .stage.still .phone, .stage.still .phone .sync { opacity: 1; transform: none; }
   .stage.still .arena > .mascot, .stage.still .arena > .sb-keys, .stage.still .bubble, .stage.still .scan, .stage.still .item, .stage.still .badge, .stage.still .beam { display: none; }
 }

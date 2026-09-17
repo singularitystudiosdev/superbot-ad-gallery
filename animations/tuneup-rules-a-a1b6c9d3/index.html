@@ -9,6 +9,8 @@
 <script src="../../assets/ar.js"></script>
 <link rel="stylesheet" href="../../assets/ar.css">
 <style>
+#vbadge { position: absolute; left: 28px; top: 24px; z-index: 60; padding: 7px 16px; border-radius: 999px; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.14); font: 800 17px/20px var(--ui); letter-spacing: .06em; color: #fff; opacity: .92; }
+
 /* ---------- tokens: the site's own ladder + ChatGPT dark (the house clone, 2026-09-09) ---------- */
 :root {
   --bg: #000000; --card: #0d0d0d; --raised: #181818; --line: #262626;
@@ -188,6 +190,7 @@ html { --site-k: 1.6; }
 </svg>
 
 <div id="stage">
+  <div id="vbadge">VARIANT A · ignored rules</div>
 
   <!-- ============ scene 1: ChatGPT flails (BEFORE) ============ -->
   <section class="scene gpt" id="gpt" aria-label="ChatGPT flails at a trip plan">

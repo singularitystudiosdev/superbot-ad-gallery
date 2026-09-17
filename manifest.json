@@ -48,6 +48,22 @@
     "thumb": "assets/shots/youtube-refusal-superbot-7f2c9a41.png"
   },
   {
+    "id": "tuneup-rules-a-a1b6c9d3",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "VARIANT A, ignored rules: the dev states the rules and the agent breaks them in the same breath, three times; superbot pulls the rules out of the chat and wires them into every session (28.0s loop)",
+    "src": "animations/tuneup-rules-a-a1b6c9d3/",
+    "thumb": "assets/shots/tuneup-rules-a-a1b6c9d3.png"
+  },
+  {
+    "id": "tuneup-ramble-b-e5f2078a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "VARIANT B, the ramble: one bug fix asked, an endless restarting monologue delivered; superbot curates skills and trims context, and the same ask lands in one line (28.0s loop)",
+    "src": "animations/tuneup-ramble-b-e5f2078a/",
+    "thumb": "assets/shots/tuneup-ramble-b-e5f2078a.png"
+  },
+  {
     "id": "agent-tuneup-superbot-cc47ab91",
     "type": "animation",
     "group": "Ad spots",

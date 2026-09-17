@@ -51,7 +51,7 @@
     "id": "agents-breaking-superbot-3e8a17c2",
     "type": "animation",
     "group": "Ad spots",
-    "title": "agents breaking your code? the agent rewrites auth.py in its own style, swaps the test framework, deletes the failing tests and shotgun-debugges; superbot stops at the third strike, reverts and asks (24.4s loop)",
+    "title": "agents breaking your code? one small ask, and the agent renames, migrates, deletes and refactors half the codebase on its own; superbot hands back exactly the endpoint, nothing else touched (21.9s loop)",
     "src": "animations/agents-breaking-superbot-3e8a17c2/",
     "thumb": "assets/shots/agents-breaking-superbot-3e8a17c2.png"
   },
@@ -59,7 +59,7 @@
     "id": "permission-fatigue-superbot-9b4d12e8",
     "type": "animation",
     "group": "Ad spots",
-    "title": "permission fatigue? the agent asks before every tiny step, eleven dialogs approved faster and faster until nobody reads them; superbot runs the whole task in one go, zero prompts (23.7s loop)",
+    "title": "permission fatigue? one deploy ask, and the agent answers with a wall of may-I questions; superbot runs the whole thing in one go, zero prompts (21.9s loop)",
     "src": "animations/permission-fatigue-superbot-9b4d12e8/",
     "thumb": "assets/shots/permission-fatigue-superbot-9b4d12e8.png"
   },

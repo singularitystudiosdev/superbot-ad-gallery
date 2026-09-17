@@ -72,6 +72,14 @@
     "thumb": "assets/shots/agents-slower-superbot-7bf1a6c6.png"
   },
   {
+    "id": "yt-mp3-refusal-superbot-0f46615a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "youtube to mp3? ChatGPT refuses in 166 words; the superbot popup opens the app, which fetches, converts and hands back a clean download link, then the pain words roll: agents refusing / slow / forgetting / lying / unorganized (25.8s loop)",
+    "src": "animations/yt-mp3-refusal-superbot-0f46615a/",
+    "thumb": "assets/shots/yt-mp3-refusal-superbot-0f46615a.png"
+  },
+  {
     "id": "yt-mp3-refusal-superbot-018070ad",
     "type": "animation",
     "group": "Ad spots",

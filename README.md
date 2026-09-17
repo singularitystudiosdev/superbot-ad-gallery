@@ -15,6 +15,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 - **icons chaos** — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop).
 - **agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper** (27s loop).
 - **agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email** (30.5s loop).
+- **youtube to mp3?** — ChatGPT refuses in 166 words; the superbot popup opens the app, which fetches,
+  converts and hands back a clean download link, then the pain words roll through
+  refusing / slow / forgetting / lying / unorganized (25.8s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
 - **youtube to mp3?** ChatGPT refuses with a list of alternatives; halfway through, the superbot popup rises,
   one click opens the app, superbot fetches and converts it and hands over the clean mp3 link; then the pain

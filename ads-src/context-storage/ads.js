@@ -48,8 +48,8 @@ window.CONTEXT_ADS = [
   },
   {
     "id": "context-costly-poster", "word": "costly", "color": "#00e5a0",
-    "before": { "who": "your agents", "used": "$46.80", "of": "$50", "bar": 0.936, "warn": true, "note": "daily cap, 4:10 pm" },
-    "after":  { "who": "superbot", "used": "$8.20", "of": "$50", "bar": 0.164, "note": "daily cap, all day" },
+    "before": { "who": "Claude Code", "used": "$46.80", "of": "$50", "bar": 0.936, "warn": true, "note": "daily cap, 4:10 pm" },
+    "after":  { "who": "Claude Code", "used": "$8.20", "of": "$50", "bar": 0.164, "note": "daily cap, all day" },
     "stats": [
       { "icon": "spark", "lead": "you have saved", "big": "$38.60 a day" },
       { "icon": "clock", "lead": "that is", "big": "$1,158", "tail": "a month" }

@@ -36,7 +36,7 @@ const ads = [
   // context window; 2026-09-16)
   ['context-full-poster', 'context full? superbot can fix it! · before/after: ChatGPT at 197K of 200K, superbot at 31K; 166K tokens freed (static)'],
   ['context-slow-poster', 'agent slow? superbot can fix it! · before/after: ChatGPT at 190K and 84s replies, ChatGPT (with superbot) at 28K and 4s; 2.3x faster (static)'],
-  ['context-costly-poster', 'context costly? superbot can fix it! · before/after: $46.80 of a $50 daily cap by 4:10 pm, superbot at $8.20; $38.60 a day saved (static)'],
+  ['context-costly-poster', 'context costly? superbot can fix it! · before/after: Claude Code at $46.80 of a $50 daily cap by 4:10 pm, Claude Code (with superbot) at $8.20; $38.60 a day saved (static)'],
   // the context-cleanup family, built from ads-src/context-cleanup (2026-09-16): the
   // App Store storage-cleaner before/after format, three inside a phone on the storm
   // gradient and three flat on the house black

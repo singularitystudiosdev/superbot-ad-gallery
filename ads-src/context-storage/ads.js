@@ -14,7 +14,7 @@ window.CONTEXT_ADS = [
   {
     "id": "context-full-poster", "word": "full", "color": "#ff0000",
     "before": { "who": "ChatGPT", "used": "197K", "of": "200K", "bar": 0.985, "warn": true },
-    "after":  { "who": "superbot", "used": "31K", "of": "200K", "bar": 0.155 },
+    "after":  { "who": "ChatGPT", "used": "31K", "of": "200K", "bar": 0.155 },
     "stats": [
       { "icon": "spark", "lead": "you have freed", "big": "166K tokens" },
       { "icon": "clock", "lead": "saved", "big": "1.2 hours", "tail": "of re-explaining" }

@@ -8,6 +8,7 @@
 <meta name="description" content="The user asks ChatGPT for a youtube to mp3 download and gets a terms-of-service lecture; superbot pops in mid-refusal and hands back a clean download link. 21.9s looping ad spot, 1920x1080."/>
 <script src="../../assets/ar.js"></script>
 <link rel="stylesheet" href="../../assets/ar.css">
+<link rel="stylesheet" href="../../assets/desktop-frame.css">
 <style>
 /* ---------- tokens: the site's own ladder (site.css :root) ---------- */
 :root {
@@ -91,92 +92,33 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .win-bar .led.on { background: var(--storm-1); box-shadow: 0 0 8px var(--storm-1); }
 .win-body { position: relative; overflow: hidden; }
 
-/* the hub: the app's own layout (rail 64 / sidebar 200 / chat lane), from site/index.html + hub-boot-3.css */
-.hub { position: absolute; inset: 8px; right: calc(24% + 20px); background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 64px 200px minmax(0, 1fr); font: 11px/15px var(--ui); color: var(--fg); transform-origin: 50% 50%; }
-.hub > * { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
-.rail { background: var(--bg); border-right: 1px solid var(--line); align-items: center; padding: 8px 0; gap: 4px; }
-.rail-item { position: relative; flex: none; width: 44px; height: 44px; border-radius: 14px; background: var(--raised); display: grid; place-items: center; color: var(--fg); }
-.rail-item svg { width: 26px; height: 26px; fill: currentColor; }
-.rail-item .dot { position: absolute; right: -2px; bottom: -2px; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 2px var(--bg); }
-.rail-item.sb { border-radius: 0; background: transparent; }
-.rail-item.sb img { width: 100%; height: 100%; display: block; }
-.rail-item.sel::before { content: ""; position: absolute; left: -10px; top: 50%; transform: translateY(-50%); width: 3px; height: 26px; border-radius: 0 999px 999px 0; background: var(--fg); }
-.rail-item[data-app="openai"] { background: #000; color: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.rail-item[data-app="claude"] { background: #d97757; color: #fff; }
-.rail-item[data-app="gemini"] { background: #fff; color: #1f1f1f; }
-.rail-item[data-app="cursor"] { background: #000; color: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.rail-item[data-app="copilot"] { background: #24292f; color: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.rail-item.bleed { background: #000; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.rail-item.bleed img { width: 100%; height: 100%; display: block; object-fit: cover; border-radius: inherit; }
-.rail-item.folder { display: grid; grid-template-columns: 10px 10px; grid-template-rows: 10px 10px; gap: 3px; place-content: center; }
-.rail-item.folder svg { width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 2.4; }
-.rail-item.add { font: 16px/44px var(--mono); color: var(--muted); }
-.rail-div { flex: none; width: 22px; height: 1px; background: var(--line); }
-.chats { background: var(--card); border-right: 1px solid var(--line); }
-.side-head { flex: none; display: flex; align-items: center; gap: 5px; min-height: 40px; padding: 9px 12px; font-weight: 700; font-size: 12px; }
-.side-head img { width: 14px; height: 14px; }
-.side-head .ic { margin-left: auto; width: 16px; height: 16px; border-radius: 50%; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
-.side-head .ic + .ic { margin-left: 0; background: none; border: 0; }
-.side-head .ic svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2; }
-.row { display: flex; align-items: center; gap: 6px; min-height: 26px; margin: 0 6px; padding: 0 8px; border-radius: 8px; color: var(--muted); white-space: nowrap; overflow: hidden; }
-.row svg { flex: none; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.row em { margin-left: auto; font-style: normal; font-size: 10px; }
-.row .cnt { margin-left: auto; min-width: 13px; padding: 0 3px; border-radius: 999px; background: var(--danger); color: #fff; font: 700 8px/13px var(--mono); text-align: center; }
-.row.on { background: var(--raised); color: var(--fg); box-shadow: inset 3px 0 0 var(--storm-1); }
-.row.new { color: var(--fg); }
-.cap-row { display: flex; justify-content: space-between; padding: 4px 12px 2px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.today { padding: 2px 14px; color: var(--muted); font-size: 10px; }
-.user { margin-top: auto; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-top: 1px solid var(--line); }
-.user .av { position: relative; width: 24px; height: 24px; border-radius: 50%; background: var(--raised); font: 700 10px/24px var(--ui); text-align: center; }
-.user .av i { position: absolute; right: -1px; bottom: -1px; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 2px var(--card); }
-.user b { display: block; font-size: 11px; }
-.user small { display: block; color: var(--muted); font-size: 10px; }
-.main { position: relative; background: var(--card); }
-.chat-head { flex: none; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--line); font-weight: 700; font-size: 12px; }
-.chat-head .search { margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 0 8px; border-radius: 8px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); font-weight: 400; font-size: 10px; line-height: 20px; }
-.chat-head .search kbd { font: 9px/12px var(--mono); }
-.chat-head .ask { display: flex; align-items: center; gap: 4px; padding: 0 9px; border-radius: 8px; background: var(--storm-action); color: #fff; font-weight: 650; font-size: 10px; line-height: 20px; }
-.chat-head .ask img { width: 12px; height: 12px; }
-.chat-head .pt { width: 20px; height: 20px; border-radius: 8px; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
-.chat-head .pt svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; }
-.feed { flex: 1; min-height: 0; padding: 10px 12px; display: grid; align-content: start; gap: 9px; overflow: hidden; }
-.welcome { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
-.welcome .w-ic { width: 24px; height: 24px; border-radius: 50%; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; }
-.welcome .w-ic img { width: 14px; height: 14px; }
-.welcome b { display: block; }
-.welcome small { display: block; color: var(--muted); font-size: 10px; }
-.date-div { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 9px; }
-.date-div::before, .date-div::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.msg { display: flex; gap: 8px; }
-.avatar { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--raised); color: var(--fg); font: 700 10px/24px var(--ui); text-align: center; }
-.avatar.sb { background: #000; box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; }
-.avatar.sb img { width: 62%; height: 62%; display: block; }
-.m-main { min-width: 0; flex: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 5px; } /* minmax(0,…): a wide code line never widens the lane */
-.m-head { display: flex; gap: 6px; align-items: baseline; }
-.m-name { font-weight: 700; }
-.m-when { font-size: 9px; color: var(--muted); }
-.app { padding: 0 4px; border-radius: 3px; background: var(--storm-1); color: #fff; font: 700 8px/12px var(--ui); letter-spacing: .04em; }
-.m-text { font-size: 11px; line-height: 15px; white-space: pre-wrap; }
-/* no overflow clip on the card: its header is sticky against the FEED (ChatGPT's own code-block behaviour), so Copy stays in reach while the feed scrolls */
-.code { position: relative; width: 100%; max-width: 100%; background: #000; border: 1px solid var(--line); border-radius: 8px; }
-.code .c-bar { position: sticky; top: -10px; z-index: 1; display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-bottom: 1px solid var(--line); border-radius: 8px 8px 0 0; background: #000; color: var(--muted); font-size: 9px; }
-.code .c-bar .lang { margin-left: 6px; padding: 0 5px; border-radius: 4px; background: var(--raised); color: var(--secondary); }
-.code .copy { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding: 0 7px; border-radius: 6px; background: var(--raised); border: 1px solid var(--line); color: var(--fg); font-size: 9px; line-height: 16px; font-weight: 600; transform-origin: 50% 50%; }
-.code .copy svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.code .copy.done { background: rgba(52,211,153,.14); border-color: rgba(52,211,153,.5); color: var(--ok); }
-.code pre { margin: 0; padding: 7px 10px; font: 10.5px/15px var(--mono); color: var(--fg); white-space: pre; overflow: hidden; }
-.code pre .l { display: none; opacity: 0; } /* each line takes its place as it lands (render(): display, then a fade and a 4px rise) */
-.code pre .k { color: #c084fc; } .code pre .s { color: #6ee7b7; } .code pre .c { color: var(--muted); } .code pre .f { color: #7dd3fc; }
-/* the youtube download card: the code card's shell, a clean file link for a deliverable */
-.dl-row { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-bottom: 1px solid var(--line); }
-.dl-thumb { flex: none; width: 46px; height: 27px; border-radius: 5px; background: #ff0033; display: grid; place-items: center; }
+/* ---------- scene 2: the app window — the hub itself is the shared sheet's
+   (assets/desktop-frame.css): .sd-rail / .sd-side / .sd-main and the whole
+   sidebar, header, feed and composer anatomy at real app pixels. What is left
+   here is only what the sheet does not own: where this ad docks the hub inside
+   its window, and the youtube download card the timeline streams into the feed. */
+/* the hub slot: inset 8 in .win-body, 24% + 20 clear for the phone beside it.
+   The sheet's .sd-hub sizes to its parent's height; this slot is inset-anchored,
+   so it takes its own height back from the top/bottom insets. */
+.hub { position: absolute; inset: 8px; right: calc(24% + 20px); height: auto; background: var(--color-bg); border: 1px solid var(--color-line); border-radius: 16px; overflow: hidden; transform-origin: 50% 50%; }
+
+/* the download card: the ad's own tool card inside superbot's message (the sheet
+   draws no chat tool card). It is drawn on the sheet's tokens, so it reads as
+   part of the window. */
+.code { position: relative; width: 100%; max-width: 100%; margin-top: 6px; background: var(--color-bg); border: 1px solid var(--color-line); border-radius: 16px; overflow: hidden; }
+.code .c-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--color-line); color: var(--color-muted); font-size: 11px; line-height: 16px; }
+.code .lang { flex: none; padding: 1px 6px; border-radius: 8px; background: var(--color-raised); color: var(--color-fg-secondary); font-family: var(--font-mono); font-size: 11px; line-height: 16px; }
+.dl-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--color-line); }
+.dl-thumb { flex: none; width: 48px; height: 27px; border-radius: 8px; background: #ff0033; display: grid; place-items: center; }
 .dl-thumb::after { content: ""; border-left: 9px solid #fff; border-top: 6px solid transparent; border-bottom: 6px solid transparent; margin-left: 2px; }
 .dl-meta { min-width: 0; flex: 1; }
-.dl-meta b { display: block; font: 700 10px/13px var(--ui); color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dl-meta small { display: block; font: 9px/12px var(--mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dl-btn { margin: 8px 10px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 10px; border-radius: 8px; background: #fff; color: #000; font: 700 10px/12px var(--ui); position: relative; overflow: hidden; transform-origin: 50% 50%; }
-.dl-btn.done { background: rgba(52,211,153,.14); color: var(--ok); box-shadow: inset 0 0 0 1px rgba(52,211,153,.5); }
-.dl-btn svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.dl-meta b { display: block; font-size: 13px; line-height: 19px; font-weight: 500; color: var(--color-fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dl-meta small { display: block; font-family: var(--font-mono); font-size: 11px; line-height: 16px; color: var(--color-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* the download button: renderSite() rewrites its className every frame
+   ('dl-btn' + ' done'), so its look has to hang off exactly these two names */
+.dl-btn { margin: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 36px; padding: 0 12px; border-radius: 8px; background: var(--color-fg); color: var(--color-card); font-size: 13px; line-height: 19px; font-weight: 500; transform-origin: 50% 50%; }
+.dl-btn.done { background: color-mix(in oklch, var(--color-status-ok) 18%, transparent); color: var(--color-status-ok); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-status-ok) 55%, transparent); }
+.dl-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 /* the phone beside the hub: the site's docked mobile thread (site/index.html #phone) */
 .phone { position: absolute; right: 8px; top: 8px; bottom: 8px; width: 24%; background: #000; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; font: 11px/15px var(--ui); color: var(--fg); display: flex; flex-direction: column; padding: 10px 12px 8px; }
 .ph-status { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); padding: 0 4px; }
@@ -194,13 +136,6 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .ph-pill em { margin-left: auto; font-style: normal; font-size: 8px; }
 .ph-send { width: 22px; height: 22px; border-radius: 50%; background: var(--storm-1); }
 .ph-home { align-self: center; width: 70px; height: 3px; border-radius: 2px; background: var(--line); margin-top: 6px; }
-.composer { flex: none; margin: 6px 12px 10px; }
-.composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
-.composer .plus { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font: 650 11px/16px var(--mono); color: var(--fg); }
-.composer .ph { flex: 1; }
-.composer .picker { padding: 0 6px; border-radius: 8px; background: var(--card); color: var(--fg); font-size: 10px; line-height: 18px; }
-.composer .send { width: 24px; height: 24px; border-radius: 50%; background: var(--storm-action); display: grid; place-items: center; color: #fff; }
-.composer .send svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- scene 3: the cards ---------- */
 #card { display: grid; place-items: center; background: #000; }
@@ -286,53 +221,106 @@ html { --site-k: 1.6; } /* the app window is drawn at 1200x675 and shown at 1.6 
       <div class="win" id="win">
         <div class="win-bar"><i></i><i></i><i></i><span>superbot</span><em class="led on"></em></div>
         <div class="win-body">
-          <div class="hub" id="hub">
-            <nav class="rail">
-              <span class="rail-item sb sel"><img src="assets/tile.svg" alt=""/></span>
-              <span class="rail-div"></span>
-              <span class="rail-item" data-app="openai"><svg><use href="#ic-openai"/></svg><i class="dot"></i></span>
-              <span class="rail-item" data-app="claude"><svg><use href="#ic-claude"/></svg><i class="dot"></i></span>
-              <span class="rail-item" data-app="gemini"><svg><use href="#ic-gemini"/></svg><i class="dot"></i></span>
-              <span class="rail-item" data-app="cursor"><svg><use href="#ic-cursor"/></svg><i class="dot"></i></span>
-              <span class="rail-item bleed"><img src="assets/devin.png" alt=""/><i class="dot"></i></span>
-              <span class="rail-item bleed"><img src="assets/hermes.png" alt=""/><i class="dot"></i></span>
-              <span class="rail-item bleed"><img src="assets/grok.png" alt=""/><i class="dot"></i></span>
-              <span class="rail-item" data-app="copilot"><svg><use href="#ic-copilot"/></svg><i class="dot"></i></span>
-              <span class="rail-div"></span>
-              <span class="rail-item folder"><svg viewBox="0 0 24 24"><path d="M12 22v5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg><svg viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/></svg><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><svg viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg><i class="dot"></i></span>
-              <span class="rail-item add">+</span>
+          <div class="hub sd-hub" id="hub">
+            <nav class="sd-rail" aria-label="Servers">
+              <button type="button" class="sd-rail-item sb sel" aria-current="true"><img src="assets/tile.svg" alt=""/></button>
+              <span class="sd-rail-div"></span>
+              <button type="button" class="sd-rail-item" data-app="openai"><svg fill="currentColor" aria-hidden="true"><use href="#ic-openai"/></svg><i class="dot" data-tone="ok"></i></button>
+              <button type="button" class="sd-rail-item" data-app="claude"><svg fill="currentColor" aria-hidden="true"><use href="#ic-claude"/></svg><i class="dot" data-tone="ok"></i></button>
+              <button type="button" class="sd-rail-item" data-app="gemini"><svg fill="currentColor" aria-hidden="true"><use href="#ic-gemini"/></svg><i class="dot" data-tone="ok"></i></button>
+              <button type="button" class="sd-rail-item" data-app="cursor"><svg fill="currentColor" aria-hidden="true"><use href="#ic-cursor"/></svg><i class="dot" data-tone="ok"></i></button>
+              <button type="button" class="sd-rail-item bleed"><img src="assets/devin.png" alt=""/><i class="dot" data-tone="ok"></i></button>
+              <button type="button" class="sd-rail-item bleed"><img src="assets/hermes.png" alt=""/><i class="dot" data-tone="ok"></i></button>
+              <button type="button" class="sd-rail-item bleed"><img src="assets/grok.png" alt=""/><i class="dot" data-tone="ok"></i></button>
+              <button type="button" class="sd-rail-item" data-app="copilot"><svg fill="currentColor" aria-hidden="true"><use href="#ic-copilot"/></svg><i class="dot" data-tone="ok"></i></button>
+              <span class="sd-rail-div"></span>
+              <button type="button" class="sd-rail-item folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7.2A2 2 0 0 1 5.5 5.2h4l2 2.4h7A2 2 0 0 1 20.5 9.6v7.2a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></svg><i class="dot" data-tone="ok"></i></button>
+              <button type="button" class="sd-rail-item add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg></button>
             </nav>
-            <div class="chats">
-              <div class="side-head"><img src="assets/mark-clean.svg" alt=""/>superbot.gg<i class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg></i><i class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg></i></div>
-              <span class="row new"><svg viewBox="0 0 24 24"><path d="M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L13 14l-4 1 1-4Z"/></svg>New chat</span>
-              <span class="row"><svg viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>Manage Context</span>
-              <span class="row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.6 9.4c-.9-1.3-5.8-1.4-5.8.9 0 2.5 6.2 1.4 6.2 3.8 0 2.3-5.2 2.1-6.4.7"/></svg>View Savings</span>
-              <span class="row"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-6"/><path d="M13 17V7"/><path d="M18 17v-3"/></svg>View Usage</span>
-              <span class="row"><svg viewBox="0 0 24 24"><path d="m3 6 2 2 4-4"/><path d="m3 14 2 2 4-4"/><path d="M13 6h8"/><path d="M13 16h8"/></svg>Setup<i class="cnt">3</i></span>
-              <div class="cap-row"><span>⌄ Recents</span><span>1</span></div>
-              <div class="today">Today</div>
-              <span class="row chat on"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>youtube to mp3<em>now</em></span>
-              <span class="row chat"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>which rate limiter…<em>12m</em></span>
-              <span class="row chat"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>rank the import pa…<em>3h</em></span>
-              <span class="row chat"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>trello card test<em>1d</em></span>
-              <span class="row chat"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>dedupe the always…<em>3d</em></span>
-              <div class="user"><span class="av">D<i></i></span><span><b>hi@superbot.gg</b><small>no balance yet</small></span></div>
-            </div>
-            <div class="main">
-              <div class="chat-head"><b>chat</b><span class="search">Search<kbd>⌘K</kbd></span><span class="ask"><img src="assets/mark-clean.svg" alt=""/>Ask Superbot</span><span class="pt"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/></svg></span></div>
-              <div class="feed">
-                <div class="welcome"><span class="w-ic"><img src="assets/mark-clean.svg" alt=""/></span><span><b>Welcome to #chat</b><small>This is the start of your conversation with Superbot.</small></span></div>
-                <div class="date-div">September 9, 2026</div>
-                <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span><span class="m-when">11:15 AM</span></div><div class="m-text">Download this youtube video and convert to mp3 · youtube.com/watch?v=dQw4w9WgXcQ</div></div></div>
-                <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">11:15 AM</span></div><div class="m-text" id="h-text"></div>
-                  <div class="code" id="h-code"><div class="c-bar"><span>youtube → audio</span><span class="lang">mp3</span></div>
-                    <div class="dl-row"><span class="dl-thumb"></span><span class="dl-meta"><b>The video you linked</b><small>youtube.com/watch?v=dQw4w9WgXcQ</small></span><span class="lang">3:53</span></div>
-                    <div class="dl-btn" id="h-dlbtn"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg><span id="h-dl-t">Download MP3</span></div>
-                  </div>
-                </div></div>
+            <aside class="sd-side">
+              <div class="sd-side-head"><img class="sd-brand-mark" src="assets/tile.svg" alt=""/><span class="sd-side-word">superbot.gg</span></div>
+              <div class="sd-side-icons">
+                <button type="button" class="sd-icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="M15.6 15.6 20 20"/></svg></button>
+                <button type="button" class="sd-icon-btn" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9.5 4.5v15"/><path d="M15.6 9.6 18 12l-2.4 2.4"/></svg></button>
               </div>
-              <div class="composer"><div class="pill"><span class="plus">+</span><span class="ph">How can superbot help you today?</span><span class="picker">superbot ▾</span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
-            </div>
+              <div class="sd-side-tool-rows">
+                <button type="button" class="sd-new-chat storm-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 4.5H6.5A2 2 0 0 0 4.5 6.5v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"/><path d="M15.6 3.9a1.9 1.9 0 0 1 2.7 2.7L12 13l-3.2.7.7-3.2z"/></svg>New chat</button>
+                <button type="button" class="sd-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="3.8" width="7" height="7" rx="2"/><rect x="13.2" y="3.8" width="7" height="7" rx="2"/><rect x="3.8" y="13.2" width="7" height="7" rx="2"/><circle cx="16.7" cy="16.7" r="3.5"/></svg><span class="sd-row-lead">Your stuff</span><span class="sd-row-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></span></button>
+                <button type="button" class="sd-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 7.5h15M4.5 12h15M4.5 16.5h8"/></svg><span class="sd-row-lead">Setup</span><span class="sd-row-badge">3</span></button>
+                <div class="sd-side-lane-row">
+                  <div class="sd-lane" role="radiogroup" aria-label="Lane">
+                    <button type="button" class="sd-lane-seg" role="radio" aria-checked="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H9l-4 3V6.5A2.5 2.5 0 0 1 7.5 4h10A2.5 2.5 0 0 1 20 6.5z"/></svg>Chat</button>
+                    <button type="button" class="sd-lane-seg" role="radio" aria-checked="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7 4.5 12 9 17M15 7l4.5 5L15 17"/></svg>Code</button>
+                  </div>
+                  <button type="button" class="sd-icon-btn" aria-label="Filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg></button>
+                </div>
+              </div>
+              <div class="sd-chats">
+                <div class="sd-bucket">Today</div>
+                <button type="button" class="sd-chat-row on" aria-current="true"><span class="sd-chat-mark" data-app="openai" aria-hidden="true"><svg fill="currentColor" aria-hidden="true"><use href="#ic-openai"/></svg></span><span class="sd-chat-title">youtube to mp3</span><span class="sd-chat-when">now</span></button>
+                <button type="button" class="sd-chat-row"><span class="sd-chat-mark" data-app="claude" aria-hidden="true"><svg fill="currentColor" aria-hidden="true"><use href="#ic-claude"/></svg></span><span class="sd-chat-title">which rate limiter…</span><span class="sd-chat-when">12m</span></button>
+                <button type="button" class="sd-chat-row"><span class="sd-chat-mark" data-app="cursor" aria-hidden="true"><svg fill="currentColor" aria-hidden="true"><use href="#ic-cursor"/></svg></span><span class="sd-chat-title">rank the import pa…</span><span class="sd-chat-when">3h</span></button>
+                <button type="button" class="sd-chat-row"><span class="sd-chat-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.5" width="16" height="15" rx="2.5"/><path d="M4 9.5h16M8.5 4.5v15"/></svg></span><span class="sd-chat-title">trello card test</span><span class="sd-chat-when">1d</span></button>
+                <button type="button" class="sd-chat-row"><span class="sd-chat-mark" data-app="gemini" aria-hidden="true"><svg fill="currentColor" aria-hidden="true"><use href="#ic-gemini"/></svg></span><span class="sd-chat-title">dedupe the always…</span><span class="sd-chat-when">3d</span></button>
+              </div>
+              <div class="sd-meter-block">
+                <div class="sd-meter-row"><span>this week</span><span class="sd-mono">$5.15</span></div>
+                <div class="sd-meter"><span class="sd-meter-fill"></span></div>
+                <div class="sd-meter-row"><span>context</span><span class="sd-mono">361k</span></div>
+              </div>
+              <div class="sd-user">
+                <div class="sd-user-main"><span class="sd-avatar">D<span class="sd-user-dot" aria-hidden="true"></span></span><span class="sd-user-text"><span class="sd-user-mail">hi@superbot.gg</span><span class="sd-user-sub">no balance yet</span></span></div>
+                <button type="button" class="sd-icon-btn sd-gear" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.5-2.8l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1A1.7 1.7 0 0 0 10 3a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/></svg></button>
+              </div>
+            </aside>
+            <section class="sd-main">
+              <header class="sd-head">
+                <button type="button" class="sd-icon-btn sd-head-toggle" aria-label="Show sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9.5 4.5v15"/></svg></button>
+                <span class="sd-head-title">chat</span>
+                <div class="sd-head-actions">
+                  <button type="button" class="sd-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="M15.6 15.6 20 20"/></svg><span class="sd-search-label">Search</span><span class="sd-search-hint">&#8984;K</span></button>
+                  <button type="button" class="sd-ask storm-action"><img class="sd-ask-mark" src="assets/mark-clean.svg" alt=""/>Ask Superbot</button>
+                  <button type="button" class="sd-icon-btn sd-head-toggle" aria-label="Toggle panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M14.5 4.5v15"/></svg></button>
+                </div>
+              </header>
+              <div class="sd-feed feed">
+                <div class="sd-welcome">
+                  <div class="sd-msg-avatar app" aria-hidden="true"><img src="assets/mark-clean.svg" alt=""/></div>
+                  <div class="sd-msg-body">
+                    <div class="sd-msg-head"><span class="sd-msg-name">Welcome to #chat</span></div>
+                    <div class="sd-msg-text">This is the start of your conversation with Superbot.</div>
+                  </div>
+                </div>
+                <div class="sd-date"><span class="sd-date-label">September 9, 2026</span></div>
+                <div class="sd-msg" id="h-user">
+                  <div class="sd-msg-avatar">D</div>
+                  <div class="sd-msg-body">
+                    <div class="sd-msg-head"><span class="sd-msg-name">dev</span><span class="sd-msg-when">11:15 AM</span></div>
+                    <div class="sd-msg-text">Download this youtube video and convert to mp3 · youtube.com/watch?v=dQw4w9WgXcQ</div>
+                  </div>
+                </div>
+                <div class="sd-msg" id="h-bot">
+                  <div class="sd-msg-avatar app" aria-hidden="true"><img src="assets/mark-clean.svg" alt=""/></div>
+                  <div class="sd-msg-body">
+                    <div class="sd-msg-head"><span class="sd-msg-name">superbot</span><span class="sd-msg-app">APP</span><span class="sd-msg-when">11:15 AM</span></div>
+                    <div class="sd-msg-text" id="h-text"></div>
+                    <div class="code" id="h-code">
+                      <div class="c-bar"><span>youtube → audio</span><span class="lang">mp3</span></div>
+                      <div class="dl-row"><span class="dl-thumb"></span><span class="dl-meta"><b>The video you linked</b><small>youtube.com/watch?v=dQw4w9WgXcQ</small></span><span class="lang">3:53</span></div>
+                      <div class="dl-btn" id="h-dlbtn"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg><span id="h-dl-t">Download MP3</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="sd-composer">
+                <div class="sd-composer-bar">
+                  <button type="button" class="sd-plus" aria-label="Attach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg></button>
+                  <span class="sd-ph">How can superbot help you today?</span>
+                  <span class="sd-plat"><span class="sd-plat-mark"><img src="assets/tile.svg" alt=""/></span><span class="sd-plat-name">superbot</span></span>
+                  <button type="button" class="sd-send storm-action" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6"/><path d="M6.5 11.5 12 6l5.5 5.5"/></svg></button>
+                </div>
+              </div>
+            </section>
           </div>
           <div class="phone" aria-hidden="true">
             <div class="ph-status"><span>9:41</span></div>

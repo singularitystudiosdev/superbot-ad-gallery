@@ -8,6 +8,7 @@
 <meta name="description" content="ChatGPT says 'ask me anything', then denies 35 prompts in 7 seconds. The superbot notification pops, and superbot replays twelve of them: the thinking row rides the composer, its tools run one line at a time, and long answers type out with their own end frame, accelerating 1x to 10x across seven seconds. ~26s looping ad spot, 1920x1080."/>
 <script src="../../assets/ar.js"></script>
 <link rel="stylesheet" href="../../assets/ar.css">
+<link rel="stylesheet" href="../../assets/desktop-frame.css">
 <style>
 /* ---------- tokens: the site's own ladder (site.css :root) ---------- */
 :root {
@@ -83,97 +84,40 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .win-bar .led { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
 .win-bar .led.on { background: var(--storm-1); box-shadow: 0 0 8px var(--storm-1); }
 .win-body { position: relative; overflow: hidden; }
-.hub { position: absolute; inset: 8px; right: calc(24% + 20px); background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 64px 200px minmax(0, 1fr); font: 11px/15px var(--ui); color: var(--fg); transform-origin: 50% 50%; }
-.hub > * { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
-.rail { background: var(--bg); border-right: 1px solid var(--line); align-items: center; padding: 8px 0; gap: 4px; }
-.rail-item { position: relative; flex: none; width: 44px; height: 44px; border-radius: 14px; background: var(--raised); display: grid; place-items: center; color: var(--fg); }
-.rail-item svg { width: 26px; height: 26px; fill: currentColor; }
-.rail-item .dot { position: absolute; right: -2px; bottom: -2px; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 2px var(--bg); }
-.rail-item.sb { border-radius: 0; background: transparent; }
-.rail-item.sb img { width: 100%; height: 100%; display: block; }
-.rail-item.sel::before { content: ""; position: absolute; left: -10px; top: 50%; transform: translateY(-50%); width: 3px; height: 26px; border-radius: 0 999px 999px 0; background: var(--fg); }
-.rail-item[data-app="openai"] { background: #000; color: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.rail-item[data-app="claude"] { background: #d97757; color: #fff; }
-.rail-item[data-app="gemini"] { background: #fff; color: #1f1f1f; }
-.rail-item[data-app="cursor"] { background: #000; color: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.rail-item[data-app="copilot"] { background: #24292f; color: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.rail-item.bleed { background: #000; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-.rail-item.bleed img { width: 100%; height: 100%; display: block; object-fit: cover; border-radius: inherit; }
-.rail-item.folder { display: grid; grid-template-columns: 10px 10px; grid-template-rows: 10px 10px; gap: 3px; place-content: center; }
-.rail-item.folder svg { width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 2.4; }
-.rail-item.add { font: 16px/44px var(--mono); color: var(--muted); }
-.rail-div { flex: none; width: 22px; height: 1px; background: var(--line); }
-.chats { background: var(--card); border-right: 1px solid var(--line); }
-.side-head { flex: none; display: flex; align-items: center; gap: 5px; min-height: 40px; padding: 9px 12px; font-weight: 700; font-size: 12px; }
-.side-head img { width: 14px; height: 14px; }
-.side-head .ic { margin-left: auto; width: 16px; height: 16px; border-radius: 50%; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
-.side-head .ic + .ic { margin-left: 0; background: none; border: 0; }
-.side-head .ic svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2; }
-.row { display: flex; align-items: center; gap: 6px; min-height: 26px; margin: 0 6px; padding: 0 8px; border-radius: 8px; color: var(--muted); white-space: nowrap; overflow: hidden; flex: none; }
-.row svg { flex: none; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.row em { margin-left: auto; font-style: normal; font-size: 10px; }
-.row.on { background: var(--raised); color: var(--fg); box-shadow: inset 3px 0 0 var(--storm-1); }
-.row.new { color: var(--fg); }
-.cap-row { display: flex; justify-content: space-between; padding: 4px 12px 2px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; flex: none; }
-.today { padding: 2px 14px; color: var(--muted); font-size: 10px; flex: none; }
-.user { margin-top: auto; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-top: 1px solid var(--line); flex: none; }
-.user .av { position: relative; width: 24px; height: 24px; border-radius: 50%; background: var(--raised); font: 700 10px/24px var(--ui); text-align: center; }
-.user .av i { position: absolute; right: -1px; bottom: -1px; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 2px var(--card); }
-.user b { display: block; font-size: 11px; }
-.user small { display: block; color: var(--muted); font-size: 10px; }
-.main { position: relative; background: var(--card); }
-.chat-head { flex: none; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--line); font-weight: 700; font-size: 12px; }
-.chat-head .search { margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 0 8px; border-radius: 8px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); font-weight: 400; font-size: 10px; line-height: 20px; }
-.chat-head .search kbd { font: 9px/12px var(--mono); }
-.chat-head .ask { display: flex; align-items: center; gap: 4px; padding: 0 9px; border-radius: 8px; background: var(--storm-action); color: #fff; font-weight: 650; font-size: 10px; line-height: 20px; }
-.chat-head .ask img { width: 12px; height: 12px; }
-.chat-head .pt { width: 20px; height: 20px; border-radius: 8px; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
-.chat-head .pt svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; }
-.feed { flex: 1; min-height: 0; position: relative; overflow: hidden; }
-.feed-in { position: absolute; left: 0; right: 0; top: 0; padding: 10px 12px; display: grid; align-content: start; gap: 9px; will-change: transform, filter; } /* the same eased scroll curve and motion blur as the ChatGPT column */
-.welcome { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
-.welcome .w-ic { width: 24px; height: 24px; border-radius: 50%; background: var(--raised); border: 1px solid var(--line); display: grid; place-items: center; }
-.welcome .w-ic img { width: 14px; height: 14px; }
-.welcome b { display: block; }
-.welcome small { display: block; color: var(--muted); font-size: 10px; }
-.date-div { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 9px; }
-.date-div::before, .date-div::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.msg { display: flex; gap: 8px; }
-.avatar { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--raised); color: var(--fg); font: 700 10px/24px var(--ui); text-align: center; }
-.avatar.sb { background: #000; box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; }
-.avatar.sb img { width: 62%; height: 62%; display: block; }
-.m-main { min-width: 0; flex: 1; display: grid; gap: 3px; }
-.m-head { display: flex; gap: 6px; align-items: baseline; }
-.m-name { font-weight: 700; }
-.m-when { font-size: 9px; color: var(--muted); }
-.app { padding: 0 4px; border-radius: 3px; background: var(--storm-1); color: #fff; font: 700 8px/12px var(--ui); letter-spacing: .04em; }
-.m-text { font-size: 11px; line-height: 15px; white-space: pre-wrap; }
-.m-text .g { color: var(--muted); }
-/* a real fenced code block: monospace, dark plate, a filename tab, matching a chat app's own code rendering */
-.m-text .code { margin: 6px 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); background: #0b0d10; }
-.m-text .code .code-head { display: flex; align-items: center; gap: 6px; padding: 5px 9px; background: #14171b; border-bottom: 1px solid var(--line); font: 600 9.5px/1 var(--mono); color: var(--muted); letter-spacing: .02em; }
-.m-text .code .code-head i { width: 6px; height: 6px; border-radius: 50%; background: #4a4e57; }
-.m-text .code pre { margin: 0; padding: 8px 10px; font: 10px/15px var(--mono); color: #d6dde6; white-space: pre; overflow-x: hidden; }
+/* the hub root: the ad's own panel in the window, drawn by the shared sheet */
+.hub { position: absolute; inset: 8px; right: calc(24% + 20px); height: auto; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; transform-origin: 50% 50%; }
+/* the rail's glyphs are the ad's own <symbol> sprites: they take the tile's ink */
+#site .sd-rail-item > svg { fill: currentColor; }
+/* the sidebar's one chat row: the ad's own chat, kept as the active row */
+#site .sd-chat-mark > svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.feed { position: relative; }
+.feed-in { position: absolute; left: var(--spacing-16); right: var(--spacing-16); top: var(--spacing-16); display: grid; align-content: start; gap: 12px; will-change: transform, filter; } /* the same eased scroll curve and motion blur as the ChatGPT column; the sheet's 16px feed gutter, since an absolute layer ignores the padding */
+.m-text { white-space: pre-wrap; }
+/* a real fenced code block: monospace, dark plate, a filename tab, at the app's code size */
+.m-text .code { margin: 8px 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); background: #0b0d10; }
+.m-text .code .code-head { display: flex; align-items: center; gap: 6px; padding: 6px 10px; background: #14171b; border-bottom: 1px solid var(--line); font: 600 11px/1 var(--mono); color: var(--muted); letter-spacing: .02em; }
+.m-text .code .code-head i { width: 7px; height: 7px; border-radius: 50%; background: #4a4e57; }
+.m-text .code pre { margin: 0; padding: 9px 12px; font: 12px/18px var(--mono); color: #d6dde6; white-space: pre; overflow-x: hidden; }
 .m-text .code .kw { color: #d98cff; }
 .m-text .code .fn { color: #6ea8ff; }
 .m-text .code .str { color: #7ed99a; }
 .m-text .code .cm { color: #6f7480; font-style: italic; }
 .m-text .code .num { color: #ffb340; }
 /* a normal chat exchange: the user's bubble, the thinking state, then the reply */
-.xch { margin: 0 0 6px; }
-.f-q { display: flex; justify-content: flex-end; margin: 4px 0 8px; opacity: 0; will-change: transform, opacity; }
-.f-q .bub { max-width: 82%; padding: 7px 13px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); font-size: 11.5px; line-height: 16px; white-space: pre-wrap; }
+.xch { margin: 0 0 10px; }
+.f-q { display: flex; justify-content: flex-end; margin: 4px 0 10px; opacity: 0; will-change: transform, opacity; }
+.f-q .bub { max-width: 82%; padding: 10px 14px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); font-size: 15px; line-height: 20px; white-space: pre-wrap; }
 /* the thinking row: 1:1 the hero-loading page's .gt-think (a folding track, a
    spinning ring glyph and the grey sheen riding the words while it works */
 .f-think { overflow: hidden; height: 0; }
-.f-think-in { display: flex; align-items: center; gap: 7px; padding: 8px 2px 7px; border-bottom: 1px solid rgba(255,255,255,.08); font: 600 11px/1.4 var(--ui); letter-spacing: -.1px; color: #b4b4b4; }
-.f-think-in svg { width: 12px; height: 12px; flex: none; stroke: #c3c3c3; fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.f-think-in { display: flex; align-items: center; gap: 8px; padding: 9px 2px 8px; border-bottom: 1px solid rgba(255,255,255,.08); font: 600 13px/19px var(--ui); letter-spacing: -.1px; color: #b4b4b4; }
+.f-think-in svg { width: 14px; height: 14px; flex: none; stroke: #c3c3c3; fill: none; stroke-width: 1.6; stroke-linecap: round; }
 .f-think-in._live svg { animation: demo-spin 1s linear infinite; }
 .f-think-text { transition: color 200ms ease; }
 .f-think-in._live .f-think-text { background: linear-gradient(90deg, #a9a9a9 0%, #a9a9a9 35%, #f0f0f0 50%, #a9a9a9 65%, #a9a9a9 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: demo-shimmer 1.8s linear infinite; }
-.f-tools { display: flex; flex-direction: column; gap: 5px; padding: 6px 2px 7px; }
-.f-tool { display: flex; align-items: center; gap: 6px; font: 500 10.5px/14px var(--ui); color: #8b90a0; opacity: 0; }
-.f-tool svg { width: 10px; height: 10px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.f-tools { display: flex; flex-direction: column; gap: 6px; padding: 7px 2px 8px; }
+.f-tool { display: flex; align-items: center; gap: 8px; font: 500 13px/19px var(--ui); color: #8b90a0; opacity: 0; }
+.f-tool svg { width: 14px; height: 14px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
 .f-tool svg.ok { display: none; }
 .f-tool._run { color: #c9ccd4; }
 .f-tool._run .lbl { background: linear-gradient(90deg, #a5a9b6 0%, #a5a9b6 35%, #f2f3f7 50%, #a5a9b6 65%, #a5a9b6 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: demo-shimmer 1.6s linear infinite; }
@@ -184,37 +128,32 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 @keyframes demo-spin { to { transform: rotate(360deg); } }
 @keyframes demo-shimmer { 0% { background-position: 220% 0; } 100% { background-position: -220% 0; } }
 /* the reply: laid out in full from the start (so nothing reflows), each character fading in on its own clock. Mostly plain prose, with a short list or a small end frame where the answer actually has one */
-.f-a { display: flex; gap: 8px; margin: 0 0 14px; opacity: 0; will-change: transform, opacity; }
-.fmt { display: grid; gap: 5px; }
-.fmt .p { font-size: 11px; line-height: 15px; }
-.fmt .lead { font-weight: 650; font-size: 11.5px; line-height: 16px; }
-.fmt ul { margin: 0; padding: 0 0 0 11px; }
-.fmt li { list-style: none; position: relative; font-size: 11px; line-height: 15px; }
-.fmt li::before { content: "·"; position: absolute; left: -9px; color: var(--muted); }
-.fmt .note { justify-self: start; margin-top: 1px; padding: 2px 7px; border-radius: 5px; background: #0a0a0a; border: 1px solid var(--line); font: 600 9.5px/14px var(--mono); color: var(--secondary); }
+.f-a { margin: 2px 0 16px; opacity: 0; will-change: transform, opacity; }
+.fmt { display: grid; gap: 8px; }
+.fmt .p { font-size: 15px; line-height: 20px; }
+.fmt .lead { font-weight: 650; font-size: 15px; line-height: 20px; }
+.fmt ul { margin: 0; padding: 0 0 0 14px; }
+.fmt li { list-style: none; position: relative; font-size: 15px; line-height: 20px; }
+.fmt li::before { content: "·"; position: absolute; left: -11px; color: var(--muted); }
+.fmt .note { justify-self: start; margin-top: 2px; padding: 2px 8px; border-radius: 6px; background: #0a0a0a; border: 1px solid var(--line); font: 600 12px/16px var(--mono); color: var(--secondary); }
 .fmt .ch { opacity: 0; }
 @property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
 /* the composer: the hero-loading page's spinning rainbow ring, with the thinking row opening above the input row inside it */
 .composer { isolation: isolate; } /* the ring's bloom layers sit behind the plate, so the glow hugs the border instead of washing over it */
-.composer .ring { position: relative; --surface: #1a1a1c; --radius: 13px; --speed: 3.5s; --rainbow: conic-gradient(from var(--angle), #2b6bff, #6a1fd8, #c026d3, #ff3d9a, #2b6bff); display: flex; flex-direction: column; border-radius: var(--radius); background: linear-gradient(var(--surface), var(--surface)) padding-box, var(--rainbow) border-box; border: 1.5px solid transparent; animation: spin var(--speed) linear infinite; }
+.composer .ring { position: relative; --surface: #1a1a1c; --radius: 16px; --speed: 3.5s; --rainbow: conic-gradient(from var(--angle), #2b6bff, #6a1fd8, #c026d3, #ff3d9a, #2b6bff); display: flex; flex-direction: column; border-radius: var(--radius); background: linear-gradient(var(--surface), var(--surface)) padding-box, var(--rainbow) border-box; border: 1.5px solid transparent; animation: spin var(--speed) linear infinite; }
 .composer .ring::before, .composer .ring::after { content: ""; position: absolute; inset: -2px; border-radius: var(--radius); background: var(--rainbow); z-index: -1; }
 .composer .ring::before { opacity: .18; filter: blur(6px); }
 .composer .ring::after { opacity: .09; filter: blur(13px); }
-.composer .crow { height: 30px; padding: 0 4px 0 9px; display: flex; align-items: center; gap: 8px; }
+/* the bar inside the ring is the sheet's composer row; the ring is the border */
+#site .composer .sd-composer-bar { border-color: transparent; }
 .b-think { overflow: hidden; height: 0; }
-.b-think-in { display: flex; align-items: center; gap: 7px; margin: 0 10px; padding: 8px 0 7px; border-bottom: 1px solid rgba(255,255,255,.08); font: 600 10.5px/1.4 var(--ui); letter-spacing: -.1px; color: #b4b4b4; }
-.b-think-in svg { width: 12px; height: 12px; flex: none; stroke: #c3c3c3; fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.b-think-in { display: flex; align-items: center; gap: 8px; margin: 0 14px; padding: 9px 0 8px; border-bottom: 1px solid rgba(255,255,255,.08); font: 600 13px/1.4 var(--ui); letter-spacing: -.1px; color: #b4b4b4; }
+.b-think-in svg { width: 14px; height: 14px; flex: none; stroke: #c3c3c3; fill: none; stroke-width: 1.6; stroke-linecap: round; }
 .b-think-in._live svg { animation: demo-spin 1s linear infinite; }
 .b-think-text { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .b-think-in._live .b-think-text { background: linear-gradient(90deg, #a9a9a9 0%, #a9a9a9 35%, #f0f0f0 50%, #a9a9a9 65%, #a9a9a9 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: demo-shimmer 1.8s linear infinite; }
 @keyframes spin { to { --angle: 360deg; } }
-.composer { flex: none; margin: 6px 12px 10px; }
-.composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
-.composer .plus { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font: 650 11px/16px var(--mono); color: var(--fg); }
-.composer .ph { flex: 1; }
-.composer .picker { padding: 0 6px; border-radius: 8px; background: var(--card); color: var(--fg); font-size: 10px; line-height: 18px; }
-.composer .send { width: 24px; height: 24px; border-radius: 50%; background: var(--storm-action); display: grid; place-items: center; color: #fff; }
-.composer .send svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.composer { flex: none; }
 .phone { position: absolute; right: 8px; top: 8px; bottom: 8px; width: 24%; background: #000; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; font: 11px/15px var(--ui); color: var(--fg); display: flex; flex-direction: column; padding: 10px 12px 8px; }
 .ph-status { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); padding: 0 4px; }
 .ph-head { display: flex; align-items: center; gap: 8px; padding: 10px 0 8px; font-weight: 700; font-size: 12px; }
@@ -322,45 +261,141 @@ html { --site-k: 1.6; } /* the app window is drawn at 1200x675 and shown at 1.6 
       <div class="win">
         <div class="win-bar"><i></i><i></i><i></i><span>superbot</span><em class="led on"></em></div>
         <div class="win-body">
-          <div class="hub">
-            <nav class="rail">
-              <span class="rail-item sb sel"><img src="assets/tile.svg" alt=""/></span>
-              <span class="rail-div"></span>
-              <span class="rail-item" data-app="openai"><svg><use href="#ic-openai"/></svg><i class="dot"></i></span>
-              <span class="rail-item" data-app="claude"><svg><use href="#ic-claude"/></svg><i class="dot"></i></span>
-              <span class="rail-item" data-app="gemini"><svg><use href="#ic-gemini"/></svg><i class="dot"></i></span>
-              <span class="rail-item" data-app="cursor"><svg><use href="#ic-cursor"/></svg><i class="dot"></i></span>
-              <span class="rail-item bleed"><img src="assets/devin.png" alt=""/><i class="dot"></i></span>
-              <span class="rail-item bleed"><img src="assets/grok.png" alt=""/><i class="dot"></i></span>
-              <span class="rail-item bleed"><img src="assets/hermes.png" alt=""/><i class="dot"></i></span>
-              <span class="rail-item" data-app="copilot"><svg><use href="#ic-copilot"/></svg><i class="dot"></i></span>
-              <span class="rail-div"></span>
-              <span class="rail-item folder"><svg viewBox="0 0 24 24"><path d="M12 22v5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg><svg viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/></svg><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><svg viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg><i class="dot"></i></span>
-              <span class="rail-item add">+</span>
+          <div class="hub sd-hub">
+            <nav class="sd-rail" aria-label="Servers">
+              <span class="sd-rail-item sb sel" aria-label="superbot" aria-current="true"><img src="assets/tile.svg" alt="" draggable="false"/></span>
+              <span class="sd-rail-div"></span>
+              <span class="sd-rail-item" data-app="openai" aria-label="ChatGPT"><svg aria-hidden="true"><use href="#ic-openai"/></svg><i class="dot" data-tone="ok"></i></span>
+              <span class="sd-rail-item" data-app="claude" aria-label="Claude"><svg aria-hidden="true"><use href="#ic-claude"/></svg><i class="dot" data-tone="ok"></i></span>
+              <span class="sd-rail-item" data-app="gemini" aria-label="Gemini"><svg aria-hidden="true"><use href="#ic-gemini"/></svg><i class="dot" data-tone="ok"></i></span>
+              <span class="sd-rail-item" data-app="cursor" aria-label="Cursor"><svg aria-hidden="true"><use href="#ic-cursor"/></svg><i class="dot" data-tone="ok"></i></span>
+              <span class="sd-rail-item bleed" aria-label="Devin"><img src="assets/devin.png" alt=""/><i class="dot" data-tone="ok"></i></span>
+              <span class="sd-rail-item bleed" aria-label="Grok"><img src="assets/grok.png" alt=""/><i class="dot" data-tone="ok"></i></span>
+              <span class="sd-rail-item bleed" aria-label="Hermes"><img src="assets/hermes.png" alt=""/><i class="dot" data-tone="ok"></i></span>
+              <span class="sd-rail-div"></span>
+              <span class="sd-rail-item folder" aria-label="Utilities">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.2A2 2 0 0 1 5.5 5.2h4l2 2.4h7A2 2 0 0 1 20.5 9.6v7.2a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="sd-rail-item add" aria-label="Add a server">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </span>
             </nav>
-            <div class="chats">
-              <div class="side-head"><img src="assets/mark-clean.svg" alt=""/>superbot.gg<i class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg></i><i class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg></i></div>
-              <span class="row new"><svg viewBox="0 0 24 24"><path d="M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L13 14l-4 1 1-4Z"/></svg>New chat</span>
-              <span class="row"><svg viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>Manage Context</span>
-              <span class="row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.6 9.4c-.9-1.3-5.8-1.4-5.8.9 0 2.5 6.2 1.4 6.2 3.8 0 2.3-5.2 2.1-6.4.7"/></svg>View Savings</span>
-              <span class="row"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-6"/><path d="M13 17V7"/><path d="M18 17v-3"/></svg>View Usage</span>
-              <div class="cap-row"><span>⌄ Recents</span><span>1</span></div>
-              <div class="today">Today</div>
-              <span class="row chat on"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>ask me anything<em>now</em></span>
-              <div class="user"><span class="av">D<i></i></span><span><b>hi@superbot.gg</b><small>no balance yet</small></span></div>
-            </div>
-            <div class="main">
-              <div class="chat-head"><b>chat</b><span class="search">Search<kbd>⌘K</kbd></span><span class="ask"><img src="assets/mark-clean.svg" alt=""/>Ask Superbot</span><span class="pt"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/></svg></span></div>
-              <div class="feed" id="s-feed"><div class="feed-in" id="s-in">
-                <div class="welcome"><span class="w-ic"><img src="assets/mark-clean.svg" alt=""/></span><span><b>Welcome to #chat</b><small>This is the start of your conversation with Superbot.</small></span></div>
-                <div class="date-div">September 13, 2026</div>
-                <!-- the seven exchanges are appended here by the build -->
+            <aside class="sd-side">
+              <div class="sd-side-head">
+                <img class="sd-brand-mark" src="assets/tile.svg" alt=""/>
+                <span class="sd-side-word">superbot.gg</span>
+              </div>
+              <div class="sd-side-icons">
+                <button type="button" class="sd-icon-btn" aria-label="Search">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="M15.6 15.6 20 20"/></svg>
+                </button>
+                <button type="button" class="sd-icon-btn" aria-label="Toggle sidebar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9.5 4.5v15"/><path d="M15.6 9.6 18 12l-2.4 2.4"/></svg>
+                </button>
+              </div>
+              <div class="sd-side-tool-rows">
+                <button type="button" class="sd-new-chat storm-action">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 4.5H6.5A2 2 0 0 0 4.5 6.5v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"/><path d="M15.6 3.9a1.9 1.9 0 0 1 2.7 2.7L12 13l-3.2.7.7-3.2z"/></svg>
+                  New chat
+                </button>
+                <button type="button" class="sd-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="3.8" width="7" height="7" rx="2"/><rect x="13.2" y="3.8" width="7" height="7" rx="2"/><rect x="3.8" y="13.2" width="7" height="7" rx="2"/><circle cx="16.7" cy="16.7" r="3.5"/></svg>
+                  <span class="sd-row-lead">Your stuff</span>
+                  <span class="sd-row-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></span>
+                </button>
+                <button type="button" class="sd-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 7.5h15M4.5 12h15M4.5 16.5h8"/></svg>
+                  <span class="sd-row-lead">Setup</span>
+                  <span class="sd-row-badge">3</span>
+                </button>
+                <div class="sd-side-lane-row">
+                  <div class="sd-lane" role="radiogroup" aria-label="Lane">
+                    <button type="button" class="sd-lane-seg" role="radio" aria-checked="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H9l-4 3V6.5A2.5 2.5 0 0 1 7.5 4h10A2.5 2.5 0 0 1 20 6.5z"/></svg>
+                      Chat
+                    </button>
+                    <button type="button" class="sd-lane-seg" role="radio" aria-checked="false">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7 4.5 12 9 17M15 7l4.5 5L15 17"/></svg>
+                      Code
+                    </button>
+                  </div>
+                  <button type="button" class="sd-icon-btn" aria-label="Filter">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="sd-chats">
+                <div class="sd-bucket">Today</div>
+                <button type="button" class="sd-chat-row on" aria-current="true">
+                  <span class="sd-chat-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></span>
+                  <span class="sd-chat-title">ask me anything</span>
+                  <span class="sd-chat-when">now</span>
+                </button>
+              </div>
+              <div class="sd-meter-block">
+                <div class="sd-meter-row"><span>this week</span><span class="sd-mono">$5.15</span></div>
+                <div class="sd-meter"><span class="sd-meter-fill"></span></div>
+                <div class="sd-meter-row"><span>context</span><span class="sd-mono">361k</span></div>
+              </div>
+              <div class="sd-user">
+                <div class="sd-user-main">
+                  <span class="sd-avatar">D<span class="sd-user-dot" aria-hidden="true"></span></span>
+                  <span class="sd-user-text">
+                    <span class="sd-user-mail">hi@superbot.gg</span>
+                    <span class="sd-user-sub">no balance yet</span>
+                  </span>
+                </div>
+                <button type="button" class="sd-icon-btn sd-gear" aria-label="Settings">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.5-2.8l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1A1.7 1.7 0 0 0 10 3a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/></svg>
+                </button>
+              </div>
+            </aside>
+            <section class="sd-main">
+              <header class="sd-head">
+                <button type="button" class="sd-icon-btn sd-head-toggle" aria-label="Show sidebar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9.5 4.5v15"/></svg>
+                </button>
+                <span class="sd-head-title">chat</span>
+                <div class="sd-head-actions">
+                  <button type="button" class="sd-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="M15.6 15.6 20 20"/></svg>
+                    <span class="sd-search-label">Search</span>
+                    <span class="sd-search-hint">&#8984;K</span>
+                  </button>
+                  <button type="button" class="sd-ask storm-action">
+                    <img class="sd-ask-mark" src="assets/mark-clean.svg" alt=""/>
+                    Ask Superbot
+                  </button>
+                  <button type="button" class="sd-icon-btn sd-head-toggle" aria-label="Toggle panel">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M14.5 4.5v15"/></svg>
+                  </button>
+                </div>
+              </header>
+              <div class="feed sd-feed" id="s-feed"><div class="feed-in" id="s-in">
+                <div class="sd-welcome">
+                  <span class="sd-msg-avatar app" aria-hidden="true"><img src="assets/mark-clean.svg" alt=""/></span>
+                  <span class="sd-msg-body">
+                    <span class="sd-msg-head"><span class="sd-msg-name">Welcome to #chat</span></span>
+                    <span class="sd-msg-text">This is the start of your conversation with Superbot.</span>
+                  </span>
+                </div>
+                <div class="sd-date"><span class="sd-date-label">September 13, 2026</span></div>
+                <!-- the twelve exchanges are appended here by the build -->
               </div></div>
-              <div class="composer"><div class="ring">
+              <div class="composer sd-composer"><div class="ring">
                 <div class="b-think" id="b-think"><div class="b-think-in" id="b-think-in"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.56"/></svg><span class="b-think-text" id="b-think-text"></span></div></div>
-                <div class="crow"><span class="plus">+</span><span class="ph">How can superbot help you today?</span><span class="picker">Platforms ⌄</span></div>
+                <div class="crow sd-composer-bar">
+                  <button type="button" class="sd-plus" aria-label="Attach">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg>
+                  </button>
+                  <span class="sd-ph">How can superbot help you today?</span>
+                  <span class="sd-plat"><span class="sd-plat-mark"><img src="assets/tile.svg" alt=""/></span><span class="sd-plat-name">superbot</span></span>
+                  <button type="button" class="sd-send storm-action" aria-label="Send">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6"/><path d="M6.5 11.5 12 6l5.5 5.5"/></svg>
+                  </button>
+                </div>
               </div></div>
-            </div>
+            </section>
           </div>
           <div class="phone" aria-hidden="true">
             <div class="ph-status"><span>9:41</span></div>
@@ -738,7 +773,7 @@ let SCHED_END = 0;
     d.innerHTML = `<div class="f-q"><span class="bub">${esc(ex.q)}</span></div>
       <div class="f-think"><div class="f-think-in"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.56"/></svg><span class="f-think-text">${esc(ex.think)}</span></div>
       <div class="f-tools">${ex.tools.map(([lbl, , ic]) => `<div class="f-tool">${(TOOL_ICON[ic] || TOOL_ICON.search).replace('<svg', '<svg class="act"')}<svg class="ok" viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg><span class="lbl">${esc(lbl)}</span></div>`).join('')}</div></div>
-      <div class="f-a"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span></div><div class="m-text fmt">${blocksHTML(ex.blocks)}</div></div></div>`;
+      <div class="f-a sd-msg"><span class="avatar sb sd-msg-avatar app"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main sd-msg-body"><div class="m-head sd-msg-head"><span class="m-name sd-msg-name">superbot</span><span class="app sd-msg-app">APP</span></div><div class="m-text fmt sd-msg-text">${blocksHTML(ex.blocks)}</div></div></div>`;
     frag.appendChild(d);
 
     const at = t;                                 // the ask lands

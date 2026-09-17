@@ -8,10 +8,13 @@
 <meta name="description" content="The superbot.gg hero boots 1:1 (apps spin, the mark flips, the rail drops, the frontend extends), a title card, the user asks superbot to answer every email in their style, a 1:1 Gmail where the agent replies to each thread, a second card, then the superbot end screen. ~33s loop, 1920x1080."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"/>
-<!-- the stage box: the site's own stylesheet, verbatim (site/site/assets/hub-boot-3.css) -->
+<!-- the stage box: the site's own stylesheet, re-based on the shared app-window sheet -->
 <link rel="stylesheet" href="assets/hub-boot-3.css"/>
 <script src="../../assets/ar.js"></script>
 <link rel="stylesheet" href="../../assets/ar.css">
+<!-- the shared superbot-desktop window sheet: `#hub` carries `sd-hub`, so the whole
+     window inside it is the real app's tokens and `.sd-*` recipes at app pixels -->
+<link rel="stylesheet" href="../../assets/desktop-frame.css">
 <style>
 /* ---------- tokens: the site's own ladder (site/site/assets/site.css :root), verbatim ---------- */
 :root {
@@ -206,6 +209,11 @@ html { --site-k: 1.43402; } /* the hero is drawn at 1205x753 and shown at 1.434 
 html[data-ar="1x1"] .gm-nav, html[data-ar="4x5"] .gm-nav { display: none; }
 html[data-ar="1x1"] .gm-card, html[data-ar="4x5"] .gm-card { left: 84px; }
 html[data-ar="4x5"] .gm-search { width: auto; flex: 1; margin-left: 12px; }
+/* ar.css sheds the sidebar at 1:1 and 4:5 and leaves the hub two columns, sized for the old
+   64px rail. This hub's rail is the app's own 72 (48 tiles in a 12px gutter), so at those two
+   ratios the narrower column hung the selection pill outside the rail; restated here at the
+   sheet's width. (Shared-asset note: assets/ar.css:36 still assumes the pre-port 64px rail.) */
+html[data-ar="1x1"] .hub, html[data-ar="4x5"] .hub { grid-template-columns: 72px minmax(0, 1fr); }
 </style>
 </head>
 <body>
@@ -276,60 +284,184 @@ html[data-ar="4x5"] .gm-search { width: auto; flex: 1; margin-left: 12px; }
         <div class="body">
           <div class="margin" id="margin" aria-hidden="true"></div>
           <div class="arena" id="arena">
-            <!-- the hub: the real app's layout (rail, chats, chat lane), from site/index.html -->
-            <div class="hub" id="hub" aria-hidden="true">
-              <nav class="rail inner">
-                <span class="rail-item sb sel"><img src="assets/tile.svg" alt="" width="44" height="44"/></span>
-                <span class="rail-div"></span>
-                <span class="rail-item" data-app="openai"><svg><use href="#sb-ic-openai"/></svg><i class="dot"></i></span>
-                <span class="rail-item" data-app="claude"><svg><use href="#sb-ic-claude"/></svg><i class="dot bad"></i></span>
-                <span class="rail-item" data-app="gemini"><svg><use href="#sb-ic-gemini"/></svg><i class="dot"></i></span>
-                <span class="rail-item" data-app="cursor"><svg><use href="#sb-ic-cursor"/></svg><i class="dot"></i></span>
-                <span class="rail-item bleed" data-app="devin"><img src="assets/devin.png" alt="" width="44" height="44"/><i class="dot"></i></span>
-                <span class="rail-item bleed" data-app="hermes"><img src="assets/hermes.png" alt="" width="44" height="44"/><i class="dot"></i></span>
-                <span class="rail-item bleed" data-app="grok"><img src="assets/grok.png" alt="" width="44" height="44"/><i class="dot"></i></span>
-                <span class="rail-item" data-app="copilot"><svg><use href="#sb-ic-copilot"/></svg><i class="dot"></i></span>
-                <span class="rail-div"></span>
-                <span class="rail-item folder">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                  <i class="dot"></i>
+            <!-- the hub: the real app window, on the shared desktop-frame sheet
+                 (../../assets/desktop-frame.css). `sd-hub` swaps the whole window
+                 onto the app's own tokens; every column below is the sheet's
+                 `.sd-*` anatomy at real app pixels — rail 72 (tiles 48 r16 on
+                 #121213), sidebar 240, main head 48 — and the ad's own boot
+                 hooks stay on it: `.inner`, `.rail-item`, `#hub`, `#h-ph`,
+                 `#h-send`, `data-app`. -->
+            <div class="hub sd-hub" id="hub" aria-hidden="true">
+              <nav class="rail sd-rail inner" aria-label="Servers">
+                <span class="rail-item sd-rail-item sb sel"><img src="assets/tile.svg" alt="" width="48" height="48"/></span>
+                <span class="rail-div sd-rail-div"></span>
+                <span class="rail-item sd-rail-item" data-app="openai"><svg><use href="#sb-ic-openai"/></svg><i class="dot" data-tone="ok"></i></span>
+                <span class="rail-item sd-rail-item" data-app="claude"><svg><use href="#sb-ic-claude"/></svg><i class="dot" data-tone="bad"></i></span>
+                <span class="rail-item sd-rail-item" data-app="gemini"><svg><use href="#sb-ic-gemini"/></svg><i class="dot" data-tone="ok"></i></span>
+                <span class="rail-item sd-rail-item" data-app="cursor"><svg><use href="#sb-ic-cursor"/></svg><i class="dot" data-tone="ok"></i></span>
+                <span class="rail-item sd-rail-item bleed" data-app="devin"><img src="assets/devin.png" alt="" width="48" height="48"/><i class="dot" data-tone="ok"></i></span>
+                <span class="rail-item sd-rail-item bleed" data-app="hermes"><img src="assets/hermes.png" alt="" width="48" height="48"/><i class="dot" data-tone="ok"></i></span>
+                <span class="rail-item sd-rail-item bleed" data-app="grok"><img src="assets/grok.png" alt="" width="48" height="48"/><i class="dot" data-tone="ok"></i></span>
+                <span class="rail-item sd-rail-item" data-app="copilot"><svg><use href="#sb-ic-copilot"/></svg><i class="dot" data-tone="ok"></i></span>
+                <span class="rail-div sd-rail-div"></span>
+                <span class="rail-item sd-rail-item folder" aria-label="Utilities">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7.2A2 2 0 0 1 5.5 5.2h4l2 2.4h7A2 2 0 0 1 20.5 9.6v7.2a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></svg>
                 </span>
-                <span class="rail-item add">+</span>
+                <span class="rail-item sd-rail-item add" aria-label="Add a server">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg>
+                </span>
               </nav>
-              <div class="chats inner">
-                <div class="side-head"><img src="assets/mark-clean.svg" alt="" width="14" height="14"/><b>superbot.gg</b><i class="side-ic ic-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg></i><i class="side-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg></i></div>
-                <span class="row new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L13 14l-4 1 1-4Z"/></svg>New chat</span>
-                <span class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>Manage Context</span>
-                <span class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.6 9.4c-.9-1.3-5.8-1.4-5.8.9 0 2.5 6.2 1.4 6.2 3.8 0 2.3-5.2 2.1-6.4.7"/></svg>View Savings</span>
-                <span class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M8 17v-6"/><path d="M13 17V7"/><path d="M18 17v-3"/></svg>View Usage</span>
-                <span class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m3 6 2 2 4-4"/><path d="m3 14 2 2 4-4"/><path d="M13 6h8"/><path d="M13 16h8"/></svg>Setup<i class="cnt">3</i></span>
-                <div class="cap-row"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>Recents</span><span class="cnt-r">1</span></div>
-                <div class="today">Today</div>
-                <span class="row chat on"><i class="sp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></i><span class="t">which rate limiter…</span><em>12m</em></span>
-                <span class="row chat"><i class="sp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></i><span class="t">rank the import pa…</span><em>3h</em></span>
-                <span class="row chat"><i class="sp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></i><span class="t">trello card test</span><em>1d</em></span>
-                <span class="row chat"><i class="sp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></i><span class="t">dedupe the always…</span><em>3d</em></span>
-                <span class="row chat"><i class="sp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></i><span class="t">macapp notarizati…</span><em>1w</em></span>
-                <div class="ctx-mini" aria-hidden="true"><div class="cx-in">
-                  <div class="cx"><span>this week</span><b>$5.15</b></div>
-                  <div class="bar"><i style="--p:82%"></i></div>
-                  <div class="cx"><span>context</span><b>361k</b></div>
-                </div></div>
-                <div class="user"><span class="avatar" style="--c:var(--raised)">D<i class="dot ok"></i></span><span class="u-tx"><b>hi@superbot.gg</b><small>no balance yet</small></span><svg class="u-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></div>
-              </div>
-              <div class="main inner">
-                <div class="chat-head"><b>chat</b><span class="search">Search<kbd>⌘K</kbd></span><span class="ask"><img src="assets/mark-clean.svg" alt="" width="12" height="12"/>Ask Superbot</span><span class="ptoggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/></svg></span></div>
-                <div class="feed" id="feed">
-                  <div class="welcome"><span class="w-ic"><img src="assets/mark-clean.svg" alt="" width="14" height="14"/></span><span class="w-tx"><b>Welcome to #chat</b><small>This is the start of your conversation with Superbot.</small></span></div>
-                  <div class="date-div">September 10, 2026</div>
-                  <div class="msg" id="h-user"><span class="avatar" style="--c:#fb7185">D</span><div class="m-main"><div class="m-head"><span class="m-name">dan</span><span class="m-when">9:02 AM</span></div><div class="m-text" id="h-ask"></div></div></div>
-                  <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span><span class="app">APP</span><span class="m-when">9:02 AM</span></div><div class="m-text" id="h-text"></div></div></div>
+              <aside class="chats sd-side inner">
+                <div class="side-head sd-side-head">
+                  <img class="sd-brand-mark" src="assets/mark-clean.svg" alt=""/>
+                  <span class="sd-side-word">superbot.gg</span>
                 </div>
-                <div class="composer" aria-hidden="true"><div class="pill"><span class="plus">+</span><span class="ph" id="h-ph">How can superbot help you today?</span><span class="picker">superbot ▾</span><span class="send" id="h-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
-              </div>
+                <div class="sd-side-icons">
+                  <button type="button" class="sd-icon-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="M15.6 15.6 20 20"/></svg>
+                  </button>
+                  <button type="button" class="sd-icon-btn" aria-label="Toggle sidebar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9.5 4.5v15"/><path d="M15.6 9.6 18 12l-2.4 2.4"/></svg>
+                  </button>
+                </div>
+                <div class="sd-side-tool-rows">
+                  <button type="button" class="sd-new-chat storm-action">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 4.5H6.5A2 2 0 0 0 4.5 6.5v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"/><path d="M15.6 3.9a1.9 1.9 0 0 1 2.7 2.7L12 13l-3.2.7.7-3.2z"/></svg>
+                    New chat
+                  </button>
+                  <button type="button" class="sd-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="3.8" width="7" height="7" rx="2"/><rect x="13.2" y="3.8" width="7" height="7" rx="2"/><rect x="3.8" y="13.2" width="7" height="7" rx="2"/><circle cx="16.7" cy="16.7" r="3.5"/></svg>
+                    <span class="sd-row-lead">Your stuff</span>
+                    <span class="sd-row-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></span>
+                  </button>
+                  <button type="button" class="sd-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 7.5h15M4.5 12h15M4.5 16.5h8"/></svg>
+                    <span class="sd-row-lead">Setup</span>
+                    <span class="sd-row-badge">3</span>
+                  </button>
+                  <div class="sd-side-lane-row">
+                    <div class="sd-lane" role="radiogroup" aria-label="Lane">
+                      <button type="button" class="sd-lane-seg" role="radio" aria-checked="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H9l-4 3V6.5A2.5 2.5 0 0 1 7.5 4h10A2.5 2.5 0 0 1 20 6.5z"/></svg>
+                        Chat
+                      </button>
+                      <button type="button" class="sd-lane-seg" role="radio" aria-checked="false">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7 4.5 12 9 17M15 7l4.5 5L15 17"/></svg>
+                        Code
+                      </button>
+                    </div>
+                    <button type="button" class="sd-icon-btn" aria-label="Filter chats">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="sd-chats">
+                  <div class="sd-bucket">Today</div>
+                  <button type="button" class="sd-chat-row on" aria-current="true">
+                    <span class="sd-chat-mark" data-app="openai" aria-hidden="true"><svg><use href="#sb-ic-openai"/></svg></span>
+                    <span class="sd-chat-title">which rate limiter…</span>
+                    <span class="sd-chat-when">12m</span>
+                  </button>
+                  <button type="button" class="sd-chat-row">
+                    <span class="sd-chat-mark" data-app="claude" aria-hidden="true"><svg><use href="#sb-ic-claude"/></svg></span>
+                    <span class="sd-chat-title">rank the import pa…</span>
+                    <span class="sd-chat-when">3h</span>
+                  </button>
+                  <button type="button" class="sd-chat-row">
+                    <span class="sd-chat-mark" data-app="cursor" aria-hidden="true"><svg><use href="#sb-ic-cursor"/></svg></span>
+                    <span class="sd-chat-title">trello card test</span>
+                    <span class="sd-chat-when">1d</span>
+                  </button>
+                  <button type="button" class="sd-chat-row">
+                    <span class="sd-chat-mark" data-app="gemini" aria-hidden="true"><svg><use href="#sb-ic-gemini"/></svg></span>
+                    <span class="sd-chat-title">dedupe the always…</span>
+                    <span class="sd-chat-when">3d</span>
+                  </button>
+                  <button type="button" class="sd-chat-row">
+                    <span class="sd-chat-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></span>
+                    <span class="sd-chat-title">macapp notarizati…</span>
+                    <span class="sd-chat-when">1w</span>
+                  </button>
+                </div>
+                <div class="sd-meter-block">
+                  <div class="sd-meter-row"><span>this week</span><span class="sd-mono">$5.15</span></div>
+                  <div class="sd-meter"><span class="sd-meter-fill"></span></div>
+                  <div class="sd-meter-row"><span>context</span><span class="sd-mono">361k</span></div>
+                </div>
+                <div class="sd-user">
+                  <div class="sd-user-main">
+                    <span class="sd-avatar">D<span class="sd-user-dot" aria-hidden="true"></span></span>
+                    <span class="sd-user-text">
+                      <span class="sd-user-mail">hi@superbot.gg</span>
+                      <span class="sd-user-sub">no balance yet</span>
+                    </span>
+                  </div>
+                  <button type="button" class="sd-icon-btn sd-gear" aria-label="Settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.5-2.8l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1A1.7 1.7 0 0 0 10 3a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/></svg>
+                  </button>
+                </div>
+              </aside>
+              <section class="main sd-main inner">
+                <header class="sd-head">
+                  <button type="button" class="sd-icon-btn sd-head-toggle" aria-label="Show sidebar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9.5 4.5v15"/></svg>
+                  </button>
+                  <span class="sd-head-title">chat</span>
+                  <div class="sd-head-actions">
+                    <button type="button" class="sd-search">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="M15.6 15.6 20 20"/></svg>
+                      <span class="sd-search-label">Search</span>
+                      <span class="sd-search-hint">&#8984;K</span>
+                    </button>
+                    <button type="button" class="sd-ask storm-action">
+                      <img class="sd-ask-mark" src="assets/mark-clean.svg" alt=""/>
+                      Ask Superbot
+                    </button>
+                    <button type="button" class="sd-icon-btn sd-head-toggle" aria-label="Toggle panel">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M14.5 4.5v15"/></svg>
+                    </button>
+                  </div>
+                </header>
+                <div class="feed sd-feed" id="feed">
+                  <div class="welcome sd-welcome">
+                    <span class="sd-msg-avatar app" aria-hidden="true"><img src="assets/mark-clean.svg" alt=""/></span>
+                    <span class="sd-msg-body">
+                      <span class="sd-msg-head"><span class="sd-msg-name">Welcome to #chat</span></span>
+                      <span class="sd-msg-text">This is the start of your conversation with Superbot.</span>
+                    </span>
+                  </div>
+                  <div class="date-div sd-date"><span class="sd-date-label">September 10, 2026</span></div>
+                  <div class="msg sd-msg" id="h-user">
+                    <span class="sd-msg-avatar" aria-hidden="true">D</span>
+                    <span class="sd-msg-body">
+                      <span class="sd-msg-head"><span class="sd-msg-name">dan</span><span class="sd-msg-when">9:02 AM</span></span>
+                      <span class="sd-msg-text" id="h-ask"></span>
+                    </span>
+                  </div>
+                  <div class="msg sd-msg" id="h-bot">
+                    <span class="sd-msg-avatar app" aria-hidden="true"><img src="assets/mark-clean.svg" alt=""/></span>
+                    <span class="sd-msg-body">
+                      <span class="sd-msg-head"><span class="sd-msg-name">superbot</span><span class="sd-msg-app">APP</span><span class="sd-msg-when">9:02 AM</span></span>
+                      <span class="sd-msg-text" id="h-text"></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="composer sd-composer" aria-hidden="true">
+                  <div class="sd-composer-bar">
+                    <span class="sd-plus" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg>
+                    </span>
+                    <span class="ph sd-ph" id="h-ph">How can superbot help you today?</span>
+                    <span class="sd-plat">
+                      <span class="sd-plat-mark"><img src="assets/tile.svg" alt=""/></span>
+                      <span class="sd-plat-name">superbot</span>
+                    </span>
+                    <span class="send sd-send storm-action" id="h-send">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6"/><path d="M6.5 11.5 12 6l5.5 5.5"/></svg>
+                    </span>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>

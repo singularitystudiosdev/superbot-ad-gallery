@@ -166,11 +166,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
 .composer .ph { flex: 1; }
 .composer .send { width: 24px; height: 24px; border-radius: 50%; background: var(--storm-action); display: grid; place-items: center; color: #fff; }
-.phone { display: none; background: #000; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; font: 11px/15px var(--ui); color: var(--fg); display: flex; flex-direction: column; padding: 10px 12px 8px; }
-.ph-status { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); padding: 0 4px; }
-.ph-head { display: flex; align-items: center; gap: 8px; padding: 10px 0 8px; font-weight: 700; font-size: 12px; }
-.ph-turn { font-size: 11px; line-height: 15px; margin-bottom: 8px; }
-.ph-home { align-self: center; width: 70px; height: 3px; border-radius: 2px; background: var(--line); margin-top: 6px; }
+
 
 /* ---------- scene 3: the pain-words card ---------- */
 #card { display: grid; place-items: center; background: #000; }
@@ -188,6 +184,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #end .words { overflow: hidden; }
 #end .words h1 { margin: 0; font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #fff; }
 #end .words p { margin: 12px 0 0 6px; font-size: 34px; color: var(--muted); font-weight: 500; }
+
 
 @media (prefers-reduced-motion: reduce) {
   .scene { opacity: 0 !important; visibility: hidden !important; }
@@ -283,12 +280,6 @@ html { --site-k: 1.6; }
               </div>
               <div class="composer"><div class="pill"><span class="ph">Ask Superbot anything</span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
             </div>
-          </div>
-          <div class="phone" aria-hidden="true">
-            <div class="ph-status"><span>9:41</span></div>
-            <div class="ph-head">tuned ✓ everywhere</div>
-            <div class="ph-turn">the same rules and skills, on every device.</div>
-            <div class="ph-home"></div>
           </div>
         </div>
       </div>

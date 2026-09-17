@@ -43,7 +43,7 @@ window.CONTEXT_ADS = [
     "before": { "who": "ChatGPT", "used": "190K", "of": "200K", "bar": 0.95, "warn": true, "note": "84s per reply" },
     "after":  { "who": "ChatGPT", "used": "28K", "of": "200K", "bar": 0.14, "note": "4s per reply" },
     "stats": [
-      { "icon": "spark", "lead": "replies are", "big": "21x faster" }
+      { "icon": "spark", "lead": "replies are", "big": "2.3x faster" }
     ]
   },
   {

@@ -37,10 +37,6 @@ const ads = [
   ['context-full-poster', 'context full? superbot can fix it! · before/after: ChatGPT at 197K of 200K, ChatGPT (with superbot) at 31K; 166K tokens freed (static)'],
   ['context-slow-poster', 'agent slow? superbot can fix it! · before/after: ChatGPT at 190K and 84s replies, ChatGPT (with superbot) at 28K and 36.5s; 2.3x faster (static)'],
   ['context-costly-poster', 'context costly? superbot can fix it! · before/after: Claude Code at $46.80 of a $50 daily cap by 4:10 pm, Claude Code (with superbot) at $8.20; $38.60 a day saved (static)'],
-  // the context-cleanup family, built from ads-src/context-cleanup (2026-09-16): the
-  // App Store storage-cleaner before/after format, three inside a phone on the storm
-  // gradient and three flat on the house black
-  ['context-optimize-phone', 'Optimize Context · phone: the storage-cleaner before/after bars, 197k of 200k down to 38k, 159k tokens freed, 1.2 hours of re-explaining saved (static)'],
 ];
 
 const anims = [
@@ -70,13 +66,9 @@ const items = anims.map(([id, src, title, desc]) => ({
 const more = [
   ['context-full-reveal-superbot-2f8b16e9', 'context-full-reveal-superbot-2f8b16e9/', 'context full? superbot can fix it! — the poster brought to life: headline reveal, camera pushes into the Before bar filling to 197K, pans down into the After bar filling to 31K, pulls back for the freed-tokens/saved-hours stats (10.2s loop)', 'Ad spots'],
   ['tabs-chaos-superbot-6f50ea56', 'tabs-chaos-superbot-6f50ea56/', '14 tabs? the same prompt pasted into fourteen AI tabs, then superbot asks every agent from one window (15s loop)', 'Ad spots'],
-  ['agent-voice-superbot-59d77e34', 'agent-voice-superbot-59d77e34/', 'a voice clone of you — superbot takes the next support calls in the rep\'s cloned voice (~48s loop)', 'Ad spots'],
   ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop)', 'Ad spots'],
-  ['icons-chaos-slam-superbot-544078ab', 'icons-chaos-slam-superbot-544078ab/', 'icons chaos — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop)', 'Ad spots'],
-  ['gpt-refusal-superbot-824cef28', 'gpt-refusal-superbot-824cef28/', 'agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper (27s loop)', 'Ad spots'],
   ['youtube-refusal-superbot-7f2c9a41', 'youtube-refusal-superbot-7f2c9a41/', "youtube to mp3? ChatGPT refuses with the terms-of-service lecture; superbot pops in mid-refusal and the click downloads instantly; the pain words cascade, accelerating to 3x (21.9s loop)", 'Ad spots'],
   ['deny-cascade-superbot-440813d4', 'deny-cascade-superbot-440813d4/', '"ask me anything", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)', 'Ad spots'],
-  ['urgent-email-slow-superbot-7c4a91b2', 'urgent-email-slow-superbot-7c4a91b2/', 'agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email (30.5s loop)', 'Ad spots'],
   ['agents-slower-superbot-7bf1a6c6', 'agents-slower-superbot-7bf1a6c6/', 'agents getting slower overtime? · the house card pop, 1.9 seconds flat, then superbot knows why in the wordmark gradient and the end screen (6.5s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],
   ['gg-site-variants', 'gg-site/variants.html', 'superbot.gg — character variants', 'Site variants'],

@@ -16,36 +16,12 @@
     "thumb": "assets/shots/tabs-chaos-superbot-6f50ea56.png"
   },
   {
-    "id": "agent-voice-superbot-59d77e34",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "a voice clone of you — superbot takes the next support calls in the rep's cloned voice (~48s loop)",
-    "src": "animations/agent-voice-superbot-59d77e34/",
-    "thumb": "assets/shots/agent-voice-superbot-59d77e34.png"
-  },
-  {
     "id": "agent-workspace-superbot-59d77e34",
     "type": "animation",
     "group": "Ad spots",
     "title": "your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop)",
     "src": "animations/agent-workspace-superbot-59d77e34/",
     "thumb": "assets/shots/agent-workspace-superbot-59d77e34.png"
-  },
-  {
-    "id": "icons-chaos-slam-superbot-544078ab",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "icons chaos — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop)",
-    "src": "animations/icons-chaos-slam-superbot-544078ab/",
-    "thumb": "assets/shots/icons-chaos-slam-superbot-544078ab.png"
-  },
-  {
-    "id": "gpt-refusal-superbot-824cef28",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper (27s loop)",
-    "src": "animations/gpt-refusal-superbot-824cef28/",
-    "thumb": "assets/shots/gpt-refusal-superbot-824cef28.png"
   },
   {
     "id": "youtube-refusal-superbot-7f2c9a41",
@@ -62,14 +38,6 @@
     "title": "\"ask me anything\", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)",
     "src": "animations/deny-cascade-superbot-440813d4/",
     "thumb": "assets/shots/deny-cascade-superbot-440813d4.png"
-  },
-  {
-    "id": "urgent-email-slow-superbot-7c4a91b2",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email (30.5s loop)",
-    "src": "animations/urgent-email-slow-superbot-7c4a91b2/",
-    "thumb": "assets/shots/urgent-email-slow-superbot-7c4a91b2.png"
   },
   {
     "id": "agents-slower-superbot-7bf1a6c6",
@@ -310,37 +278,5 @@
     },
     "src": "assets/ads/context-costly-poster.{ar}.png",
     "thumb": "assets/ads/context-costly-poster.{ar}.png"
-  },
-  {
-    "id": "context-optimize-phone",
-    "type": "image",
-    "group": "Ad spots",
-    "title": "Optimize Context · phone: the storage-cleaner before/after bars, 197k of 200k down to 38k, 159k tokens freed, 1.2 hours of re-explaining saved (static)",
-    "ars": [
-      "4x5",
-      "16x9",
-      "4x3",
-      "1x1"
-    ],
-    "sizes": {
-      "4x5": {
-        "w": 864,
-        "h": 1080
-      },
-      "16x9": {
-        "w": 1920,
-        "h": 1080
-      },
-      "4x3": {
-        "w": 1440,
-        "h": 1080
-      },
-      "1x1": {
-        "w": 1080,
-        "h": 1080
-      }
-    },
-    "src": "assets/ads/context-optimize-phone.{ar}.png",
-    "thumb": "assets/ads/context-optimize-phone.{ar}.png"
   }
 ]

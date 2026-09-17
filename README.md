@@ -7,7 +7,7 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-19 ad spots, gathered from the workspace projects and the GitHub repos:
+14 ad spots, gathered from the workspace projects and the GitHub repos:
 
 - **context full? superbot can fix it!** — the poster brought to life: headline reveal, camera
   pushes into the Before bar filling to 197K, pans down into the After bar filling to 31K, pulls
@@ -15,11 +15,7 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   (not hardcoded), so the same sequence reflows correctly under every ratio the gallery's picker
   offers — side-by-side at 16:9, stacked at 4:5/1:1/4:3 (10.2s loop).
 - **14 tabs?** — the same prompt pasted into fourteen AI tabs; superbot asks every agent from one window (15s loop).
-- **a voice clone of you** — superbot takes the next support calls in the rep's cloned voice (~48s loop).
 - **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop).
-- **icons chaos** — 80 skill chips and app icons bounce like a screensaver, superbot organizes them (13.4s loop).
-- **agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper** (27s loop).
-- **agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email** (30.5s loop).
 - **youtube to mp3?** — ChatGPT refuses in 166 words; the superbot popup opens the app, which fetches,
   converts and hands back a clean download link, then the pain words roll through
   refusing / slow / forgetting / lying / unorganized (25.8s loop).
@@ -41,14 +37,6 @@ Static image ads (`assets/ads/`):
   `node ads-src/context-storage/render.mjs` from the repo root; a wide frame puts the card
   beside the headline, a tall one stacks them. The numbers per ad live in
   `ads-src/context-storage/ads.js`.
-
-- **Optimize Context** (`context-optimize-phone`) · one surviving ad from the context-cleanup
-  family, built from `ads-src/context-cleanup/`: a white phone on the blue / violet / pink
-  storm gradient showing the Before / After bars, 197k of 200k down to 38k, then
-  "Congratulations! You have freed 159k tokens". Serve the folder on :8615, then
-  `node ads-src/context-cleanup/render.mjs` from the repo root (`OUT=<dir>` renders previews
-  elsewhere); a wide frame puts the title beside the phone, a tall one stacks them. Scenes and
-  copy live in `ads-src/context-cleanup/build.js`, the id list in `ads.js`.
 
 The two imported posters are flat-black art, so their other ratios are composed rather than
 re-drawn: the artwork is scaled to the frame width and the frame is padded with the same black

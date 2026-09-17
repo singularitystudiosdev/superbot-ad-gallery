@@ -65,7 +65,6 @@ const items = anims.map(([id, src, title, desc]) => ({
 // [name, pagePath, title, group]
 const more = [
   ['tabs-chaos-superbot-6f50ea56', 'tabs-chaos-superbot-6f50ea56/', '14 tabs? the same prompt pasted into fourteen AI tabs, then superbot asks every agent from one window (15s loop)', 'Ad spots'],
-  ['agent-workspace-superbot-59d77e34', 'agent-workspace-superbot-59d77e34/', 'your all-in-one agent workspace — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop)', 'Ad spots'],
   ['youtube-refusal-superbot-7f2c9a41', 'youtube-refusal-superbot-7f2c9a41/', "youtube to mp3? ChatGPT refuses with the terms-of-service lecture; superbot pops in mid-refusal and the click downloads instantly; the pain words cascade, accelerating to 3x (21.9s loop)", 'Ad spots'],
   ['deny-cascade-superbot-440813d4', 'deny-cascade-superbot-440813d4/', '"ask me anything", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)', 'Ad spots'],
   ['agents-slower-superbot-7bf1a6c6', 'agents-slower-superbot-7bf1a6c6/', 'agents getting slower overtime? · the house card pop, 1.9 seconds flat, then superbot knows why in the wordmark gradient and the end screen (6.5s loop)', 'Ad spots'],

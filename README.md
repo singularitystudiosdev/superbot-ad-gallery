@@ -7,10 +7,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-13 ad spots, gathered from the workspace projects and the GitHub repos:
+12 ad spots, gathered from the workspace projects and the GitHub repos:
 
 - **14 tabs?** — the same prompt pasted into fourteen AI tabs; superbot asks every agent from one window (15s loop).
-- **your all-in-one agent workspace** — the superbot.gg hero boots, then superbot answers every email in your style (~32s loop).
 - **youtube to mp3?** — ChatGPT refuses in 166 words; the superbot popup opens the app, which fetches,
   converts and hands back a clean download link, then the pain words roll through
   refusing / slow / forgetting / lying / unorganized (25.8s loop).

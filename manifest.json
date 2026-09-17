@@ -56,14 +56,6 @@
     "thumb": "assets/shots/agent-tuneup-superbot-cc47ab91.png"
   },
   {
-    "id": "permission-fatigue-superbot-9b4d12e8",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "permission fatigue? one deploy ask, and the agent answers with a wall of may-I questions; superbot runs the whole thing in one go, zero prompts (21.9s loop)",
-    "src": "animations/permission-fatigue-superbot-9b4d12e8/",
-    "thumb": "assets/shots/permission-fatigue-superbot-9b4d12e8.png"
-  },
-  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

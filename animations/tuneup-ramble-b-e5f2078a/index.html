@@ -58,6 +58,11 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .g-thinking { display: inline-flex; align-items: center; gap: 8px; color: var(--gpt-text-2); font-size: 15px; }
 .g-thinking i { width: 10px; height: 10px; border-radius: 50%; background: var(--gpt-text); }
 /* the verdict chip: the speed comparison, red before and green after */
+
+/* the smarter-composer ring: a clean moving gradient outline (owner direction) */
+.g-ring { width: 772px; padding: 2px; border-radius: 30px; background: linear-gradient(115deg, var(--storm-1), var(--storm-2), var(--storm-4), var(--ok), var(--storm-1)); background-size: 400% 400%; opacity: 0; }
+#g2-ring .g-composer { width: 100%; }
+
 .g-verdict { position: absolute; left: 50%; transform: translateX(-50%); bottom: 118px; padding: 8px 18px; border-radius: 999px; font: 700 15px/20px var(--ui); opacity: 0; }
 .g-verdict.bad { background: rgba(255,80,80,.12); color: #ff9d9d; border: 1px solid rgba(255,80,80,.3); }
 .g-verdict.good { background: rgba(52,211,153,.12); color: var(--ok); border: 1px solid rgba(52,211,153,.35); }
@@ -292,17 +297,18 @@ html { --site-k: 1.6; }
     <div class="g-main">
       <div class="g-thread">
         <div class="g-col" id="g2-col">
-          <div class="g-user" id="g2-user"><div class="bub" id="g2-bub">fix the login bug</div></div>
+          <div class="g-user" id="g2-user"><div class="bub" id="g2-bub">good. now the signup page too</div></div>
           <div class="g-ai" id="g2-ai"><span class="g-thinking" id="g2-think"><i></i>Thinking</span><span id="g2-text"></span><span class="cur" id="g2-cur"></span></div>
         </div>
         <div class="g-fade"></div>
       </div>
       <div class="g-foot">
-        <div class="g-composer" id="g2-comp">
+        <div class="g-ring" id="g2-ring"><div class="g-composer" id="g2-comp">
           <span class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           <span class="ph">Ask anything</span>
           <span class="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg></span>
           <span class="send ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></span>
+        </div>
         </div>
         <div class="g-disc">ChatGPT can make mistakes. Check important info.</div>
       </div>
@@ -359,18 +365,18 @@ const B = {
 // ---------- copy ----------
 const PROMPT = 'fix the login bug';
 // the ramble: never starts, keeps restarting, goes nowhere
-const MESS = "Let me think about this. So, login. Interesting. Login bugs are actually fascinating when you look at the history of authentication. Anyway. I'll start by reading every file. All 214 of them. Actually, wait. Let me reconsider. Maybe it's the network? Let me add some logs. Hmm, the logs say nothing. Let me add more logs. Actually, wait. Let me start over. So, login. Interesting. Login bugs are actually fascinating when";
+const MESS = "Let me look into it. Reading the auth flow... interesting. The login page has three forms. Or four. Let me check the docs first. Actually, is this the prod repo? Let me read every file. Actually, wait. What was the bug? Let me start over. Reading the auth flow... interesting.";
 // the tune-up line
 const TUNE_REPLY = "it's not thinking, it's wandering. fixing:";
 // the crisp answer
-const AFTER = "Fixed. A stale token check was rejecting every third login. One line, all tests pass.";
+const AFTER = "Same fix, one line. Signed-up users log in cleanly now. Tests pass.";
 
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 // ---------- element refs ----------
 const stage = $('stage'), dip = $('dip'), cursor = $('cursor');
 const gpt = $('gpt'), gPh = $('g-ph'), gSend = $('g-send'), gUser = $('g-user'), gBub = $('g-bub'), gAi = $('g-ai'), gThink = $('g-think'), gText = $('g-text'), gCur = $('g-cur'), gCol = $('g-col'), gVerdict1 = $('g-verdict1');
-const gpt2 = $('gpt2'), g2User = $('g2-user'), g2Bub = $('g2-bub'), g2Ai = $('g2-ai'), g2Think = $('g2-think'), g2Text = $('g2-text'), g2Cur = $('g2-cur'), g2Col = $('g2-col'), g2Stamp = $('g2-stamp');
+const gpt2 = $('gpt2'), g2User = $('g2-user'), g2Bub = $('g2-bub'), g2Ai = $('g2-ai'), g2Think = $('g2-think'), g2Text = $('g2-text'), g2Cur = $('g2-cur'), g2Col = $('g2-col'), g2Stamp = $('g2-stamp'), g2Ring = $('g2-ring');
 const gThread = gCol.parentElement;
 const popup = $('popup'), chatbtn = $('chatbtn');
 const site = $('site'), hub = $('hub'), feedEl = hub.querySelector('.feed');
@@ -459,6 +465,9 @@ function renderGpt2(t) {
   const over = Math.max(0, g2Col.offsetHeight - gThread.clientHeight + 24);
   g2Col.style.transform = `translateY(${(-over).toFixed(0)}px)`;
   const stamp = seg(t, B.back, B.back + 0.3); op(g2Stamp, stamp * 0.9);
+  const gp = seg(t, B.reply3, B.reply3 + 0.4);
+  op(g2Ring, gp);
+  g2Ring.style.backgroundPosition = `${((t * 50) % 100).toFixed(1)}% 50%`;
 }
 
 const STEPS = [1.45, 1.10, 0.84, 0.64, 0.48];

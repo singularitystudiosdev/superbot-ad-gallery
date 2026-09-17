@@ -58,6 +58,11 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .g-thinking { display: inline-flex; align-items: center; gap: 8px; color: var(--gpt-text-2); font-size: 15px; }
 .g-thinking i { width: 10px; height: 10px; border-radius: 50%; background: var(--gpt-text); }
 /* the verdict chip: the speed comparison, red before and green after */
+
+/* the smarter-composer ring: a clean moving gradient outline (owner direction) */
+.g-ring { width: 772px; padding: 2px; border-radius: 30px; background: linear-gradient(115deg, var(--storm-1), var(--storm-2), var(--storm-4), var(--ok), var(--storm-1)); background-size: 400% 400%; opacity: 0; }
+#g2-ring .g-composer { width: 100%; }
+
 .g-verdict { position: absolute; left: 50%; transform: translateX(-50%); bottom: 118px; padding: 8px 18px; border-radius: 999px; font: 700 15px/20px var(--ui); opacity: 0; }
 .g-verdict.bad { background: rgba(255,80,80,.12); color: #ff9d9d; border: 1px solid rgba(255,80,80,.3); }
 .g-verdict.good { background: rgba(52,211,153,.12); color: var(--ok); border: 1px solid rgba(52,211,153,.35); }
@@ -291,17 +296,18 @@ html { --site-k: 1.6; }
     <div class="g-main">
       <div class="g-thread">
         <div class="g-col" id="g2-col">
-          <div class="g-user" id="g2-user"><div class="bub" id="g2-bub">add a logout button. we use tabs, zustand, and never touch supabase.ts</div></div>
+          <div class="g-user" id="g2-user"><div class="bub" id="g2-bub">okay, and now add a dark mode toggle</div></div>
           <div class="g-ai" id="g2-ai"><span class="g-thinking" id="g2-think"><i></i>Thinking</span><span id="g2-text"></span><span class="cur" id="g2-cur"></span></div>
         </div>
         <div class="g-fade"></div>
       </div>
       <div class="g-foot">
-        <div class="g-composer" id="g2-comp">
+        <div class="g-ring" id="g2-ring"><div class="g-composer" id="g2-comp">
           <span class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           <span class="ph">Ask anything</span>
           <span class="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg></span>
           <span class="send ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></span>
+        </div>
         </div>
         <div class="g-disc">ChatGPT can make mistakes. Check important info.</div>
       </div>
@@ -358,18 +364,18 @@ const B = {
 // ---------- copy ----------
 const PROMPT = 'add a logout button. we use tabs, zustand, and never touch supabase.ts';
 // the loop: the same "got it" while it breaks a rule it was just given
-const MESS = "Got it! Adding the logout button... done, and I refactored supabase.ts while I was in there. Oh, never touch supabase.ts? Got it! Reverted. Also I switched us to spaces. Tabs? Got it! Reverted again. So, quick question: which ORM are we on? And, um, what was the button supposed to do again? Got it! I'll follow the rules.";
+const MESS = "Done, logout button added. I ran npm install for the icon package and pushed straight to main. ...main is protected? And we use pnpm, not npm? Sorry, retrying. Which branch was it again? Was it main?";
 // the tune-up line: the rule framing the owner asked for
 const TUNE_REPLY = "your rules aren't the problem. they're just not loaded. fixing:";
 // the clean answer
-const AFTER = "Done: logout button on /settings. tabs kept, the zustand store reused, supabase.ts untouched. build green.";
+const AFTER = "Done: toggle on /settings, icons installed with pnpm, pushed to feat/dark-mode. build green.";
 
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 // ---------- element refs ----------
 const stage = $('stage'), dip = $('dip'), cursor = $('cursor');
 const gpt = $('gpt'), gPh = $('g-ph'), gSend = $('g-send'), gUser = $('g-user'), gBub = $('g-bub'), gAi = $('g-ai'), gThink = $('g-think'), gText = $('g-text'), gCur = $('g-cur'), gCol = $('g-col');
-const gpt2 = $('gpt2'), g2User = $('g2-user'), g2Bub = $('g2-bub'), g2Ai = $('g2-ai'), g2Think = $('g2-think'), g2Text = $('g2-text'), g2Cur = $('g2-cur'), g2Col = $('g2-col'), g2Stamp = $('g2-stamp');
+const gpt2 = $('gpt2'), g2User = $('g2-user'), g2Bub = $('g2-bub'), g2Ai = $('g2-ai'), g2Think = $('g2-think'), g2Text = $('g2-text'), g2Cur = $('g2-cur'), g2Col = $('g2-col'), g2Stamp = $('g2-stamp'), g2Ring = $('g2-ring');
 const gThread = gCol.parentElement;
 const popup = $('popup'), chatbtn = $('chatbtn');
 const site = $('site'), hub = $('hub'), feedEl = hub.querySelector('.feed');
@@ -455,6 +461,9 @@ function renderGpt2(t) {
   const over = Math.max(0, g2Col.offsetHeight - gThread.clientHeight + 24);
   g2Col.style.transform = `translateY(${(-over).toFixed(0)}px)`;
   const stamp = seg(t, B.back, B.back + 0.3); op(g2Stamp, stamp * 0.9);
+  const gp = seg(t, B.reply3, B.reply3 + 0.4);
+  op(g2Ring, gp);
+  g2Ring.style.backgroundPosition = `${((t * 50) % 100).toFixed(1)}% 50%`;
 }
 
 const STEPS = [1.45, 1.10, 0.84, 0.64, 0.48];

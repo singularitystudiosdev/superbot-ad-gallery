@@ -35,6 +35,15 @@ Static image ads (`assets/ads/`):
   r/ChatGPTCoding, r/ClaudeAI, r/cursor and r/vibecoding; the evidence per word is in
   `ads-src/agents-pain/ads.js`. Add a word there and re-render to get a new ad.
 
+- **context full? / bloated? / compacting? / slow? / costly?** · the before/after family
+  (`assets/ads/context-<pain>-poster.<ar>.png`), built from `ads-src/context-storage/`: the
+  phone-cleaner "Optimize Storage" ad (a red Before bar at 250GB of 256GB, a green After bar
+  at 50GB, then "you have cleaned 200GB · saved 1.2 hours") re-drawn for an agent's context
+  window in the pain-poster type. Serve that folder on :8614, then
+  `node ads-src/context-storage/render.mjs` from the repo root; a wide frame puts the card
+  beside the headline, a tall one stacks them. The numbers per ad live in
+  `ads-src/context-storage/ads.js`.
+
 The two imported posters are flat-black art, so their other ratios are composed rather than
 re-drawn: the artwork is scaled to the frame width and the frame is padded with the same black
 (`ads-src/compose-imported.mjs`, native height 1080; the 16:9 file is the original bytes).

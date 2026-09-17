@@ -35,6 +35,14 @@ const ads = [
   ['agents-forgetting-poster', 'agents forgetting? superbot can fix it! · the context-amnesia poster (static)'],
   ['agents-lying-poster', 'agents lying? superbot can fix it! · the confidently-wrong poster (static)'],
   ['agents-looping-poster', 'agents looping? superbot can fix it! · the burning-a-loop poster (static)'],
+  // the context before/after family, built from ads-src/context-storage (the
+  // phone-cleaner "Optimize Storage" before/after bars, re-drawn for an agent's
+  // context window; 2026-09-16)
+  ['context-full-poster', 'context full? superbot can fix it! · before/after: ChatGPT at 197K of 200K, superbot at 31K; 166K tokens freed (static)'],
+  ['context-bloated-poster', 'context bloated? superbot can fix it! · before/after: Claude Code at 184K with 38 files read twice, superbot at 22K; 162K tokens freed (static)'],
+  ['context-compacting-poster', 'context compacting? superbot can fix it! · before/after: Cursor at 200K with 12 compactions and 4 tasks lost, superbot at 44K with none (static)'],
+  ['context-slow-poster', 'context slow? superbot can fix it! · before/after: 190K context and 84s replies, superbot at 28K and 4s; 21x faster (static)'],
+  ['context-costly-poster', 'context costly? superbot can fix it! · before/after: $46.80 of a $50 daily cap by 4:10 pm, superbot at $8.20; $38.60 a day saved (static)'],
 ];
 
 const anims = [

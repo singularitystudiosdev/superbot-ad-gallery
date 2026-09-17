@@ -302,5 +302,165 @@
     },
     "src": "assets/ads/agents-looping-poster.{ar}.png",
     "thumb": "assets/ads/agents-looping-poster.{ar}.png"
+  },
+  {
+    "id": "context-full-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "context full? superbot can fix it! · before/after: ChatGPT at 197K of 200K, superbot at 31K; 166K tokens freed (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-full-poster.{ar}.png",
+    "thumb": "assets/ads/context-full-poster.{ar}.png"
+  },
+  {
+    "id": "context-bloated-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "context bloated? superbot can fix it! · before/after: Claude Code at 184K with 38 files read twice, superbot at 22K; 162K tokens freed (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-bloated-poster.{ar}.png",
+    "thumb": "assets/ads/context-bloated-poster.{ar}.png"
+  },
+  {
+    "id": "context-compacting-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "context compacting? superbot can fix it! · before/after: Cursor at 200K with 12 compactions and 4 tasks lost, superbot at 44K with none (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-compacting-poster.{ar}.png",
+    "thumb": "assets/ads/context-compacting-poster.{ar}.png"
+  },
+  {
+    "id": "context-slow-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "context slow? superbot can fix it! · before/after: 190K context and 84s replies, superbot at 28K and 4s; 21x faster (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-slow-poster.{ar}.png",
+    "thumb": "assets/ads/context-slow-poster.{ar}.png"
+  },
+  {
+    "id": "context-costly-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "context costly? superbot can fix it! · before/after: $46.80 of a $50 daily cap by 4:10 pm, superbot at $8.20; $38.60 a day saved (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 864,
+        "h": 1080
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/context-costly-poster.{ar}.png",
+    "thumb": "assets/ads/context-costly-poster.{ar}.png"
   }
 ]

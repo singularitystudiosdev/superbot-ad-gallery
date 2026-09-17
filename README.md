@@ -16,6 +16,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 - **agents refusing? superbot rescues a ChatGPT refusal with a copy-paste scraper** (27s loop).
 - **agents slow? ChatGPT dribbles at 30 wpm while superbot writes the whole email** (30.5s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
+- **youtube to mp3?** ChatGPT refuses with a list of alternatives; halfway through, the superbot popup rises,
+  one click opens the app, superbot fetches and converts it and hands over the clean mp3 link; then the pain
+  words swap in place (agents refusing / slow / forgetting / lying / unorganized?) and the end card (23.5s loop).
 
 Static image ads (`assets/ads/`):
 

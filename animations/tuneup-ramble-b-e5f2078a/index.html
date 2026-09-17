@@ -81,7 +81,7 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .win-bar span { margin-left: 8px; }
 .win-bar .led { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--storm-1); box-shadow: 0 0 8px var(--storm-1); }
 .win-body { position: relative; overflow: hidden; }
-.hub { position: absolute; inset: 8px; right: calc(24% + 20px); background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 64px 200px minmax(0, 1fr); font: 11px/15px var(--ui); color: var(--fg); }
+.hub { position: absolute; inset: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 64px 200px minmax(0, 1fr); font: 11px/15px var(--ui); color: var(--fg); }
 .hub > * { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
 .rail { background: var(--bg); border-right: 1px solid var(--line); align-items: center; padding: 8px 0; gap: 4px; }
 .rail-item { position: relative; flex: none; width: 44px; height: 44px; border-radius: 14px; background: var(--raised); display: grid; place-items: center; color: var(--fg); }
@@ -143,11 +143,30 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 #h-connect.done .state { color: var(--ok); }
 #h-connect.done .wire { background: linear-gradient(90deg, var(--ok), rgba(52,211,153,.2)); }
 #h-connect.done .wire i { background: var(--ok); }
+
+/* the split engage pane: superbot visibly working inside chatgpt (owner: "show it directly engaging") */
+.engage { display: grid; grid-template-columns: 1fr 44px 1fr; align-items: stretch; gap: 0; height: 100%; padding: 4px 2px; }
+.eng-card { border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.eng-card.gptside { background: #212121; box-shadow: inset 0 0 0 1px rgba(255,255,255,.09); }
+.eng-card.sb { background: #000; box-shadow: inset 0 0 0 1px var(--line); }
+.eng-head { display: flex; align-items: center; gap: 8px; font: 700 13px/16px var(--ui); color: #fff; }
+.eng-head svg { width: 20px; height: 20px; fill: #fff; }
+.eng-head img { width: 22px; height: 22px; }
+.eng-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font: 800 11px/14px var(--ui); width: max-content; }
+.eng-badge.bad { background: rgba(255,80,80,.14); color: #ff9d9d; }
+.eng-badge.good { background: rgba(52,211,153,.16); color: var(--ok); }
+.eng-bub { margin-top: auto; background: #303030; border-radius: 12px; padding: 8px 12px; font: 11px/15px var(--gpt-font); color: #ececec; }
+.eng-bub small { display: block; color: #afafaf; font-size: 9.5px; margin-top: 3px; }
+.eng-wire { position: relative; display: grid; place-items: center; }
+.eng-wire::before { content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--storm-1), var(--storm-3)); opacity: .85; }
+.eng-wire i { position: absolute; top: calc(50% - 4px); width: 18px; height: 10px; border-radius: 5px; background: #fff; filter: blur(1px); }
+.eng-card.sb .tune { display: grid; gap: 7px; margin-top: 0; }
+
 .composer { flex: none; margin: 6px 12px 10px; }
 .composer .pill { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px 0 9px; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); color: var(--muted); }
 .composer .ph { flex: 1; }
 .composer .send { width: 24px; height: 24px; border-radius: 50%; background: var(--storm-action); display: grid; place-items: center; color: #fff; }
-.phone { position: absolute; right: 8px; top: 8px; bottom: 8px; width: 24%; background: #000; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; font: 11px/15px var(--ui); color: var(--fg); display: flex; flex-direction: column; padding: 10px 12px 8px; }
+.phone { display: none; background: #000; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; font: 11px/15px var(--ui); color: var(--fg); display: flex; flex-direction: column; padding: 10px 12px 8px; }
 .ph-status { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); padding: 0 4px; }
 .ph-head { display: flex; align-items: center; gap: 8px; padding: 10px 0 8px; font-weight: 700; font-size: 12px; }
 .ph-turn { font-size: 11px; line-height: 15px; margin-bottom: 8px; }
@@ -248,21 +267,20 @@ html { --site-k: 1.6; }
             <div class="main">
               <div class="chat-head"><b>agents</b><span class="ask"><img src="assets/mark-clean.svg" alt=""/>Tune my agents</span></div>
               <div class="feed">
-                <div class="msg" id="h-user"><span class="avatar">D</span><div class="m-main"><div class="m-head"><span class="m-name">dev</span></div><div class="m-text">my chatgpt rambles forever before it does anything</div></div></div>
-                <div class="msg" id="h-bot"><span class="avatar sb"><img src="assets/mark-clean.svg" alt=""/></span><div class="m-main"><div class="m-head"><span class="m-name">superbot</span></div><div class="m-text" id="h-text"></div>
-                  <div id="h-connect">
-                    <span class="ic oa"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg></span>
-                    <span class="lbl">chatgpt<small>your setup, not the model</small></span>
-                    <span class="wire"><i id="h-pulse"></i></span>
-                    <span class="ic sb"><img src="assets/mark-clean.svg" alt=""/></span>
-                    <span class="state" id="h-state">tuning…</span>
+                <div class="engage">
+                  <div class="eng-card gptside" id="eng-gpt">
+                    <div class="eng-head"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg>chatgpt<span class="eng-badge bad" id="eng-badge">rambling</span></div>
+                    <div class="eng-bub" id="eng-bub">"fix the login bug"<small id="eng-line" style="color:#ff9d9d">41 seconds and still no fix</small></div>
                   </div>
-                  <div class="tune" id="h-tune">
+                  <div class="eng-wire"><i id="eng-pulse"></i></div>
+                  <div class="eng-card sb" id="eng-sb">
+                    <div class="eng-head"><img src="assets/mark-clean.svg" alt=""/>superbot</div>
+                    <div class="tune">
                     <div class="tune-row" id="t1"><span class="ai"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg></span><span class="tk">✓</span><b>8 skills curated to 2</b><small>the rest was noise</small></div>
                     <div class="tune-row" id="t2"><span class="ai"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg></span><span class="tk">✓</span><b>stale context trimmed</b><small>80% lighter</small></div>
                     <div class="tune-row" id="t3"><span class="ai"><svg viewBox="0 0 2406 2406"><use href="#ic-openai"/></svg></span><span class="tk">✓</span><b>answer style: straight to it</b><small>no more warm-up essays</small></div>
                   </div>
-                </div></div>
+                </div>
               </div>
               <div class="composer"><div class="pill"><span class="ph">Ask Superbot anything</span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span></div></div>
             </div>
@@ -365,8 +383,7 @@ const gpt2 = $('gpt2'), g2User = $('g2-user'), g2Bub = $('g2-bub'), g2Ai = $('g2
 const gThread = gCol.parentElement;
 const popup = $('popup'), chatbtn = $('chatbtn');
 const site = $('site'), hub = $('hub'), feedEl = hub.querySelector('.feed');
-const hUser = $('h-user'), hBot = $('h-bot'), hText = $('h-text');
-const hConnect = $('h-connect'), hPulse = $('h-pulse'), hState = $('h-state');
+const engGpt = $('eng-gpt'), engSb = $('eng-sb'), engBadge = $('eng-badge'), engPulse = $('eng-pulse'), engLine = $('eng-line');
 const tuneRows = ['t1','t2','t3'].map($);
 const card = $('card'); const cardLines = [...card.querySelectorAll('.line')];
 const end = $('end'), endFace = $('end-face'), endSlide = $('end-slide');
@@ -420,23 +437,23 @@ function renderGpt(t) {
 }
 
 function renderSite(t) {
-  const au = seg(t, B.ask, B.ask + 0.25); op(hUser, au); hUser.style.transform = `translateY(${((1 - outCubic(au)) * 6).toFixed(1)}px)`;
-  const bo = seg(t, B.reply2, B.reply2 + 0.25); op(hBot, bo); hBot.style.transform = `translateY(${((1 - outCubic(bo)) * 6).toFixed(1)}px)`;
-  const chars = t < B.reply2 ? 0 : Math.min(TUNE_REPLY.length, Math.floor((t - B.reply2) * 60));
-  hText.textContent = TUNE_REPLY.slice(0, chars);
-  // the connection card: the wire pulses while superbot works inside chatgpt, then flips to tuned
-  const cc = seg(t, B.connect, B.connect + 0.3); op(hConnect, cc);
+  const eg = seg(t, B.ask, B.ask + 0.3);
+  op(engGpt, eg); engGpt.style.transform = `translateY(${((1 - outCubic(eg)) * 8).toFixed(1)}px)`;
+  const es = seg(t, B.reply2, B.reply2 + 0.3);
+  op(engSb, es); engSb.style.transform = `translateY(${((1 - outCubic(es)) * 8).toFixed(1)}px)`;
   const done = t >= B.tuned;
-  hConnect.classList.toggle('done', done);
-  hState.textContent = done ? 'tuned ✓' : 'tuning…';
-  hPulse.style.left = done ? '100%' : `${(8 + 78 * ((t * 1.4) % 1)).toFixed(1)}%`;
-  // the rows land one at a time, slow enough to read
   tuneRows.forEach((el, i) => {
     const at = B.tune + i * B.tuneGap, p = seg(t, at, at + 0.45);
     op(el, p);
     el.style.transform = `translateY(${((1 - outQuint(p)) * 6).toFixed(1)}px)`;
   });
-  feedEl.scrollTop = feedEl.scrollHeight;
+  // the pulse flies from superbot into chatgpt while it works
+  engPulse.style.left = done ? '0%' : `${(60 - 55 * ((t * 1.4) % 1)).toFixed(1)}%`;
+  if (done) {
+    engBadge.className = 'eng-badge good';
+    engBadge.textContent = 'tuned ✓';
+    engLine.style.color = 'var(--ok)';
+  }
 }
 
 function renderGpt2(t) {

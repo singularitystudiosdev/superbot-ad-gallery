@@ -7,8 +7,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 
 ## Contents
 
-12 ad spots, gathered from the workspace projects and the GitHub repos:
+13 ad spots, gathered from the workspace projects and the GitHub repos:
 
+- **who are you?** — the kazoo kid ("wait a minute... who are you?") with the ChatGPT mark riding his
+  head, then ChatGPT answers in ten numbered sections that never end and the camera drops through the
+  wall; the kid asks again wearing the superbot tile, and superbot answers "superbot." in the storm
+  palette (blue, purple, pink). The head track is macOS Vision face rectangles plus hand keyframes on
+  the turn (`animations/who-are-you-superbot-268c902c/assets/track.js`); the downloads carry the clip's
+  audio (~29s loop).
 - **14 tabs?** — the same prompt pasted into fourteen AI tabs; superbot asks every agent from one window (15s loop).
 - **youtube to mp3?** — ChatGPT refuses in 166 words; the superbot popup opens the app, which fetches,
   converts and hands back a clean download link, then the pain words roll through

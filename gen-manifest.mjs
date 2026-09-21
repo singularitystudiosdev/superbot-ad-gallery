@@ -64,6 +64,7 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
+  ['who-are-you-superbot-268c902c', 'who-are-you-superbot-268c902c/', 'who are you? · the kazoo kid asks with the ChatGPT mark for a head, ChatGPT answers in ten numbered sections that never end; the kid asks again wearing the superbot tile, superbot answers in one word, in blue, purple and pink (~29s loop)', 'Ad spots'],
   ['tabs-chaos-superbot-6f50ea56', 'tabs-chaos-superbot-6f50ea56/', '14 tabs? the same prompt pasted into fourteen AI tabs, then superbot asks every agent from one window (15s loop)', 'Ad spots'],
   ['youtube-refusal-superbot-7f2c9a41', 'youtube-refusal-superbot-7f2c9a41/', "youtube to mp3? ChatGPT refuses with the terms-of-service lecture; superbot pops in mid-refusal and the click downloads instantly; the pain words cascade, accelerating to 3x (21.9s loop)", 'Ad spots'],
   ['deny-cascade-superbot-440813d4', 'deny-cascade-superbot-440813d4/', '"ask me anything", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)', 'Ad spots'],

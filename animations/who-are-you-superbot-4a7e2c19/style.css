@@ -206,14 +206,14 @@ body {
 .chatui.sb .typing-indicator i { background: #a071ff; }
 .chatui.sb .msg-ai { color: #f6f2ff; }
 
-/* WHO ARE YOU */
+/* stop burning tokens. (the favorite-color card) */
 .simple {
   position: absolute; inset: 0; z-index: 5;
   display: grid; place-items: center;
   background: #000;
   font-family: var(--font-ui);
-  font-size: 64px;
-  font-weight: 800; letter-spacing: .06em;
+  font-size: 44px;
+  font-weight: 700; letter-spacing: -0.01em;
   color: var(--fg);
   opacity: 0; will-change: opacity, transform, filter;
 }
@@ -288,7 +288,7 @@ html[data-ar="4x5"] .input-pill { gap: 6px; padding: 9px 10px 9px 12px; }
 html[data-ar="4x5"] .mic-ic { display: none; }
 html[data-ar="1x1"] .input-pill .input-text, html[data-ar="4x5"] .input-pill .input-text { white-space: pre-wrap; flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
 html[data-ar="4x5"] .think-chip { display: none; }
-html[data-ar="4x5"] .simple { font-size: 46px; }
-html[data-ar="1x1"] .simple { font-size: 56px; }
+html[data-ar="4x5"] .simple { font-size: 34px; }
+html[data-ar="1x1"] .simple { font-size: 40px; }
 /* no page chrome inside the gallery iframe or a ?ar= render */
 body.embedded .rec-btn, body.embedded .hint { display: none; }

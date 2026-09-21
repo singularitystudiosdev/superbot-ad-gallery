@@ -8,7 +8,7 @@
 // the same clip, the superbot icon on his head (clip-sb.mp4). Scene 4: the
 // same frontend re-skinned in blue, pink and purple answers "I'm superbot.
 // I can do anything, test me." and the camera punches in on the answer.
-// Scene 5: WHO ARE YOU. Scene 6: the superbot.gg end card.
+// Scene 5: Stop burning tokens. Scene 6: the superbot.gg end card.
 // render(t) rebuilds every scene from t, so ?t=SECONDS freeze-frames exactly;
 // the clips seek to their offset in freeze mode and play in real time live.
 
@@ -59,7 +59,7 @@ const EMPH_IN = 0.28, EMPH_HOLD = num('hold', 1.1), EMPH_OUT = 0.45;
 const EMPH_MAX = num('emph', { '16x9': 2.3, '4x3': 2.0, '1x1': 1.7, '4x5': 1.45 }[window.AR ? window.AR.key : '16x9'] || 2.3);
 const EMPH_END = ANSWER_AT + ANSWER_DUR + EMPH_DELAY + EMPH_IN + EMPH_HOLD + EMPH_OUT;
 
-/* ---- scene 5: WHO ARE YOU ---- */
+/* ---- scene 5: stop burning tokens. ---- */
 const SIMPLE_AT = EMPH_END + 0.35;
 
 /* ---- scene 6: the superbot.gg end card ---- */
@@ -284,7 +284,7 @@ function renderChat(t) {
   }
 }
 
-/* ---- WHO ARE YOU ---- */
+/* ---- stop burning tokens. ---- */
 function renderSimple(t) {
   const simple = document.getElementById('simple');
   if (t < SIMPLE_AT || t >= END_AT) {
@@ -295,7 +295,6 @@ function renderSimple(t) {
   simple.style.opacity = easeOutQuint(clamp(s / 0.35, 0, 1)).toFixed(3);
   simple.style.transform = `scale(${(0.92 + 0.08 * easeOutBack(inP(s, 0.5))).toFixed(3)})`;
   simple.style.filter = s < 0.4 ? `blur(${(5 * (1 - inP(s, 0.4))).toFixed(2)}px)` : 'none';
-  simple.style.letterSpacing = `${(0.06 + 0.06 * (1 - easeOutQuint(inP(s, 1.4)))).toFixed(3)}em`;
 }
 
 /* ---- the end card: the superbot.gg lockup ---- */

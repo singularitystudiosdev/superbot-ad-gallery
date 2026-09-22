@@ -191,6 +191,11 @@ function renderStage() {
     f.title = it.title;
     // refocus the parent so ESC/arrows keep working after the frame grabs focus
     f.addEventListener('load', () => $('lbClose').focus());
+    // a click or key in the lightbox is a user gesture the spot can use to
+    // unmute its clips (Safari and Chrome refuse sound before one)
+    const nudge = () => { try { f.contentWindow.postMessage({ type: 'unmute' }, '*'); } catch {} };
+    $('lb').addEventListener('pointerdown', nudge, { passive: true });
+    $('lb').addEventListener('keydown', nudge);
     stage.appendChild(f);
     sizeFrame();
   }

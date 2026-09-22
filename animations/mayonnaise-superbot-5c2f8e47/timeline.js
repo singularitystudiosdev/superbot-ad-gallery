@@ -19,7 +19,7 @@ const num = (k, d) => { const v = parseFloat(Q.get(k)); return Number.isFinite(v
 const SPEED = 1;                  // real time: the clips carry their own clock
 
 /* ---- scene 1: "is mayonnaise an instrument?" (ChatGPT) ---- */
-const CLIP_LEN = 2.8;             // 0.20 to 3.00 of the source (the shot holds from 2.46)
+const CLIP_LEN = 2.68;            // 0.20 to 2.88 of the source (the shot holds from 2.46; Squidward's "No" starts at 3.00)
 const A_AT = 0, A_END = A_AT + CLIP_LEN;
 
 /* ---- scene 2: the ChatGPT take ---- */
@@ -112,12 +112,35 @@ const clips = [
   { box: document.getElementById('clipA'), vid: document.getElementById('vidA'), at: A_AT, end: A_END, started: false },
   { box: document.getElementById('clipB'), vid: document.getElementById('vidB'), at: B_AT, end: B_END, started: false },
 ];
+// sound: the clips try to play unmuted; a browser that refuses (no user
+// activation in this document: Safari, or Chrome before a click) gets a muted
+// fallback and the "tap for sound" pill, and the first gesture anywhere in the
+// frame (or a click in the gallery, forwarded as a message) unmutes. Renders
+// (top-level, ?ar=) never show the pill.
+const EMBEDDED = window.self !== window.top;
+const soundHint = document.getElementById('soundHint');
+let soundOn = null;   // null = not tried yet, true = playing with sound, false = muted fallback
+function setSound(on) {
+  soundOn = on;
+  if (soundHint) soundHint.style.display = (on === false && EMBEDDED && !FREEZE) ? '' : 'none';
+}
 function playClip(c) {
   c.vid.currentTime = 0;
-  c.vid.muted = false;
-  // sound when the browser allows it (the gallery opens on a click), muted otherwise
-  c.vid.play().catch(() => { c.vid.muted = true; c.vid.play().catch(() => {}); });
+  c.vid.muted = soundOn === false;
+  const p = c.vid.play();
+  if (!p) return;
+  p.then(() => { if (!c.vid.muted) setSound(true); })
+   .catch(() => { c.vid.muted = true; setSound(false); c.vid.play().catch(() => {}); });
 }
+function unmute() {
+  if (soundOn === true) return;
+  for (const c of clips) c.vid.muted = false;
+  const live = clips.find(c => c.started && !c.vid.paused);
+  if (!live) { setSound(true); return; }
+  live.vid.play().then(() => setSound(true)).catch(() => { for (const c of clips) c.vid.muted = true; setSound(false); });
+}
+for (const ev of ['pointerdown', 'keydown', 'touchstart']) window.addEventListener(ev, unmute, { passive: true });
+window.addEventListener('message', (e) => { if (e.data && e.data.type === 'unmute') unmute(); });
 function renderClips(t, wrapped) {
   for (const c of clips) {
     if (wrapped) c.started = false;
@@ -184,10 +207,11 @@ function renderChat(t) {
   head.style.filter = convo ? 'blur(3px)' : 'none';
   suggestions.style.display = convo ? 'none' : '';
 
-  // the composer text: the question types and stays in the bar through the
-  // stream (take 1); take 2 clears its bar the moment its message pops
+  // the composer text: the question types, and the bar clears the moment the
+  // message pops into the thread (both takes; the real frontend empties the
+  // composer on send)
   let txt = Q_TEXT.slice(0, Math.ceil(inP(t - typeAt, typeDur) * Q_TEXT.length));
-  if (sbTake && t >= SB_MSG_AT) txt = '';
+  if (t >= msgAt) txt = '';
   inputText.textContent = txt;
   placeholder.style.display = txt.length === 0 ? '' : 'none';
   caret.style.opacity = (Math.floor(t * 2.6) % 2 === 0 ? 1 : 0.15).toFixed(2);
@@ -361,13 +385,14 @@ if (urlT !== null) {
     if (ev.key === 'ArrowLeft')  { t = clamp(t - 0.25, 0, CYCLE); render(t); }
   });
 } else {
-  // the clock starts once both clips can play through (capped at 1.5s), so
-  // the first frame of scene 1 is the kid, not a black decoder
+  // the clock starts once both clips can play through (capped at 6s on a cold
+  // load from the network), so the first frame of scene 1 is the clip, not a
+  // black decoder, and the sound starts with the picture
   const ready = () => clips.every(c => c.vid.readyState >= 3);
   const armed = performance.now();
   function tick(now) {
     if (t0 === null) {
-      if (ready() || now - armed > 1500) t0 = now;
+      if (ready() || now - armed > 6000) t0 = now;
       else { requestAnimationFrame(tick); return; }
     }
     let t = ((now - t0) / 1000) * SPEED;

@@ -1,7 +1,7 @@
-/* superbot pitch — "what's 9 + 10" spot. The chat frontend is favorite-color's
+/* superbot pitch — "is mayonnaise an instrument" spot. The chat frontend is favorite-color's
    copy of the ChatGPT reference (black screen, "Ready when you are.", the
    Ask-anything pill, three suggestion rows), and the same DOM re-skinned as
-   the superbot take (.sb: blue / pink / purple). The two Vine clips are
+   the superbot take (.sb: blue / pink / purple). The two Patrick clips are
    real video with the icon composited onto his head offline. All motion is
    computed in JS from t (timeline.js); no CSS animations on rebuilt DOM. */
 
@@ -52,8 +52,8 @@ body {
   flex: none;
 }
 
-/* ---- the Vine clips: 16:9 (cropped from the Vine's square), cover-fit on
-   the head (58% / 35%), so every gallery ratio keeps him in frame ---- */
+/* ---- the Patrick clips: 4:3 (the pillarbox cropped off), cover-fit on his
+   head (60% / 30%), so every gallery ratio keeps him in frame ---- */
 .clip {
   position: absolute; inset: 0; z-index: 4;
   display: none;
@@ -62,7 +62,7 @@ body {
 }
 .clip video {
   width: 100%; height: 100%; display: block;
-  object-fit: cover; object-position: 58% 35%;
+  object-fit: cover; object-position: 60% 30%;
 }
 
 /* ---- the chat frontend ---- */

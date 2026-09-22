@@ -105,7 +105,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'superbot-nine-plus-ten-16x9.webm';
+      a.download = 'superbot-mayonnaise-16x9.webm';
       document.body.appendChild(a);
       a.click();
       a.remove();

@@ -20,6 +20,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   converts and hands back a clean download link, then the pain words roll through
   refusing / slow / forgetting / lying / unorganized (25.8s loop).
 - **favorite color** — the chat pitch: "whats ur favorite color".
+- **what's 9 + 10?** — the "9 + 10 = 21" Vine with the ChatGPT icon on the kid's head (hand
+  keyframes: the footage is too dark for a face detector); the ChatGPT screen is asked "What's 9 + 10"
+  and shows its work forever, the camera flies down the wall; the same clip wearing the superbot icon;
+  the superbot screen answers "21."; stop burning tokens; the end card (28s loop, with sound).
+  `animations/nine-plus-ten-superbot-7d3e9b21/`, built on the who-are-you spot.
 - **who are you?** — the Kazoo Kid clip with the ChatGPT icon face-tracked onto his head; the
   ChatGPT screen is asked "Who are you" and rambles about identity forever, the camera flies down
   the wall of text; the same clip wearing the superbot icon; the superbot screen (blue, pink,

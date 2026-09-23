@@ -16,6 +16,22 @@
     "thumb": "assets/shots/youtube-refusal-superbot-7f2c9a41.png"
   },
   {
+    "id": "waffles-delivery-superbot-87a583a1",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "order me waffles? ChatGPT lectures \"I can't do that!\"; superbot pops in, orders Denny's through DoorDash, a 3s real doorstep handoff plays with the kawaii superbot mascot on the courier's shoulder, and it hops into the end card (20.8s loop)",
+    "src": "animations/waffles-delivery-superbot-87a583a1/",
+    "thumb": "assets/shots/waffles-delivery-superbot-87a583a1.png"
+  },
+  {
+    "id": "waffles-website-superbot-87a583a1",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "make me a website where people can rate waffle pics? ChatGPT hands back a code block and a list of chores; superbot pops in, answers in its chat while the real rate-waffle-pics site builds in the preview, and one press of the gradient Publish button: \"Live in one click.\" (23.2s loop)",
+    "src": "animations/waffles-website-superbot-87a583a1/",
+    "thumb": "assets/shots/waffles-website-superbot-87a583a1.png"
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

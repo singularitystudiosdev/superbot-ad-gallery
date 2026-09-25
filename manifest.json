@@ -106,6 +106,102 @@
     "downloadLabel": "16:9 · 8 hours"
   },
   {
+    "id": "just-works-couch-local-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Mid-century couches, 20 miles out · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-couch-local-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-couch-local-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-dresses-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "10 Dresses on Amazon · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-dresses-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-dresses-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-espresso-gpt-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Espresso, by the reviews · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-espresso-gpt-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-espresso-gpt-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-f-series-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Used F-Series, every platform · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-f-series-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-f-series-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-gift-dad-gpt-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Fishing gifts for dad, under $50 · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-gift-dad-gpt-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-gift-dad-gpt-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-gmail-manage-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Inbox, handled · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-gmail-manage-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-gmail-manage-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-gmail-receipts-gpt-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "What I spent this year · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-gmail-receipts-gpt-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-gmail-receipts-gpt-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-leather-jacket-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Vintage leather jacket, size M · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-leather-jacket-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-leather-jacket-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-running-shoes-gpt-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Size 10, in stock · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-running-shoes-gpt-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-running-shoes-gpt-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-standing-desk-gpt-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Standing desks, compared · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-standing-desk-gpt-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-standing-desk-gpt-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-tickets-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Two seats together, Friday · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-tickets-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-tickets-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-tv-price-gpt-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "OLED 65, today · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-tv-price-gpt-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-tv-price-gpt-superbot-42aac446.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

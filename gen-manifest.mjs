@@ -116,6 +116,32 @@ for (const [name, src, title, group, extra] of more) {
     thumb: `assets/shots/${name}.png`, ...(extra || {}) });
 }
 
+// Ad spots that live in the real-ui gallery (singularitystudiosdev/superbot-ad-gallery-real-ui):
+// the page plays from its permanent URL there; the thumb and the offline renders are copied in
+// here (assets/shots/<id>.png, assets/video/<id>.<ar>.mp4) so the tile and the download work
+// the same as every local spot. [name, title]
+const REAL_UI = 'https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/';
+const realUi = [
+  // the "Superbot just works" family (2026-09-25): 12 spots on one kit; superbot aggregates a
+  // real ask across platforms and hands back a finished frontend in Chrome.
+  ['just-works-couch-local-superbot-42aac446', 'Mid-century couches, 20 miles out · superbot just works'],
+  ['just-works-dresses-superbot-42aac446', '10 Dresses on Amazon · superbot just works'],
+  ['just-works-espresso-gpt-superbot-42aac446', 'Espresso, by the reviews · superbot just works'],
+  ['just-works-f-series-superbot-42aac446', 'Used F-Series, every platform · superbot just works'],
+  ['just-works-gift-dad-gpt-superbot-42aac446', 'Fishing gifts for dad, under $50 · superbot just works'],
+  ['just-works-gmail-manage-superbot-42aac446', 'Inbox, handled · superbot just works'],
+  ['just-works-gmail-receipts-gpt-superbot-42aac446', 'What I spent this year · superbot just works'],
+  ['just-works-leather-jacket-superbot-42aac446', 'Vintage leather jacket, size M · superbot just works'],
+  ['just-works-running-shoes-gpt-superbot-42aac446', 'Size 10, in stock · superbot just works'],
+  ['just-works-standing-desk-gpt-superbot-42aac446', 'Standing desks, compared · superbot just works'],
+  ['just-works-tickets-superbot-42aac446', 'Two seats together, Friday · superbot just works'],
+  ['just-works-tv-price-gpt-superbot-42aac446', 'OLED 65, today · superbot just works'],
+];
+for (const [name, title] of realUi) {
+  items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${name}/`,
+    thumb: `assets/shots/${name}.png` });
+}
+
 for (const g of groups.filter(g => g.group === ONLY_GROUP)) {
   for (const f of readdirSync(g.dir).filter(f => f.endsWith('.png') && (!g.match || g.match(f))).sort()) {
     if (statSync(`${g.dir}/${f}`).isDirectory()) continue;

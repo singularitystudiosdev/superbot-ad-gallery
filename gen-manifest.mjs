@@ -64,6 +64,7 @@ const items = anims.map(([id, src, title, desc]) => ({
 // Second sweep — ad spots, site variants, hero FX and related pages.
 // [name, pagePath, title, group]
 const more = [
+  ['context-carries-superbot-12d6385c', 'context-carries-superbot-12d6385c/', 'Context Carries: planning a bakery launch with Claude until the 5-hour limit locks the composer; superbot can do it, one click carries the whole conversation and the unsent message, and superbot writes the email (23.1s loop)', 'Ad spots'],
     ['tabs-chaos-superbot-6f50ea56', 'tabs-chaos-superbot-6f50ea56/', '14 tabs? the same prompt pasted into fourteen AI tabs, then superbot asks every agent from one window (15s loop)', 'Ad spots'],
   ['youtube-refusal-superbot-7f2c9a41', 'youtube-refusal-superbot-7f2c9a41/', "youtube to mp3? ChatGPT refuses with the terms-of-service lecture; superbot pops in mid-refusal and the click downloads instantly; the pain words cascade, accelerating to 3x (21.9s loop)", 'Ad spots'],
   ['waffles-delivery-superbot-87a583a1', 'waffles-delivery-superbot-87a583a1/', 'order me waffles? ChatGPT lectures "I can\'t do that!"; superbot pops in, orders Denny\'s through DoorDash, a 1s first-person Denny\'s handoff (AI-generated) plays with the superbot mascot on the courier\'s shoulder, and it hops into the end card (15.4s loop)', 'Ad spots'],

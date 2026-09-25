@@ -1,5 +1,13 @@
 [
   {
+    "id": "context-carries-superbot-12d6385c",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Context Carries: planning a bakery launch with Claude until the 5-hour limit locks the composer; superbot can do it, one click carries the whole conversation and the unsent message, and superbot writes the email (23.1s loop)",
+    "src": "animations/context-carries-superbot-12d6385c/",
+    "thumb": "assets/shots/context-carries-superbot-12d6385c.png"
+  },
+  {
     "id": "tabs-chaos-superbot-6f50ea56",
     "type": "animation",
     "group": "Ad spots",

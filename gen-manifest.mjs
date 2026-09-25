@@ -134,6 +134,8 @@ const realUi = [
   ['just-works-leather-jacket-superbot-42aac446', 'Vintage leather jacket, size M · superbot just works'],
   ['just-works-running-shoes-gpt-superbot-42aac446', 'Size 10, in stock · superbot just works'],
   ['just-works-standing-desk-gpt-superbot-42aac446', 'Standing desks, compared · superbot just works'],
+  ['just-works-waiver-night-superbot-42aac446', 'Waiver night, three leagues · superbot just works'],
+  ['just-works-waiver-night-gpt-superbot-42aac446', 'Waiver night, ChatGPT vs Superbot · superbot just works'],
   ['just-works-tickets-superbot-42aac446', 'Two seats together, Friday · superbot just works'],
   ['just-works-tv-price-gpt-superbot-42aac446', 'OLED 65, today · superbot just works'],
 ];

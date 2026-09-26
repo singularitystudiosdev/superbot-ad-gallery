@@ -159,6 +159,10 @@ const realUi = [
   ['mmorpg-every-model-v3-superbot-d231c019', 'I want to make a MMO RPG: Gemini art first, DeepSeek lore, Opus 5.5 codes', 'mmorpg-every-model-superbot-d231c019/?v=3'],
   ['mmorpg-every-model-v4-superbot-d231c019', 'I want to make a MMO RPG: DeepSeek, Codex server, Opus 5.5 client, Gemini, GitHub', 'mmorpg-every-model-superbot-d231c019/?v=4'],
   ['mmorpg-every-model-v5-superbot-d231c019', 'I want to make a MMO RPG: Opus 5.5 plans, DeepSeek codes, Gemini art, GitHub', 'mmorpg-every-model-superbot-d231c019/?v=5'],
+  // build me an interactive 3D island world (2026-09-26): three routings of one page (?v=1..3), ends on the island clip.
+  ['island-world-every-model-v1-superbot-00836f02', '3D island world: DeepSeek plans, Opus terrain, Codex water, Gemini textures, GitHub', 'island-world-every-model-superbot-00836f02/?v=1'],
+  ['island-world-every-model-v2-superbot-00836f02', '3D island world: Opus plans, Gemini textures, Codex terrain, Opus water', 'island-world-every-model-superbot-00836f02/?v=2'],
+  ['island-world-every-model-v3-superbot-00836f02', '3D island world: Gemini textures first, DeepSeek layout, Opus controls, Codex water', 'island-world-every-model-superbot-00836f02/?v=3'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

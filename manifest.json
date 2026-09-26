@@ -234,6 +234,22 @@
     "thumb": "assets/shots/just-works-marathon-build-gpt-superbot-42aac446.png"
   },
   {
+    "id": "just-works-trip-wallet-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Gmail + United + Delta + Marriott + Airbnb, one trip timeline · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-trip-wallet-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-trip-wallet-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-trip-wallet-gpt-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Gmail + United + Delta + Marriott + Airbnb, ChatGPT vs Superbot · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-trip-wallet-gpt-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-trip-wallet-gpt-superbot-42aac446.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

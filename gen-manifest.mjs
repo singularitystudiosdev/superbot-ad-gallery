@@ -140,6 +140,8 @@ const realUi = [
   ['just-works-tv-price-gpt-superbot-42aac446', 'OLED 65, today · superbot just works'],
   ['just-works-marathon-build-superbot-42aac446', 'Strava + Garmin + Nike Run Club, one training log · superbot just works'],
   ['just-works-marathon-build-gpt-superbot-42aac446', 'Strava + Garmin + Nike Run Club, ChatGPT vs Superbot · superbot just works'],
+  ['just-works-trip-wallet-superbot-42aac446', 'Gmail + United + Delta + Marriott + Airbnb, one trip timeline · superbot just works'],
+  ['just-works-trip-wallet-gpt-superbot-42aac446', 'Gmail + United + Delta + Marriott + Airbnb, ChatGPT vs Superbot · superbot just works'],
 ];
 for (const [name, title] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${name}/`,

@@ -298,6 +298,46 @@
     "thumb": "assets/shots/make-minecraft-every-model-zoom-superbot-b055c127.png"
   },
   {
+    "id": "mmorpg-every-model-v1-superbot-d231c019",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "I want to make a MMO RPG: DeepSeek plans, Opus 5.5 codes, GitHub, Gemini art",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/mmorpg-every-model-superbot-d231c019/?v=1",
+    "thumb": "assets/shots/mmorpg-every-model-v1-superbot-d231c019.png"
+  },
+  {
+    "id": "mmorpg-every-model-v2-superbot-d231c019",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "I want to make a MMO RPG: Opus 5.5 plans, Gemini art, Codex codes, GitHub",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/mmorpg-every-model-superbot-d231c019/?v=2",
+    "thumb": "assets/shots/mmorpg-every-model-v2-superbot-d231c019.png"
+  },
+  {
+    "id": "mmorpg-every-model-v3-superbot-d231c019",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "I want to make a MMO RPG: Gemini art first, DeepSeek lore, Opus 5.5 codes",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/mmorpg-every-model-superbot-d231c019/?v=3",
+    "thumb": "assets/shots/mmorpg-every-model-v3-superbot-d231c019.png"
+  },
+  {
+    "id": "mmorpg-every-model-v4-superbot-d231c019",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "I want to make a MMO RPG: DeepSeek, Codex server, Opus 5.5 client, Gemini, GitHub",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/mmorpg-every-model-superbot-d231c019/?v=4",
+    "thumb": "assets/shots/mmorpg-every-model-v4-superbot-d231c019.png"
+  },
+  {
+    "id": "mmorpg-every-model-v5-superbot-d231c019",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "I want to make a MMO RPG: Opus 5.5 plans, DeepSeek codes, Gemini art, GitHub",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/mmorpg-every-model-superbot-d231c019/?v=5",
+    "thumb": "assets/shots/mmorpg-every-model-v5-superbot-d231c019.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

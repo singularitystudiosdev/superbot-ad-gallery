@@ -153,6 +153,12 @@ const realUi = [
   ['make-minecraft-every-model-superbot-b055c127', 'I WANT TO MAKE MINECRAFT · every model, one chat'],
   ['make-minecraft-every-model-steps-superbot-b055c127', 'I WANT TO MAKE MINECRAFT · you ask, it switches', 'make-minecraft-every-model-superbot-b055c127/?cut=steps'],
   ['make-minecraft-every-model-zoom-superbot-b055c127', 'I WANT TO MAKE MINECRAFT · into the game', 'make-minecraft-every-model-superbot-b055c127/?cut=zoom'],
+  // I want to make a MMO RPG (2026-09-26): five routings of one page (?v=1..5) through plan, code, git, art, play.
+  ['mmorpg-every-model-v1-superbot-d231c019', 'I want to make a MMO RPG: DeepSeek plans, Opus 5.5 codes, GitHub, Gemini art', 'mmorpg-every-model-superbot-d231c019/?v=1'],
+  ['mmorpg-every-model-v2-superbot-d231c019', 'I want to make a MMO RPG: Opus 5.5 plans, Gemini art, Codex codes, GitHub', 'mmorpg-every-model-superbot-d231c019/?v=2'],
+  ['mmorpg-every-model-v3-superbot-d231c019', 'I want to make a MMO RPG: Gemini art first, DeepSeek lore, Opus 5.5 codes', 'mmorpg-every-model-superbot-d231c019/?v=3'],
+  ['mmorpg-every-model-v4-superbot-d231c019', 'I want to make a MMO RPG: DeepSeek, Codex server, Opus 5.5 client, Gemini, GitHub', 'mmorpg-every-model-superbot-d231c019/?v=4'],
+  ['mmorpg-every-model-v5-superbot-d231c019', 'I want to make a MMO RPG: Opus 5.5 plans, DeepSeek codes, Gemini art, GitHub', 'mmorpg-every-model-superbot-d231c019/?v=5'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

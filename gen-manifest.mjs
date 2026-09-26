@@ -142,8 +142,8 @@ const realUi = [
   ['just-works-marathon-build-gpt-superbot-42aac446', 'Strava + Garmin + Nike Run Club, ChatGPT vs Superbot · superbot just works'],
   ['just-works-trip-wallet-superbot-42aac446', 'Gmail + United + Delta + Marriott + Airbnb, one trip timeline · superbot just works'],
   ['just-works-trip-wallet-gpt-superbot-42aac446', 'Gmail + United + Delta + Marriott + Airbnb, ChatGPT vs Superbot · superbot just works'],
-  // model-switch spot (2026-09-26): one chat hands off Gemini > DeepSeek V4 Flash > Opus 5.5 > Grok > DoorDash.
-  ['every-model-one-chat-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Gemini, DeepSeek, Opus, Grok, DoorDash'],
+  // model-switch spot (2026-09-26): one chat hands off Gemini > DeepSeek V4 Flash > Grok > DoorDash.
+  ['every-model-one-chat-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Gemini, DeepSeek, Grok, DoorDash'],
 ];
 for (const [name, title] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${name}/`,

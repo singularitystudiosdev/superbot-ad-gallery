@@ -175,6 +175,10 @@ const realUi = [
   ['future-video-every-model-v1-superbot-fef7368f', 'make an animated video about the future: Veo 3 renders shot 1, Codex builds the film in a terminal (3 switches)', 'future-video-every-model-superbot-fef7368f/?v=1'],
   ['future-video-every-model-v2-superbot-fef7368f', 'make an animated video about the future: ElevenLabs voice first, DeepSeek cues, Kling renders, back to DeepSeek (5 switches)', 'future-video-every-model-superbot-fef7368f/?v=2'],
   ['future-video-every-model-v3-superbot-fef7368f', 'make an animated video about the future: Nano Banana storyboard, Veo 3 + Kling in parallel, Suno, ElevenLabs, Opus 5.5 cut (7 switches)', 'future-video-every-model-superbot-fef7368f/?v=3'],
+  // make Dark Souls (2026-09-26): three structurally different routings of one page (?v=1..3), coding always Opus 5.5 as result cards, ends on 13s of @The_Alex's Opus 5.5 Dark Souls clip.
+  ['dark-souls-every-model-v1-superbot-80e24d9f', 'make Dark Souls: ElevenLabs voices the boss, Opus 5.5 builds it, Superbot plays (3 switches)', 'dark-souls-every-model-superbot-80e24d9f/?v=1'],
+  ['dark-souls-every-model-v2-superbot-80e24d9f', 'make Dark Souls: Gemini paints the Gatewarden, Opus 5.5 builds the fight, Gemini textures the fog gate, GitHub, Superbot renders and plays (5 switches)', 'dark-souls-every-model-superbot-80e24d9f/?v=2'],
+  ['dark-souls-every-model-v3-superbot-80e24d9f', 'make Dark Souls: Opus 5.5 builds combat, DeepSeek assets, ElevenLabs score, Gemini art, Opus 5.5 live preview, GitHub, Superbot plays (7 switches)', 'dark-souls-every-model-superbot-80e24d9f/?v=3'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

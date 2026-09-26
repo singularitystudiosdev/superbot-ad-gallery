@@ -148,6 +148,11 @@ const realUi = [
   ['every-model-one-chat-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Connecting to DoorDash'],
   ['every-model-one-chat-sb-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Switched to Superbot', 'every-model-one-chat-superbot-efa8df82/?route=superbot'],
   ['every-model-one-chat-sb-combo-efa8df82', 'EVERY MODEL. ONE CHAT. · Superbot, then DoorDash', 'every-model-one-chat-superbot-efa8df82/?route=combo'],
+  // I want to make minecraft (2026-09-26): Opus 5.5 > GitHub > DeepSeek V4 Flash decals > Gemini decals > Opus 5.5,
+  // three cuts of one page (?cut=).
+  ['make-minecraft-every-model-superbot-b055c127', 'I WANT TO MAKE MINECRAFT · every model, one chat'],
+  ['make-minecraft-every-model-steps-superbot-b055c127', 'I WANT TO MAKE MINECRAFT · you ask, it switches', 'make-minecraft-every-model-superbot-b055c127/?cut=steps'],
+  ['make-minecraft-every-model-zoom-superbot-b055c127', 'I WANT TO MAKE MINECRAFT · into the game', 'make-minecraft-every-model-superbot-b055c127/?cut=zoom'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

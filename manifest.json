@@ -274,6 +274,30 @@
     "thumb": "assets/shots/every-model-one-chat-sb-combo-efa8df82.png"
   },
   {
+    "id": "make-minecraft-every-model-superbot-b055c127",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "I WANT TO MAKE MINECRAFT · every model, one chat",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/make-minecraft-every-model-superbot-b055c127/",
+    "thumb": "assets/shots/make-minecraft-every-model-superbot-b055c127.png"
+  },
+  {
+    "id": "make-minecraft-every-model-steps-superbot-b055c127",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "I WANT TO MAKE MINECRAFT · you ask, it switches",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/make-minecraft-every-model-superbot-b055c127/?cut=steps",
+    "thumb": "assets/shots/make-minecraft-every-model-steps-superbot-b055c127.png"
+  },
+  {
+    "id": "make-minecraft-every-model-zoom-superbot-b055c127",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "I WANT TO MAKE MINECRAFT · into the game",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/make-minecraft-every-model-superbot-b055c127/?cut=zoom",
+    "thumb": "assets/shots/make-minecraft-every-model-zoom-superbot-b055c127.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

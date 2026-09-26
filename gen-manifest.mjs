@@ -119,7 +119,8 @@ for (const [name, src, title, group, extra] of more) {
 // Ad spots that live in the real-ui gallery (singularitystudiosdev/superbot-ad-gallery-real-ui):
 // the page plays from its permanent URL there; the thumb and the offline renders are copied in
 // here (assets/shots/<id>.png, assets/video/<id>.<ar>.mp4) so the tile and the download work
-// the same as every local spot. [name, title]
+// the same as every local spot. [name, title, path?]: path defaults to <name>/; the variants of one page
+// pass their own (a ?route= link into the shared page).
 const REAL_UI = 'https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/';
 const realUi = [
   // the "Superbot just works" family (2026-09-25): 12 spots on one kit; superbot aggregates a
@@ -142,11 +143,14 @@ const realUi = [
   ['just-works-marathon-build-gpt-superbot-42aac446', 'Strava + Garmin + Nike Run Club, ChatGPT vs Superbot · superbot just works'],
   ['just-works-trip-wallet-superbot-42aac446', 'Gmail + United + Delta + Marriott + Airbnb, one trip timeline · superbot just works'],
   ['just-works-trip-wallet-gpt-superbot-42aac446', 'Gmail + United + Delta + Marriott + Airbnb, ChatGPT vs Superbot · superbot just works'],
-  // model-switch spot (2026-09-26): one chat hands off Gemini > DeepSeek V4 Flash > DoorDash; a selector on the page picks the burger routing.
-  ['every-model-one-chat-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Gemini, DeepSeek, DoorDash (3 routings)'],
+  // model-switch spots (2026-09-26): one chat hands off Gemini > DeepSeek V4 Flash > the burger ask, three routings
+  // of that last ask, one page (?route= picks it).
+  ['every-model-one-chat-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Connecting to DoorDash'],
+  ['every-model-one-chat-sb-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Switched to Superbot', 'every-model-one-chat-superbot-efa8df82/?route=superbot'],
+  ['every-model-one-chat-sb-combo-efa8df82', 'EVERY MODEL. ONE CHAT. · Superbot, then DoorDash', 'every-model-one-chat-superbot-efa8df82/?route=combo'],
 ];
-for (const [name, title] of realUi) {
-  items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${name}/`,
+for (const [name, title, path] of realUi) {
+  items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,
     thumb: `assets/shots/${name}.png` });
 }
 

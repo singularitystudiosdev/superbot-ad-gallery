@@ -171,6 +171,10 @@ const realUi = [
   ['fantasy90s-every-model-v1-superbot-042670d1', 'make a 90s fantasy 3D game: Meshy meshes first, then Opus 5.5 and Gemini in parallel (3 requests)', 'fantasy90s-every-model-superbot-042670d1/?v=1'],
   ['fantasy90s-every-model-v2-superbot-042670d1', 'make a 90s fantasy 3D game: Codex in the terminal, Opus 5.5 reviews and hands it back, Gemini (5 requests)', 'fantasy90s-every-model-superbot-042670d1/?v=2'],
   ['fantasy90s-every-model-v3-superbot-042670d1', 'make a 90s fantasy 3D game: Lyria chiptune first, Meshy, Gemini, Opus 5.5, Codex live preview, GitHub (7 requests)', 'fantasy90s-every-model-superbot-042670d1/?v=3'],
+  // make an animated video about the future (2026-09-26): three structurally different pipelines for one film (?v=1..3), ends on The Steep Part clip.
+  ['future-video-every-model-v1-superbot-fef7368f', 'make an animated video about the future: Veo 3 renders shot 1, Codex builds the film in a terminal (3 switches)', 'future-video-every-model-superbot-fef7368f/?v=1'],
+  ['future-video-every-model-v2-superbot-fef7368f', 'make an animated video about the future: ElevenLabs voice first, DeepSeek cues, Kling renders, back to DeepSeek (5 switches)', 'future-video-every-model-superbot-fef7368f/?v=2'],
+  ['future-video-every-model-v3-superbot-fef7368f', 'make an animated video about the future: Nano Banana storyboard, Veo 3 + Kling in parallel, Suno, ElevenLabs, Opus 5.5 cut (7 switches)', 'future-video-every-model-superbot-fef7368f/?v=3'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

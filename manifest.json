@@ -218,6 +218,22 @@
     "thumb": "assets/shots/just-works-tv-price-gpt-superbot-42aac446.png"
   },
   {
+    "id": "just-works-marathon-build-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Strava + Garmin + Nike Run Club, one training log · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-marathon-build-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-marathon-build-superbot-42aac446.png"
+  },
+  {
+    "id": "just-works-marathon-build-gpt-superbot-42aac446",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Strava + Garmin + Nike Run Club, ChatGPT vs Superbot · superbot just works",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/just-works-marathon-build-gpt-superbot-42aac446/",
+    "thumb": "assets/shots/just-works-marathon-build-gpt-superbot-42aac446.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

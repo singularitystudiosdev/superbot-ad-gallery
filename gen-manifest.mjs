@@ -215,9 +215,9 @@ const realUi = [
   // plays BlockHaven by @kepochnik.
   ['its-a-lie-every-model-superbot-54829cd7', 'ITS A LIE: “I made this in one prompt”, then the models behind BlockHaven'],
   // IT'S NOT JUST OPUS 5.5 (2026-09-27): a fork of make-minecraft b055c127. The viewer mines @noahwachnik's Opus 5.5
-  // Minecraft post like a block, its Claude drop fills a Minecraft model hotbar, and one chat routes "make me minecraft.
-  // call it BlockHaven" through six models before @kepochnik's BlockHaven clip plays.
-  ['blockhaven-not-just-opus-superbot-2ab31e2c', 'IT\'S NOT JUST OPUS 5.5: mine @noahwachnik\'s post, fill the model hotbar, one chat builds BlockHaven. DeepSeek V4 Flash, Gemini, Meshy 5, ElevenLabs, Opus 5.5, Superbot plays it (clip @kepochnik)'],
+  // Minecraft post like a block, then one chat routes "make me minecraft. call it BlockHaven" through six models
+  // before @kepochnik's BlockHaven clip plays.
+  ['blockhaven-not-just-opus-superbot-2ab31e2c', 'IT\'S NOT JUST OPUS 5.5: mine @noahwachnik\'s post, then one chat builds BlockHaven. DeepSeek V4 Flash, Gemini, Meshy 5, ElevenLabs, Opus 5.5, Superbot plays it (clip @kepochnik)'],
   // make a Splatoon game (2026-09-26): the whole ink build in one chat, one model per step. Opus 5.5 writes the
   // brief, DeepSeek V4 Flash scrapes the ink refs, Meshy 5 models the arena, HY-Motion animates the cast,
   // ElevenLabs and Suno score it, Gemini paints the ink, Opus 5.5 codes Inkwave, GitHub ships it, and the last

@@ -207,6 +207,9 @@ const realUi = [
   // make a high-end netflix style documentary about superintelligence for normies (2026-09-27): the fantasy90s v3 cadence
   // rethemed to THE LAST INVENTION, each model switch a lower third with its domino; ends on @gavinpurcell's documentary title card.
   ['lastinvention-every-model-v3-superbot-dda6c235', 'make a high-end netflix style documentary about superintelligence for normies: Lyria 2, Meshy, Gemini, Opus 5.5, DeepSeek V4 Flash, GitHub, then Opus 5.5 renders The Last Invention; each switch a falling domino (7 requests; film @gavinpurcell)', 'lastinvention-every-model-superbot-dda6c235/?v=3'],
+  // Create a 4-5 minute cinematic video about the Battle of Austerlitz (1805) (2026-09-27): the lastinvention v3 cadence
+  // rethemed to AUSTERLITZ, each model switch an hour caption with its true sun; ends on @WinterArc2125's Opus 5.5 film.
+  ['austerlitz-every-model-v3-superbot-282e0654', 'Create a 4-5 minute cinematic video about the Battle of Austerlitz (1805), built entirely in code: Lyria 2, Meshy, Gemini, Opus 5.5, DeepSeek V4 Flash, GitHub, then Opus 5.5 renders Austerlitz; each switch an hour of the film with the sun where it really stood (7 requests; film @WinterArc2125)', 'austerlitz-every-model-superbot-282e0654/?v=3'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

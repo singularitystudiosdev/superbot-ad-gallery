@@ -201,6 +201,9 @@ const realUi = [
   // ElevenLabs and Suno score it, Gemini paints the ink, Opus 5.5 codes Inkwave, GitHub ships it, and the last
   // step is real gameplay from @JaydenDavisNC's Opus 5.5 Splatoon capture.
   ['inkwave-every-model-superbot-b7e4c219', 'Superbot builds Inkwave: every model, one chat'],
+  // make a video on western civilization (2026-09-27): the mariokart 7aec3197 routing rethemed to Prometheus and the fire,
+  // each model switch a fire pass; ends on @IterIntellectus's Claude-made western civilization film.
+  ['prometheus-every-model-v3-superbot-0a738a62', 'make a video on western civilization: Lyria 2, Meshy, Gemini, Opus 5.5, DeepSeek V4 Flash, GitHub, then Opus 5.5 renders Prometheus II; each switch passes the fire (7 requests; clip @IterIntellectus)', 'prometheus-every-model-superbot-0a738a62/?v=3'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

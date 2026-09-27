@@ -204,6 +204,11 @@ const realUi = [
   // post ("I made this in 1 prompt", the video @achxvi's Opus 5.5 Pocketsflow launch film) pushes in, the word column
   // lands, then one chat makes the launch video: DeepSeek, Meshy 5, Hailuo 02, ElevenLabs, Opus 5.5, Superbot plays.
   ['they-wont-tell-you-how-superbot-fccab6d9', 'THEY WONT TELL YOU HOW: a “I made this in 1 prompt” post, then make a launch video for Pocketsflow: DeepSeek V4 Flash researches, Meshy 5 models the mascot, MiniMax Hailuo 02 animates, ElevenLabs scores, Opus 5.5 cuts it in Remotion, Superbot plays (video @achxvi)'],
+  // THEY WONT TELL YOU HOW: 18 months to escape (2026-09-27): a fork of they-wont-tell-you-how fccab6d9. An X feed
+  // decelerates onto a fictional "I made this in 1 prompt" post (footage @anabology's "18 MONTHS TO ESCAPE" film), the
+  // word column lands, then one chat builds that film: DeepSeek, Midjourney v7, MiniMax Hailuo 02, ElevenLabs, Claude
+  // Opus 5.5 on a 15:00 clock, GitHub, and Superbot plays the real film with sound.
+  ['escape-untold-every-model-superbot-a00325aa', 'THEY WONT TELL YOU HOW: 18 months to escape (every model, one prompt)'],
   // ITS A LIE (2026-09-27): a fork of the pocketsflow-untold engine. A mock X post ("I MADE THIS IN ONE PROMPT", the
   // clip @noahwachnik's voxel game) glitches, ITS A LIE / THE SECRET IS / ITS NOT JUST OPUS 5.5, then one chat routes
   // "make me minecraft in the browser" to DeepSeek, Nano Banana, Meshy, ElevenLabs, Suno and Claude Opus 5.5; the reveal

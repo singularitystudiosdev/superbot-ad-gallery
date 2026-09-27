@@ -200,6 +200,10 @@ const realUi = [
   // the embedded video @achxvi's Opus 5.5 Pocketsflow launch film) pushes in, "THEY / WONT / TELL / YOU / HOW" lands one
   // word at a time, then the how: the v4 steps rethemed to Pocketsflow, ending on Superbot playing the real clip.
   ['pocketsflow-untold-every-model-superbot-673c104b', 'THEY WONT TELL YOU HOW: “I made this in 1 prompt”, then the how. DeepSeek V4 Flash, Meshy 5, MiniMax Hailuo 02, ElevenLabs, Opus 5.5 timelapse, Superbot renders the Pocketsflow launch film (clip @achxvi)'],
+  // THEY WONT TELL YOU HOW, the Superbot cut (2026-09-27): a second fork of the dark-souls v4 routing. A fictional X
+  // post ("I made this in 1 prompt", the video @achxvi's Opus 5.5 Pocketsflow launch film) pushes in, the word column
+  // lands, then one chat makes the launch video: DeepSeek, Meshy 5, Hailuo 02, ElevenLabs, Opus 5.5, Superbot plays.
+  ['they-wont-tell-you-how-superbot-fccab6d9', 'THEY WONT TELL YOU HOW: a “I made this in 1 prompt” post, then make a launch video for Pocketsflow: DeepSeek V4 Flash researches, Meshy 5 models the mascot, MiniMax Hailuo 02 animates, ElevenLabs scores, Opus 5.5 cuts it in Remotion, Superbot plays (video @achxvi)'],
   // make a Splatoon game (2026-09-26): the whole ink build in one chat, one model per step. Opus 5.5 writes the
   // brief, DeepSeek V4 Flash scrapes the ink refs, Meshy 5 models the arena, HY-Motion animates the cast,
   // ElevenLabs and Suno score it, Gemini paints the ink, Opus 5.5 codes Inkwave, GitHub ships it, and the last

@@ -171,6 +171,8 @@ const realUi = [
   ['fantasy90s-every-model-v1-superbot-042670d1', 'make a 90s fantasy 3D game: Meshy meshes first, then Opus 5.5 and Gemini in parallel (3 requests)', 'fantasy90s-every-model-superbot-042670d1/?v=1'],
   ['fantasy90s-every-model-v2-superbot-042670d1', 'make a 90s fantasy 3D game: Codex in the terminal, Opus 5.5 reviews and hands it back, Gemini (5 requests)', 'fantasy90s-every-model-superbot-042670d1/?v=2'],
   ['fantasy90s-every-model-v3-superbot-042670d1', 'make a 90s fantasy 3D game: Lyria chiptune first, Meshy, Gemini, Opus 5.5, Codex live preview, GitHub (7 requests)', 'fantasy90s-every-model-superbot-042670d1/?v=3'],
+  // make a Splatoon-style ink game (2026-09-26): the fantasy90s v3 routing reskinned to an ink shooter, ends on 13s of @JaydenDavisNC's Opus 5.5 build.
+  ['splatoon-every-model-v3-superbot-7cf3d4da', 'make a Splatoon-style ink game: Lyria, Meshy, Gemini, Opus 5.5, DeepSeek, GitHub, then the real Opus 5.5 build plays (7 requests; clip @JaydenDavisNC)', 'splatoon-every-model-superbot-7cf3d4da/'],
   // make an animated video about the future (2026-09-26): three structurally different pipelines for one film (?v=1..3), ends on The Steep Part clip.
   ['future-video-every-model-v1-superbot-fef7368f', 'make an animated video about the future: Veo 3 renders shot 1, Codex builds the film in a terminal (3 switches)', 'future-video-every-model-superbot-fef7368f/?v=1'],
   ['future-video-every-model-v2-superbot-fef7368f', 'make an animated video about the future: ElevenLabs voice first, DeepSeek cues, Kling renders, back to DeepSeek (5 switches)', 'future-video-every-model-superbot-fef7368f/?v=2'],

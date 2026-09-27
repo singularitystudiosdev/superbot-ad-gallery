@@ -226,6 +226,10 @@ const realUi = [
   // make a Mario Kart game, one prompt, every model (2026-09-27): opens on @bridgemindai's real ONE SHOT post, VHS-rewinds
   // its clip to the title screen, then Opus 5.5 plans the build and routes 8 requests; ends on the post's real clip.
   ['mariokart-rewind-every-model-superbot-c30de946', 'Superbot: make a Mario Kart game, one prompt, every model: opens on @bridgemindai’s ONE SHOT post and VHS-rewinds its clip to the title screen; Opus 5.5 plans, Gemini, Meshy, DeepSeek V4 Flash, Opus 5.5, Lyria 2, GitHub, then Opus 5.5 launches Turbo Kart Rally; ends on the post’s real clip (8 requests; clip @bridgemindai)'],
+  // THE TEARDOWN, make a kart racer (2026-09-27): the fantasy90s v3 engine rethemed to Turbo Kart Rally. An X cold open
+  // flexes real Opus 5.5 one-shot posts, @bridgemindai's clip freezes mid-race and its HUD lifts off tagged by model,
+  // then one chat builds it and the frozen frame resumes into the real clip.
+  ['turbokart-xray-every-model-v3-superbot-5c1e9b27', 'THE TEARDOWN: the X feed flexes Opus 5.5 one-shots, @bridgemindai’s Turbo Kart Rally freezes mid-race, the HUD lifts off tagged by model (wanna know how? it’s not just Opus 5.5.), then one chat builds it: DeepSeek V4 Flash research, Gemini roster, Nano Banana Pro portraits, Lyria 2 + ElevenLabs score, Opus 5.5 code, GPT-5 Codex playtest, GitHub; the frozen frame resumes into the real clip (clip @bridgemindai, 8 requests)', 'turbokart-xray-every-model-superbot-5c1e9b27/?v=3'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

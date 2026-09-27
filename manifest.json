@@ -426,6 +426,14 @@
     "thumb": "assets/shots/splatoon-every-model-v3-superbot-7cf3d4da.png"
   },
   {
+    "id": "liquidglass-every-model-v3-superbot-956467aa",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "make a Liquid Glass motion reel: Lyria, Meshy, Gemini, Opus 5.5, DeepSeek, GitHub, then the real Opus 5.5 Liquid Glass reel plays (7 requests; clip @motion_conquest)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/liquidglass-every-model-superbot-956467aa/",
+    "thumb": "assets/shots/liquidglass-every-model-v3-superbot-956467aa.png"
+  },
+  {
     "id": "inkwave-every-model-superbot-3f9d27b4",
     "type": "animation",
     "group": "Ad spots",

@@ -178,6 +178,8 @@ const realUi = [
   ['inkwave-every-model-v1-superbot-f1a86d6f', 'make a Splatoon game: Opus 5.5 scripts it, DeepSeek scrapes, Meshy 5 models, HY-Motion animates, ElevenLabs + Suno sound, Nano Banana art, Opus codes, Vercel ships (9 steps)', 'inkwave-every-model-superbot-f1a86d6f/?v=1'],
   // make a Splatoon-style ink game (2026-09-26): the fantasy90s v3 routing reskinned to an ink shooter, ends on 13s of @JaydenDavisNC's Opus 5.5 build.
   ['splatoon-every-model-v3-superbot-7cf3d4da', 'make a Splatoon-style ink game: Lyria, Meshy, Gemini, Opus 5.5, DeepSeek, GitHub, then the real Opus 5.5 build plays (7 requests; clip @JaydenDavisNC)', 'splatoon-every-model-superbot-7cf3d4da/'],
+  // make a Liquid Glass motion reel (2026-09-26): the splatoon v3 routing reskinned to frosted glass, ends on @motion_conquest's real Opus 5.5 Liquid Glass reel.
+  ['liquidglass-every-model-v3-superbot-956467aa', 'make a Liquid Glass motion reel: Lyria, Meshy, Gemini, Opus 5.5, DeepSeek, GitHub, then the real Opus 5.5 Liquid Glass reel plays (7 requests; clip @motion_conquest)', 'liquidglass-every-model-superbot-956467aa/'],
   // make a Splatoon game (2026-09-26): one ask routed to seven models on one page (v3, the default cut):
   // Lyria scores the match, Meshy models the props, Gemini draws the ink decals, DeepSeek scrapes CC0 prop
   // libraries, GitHub pushes Inkwave, Opus 5.5 codes the game and plays it.

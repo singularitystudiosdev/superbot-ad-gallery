@@ -490,6 +490,14 @@
     "thumb": "assets/shots/dark-souls-every-model-v4-superbot-80e24d9f.png"
   },
   {
+    "id": "inkwave-every-model-superbot-b7e4c219",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Superbot builds Inkwave: every model, one chat",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/inkwave-every-model-superbot-b7e4c219/",
+    "thumb": "assets/shots/inkwave-every-model-superbot-b7e4c219.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

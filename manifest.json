@@ -546,6 +546,14 @@
     "thumb": "assets/shots/austerlitz-every-model-v3-superbot-282e0654.png"
   },
   {
+    "id": "mariokart-rewind-every-model-superbot-c30de946",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Superbot: make a Mario Kart game, one prompt, every model: opens on @bridgemindai’s ONE SHOT post and VHS-rewinds its clip to the title screen; Opus 5.5 plans, Gemini, Meshy, DeepSeek V4 Flash, Opus 5.5, Lyria 2, GitHub, then Opus 5.5 launches Turbo Kart Rally; ends on the post’s real clip (8 requests; clip @bridgemindai)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/mariokart-rewind-every-model-superbot-c30de946/",
+    "thumb": "assets/shots/mariokart-rewind-every-model-superbot-c30de946.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

@@ -218,6 +218,9 @@ const realUi = [
   // Create a 4-5 minute cinematic video about the Battle of Austerlitz (1805) (2026-09-27): the lastinvention v3 cadence
   // rethemed to AUSTERLITZ, each model switch an hour caption with its true sun; ends on @WinterArc2125's Opus 5.5 film.
   ['austerlitz-every-model-v3-superbot-282e0654', 'Create a 4-5 minute cinematic video about the Battle of Austerlitz (1805), built entirely in code: Lyria 2, Meshy, Gemini, Opus 5.5, DeepSeek V4 Flash, GitHub, then Opus 5.5 renders Austerlitz; each switch an hour of the film with the sun where it really stood (7 requests; film @WinterArc2125)', 'austerlitz-every-model-superbot-282e0654/?v=3'],
+  // make a Mario Kart game, one prompt, every model (2026-09-27): opens on @bridgemindai's real ONE SHOT post, VHS-rewinds
+  // its clip to the title screen, then Opus 5.5 plans the build and routes 8 requests; ends on the post's real clip.
+  ['mariokart-rewind-every-model-superbot-c30de946', 'Superbot: make a Mario Kart game, one prompt, every model: opens on @bridgemindai’s ONE SHOT post and VHS-rewinds its clip to the title screen; Opus 5.5 plans, Gemini, Meshy, DeepSeek V4 Flash, Opus 5.5, Lyria 2, GitHub, then Opus 5.5 launches Turbo Kart Rally; ends on the post’s real clip (8 requests; clip @bridgemindai)'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

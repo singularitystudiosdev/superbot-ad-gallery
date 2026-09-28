@@ -228,6 +228,9 @@ const realUi = [
   // Model switcher (2026-09-28): a deck of 16 model cards switches faster and faster under the routing
   // chip, then one 7 s chat routes a Japanese bike ride to Meshy, DeepSeek and Opus 5.5 (clip @prasenx).
   ['first-model-all-models-superbot-df54f063', 'MODEL SWITCHER: 16 model cards switch, then one 7 s chat builds a Japanese bike ride. Meshy, DeepSeek, Opus 5.5 (clip @prasenx)'],
+  // THE FIRST MODEL WITH ALL THE MODELS, live-ride cut (2026-09-28): 14 model cards switch and deal out into the
+  // roster, then one 7 s chat zooms on each switch (Meshy, DeepSeek, Opus 5.5) and the three.js ride it builds plays live.
+  ['first-model-every-model-superbot-7d540b7f', 'THE FIRST MODEL WITH ALL THE MODELS: 14 model cards switch, then one 7 s chat zooms on each switch (Meshy, DeepSeek, Opus 5.5) and the three.js Japanese bike ride it builds plays live'],
   // make a Splatoon game (2026-09-26): the whole ink build in one chat, one model per step. Opus 5.5 writes the
   // brief, DeepSeek V4 Flash scrapes the ink refs, Meshy 5 models the arena, HY-Motion animates the cast,
   // ElevenLabs and Suno score it, Gemini paints the ink, Opus 5.5 codes Inkwave, GitHub ships it, and the last

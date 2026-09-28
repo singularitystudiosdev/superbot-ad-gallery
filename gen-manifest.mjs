@@ -123,6 +123,9 @@ for (const [name, src, title, group, extra] of more) {
 // pass their own (a ?route= link into the shared page).
 const REAL_UI = 'https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/';
 const realUi = [
+  // Japan bikeride, every model (2026-09-28): "Make me relaxing Japan bikeride", 14 model switches, the Veo 3 reply
+  // opens full frame on @prasenx's bike ride clip before a black superbot end card.
+  ['japan-bikeride-every-model-superbot-ad3eb59d', 'Japan bikeride, every model'],
   // the "Superbot just works" family (2026-09-25): 12 spots on one kit; superbot aggregates a
   // real ask across platforms and hands back a finished frontend in Chrome.
   ['just-works-couch-local-superbot-42aac446', 'Mid-century couches, 20 miles out · superbot just works'],

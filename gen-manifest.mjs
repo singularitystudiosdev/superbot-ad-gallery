@@ -123,6 +123,8 @@ for (const [name, src, title, group, extra] of more) {
 // pass their own (a ?route= link into the shared page).
 const REAL_UI = 'https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/';
 const realUi = [
+  // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.
+  ['bikeride-model-switch-superbot-e13744a9', 'Every model, one chat: bike ride. Relaxing Japanese bike riding game: Gemini concept art, Blender 3D assets, Lyria 2 music, ElevenLabs sound effects, Claude Opus 5.5 writes the code, then the real game plays (5 switches; clip @prasenx)'],
   // Japan bikeride, every model (2026-09-28): "Make me relaxing Japan bikeride", 14 model switches, the Veo 3 reply
   // opens full frame on @prasenx's bike ride clip before a black superbot end card.
   ['japan-bikeride-every-model-superbot-ad3eb59d', 'Japan bikeride, every model'],

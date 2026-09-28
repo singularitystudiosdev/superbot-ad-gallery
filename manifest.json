@@ -106,6 +106,14 @@
     "downloadLabel": "16:9 · 8 hours"
   },
   {
+    "id": "bikeride-model-switch-superbot-e13744a9",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Every model, one chat: bike ride. Relaxing Japanese bike riding game: Gemini concept art, Blender 3D assets, Lyria 2 music, ElevenLabs sound effects, Claude Opus 5.5 writes the code, then the real game plays (5 switches; clip @prasenx)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/bikeride-model-switch-superbot-e13744a9/",
+    "thumb": "assets/shots/bikeride-model-switch-superbot-e13744a9.png"
+  },
+  {
     "id": "japan-bikeride-every-model-superbot-ad3eb59d",
     "type": "animation",
     "group": "Ad spots",

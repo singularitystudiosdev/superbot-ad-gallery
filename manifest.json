@@ -109,9 +109,17 @@
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",
-    "title": "make a relaxing Japanese bike riding game: Gemini, Blender, Lyria 2, ElevenLabs, Opus 5.5, then the real Opus 5.5 build plays (5 switches; clip @prasenx)",
+    "title": "make a relaxing Japanese bike riding game: Gemini, Blender, ElevenLabs, Opus 5.5, then the real Opus 5.5 build plays (4 switches; clip @prasenx)",
     "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/bikeride-model-switch-superbot-e13744a9/",
     "thumb": "assets/shots/bikeride-model-switch-superbot-e13744a9.png"
+  },
+  {
+    "id": "bikeride-model-switch-nozoom-superbot-e13744a9",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "make a relaxing Japanese bike riding game, no zoom: Gemini, Blender, ElevenLabs, Opus 5.5, then the real Opus 5.5 build plays (4 switches; clip @prasenx)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/bikeride-model-switch-superbot-e13744a9/?cut=nozoom",
+    "thumb": "assets/shots/bikeride-model-switch-nozoom-superbot-e13744a9.png"
   },
   {
     "id": "japan-bikeride-every-model-superbot-ad3eb59d",

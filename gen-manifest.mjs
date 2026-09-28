@@ -253,7 +253,11 @@ const realUi = [
   // THE TEARDOWN, make a kart racer (2026-09-27): the fantasy90s v3 engine rethemed to Turbo Kart Rally. An X cold open
   // flexes real Opus 5.5 one-shot posts, @bridgemindai's clip freezes mid-race and its HUD lifts off tagged by model,
   // then one chat builds it and the frozen frame resumes into the real clip.
-  ['turbokart-xray-every-model-v3-superbot-5c1e9b27', 'THE TEARDOWN: the X feed flexes Opus 5.5 one-shots, @bridgemindai’s Turbo Kart Rally freezes mid-race, the HUD lifts off tagged by model (wanna know how? it’s not just Opus 5.5.), then one chat builds it: DeepSeek V4 Flash research, Gemini roster, Nano Banana Pro portraits, Lyria 2 + ElevenLabs score, Opus 5.5 code, GPT-5 Codex playtest, GitHub; the frozen frame resumes into the real clip (clip @bridgemindai, 8 requests)', 'turbokart-xray-every-model-superbot-5c1e9b27/?v=3'],
+  ['turbokart-xray-every-model-v3-superbot-5c1e9b27', 'THE TEARDOWN: the X feed flexes Opus 5.5 one-shots, @bridgemindai’s Turbo Kart Rally freezes mid-race, the HUD lifts off tagged by model (wanna know how? it’s not just Opus 5.5.), then one chat builds it: DeepSeek V4 Flash research, Gemini roster, Nano Banana Pro portraits, Lyria 2 + ElevenLabs score, Opus 5.5 code, GPT-5 Codex playtest, GitHub; the frozen frame resumes into the real clip (clip @bridgemindai, 8 requests)', 'turbokart-xray-every-model-v3-superbot-5c1e9b27/?v=3'],
+  // WE DONT CARE (2026-09-28): mirrored from Real UI. "Opus 5.5 says you shouldn't gamble" with only that word in
+  // red, a slammed "WE DONT CARE!" under a confetti burst, then one ask — "Make a website of all my winnings" —
+  // and superbot's card grows sams-winnings.site out of the thread to fill the 4:5 frame. Fictional winnings.
+  ['we-dont-care-gamble-superbot-89be2ca4', 'WE DONT CARE: Opus 5.5 says you shouldn\'t gamble, then superbot builds a website of all my winnings'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

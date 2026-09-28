@@ -126,6 +126,8 @@ const realUi = [
   // Japan bikeride, every model (2026-09-28): "Make me relaxing Japan bikeride", 14 model switches, the Veo 3 reply
   // opens full frame on @prasenx's bike ride clip before a black superbot end card.
   ['japan-bikeride-every-model-superbot-ad3eb59d', 'Japan bikeride, every model'],
+  // MAKE ME RELAXING JAPAN BIKERIDE (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959.
+  ['japan-bikeride-every-model-superbot-fec00f6a', 'MAKE ME RELAXING JAPAN BIKERIDE: one prompt, 16 model switches, the ride on screen at 3.3 s, superbot end card (clip @prasenx)'],
   // the "Superbot just works" family (2026-09-25): 12 spots on one kit; superbot aggregates a
   // real ask across platforms and hands back a finished frontend in Chrome.
   ['just-works-couch-local-superbot-42aac446', 'Mid-century couches, 20 miles out · superbot just works'],

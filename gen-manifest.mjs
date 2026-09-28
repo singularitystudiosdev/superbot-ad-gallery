@@ -218,6 +218,9 @@ const realUi = [
   // Minecraft post like a block, then one chat routes "make me minecraft. call it BlockHaven" through six models
   // before @kepochnik's BlockHaven clip plays.
   ['blockhaven-not-just-opus-superbot-2ab31e2c', 'IT\'S NOT JUST OPUS 5.5: mine @noahwachnik\'s post, then one chat builds BlockHaven. DeepSeek V4 Flash, Gemini, Meshy 5, ElevenLabs, Opus 5.5, Superbot plays it (clip @kepochnik)'],
+  // THE FIRST MODEL WITH ALL THE MODELS (2026-09-28): a deck of 16 model cards switches under the routing chip and deals
+  // out into the roster, then one 7 s chat routes a Japanese bike ride to Meshy, DeepSeek and Opus 5.5 (clip @prasenx).
+  ['first-model-all-models-superbot-df54f063', 'THE FIRST MODEL WITH ALL THE MODELS: 16 model cards switch, then one 7 s chat builds a Japanese bike ride. Meshy, DeepSeek, Opus 5.5 (clip @prasenx)'],
   // make a Splatoon game (2026-09-26): the whole ink build in one chat, one model per step. Opus 5.5 writes the
   // brief, DeepSeek V4 Flash scrapes the ink refs, Meshy 5 models the arena, HY-Motion animates the cast,
   // ElevenLabs and Suno score it, Gemini paints the ink, Opus 5.5 codes Inkwave, GitHub ships it, and the last

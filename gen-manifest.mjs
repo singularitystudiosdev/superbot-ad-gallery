@@ -298,6 +298,11 @@ const realUi = [
   // for me" as a data analyst: superbot signs in to BigQuery and Slack and works the #data-requests queue (SQL written,
   // result charted, reply posted with the chart) on real NYC TLC July 2026 trip records.
   ['do-my-job-data-analyst-superbot-0368c93c', 'BUT WE WILL · Do my job for me: superbot works a data analyst’s request queue in BigQuery'],
+  // BUT WE WILL, do my job translator (2026-09-29): mirrored from Real UI, the same intro and slam, then "Do my job
+  // for me" as an English-to-Spanish translator: superbot signs in to Phrase TMS and works the job queue (segments
+  // confirmed, IRS Publication 850 glossary terms applied, RAE style-rule QA catches fixed) on real US federal
+  // publications with their official Spanish (DOL minimum wage poster, IRS Publication 1, Medicare & You 2027 and 9 more).
+  ['do-my-job-translator-superbot-e60f1bcc', 'BUT WE WILL · Do my job for me: superbot works an English-to-Spanish translator’s queue in Phrase TMS'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

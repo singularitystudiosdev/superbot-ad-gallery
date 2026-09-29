@@ -337,6 +337,12 @@ const realUi = [
   // worked examples (tips $7,000 on line 5, overtime $15,000 / 3 = $5,000, car loan interest $2,000 under Treas. Reg.
   // 1.163-16) and the MeF rejects IND-031-04, IND-181-01, IND-507-01 and F8962-070 going from Rejected to Accepted.
   ['do-my-job-tax-preparer-superbot-0f0aa66c', 'BUT WE WILL · Do my job for me: superbot works a tax preparer’s extension queue in ProConnect Tax'],
+  // BUT WE WILL, do my job travel agent (2026-09-29): mirrored from Real UI, the same intro and slam, then "Do my job
+  // for me" as a travel agent: superbot signs in to Sabre Red 360 and works the PNR queue: UA 852 TPE to SFO
+  // (Schedule change · Rebooked UA872 · Reissued); LH 440 FRA to IAH (Delay claim · EU261 · Filed with Lufthansa); UA
+  // 934 EWR to LHR (Entry docs · UK ETA · DOCS added); real flights and published rules; traveler names, record
+  // locators and ticket serials are fictional.
+  ['do-my-job-travel-agent-superbot-8163d44c', 'BUT WE WILL · Do my job for me: superbot works a travel agent’s Sabre queue'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

@@ -258,6 +258,22 @@ const realUi = [
   // red, a slammed "WE DONT CARE!" under a confetti burst, then one ask — "Make a website of all my winnings" —
   // and superbot's card grows sams-winnings.site out of the thread to fill the 4:5 frame. Fictional winnings.
   ['we-dont-care-gamble-superbot-89be2ca4', 'WE DONT CARE: Opus 5.5 says you shouldn\'t gamble, then superbot builds a website of all my winnings'],
+  // THE GAMBLE MATRIX (2026-09-28): the we-dont-care 89be2ca4 spot as the 12 cells of the real-ui tools/var89-matrix.mjs
+  // (four voices x memecoin/Polymarket/DraftKings). Card 1 names the variant voice ("<voice> says you shouldn't
+  // gamble"), then the same slam and one ask that builds a site of all my memecoin / Polymarket / DraftKings wins.
+  // Mirrored from Real UI; provider names plain text only and every figure fictional mock UI data.
+  ['chatgpt-memecoins-superbot-cae00e01', 'ChatGPT says you shouldn\'t gamble: superbot builds a site of all my memecoin wins'],
+  ['chatgpt-polywins-superbot-cae00e02', 'ChatGPT says you shouldn\'t gamble: superbot builds a site of all my Polymarket wins'],
+  ['chatgpt-sportsbook-superbot-cae00e03', 'ChatGPT says you shouldn\'t gamble: superbot builds a site of all my DraftKings wins'],
+  ['claude-memecoins-superbot-cae00e04', 'Claude says you shouldn\'t gamble: superbot builds a site of all my memecoin wins'],
+  ['claude-polywins-superbot-cae00e05', 'Claude says you shouldn\'t gamble: superbot builds a site of all my Polymarket wins'],
+  ['claude-sportsbook-superbot-cae00e06', 'Claude says you shouldn\'t gamble: superbot builds a site of all my DraftKings wins'],
+  ['gemini-memecoins-superbot-cae00e07', 'Gemini says you shouldn\'t gamble: superbot builds a site of all my memecoin wins'],
+  ['gemini-polywins-superbot-cae00e08', 'Gemini says you shouldn\'t gamble: superbot builds a site of all my Polymarket wins'],
+  ['gemini-sportsbook-superbot-cae00e09', 'Gemini says you shouldn\'t gamble: superbot builds a site of all my DraftKings wins'],
+  ['grok-memecoins-superbot-cae00e0a', 'Grok says you shouldn\'t gamble: superbot builds a site of all my memecoin wins'],
+  ['grok-polywins-superbot-cae00e0b', 'Grok says you shouldn\'t gamble: superbot builds a site of all my Polymarket wins'],
+  ['grok-sportsbook-superbot-cae00e0c', 'Grok says you shouldn\'t gamble: superbot builds a site of all my DraftKings wins'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

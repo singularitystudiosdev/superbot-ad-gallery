@@ -274,6 +274,12 @@ const realUi = [
   ['grok-memecoins-superbot-cae00e0a', 'Grok says you shouldn\'t gamble: superbot builds a site of all my memecoin wins'],
   ['grok-polywins-superbot-cae00e0b', 'Grok says you shouldn\'t gamble: superbot builds a site of all my Polymarket wins'],
   ['grok-sportsbook-superbot-cae00e0c', 'Grok says you shouldn\'t gamble: superbot builds a site of all my DraftKings wins'],
+  // THE BOT CELLS (2026-09-28): the same we-dont-care spot with the user's own words typed lowercase into the
+  // composer, "make me a memecoin trading bot" / "make me a prediction market trading bot", and superbot builds
+  // a live trading bot dashboard (sams-memebot.site / sams-polybot.site) instead of a site of wins. Same two
+  // cells as the real-ui tools/var89-matrix.mjs; chain and venue names plain text only, every figure fictional.
+  ['chatgpt-memebot-superbot-cae00e0d', 'ChatGPT says you shouldn\'t gamble: superbot builds a memecoin trading bot'],
+  ['claude-polybot-superbot-cae00e0e', 'Claude says you shouldn\'t gamble: superbot builds a prediction market trading bot'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

@@ -280,6 +280,10 @@ const realUi = [
   // cells as the real-ui tools/var89-matrix.mjs; chain and venue names plain text only, every figure fictional.
   ['chatgpt-memebot-superbot-cae00e0d', 'ChatGPT says you shouldn\'t gamble: superbot builds a memecoin trading bot'],
   ['claude-polybot-superbot-cae00e0e', 'Claude says you shouldn\'t gamble: superbot builds a prediction market trading bot'],
+  // THE LIVE CELLS (2026-09-28): mirrored from Real UI — the same two bot cells taken live, paper backtest
+  // first then a real connect and live trades on Axiom / Polymarket. Venue names plain text only, all mock.
+  ['chatgpt-memebot-live-superbot-cae00e0f', 'ChatGPT says you shouldn\'t gamble: superbot backtests, paper trades, then trades live on Axiom'],
+  ['claude-polybot-live-superbot-cae00e10', 'Claude says you shouldn\'t gamble: superbot backtests, paper trades, then trades live on Polymarket'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

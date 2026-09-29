@@ -315,6 +315,12 @@ const realUi = [
   // fact-checked against the release, AP style fixes, Submit for Review) on 12 real Sept. 24, 2026 releases (BEA, DOL,
   // Census, BLS, EIA, Freddie Mac, Fed, USDA NASS, Costco, NASA) and 12 verbatim AP Stylebook rules.
   ['do-my-job-journalist-superbot-f8795b48', 'BUT WE WILL · Do my job for me: superbot works a reporter’s story budget in WordPress'],
+  // BUT WE WILL, do my job financial advisor (2026-09-29): mirrored from Real UI, the same intro and slam, then "Do my
+  // job for me" as a financial advisor: superbot signs in to Wealthbox with Schwab connected and works the client
+  // request queue (answer drafted with the rule quoted, task ticked, reply posted in your writing) on the real IRS
+  // Pub. 590-B 2026 RMD example, IRS 2026 limits and Roth catch-up rule, the Trump Account rules and real VTI/VXUS/BND
+  // closes Dec 31, 2025 to Sep 28, 2026 for the 60/40 drift; no person is named.
+  ['do-my-job-financial-advisor-superbot-38facc16', 'BUT WE WILL · Do my job for me: superbot works a financial advisor’s client requests in Wealthbox'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

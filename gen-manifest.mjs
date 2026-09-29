@@ -351,6 +351,12 @@ const realUi = [
   // reading 12 published cold-outreach findings (Gong Labs, 30 Minutes to President's Club, Lavender, Belkins); no
   // person is named.
   ['do-my-job-sdr-superbot-b5acc09b', 'BUT WE WILL · Do my job for me: superbot works a sales development rep’s task queue in Outreach'],
+  // BUT WE WILL, do my job proofreader and editor (2026-09-29): mirrored from Real UI, the same intro and slam, then
+  // "Do my job for me" as a proofreader and editor: superbot signs in to Word for the web, turns on Track Changes, reads
+  // 12 style rules (GPO Style Manual, Guardian style guide, OFR Document Drafting Handbook, IUPAC) and fixes 12 real
+  // published errors (the missing serial comma in Maine's overtime law, the "responsibilty" typo on Australia's $50
+  // note, an "or" in a Federal Reserve rule from 1980 until 2026), each matched to the correction the publisher printed.
+  ['do-my-job-proofreader-editor-superbot-c54c5ecd', 'BUT WE WILL · Do my job for me: superbot proofreads and edits in Microsoft Word'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

@@ -303,6 +303,12 @@ const realUi = [
   // confirmed, IRS Publication 850 glossary terms applied, RAE style-rule QA catches fixed) on real US federal
   // publications with their official Spanish (DOL minimum wage poster, IRS Publication 1, Medicare & You 2027 and 9 more).
   ['do-my-job-translator-superbot-e60f1bcc', 'BUT WE WILL · Do my job for me: superbot works an English-to-Spanish translator’s queue in Phrase TMS'],
+  // BUT WE WILL, do my job copywriter (2026-09-29): mirrored from Real UI, the same intro and slam, then "Do my job for
+  // me" as a copywriter: superbot signs in to Google Docs and works a Mailchimp copy deck's request comments (drafts
+  // with a live character count, checks ticked, reply posted, thread resolved) against real platform limits (Google
+  // Ads, Apple App Store Connect, Google Play, Meta, LinkedIn, X, Mailchimp help), the Mailchimp Content Style Guide
+  // and real Mailchimp facts (homepage, pricing page, live App Store listing).
+  ['do-my-job-copywriter-superbot-cda60abe', 'BUT WE WILL · Do my job for me: superbot writes the Mailchimp copy deck in Google Docs'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

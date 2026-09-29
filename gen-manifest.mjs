@@ -321,6 +321,11 @@ const realUi = [
   // Pub. 590-B 2026 RMD example, IRS 2026 limits and Roth catch-up rule, the Trump Account rules and real VTI/VXUS/BND
   // closes Dec 31, 2025 to Sep 28, 2026 for the 60/40 drift; no person is named.
   ['do-my-job-financial-advisor-superbot-38facc16', 'BUT WE WILL · Do my job for me: superbot works a financial advisor’s client requests in Wealthbox'],
+  // BUT WE WILL, do my job web developer (2026-09-29): mirrored from Real UI, the same intro and slam, then "Do my job
+  // for me" as a web developer: superbot signs in to GitHub and works 12 real excalidraw/excalidraw issues (the repo's
+  // rules read verbatim, three real fix diffs typed: #11876 localize Sign up/Sign in, #7332 drop the dark-mode canvas
+  // filter for Firefox, #11914 Cmd/Ctrl+Shift+S while editing text; the real checks pass, Merge pull request).
+  ['do-my-job-webdev-superbot-80a211a0', 'BUT WE WILL · Do my job for me: superbot works a web developer’s excalidraw issues on GitHub'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

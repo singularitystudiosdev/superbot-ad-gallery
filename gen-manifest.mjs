@@ -326,6 +326,11 @@ const realUi = [
   // rules read verbatim, three real fix diffs typed: #11876 localize Sign up/Sign in, #7332 drop the dark-mode canvas
   // filter for Firefox, #11914 Cmd/Ctrl+Shift+S while editing text; the real checks pass, Merge pull request).
   ['do-my-job-webdev-superbot-80a211a0', 'BUT WE WILL · Do my job for me: superbot works a web developer’s excalidraw issues on GitHub'],
+  // BUT WE WILL, do my job market research analyst (2026-09-29): mirrored from Real UI, the same intro and slam, then
+  // "Do my job for me" as a market research analyst: superbot signs in to Qualtrics XM and works a saved crosstab queue
+  // (banner picked, weighted column percents with significance letters, finding typed into the report, matched to the
+  // published figure) on the Federal Reserve's real SHED 2025 public-use data and 12 verbatim codebook and report facts.
+  ['do-my-job-market-research-analyst-superbot-5aa2de03', 'BUT WE WILL · Do my job for me: superbot works a market research analyst’s crosstab queue in Qualtrics'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

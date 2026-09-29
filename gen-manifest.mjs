@@ -309,6 +309,12 @@ const realUi = [
   // Ads, Apple App Store Connect, Google Play, Meta, LinkedIn, X, Mailchimp help), the Mailchimp Content Style Guide
   // and real Mailchimp facts (homepage, pricing page, live App Store listing).
   ['do-my-job-copywriter-superbot-cda60abe', 'BUT WE WILL · Do my job for me: superbot writes the Mailchimp copy deck in Google Docs'],
+  // BUT WE WILL, do my job journalist (2026-09-29): mirrored from Real UI, the same intro and slam, then "Do my job for
+  // me" as a journalist: superbot signs in to WordPress and works a reporter's story budget in the block editor
+  // (headline options with live character counts, dateline, lede and second paragraph typed, every number
+  // fact-checked against the release, AP style fixes, Submit for Review) on 12 real Sept. 24, 2026 releases (BEA, DOL,
+  // Census, BLS, EIA, Freddie Mac, Fed, USDA NASS, Costco, NASA) and 12 verbatim AP Stylebook rules.
+  ['do-my-job-journalist-superbot-f8795b48', 'BUT WE WILL · Do my job for me: superbot works a reporter’s story budget in WordPress'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

@@ -294,6 +294,10 @@ const realUi = [
   // me" as a federal litigator: superbot signs in to Clio Manage and works the ECF notice queue (orders read,
   // deadlines calendared, drafts in your voice) on real CourtListener dockets.
   ['do-my-job-lawyer-superbot-9c459cb1', 'BUT WE WILL · Do my job for me: superbot works a litigator’s federal docket in Clio'],
+  // BUT WE WILL, do my job data analyst (2026-09-29): mirrored from Real UI — the same intro and slam, then "Do my job
+  // for me" as a data analyst: superbot signs in to BigQuery and Slack and works the #data-requests queue (SQL written,
+  // result charted, reply posted with the chart) on real NYC TLC July 2026 trip records.
+  ['do-my-job-data-analyst-superbot-0368c93c', 'BUT WE WILL · Do my job for me: superbot works a data analyst’s request queue in BigQuery'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

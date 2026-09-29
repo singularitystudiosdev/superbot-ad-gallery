@@ -331,6 +331,12 @@ const realUi = [
   // (banner picked, weighted column percents with significance letters, finding typed into the report, matched to the
   // published figure) on the Federal Reserve's real SHED 2025 public-use data and 12 verbatim codebook and report facts.
   ['do-my-job-market-research-analyst-superbot-5aa2de03', 'BUT WE WILL · Do my job for me: superbot works a market research analyst’s crosstab queue in Qualtrics'],
+  // BUT WE WILL, do my job tax preparer (2026-09-29): mirrored from Real UI, the same intro and slam, then "Do my job
+  // for me" as a tax preparer: superbot signs in to the Intuit ProConnect Tax desk and works the Oct 15, 2026 extension
+  // queue (client email answered from the IRS worked example, return e-filed, rejects fixed) on the IRS Schedule 1-A
+  // worked examples (tips $7,000 on line 5, overtime $15,000 / 3 = $5,000, car loan interest $2,000 under Treas. Reg.
+  // 1.163-16) and the MeF rejects IND-031-04, IND-181-01, IND-507-01 and F8962-070 going from Rejected to Accepted.
+  ['do-my-job-tax-preparer-superbot-0f0aa66c', 'BUT WE WILL · Do my job for me: superbot works a tax preparer’s extension queue in ProConnect Tax'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

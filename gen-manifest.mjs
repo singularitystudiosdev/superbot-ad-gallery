@@ -284,6 +284,11 @@ const realUi = [
   // first then a real connect and live trades on Axiom / Polymarket. Venue names plain text only, all mock.
   ['chatgpt-memebot-live-superbot-cae00e0f', 'ChatGPT says you shouldn\'t gamble: superbot backtests, paper trades, then trades live on Axiom'],
   ['claude-polybot-live-superbot-cae00e10', 'Claude says you shouldn\'t gamble: superbot backtests, paper trades, then trades live on Polymarket'],
+  // BUT WE WILL, do my job call center (2026-09-28): mirrored from Real UI — a standalone call-center spot. "ChatGPT
+  // won't do your job for you" with the red word "job", a slammed "BUT WE WILL", then the one ask "Do my job for me":
+  // superbot connects to the call center, learns your voice from 38 recorded calls, analyzes 1,284 past calls, then
+  // answers live (incoming call from Maria Lopez, order 48213). All names/numbers fictional.
+  ['do-my-job-callcenter-superbot-497a61f3', 'BUT WE WILL · Do my job for me: superbot takes your call center shift'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

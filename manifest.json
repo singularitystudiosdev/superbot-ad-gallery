@@ -770,6 +770,14 @@
     "thumb": "assets/shots/claude-polybot-live-superbot-cae00e10.png"
   },
   {
+    "id": "do-my-job-callcenter-superbot-497a61f3",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "BUT WE WILL · Do my job for me: superbot takes your call center shift",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/do-my-job-callcenter-superbot-497a61f3/",
+    "thumb": "assets/shots/do-my-job-callcenter-superbot-497a61f3.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

@@ -343,6 +343,14 @@ const realUi = [
   // 934 EWR to LHR (Entry docs · UK ETA · DOCS added); real flights and published rules; traveler names, record
   // locators and ticket serials are fictional.
   ['do-my-job-travel-agent-superbot-8163d44c', 'BUT WE WILL · Do my job for me: superbot works a travel agent’s Sabre queue'],
+  // BUT WE WILL, do my job sales development rep (2026-09-29): mirrored from Real UI, the same intro and slam, then
+  // "Do my job for me" as a sales development rep: superbot signs in to Outreach and works a 12-task queue (email,
+  // call and LinkedIn tasks worked in the task flow, Send & Complete, Log Call & Complete, Mark Complete) on 12 real
+  // companies with dated public sales-growth triggers (the BackOps $42M Series B email, the AllianceHCM new Chief
+  // Revenue Officer voicemail logged Voicemail Left, the Clinch London office LinkedIn connection request) after
+  // reading 12 published cold-outreach findings (Gong Labs, 30 Minutes to President's Club, Lavender, Belkins); no
+  // person is named.
+  ['do-my-job-sdr-superbot-b5acc09b', 'BUT WE WILL · Do my job for me: superbot works a sales development rep’s task queue in Outreach'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

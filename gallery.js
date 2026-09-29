@@ -127,6 +127,25 @@ function filtered() {
   return byType(byGroup(ITEMS));
 }
 
+// ---- permalinks: <gallery>/#<id> opens that ad in the viewer; the hash follows the open ad ----
+function setHash(it) {
+  const url = it ? `#${encodeURIComponent(it.id)}` : location.pathname + location.search;
+  if (it ? location.hash !== url : location.hash) history.replaceState(null, '', url);
+}
+function openFromHash() {
+  let id = location.hash.slice(1);
+  try { id = decodeURIComponent(id); } catch {} // a malformed escape is looked up as typed
+  if (!id) { if (!$('lb').hidden) close(); return; }
+  const it = ITEMS.find((i) => i.id === id);
+  if (!it) return;
+  if (!filtered().includes(it)) { // a link must open even when the filters would hide the ad
+    filter = 'All'; typeFilter = 'all';
+    renderTypePicker(); renderChips(); renderGrid();
+  }
+  open(it);
+}
+addEventListener('hashchange', openFromHash);
+
 // ---- grid + filters ----
 function renderChips() {
   const base = byType(ITEMS);
@@ -226,6 +245,7 @@ function renderStage() {
     sizeFrame();
   }
   renderDl();
+  setHash(it);
   $('lbTitle').textContent = it.title;
   const arLabel = RATIOS.find(x => x[0] === (it.type === 'image' ? arOf(it) : ar))[1];
   $('lbPos').textContent = `${openIdx + 1} / ${list.length} · ${it.group}${it.type === 'animation' || it.ars ? ` · ${arLabel}` : ''}`;
@@ -249,6 +269,7 @@ function close() {
   $('lbDl').hidden = true;
   $('lbStage').innerHTML = ''; // kills the iframe rAF + audio
   document.body.style.overflow = '';
+  setHash(null);
 }
 
 function step(d) {
@@ -271,7 +292,7 @@ document.addEventListener('keydown', (e) => {
 // ---- boot ----
 fetch('manifest.json')
   .then(r => r.json())
-  .then(data => { ITEMS = data; renderAr(); renderTypePicker(); renderChips(); renderGrid(); })
+  .then(data => { ITEMS = data; renderAr(); renderTypePicker(); renderChips(); renderGrid(); openFromHash(); })
   .catch(err => {
     console.error(err);
     document.getElementById('empty').hidden = false;

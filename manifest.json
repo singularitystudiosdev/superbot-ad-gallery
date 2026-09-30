@@ -1,5 +1,13 @@
 [
   {
+    "id": "dawn-climb-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "DAWN: rock climbing channel in 21 seconds (4:5)",
+    "src": "animations/dawn-climb-4x5/",
+    "thumb": "assets/shots/dawn-climb-4x5.png"
+  },
+  {
     "id": "context-carries-superbot-12d6385c",
     "type": "animation",
     "group": "Ad spots",

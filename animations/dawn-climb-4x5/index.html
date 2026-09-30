@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAWN: a rock climbing channel in twenty one seconds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- the brand's display face, as demo.css imports it: the DAWN wordmark only -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=block">
+<style>
+/* climb-4x5: the scripted demo (src/demo/run.js, script.js, demo.css)
+   compacted to a 21 s, 4:5 promo. One clock: render(t) in the script below
+   sets every animated style from t, so nothing here transitions or keys
+   frames. Tokens are copied from styles.css and demo.css (look plan). */
+:root {
+  /* look plan: six hex values, the app's own */
+  --hex-canvas: #eef0f3;
+  --hex-surface: #ffffff;
+  --hex-ink: #14171c;
+  --hex-muted: #5f6672;
+  --hex-hairline: #d4d8de;
+  --hex-brand: #6e967e; /* --demo-brand: the mark's own green */
+
+  /* spacing (design-tokens, as styles.css) */
+  --spacing-2: 2px;
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+
+  /* two radii: 12 on cards and panels, full on pills and circles */
+  --radius-12: 12px;
+  --radius-full: 9999px;
+
+  --shadow-4: rgba(0, 0, 0, 0.14) 0px 2px 4px 0px, rgba(0, 0, 0, 0.14) 0px 2px 4px 0px;
+
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --demo-display: "Anton", Impact, sans-serif;
+  --type-title: 500 16px / 24px var(--font-body);
+  --type-body: 400 14px / 20px var(--font-body);
+  --type-label: 500 14px / 20px var(--font-body);
+  --type-meta: 400 12px / 16px var(--font-body);
+
+  --color-canvas: var(--hex-canvas);
+  --color-surface: var(--hex-surface);
+  --color-ink: var(--hex-ink);
+  --color-text-secondary: var(--hex-muted);
+  --color-text-quaternary: color-mix(in oklab, var(--hex-muted) 55%, var(--hex-canvas));
+  --color-hairline: var(--hex-hairline);
+  --color-hairline-strong: color-mix(in oklab, var(--hex-hairline) 60%, var(--hex-muted));
+  --color-status-ok: oklch(55% 0.15 150);
+  --color-ok-ink: color-mix(in oklab, var(--color-status-ok) 72%, var(--color-ink));
+  --color-ok-tint: color-mix(in oklab, var(--color-status-ok) 14%, transparent);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--hex-ink); /* the letterbox around the 4:5 frame */
+}
+
+body {
+  color: var(--color-ink);
+  font: var(--type-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+svg { display: block; flex: none; width: 16px; height: 16px; }
+
+/* ---------- the stage: 540 x 675, scaled to fit, never reflowed ---------- */
+.stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 540px;
+  height: 675px;
+  overflow: hidden;
+  background: var(--color-canvas);
+  transform-origin: 0 0;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-canvas);
+}
+
+.page {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-canvas);
+}
+
+/* ---------- the chat page ---------- */
+.head {
+  position: absolute;
+  top: var(--spacing-16);
+  left: var(--spacing-16);
+  right: var(--spacing-16);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  height: var(--spacing-32);
+  padding: 0 var(--spacing-4);
+}
+
+.head__title { font: var(--type-title); color: var(--color-ink); }
+
+/* the speed badge, as .demo-speed */
+.speed {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-left: auto;
+  padding: var(--spacing-2) var(--spacing-10) var(--spacing-2) var(--spacing-8);
+  border-radius: var(--radius-full);
+  background: var(--color-ink);
+  color: var(--color-canvas);
+  font: var(--type-meta);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+.speed svg { width: 12px; height: 12px; }
+
+.thread {
+  position: absolute;
+  top: 56px;
+  left: var(--spacing-16);
+  right: var(--spacing-16);
+  bottom: 92px; /* the composer (52) and its foot (28) plus 12 of air */
+  overflow: hidden;
+}
+
+.thread__content {
+  position: relative;
+  display: grid;
+  gap: var(--spacing-12);
+  align-content: start;
+  padding: var(--spacing-8) 0 var(--spacing-12);
+}
+
+/* the scroll-edge fades, as .app-thread-wrap: only where a line runs under */
+.thread__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.thread__fade--top { top: 0; height: var(--spacing-24); background: linear-gradient(to bottom, var(--color-canvas) 20%, transparent); }
+.thread__fade--foot { bottom: 0; height: var(--spacing-12); background: linear-gradient(to bottom, transparent, var(--color-canvas)); }
+
+/* the user's line: a pill at the right, as .c-msg--user */
+.msg-user {
+  justify-self: end;
+  max-width: 80%;
+  margin: 0;
+  padding: var(--spacing-8) var(--spacing-16);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  font: var(--type-body);
+}
+
+.msg-agent {
+  margin: 0;
+  padding: 0 var(--spacing-4);
+  font: var(--type-body);
+}
+
+/* a record in the thread: mark, title and meta, status at the right */
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  padding: var(--spacing-10) var(--spacing-12);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-12);
+  background: var(--color-surface);
+}
+
+.avatar {
+  flex: none;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  background: var(--color-canvas);
+}
+
+.row__body { display: grid; gap: var(--spacing-2); min-width: 0; flex: 1; }
+.row__title { font: var(--type-label); color: var(--color-ink); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.row__meta { font: var(--type-meta); color: var(--color-text-secondary); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ok { color: var(--color-status-ok); }
+
+/* a list: one panel, rows on a hairline grid (the gallery's .sheet), so a
+   run of like rows reads as one list, not a stack of cards. It is revealed
+   downward row by row with a clip, never with a height */
+.list {
+  position: relative;
+  display: grid;
+  gap: 1px;
+  padding: 1px;
+  border-radius: var(--radius-12);
+  background: var(--color-hairline);
+  overflow: hidden;
+}
+
+.list > * { background: var(--color-surface); }
+
+/* a tool call, as .c-tool > summary: icon, name, mono args, status */
+.tool {
+  display: grid;
+  grid-template-columns: 16px 1fr 16px;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-12);
+  font: var(--type-meta);
+}
+.tool__icon { color: var(--color-text-secondary); }
+.tool__call { display: flex; gap: var(--spacing-8); min-width: 0; overflow: hidden; white-space: nowrap; }
+.tool__name { font-weight: 500; }
+/* arguments are code, so they take the one monospace stack (app.css) */
+.tool__args { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--color-text-secondary); overflow: hidden; text-overflow: ellipsis; }
+.tool__status { position: relative; width: 16px; height: 16px; color: var(--color-text-secondary); }
+.tool__status svg { position: absolute; inset: 0; }
+.tool__status .ok { color: var(--color-status-ok); }
+
+/* the generated clip: the one bold thing on this screen */
+.clip {
+  margin: 0;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-12);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.clip video { display: block; width: 100%; height: auto; background: var(--color-ink); object-fit: cover; }
+.clip__foot { display: flex; align-items: center; gap: var(--spacing-12); padding: var(--spacing-10) var(--spacing-12); }
+
+.upload {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  padding: var(--spacing-8) var(--spacing-12) var(--spacing-8) var(--spacing-8);
+}
+.upload__thumb { flex: none; object-fit: cover; background: var(--color-canvas); }
+
+.done-line {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  margin: 0;
+  padding: 0 var(--spacing-4);
+  font: var(--type-label);
+}
+
+/* the composer: a pill alone at the foot, as .c-composer on the intro */
+.composer {
+  position: absolute;
+  left: var(--spacing-16);
+  right: var(--spacing-16);
+  bottom: var(--spacing-28);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  height: 52px;
+  padding: 0 var(--spacing-8) 0 var(--spacing-20);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+}
+.composer__text { position: relative; flex: 1; min-width: 0; font: var(--type-body); font-size: 15px; line-height: 22px; white-space: nowrap; overflow: hidden; }
+.composer__ph { position: absolute; left: 0; top: 0; color: var(--color-text-quaternary); }
+.caret { display: inline-block; width: 2px; height: 18px; margin-left: 1px; vertical-align: -3px; background: var(--color-ink); }
+.send {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  color: var(--color-canvas);
+}
+
+/* ---------- the analytics page: the demo's right rail ---------- */
+.stats-head {
+  position: absolute;
+  top: var(--spacing-16);
+  left: var(--spacing-16);
+  right: var(--spacing-16);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  height: var(--spacing-32);
+  padding: 0 var(--spacing-4);
+}
+.stats-head .head__title { margin-right: var(--spacing-4); }
+.stats-head__who { font: var(--type-meta); color: var(--color-text-secondary); }
+
+.stats-body {
+  position: absolute;
+  top: 60px;
+  left: var(--spacing-16);
+  right: var(--spacing-16);
+  display: grid;
+  gap: var(--spacing-12);
+}
+
+.panel {
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-12);
+  background: var(--color-surface);
+}
+
+.graph { display: grid; gap: var(--spacing-12); padding: var(--spacing-16); }
+.graph__head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-4) var(--spacing-8); }
+.graph__label, .stat__label { width: 100%; font: var(--type-label); color: var(--color-text-secondary); }
+.graph__value { font: 600 32px / 36px var(--font-body); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.graph__svg { width: 100%; height: auto; overflow: visible; }
+.graph__line { fill: none; stroke: var(--color-ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.graph__grid { stroke: var(--color-hairline); stroke-width: 1; stroke-dasharray: 3 3; }
+.graph__axis { fill: var(--color-text-quaternary); font: var(--type-meta); font-variant-numeric: tabular-nums; }
+.graph__dot { fill: var(--color-surface); stroke: var(--color-ink); stroke-width: 1.5; }
+.graph__head-dot { fill: var(--color-ink); }
+
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-12); }
+.stat { display: grid; gap: var(--spacing-2); padding: var(--spacing-12); }
+.stat__row { display: flex; align-items: center; gap: var(--spacing-8); }
+.stat__value { font: 600 22px / 26px var(--font-body); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+/* the delta badge, as .c-stat__delta: the status green, never a new hue */
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-2) var(--spacing-6);
+  border-radius: var(--radius-full);
+  background: var(--color-ok-tint);
+  color: var(--color-ok-ink);
+  font: var(--type-meta);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.delta svg { width: 12px; height: 12px; }
+
+.feed-label { margin: var(--spacing-4) 0 0; padding: 0 var(--spacing-4); font: var(--type-label); color: var(--color-text-secondary); }
+.feed { display: block; height: 237px; } /* four 58px rows and five hairlines */
+.comment {
+  position: absolute;
+  top: 0;
+  left: 1px;
+  right: 1px;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-12);
+  height: 58px;
+  padding: var(--spacing-10) var(--spacing-12);
+}
+.comment__initial {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin-top: var(--spacing-4);
+  border-radius: var(--radius-full);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font: var(--type-meta);
+  font-weight: 500;
+}
+.comment__top { display: flex; align-items: baseline; gap: var(--spacing-8); }
+.comment__who { font: var(--type-label); }
+.comment__when { font: var(--type-meta); color: var(--color-text-secondary); }
+.comment__text { font: var(--type-body); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* ---------- chrome over both pages ---------- */
+.dots {
+  position: absolute;
+  bottom: var(--spacing-12);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-8);
+}
+.dots i { width: 6px; height: 6px; border-radius: var(--radius-full); }
+
+/* ---------- the sign-off, as .demo-outro ---------- */
+.outro {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--spacing-24);
+  background: var(--hex-brand);
+}
+.outro__logo { width: 180px; height: 180px; }
+.outro__name {
+  color: var(--hex-surface);
+  font: 400 104px / 1 var(--demo-display);
+  letter-spacing: 0.01em;
+}
+
+.replay {
+  position: absolute;
+  z-index: 10;
+  bottom: var(--spacing-32);
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-6);
+  padding: var(--spacing-8) var(--spacing-16);
+  border: 1px solid color-mix(in oklab, var(--hex-surface) 45%, transparent);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--hex-surface);
+  font: var(--type-label);
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+.replay[hidden] { display: none; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.replay:hover { background: color-mix(in oklab, var(--hex-surface) 12%, transparent); }
+.replay:focus-visible { outline: 2px solid var(--hex-surface); outline-offset: 2px; }
+.replay svg { width: 14px; height: 14px; }
+
+/* reduced motion: the script (REDUCED) swaps the timeline for the key
+   frames as 1.2 s holds joined by opacity cross-fades: no slides, counting
+   or typing. This block keeps the page itself still too */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <p class="sr-only">A prompt asks for a rock climbing YouTube channel; the agent builds the channel, generates and uploads 21 videos; a swipe shows views climbing to 48,000 with 12,400 subscribers and 3,900 comments; the DAWN sign-off.</p>
+  <button type="button" class="replay" id="replay" hidden><svg viewBox="0 0 24 24" aria-hidden="true" data-icon="rotate-ccw"></svg><span>Replay</span></button>
+</div>
+
+<template id="scene">
+<div class="scene" aria-hidden="true">
+  <section class="page" data-ref="chat">
+    <header class="head" data-ref="head">
+      <span class="head__title">Climbing close calls</span>
+      <span class="speed" data-ref="speed"><svg viewBox="0 0 24 24" data-icon="fast-forward"></svg><span data-ref="speedLabel">4× speed</span></span>
+    </header>
+    <div class="thread">
+      <div class="thread__fade thread__fade--top" data-ref="fadeTop"></div>
+      <div class="thread__content" data-ref="content">
+        <p class="msg-user" data-ref="bubble">Make me a rock climbing youtube channel</p>
+        <p class="msg-agent" data-ref="agent">On it.</p>
+        <div class="card" data-ref="channel">
+          <img class="avatar" src="./assets/bears/thumbs/gen-01.jpg" width="34" height="34" alt="">
+          <span class="row__body"><span class="row__title">Channel created: Whipper (@whipperclimbing)</span><span class="row__meta">youtube.com/@whipperclimbing</span></span>
+          <svg class="ok" viewBox="0 0 24 24" data-icon="check"></svg>
+        </div>
+        <div class="list" data-ref="tools"></div>
+        <figure class="clip" data-ref="clip">
+          <video data-ref="video" src="./assets/bears/generated.mp4" width="506" height="325" muted playsinline preload="auto"></video>
+          <figcaption class="clip__foot">
+            <span class="row__body"><span class="row__title">Uploaded: The hold broke and the trees caught him</span><span class="row__meta">Day 1, 06:00, Veo 3, 45 s</span></span>
+            <svg class="ok" viewBox="0 0 24 24" data-icon="check"></svg>
+          </figcaption>
+        </figure>
+        <div class="list" data-ref="uploads"></div>
+        <p class="done-line" data-ref="doneLine"><svg class="ok" viewBox="0 0 24 24" data-icon="check"></svg><span>21 videos uploaded this week</span></p>
+      </div>
+      <div class="thread__fade thread__fade--foot" data-ref="fadeFoot"></div>
+    </div>
+    <div class="composer" data-ref="composer">
+      <span class="composer__text"><span data-ref="typed"></span><span class="caret" data-ref="caret"></span><span class="composer__ph" data-ref="ph">What should we build?</span></span>
+      <span class="send" data-ref="send"><svg viewBox="0 0 24 24" data-icon="arrow-up"></svg></span>
+    </div>
+  </section>
+
+  <section class="page" data-ref="stats">
+    <header class="stats-head">
+      <img class="avatar" src="./assets/bears/thumbs/gen-01.jpg" width="28" height="28" alt="">
+      <span class="head__title">Channel analytics</span>
+      <span class="stats-head__who">Whipper</span>
+    </header>
+    <div class="stats-body">
+      <div class="panel graph">
+        <div class="graph__head">
+          <span class="graph__label">Views</span>
+          <span class="graph__value" data-ref="views">0</span>
+          <span class="delta"><svg viewBox="0 0 24 24" data-icon="arrow-up"></svg><span data-ref="viewsDelta">0.0%</span></span>
+        </div>
+        <svg class="graph__svg" viewBox="0 0 476 104" width="476" height="104" aria-hidden="true">
+          <line class="graph__grid" x1="0" x2="440" y1="8" y2="8"></line>
+          <line class="graph__grid" x1="0" x2="440" y1="52" y2="52"></line>
+          <line class="graph__grid" x1="0" x2="440" y1="96" y2="96"></line>
+          <text class="graph__axis" x="450" y="8" dominant-baseline="middle">50k</text>
+          <text class="graph__axis" x="450" y="52" dominant-baseline="middle">25k</text>
+          <text class="graph__axis" x="450" y="96" dominant-baseline="middle">0</text>
+          <path class="graph__line" data-ref="line" d="M0 96"></path>
+          <g data-ref="pointDots"></g>
+          <circle class="graph__head-dot" data-ref="headDot" r="5" cx="0" cy="96"></circle>
+        </svg>
+      </div>
+      <div class="tiles">
+        <div class="panel stat">
+          <span class="stat__label">Subscribers</span>
+          <span class="stat__row"><span class="stat__value" data-ref="subs">0</span><span class="delta"><svg viewBox="0 0 24 24" data-icon="arrow-up"></svg><span data-ref="subsDelta">0.0%</span></span></span>
+        </div>
+        <div class="panel stat">
+          <span class="stat__label">Comments</span>
+          <span class="stat__row"><span class="stat__value" data-ref="comments">0</span><span class="delta"><svg viewBox="0 0 24 24" data-icon="arrow-up"></svg><span data-ref="commentsDelta">0.0%</span></span></span>
+        </div>
+      </div>
+      <p class="feed-label" data-ref="feedLabel">Latest comments</p>
+      <div class="list feed" data-ref="feed"></div>
+    </div>
+  </section>
+
+  <div class="dots" data-ref="dots"><i></i><i></i></div>
+
+  <div class="outro" data-ref="outro">
+    <img class="outro__logo" data-ref="logo" src="./assets/dawn-mark.png" width="180" height="180" alt="">
+    <span class="outro__name" data-ref="name">DAWN</span>
+  </div>
+</div>
+</template>
+
+<script>
+"use strict";
+// ---------- data: src/demo/script.js, compacted ----------
+const PROMPT = "Make me a rock climbing youtube channel";
+const TOOLS = [
+  { icon: "file-text", name: "write_script", args: "length: 45 s, angle: the fall, first person" },
+  { icon: "clapperboard", name: "generate_video", args: "model: Veo 3, scene: the wall, 8 s" },
+  { icon: "mic", name: "generate_voice", args: "voice: Adam, 138 words" },
+  { icon: "clapperboard", name: "render_video", args: "1080p, 4 scenes, voice + captions" },
+];
+// WEEK_TITLES 2 to 9 with their generated thumbnails; slots 06:00, 12:00, 18:00
+const WEEK_TITLES = ["Free solo at 1,200 feet, no rope, 45 s", "He fell past the wall and a tree saved him", "Whiteout on the ridge, the full storm", "The eagle went for his helmet, 45 s", "That crimp was never going to hold", "He rappelled off the end of the rope", "The ledge went, and he went with it", "One arm over the void, 45 s"];
+const SLOTS = ["06:00", "12:00", "18:00"];
+const VIEWS_CURVE = [0, 210, 640, 1500, 3800, 9200, 21000, 48000];
+const FINAL = { views: 48000, subs: 12400, comments: 3900, viewsPct: 128.6, subsPct: 67.2, commentsPct: 63.9 };
+const COMMENTS = [
+  { who: "@kestrel_sends", text: "is he okay??" },
+  { who: "@ropegun_rae", text: "what broke, the hold or the rope" },
+  { who: "@crimp.city", text: "that tree deserves a sub" },
+  { who: "@belay_betty", text: "subbed after the second fall" },
+];
+
+// Lucide, copied from src/icons.js (ISC)
+const STROKE = 'fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"';
+const ICONS = {
+  check: `<path ${STROKE} d="M20 6L9 17l-5-5"/>`,
+  "loader-circle": `<path ${STROKE} d="M21 12a9 9 0 1 1-6.219-8.56"/>`,
+  "file-text": `<g ${STROKE}><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10 9H8m8 4H8m8 4H8"/></g>`,
+  clapperboard: `<path ${STROKE} d="m12.296 3.464l3.02 3.956M20.2 6L3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3zM3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm3.18-5.724l3.1 3.899"/>`,
+  mic: `<g ${STROKE}><path d="M12 19v3m7-12v2a7 7 0 0 1-14 0v-2"/><rect width="6" height="13" x="9" y="2" rx="3"/></g>`,
+  "rotate-ccw": `<g ${STROKE}><path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></g>`,
+  "arrow-up": `<path ${STROKE} d="m5 12l7-7l7 7m-7 7V5"/>`,
+  "fast-forward": `<g ${STROKE}><path d="m13 19l9-7l-9-7zM2 19l9-7l-9-7z"/></g>`,
+};
+const svg = (name, cls = "") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]}</svg>`;
+
+// ---------- the clock's vocabulary ----------
+// cubic-bezier solved in JS, so the curves are the app's own tokens:
+// --ease-standard, --ease-emphasized-decelerate, --ease-standard-accelerate
+function bezier(x1, y1, x2, y2) {
+  const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+  const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+  const sx = (u) => ((ax * u + bx) * u + cx) * u;
+  const sy = (u) => ((ay * u + by) * u + cy) * u;
+  const dx = (u) => (3 * ax * u + 2 * bx) * u + cx;
+  return (x) => {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    let u = x;
+    for (let i = 0; i < 8; i++) {
+      const e = sx(u) - x, d = dx(u);
+      if (Math.abs(e) < 1e-7 || Math.abs(d) < 1e-6) break;
+      u -= e / d;
+    }
+    if (!(u >= 0 && u <= 1) || Math.abs(sx(u) - x) > 1e-5) {
+      let lo = 0, hi = 1;
+      u = x;
+      for (let i = 0; i < 40; i++) { if (sx(u) < x) lo = u; else hi = u; u = (lo + hi) / 2; }
+    }
+    return sy(u);
+  };
+}
+const E = { std: bezier(0.2, 0, 0, 1), dec: bezier(0.05, 0.7, 0.1, 1), acc: bezier(0.3, 0, 1, 1), lin: (x) => x };
+const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+const prog = (t, a, d) => clamp01((t - a) / d);
+const ease = (t, a, d, fn = E.std) => fn(prog(t, a, d));
+const lerp = (a, b, p) => a + (b - a) * p;
+const fmt = (n) => Math.round(n).toLocaleString("en-US");
+const r2 = (n) => Math.round(n * 100) / 100;
+
+// ---------- the timeline (seconds) ----------
+const TL = {
+  composerIn: 0, firstKey: 0.5, charMs: 0.045, send: 2.42, sent: 2.55,
+  chrome: 2.6, agent: 3.1, channel: 3.4,
+  tools: [3.8, 4.1, 4.4, 4.7], toolDone: 0.25,
+  clip: 5.1, play: 5.3, playFor: 2.4, mediaFrom: 2.5, // the fall: media 2.5 s to 4.9 s
+  uploads: [7.75, 8.2, 8.6, 8.95, 9.25, 9.5, 9.7, 9.86],
+  doneLine: 10.1,
+  drag: 10.6, release: 10.95, fling: 0.45,
+  draw: 11.9, drawFor: 2.9,
+  comments: [13.3, 14.1, 14.8, 15.4],
+  outro: 17.5, logo: 17.8, name: 18.1, replay: 18.8, loopOut: 20.6,
+  end: 21.0,
+};
+const SPEEDS = [[0, "4× speed"], [7.75, "8× speed"], [8.95, "16× speed"], [9.5, "32× speed"]];
+const DRAG_PX = 54, PAGE_W = 540; // the tug: 10% of the page
+
+const Q = new URLSearchParams(location.search);
+const FROZEN = Q.has("t");
+const LOOP = Q.get("loop") !== "0";
+const REDUCED = Q.get("reduced") === "1" || matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// reduced motion: these frames, 1.2 s each, joined by 0.3 s opacity cross-fades
+const KEYS = [0.3, 2.3, 3.3, 5.2, 6.6, 10.4, 16.2, 19.6];
+const HOLD = 1.2, XFADE = 0.3;
+const DURATION = REDUCED ? KEYS.length * HOLD : TL.end;
+window.__duration = DURATION;
+window.__ready = false;
+
+const stage = document.getElementById("stage");
+const replayBtn = document.getElementById("replay");
+const fill = (root) => root.querySelectorAll("svg[data-icon]").forEach((s) => { s.setAttribute("aria-hidden", "true"); s.innerHTML = ICONS[s.dataset.icon]; });
+fill(stage);
+
+// ---------- one scene: its DOM and its pure render(t) ----------
+function buildScene() {
+  const el = document.getElementById("scene").content.firstElementChild.cloneNode(true);
+  const r = {};
+  el.querySelectorAll("[data-ref]").forEach((n) => { r[n.dataset.ref] = n; });
+  r.tools.innerHTML = TOOLS.map((t) => `<div class="tool"><span class="tool__icon">${svg(t.icon)}</span><span class="tool__call"><span class="tool__name">${t.name}</span><span class="tool__args">${t.args}</span></span><span class="tool__status">${svg("loader-circle", "spin")}${svg("check", "ok")}</span></div>`).join("");
+  r.uploads.innerHTML = WEEK_TITLES.map((title, i) => {
+    const n = i + 2, day = Math.floor((n - 1) / 3) + 1, slot = SLOTS[(n - 1) % 3];
+    return `<div class="upload"><img class="upload__thumb" src="./assets/bears/thumbs/gen-${String(n).padStart(2, "0")}.jpg" width="64" height="36" alt=""><span class="row__body"><span class="row__title">Uploaded: ${title}</span><span class="row__meta">Day ${day}, ${slot}</span></span>${svg("check", "ok")}</div>`;
+  }).join("");
+  r.feed.innerHTML = COMMENTS.map((c) => `<div class="comment"><span class="comment__initial">${c.who[1].toUpperCase()}</span><span class="row__body"><span class="comment__top"><span class="comment__who">${c.who}</span><span class="comment__when">Just now</span></span><span class="comment__text">${c.text}</span></span></div>`).join("");
+  r.pointDots.innerHTML = VIEWS_CURVE.map(() => `<circle class="graph__dot" r="3.5" cx="0" cy="96"></circle>`).join("");
+  fill(el);
+  stage.insertBefore(el, replayBtn);
+
+  const toolRows = [...r.tools.children];
+  const spins = toolRows.map((row) => row.querySelector(".spin"));
+  const checks = toolRows.map((row) => row.querySelector(".tool__status .ok"));
+  const uploadRows = [...r.uploads.children];
+  const commentRows = [...r.feed.children];
+  const whens = commentRows.map((row) => row.querySelector(".comment__when"));
+  const dotEls = [...r.pointDots.children];
+  const pagerDots = [...r.dots.children];
+  const scene = { el, r, video: r.video };
+
+  // layout is fixed once fonts are in: measure every reveal edge once
+  let M = null;
+  scene.measure = () => {
+    const within = (node) => { let y = 0; for (let n = node; n && n !== r.content; n = n.offsetParent) y += n.offsetTop; return y; };
+    const bottom = (node) => within(node) + node.offsetHeight;
+    const edges = (list) => [0, ...[...list.children].map((row) => row.offsetTop + row.offsetHeight + 1)];
+    const viewH = r.content.parentElement.clientHeight;
+    const pad = 12;
+    const marks = [
+      [TL.sent, bottom(r.bubble)], [TL.agent, bottom(r.agent)], [TL.channel, bottom(r.channel)],
+      ...TL.tools.map((tt, i) => [tt, within(r.tools) + edges(r.tools)[i + 1]]),
+      [TL.clip, bottom(r.clip)],
+      ...TL.uploads.map((tt, i) => [tt, within(r.uploads) + edges(r.uploads)[i + 1]]),
+      [TL.doneLine, bottom(r.doneLine)],
+    ];
+    let prev = 0;
+    const scroll = [];
+    for (const [tt, b] of marks) {
+      const target = Math.max(0, b + pad - viewH);
+      if (target > prev) { scroll.push([tt, target - prev]); prev = target; }
+    }
+    M = {
+      scroll,
+      toolEdges: edges(r.tools), toolsH: r.tools.offsetHeight,
+      upEdges: edges(r.uploads), upH: r.uploads.offsetHeight,
+      feedH: r.feed.offsetHeight, rowH: commentRows[0].offsetHeight + 1,
+    };
+  };
+
+  const show = (node, o) => { node.style.opacity = r2(o); };
+  const enter = (node, t, at, dur = 0.3, dy = 8, fn = E.dec) => {
+    const p = ease(t, at, dur, fn);
+    node.style.opacity = r2(clamp01(p * 1.4));
+    node.style.transform = `translateY(${r2((1 - p) * dy)}px)`;
+  };
+  const reveal = (list, edgesArr, listH, times, t, dur = 0.25) => {
+    let vis = 0;
+    times.forEach((tt, i) => { vis += (edgesArr[i + 1] - edgesArr[i]) * ease(t, tt, dur); });
+    if (vis > 0) vis += 1; // the panel's own foot hairline
+    list.style.clipPath = `inset(0 0 ${r2(Math.max(0, listH - vis))}px 0 round 12px)`;
+    list.style.visibility = vis > 0 ? "visible" : "hidden";
+  };
+  // the value at the head of the drawn line, p in 0..1 across the curve
+  const curveAt = (p) => {
+    const seg = p * (VIEWS_CURVE.length - 1), i = Math.min(Math.floor(seg), VIEWS_CURVE.length - 2);
+    return { seg, i, v: lerp(VIEWS_CURVE[i], VIEWS_CURVE[i + 1], seg - i) };
+  };
+  const PX = (i) => (i * 440) / (VIEWS_CURVE.length - 1);
+  const PY = (v) => 96 - (v / 50000) * 88;
+
+  scene.render = (t) => {
+    // S1: the green intro, the first keystroke turns it white, then canvas
+    const white = ease(t, TL.firstKey, 0.25);
+    const canvas = ease(t, TL.chrome, 0.4);
+    r.chat.style.background = canvas > 0
+      ? `color-mix(in oklab, var(--hex-surface) ${r2((1 - canvas) * 100)}%, var(--hex-canvas))`
+      : `color-mix(in oklab, var(--hex-brand) ${r2((1 - white) * 100)}%, var(--hex-surface))`;
+    show(r.composer, ease(t, TL.composerIn, 0.25));
+    r.composer.style.borderColor = `color-mix(in oklab, var(--color-hairline) ${r2(white * 100)}%, transparent)`;
+    r.composer.style.boxShadow = `0 ${r2(lerp(8, 2, white))}px ${r2(lerp(24, 4, white))}px rgba(0, 0, 0, ${r2(lerp(0.12, 0.14, white))})`;
+
+    const typing = t >= TL.firstKey && t < TL.sent;
+    const chars = typing ? Math.min(PROMPT.length, Math.floor((t - TL.firstKey) / TL.charMs) + 1) : 0;
+    const typed = PROMPT.slice(0, chars);
+    if (r.typed.textContent !== typed) r.typed.textContent = typed;
+    show(r.ph, chars ? 0 : 1);
+    r.caret.style.visibility = typing || (t < TL.firstKey && t % 1 < 0.5) ? "visible" : "hidden";
+    const press = Math.sin(Math.PI * prog(t, TL.send, 0.16));
+    r.send.style.transform = `scale(${r2(1 - 0.1 * press)})`;
+    r.send.style.background = chars ? "var(--color-ink)" : "color-mix(in oklab, var(--color-hairline-strong) 55%, var(--color-ink))";
+
+    show(r.head, ease(t, TL.chrome, 0.4));
+    let label = SPEEDS[0][1];
+    for (const [at, l] of SPEEDS) if (t >= at) label = l;
+    if (r.speedLabel.textContent !== label) r.speedLabel.textContent = label;
+
+    // S2: the thread
+    enter(r.bubble, t, TL.sent, 0.3, 12);
+    enter(r.agent, t, TL.agent, 0.25);
+    enter(r.channel, t, TL.channel, 0.3);
+    reveal(r.tools, M.toolEdges, M.toolsH, TL.tools, t);
+    toolRows.forEach((row, i) => {
+      show(row, ease(t, TL.tools[i], 0.2));
+      const done = ease(t, TL.tools[i] + TL.toolDone, 0.15);
+      show(spins[i], 1 - done);
+      spins[i].style.transform = `rotate(${r2(((t - TL.tools[i]) * 360) % 360)}deg)`;
+      show(checks[i], done);
+    });
+    enter(r.clip, t, TL.clip, 0.3, 12);
+    reveal(r.uploads, M.upEdges, M.upH, TL.uploads, t, 0.22);
+    uploadRows.forEach((row, i) => show(row, ease(t, TL.uploads[i], 0.18)));
+    enter(r.doneLine, t, TL.doneLine, 0.25);
+    let sc = 0;
+    for (const [tt, dy] of M.scroll) sc += dy * ease(t, tt, 0.35);
+    r.content.style.transform = `translateY(${r2(-sc)}px)`;
+    show(r.fadeTop, clamp01(sc / 16));
+    show(r.fadeFoot, t > TL.sent ? 1 : 0);
+
+    // S3: the swipe right, told by the pages alone: a short tug to the
+    // right, then the chat slides off and the analytics page comes in
+    let x = 0;
+    if (t >= TL.release) x = lerp(DRAG_PX, PAGE_W, ease(t, TL.release, TL.fling, E.dec));
+    else if (t >= TL.drag) x = DRAG_PX * ease(t, TL.drag, TL.release - TL.drag, E.std);
+    r.chat.style.transform = `translateX(${r2(x)}px)`;
+    r.stats.style.transform = `translateX(${r2(x - PAGE_W)}px)`;
+    r.stats.style.visibility = x > 0 ? "visible" : "hidden";
+    r.chat.style.visibility = x < PAGE_W ? "visible" : "hidden";
+    const q = x / PAGE_W;
+    pagerDots[0].style.background = `color-mix(in oklab, var(--color-ink) ${r2(q * 100)}%, var(--color-hairline-strong))`;
+    pagerDots[1].style.background = `color-mix(in oklab, var(--color-ink) ${r2((1 - q) * 100)}%, var(--color-hairline-strong))`;
+    show(r.dots, ease(t, TL.chrome, 0.4));
+
+    // S4: the numbers climb with the line; every tile follows the same curve
+    const p = prog(t, TL.draw, TL.drawFor);
+    const { seg, i, v } = curveAt(p);
+    const share = v / FINAL.views;
+    r.views.textContent = fmt(v);
+    r.subs.textContent = fmt(FINAL.subs * share);
+    r.comments.textContent = fmt(FINAL.comments * share);
+    r.viewsDelta.textContent = `${(FINAL.viewsPct * share).toFixed(1)}%`;
+    r.subsDelta.textContent = `${(FINAL.subsPct * share).toFixed(1)}%`;
+    r.commentsDelta.textContent = `${(FINAL.commentsPct * share).toFixed(1)}%`;
+    const hx = lerp(PX(i), PX(i + 1), seg - i), hy = PY(v);
+    let d = `M${PX(0)} ${PY(VIEWS_CURVE[0])}`;
+    for (let k = 1; k <= i; k++) d += ` L${r2(PX(k))} ${r2(PY(VIEWS_CURVE[k]))}`;
+    d += ` L${r2(hx)} ${r2(hy)}`;
+    r.line.setAttribute("d", d);
+    show(r.line, p > 0 ? 1 : 0);
+    dotEls.forEach((c, k) => {
+      c.setAttribute("cx", r2(PX(k)));
+      c.setAttribute("cy", r2(PY(VIEWS_CURVE[k])));
+      c.style.opacity = k <= seg && k > 0 && k < VIEWS_CURVE.length - 1 ? 1 : 0;
+    });
+    r.headDot.setAttribute("cx", r2(hx));
+    r.headDot.setAttribute("cy", r2(hy));
+    show(r.headDot, p > 0 ? 1 : 0);
+
+    // the comment feed: newest on top, the rest pushed down one row
+    let vis = 0;
+    commentRows.forEach((row, k) => {
+      const inP = ease(t, TL.comments[k], 0.3);
+      vis += M.rowH * inP;
+      let y = 1;
+      for (let j = k + 1; j < COMMENTS.length; j++) y += M.rowH * ease(t, TL.comments[j], 0.3);
+      row.style.transform = `translateY(${r2(y - 6 * (1 - inP))}px)`;
+      row.style.opacity = r2(clamp01(inP * 1.4));
+      const newest = k === COMMENTS.length - 1 || t < TL.comments[k + 1];
+      const when = newest ? "Just now" : "1 min ago";
+      if (whens[k].textContent !== when) whens[k].textContent = when;
+    });
+    r.feed.style.clipPath = `inset(0 0 ${r2(Math.max(0, M.feedH - vis - (vis > 0 ? 1 : 0)))}px 0 round 12px)`;
+    r.feed.style.visibility = vis > 0 ? "visible" : "hidden";
+    show(r.feedLabel, ease(t, TL.comments[0], 0.25));
+
+    // S5: the sign-off, as .demo-outro. Looping, the mark and name leave
+    // before the seam so green meets green
+    show(r.outro, ease(t, TL.outro, 0.5));
+    r.outro.style.visibility = t >= TL.outro ? "visible" : "hidden";
+    const leave = LOOP ? ease(t, TL.loopOut, 0.4) : 0;
+    show(r.logo, ease(t, TL.logo, 0.7) * (1 - leave));
+    r.logo.style.transform = `scale(${r2(lerp(0.86, 1, ease(t, TL.logo, 0.7, E.dec)) * 1000) / 1000})`;
+    show(r.name, ease(t, TL.name, 0.6) * (1 - leave));
+  };
+
+  scene.mediaTime = (t) => TL.mediaFrom + Math.min(Math.max(t - TL.play, 0), TL.playFor);
+  return scene;
+}
+
+// ---------- scaling: 540 x 675 into any viewport, letterboxed ----------
+function fit() {
+  const s = Math.min(innerWidth / 540, innerHeight / 675);
+  stage.style.transform = `translate(${(innerWidth - 540 * s) / 2}px, ${(innerHeight - 675 * s) / 2}px) scale(${s})`;
+}
+addEventListener("resize", fit);
+fit();
+
+const A = buildScene();
+const B = REDUCED ? buildScene() : null;
+const scenes = B ? [A, B] : [A];
+
+// which scene shows which instant of the full timeline, for time t
+function plan(t) {
+  if (!REDUCED) return [[A, t, 1]];
+  const n = KEYS.length;
+  const k = Math.min(Math.floor(t / HOLD), n - 1);
+  const f = t - k * HOLD;
+  const next = k < n - 1 ? KEYS[k + 1] : LOOP ? KEYS[0] : null;
+  const fade = next === null ? 0 : ease(f, HOLD - XFADE, XFADE);
+  return [[A, KEYS[k], 1], [B, next === null ? KEYS[k] : next, fade]];
+}
+
+function renderAll(t) {
+  for (const [sc, st, o] of plan(t)) {
+    sc.render(st);
+    sc.el.style.opacity = r2(o);
+  }
+  const showReplay = !FROZEN && !LOOP && t >= (REDUCED ? DURATION - HOLD : TL.replay);
+  replayBtn.hidden = !showReplay;
+  if (showReplay) replayBtn.style.opacity = r2(0.85 * (REDUCED ? 1 : ease(t, TL.replay, 0.5)));
+}
+
+// ---------- the clip: seeked exactly when frozen, played when live ----------
+function seekVideo(v, time) {
+  return new Promise((resolve) => {
+    if (Math.abs(v.currentTime - time) < 0.0005 && v.readyState >= 2) return resolve();
+    const done = () => { v.removeEventListener("seeked", done); clearTimeout(timer); resolve(); };
+    const timer = setTimeout(done, 4000);
+    v.addEventListener("seeked", done);
+    v.currentTime = time;
+  });
+}
+const raf2 = () => new Promise((res) => requestAnimationFrame(() => requestAnimationFrame(res)));
+
+async function seekAll(t) {
+  const jobs = [];
+  for (const [sc, st] of plan(t)) {
+    if (!sc.video.paused) sc.video.pause();
+    jobs.push(seekVideo(sc.video, sc.mediaTime(st)));
+  }
+  await Promise.all(jobs);
+}
+
+function syncLive(t) {
+  if (REDUCED) {
+    for (const [sc, st] of plan(t)) {
+      const mt = sc.mediaTime(st);
+      if (!sc.video.seeking && Math.abs(sc.video.currentTime - mt) > 0.01) sc.video.currentTime = mt;
+    }
+    return;
+  }
+  const v = A.video, mt = A.mediaTime(t);
+  const playing = t >= TL.play && t < TL.play + TL.playFor;
+  if (playing) {
+    if (v.paused) { v.currentTime = mt; v.play().catch(() => {}); }
+    else if (Math.abs(v.currentTime - mt) > 0.12) v.currentTime = mt;
+  } else {
+    if (!v.paused) v.pause();
+    if (!v.seeking && Math.abs(v.currentTime - mt) > 0.02) v.currentTime = mt;
+  }
+}
+
+// ---------- boot: fonts, images and the first video frame, then the clock ----------
+// the dev server answers without byte ranges, which leaves a streamed clip
+// unseekable: read it whole into a blob, which seeks to any frame. Where the
+// fetch is refused (file://), the plain src still plays
+async function clipToBlob() {
+  const v = A.video;
+  try {
+    const res = await fetch(v.getAttribute("src"));
+    if (!res.ok) return;
+    const url = URL.createObjectURL(await res.blob());
+    for (const sc of scenes) sc.video.src = url;
+  } catch { /* keep the streamed src */ }
+}
+
+async function assetsReady() {
+  await clipToBlob();
+  const imgs = [...stage.querySelectorAll("img")].map((im) => (im.complete ? im.decode() : new Promise((res) => { im.onload = im.onerror = res; }).then(() => im.decode())).catch(() => {}));
+  const fonts = document.fonts.load('400 104px "Anton"', "DAWN").catch(() => {}).then(() => document.fonts.ready);
+  const vids = scenes.map((sc) => new Promise((res) => {
+    if (sc.video.readyState >= 2) return res();
+    const t = setTimeout(res, 6000);
+    sc.video.addEventListener("loadeddata", () => { clearTimeout(t); res(); }, { once: true });
+    sc.video.load();
+  }));
+  return Promise.all([...imgs, fonts, ...vids]);
+}
+
+let frozenAt = null;
+window.__seek = async (t) => {
+  frozenAt = Math.min(Math.max(Number(t) || 0, 0), DURATION);
+  renderAll(frozenAt);
+  await seekAll(frozenAt);
+  await raf2();
+};
+
+let start = null;
+function tick(now) {
+  if (frozenAt !== null) return;
+  if (start === null) start = now;
+  let t = (now - start) / 1000;
+  if (t >= DURATION) {
+    if (LOOP) { start += Math.floor(t / DURATION) * DURATION * 1000; t = (now - start) / 1000; }
+    else { renderAll(DURATION); syncLive(DURATION); A.video.pause(); return; }
+  }
+  renderAll(t);
+  syncLive(t);
+  requestAnimationFrame(tick);
+}
+
+replayBtn.addEventListener("click", () => {
+  start = null;
+  replayBtn.hidden = true;
+  requestAnimationFrame(tick);
+});
+
+(async () => {
+  // system-ui is local and every image carries its size, so the layout is
+  // already final: measure and draw the opening before anything loads
+  for (const sc of scenes) sc.measure();
+  renderAll(0);
+  await assetsReady();
+  for (const sc of scenes) sc.measure();
+  if (FROZEN) {
+    await window.__seek(parseFloat(Q.get("t")) || 0);
+    window.__ready = true;
+  } else {
+    await seekAll(0);
+    window.__ready = true;
+    requestAnimationFrame(tick);
+  }
+})();
+</script>
+</body>
+</html>

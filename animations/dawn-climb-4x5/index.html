@@ -137,16 +137,9 @@ svg { display: block; flex: none; width: 16px; height: 16px; }
   padding: var(--spacing-8) 0 var(--spacing-12);
 }
 
-/* the scroll-edge fades, as .app-thread-wrap: only where a line runs under */
-.thread__fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-.thread__fade--top { top: 0; height: var(--spacing-24); background: linear-gradient(to bottom, var(--color-canvas) 20%, transparent); }
-.thread__fade--foot { bottom: 0; height: var(--spacing-12); background: linear-gradient(to bottom, transparent, var(--color-canvas)); }
+/* the scroll-edge fades, as .app-thread-wrap, are a mask on .thread set by
+   render(t): an overlay's edge lands between device pixels and let the
+   clip's composited video bleed a dark row at the top edge */
 
 /* the user's line: a pill at the right, as .c-msg--user */
 .msg-user {
@@ -454,8 +447,7 @@ svg { display: block; flex: none; width: 16px; height: 16px; }
     <header class="head" data-ref="head">
       <span class="head__title">Climbing close calls</span>
     </header>
-    <div class="thread">
-      <div class="thread__fade thread__fade--top" data-ref="fadeTop"></div>
+    <div class="thread" data-ref="thread">
       <div class="thread__content" data-ref="content">
         <p class="msg-user" data-ref="bubble">Make me a rock climbing youtube channel</p>
         <p class="msg-agent" data-ref="agent">On it.</p>
@@ -475,7 +467,6 @@ svg { display: block; flex: none; width: 16px; height: 16px; }
         <div class="list" data-ref="uploads"></div>
         <p class="done-line" data-ref="doneLine"><svg class="ok" viewBox="0 0 24 24" data-icon="check"></svg><span>21 videos uploaded this week</span></p>
       </div>
-      <div class="thread__fade thread__fade--foot" data-ref="fadeFoot"></div>
     </div>
     <div class="composer" data-ref="composer">
       <span class="composer__text"><span data-ref="typed"></span><span class="caret" data-ref="caret"></span><span class="composer__ph" data-ref="ph">What should we build?</span></span>
@@ -840,8 +831,12 @@ function buildScene() {
     let sc = 0;
     for (const [tt, dy] of M.scroll) sc += dy * ease(t, tt, 0.35);
     r.content.style.transform = `translateY(${r2(-sc)}px)`;
-    show(r.fadeTop, clamp01(sc / 16));
-    show(r.fadeFoot, t > TL.sent ? 1 : 0);
+    // edge fades: hidden for the top 20% of 24 px, full by 24 px; the foot's last 12 px
+    const topA = r2(1 - clamp01(sc / 16));
+    const footA = t > TL.sent ? 0 : 1;
+    const mask = `linear-gradient(to bottom, rgb(0 0 0 / ${topA}) 0, rgb(0 0 0 / ${topA}) 4.8px, rgb(0 0 0) 24px, rgb(0 0 0) calc(100% - 12px), rgb(0 0 0 / ${footA}) 100%)`;
+    r.thread.style.maskImage = mask;
+    r.thread.style.webkitMaskImage = mask;
 
     // S3: the swipe right, told by the pages alone: a short tug to the
     // right, then the chat slides off and the analytics page comes in

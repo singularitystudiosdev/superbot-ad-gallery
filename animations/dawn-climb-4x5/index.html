@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DAWN: a rock climbing channel in twenty one seconds</title>
+<title>DAWN: a rock climbing channel in under twenty seconds</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- the brand's display face, as demo.css imports it: the DAWN wordmark only -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=block">
 <style>
 /* climb-4x5: the scripted demo (src/demo/run.js, script.js, demo.css)
-   compacted to a 21 s, 4:5 promo. One clock: render(t) in the script below
+   compacted to an 18.54 s, 4:5 promo. One clock: render(t) in the script below
    sets every animated style from t, so nothing here transitions or keys
    frames. Tokens are copied from styles.css and demo.css (look plan). */
 :root {
@@ -119,23 +119,6 @@ svg { display: block; flex: none; width: 16px; height: 16px; }
 }
 
 .head__title { font: var(--type-title); color: var(--color-ink); }
-
-/* the speed badge, as .demo-speed */
-.speed {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-4);
-  margin-left: auto;
-  padding: var(--spacing-2) var(--spacing-10) var(--spacing-2) var(--spacing-8);
-  border-radius: var(--radius-full);
-  background: var(--color-ink);
-  color: var(--color-canvas);
-  font: var(--type-meta);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
-}
-.speed svg { width: 12px; height: 12px; }
 
 .thread {
   position: absolute;
@@ -310,12 +293,15 @@ svg { display: block; flex: none; width: 16px; height: 16px; }
 .stats-head .head__title { margin-right: var(--spacing-4); }
 .stats-head__who { font: var(--type-meta); color: var(--color-text-secondary); }
 
+/* the body runs to just above the pager dots; the feed takes what is left */
 .stats-body {
   position: absolute;
   top: 60px;
   left: var(--spacing-16);
   right: var(--spacing-16);
+  bottom: var(--spacing-28);
   display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
   gap: var(--spacing-12);
 }
 
@@ -357,7 +343,7 @@ svg { display: block; flex: none; width: 16px; height: 16px; }
 .delta svg { width: 12px; height: 12px; }
 
 .feed-label { margin: var(--spacing-4) 0 0; padding: 0 var(--spacing-4); font: var(--type-label); color: var(--color-text-secondary); }
-.feed { display: block; height: 237px; } /* four 58px rows and five hairlines */
+.feed { display: block; min-height: 0; } /* the rest of the page: rows past its foot are clipped */
 .comment {
   position: absolute;
   top: 0;
@@ -458,7 +444,7 @@ svg { display: block; flex: none; width: 16px; height: 16px; }
 </head>
 <body>
 <div class="stage" id="stage">
-  <p class="sr-only">A prompt asks for a rock climbing YouTube channel; the agent builds the channel, generates and uploads 21 videos; a swipe shows views climbing to 48,000 with 12,400 subscribers and 3,900 comments; the DAWN sign-off.</p>
+  <p class="sr-only">A prompt asks for a rock climbing YouTube channel; the agent builds the channel, generates and uploads 21 videos; a swipe shows views, subscribers and comments climbing without pause while comments pour in, and at 9,113 subscribers it cuts to the DAWN sign-off.</p>
   <button type="button" class="replay" id="replay" hidden><svg viewBox="0 0 24 24" aria-hidden="true" data-icon="rotate-ccw"></svg><span>Replay</span></button>
 </div>
 
@@ -467,7 +453,6 @@ svg { display: block; flex: none; width: 16px; height: 16px; }
   <section class="page" data-ref="chat">
     <header class="head" data-ref="head">
       <span class="head__title">Climbing close calls</span>
-      <span class="speed" data-ref="speed"><svg viewBox="0 0 24 24" data-icon="fast-forward"></svg><span data-ref="speedLabel">4× speed</span></span>
     </header>
     <div class="thread">
       <div class="thread__fade thread__fade--top" data-ref="fadeTop"></div>
@@ -560,13 +545,71 @@ const TOOLS = [
 // WEEK_TITLES 2 to 9 with their generated thumbnails; slots 06:00, 12:00, 18:00
 const WEEK_TITLES = ["Free solo at 1,200 feet, no rope, 45 s", "He fell past the wall and a tree saved him", "Whiteout on the ridge, the full storm", "The eagle went for his helmet, 45 s", "That crimp was never going to hold", "He rappelled off the end of the rope", "The ledge went, and he went with it", "One arm over the void, 45 s"];
 const SLOTS = ["06:00", "12:00", "18:00"];
-const VIEWS_CURVE = [0, 210, 640, 1500, 3800, 9200, 21000, 48000];
-const FINAL = { views: 48000, subs: 12400, comments: 3900, viewsPct: 128.6, subsPct: 67.2, commentsPct: 63.9 };
+// every tile rides one curve, in the old proportions: 48,000 views to
+// 12,400 subscribers to 3,900 comments, deltas 128.6% / 67.2% / 63.9% at 48,000
+const RATIO = { views: 48000, subs: 12400, comments: 3900, viewsPct: 128.6, subsPct: 67.2, commentsPct: 63.9 };
+const CUT_SUBS = 9113; // the cut to DAWN lands on this subscriber count
 const COMMENTS = [
   { who: "@kestrel_sends", text: "is he okay??" },
   { who: "@ropegun_rae", text: "what broke, the hold or the rope" },
   { who: "@crimp.city", text: "that tree deserves a sub" },
   { who: "@belay_betty", text: "subbed after the second fall" },
+  { who: "@chalkbag_charlie", text: "my palms are sweating" },
+  { who: "@dyno_dan", text: "the rope drag at 0:32 though" },
+  { who: "@sloper_sam", text: "i felt that fall in my stomach" },
+  { who: "@quickdraw_quinn", text: "who is belaying this man" },
+  { who: "@gritstone_gus", text: "that tree has seen things" },
+  { who: "@beta_spray_bea", text: "the way the hold just popped off" },
+  { who: "@jug_haul_jen", text: "not me gripping my phone" },
+  { who: "@offwidth_ollie", text: "bro fell with style" },
+  { who: "@smear_queen", text: "watched this five times already" },
+  { who: "@pitch_six_pete", text: "the eagle part got me" },
+  { who: "@runout_ruth", text: "every video is scarier than the last" },
+  { who: "@hangdog_hank", text: "my forearms are pumped just watching" },
+  { who: "@crux_carla", text: "how is he still climbing" },
+  { who: "@anchor_andy", text: "that whipper was huge" },
+  { who: "@topout_tia", text: "i need a part two right now" },
+  { who: "@tricam_tom", text: "new fear unlocked" },
+  { who: "@flash_fern", text: "he really said send it" },
+  { who: "@mantle_max", text: "the sound of that rope stretch" },
+  { who: "@cam_placer_cleo", text: "someone check his gear please" },
+  { who: "@arete_arlo", text: "this channel is my new cardio" },
+  { who: "@pinch_grip_pia", text: "the tree catch was cinematic" },
+  { who: "@bolt_clipper_ben", text: "i screamed at 0:18" },
+  { who: "@highball_hana", text: "okay that ledge was not real" },
+  { who: "@rack_rat_remy", text: "first time here, instantly subbed" },
+  { who: "@sendtrain_sid", text: "the camera never even shakes" },
+  { who: "@chimney_chloe", text: "how did the helmet survive that" },
+  { who: "@undercling_uma", text: "this is better than the movies" },
+  { who: "@deadpoint_dex", text: "i gasped out loud on the bus" },
+  { who: "@stemming_stella", text: "that storm footage is unreal" },
+  { who: "@gumby_gabe", text: "can we get a gear review next" },
+  { who: "@crag_dog_cora", text: "my dog barked at the fall" },
+  { who: "@jamcrack_jules", text: "the view before the fall though" },
+  { who: "@nut_tool_nico", text: "i would have let go way earlier" },
+  { who: "@portaledge_pax", text: "posting every day?? legend" },
+  { who: "@redpoint_rosa", text: "that rappel ending was wild" },
+  { who: "@bouldering_bo", text: "i climb v2 and this hurts to watch" },
+  { who: "@summit_suki", text: "why do i keep rewatching this" },
+  { who: "@multipitch_mo", text: "how many takes did that tree need" },
+  { who: "@heelhook_hugo", text: "the voiceover is so calm lol" },
+  { who: "@onsight_otis", text: "my heart rate is 140 right now" },
+  { who: "@kneebar_kai", text: "somebody give this man a medal" },
+  { who: "@alpine_ava", text: "i had to pause and breathe" },
+  { who: "@elvis_leg_eli", text: "my legs are shaking for him" },
+  { who: "@traverse_tess", text: "the rope held, the rope always holds" },
+  { who: "@fingerlock_finn", text: "here before a million subs" },
+  { who: "@big_wall_wren", text: "that tree has a fan club now" },
+  { who: "@jumar_jo", text: "this is peak youtube" },
+  { who: "@scree_scout", text: "i am never climbing again" },
+  { who: "@sidepull_sol", text: "the one arm over the void part??" },
+  { who: "@carabiner_cass", text: "every fall ends in a tree somehow" },
+  { who: "@pumpclock_pru", text: "day 3 and already hooked" },
+  { who: "@gritgirl_gia", text: "please tell me he is fine" },
+  { who: "@crashpad_cal", text: "the eagle deserves its own channel" },
+  { who: "@whipper_watch", text: "notifications on, no regrets" },
+  { who: "@spotter_sage", text: "i showed my whole family this" },
+  { who: "@tufa_theo", text: "that crimp never stood a chance" },
 ];
 
 // Lucide, copied from src/icons.js (ISC)
@@ -579,7 +622,6 @@ const ICONS = {
   mic: `<g ${STROKE}><path d="M12 19v3m7-12v2a7 7 0 0 1-14 0v-2"/><rect width="6" height="13" x="9" y="2" rx="3"/></g>`,
   "rotate-ccw": `<g ${STROKE}><path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></g>`,
   "arrow-up": `<path ${STROKE} d="m5 12l7-7l7 7m-7 7V5"/>`,
-  "fast-forward": `<g ${STROKE}><path d="m13 19l9-7l-9-7zM2 19l9-7l-9-7z"/></g>`,
 };
 const svg = (name, cls = "") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]}</svg>`;
 
@@ -618,21 +660,52 @@ const fmt = (n) => Math.round(n).toLocaleString("en-US");
 const r2 = (n) => Math.round(n * 100) / 100;
 
 // ---------- the timeline (seconds) ----------
+// S1 types one letter every 20 ms: letter k (1-based) lands at
+// typeStart + k * charMs, so the 39 letters are in by 1.26 and the send
+// goes 0.2 s later. Every beat after it sits 0.96 s earlier than it did at
+// 45 ms a letter; the scenes keep their own lengths
 const TL = {
-  composerIn: 0, firstKey: 0.5, charMs: 0.045, send: 2.42, sent: 2.55,
-  chrome: 2.6, agent: 3.1, channel: 3.4,
-  tools: [3.8, 4.1, 4.4, 4.7], toolDone: 0.25,
-  clip: 5.1, play: 5.3, playFor: 2.4, mediaFrom: 2.5, // the fall: media 2.5 s to 4.9 s
-  uploads: [7.75, 8.2, 8.6, 8.95, 9.25, 9.5, 9.7, 9.86],
-  doneLine: 10.1,
-  drag: 10.6, release: 10.95, fling: 0.45,
-  draw: 11.9, drawFor: 2.9,
-  comments: [13.3, 14.1, 14.8, 15.4],
-  outro: 17.5, logo: 17.8, name: 18.1, replay: 18.8, loopOut: 20.6,
-  end: 21.0,
+  composerIn: 0, typeStart: 0.48, charMs: 0.02, send: 1.46, sent: 1.59,
+  chrome: 1.64, agent: 2.14, channel: 2.44,
+  tools: [2.84, 3.14, 3.44, 3.74], toolDone: 0.25,
+  clip: 4.14, play: 4.34, playFor: 2.4, mediaFrom: 2.5, // the fall: media 2.5 s to 4.9 s
+  uploads: [6.79, 7.24, 7.64, 7.99, 8.29, 8.54, 8.74, 8.9],
+  doneLine: 9.14,
+  drag: 9.64, release: 9.99, fling: 0.45,
+  // S4: the climb starts as the analytics page first shows and never
+  // eases out: it is still accelerating when the green covers it
+  grow: 9.64, cut: 15.04, cover: 0.5,
+  feed: 10.54, // 0.1 s after the page settles (release + fling)
 };
-const SPEEDS = [[0, "4× speed"], [7.75, "8× speed"], [8.95, "16× speed"], [9.5, "32× speed"]];
+TL.firstKey = TL.typeStart + TL.charMs; // the first letter: the green turns white
+// S5 keeps its own shape, hung off the cut: fade 0.5, mark 0.3 in over
+// 0.7, the wordmark 0.3 after it, replay, the loop seam's leave, the end
+Object.assign(TL, { outro: TL.cut, logo: TL.cut + 0.3, name: TL.cut + 0.6, replay: TL.cut + 1.3, loopOut: TL.cut + 3.1, end: TL.cut + 3.5 });
 const DRAG_PX = 54, PAGE_W = 540; // the tug: 10% of the page
+
+// the growth curve: exponential from zero at TL.grow, pinned so the
+// subscriber tile reads exactly CUT_SUBS at TL.cut. g is the share of the
+// cut value; K is sized so views reach about 49,000 (the 50k axis top)
+// only as the green fully covers the page, so the line never clips
+const GROW_K = 0.64;
+const GROW_S = TL.cut - TL.grow;
+const growShare = (t) => (t <= TL.grow ? 0 : (Math.exp(GROW_K * (Math.min(t, TL.cut + TL.cover) - TL.grow)) - 1) / (Math.exp(GROW_K * GROW_S) - 1));
+const CUT_VIEWS = (CUT_SUBS * RATIO.views) / RATIO.subs;
+const DOTS = 7; // day marks on the line, evenly spaced, each shown once the head passes it
+
+// the comment feed: the first gap 250 ms, each next one 7% shorter, down
+// to 60 ms, until the pool runs out or the green has covered the page
+// Each entry lasts no longer than the gap to the next one, so a row has
+// landed before the next pushes it: the list never overlaps itself. Once
+// the gaps are short the entries run linear and read as one steady scroll
+const FEED_IV0 = 0.25, FEED_Q = 0.93, FEED_MIN = 0.06, FEED_IN = 0.18;
+const FEED_T = [];
+for (let tt = TL.feed, n = 0; n < COMMENTS.length && tt < TL.cut + TL.cover; n++) {
+  FEED_T.push(Math.round(tt * 1000) / 1000);
+  tt += Math.max(FEED_MIN, FEED_IV0 * Math.pow(FEED_Q, n));
+}
+const FEED_DUR = FEED_T.map((tt, k) => Math.min(FEED_IN, k + 1 < FEED_T.length ? FEED_T[k + 1] - tt : FEED_IN));
+const FEED_NEW = 3; // the newest three read "Just now"
 
 const Q = new URLSearchParams(location.search);
 const FROZEN = Q.has("t");
@@ -640,10 +713,12 @@ const LOOP = Q.get("loop") !== "0";
 const REDUCED = Q.get("reduced") === "1" || matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // reduced motion: these frames, 1.2 s each, joined by 0.3 s opacity cross-fades
-const KEYS = [0.3, 2.3, 3.3, 5.2, 6.6, 10.4, 16.2, 19.6];
+// (the analytics frame is the cut itself: 9,113 subscribers, a full feed)
+const KEYS = [0.3, 1.34, 2.34, 4.24, 5.64, 9.44, TL.cut, TL.cut + 2.1];
 const HOLD = 1.2, XFADE = 0.3;
 const DURATION = REDUCED ? KEYS.length * HOLD : TL.end;
 window.__duration = DURATION;
+window.__cutTime = TL.cut;
 window.__ready = false;
 
 const stage = document.getElementById("stage");
@@ -661,8 +736,8 @@ function buildScene() {
     const n = i + 2, day = Math.floor((n - 1) / 3) + 1, slot = SLOTS[(n - 1) % 3];
     return `<div class="upload"><img class="upload__thumb" src="./assets/bears/thumbs/gen-${String(n).padStart(2, "0")}.jpg" width="64" height="36" alt=""><span class="row__body"><span class="row__title">Uploaded: ${title}</span><span class="row__meta">Day ${day}, ${slot}</span></span>${svg("check", "ok")}</div>`;
   }).join("");
-  r.feed.innerHTML = COMMENTS.map((c) => `<div class="comment"><span class="comment__initial">${c.who[1].toUpperCase()}</span><span class="row__body"><span class="comment__top"><span class="comment__who">${c.who}</span><span class="comment__when">Just now</span></span><span class="comment__text">${c.text}</span></span></div>`).join("");
-  r.pointDots.innerHTML = VIEWS_CURVE.map(() => `<circle class="graph__dot" r="3.5" cx="0" cy="96"></circle>`).join("");
+  r.feed.innerHTML = COMMENTS.slice(0, FEED_T.length).map((c) => `<div class="comment"><span class="comment__initial">${c.who[1].toUpperCase()}</span><span class="row__body"><span class="comment__top"><span class="comment__who">${c.who}</span><span class="comment__when">Just now</span></span><span class="comment__text">${c.text}</span></span></div>`).join("");
+  r.pointDots.innerHTML = Array.from({ length: DOTS }, () => `<circle class="graph__dot" r="3.5" cx="0" cy="96"></circle>`).join("");
   fill(el);
   stage.insertBefore(el, replayBtn);
 
@@ -718,13 +793,12 @@ function buildScene() {
     list.style.clipPath = `inset(0 0 ${r2(Math.max(0, listH - vis))}px 0 round 12px)`;
     list.style.visibility = vis > 0 ? "visible" : "hidden";
   };
-  // the value at the head of the drawn line, p in 0..1 across the curve
-  const curveAt = (p) => {
-    const seg = p * (VIEWS_CURVE.length - 1), i = Math.min(Math.floor(seg), VIEWS_CURVE.length - 2);
-    return { seg, i, v: lerp(VIEWS_CURVE[i], VIEWS_CURVE[i + 1], seg - i) };
-  };
-  const PX = (i) => (i * 440) / (VIEWS_CURVE.length - 1);
+  // the chart: x is time, from TL.grow at 0 to full cover at 440; y is
+  // views on the fixed 50k axis. The head advances and rises every frame
+  const SPAN = GROW_S + TL.cover;
+  const PX = (tt) => (clamp01((tt - TL.grow) / SPAN) * 440);
   const PY = (v) => 96 - (v / 50000) * 88;
+  const viewsAt = (tt) => CUT_VIEWS * growShare(tt);
 
   scene.render = (t) => {
     // S1: the green intro, the first keystroke turns it white, then canvas
@@ -738,7 +812,8 @@ function buildScene() {
     r.composer.style.boxShadow = `0 ${r2(lerp(8, 2, white))}px ${r2(lerp(24, 4, white))}px rgba(0, 0, 0, ${r2(lerp(0.12, 0.14, white))})`;
 
     const typing = t >= TL.firstKey && t < TL.sent;
-    const chars = typing ? Math.min(PROMPT.length, Math.floor((t - TL.firstKey) / TL.charMs) + 1) : 0;
+    // (the 1e-6 keeps an exact letter instant, 0.48 + 0.02 k, from flooring a letter short)
+    const chars = typing ? Math.min(PROMPT.length, Math.floor((t - TL.typeStart) / TL.charMs + 1e-6)) : 0;
     const typed = PROMPT.slice(0, chars);
     if (r.typed.textContent !== typed) r.typed.textContent = typed;
     show(r.ph, chars ? 0 : 1);
@@ -748,9 +823,6 @@ function buildScene() {
     r.send.style.background = chars ? "var(--color-ink)" : "color-mix(in oklab, var(--color-hairline-strong) 55%, var(--color-ink))";
 
     show(r.head, ease(t, TL.chrome, 0.4));
-    let label = SPEEDS[0][1];
-    for (const [at, l] of SPEEDS) if (t >= at) label = l;
-    if (r.speedLabel.textContent !== label) r.speedLabel.textContent = label;
 
     // S2: the thread
     enter(r.bubble, t, TL.sent, 0.3, 12);
@@ -788,47 +860,65 @@ function buildScene() {
     pagerDots[1].style.background = `color-mix(in oklab, var(--color-ink) ${r2((1 - q) * 100)}%, var(--color-hairline-strong))`;
     show(r.dots, ease(t, TL.chrome, 0.4));
 
-    // S4: the numbers climb with the line; every tile follows the same curve
-    const p = prog(t, TL.draw, TL.drawFor);
-    const { seg, i, v } = curveAt(p);
-    const share = v / FINAL.views;
+    // S4: the numbers climb with the line, all on the one accelerating
+    // curve, with no ease-out: still rising while the green fades over
+    const share = growShare(t); // of the cut values
+    const v = CUT_VIEWS * share;
+    const ofRatio = v / RATIO.views; // the old tiles' proportions
     r.views.textContent = fmt(v);
-    r.subs.textContent = fmt(FINAL.subs * share);
-    r.comments.textContent = fmt(FINAL.comments * share);
-    r.viewsDelta.textContent = `${(FINAL.viewsPct * share).toFixed(1)}%`;
-    r.subsDelta.textContent = `${(FINAL.subsPct * share).toFixed(1)}%`;
-    r.commentsDelta.textContent = `${(FINAL.commentsPct * share).toFixed(1)}%`;
-    const hx = lerp(PX(i), PX(i + 1), seg - i), hy = PY(v);
-    let d = `M${PX(0)} ${PY(VIEWS_CURVE[0])}`;
-    for (let k = 1; k <= i; k++) d += ` L${r2(PX(k))} ${r2(PY(VIEWS_CURVE[k]))}`;
-    d += ` L${r2(hx)} ${r2(hy)}`;
+    r.subs.textContent = fmt(CUT_SUBS * share);
+    r.comments.textContent = fmt(RATIO.comments * ofRatio);
+    r.viewsDelta.textContent = `${(RATIO.viewsPct * ofRatio).toFixed(1)}%`;
+    r.subsDelta.textContent = `${(RATIO.subsPct * ofRatio).toFixed(1)}%`;
+    r.commentsDelta.textContent = `${(RATIO.commentsPct * ofRatio).toFixed(1)}%`;
+    const hx = PX(t), hy = PY(v), live = t > TL.grow;
+    // the line: sampled every 4 px of x up to the head, from t alone
+    const tHead = Math.min(t, TL.grow + SPAN);
+    const steps = Math.max(1, Math.ceil(hx / 4));
+    let d = `M0 ${PY(0)}`;
+    for (let k = 1; k <= steps; k++) {
+      const tt = TL.grow + ((tHead - TL.grow) * k) / steps;
+      d += ` L${r2(PX(tt))} ${r2(PY(viewsAt(tt)))}`;
+    }
     r.line.setAttribute("d", d);
-    show(r.line, p > 0 ? 1 : 0);
+    show(r.line, live ? 1 : 0);
     dotEls.forEach((c, k) => {
-      c.setAttribute("cx", r2(PX(k)));
-      c.setAttribute("cy", r2(PY(VIEWS_CURVE[k])));
-      c.style.opacity = k <= seg && k > 0 && k < VIEWS_CURVE.length - 1 ? 1 : 0;
+      const tt = TL.grow + (SPAN * (k + 1)) / (DOTS + 1);
+      c.setAttribute("cx", r2(PX(tt)));
+      c.setAttribute("cy", r2(PY(viewsAt(tt))));
+      c.style.opacity = t > tt ? 1 : 0;
     });
     r.headDot.setAttribute("cx", r2(hx));
     r.headDot.setAttribute("cy", r2(hy));
-    show(r.headDot, p > 0 ? 1 : 0);
+    show(r.headDot, live ? 1 : 0);
 
-    // the comment feed: newest on top, the rest pushed down one row
-    let vis = 0;
-    commentRows.forEach((row, k) => {
-      const inP = ease(t, TL.comments[k], 0.3);
-      vis += M.rowH * inP;
-      let y = 1;
-      for (let j = k + 1; j < COMMENTS.length; j++) y += M.rowH * ease(t, TL.comments[j], 0.3);
-      row.style.transform = `translateY(${r2(y - 6 * (1 - inP))}px)`;
-      row.style.opacity = r2(clamp01(inP * 1.4));
-      const newest = k === COMMENTS.length - 1 || t < TL.comments[k + 1];
-      const when = newest ? "Just now" : "1 min ago";
+    // the comment feed, a conveyor: the newest slides down in from above the
+    // panel's top edge, pushing every row down one; older rows fall past the
+    // foot. The panel clips both edges. Reduced motion shows the key frames
+    // settled, so there a comment is simply in or not
+    const n = FEED_T.length;
+    const inP = FEED_T.map((tt, k) => (REDUCED ? (t >= tt ? 1 : 0) : ease(t, tt, FEED_DUR[k], FEED_DUR[k] < 0.12 ? E.lin : E.dec)));
+    let entered = 0;
+    for (const tt of FEED_T) if (t >= tt) entered++;
+    let vis = 0, below = 0;
+    for (let k = n - 1; k >= 0; k--) {
+      const row = commentRows[k];
+      const y = 1 + below - M.rowH * (1 - inP[k]); // pushed down by every newer row
+      below += M.rowH * inP[k];
+      vis += M.rowH * inP[k];
+      const on = inP[k] > 0 && y < M.feedH;
+      row.style.visibility = on ? "visible" : "hidden";
+      if (!on) continue;
+      // opaque as it slides (a see-through row would tint with the hairline
+      // behind it), cut at the panel's top hairline so the border stays
+      row.style.transform = `translateY(${r2(y)}px)`;
+      row.style.clipPath = y < 1 ? `inset(${r2(1 - y)}px 0 0 0)` : "none";
+      const when = entered - 1 - k < FEED_NEW ? "Just now" : "1 min ago";
       if (whens[k].textContent !== when) whens[k].textContent = when;
-    });
+    }
     r.feed.style.clipPath = `inset(0 0 ${r2(Math.max(0, M.feedH - vis - (vis > 0 ? 1 : 0)))}px 0 round 12px)`;
     r.feed.style.visibility = vis > 0 ? "visible" : "hidden";
-    show(r.feedLabel, ease(t, TL.comments[0], 0.25));
+    show(r.feedLabel, ease(t, FEED_T[0], 0.25));
 
     // S5: the sign-off, as .demo-outro. Looping, the mark and name leave
     // before the seam so green meets green

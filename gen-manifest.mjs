@@ -72,58 +72,19 @@ const more = [
     download: 'animations/data-house-private-panel-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
   // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
-  // main cut, v02-v25 swap only the scan intro (v16-v25 in an LLM-thinking style, v26-v35 fast color takes on v18, v36-v45 green-bar takes on v26) (same cue times, same soundtrack)
+  // main cut; v04 v10 v15 v18 v19 v20 v44 are the intro variants the user kept (same cue times)
   ['knit-intro-v01-4x5', 'knit-intro-v01-4x5/', "Knit: find your people, from a Mac scan to a group chat (4:5)", 'Ad spots', {
     desc: "Knit looks around your Mac and finds 8 things you love (Laramie, trail running, chess, climbing and more), suggests 9 groups near Laramie with a Recommended pick and friends already inside, you join Wyoming Running and the chat is already going. It ends on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v01-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v02-4x5', 'knit-intro-v02-4x5/', "Knit intro v02: Grey feed, color finds (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a quiet grey feed of everything it looked at, with each real find landing as a color card. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v02-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v03-4x5', 'knit-intro-v03-4x5/', "Knit intro v03: Magnifier and progress (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a big magnifying glass sweeps over one line of what it is looking at and a progress bar; finds pop below as emoji chips. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v03-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   ['knit-intro-v04-4x5', 'knit-intro-v04-4x5/', "Knit intro v04: Searching Computer... (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: \"Searching Computer...\" with a laptop and grey counters ticking up; finds slide up as color toasts. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v04-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v05-4x5', 'knit-intro-v05-4x5/', "Knit intro v05: Finder window (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a Finder window with a highlight sweeping the files; matching rows turn color with an emoji tag. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v05-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v06-4x5', 'knit-intro-v06-4x5/', "Knit intro v06: Spotlight (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a Spotlight search typing what it looks for; each find jumps to the top result in color. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v06-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v07-4x5', 'knit-intro-v07-4x5/', "Knit intro v07: Radar (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a radar sweeps around your photo; finds pop as emoji bubbles on the rings. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v07-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v08-4x5', 'knit-intro-v08-4x5/', "Knit intro v08: Lens over tiles (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a lens glides over grey file tiles and flips the ones about you into color emoji tiles. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v08-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v09-4x5', 'knit-intro-v09-4x5/', "Knit intro v09: Checklist (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a calm checklist of places on your Mac, each ticking off with its find beside it. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v09-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   ['knit-intro-v10-4x5', 'knit-intro-v10-4x5/', "Knit intro v10: One line at a time (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: one grey line at a time, and each find takes the screen with a big emoji. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v10-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v11-4x5', 'knit-intro-v11-4x5/', "Knit intro v11: Constellation (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: grey dots of files drift in and your finds gather around you as emoji bubbles. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v11-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v12-4x5', 'knit-intro-v12-4x5/', "Knit intro v12: Profile card (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: your profile card fills in as a ring goes round your photo and interest tags attach. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v12-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v13-4x5', 'knit-intro-v13-4x5/', "Knit intro v13: Source bars (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: one grey bar per app on your Mac; each bar turns color when it finds something. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v13-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v14-4x5', 'knit-intro-v14-4x5/', "Knit intro v14: MacBook screen (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a MacBook screen reads \"Searching Computer...\" and finds fly out as emoji chips. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v14-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   ['knit-intro-v15-4x5', 'knit-intro-v15-4x5/', "Knit intro v15: Big number (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: a huge percentage counts up under \"Searching Computer...\" with the latest find shown big. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v15-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v16-4x5', 'knit-intro-v16-4x5/', "Knit intro v16: Thinking stream (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a Cursor-style thinking block streams grey narration of where it is searching, and each hit lights up green with a check. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v16-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v17-4x5', 'knit-intro-v17-4x5/', "Knit intro v17: Pinned on top (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: grey thinking streams in the middle and every green hit flies up into a pinned row about you. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v17-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   ['knit-intro-v18-4x5', 'knit-intro-v18-4x5/', "Knit intro v18: Progress fill (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: each green hit in the grey thinking fills one segment of a progress bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v18-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
@@ -133,81 +94,9 @@ const more = [
   ['knit-intro-v20-4x5', 'knit-intro-v20-4x5/', "Knit intro v20: Agent steps (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: agent-style steps (searched Photos, read your running app) with a green callout under each hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v20-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v21-4x5', 'knit-intro-v21-4x5/', "Knit intro v21: Highlighter (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a page of grey search notes where a green highlighter marks every hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v21-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v22-4x5', 'knit-intro-v22-4x5/', "Knit intro v22: Thought summary (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: the grey thinking collapses into \"Thought for 3 seconds\" and a clean summary of green findings. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v22-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v23-4x5', 'knit-intro-v23-4x5/', "Knit intro v23: Side notes (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: grey thinking on the left, with each green hit copied into a notes card on the right. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v23-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v24-4x5', 'knit-intro-v24-4x5/', "Knit intro v24: Fast scroll (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a fast grey scroll of everything it passes, freezing to turn each hit green and pin it. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v24-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v25-4x5', 'knit-intro-v25-4x5/', "Knit intro v25: Typewriter lines (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: one sentence types out at a time in grey, the hit types in green, then drops into a frame below. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v25-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v26-4x5', 'knit-intro-v26-4x5/', "Knit intro v26: Burst stream (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": grey lines pour in bursts and hits land in clusters, each in its own color, filling a color-coded bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v26-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v27-4x5', 'knit-intro-v27-4x5/', "Knit intro v27: Parallel threads (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": three grey lanes search at once and each hit zips into its color segment. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v27-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v28-4x5', 'knit-intro-v28-4x5/', "Knit intro v28: Color bar (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": a thick bar fills out of order in eight colors while a percent jumps. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v28-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v29-4x5', 'knit-intro-v29-4x5/', "Knit intro v29: Chips cloud (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": grey keywords flicker and snap together into big colored chips. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v29-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v30-4x5', 'knit-intro-v30-4x5/', "Knit intro v30: Stacked cards (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": each hit pops out as a colored card fanning on top of the stream. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v30-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v31-4x5', 'knit-intro-v31-4x5/', "Knit intro v31: Ticker and bar (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": a fast ticker flips through apps and counts while hits flash in color. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v31-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v32-4x5', 'knit-intro-v32-4x5/', "Knit intro v32: Pulse (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": each hit sends a colored pulse down to its segment of the bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v32-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v33-4x5', 'knit-intro-v33-4x5/', "Knit intro v33: Double-take (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": it second-guesses like a person (Denver? No, Laramie) before each colored hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v33-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v34-4x5', 'knit-intro-v34-4x5/', "Knit intro v34: Confidence meters (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": confidence meters fill fast before each hit locks in its color. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v34-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v35-4x5', 'knit-intro-v35-4x5/', "Knit intro v35: Big pop (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Learning more about you\": the emoji of each hit pops big, then flies to its line and colored segment. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v35-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v36-4x5', 'knit-intro-v36-4x5/', "Knit intro v36: Green bar (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream with one continuous green progress bar that jumps at each hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v36-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v37-4x5', 'knit-intro-v37-4x5/', "Knit intro v37: Green segments (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream with all eight progress segments filling green. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v37-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v38-4x5', 'knit-intro-v38-4x5/', "Knit intro v38: All green (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream in calm grey and green: green hits and a green bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v38-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v39-4x5', 'knit-intro-v39-4x5/', "Knit intro v39: Bar in the card (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream with the green progress bar inside the card under the header. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v39-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v40-4x5', 'knit-intro-v40-4x5/', "Knit intro v40: Big counter (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream with a big things-read counter and a green bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v40-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v41-4x5', 'knit-intro-v41-4x5/', "Knit intro v41: Green bar with markers (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream where each hit drops its emoji onto a green bar as a marker. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v41-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v42-4x5', 'knit-intro-v42-4x5/', "Knit intro v42: Green bar and percent (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream with a green bar and a big percent that jumps at hits. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v42-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v43-4x5', 'knit-intro-v43-4x5/', "Knit intro v43: Docked hits (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream where each hit docks above a green bar as it fills. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v43-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   ['knit-intro-v44-4x5', 'knit-intro-v44-4x5/', "Knit intro v44: Big type (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: Burst stream with bigger type, a faster scroll and thick green segments. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v44-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v45-4x5', 'knit-intro-v45-4x5/', "Knit intro v45: Tinted card (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: Burst stream where each hit washes the card in its color, with a green bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v45-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // end Knit
   // DAWN (infinite-money-glitch src/demo/climb-4x5.005e894f.html): one prompt builds a rock
   // climbing YouTube channel, the clip, 21 uploads and 48,000 views; 540x675 stage, 4:5 only

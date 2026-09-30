@@ -70,6 +70,55 @@ const more = [
   ['data-house-private-panel-4x5', 'data-house-private-panel-4x5/', 'Data House: private niche data (4:5)', 'Ad spots', {
     desc: 'Four questions to Data House, each answered as a raw JSON API response from the private panel: the most common LLM prompts, the ChatGPT x Grok user overlap (the one matching record: 54 shared authors, 1.8%), the average spend of a Cursor user, and the common drop-off points for users talking to LLMs. Each answer shows the GET request, 200 OK, a typed schema and one aligned record per line, then the film ends on the Data House logo card (21.6s loop).',
     download: 'animations/data-house-private-panel-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
+  // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
+  // main cut, v02-v15 swap only the scan intro (same cue times, same soundtrack)
+  ['knit-intro-v01-4x5', 'knit-intro-v01-4x5/', "Knit: find your people, from a Mac scan to a group chat (4:5)", 'Ad spots', {
+    desc: "Knit looks around your Mac and finds 8 things you love (Laramie, trail running, chess, climbing and more), suggests 9 groups near Laramie with a Recommended pick and friends already inside, you join Wyoming Running and the chat is already going. It ends on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v01-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v02-4x5', 'knit-intro-v02-4x5/', "Knit intro v02: Grey feed, color finds (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a quiet grey feed of everything it looked at, with each real find landing as a color card. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v02-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v03-4x5', 'knit-intro-v03-4x5/', "Knit intro v03: Magnifier and progress (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a big magnifying glass sweeps over one line of what it is looking at and a progress bar; finds pop below as emoji chips. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v03-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v04-4x5', 'knit-intro-v04-4x5/', "Knit intro v04: Searching Computer... (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Searching Computer...\" with a laptop and grey counters ticking up; finds slide up as color toasts. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v04-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v05-4x5', 'knit-intro-v05-4x5/', "Knit intro v05: Finder window (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a Finder window with a highlight sweeping the files; matching rows turn color with an emoji tag. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v05-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v06-4x5', 'knit-intro-v06-4x5/', "Knit intro v06: Spotlight (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a Spotlight search typing what it looks for; each find jumps to the top result in color. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v06-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v07-4x5', 'knit-intro-v07-4x5/', "Knit intro v07: Radar (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a radar sweeps around your photo; finds pop as emoji bubbles on the rings. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v07-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v08-4x5', 'knit-intro-v08-4x5/', "Knit intro v08: Lens over tiles (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a lens glides over grey file tiles and flips the ones about you into color emoji tiles. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v08-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v09-4x5', 'knit-intro-v09-4x5/', "Knit intro v09: Checklist (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a calm checklist of places on your Mac, each ticking off with its find beside it. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v09-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v10-4x5', 'knit-intro-v10-4x5/', "Knit intro v10: One line at a time (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: one grey line at a time, and each find takes the screen with a big emoji. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v10-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v11-4x5', 'knit-intro-v11-4x5/', "Knit intro v11: Constellation (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: grey dots of files drift in and your finds gather around you as emoji bubbles. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v11-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v12-4x5', 'knit-intro-v12-4x5/', "Knit intro v12: Profile card (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: your profile card fills in as a ring goes round your photo and interest tags attach. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v12-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v13-4x5', 'knit-intro-v13-4x5/', "Knit intro v13: Source bars (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: one grey bar per app on your Mac; each bar turns color when it finds something. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v13-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v14-4x5', 'knit-intro-v14-4x5/', "Knit intro v14: MacBook screen (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a MacBook screen reads \"Searching Computer...\" and finds fly out as emoji chips. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v14-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v15-4x5', 'knit-intro-v15-4x5/', "Knit intro v15: Big number (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: a huge percentage counts up under \"Searching Computer...\" with the latest find shown big. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v15-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  // end Knit
   // DAWN (infinite-money-glitch src/demo/climb-4x5.005e894f.html): one prompt builds a rock
   // climbing YouTube channel, the clip, 21 uploads and 48,000 views; 540x675 stage, 4:5 only
   ['dawn-climb-4x5', 'dawn-climb-4x5/', 'DAWN: rock climbing channel in 19 seconds (4:5)', 'Ad spots'],

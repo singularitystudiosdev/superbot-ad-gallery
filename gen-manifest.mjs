@@ -68,7 +68,7 @@ const more = [
   // private Reddit panel answers, then the logo card on grey; the rendered 1080x1350 60 fps film with
   // sound plays from a video wrapper, 4:5 only, and the download is that bundled file
   ['data-house-private-panel-4x5', 'data-house-private-panel-4x5/', 'Data House: private niche data (4:5)', 'Ad spots', {
-    desc: 'A user asks Data House for non-public niche data (user LLM platform overlap, frequent LLM prompts, platform switching) and the private panel answers with the apps as icons and the overlap pairs as JSON records. It ends on the Data House logo card.',
+    desc: 'A user asks Data House for the most common LLM prompts, then for the overlap between ChatGPT and Grok users, and it answers in JSON tables. The private panel data streams in row by row. It ends on the Data House logo card.',
     download: 'animations/data-house-private-panel-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // DAWN (infinite-money-glitch src/demo/climb-4x5.005e894f.html): one prompt builds a rock
   // climbing YouTube channel, the clip, 21 uploads and 48,000 views; 540x675 stage, 4:5 only

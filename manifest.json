@@ -176,6 +176,116 @@
     "downloadLabel": "4:5 · 1080x1350"
   },
   {
+    "id": "knit-intro-v16-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v16: Thinking stream (4:5)",
+    "src": "animations/knit-intro-v16-4x5/",
+    "thumb": "assets/shots/knit-intro-v16-4x5.png",
+    "desc": "The Knit ad with a different scan intro: a Cursor-style thinking block streams grey narration of where it is searching, and each hit lights up green with a check. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v16-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v17-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v17: Pinned on top (4:5)",
+    "src": "animations/knit-intro-v17-4x5/",
+    "thumb": "assets/shots/knit-intro-v17-4x5.png",
+    "desc": "The Knit ad with a different scan intro: grey thinking streams in the middle and every green hit flies up into a pinned row about you. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v17-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v18-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v18: Progress fill (4:5)",
+    "src": "animations/knit-intro-v18-4x5/",
+    "thumb": "assets/shots/knit-intro-v18-4x5.png",
+    "desc": "The Knit ad with a different scan intro: each green hit in the grey thinking fills one segment of a progress bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v18-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v19-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v19: Frame below (4:5)",
+    "src": "animations/knit-intro-v19-4x5/",
+    "thumb": "assets/shots/knit-intro-v19-4x5.png",
+    "desc": "The Knit ad with a different scan intro: grey thinking scrolls in a top frame while green hits land in a found frame below. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v19-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v20-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v20: Agent steps (4:5)",
+    "src": "animations/knit-intro-v20-4x5/",
+    "thumb": "assets/shots/knit-intro-v20-4x5.png",
+    "desc": "The Knit ad with a different scan intro: agent-style steps (searched Photos, read your running app) with a green callout under each hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v20-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v21-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v21: Highlighter (4:5)",
+    "src": "animations/knit-intro-v21-4x5/",
+    "thumb": "assets/shots/knit-intro-v21-4x5.png",
+    "desc": "The Knit ad with a different scan intro: a page of grey search notes where a green highlighter marks every hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v21-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v22-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v22: Thought summary (4:5)",
+    "src": "animations/knit-intro-v22-4x5/",
+    "thumb": "assets/shots/knit-intro-v22-4x5.png",
+    "desc": "The Knit ad with a different scan intro: the grey thinking collapses into \"Thought for 3 seconds\" and a clean summary of green findings. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v22-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v23-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v23: Side notes (4:5)",
+    "src": "animations/knit-intro-v23-4x5/",
+    "thumb": "assets/shots/knit-intro-v23-4x5.png",
+    "desc": "The Knit ad with a different scan intro: grey thinking on the left, with each green hit copied into a notes card on the right. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v23-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v24-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v24: Fast scroll (4:5)",
+    "src": "animations/knit-intro-v24-4x5/",
+    "thumb": "assets/shots/knit-intro-v24-4x5.png",
+    "desc": "The Knit ad with a different scan intro: a fast grey scroll of everything it passes, freezing to turn each hit green and pin it. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v24-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v25-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v25: Typewriter lines (4:5)",
+    "src": "animations/knit-intro-v25-4x5/",
+    "thumb": "assets/shots/knit-intro-v25-4x5.png",
+    "desc": "The Knit ad with a different scan intro: one sentence types out at a time in grey, the hit types in green, then drops into a frame below. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v25-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
     "id": "dawn-climb-4x5",
     "type": "animation",
     "group": "Ad spots",

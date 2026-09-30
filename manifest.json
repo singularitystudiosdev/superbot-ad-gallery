@@ -6,7 +6,7 @@
     "title": "Data House: private niche data (4:5)",
     "src": "animations/data-house-private-panel-4x5/",
     "thumb": "assets/shots/data-house-private-panel-4x5.png",
-    "desc": "A user asks Data House for non-public niche data (user LLM platform overlap, frequent LLM prompts, platform switching) and the private panel answers. It ends on the Data House logo card.",
+    "desc": "A user asks Data House for non-public niche data (user LLM platform overlap, frequent LLM prompts, platform switching) and the private panel answers with the apps as icons and the overlap pairs as JSON records. It ends on the Data House logo card.",
     "download": "animations/data-house-private-panel-4x5/final.mp4",
     "downloadLabel": "4:5 · 1080x1350"
   },

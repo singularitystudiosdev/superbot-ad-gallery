@@ -286,6 +286,116 @@
     "downloadLabel": "4:5 · 1080x1350"
   },
   {
+    "id": "knit-intro-v26-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v26: Burst stream (4:5)",
+    "src": "animations/knit-intro-v26-4x5/",
+    "thumb": "assets/shots/knit-intro-v26-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": grey lines pour in bursts and hits land in clusters, each in its own color, filling a color-coded bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v26-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v27-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v27: Parallel threads (4:5)",
+    "src": "animations/knit-intro-v27-4x5/",
+    "thumb": "assets/shots/knit-intro-v27-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": three grey lanes search at once and each hit zips into its color segment. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v27-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v28-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v28: Color bar (4:5)",
+    "src": "animations/knit-intro-v28-4x5/",
+    "thumb": "assets/shots/knit-intro-v28-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": a thick bar fills out of order in eight colors while a percent jumps. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v28-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v29-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v29: Chips cloud (4:5)",
+    "src": "animations/knit-intro-v29-4x5/",
+    "thumb": "assets/shots/knit-intro-v29-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": grey keywords flicker and snap together into big colored chips. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v29-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v30-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v30: Stacked cards (4:5)",
+    "src": "animations/knit-intro-v30-4x5/",
+    "thumb": "assets/shots/knit-intro-v30-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": each hit pops out as a colored card fanning on top of the stream. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v30-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v31-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v31: Ticker and bar (4:5)",
+    "src": "animations/knit-intro-v31-4x5/",
+    "thumb": "assets/shots/knit-intro-v31-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": a fast ticker flips through apps and counts while hits flash in color. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v31-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v32-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v32: Pulse (4:5)",
+    "src": "animations/knit-intro-v32-4x5/",
+    "thumb": "assets/shots/knit-intro-v32-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": each hit sends a colored pulse down to its segment of the bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v32-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v33-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v33: Double-take (4:5)",
+    "src": "animations/knit-intro-v33-4x5/",
+    "thumb": "assets/shots/knit-intro-v33-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": it second-guesses like a person (Denver? No, Laramie) before each colored hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v33-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v34-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v34: Confidence meters (4:5)",
+    "src": "animations/knit-intro-v34-4x5/",
+    "thumb": "assets/shots/knit-intro-v34-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": confidence meters fill fast before each hit locks in its color. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v34-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v35-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v35: Big pop (4:5)",
+    "src": "animations/knit-intro-v35-4x5/",
+    "thumb": "assets/shots/knit-intro-v35-4x5.png",
+    "desc": "The Knit ad with a different scan intro: \"Learning more about you\": the emoji of each hit pops big, then flies to its line and colored segment. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v35-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
     "id": "dawn-climb-4x5",
     "type": "animation",
     "group": "Ad spots",

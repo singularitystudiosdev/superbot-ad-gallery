@@ -72,7 +72,7 @@ const more = [
     download: 'animations/data-house-private-panel-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
   // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
-  // main cut, v02-v25 swap only the scan intro (v16-v25 in an LLM-thinking style) (same cue times, same soundtrack)
+  // main cut, v02-v25 swap only the scan intro (v16-v25 in an LLM-thinking style, v26-v35 fast color takes on v18) (same cue times, same soundtrack)
   ['knit-intro-v01-4x5', 'knit-intro-v01-4x5/', "Knit: find your people, from a Mac scan to a group chat (4:5)", 'Ad spots', {
     desc: "Knit looks around your Mac and finds 8 things you love (Laramie, trail running, chess, climbing and more), suggests 9 groups near Laramie with a Recommended pick and friends already inside, you join Wyoming Running and the chat is already going. It ends on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v01-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
@@ -148,6 +148,36 @@ const more = [
   ['knit-intro-v25-4x5', 'knit-intro-v25-4x5/', "Knit intro v25: Typewriter lines (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: one sentence types out at a time in grey, the hit types in green, then drops into a frame below. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v25-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v26-4x5', 'knit-intro-v26-4x5/', "Knit intro v26: Burst stream (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": grey lines pour in bursts and hits land in clusters, each in its own color, filling a color-coded bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v26-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v27-4x5', 'knit-intro-v27-4x5/', "Knit intro v27: Parallel threads (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": three grey lanes search at once and each hit zips into its color segment. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v27-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v28-4x5', 'knit-intro-v28-4x5/', "Knit intro v28: Color bar (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": a thick bar fills out of order in eight colors while a percent jumps. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v28-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v29-4x5', 'knit-intro-v29-4x5/', "Knit intro v29: Chips cloud (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": grey keywords flicker and snap together into big colored chips. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v29-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v30-4x5', 'knit-intro-v30-4x5/', "Knit intro v30: Stacked cards (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": each hit pops out as a colored card fanning on top of the stream. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v30-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v31-4x5', 'knit-intro-v31-4x5/', "Knit intro v31: Ticker and bar (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": a fast ticker flips through apps and counts while hits flash in color. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v31-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v32-4x5', 'knit-intro-v32-4x5/', "Knit intro v32: Pulse (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": each hit sends a colored pulse down to its segment of the bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v32-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v33-4x5', 'knit-intro-v33-4x5/', "Knit intro v33: Double-take (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": it second-guesses like a person (Denver? No, Laramie) before each colored hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v33-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v34-4x5', 'knit-intro-v34-4x5/', "Knit intro v34: Confidence meters (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": confidence meters fill fast before each hit locks in its color. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v34-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  ['knit-intro-v35-4x5', 'knit-intro-v35-4x5/', "Knit intro v35: Big pop (4:5)", 'Ad spots', {
+    desc: "The Knit ad with a different scan intro: \"Learning more about you\": the emoji of each hit pops big, then flies to its line and colored segment. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    download: 'animations/knit-intro-v35-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // end Knit
   // DAWN (infinite-money-glitch src/demo/climb-4x5.005e894f.html): one prompt builds a rock
   // climbing YouTube channel, the clip, 21 uploads and 48,000 views; 540x675 stage, 4:5 only

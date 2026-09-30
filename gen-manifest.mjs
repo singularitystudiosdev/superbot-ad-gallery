@@ -97,36 +97,15 @@ const more = [
   ['knit-intro-v44-4x5', 'knit-intro-v44-4x5/', "Knit intro v44: Big type (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: Burst stream with bigger type, a faster scroll and thick green segments. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v44-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v56-4x5', 'knit-intro-v56-4x5/', "Knit intro v56: Scanning header (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: One line at a time under a big \"Scanning Your Computer...\" headline, with the emoji row and count. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v56-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   ['knit-intro-v57-4x5', 'knit-intro-v57-4x5/', "Knit intro v57: Scanning, no count (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: \"Scanning Your Computer...\" with one grey line and each find taking the stage, no count and no emoji row. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v57-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   ['knit-intro-v58-4x5', 'knit-intro-v58-4x5/', "Knit intro v58: Scanning and searching (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: \"Scanning Your Computer...\" with a switching \"Searching Discord...\", \"Searching History...\" line under it. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v58-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v59-4x5', 'knit-intro-v59-4x5/', "Knit intro v59: Searching emoji (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a huge emoji for each place it searches, \"Searching Discord...\", \"Searching History...\", then each find takes over. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v59-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v60-4x5', 'knit-intro-v60-4x5/', "Knit intro v60: Searching emoji, no count (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: the emoji-led search with the found emoji collecting at the bottom and no count. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v60-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v61-4x5', 'knit-intro-v61-4x5/', "Knit intro v61: Emoji shelf (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: a shelf of place emoji that light up as it searches each one, the finds taking the middle, no count. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v61-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v62-4x5', 'knit-intro-v62-4x5/', "Knit intro v62: Rolling places (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Searching\" stays still while the place name rolls up like an odometer, then each find takes the stage. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v62-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   ['knit-intro-v63-4x5', 'knit-intro-v63-4x5/', "Knit intro v63: Scanning, emoji, no count (4:5)", 'Ad spots', {
     desc: "The Knit ad with a different scan intro: \"Scanning Your Computer...\" with the searching place in a soft pill and the found emoji collecting, no count. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
     download: 'animations/knit-intro-v63-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v64-4x5', 'knit-intro-v64-4x5/', "Knit intro v64: Just the line (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: just one grey line switching places and each find taking over, nothing else on screen. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v64-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
-  ['knit-intro-v65-4x5', 'knit-intro-v65-4x5/', "Knit intro v65: Found so far (4:5)", 'Ad spots', {
-    desc: "The Knit ad with a different scan intro: \"Scanning Your Computer...\" with the place emoji and a running \"3 things found\" count with no total. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
-    download: 'animations/knit-intro-v65-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // end Knit
   // DAWN (infinite-money-glitch src/demo/climb-4x5.005e894f.html): one prompt builds a rock
   // climbing YouTube channel, the clip, 21 uploads and 48,000 views; 540x675 stage, 4:5 only

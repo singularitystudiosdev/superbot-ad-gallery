@@ -396,6 +396,116 @@
     "downloadLabel": "4:5 · 1080x1350"
   },
   {
+    "id": "knit-intro-v36-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v36: Green bar (4:5)",
+    "src": "animations/knit-intro-v36-4x5/",
+    "thumb": "assets/shots/knit-intro-v36-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream with one continuous green progress bar that jumps at each hit. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v36-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v37-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v37: Green segments (4:5)",
+    "src": "animations/knit-intro-v37-4x5/",
+    "thumb": "assets/shots/knit-intro-v37-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream with all eight progress segments filling green. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v37-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v38-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v38: All green (4:5)",
+    "src": "animations/knit-intro-v38-4x5/",
+    "thumb": "assets/shots/knit-intro-v38-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream in calm grey and green: green hits and a green bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v38-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v39-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v39: Bar in the card (4:5)",
+    "src": "animations/knit-intro-v39-4x5/",
+    "thumb": "assets/shots/knit-intro-v39-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream with the green progress bar inside the card under the header. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v39-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v40-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v40: Big counter (4:5)",
+    "src": "animations/knit-intro-v40-4x5/",
+    "thumb": "assets/shots/knit-intro-v40-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream with a big things-read counter and a green bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v40-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v41-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v41: Green bar with markers (4:5)",
+    "src": "animations/knit-intro-v41-4x5/",
+    "thumb": "assets/shots/knit-intro-v41-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream where each hit drops its emoji onto a green bar as a marker. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v41-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v42-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v42: Green bar and percent (4:5)",
+    "src": "animations/knit-intro-v42-4x5/",
+    "thumb": "assets/shots/knit-intro-v42-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream with a green bar and a big percent that jumps at hits. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v42-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v43-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v43: Docked hits (4:5)",
+    "src": "animations/knit-intro-v43-4x5/",
+    "thumb": "assets/shots/knit-intro-v43-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream where each hit docks above a green bar as it fills. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v43-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v44-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v44: Big type (4:5)",
+    "src": "animations/knit-intro-v44-4x5/",
+    "thumb": "assets/shots/knit-intro-v44-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream with bigger type, a faster scroll and thick green segments. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v44-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
+    "id": "knit-intro-v45-4x5",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Knit intro v45: Tinted card (4:5)",
+    "src": "animations/knit-intro-v45-4x5/",
+    "thumb": "assets/shots/knit-intro-v45-4x5.png",
+    "desc": "The Knit ad with a different scan intro: Burst stream where each hit washes the card in its color, with a green bar. Then the same groups, join and chat, ending on the knit card, with sound (18s loop).",
+    "download": "animations/knit-intro-v45-4x5/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
     "id": "dawn-climb-4x5",
     "type": "animation",
     "group": "Ad spots",

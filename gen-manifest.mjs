@@ -221,6 +221,9 @@ const realUi = [
   ['every-model-one-chat-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Connecting to DoorDash'],
   ['every-model-one-chat-sb-superbot-efa8df82', 'EVERY MODEL. ONE CHAT. · Switched to Superbot', 'every-model-one-chat-superbot-efa8df82/?route=superbot'],
   ['every-model-one-chat-sb-combo-efa8df82', 'EVERY MODEL. ONE CHAT. · Superbot, then DoorDash', 'every-model-one-chat-superbot-efa8df82/?route=combo'],
+  // Every model, one chat, detailed 16:9 variant (2026-10-04, em07): mirrored from Real UI; the route=superbot spot at the same 21.241 s with each
+  // switch re-picked for what the ask makes (Nano Banana Pro meme, Reddit connector scan, Superbot Agent DoorDash order) and full answer cards.
+  ['every-model-detail-em07-sb-superbot-07557dbc', 'EVERY MODEL. ONE CHAT. · Nano Banana Pro meme, Reddit connector scan, Superbot Agent orders (detailed, 16:9)', 'em-detail-superbot-07557dbc/'],
   // I want to make minecraft (2026-09-26): Opus 5.5 > GitHub > DeepSeek V4 Flash decals > Gemini decals > Opus 5.5,
   // three cuts of one page (?cut=).
   ['make-minecraft-every-model-superbot-b055c127', 'I WANT TO MAKE MINECRAFT · every model, one chat'],

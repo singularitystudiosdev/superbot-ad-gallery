@@ -1162,6 +1162,14 @@
     "thumb": "assets/shots/do-my-job-proofreader-editor-superbot-c54c5ecd.png"
   },
   {
+    "id": "niche-youtube-model-switch-detail-superbot-3a8678e2",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Answer the top comments and pin the best one, in detail: Gemini finds each answer in the video, ElevenLabs measures the pinned one, Opus 5.5 writes, YouTube Studio pins (16:9)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/niche-youtube-model-switch-detail-superbot-3a8678e2/",
+    "thumb": "assets/shots/niche-youtube-model-switch-detail-superbot-3a8678e2.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

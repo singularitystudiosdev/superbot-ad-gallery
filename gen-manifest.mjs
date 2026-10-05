@@ -471,6 +471,11 @@ const realUi = [
   // published errors (the missing serial comma in Maine's overtime law, the "responsibilty" typo on Australia's $50
   // note, an "or" in a Federal Reserve rule from 1980 until 2026), each matched to the correction the publisher printed.
   ['do-my-job-proofreader-editor-superbot-c54c5ecd', 'BUT WE WILL · Do my job for me: superbot proofreads and edits in Microsoft Word'],
+  // Answer the top comments and pin the best one, in detail (2026-10-05): mirrored from Real UI. Variant of
+  // niche-youtube-model-switch-superbot-3828921d, 26.27 s, 16:9: Gemini matches each top comment to the moment that
+  // answers it, ElevenLabs Voice Isolator measures the 7:05 room test for the pinned answer, Claude Opus 5.5 writes the
+  // replies, YouTube Studio posts and pins. Thumbnail and charts drawn for the spot.
+  ['niche-youtube-model-switch-detail-superbot-3a8678e2', 'Answer the top comments and pin the best one, in detail: Gemini finds each answer in the video, ElevenLabs measures the pinned one, Opus 5.5 writes, YouTube Studio pins (16:9)'],
 ];
 for (const [name, title, path] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,

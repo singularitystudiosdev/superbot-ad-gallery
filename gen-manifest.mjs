@@ -173,6 +173,16 @@ const more = [
   // runs the whole day, standup meme to the 24 min burger. 21.6 s, 1080x1350, 30 fps, with sound.
   ['every-model-converge-apps-4x5-4741876c', 'every-model-converge-apps-4x5-4741876c/', "Five apps, one chat: Superbot desktop on the knit phone", 'Ad spots', { download: 'animations/every-model-converge-apps-4x5-4741876c/final.mp4', downloadLabel: 'MP4 4:5' }],
   ['every-model-converge-day-4x5-60e5248a', 'every-model-converge-day-4x5-60e5248a/', "One chat, all day: Superbot desktop on the knit phone", 'Ad spots', { download: 'animations/every-model-converge-day-4x5-60e5248a/final.mp4', downloadLabel: 'MP4 4:5' }],
+  // converge variant, won't refuse (2026-10-05, chat 43b272b5): source superbot-format-daeon/
+  // every-model-converge-refuse-4x5.e75f98b6. Every switch is a refusal routed around: the model on the
+  // composer chip answers first and says no (struck through, 'Refused' tag), then superbot switches.
+  // Codex 'I can't make images here.' (the switch notice's own refused copy) to Gemini, Gemini won't
+  // scrape Reddit to DeepSeek V4 Flash, DeepSeek can't place orders to Superbot on DoorDash. Aimed at
+  // output-quality-regressions ('output quality, regressions and refusals', rank 2, 4,206 authors,
+  // rising 1.4x; want: alternative ai tool). Same 21.6 s spine and score, thread chapters re-cued.
+  ['every-model-converge-refuse-4x5-e75f98b6', 'every-model-converge-refuse-4x5-e75f98b6/', "Superbot won't refuse: Superbot desktop on the knit phone", 'Ad spots',
+    { desc: "Superbot won't refuse. Each ask hits a model that says no, and superbot switches to one that does it. GPT-5 Codex: 'I can't make images here', so Gemini makes the Muse meme. Gemini: 'Sorry, I can't scrape Reddit', so DeepSeek V4 Flash scrapes 6 subreddits. DeepSeek: 'I can't place orders for you', so Superbot orders the burger on DoorDash, 24 min. 21.6 s, 4:5, with sound.",
+      download: 'animations/every-model-converge-refuse-4x5-e75f98b6/final.mp4', downloadLabel: 'MP4 4:5' }],
   // one api key, all your subs (2026-10-04, chat 79d27001): five 16:9 treatments of one claim, each 12.0 s
   // (5 bars at 100 bpm), 1920x1080, 30 fps, synthesized score, on the converge ad's stage grammar
   // (superbot-format-daeon/every-model-converge-16x9.398eded5); source in

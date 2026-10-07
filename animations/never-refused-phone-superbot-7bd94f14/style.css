@@ -1,0 +1,83 @@
+/* phone (16:9): the converge 16:9 cut's layout. Phone 390x844 design px at its native size, centred under the
+   caption band; ChatGPT iOS dark inside it, then superbot mobile (hub tokens at 1.3x). */
+.v3 { position: absolute; inset: 0; background: #050505; overflow: hidden; }
+.v3 .tex { position: absolute; left: 0; top: 0; width: 6000px; display: grid; gap: 4px; padding-top: 6px; -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 30%, transparent 78%); mask-image: linear-gradient(180deg, #000 0%, #000 30%, transparent 78%); }
+.v3 .tr { font: 800 150px/1 var(--ui); letter-spacing: -.04em; color: #121212; white-space: nowrap; filter: blur(1px); }
+.v3 .caps { position: absolute; left: 0; right: 0; top: 46px; height: 120px; display: grid; place-items: center; z-index: 6; }
+.v3 .caps h2 { grid-area: 1 / 1; margin: 0; font: 800 96px/1 var(--ui); letter-spacing: -.045em; color: #fff; white-space: nowrap; opacity: 0; text-shadow: 0 6px 30px rgba(0, 0, 0, .8); }
+.v3 .caps h2.hk { opacity: 1; }
+.v3 .caps h2 .w { display: inline-block; opacity: 0; }
+.v3 .caps .no { color: #ff453a; }
+.v3 .caps .yes { background: linear-gradient(90deg, #5d91ec, #866cf6, #c026d3); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* floating model chips (converge's pills) */
+.v3 .chips { position: absolute; inset: 0; z-index: 3; }
+.v3 .fchip { position: absolute; display: inline-flex; align-items: center; gap: 14px; height: 76px; padding: 0 26px 0 14px; border-radius: 20px; background: #111112; box-shadow: inset 0 0 0 1.5px #2a2a2d, 0 18px 50px rgba(0, 0, 0, .6); font: 600 34px/1 var(--ui); color: #f2f2f7; white-space: nowrap; opacity: 0; --red: 0; --lit: 0; }
+.v3 .fchip .tile { width: 48px; height: 48px; border-radius: 13px; }
+.v3 .fchip.k-gpt { box-shadow: inset 0 0 0 calc(1.5px + var(--red) * 1.5px) rgba(255, 69, 58, calc(.2 + var(--red) * .8)), 0 0 calc(var(--red) * 50px) rgba(255, 69, 58, calc(var(--red) * .45)), 0 18px 50px rgba(0, 0, 0, .6); }
+.v3 .fchip.k-sb { box-shadow: inset 0 0 0 calc(1.5px + var(--lit) * 1.5px) rgba(134, 108, 246, calc(.2 + var(--lit) * .8)), 0 0 calc(var(--lit) * 70px) rgba(93, 145, 236, calc(var(--lit) * .55)), 0 18px 50px rgba(0, 0, 0, .6); }
+.v3 .fchip em { display: grid; place-items: center; width: 34px; height: 34px; margin-left: 4px; border-radius: 50%; opacity: 0; }
+.v3 .fchip .xx { background: #ff453a; color: #fff; }
+.v3 .fchip .xx svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; }
+.v3 .fchip .okk { background: #34d399; }
+.v3 .fchip .okk .ok { width: 20px; height: 20px; stroke: #04140d; stroke-width: 3.4; }
+
+/* the phone */
+.v3 .phone { position: absolute; left: 50%; top: 196px; width: 412px; height: 866px; padding: 11px; border-radius: 64px; background: #0c0c0d; z-index: 4;
+  box-shadow: inset 0 0 0 1.5px #3a3a3e, inset 0 0 0 5px #161618, 0 50px 120px rgba(0, 0, 0, .85), 0 0 0 1px #000; transform-origin: 50% 40%; }
+.v3 .scr { position: relative; width: 100%; height: 100%; border-radius: 53px; overflow: hidden; background: #212121; }
+.v3 .glare { position: absolute; inset: 0; border-radius: 64px; pointer-events: none; background: linear-gradient(115deg, rgba(255, 255, 255, .07) 0%, rgba(255, 255, 255, 0) 38%); }
+.v3 .app { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.v3 .stat { flex: none; position: relative; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 6px 30px 0 36px; font: 600 16px/1 -apple-system, system-ui, sans-serif; color: #fff; }
+.v3 .isl { position: absolute; left: 50%; top: 11px; width: 122px; height: 35px; margin-left: -61px; border-radius: 20px; background: #000; }
+.v3 .si { display: inline-flex; align-items: center; gap: 6px; }
+.v3 .si svg { width: 17px; height: 12px; fill: #fff; }
+.v3 .bat { position: relative; width: 25px; height: 12px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45); }
+.v3 .bat i { position: absolute; inset: 2px 5px 2px 2px; border-radius: 2px; background: #fff; }
+
+/* ChatGPT iOS (dark) */
+.v3 .a-gpt { background: #212121; color: #ececec; font: 18px/27px var(--gpt); }
+.v3 .ghead { flex: none; height: 50px; display: flex; align-items: center; gap: 12px; padding: 0 18px; }
+.v3 .ghead > svg { width: 24px; height: 24px; fill: none; stroke: #ececec; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.v3 .ghead b { flex: 1; display: inline-flex; align-items: center; gap: 4px; font: 600 19px/1 var(--gpt); }
+.v3 .ghead b svg { width: 16px; height: 16px; fill: none; stroke: #9b9b9b; stroke-width: 2.2; stroke-linecap: round; }
+.v3 .ghero { position: absolute; left: 0; right: 0; top: 46%; text-align: center; font: 600 26px/1.2 var(--gpt); color: #ececec; }
+.v3 .gfeed { flex: 1; display: flex; flex-direction: column; gap: 20px; padding: 18px 18px 0; }
+.v3 .gu { display: flex; justify-content: flex-end; opacity: 0; }
+.v3 .gu span { max-width: 84%; padding: 11px 17px; border-radius: 22px; background: #303030; }
+.v3 .ga { position: relative; display: grid; gap: 14px; opacity: 0; }
+.v3 .ga .dot { position: absolute; left: 0; top: 6px; width: 15px; height: 15px; border-radius: 50%; background: #ececec; }
+.v3 .gx .gpt-x { transform-origin: 0 50%; opacity: 0; height: 34px; font-size: 16px; }
+.v3 .gcomp { flex: none; margin: 0 10px 30px; padding: 14px 10px 10px 18px; border-radius: 28px; background: #303030; display: grid; gap: 12px; }
+.v3 .gph { min-height: 27px; white-space: nowrap; overflow: hidden; direction: ltr; }
+.v3 .gph .pl { color: #9b9b9b; }
+.v3 .gph .caret { background: #ececec; height: 1.05em; }
+.v3 .grow { display: flex; align-items: center; gap: 14px; color: #d4d4d4; }
+.v3 .grow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.v3 .grow .sp { flex: 1; }
+.v3 .go { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #fff; color: #000; }
+.v3 .go svg { width: 19px; height: 19px; stroke-width: 2.4; }
+.v3 .go .up { display: none; }
+.v3 .go.on .up { display: block; }
+.v3 .go.on .wave { display: none; }
+
+/* superbot mobile (hub tokens, 1.3x) */
+.v3 .a-sb { background: #0a0a0b; }
+.v3 .a-sb > :not(.stat) { zoom: 1.3; }
+.v3 .shead { flex: none; height: 40px; display: flex; align-items: center; gap: 7px; padding: 0 12px; color: #ececec; }
+.v3 .shead .tile { width: 20px; height: 20px; border-radius: 6px; }
+.v3 .shead b { font: 700 13px/1 var(--ui); }
+.v3 .shead .srch { flex: 1; display: flex; align-items: center; justify-content: space-between; height: 24px; margin: 0 4px 0 6px; padding: 0 8px; border-radius: 7px; background: #1a1a1c; box-shadow: inset 0 0 0 1px #26262a; font: 10.5px/1 var(--ui); color: #8e8e93; }
+.v3 .shead .srch kbd { font: 9px/1 var(--ui); color: #6b6b70; }
+.v3 .shead > svg { width: 15px; height: 15px; fill: none; stroke: #9499a8; stroke-width: 2; }
+.v3 .sfeed { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 12px 12px 0; }
+.v3 .chipw, .v3 .ans { opacity: 0; }
+.v3 .ans .sb-say { margin-bottom: 8px; }
+.v3 .doc { border-radius: 12px; background: #121214; box-shadow: inset 0 0 0 1px #2a2a2e, 0 10px 26px rgba(0, 0, 0, .4); overflow: hidden; opacity: 0; transform-origin: 0 0; }
+.v3 .dh { display: flex; align-items: center; gap: 7px; height: 30px; padding: 0 10px; border-bottom: 1px solid #222226; font: 600 11.5px/1 var(--ui); color: #ececec; }
+.v3 .dh svg { width: 13px; height: 13px; fill: none; stroke: #8fb0ff; stroke-width: 2; stroke-linejoin: round; }
+.v3 .dh em { margin-left: auto; padding: 3px 7px; border-radius: 999px; background: #1f2a44; font: 600 9px/1 var(--ui); font-style: normal; color: #8fb0ff; }
+.v3 .db { padding: 9px 11px 10px; display: grid; gap: 7px; font: 400 11.5px/16.5px var(--serif); color: #e7e7ea; }
+.v3 .db p { margin: 0; }
+.v3 .db p.sig { font-style: italic; }
+.v3 .scomp { flex: none; margin: 0 10px 22px; }

@@ -1,0 +1,34 @@
+/* refusal stack: ChatGPT refusal cards slam in, get pulled into the Superbot mascot, answers burst back out */
+.v4 { position: absolute; inset: 0; background: #000; overflow: hidden; }
+.v4 .tex { position: absolute; left: -200px; right: -200px; top: 120px; bottom: 0; display: flex; flex-direction: column; gap: 6px; opacity: .045; pointer-events: none; }
+.v4 .tex.b { opacity: 0; }
+.v4 .tex div { white-space: nowrap; font: 800 190px/1 var(--ui); letter-spacing: -.04em; color: #fff; }
+.v4 .cap { position: absolute; left: 0; right: 0; top: 34px; height: 90px; display: grid; place-items: center; z-index: 30; }
+.v4 .cap span { grid-area: 1 / 1; font: 800 72px/1 var(--ui); letter-spacing: -.035em; color: #fff; opacity: 0; white-space: nowrap; }
+.v4 .cap span.g b { color: var(--ok); font-weight: 800; }
+.v4 .cnt { position: absolute; left: 60px; top: 46px; z-index: 30; display: inline-flex; align-items: center; gap: 12px; height: 62px; min-width: 250px; padding: 0 26px 0 18px; border-radius: 999px; font: 800 32px/1 var(--ui); letter-spacing: -.02em; opacity: 0; transform-origin: 0 50%; }
+.v4 .cnt svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+.v4 .cnt.no { background: rgba(255, 69, 58, .14); box-shadow: inset 0 0 0 2px rgba(255, 69, 58, .7); color: #ff6b62; }
+.v4 .cnt.yes { background: rgba(52, 211, 153, .12); box-shadow: inset 0 0 0 2px rgba(52, 211, 153, .6); color: var(--ok); }
+.v4 .rc, .v4 .ac { position: absolute; left: 0; top: 0; width: 560px; opacity: 0; will-change: transform; }
+.v4 .rc { height: 250px; padding: 22px 24px; border-radius: 28px; background: #212121; color: #ececec; font: 22px/30px var(--gpt); display: flex; flex-direction: column; gap: 14px; }
+.v4 .rc .gpt-u > span { max-width: 92%; padding: 11px 20px; border-radius: 24px; font-size: 22px; line-height: 30px; }
+.v4 .rc .rep { display: flex; align-items: center; gap: 12px; }
+.v4 .rc .rep .tile { width: 34px; height: 34px; border-radius: 11px; }
+.v4 .rc .rep span:last-child { font-size: 22px; }
+.v4 .rc .gpt-x { height: 40px; padding: 0 16px 0 12px; font-size: 21px; gap: 8px; transform-origin: 0 50%; }
+.v4 .rc .gpt-x svg { width: 20px; height: 20px; }
+.v4 .rc .x-row { display: flex; margin-top: auto; }
+.v4 .ac { height: 244px; padding: 20px 24px; border-radius: 26px; background: #141416; display: flex; flex-direction: column; gap: 12px; }
+.v4 .ac .hd { display: flex; align-items: center; gap: 10px; font: 700 22px/1 var(--ui); color: #ececec; }
+.v4 .ac .hd .tile { width: 34px; height: 34px; border-radius: 11px; }
+.v4 .ac .tag { margin-left: auto; display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px 0 10px; border-radius: 999px; background: rgba(52, 211, 153, .12); box-shadow: inset 0 0 0 1.5px rgba(52, 211, 153, .55); color: var(--ok); font: 700 20px/1 var(--ui); }
+.v4 .ac .tag .ok { width: 20px; height: 20px; opacity: 1; }
+.v4 .ac .ask { font: 500 22px/28px var(--ui); color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.v4 .ac .ans { font: 700 31px/40px var(--ui); letter-spacing: -.015em; color: #f4f4f7; }
+.v4 .ac .ans.mono { font: 600 26px/40px var(--mono); letter-spacing: 0; color: #d9d9de; }
+.v4 .ac .ans.mono i { font-style: normal; color: #5d91ec; }
+.v4 .halo { position: absolute; left: 0; top: 0; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(closest-side, rgba(134, 108, 246, .42), rgba(93, 145, 236, .16) 55%, rgba(93, 145, 236, 0) 100%); opacity: 0; z-index: 18; pointer-events: none; }
+.v4 .mk { position: absolute; left: 0; top: 0; width: 200px; height: 200px; z-index: 20; opacity: 0; }
+.v4 .rt { position: absolute; left: 0; top: 0; z-index: 21; opacity: 0; transform-origin: 50% 50%; }
+.v4 .rt .sb-sw { box-shadow: inset 0 0 0 1px #34343a, 0 6px 24px rgba(0, 0, 0, .6); }

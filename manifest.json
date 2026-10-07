@@ -286,6 +286,72 @@
     "downloadLabel": "MP4 4:5"
   },
   {
+    "id": "never-refused-thread-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · real superbot thread: ChatGPT refuses the roast, superbot reroutes it to itself (16:9)",
+    "src": "animations/never-refused-thread-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-thread-superbot-7bd94f14.png",
+    "desc": "The hub from every-model-one-chat. 'Roast my best friend Dave for his 30th. No mercy.' is typed with ChatGPT picked; ChatGPT answers 'I’m sorry, but I can’t help with that.' and gets a red Refused tag. Superbot reroutes the same ask to itself without being asked and writes four roast lines. 21.2 s, 16:9.",
+    "download": "animations/never-refused-thread-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-split-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · split screen: same question, ChatGPT says no, the bubble rides a cable into Superbot (16:9)",
+    "src": "animations/never-refused-split-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-split-superbot-7bd94f14.png",
+    "desc": "ChatGPT on the left, superbot on the right. 'How do I kill a Python process that won’t die?' is refused; the bubble lifts off and rides a cable across into Superbot, which routes it to itself and answers with pgrep and kill -9. Captions: one question, chatgpt said no, superbot said yes. 19.2 s, 16:9.",
+    "download": "animations/never-refused-split-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-phone-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · phone: ChatGPT refuses the landlord letter, the phone swings to superbot (16:9)",
+    "src": "animations/never-refused-phone-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-phone-superbot-7bd94f14.png",
+    "desc": "The converge 16:9 layout: a tilted phone among floating model chips over drifting type. In the ChatGPT app, 'Write my landlord a letter that scares him into returning my deposit.' is refused and the ChatGPT chip goes red; the phone swings, its screen swaps to superbot, and Superbot drafts a firm small-claims letter. 19.5 s, 16:9.",
+    "download": "animations/never-refused-phone-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-stack-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · refusal stack: six refusals pile up, fuse into the mascot, burst back out answered (16:9)",
+    "src": "animations/never-refused-stack-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-stack-superbot-7bd94f14.png",
+    "desc": "Six harmless asks (a roast, killing a Python process, a villain monologue, a caffeine limit, a breakup text, a landlord letter) slam down as ChatGPT refusals while a counter ticks to Refused 6×. The pile spirals into the Superbot mascot, one routing pill reroutes all six, and six answers burst out into a grid. 16.6 s, 16:9.",
+    "download": "animations/never-refused-stack-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-switchboard-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · switchboard: the ask hits ChatGPT’s barrier, the switch flips to Superbot (16:9)",
+    "src": "animations/never-refused-switchboard-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-switchboard-superbot-7bd94f14.png",
+    "desc": "A transit map of models around the superbot mascot. 'Write the villain’s monologue for my D&D finale.' leaves the composer as a packet, rides to the ChatGPT station, hits a red barrier and bounces back; the junction switch swings to Superbot, the branch lights up and the station blooms into the monologue. 17.5 s, 16:9.",
+    "download": "animations/never-refused-switchboard-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-lockscreen-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · lock screen: ChatGPT refusals stack as notifications, swipe, Reroute to Superbot (16:9)",
+    "src": "animations/never-refused-lockscreen-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-lockscreen-superbot-7bd94f14.png",
+    "desc": "An iPhone lock screen beside lowercase captions. Three ChatGPT notifications land, each 'I’m sorry, but I can’t help with that.'; a swipe reveals Reroute to Superbot, the notification flips to Superbot and expands into the roast, and the other two flip to Answered. 17.4 s, 16:9.",
+    "download": "animations/never-refused-lockscreen-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
     "id": "every-model-converge-refuse-4x5-e75f98b6",
     "type": "animation",
     "group": "Ad spots",

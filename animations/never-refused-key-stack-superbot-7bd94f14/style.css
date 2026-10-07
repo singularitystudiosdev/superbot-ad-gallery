@@ -1,0 +1,46 @@
+/* drop-in key stack: six refused API responses pile up, one .env swap, the same six requests come back answered */
+.v4 { position: absolute; inset: 0; background: #000; overflow: hidden; }
+.v4 .tex { position: absolute; left: -200px; right: -200px; top: 120px; bottom: 0; display: flex; flex-direction: column; gap: 6px; opacity: .045; pointer-events: none; }
+.v4 .tex.b { opacity: 0; }
+.v4 .tex div { white-space: nowrap; font: 800 190px/1 var(--ui); letter-spacing: -.04em; color: #fff; }
+.v4 .cap { position: absolute; left: 0; right: 0; top: 34px; height: 90px; display: grid; place-items: center; z-index: 40; }
+.v4 .cap span { grid-area: 1 / 1; font: 800 72px/1 var(--ui); letter-spacing: -.035em; color: #fff; opacity: 0; white-space: nowrap; }
+.v4 .cap span b { font-weight: 800; color: var(--ok); }
+.v4 .cnt { position: absolute; left: 60px; top: 46px; z-index: 40; display: inline-flex; align-items: center; gap: 12px; height: 62px; min-width: 250px; padding: 0 26px 0 18px; border-radius: 999px; font: 800 32px/1 var(--ui); letter-spacing: -.02em; opacity: 0; transform-origin: 0 50%; }
+.v4 .cnt svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+.v4 .cnt.no { background: rgba(255, 69, 58, .14); box-shadow: inset 0 0 0 2px rgba(255, 69, 58, .7); color: #ff6b62; }
+.v4 .cnt.yes { background: rgba(52, 211, 153, .12); box-shadow: inset 0 0 0 2px rgba(52, 211, 153, .6); color: var(--ok); }
+
+/* the response cards: a front (refused, api.openai.com) and a back (answered, beta.superbot.gg) */
+.v4 .kc { position: absolute; left: 0; top: 0; width: 600px; height: 280px; perspective: 1800px; opacity: 0; will-change: transform; }
+.v4 .flip { position: absolute; inset: 0; transform-style: preserve-3d; }
+.v4 .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: #0f0f12; border-radius: 18px; }
+.v4 .face.back { transform: rotateY(180deg); }
+.v4 .resp .rh { height: 50px; padding: 0 20px; font: 700 20px/1 var(--mono); }
+.v4 .resp .rh em { font: 700 20px/1 var(--mono); padding: 6px 11px; }
+.v4 .resp .sub { display: flex; align-items: center; justify-content: space-between; height: 54px; padding: 0 20px; }
+.v4 .resp .host { font: 600 20px/1 var(--mono); color: #8d90a0; }
+.v4 .resp.yes .host { color: #b5a2ff; }
+.v4 .resp .stamp { position: relative; right: auto; top: auto; padding: 7px 14px; font-size: 24px; transform-origin: 70% 50%; }
+.v4 .resp .rj { padding: 0 20px 16px; font: 500 20px/32px var(--mono); }
+.v4 .resp .rj .ask { color: #d8d8e0; }
+.v4 .resp .rj .ln { display: block; margin-bottom: 6px; }
+.v4 .resp.yes .rj .ct, .v4 .resp.yes .rj .q { color: #fff; }
+
+/* env swap layer */
+.v4 .lay { position: absolute; z-index: 30; }
+.v4 .kcw { left: 0; right: 0; top: 226px; display: flex; justify-content: center; opacity: 0; }
+.v4 .w1 { left: 500px; top: 326px; width: 920px; opacity: 0; }
+.v4 .w2 { left: 500px; top: 554px; width: 920px; opacity: 0; }
+.v4 .w1 .abody { font-size: 26px; padding: 26px 28px; }
+.v4 .w2 .abody { font-size: 26px; padding: 22px 28px; line-height: 1.6; }
+.v4 .atab { font-size: 20px; }
+.v4 .erow { height: 50px; }
+.v4 .echg { font-size: 20px; padding: 6px 13px; }
+.v4 .utag { margin-left: auto; padding: 5px 13px; border-radius: 999px; background: rgba(52, 211, 153, .14); box-shadow: inset 0 0 0 1.5px rgba(52, 211, 153, .5); font: 700 20px/1 var(--ui); color: var(--ok); }
+.v4 .bdg, .v4 .bdg2 { left: 0; right: 0; top: 772px; display: flex; justify-content: center; opacity: 0; }
+.v4 .bdg span, .v4 .bdg2 span { display: inline-flex; align-items: center; gap: 14px; height: 72px; padding: 0 32px 0 22px; border-radius: 999px; background: linear-gradient(rgba(52, 211, 153, .13), rgba(52, 211, 153, .13)), #050a08; box-shadow: inset 0 0 0 2.5px rgba(52, 211, 153, .65), 0 0 50px rgba(52, 211, 153, .18); font: 800 36px/1 var(--ui); letter-spacing: -.02em; color: #ecfdf5; }
+.v4 .bdg svg, .v4 .bdg2 svg { width: 34px; height: 34px; fill: none; stroke: var(--ok); stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+.v4 .bdg b, .v4 .bdg2 b { color: var(--ok); font-weight: 800; }
+.v4 .eg { flex: none; width: 34px; }
+.v4 .bdg2 { top: 905px; }

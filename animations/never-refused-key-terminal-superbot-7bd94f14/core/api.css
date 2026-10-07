@@ -1,0 +1,54 @@
+/* never-refused API kit: editor/terminal windows (dark, VS Code-ish neutral chrome), the .env swap, the JSON
+   response cards with their REFUSED / ANSWERED stamps, the key chip, the API end card. Sizes are stage px. */
+.awin { position: relative; border-radius: 18px; overflow: hidden; background: #0d0d10; box-shadow: inset 0 0 0 1.5px #24242a, 0 30px 80px rgba(0, 0, 0, .65); }
+.abar { height: 44px; display: flex; align-items: center; gap: 9px; padding: 0 18px; background: #141418; border-bottom: 1px solid #202026; }
+.abar i { width: 13px; height: 13px; border-radius: 50%; background: #3a3a40; }
+.abar i:nth-child(1) { background: #ff5f57; } .abar i:nth-child(2) { background: #febc2e; } .abar i:nth-child(3) { background: #28c840; }
+.atab { margin-left: 14px; padding: 6px 14px; border-radius: 8px; background: #1d1d23; font: 600 17px/1 var(--mono); color: #c9c9d1; }
+.abody { padding: 22px 26px; font: 500 24px/1.55 var(--mono); color: #d4d4dc; white-space: pre; }
+.abody .k { color: #c792ea; } .abody .s { color: #a5d6a7; } .abody .c { color: #6b7080; } .abody .f { color: #82aaff; }
+
+/* .env swap */
+.envx { display: grid; gap: 6px; white-space: nowrap; }
+.erow { position: relative; display: flex; align-items: center; height: 46px; margin: 0 -14px; padding: 0 14px; border-radius: 10px; }
+.erow.on { background: rgba(93, 145, 236, .1); }
+.erow.ok { background: rgba(52, 211, 153, .1); box-shadow: inset 3px 0 0 #34d399; }
+.eg { width: 24px; color: #34d399; font-weight: 700; }
+.ek { color: #82aaff; } .eq { color: #6b7080; }
+.ev .old { color: #e6a26b; }
+.ev .selx { background: #2b4f9e; color: #fff; }
+.ev .new { color: #fff; }
+.ecaret, .tcaret { display: inline-block; width: 3px; height: 1.05em; margin-left: 2px; vertical-align: -.16em; background: #5d91ec; }
+.echg { margin-left: 18px; padding: 5px 11px; border-radius: 999px; background: rgba(52, 211, 153, .14); box-shadow: inset 0 0 0 1.5px rgba(52, 211, 153, .5); font: 700 15px/1 var(--ui); color: #34d399; opacity: 0; }
+
+/* terminal */
+.term { display: grid; gap: 4px; align-content: start; white-space: pre-wrap; }
+.tl { min-height: 1.55em; }
+.tp { color: #6b7080; } .tp b { color: #34d399; font-weight: 700; }
+.tl.no { color: #ff6b62; } .tl.yes { color: #f2f2f7; } .tl.dim { color: #6b7080; } .tl.ok { color: #34d399; }
+.tl .hid { color: transparent; }
+
+/* response cards */
+.resp { position: relative; border-radius: 18px; background: #0f0f12; box-shadow: inset 0 0 0 1.5px #26262c, 0 24px 60px rgba(0, 0, 0, .55); overflow: visible; }
+.resp .rh { display: flex; align-items: center; gap: 14px; height: 52px; padding: 0 20px; border-bottom: 1px solid #1f1f25; font: 600 18px/1 var(--mono); color: #c9c9d1; }
+.resp .rh .host { color: #6b7080; font-weight: 500; }
+.resp .rh em { margin-left: auto; padding: 5px 10px; border-radius: 7px; background: rgba(52, 211, 153, .12); color: #34d399; font: 700 15px/1 var(--mono); font-style: normal; }
+.resp .rj { margin: 0; padding: 16px 20px 20px; font: 500 20px/1.6 var(--mono); color: #c9c9d1; white-space: pre-wrap; }
+.resp .rj .s { color: #82aaff; } .resp .rj .s2 { color: #a5d6a7; } .resp .rj .p { color: #6b7080; }
+.resp .rj .ct, .resp .rj .q { color: #fff; }
+.resp.no .rj .ct, .resp.no .rj .q { color: #ff8a80; }
+.resp .rj .hid { color: transparent; }
+.resp .stamp { position: absolute; right: 26px; top: 66px; padding: 8px 16px; border-radius: 10px; font: 800 26px/1 var(--ui); letter-spacing: .06em; opacity: 0; }
+.resp.no .stamp { color: #ff453a; box-shadow: inset 0 0 0 4px #ff453a; background: rgba(255, 69, 58, .08); }
+.resp.yes .stamp { color: #34d399; box-shadow: inset 0 0 0 4px #34d399; background: rgba(52, 211, 153, .08); }
+.resp.no { box-shadow: inset 0 0 0 1.5px rgba(255, 69, 58, .45), 0 24px 60px rgba(0, 0, 0, .55); }
+.resp.yes { box-shadow: inset 0 0 0 1.5px rgba(52, 211, 153, .45), 0 24px 60px rgba(0, 0, 0, .55); }
+
+/* the key chip */
+.keychip { display: inline-flex; align-items: center; gap: 14px; height: 66px; padding: 0 26px 0 18px; border-radius: 18px; background: #101016; box-shadow: inset 0 0 0 2px rgba(134, 108, 246, .8), 0 0 40px rgba(93, 145, 236, .35), 0 20px 50px rgba(0, 0, 0, .6); font: 600 25px/1 var(--mono); color: #fff; white-space: nowrap; }
+.keychip svg { width: 32px; height: 32px; fill: none; stroke: #a48bff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* API end card */
+.apiend .sub { margin-top: 20px; font: 700 40px/1 var(--ui); color: #c9c9d1; letter-spacing: -.02em; }
+.apiend .url { margin-top: 18px; display: inline-block; padding: 12px 18px; border-radius: 12px; background: #111116; box-shadow: inset 0 0 0 1.5px #2a2a32; font: 600 24px/1 var(--mono); color: #c9c9d1; opacity: 0; }
+.apiend .url .uk { color: #82aaff; } .apiend .url .uv { color: #fff; }

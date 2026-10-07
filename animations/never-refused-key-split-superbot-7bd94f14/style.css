@@ -1,0 +1,25 @@
+/* drop-in key · split: before (left) and after (right) columns, each a .env over its response; git diff under both */
+.k2 { position: absolute; inset: 0; background: linear-gradient(90deg, #0d0606 0%, #000 45%, #000 55%, #050b0a 100%); }
+.k2 .caps { position: absolute; left: 0; right: 0; top: 28px; height: 90px; display: grid; place-items: center; z-index: 9; }
+.k2 .caps h2 { grid-area: 1 / 1; margin: 0; font: 800 66px/1 var(--ui); letter-spacing: -.04em; color: #fff; white-space: nowrap; opacity: 0; }
+.k2 .caps .ask { font-weight: 600; color: #c9c9d1; letter-spacing: -.025em; }
+.k2 .caps .no { color: #ff453a; }
+.k2 .caps .yes { background: linear-gradient(90deg, #34d399, #5d91ec, #866cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.k2 .col { position: absolute; top: 140px; width: 860px; display: grid; gap: 18px; opacity: 0; }
+.k2 .left { left: 70px; }
+.k2 .right { left: 990px; }
+.k2 .lab { justify-self: start; padding: 10px 16px; border-radius: 999px; font: 700 21px/1 var(--mono); }
+.k2 .lab.no { background: rgba(255, 69, 58, .12); color: #ff8a80; box-shadow: inset 0 0 0 1.5px rgba(255, 69, 58, .5); }
+.k2 .lab.yes { background: rgba(52, 211, 153, .12); color: #34d399; box-shadow: inset 0 0 0 1.5px rgba(52, 211, 153, .5); }
+.k2 .ew { --glow: 0; }
+.k2 .ew .awin { box-shadow: inset 0 0 0 calc(1.5px + var(--glow) * 1.5px) rgba(134, 108, 246, calc(.15 + var(--glow) * .85)), 0 0 calc(var(--glow) * 70px) rgba(93, 145, 236, calc(var(--glow) * .4)), 0 24px 60px rgba(0, 0, 0, .6); }
+.k2 .ew .abody { padding: 18px 24px; font-size: 24px; }
+.k2 .ew .erow { height: 40px; }
+.k2 .resp .rj { font-size: 20.5px; }
+.k2 .resp .stamp { top: 62px; }
+.k2 .diff { position: absolute; left: 50%; top: 800px; width: 760px; opacity: 0; z-index: 5; }
+.k2 .diff .abody { padding: 16px 24px 20px; font-size: 22px; white-space: normal; }
+.k2 .diff .tl { white-space: pre; }
+.k2 .diff .plus { color: #34d399; } .k2 .diff .minus { color: #ff6b62; }
+.k2 .zero { position: absolute; right: 18px; top: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(52, 211, 153, .14); box-shadow: inset 0 0 0 1.5px rgba(52, 211, 153, .6); font: 700 18px/1 var(--mono); color: #34d399; opacity: 0; transform-origin: 100% 50%; }
+.k2 .kc { position: absolute; left: 0; top: 0; z-index: 10; opacity: 0; transform-origin: 0 50%; }

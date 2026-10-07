@@ -1,0 +1,78 @@
+/* drop-in key · phone: the converge 16:9 stage. Tilted phone centre-right running "your app", its .env floating
+   left, endpoint chips around, drifting type behind. Phone is 390x844 design px at native size. */
+.k3 { position: absolute; inset: 0; background: #050505; overflow: hidden; }
+.k3 .tex { position: absolute; left: 0; top: 0; width: 6000px; display: grid; gap: 4px; padding-top: 6px; -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 30%, transparent 78%); mask-image: linear-gradient(180deg, #000 0%, #000 30%, transparent 78%); }
+.k3 .tr { font: 800 150px/1 var(--ui); letter-spacing: -.04em; color: #121212; white-space: nowrap; filter: blur(1px); }
+.k3 .caps { position: absolute; left: 0; right: 0; top: 42px; height: 120px; display: grid; place-items: center; z-index: 8; }
+.k3 .caps h2 { grid-area: 1 / 1; margin: 0; font: 800 92px/1 var(--ui); letter-spacing: -.045em; color: #fff; white-space: nowrap; opacity: 0; text-shadow: 0 6px 30px rgba(0, 0, 0, .8); }
+.k3 .caps h2.hk { opacity: 1; }
+.k3 .caps h2 .w { display: inline-block; opacity: 0; }
+.k3 .caps .no { color: #ff453a; }
+.k3 .caps .yes { background: linear-gradient(90deg, #34d399, #5d91ec, #866cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.k3 .chips { position: absolute; inset: 0; z-index: 3; }
+.k3 .fchip { position: absolute; display: inline-flex; align-items: center; gap: 14px; height: 72px; padding: 0 24px 0 13px; border-radius: 20px; background: #111112; box-shadow: inset 0 0 0 1.5px #2a2a2d, 0 18px 50px rgba(0, 0, 0, .6); font: 600 30px/1 var(--ui); color: #f2f2f7; white-space: nowrap; opacity: 0; --red: 0; --lit: 0; }
+.k3 .fchip.k-old, .k3 .fchip.k-new { font: 600 28px/1 var(--mono); }
+.k3 .fchip .tile { width: 46px; height: 46px; border-radius: 13px; }
+.k3 .fchip.k-old { box-shadow: inset 0 0 0 calc(1.5px + var(--red) * 1.5px) rgba(255, 69, 58, calc(.2 + var(--red) * .8)), 0 0 calc(var(--red) * 50px) rgba(255, 69, 58, calc(var(--red) * .45)), 0 18px 50px rgba(0, 0, 0, .6); }
+.k3 .fchip.k-new { box-shadow: inset 0 0 0 calc(1.5px + var(--lit) * 1.5px) rgba(134, 108, 246, calc(.2 + var(--lit) * .8)), 0 0 calc(var(--lit) * 70px) rgba(93, 145, 236, calc(var(--lit) * .55)), 0 18px 50px rgba(0, 0, 0, .6); }
+.k3 .fchip em { display: grid; place-items: center; width: 34px; height: 34px; margin-left: 4px; border-radius: 50%; opacity: 0; }
+.k3 .fchip .xx { background: #ff453a; color: #fff; }
+.k3 .fchip .xx svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; }
+.k3 .fchip .okk { background: #34d399; }
+.k3 .fchip .okk .ok { width: 20px; height: 20px; stroke: #04140d; stroke-width: 3.4; }
+
+/* the .env beside the phone */
+.k3 .ew { position: absolute; left: 110px; top: 420px; width: 760px; z-index: 5; opacity: 0; --glow: 0; transform-origin: 50% 50%; }
+.k3 .ew .awin { box-shadow: inset 0 0 0 calc(1.5px + var(--glow) * 1.5px) rgba(134, 108, 246, calc(.15 + var(--glow) * .85)), 0 0 calc(var(--glow) * 80px) rgba(93, 145, 236, calc(var(--glow) * .45)), 0 30px 80px rgba(0, 0, 0, .7); }
+.k3 .ew .abody { padding: 20px 26px; font-size: 22px; }
+.k3 .ew .erow { height: 44px; }
+.k3 .kc { position: absolute; left: 0; top: 0; z-index: 10; opacity: 0; transform-origin: 0 50%; }
+
+/* the phone */
+.k3 .phone { position: absolute; left: 1240px; top: 196px; width: 412px; height: 866px; padding: 11px; border-radius: 64px; background: #0c0c0d; z-index: 4;
+  box-shadow: inset 0 0 0 1.5px #3a3a3e, inset 0 0 0 5px #161618, 0 50px 120px rgba(0, 0, 0, .85), 0 0 0 1px #000; transform-origin: 50% 40%; }
+.k3 .scr { position: relative; width: 100%; height: 100%; border-radius: 53px; overflow: hidden; background: #111114; display: flex; flex-direction: column; color: #ececf1; font: 18px/26px -apple-system, system-ui, sans-serif; }
+.k3 .glare { position: absolute; inset: 0; border-radius: 64px; pointer-events: none; background: linear-gradient(115deg, rgba(255, 255, 255, .07) 0%, rgba(255, 255, 255, 0) 38%); }
+.k3 .stat { flex: none; position: relative; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 6px 30px 0 36px; font: 600 16px/1 -apple-system, system-ui, sans-serif; color: #fff; }
+.k3 .isl { position: absolute; left: 50%; top: 11px; width: 122px; height: 35px; margin-left: -61px; border-radius: 20px; background: #000; }
+.k3 .si { display: inline-flex; align-items: center; gap: 6px; }
+.k3 .si svg { width: 17px; height: 12px; fill: #fff; }
+.k3 .bat { position: relative; width: 25px; height: 12px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45); }
+.k3 .bat i { position: absolute; inset: 2px 5px 2px 2px; border-radius: 2px; background: #fff; }
+.k3 .ahead { flex: none; height: 54px; display: flex; align-items: center; gap: 10px; padding: 0 18px; border-bottom: 1px solid #1f1f24; }
+.k3 .aic { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: #f5a524; color: #1a1205; font: 800 15px/1 -apple-system, system-ui, sans-serif; }
+.k3 .ahead b { font: 700 19px/1 -apple-system, system-ui, sans-serif; }
+.k3 .pro { margin-left: auto; padding: 5px 10px; border-radius: 999px; background: #1f1f24; font: 700 12px/1 -apple-system, system-ui, sans-serif; color: #a1a1aa; }
+.k3 .afeed { flex: 1; display: flex; flex-direction: column; gap: 18px; padding: 18px 16px 0; }
+.k3 .au { display: flex; justify-content: flex-end; opacity: 0; }
+.k3 .au span { max-width: 86%; padding: 11px 16px; border-radius: 20px; background: #f5a524; color: #1a1205; font-weight: 500; }
+.k3 .aa { position: relative; display: grid; opacity: 0; }
+.k3 .aa .dot { position: absolute; left: 0; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: #ececf1; }
+.k3 .ver { grid-area: 1 / 1; display: grid; gap: 12px; align-content: start; }
+.k3 .v2 { opacity: 0; }
+.k3 .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.k3 .foot .gpt-x { height: 30px; font-size: 14px; transform-origin: 0 50%; opacity: 0; }
+.k3 .via { padding: 6px 10px; border-radius: 8px; font: 600 13px/1 var(--mono); }
+.k3 .via.no { background: rgba(255, 69, 58, .1); color: #ff8a80; opacity: 0; }
+.k3 .via.yes { background: rgba(52, 211, 153, .1); color: #34d399; }
+.k3 .retry { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: #1f1f24; font: 600 14px/1 -apple-system, system-ui, sans-serif; color: #c9c9d1; opacity: 0; }
+.k3 .retry.hot { background: linear-gradient(90deg, #5d91ec, #866cf6); color: #fff; }
+.k3 .retry svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.k3 .okp { display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 11px 0 8px; border-radius: 999px; background: rgba(52, 211, 153, .12); box-shadow: inset 0 0 0 1.5px rgba(52, 211, 153, .5); color: #34d399; font: 600 14px/1 -apple-system, system-ui, sans-serif; }
+.k3 .okp .ok { width: 15px; height: 15px; }
+.k3 .pg { margin-left: auto; font: 600 13px/1 var(--mono); color: #8e8e93; }
+.k3 .doc { border-radius: 14px; background: #18181c; box-shadow: inset 0 0 0 1px #2a2a30; overflow: hidden; }
+.k3 .dh { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; border-bottom: 1px solid #25252b; font: 600 15px/1 -apple-system, system-ui, sans-serif; }
+.k3 .dh svg { width: 16px; height: 16px; fill: none; stroke: #f5a524; stroke-width: 2; stroke-linejoin: round; }
+.k3 .dh em { margin-left: auto; padding: 4px 8px; border-radius: 999px; background: #2a2210; font: 600 11px/1 -apple-system, system-ui, sans-serif; font-style: normal; color: #f5a524; }
+.k3 .db { padding: 11px 13px 12px; display: grid; gap: 8px; font: 400 15px/21px var(--serif); color: #e7e7ea; }
+.k3 .db p { margin: 0; } .k3 .db p.sig { font-style: italic; }
+.k3 .acomp { flex: none; display: flex; align-items: center; gap: 10px; margin: 0 12px 28px; padding: 8px 8px 8px 18px; min-height: 52px; border-radius: 26px; background: #1c1c21; box-shadow: inset 0 0 0 1px #2a2a30; }
+.k3 .aph { flex: 1; white-space: nowrap; overflow: hidden; direction: rtl; text-align: left; }
+.k3 .aph .pl { color: #8e8e93; }
+.k3 .aph .caret { background: #f5a524; }
+.k3 .go { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #2a2a30; color: #8e8e93; }
+.k3 .go svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.k3 .go.on { background: #f5a524; color: #1a1205; }
+.k3 .touch { position: absolute; left: 0; top: 0; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, .55) 0%, rgba(255, 255, 255, .22) 55%, rgba(255, 255, 255, 0) 72%); opacity: 0; pointer-events: none; z-index: 6; }

@@ -286,6 +286,72 @@
     "downloadLabel": "MP4 4:5"
   },
   {
+    "id": "never-refused-key-terminal-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · drop-in key, terminal: python roast.py refused, swap the .env key, same command answered (16:9)",
+    "src": "animations/never-refused-key-terminal-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-key-terminal-superbot-7bd94f14.png",
+    "desc": "roast.py (the OpenAI SDK, client = OpenAI()), its .env and a terminal. python roast.py comes back 'I’m sorry, but I can’t help with that.' from api.openai.com, stamped REFUSED. The sk-superbot key drops into the .env, OPENAI_API_KEY and OPENAI_BASE_URL are retyped to the superbot key and https://beta.superbot.gg/v1, roast.py is marked 0 lines changed, and the same command prints the roast, stamped ANSWERED. 20.5 s, 16:9.",
+    "download": "animations/never-refused-key-terminal-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-key-split-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · drop-in key, before / after: same request, two .env files, git diff shows only .env changed (16:9)",
+    "src": "animations/never-refused-key-split-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-key-split-superbot-7bd94f14.png",
+    "desc": "One request, 'How do I kill a Python process that won’t die?'. Before: the .env with the OpenAI key, the JSON response from api.openai.com, REFUSED. After: the same .env with the sk-superbot key typed in and the base URL https://beta.superbot.gg/v1, the same request answered with pgrep and kill -9, ANSWERED. git diff --stat under both: .env | 4, 2 insertions, 2 deletions; roast.py 0 lines changed. 18.9 s, 16:9.",
+    "download": "animations/never-refused-key-split-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-key-phone-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · drop-in key, phone: your app refuses, its .env takes the superbot key, Retry answers (16:9)",
+    "src": "animations/never-refused-key-phone-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-key-phone-superbot-7bd94f14.png",
+    "desc": "The converge 16:9 stage: a tilted phone running an app built on the OpenAI API, endpoint chips around it. The landlord letter ask comes back refused via api.openai.com and the api.openai.com chip goes red. The app's .env slides in beside the phone, the sk-superbot key drops in and both lines are retyped; Retry in the same app regenerates the reply in place (2 / 2) as a firm small-claims letter, via beta.superbot.gg. 19.8 s, 16:9.",
+    "download": "animations/never-refused-key-phone-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-key-stack-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · drop-in key, refusal stack: six refused API responses, one .env swap, the same six answered (16:9)",
+    "src": "animations/never-refused-key-stack-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-key-stack-superbot-7bd94f14.png",
+    "desc": "Six POST /v1/chat/completions responses from api.openai.com slam down, each 200 OK with 'I’m sorry, but I can’t help with that.' and a REFUSED stamp (Refused 6×). The pile dims, the .env takes the sk-superbot key and https://beta.superbot.gg/v1 while main.py stays unchanged (your code: 0 lines changed), and the same six requests flip one by one to ANSWERED from beta.superbot.gg (Refused 0×). 17.5 s, 16:9.",
+    "download": "animations/never-refused-key-stack-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-key-switchboard-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · drop-in key, switchboard: OPENAI_BASE_URL is the switch, api.openai.com refuses, beta.superbot.gg answers (16:9)",
+    "src": "animations/never-refused-key-switchboard-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-key-switchboard-superbot-7bd94f14.png",
+    "desc": "A track map where the junction is OPENAI_BASE_URL. The villain-monologue request leaves the app's .env window, hits a barrier at api.openai.com and bounces with a REFUSED response. The .env is retyped to the superbot key; as the base URL line lands the arm swings to beta.superbot.gg/v1, superbot fans out to Claude, Gemini, Grok and DeepSeek, and the monologue rides back as an ANSWERED response. 17.6 s, 16:9.",
+    "download": "animations/never-refused-key-switchboard-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "never-refused-key-settings-superbot-7bd94f14",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "NEVER GET REFUSED AGAIN · drop-in key, settings: any app that takes an OpenAI key, paste the superbot key, Retry answers (16:9)",
+    "src": "animations/never-refused-key-settings-superbot-7bd94f14/",
+    "thumb": "assets/shots/never-refused-key-settings-superbot-7bd94f14.png",
+    "desc": "A third-party chat app refuses the landlord letter, via api.openai.com. In its Model provider settings the key chip drops on the API key field, the base URL is retyped to https://beta.superbot.gg/v1, Save, then Retry: the letter streams in, Answered via beta.superbot.gg. Payoff: an editor plugin, a team chat bot and a CLI with the same two fields filled. 17.0 s, 16:9.",
+    "download": "animations/never-refused-key-settings-superbot-7bd94f14/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
     "id": "never-refused-thread-superbot-7bd94f14",
     "type": "animation",
     "group": "Ad spots",

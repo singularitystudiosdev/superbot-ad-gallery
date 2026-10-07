@@ -1469,6 +1469,46 @@
     "downloadLabel": "MP4 4:5"
   },
   {
+    "id": "cursor-api-pricing-cards-16x9-ab187b45",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Cursor charges API pricing · Cursor's chat runs up $4.82, superbot's SUPER toggle flips on in the composer, Superbot makes it charge subscription, the meter reads FREE (cards, 14.4 s, 16:9)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/cursor-api-pricing-cards-16x9-ab187b45/",
+    "thumb": "assets/shots/cursor-api-pricing-cards-16x9-ab187b45.png",
+    "download": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/cursor-api-pricing-cards-16x9-ab187b45/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "cursor-api-pricing-overlay-16x9-ab187b45",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Cursor charges API pricing · headlines over the live Cursor window, the Superbot menu-bar switch bills Cursor to your subscription, $9.36 becomes FREE (overlay, 12 s, 16:9)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/cursor-api-pricing-overlay-16x9-ab187b45/",
+    "thumb": "assets/shots/cursor-api-pricing-overlay-16x9-ab187b45.png",
+    "download": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/cursor-api-pricing-overlay-16x9-ab187b45/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
+    "id": "cursor-api-pricing-converge-4x5-ab187b45",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Cursor charges API pricing · the $6.16 pill is thrown out of Cursor's meter, a Superbot switch is flipped, Superbot makes it charge subscription, the pill reads FREE (converge, 14.4 s, 4:5)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/cursor-api-pricing-converge-4x5-ab187b45/",
+    "thumb": "assets/shots/cursor-api-pricing-converge-4x5-ab187b45.png",
+    "download": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/cursor-api-pricing-converge-4x5-ab187b45/final.mp4",
+    "downloadLabel": "MP4 4:5"
+  },
+  {
+    "id": "cursor-api-pricing-picker-1x1-ab187b45",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Cursor charges API pricing · a Superbot row in Cursor's own model picker switches it to your subscription, $13.82 becomes FREE (picker, 12 s, 1:1)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/cursor-api-pricing-picker-1x1-ab187b45/",
+    "thumb": "assets/shots/cursor-api-pricing-picker-1x1-ab187b45.png",
+    "download": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/cursor-api-pricing-picker-1x1-ab187b45/final.mp4",
+    "downloadLabel": "MP4 1:1"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

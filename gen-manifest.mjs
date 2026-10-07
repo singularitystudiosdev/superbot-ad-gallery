@@ -587,6 +587,18 @@ const realUi = [
     { download: `${REAL_UI}apikey-for-subscriptions-superbot-027da5ad/final-b.mp4`, downloadLabel: 'MP4 4:5' }],
   ['apikey-for-subscriptions-superbot-027da5ad-c', 'The api key, for your subscriptions · the key is typed in, a gradient wipe ends in a glint, a band wipes to superbot.gg (type, 15 s, 4:5)', 'apikey-for-subscriptions-superbot-027da5ad/?v=c',
     { download: `${REAL_UI}apikey-for-subscriptions-superbot-027da5ad/final-c.mp4`, downloadLabel: 'MP4 4:5' }],
+  // >>> cursor-api-pricing-ab187b45 (mirror)
+  // Cursor charges API pricing (2026-10-07, ab187b45): mirrored from Real UI, four cuts (cards 16:9, overlay 16:9,
+  // converge 4:5, picker 1:1); source quick-chats/cursor-api-toggle.ab187b45.
+  ["cursor-api-pricing-cards-16x9-ab187b45", "Cursor charges API pricing · Cursor's chat runs up $4.82, superbot's SUPER toggle flips on in the composer, Superbot makes it charge subscription, the meter reads FREE (cards, 14.4 s, 16:9)", "cursor-api-pricing-cards-16x9-ab187b45/",
+    { download: `${REAL_UI}cursor-api-pricing-cards-16x9-ab187b45/final.mp4`, downloadLabel: 'MP4 16:9' }],
+  ["cursor-api-pricing-overlay-16x9-ab187b45", "Cursor charges API pricing · headlines over the live Cursor window, the Superbot menu-bar switch bills Cursor to your subscription, $9.36 becomes FREE (overlay, 12 s, 16:9)", "cursor-api-pricing-overlay-16x9-ab187b45/",
+    { download: `${REAL_UI}cursor-api-pricing-overlay-16x9-ab187b45/final.mp4`, downloadLabel: 'MP4 16:9' }],
+  ["cursor-api-pricing-converge-4x5-ab187b45", "Cursor charges API pricing · the $6.16 pill is thrown out of Cursor's meter, a Superbot switch is flipped, Superbot makes it charge subscription, the pill reads FREE (converge, 14.4 s, 4:5)", "cursor-api-pricing-converge-4x5-ab187b45/",
+    { download: `${REAL_UI}cursor-api-pricing-converge-4x5-ab187b45/final.mp4`, downloadLabel: 'MP4 4:5' }],
+  ["cursor-api-pricing-picker-1x1-ab187b45", "Cursor charges API pricing · a Superbot row in Cursor's own model picker switches it to your subscription, $13.82 becomes FREE (picker, 12 s, 1:1)", "cursor-api-pricing-picker-1x1-ab187b45/",
+    { download: `${REAL_UI}cursor-api-pricing-picker-1x1-ab187b45/final.mp4`, downloadLabel: 'MP4 1:1' }],
+  // <<< cursor-api-pricing-ab187b45 (mirror)
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

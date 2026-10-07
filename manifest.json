@@ -1439,6 +1439,36 @@
     "thumb": "assets/shots/niche-youtube-model-switch-detail-superbot-3a8678e2.png"
   },
   {
+    "id": "apikey-for-subscriptions-superbot-027da5ad-a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "The api key, for your subscriptions · the superbot key decodes on its Key minted card, Copy clicks to Copied, then superbot.gg (mint, 15 s, 4:5)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/apikey-for-subscriptions-superbot-027da5ad/?v=a",
+    "thumb": "assets/shots/apikey-for-subscriptions-superbot-027da5ad-a.png",
+    "download": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/apikey-for-subscriptions-superbot-027da5ad/final-a.mp4",
+    "downloadLabel": "MP4 4:5"
+  },
+  {
+    "id": "apikey-for-subscriptions-superbot-027da5ad-b",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "The api key, for your subscriptions · a tilting holo key card with a drifting gradient, the mascot carries into superbot.gg (holo, 15 s, 4:5)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/apikey-for-subscriptions-superbot-027da5ad/?v=b",
+    "thumb": "assets/shots/apikey-for-subscriptions-superbot-027da5ad-b.png",
+    "download": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/apikey-for-subscriptions-superbot-027da5ad/final-b.mp4",
+    "downloadLabel": "MP4 4:5"
+  },
+  {
+    "id": "apikey-for-subscriptions-superbot-027da5ad-c",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "The api key, for your subscriptions · the key is typed in, a gradient wipe ends in a glint, a band wipes to superbot.gg (type, 15 s, 4:5)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/apikey-for-subscriptions-superbot-027da5ad/?v=c",
+    "thumb": "assets/shots/apikey-for-subscriptions-superbot-027da5ad-c.png",
+    "download": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/apikey-for-subscriptions-superbot-027da5ad/final-c.mp4",
+    "downloadLabel": "MP4 4:5"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

@@ -578,10 +578,20 @@ const realUi = [
   // answers it, ElevenLabs Voice Isolator measures the 7:05 room test for the pinned answer, Claude Opus 5.5 writes the
   // replies, YouTube Studio posts and pins. Thumbnail and charts drawn for the spot.
   ['niche-youtube-model-switch-detail-superbot-3a8678e2', 'Answer the top comments and pin the best one, in detail: Gemini finds each answer in the video, ElevenLabs measures the pinned one, Opus 5.5 writes, YouTube Studio pins (16:9)'],
+  // The api key, for your subscriptions (2026-10-07, 027da5ad): mirrored from Real UI, three cuts of one two-beat 4:5
+  // spot (15 s, with sound): the superbot key in a purple, pink and blue gradient with a shine on the app's Key minted
+  // card, the mascot to its right, the real Copy button clicked to Copied; then superbot.gg with the mascot to its right.
+  ['apikey-for-subscriptions-superbot-027da5ad-a', 'The api key, for your subscriptions · the superbot key decodes on its Key minted card, Copy clicks to Copied, then superbot.gg (mint, 15 s, 4:5)', 'apikey-for-subscriptions-superbot-027da5ad/?v=a',
+    { download: `${REAL_UI}apikey-for-subscriptions-superbot-027da5ad/final-a.mp4`, downloadLabel: 'MP4 4:5' }],
+  ['apikey-for-subscriptions-superbot-027da5ad-b', 'The api key, for your subscriptions · a tilting holo key card with a drifting gradient, the mascot carries into superbot.gg (holo, 15 s, 4:5)', 'apikey-for-subscriptions-superbot-027da5ad/?v=b',
+    { download: `${REAL_UI}apikey-for-subscriptions-superbot-027da5ad/final-b.mp4`, downloadLabel: 'MP4 4:5' }],
+  ['apikey-for-subscriptions-superbot-027da5ad-c', 'The api key, for your subscriptions · the key is typed in, a gradient wipe ends in a glint, a band wipes to superbot.gg (type, 15 s, 4:5)', 'apikey-for-subscriptions-superbot-027da5ad/?v=c',
+    { download: `${REAL_UI}apikey-for-subscriptions-superbot-027da5ad/final-c.mp4`, downloadLabel: 'MP4 4:5' }],
 ];
-for (const [name, title, path] of realUi) {
+// an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
+for (const [name, title, path, extra] of realUi) {
   items.push({ id: name, type: 'animation', group: 'Ad spots', title, src: `${REAL_UI}${path || name + '/'}`,
-    thumb: `assets/shots/${name}.png` });
+    thumb: `assets/shots/${name}.png`, ...(extra || {}) });
 }
 
 for (const g of groups.filter(g => g.group === ONLY_GROUP)) {

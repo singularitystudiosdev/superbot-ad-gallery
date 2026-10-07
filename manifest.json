@@ -474,50 +474,6 @@
     "downloadLabel": "16:9"
   },
   {
-    "id": "memory-cleanup-panel-16x9-eecd8fdc",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "One download, your prompts become 3x cheaper · panel: a Saved memories list fills up, superbot walks it and clears the clutter (16.8 s, 16:9)",
-    "src": "animations/memory-cleanup-panel-16x9-eecd8fdc/",
-    "thumb": "assets/shots/memory-cleanup-panel-16x9-eecd8fdc.png",
-    "desc": "A desktop Saved memories list fills month by month until it reads Memory almost full and the bar of what rides along with every prompt turns red. The superbot mascot rides the window edge bottom-up, tagging each Duplicate, Outdated, Conflict and One-off row, striking it and collapsing it, until 6 memories are left and the bar sits at one third: 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
-    "download": "animations/memory-cleanup-panel-16x9-eecd8fdc/final.mp4",
-    "downloadLabel": "16:9"
-  },
-  {
-    "id": "memory-cleanup-payload-16x9-eecd8fdc",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "One download, your prompts become 3x cheaper · payload: the memory file every prompt drags along, as a diff superbot trims (16.8 s, 16:9)",
-    "src": "animations/memory-cleanup-payload-16x9-eecd8fdc/",
-    "thumb": "assets/shots/memory-cleanup-payload-16x9-eecd8fdc.png",
-    "desc": "The prompt on the left, and on the right the memory.md every prompt drags along, drawn as a diff: each saved memory lands as a green + line and the card grows down the frame to +16. The superbot mascot perches on the card, marks the repeats, the stale facts and the one-off asks red, they collapse out (−10) and the six that matter stay, with the meter at one third: 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
-    "download": "animations/memory-cleanup-payload-16x9-eecd8fdc/final.mp4",
-    "downloadLabel": "16:9"
-  },
-  {
-    "id": "memory-cleanup-pile-16x9-eecd8fdc",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "One download, your prompts become 3x cheaper · pile: saved memories fall into a heap, superbot knocks the clutter off (16.8 s, 16:9)",
-    "src": "animations/memory-cleanup-pile-16x9-eecd8fdc/",
-    "thumb": "assets/shots/memory-cleanup-pile-16x9-eecd8fdc.png",
-    "desc": "Every saved memory falls in as a card and the pile climbs toward the headline. The superbot mascot walks down the pile and knocks the repeats, the stale facts and the one-off asks off to the left and right; the six that matter square up into a neat stack under 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
-    "download": "animations/memory-cleanup-pile-16x9-eecd8fdc/final.mp4",
-    "downloadLabel": "16:9"
-  },
-  {
-    "id": "memory-cleanup-contextbar-16x9-eecd8fdc",
-    "type": "animation",
-    "group": "Ad spots",
-    "title": "One download, your prompts become 3x cheaper · context bar: memories fill what every prompt sends, superbot cuts it to a third (16.8 s, 16:9)",
-    "src": "animations/memory-cleanup-contextbar-16x9-eecd8fdc/",
-    "thumb": "assets/shots/memory-cleanup-contextbar-16x9-eecd8fdc.png",
-    "desc": "The context sent with every prompt as one bar: a segment per saved memory as the months tick from Jan to Oct, the memories as chips below, until it reads 100% and Memory almost full. The superbot mascot sits on the end of the bar and pulls the ten stale and repeated chips in; the segments close up and the bar drops to 33%: 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
-    "download": "animations/memory-cleanup-contextbar-16x9-eecd8fdc/final.mp4",
-    "downloadLabel": "16:9"
-  },
-  {
     "id": "refusal-relay-visual-16x9-8d1a06d2",
     "type": "animation",
     "group": "Ad spots",

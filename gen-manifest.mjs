@@ -254,31 +254,20 @@ const more = [
     { desc: 'Six account pills dock into the notches of a rotary key ring and its face resolves one sbc_ API key. Each request drops into the dial and it turns to the model for the job: Claude Opus 5.5 for a hard refactor, Gemini 3.1 Pro for three PDFs, DeepSeek V4 for a quick rename. 24 s, 4:5 and 16:9, with sound.',
       download: 'animations/onekey-dial-4x5-0d6132a7/final.mp4', downloadLabel: 'MP4 4:5',
       downloads: { '4x5': 'animations/onekey-dial-4x5-0d6132a7/final.mp4', '16x9': 'animations/onekey-dial-4x5-0d6132a7/final-16x9.mp4' } }],
-  // One download, your prompts become 3x cheaper (2026-10-06, chat 5cfcc4aa): five 16:9 treatments of one script on
-  // one 16.8 s timeline (7 bars at 100 bpm), 1920x1080, 30 fps, synthesized score plus per-variant SFX, on the
+  // One download, your prompts become 3x cheaper (2026-10-06, chat 5cfcc4aa): the phone cut, kept from five 16:9
+  // treatments (panel, payload, pile and context bar were scrapped by the user the same day; this one runs as X campaign
+  // 42669394, $30/day). One 16.8 s timeline (7 bars at 100 bpm), 1920x1080, 30 fps, synthesized score plus SFX, on the
   // converge ad's stage grammar (every-model-converge 398eded5: #070707, Mona Sans Wide headline, ghost rows, dark
   // pills), the efa8df82 desktop thread look and the bikeride honda-cog e13744a9 end lockup (word, mascot to the
   // right). Copy verbatim: One download, your prompts become 3x cheaper. / This is how we do it / Most LLMs save
   // memories about you / These memories build up over time / Superbot cleans it all up! / Download now. The memories
   // are one scripted demo set (16 saved; 10 repeats, stale facts, a conflict and one-off asks removed; 6 kept) and the
   // meter is (live - 1) / 15, so the 6 kept sit at exactly one third. Source in
-  // quick-chats/superbot-memory-cleanup-16x9.eecd8fdc (scenes/engine.js + v1..v5). Answers the r/LLM rank-1
+  // quick-chats/superbot-memory-cleanup-16x9.eecd8fdc (scenes/engine.js + v1). Answers the r/LLM rank-1
   // complaint usage-limits-pricing (sell-to-reddit llm_ai, 30 days, 5,816 authors; leaf high-token-costs). 16:9 only.
   ["memory-cleanup-phone-16x9-eecd8fdc", "memory-cleanup-phone-16x9-eecd8fdc/", "One download, your prompts become 3x cheaper · phone: the memories a chat app saves are thrown out as pills, superbot swallows the clutter (16.8 s, 16:9)", 'Ad spots',
     { desc: "A chat app on a tilted phone says Memory updated sixteen times and every saved memory is thrown out of the phone as a pill until they crowd the frame: the same preference three times, an old address, Python 3.9, one-off asks. The superbot mascot pops out of the phone, strikes the ten that no longer matter and swallows them; the six that matter line up and the result reads 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
       download: "animations/memory-cleanup-phone-16x9-eecd8fdc/final.mp4", downloadLabel: '16:9' }],
-  ["memory-cleanup-panel-16x9-eecd8fdc", "memory-cleanup-panel-16x9-eecd8fdc/", "One download, your prompts become 3x cheaper · panel: a Saved memories list fills up, superbot walks it and clears the clutter (16.8 s, 16:9)", 'Ad spots',
-    { desc: "A desktop Saved memories list fills month by month until it reads Memory almost full and the bar of what rides along with every prompt turns red. The superbot mascot rides the window edge bottom-up, tagging each Duplicate, Outdated, Conflict and One-off row, striking it and collapsing it, until 6 memories are left and the bar sits at one third: 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
-      download: "animations/memory-cleanup-panel-16x9-eecd8fdc/final.mp4", downloadLabel: '16:9' }],
-  ["memory-cleanup-payload-16x9-eecd8fdc", "memory-cleanup-payload-16x9-eecd8fdc/", "One download, your prompts become 3x cheaper · payload: the memory file every prompt drags along, as a diff superbot trims (16.8 s, 16:9)", 'Ad spots',
-    { desc: "The prompt on the left, and on the right the memory.md every prompt drags along, drawn as a diff: each saved memory lands as a green + line and the card grows down the frame to +16. The superbot mascot perches on the card, marks the repeats, the stale facts and the one-off asks red, they collapse out (−10) and the six that matter stay, with the meter at one third: 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
-      download: "animations/memory-cleanup-payload-16x9-eecd8fdc/final.mp4", downloadLabel: '16:9' }],
-  ["memory-cleanup-pile-16x9-eecd8fdc", "memory-cleanup-pile-16x9-eecd8fdc/", "One download, your prompts become 3x cheaper · pile: saved memories fall into a heap, superbot knocks the clutter off (16.8 s, 16:9)", 'Ad spots',
-    { desc: "Every saved memory falls in as a card and the pile climbs toward the headline. The superbot mascot walks down the pile and knocks the repeats, the stale facts and the one-off asks off to the left and right; the six that matter square up into a neat stack under 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
-      download: "animations/memory-cleanup-pile-16x9-eecd8fdc/final.mp4", downloadLabel: '16:9' }],
-  ["memory-cleanup-contextbar-16x9-eecd8fdc", "memory-cleanup-contextbar-16x9-eecd8fdc/", "One download, your prompts become 3x cheaper · context bar: memories fill what every prompt sends, superbot cuts it to a third (16.8 s, 16:9)", 'Ad spots',
-    { desc: "The context sent with every prompt as one bar: a segment per saved memory as the months tick from Jan to Oct, the memories as chips below, until it reads 100% and Memory almost full. The superbot mascot sits on the end of the bar and pulls the ten stale and repeated chips in; the segments close up and the bar drops to 33%: 3x cheaper. Ends on Download now with the mascot to the right. 1920x1080, 30 fps, with sound.",
-      download: "animations/memory-cleanup-contextbar-16x9-eecd8fdc/final.mp4", downloadLabel: '16:9' }],
   // A refusal, relayed (2026-10-06, chat 8d1a06d2): five 16:9 films of one claim, a Claude or ChatGPT refusal on
   // your machine is relayed through Superbot, which switches the model, so you never get refused again. Told five
   // ways (visual dial, kinetic words, live desktop thread, Cog chain reaction, side by side) on one kit built from

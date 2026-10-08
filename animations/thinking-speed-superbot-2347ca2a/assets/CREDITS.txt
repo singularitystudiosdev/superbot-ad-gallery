@@ -1,0 +1,5 @@
+source: https://www.youtube.com/watch?v=zu6jr9WF7ZI
+title: IM FAST AS F*** BOI (SOUND EFFECT)(non copyright)
+channel: Effects4YouTube
+retrieved: 2026-10-08 via yt-dlp (player_client=mweb)
+edit: "fuck" (4.390-4.765 s of the clip) replaced by a 1 kHz tone, 5 ms fades; clip delayed 0.23 s, padded to 8.2 s; -13.7 LUFS, -1.3 dBFS peak

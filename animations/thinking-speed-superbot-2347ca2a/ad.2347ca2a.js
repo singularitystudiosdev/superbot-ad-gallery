@@ -138,15 +138,57 @@ if (freeze) document.body.classList.add('freeze');
 let paused = freeze, offset = hasT ? parseFloat(q.get('t')) || 0 : 0, t0 = performance.now();
 const clockNow = () => (paused ? offset : offset + (performance.now() - t0) / 1000);
 const wrapT = (t) => ((t % CYCLE) + CYCLE) % CYCLE;
-const restart = () => { offset = 0; t0 = performance.now(); paused = false; };
+const restart = () => { offset = 0; t0 = performance.now(); paused = false; stopSource(); };
+
+// ---------- sound: the bleeped "I'm fast as f*** boi" track, already cut to the cycle (track time = ad time) ----------
+// Browsers refuse audible autoplay, so the first click or key anywhere turns it on. Web Audio, not <audio>: each
+// loop starts one buffer source at the ad clock's offset (ahead by the output latency) and it is never re-seeked
+// inside the loop, so it cannot skip; pausing the clock (space, arrows, ?t=, seek()) stops it.
+const actx = new AudioContext();
+let buffer = null, source = null, sourceLoop = -1, soundOn = false;
+fetch('assets/actual-speed.2347ca2a.m4a')
+  .then((r) => { if (!r.ok) throw new Error(`sound: HTTP ${r.status}`); return r.arrayBuffer(); })
+  .then((bytes) => actx.decodeAudioData(bytes))
+  .then((decoded) => { buffer = decoded; })
+  .catch((err) => console.error('sound: the track failed to load', err));
+const soundBtn = document.querySelector('.sound');
+function stopSource() {
+  if (source) { source.stop(); source.disconnect(); source = null; }
+  sourceLoop = -1;
+}
+function setSound(on) {
+  soundOn = on;
+  soundBtn.setAttribute('aria-pressed', String(on));
+  soundBtn.textContent = on ? 'sound on' : 'sound off · click anywhere';
+  if (on) actx.resume().catch((err) => { console.error('sound: the audio context refused to start', err); setSound(false); });
+  else stopSource();
+}
+function syncAudio() {
+  if (!soundOn || paused || !buffer || actx.state !== 'running') { stopSource(); return; }
+  const raw = clockNow(), loop = Math.floor(raw / CYCLE);
+  if (loop === sourceLoop) return;
+  stopSource();
+  const at = Math.min(buffer.duration, raw - loop * CYCLE + (actx.outputLatency || actx.baseLatency || 0));
+  source = actx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(actx.destination);
+  source.start(0, at);
+  sourceLoop = loop;
+}
+addEventListener('pointerdown', (e) => { if (!soundOn && !e.target.closest('.ctrls')) setSound(true); });
+soundBtn.addEventListener('click', () => setSound(!soundOn));
+
 addEventListener('keydown', (e) => {
+  if (!soundOn && !freeze && e.key !== 'm' && e.key !== 'M') setSound(true);
   if (e.key === ' ') { e.preventDefault(); if (paused) { paused = false; t0 = performance.now(); } else { offset = clockNow(); paused = true; } }
   else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { offset = Math.max(0, clockNow() + (e.key === 'ArrowRight' ? 0.25 : -0.25)); paused = true; }
   else if (e.key === 'r' || e.key === 'R') restart();
+  else if (e.key === 'm' || e.key === 'M') setSound(!soundOn);
 });
-document.querySelector('.replay').addEventListener('click', restart);
+document.querySelector('.replay').addEventListener('click', () => { setSound(true); restart(); });
 function frame() {
   if (!paused) render(Math.round(wrapT(clockNow()) * FPS) / FPS % CYCLE);
+  syncAudio();
   requestAnimationFrame(frame);
 }
 render(wrapT(offset));
@@ -155,6 +197,7 @@ window.__AD = {
   ar: AR, CYCLE, ready: true,
   // frame-exact export and QA: pause the clock and draw t now
   seek(t) { paused = true; offset = t; render(wrapT(t)); },
-  // QA: the stream's script and the chunks it reveals
+  // QA: the stream's script and the chunks it reveals, and where the sound is against the ad clock
   stream: () => ({ texts: R.scene.texts.length, events: R.scene.events.length }),
+  sound: () => ({ on: soundOn, playing: !!source, ctx: actx.state, loop: sourceLoop, loaded: !!buffer, adT: wrapT(clockNow()) }),
 };

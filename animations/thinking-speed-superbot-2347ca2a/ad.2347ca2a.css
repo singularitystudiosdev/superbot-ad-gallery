@@ -31,8 +31,10 @@ svg { flex: none; }
 
 /* ---------- chrome outside the stage ---------- */
 .hint { position: fixed; right: 18px; bottom: 14px; font-size: 11px; color: #aeb1bc; opacity: .6; user-select: none; }
-.replay { position: fixed; left: 18px; bottom: 10px; padding: 4px 10px; font: 500 11px/1.4 var(--ui); color: #aeb1bc;
+.ctrls { position: fixed; left: 18px; bottom: 10px; display: flex; gap: 8px; }
+.ctrls button { min-height: 24px; padding: 4px 10px; font: 500 11px/1.4 var(--ui); color: #aeb1bc;
   background: rgb(255 255 255 / .06); border: 1px solid rgb(255 255 255 / .12); border-radius: 999px; opacity: .7; cursor: pointer; }
-.replay:hover { opacity: 1; color: #fff; }
-.replay:focus-visible { outline: 2px solid #7a4dff; outline-offset: 2px; }
-body.freeze .hint, body.freeze .replay { display: none; }
+.ctrls button:hover { opacity: 1; color: #fff; }
+.ctrls button:focus-visible { outline: 2px solid #7a4dff; outline-offset: 2px; }
+.ctrls .sound[aria-pressed="true"] { color: #fff; border-color: rgb(122 77 255 / .7); }
+body.freeze .hint, body.freeze .ctrls { display: none; }

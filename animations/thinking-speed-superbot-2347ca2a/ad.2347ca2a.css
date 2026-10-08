@@ -1,0 +1,38 @@
+/* thinking-speed-superbot-2347ca2a: the stage and end card of stop-api-pricing-superbot-e65959ff
+   (superbot-ad-gallery-real-ui, animations/stop-api-pricing-superbot-e65959ff/ad.e65959ff.css), with the
+   "Thinking · 11s" screenshot as the only scene. Nothing here animates on its own: every moving value is
+   written per frame by ad.2347ca2a.js. */
+:root {
+  --fg: #e6e8ee;
+  --ui: "SF Pro Rounded", ui-rounded, Inter, system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antialiased; }
+
+/* width follows ?ar= (set by the script); height is always 1080 */
+#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 50% 50%; background: #000; overflow: hidden; }
+.layer { position: absolute; inset: 0; }
+#dip { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; z-index: 50; }
+svg { flex: none; }
+
+/* ---------- beat 1: image 1, live (the .tv scene, think.2347ca2a.css), placed by the script ---------- */
+
+/* ---------- beat 2: the end card (reference #s-end lock-up) ---------- */
+.end { display: grid; place-items: center; visibility: hidden; }
+.end .lock { display: flex; align-items: center; gap: 44px; transform-origin: 50% 50%; }
+.end .face { flex: none; width: 220px; height: 220px; display: grid; place-items: center; }
+/* the clip box holds superbot.gg's descenders (p, g), ~8px under the 128px line box; the negative margin
+   cancels the extra padding so the lock-up sits where it would without it (reference note, verbatim values) */
+.end .words { overflow: hidden; padding: 1px 1px 32px; margin-bottom: -30.4px; }
+.end h1 { margin: 0; font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #fff; }
+/* happy eyes are set per frame; the source's wall-clock happy bob would break frame-exact seeking */
+.sb-mark.is-happy { animation: none; }
+
+/* ---------- chrome outside the stage ---------- */
+.hint { position: fixed; right: 18px; bottom: 14px; font-size: 11px; color: #aeb1bc; opacity: .6; user-select: none; }
+.replay { position: fixed; left: 18px; bottom: 10px; padding: 4px 10px; font: 500 11px/1.4 var(--ui); color: #aeb1bc;
+  background: rgb(255 255 255 / .06); border: 1px solid rgb(255 255 255 / .12); border-radius: 999px; opacity: .7; cursor: pointer; }
+.replay:hover { opacity: 1; color: #fff; }
+.replay:focus-visible { outline: 2px solid #7a4dff; outline-offset: 2px; }
+body.freeze .hint, body.freeze .replay { display: none; }

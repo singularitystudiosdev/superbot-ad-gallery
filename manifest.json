@@ -655,6 +655,23 @@
     }
   },
   {
+    "id": "thinking-speed-superbot-2347ca2a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "actual speed · superbot thinks through about ten asks a second, Thinking · 11s, hard cut to superbot.gg with the mascot (8.2 s, 16:9)",
+    "src": "animations/thinking-speed-superbot-2347ca2a/",
+    "thumb": "assets/shots/thinking-speed-superbot-2347ca2a.png",
+    "desc": "The superbot mascot thinks beside superbot-desktop's thinking bubble, the thought-variants/b page at its actual speed: Jev's asks stream through at about ten thoughts a second on the desktop's own pacer (whole-word reveal, 80 ms word fade, 100 ms line glide) while the clock runs up to Thinking · 11s under the hand-lettered note, actual speed. The last frame before the cut is the user's screenshot of that page (toward it, but I can't promise it. / They're asking: “Schedule a meeting with my team next Tuesday”). At 5 s a hard cut to the stop-api-pricing-superbot-e65959ff end card: the mascot pops, superbot.gg slides out from behind it, happy eyes once. 8.2 s, 1920x1080, 60 fps, no sound; 4:3, 1:1 and 4:5 recompositions through ?ar=. Market: sell-to-reddit llm_ai speed-local-hardware (\"Speed and local hardware\", rank 4, 2,696 authors in 30 days, rising, data as of 2026-10-05). Thoughts are thought-variants/b's thoughts.js, verbatim. Source quick-chats/superbot-thinking-cut.2347ca2a.",
+    "download": "animations/thinking-speed-superbot-2347ca2a/final.mp4",
+    "downloadLabel": "MP4 16:9",
+    "downloads": {
+      "16x9": "animations/thinking-speed-superbot-2347ca2a/final.mp4",
+      "4x3": "animations/thinking-speed-superbot-2347ca2a/final-4x3.mp4",
+      "1x1": "animations/thinking-speed-superbot-2347ca2a/final-1x1.mp4",
+      "4x5": "animations/thinking-speed-superbot-2347ca2a/final-4x5.mp4"
+    }
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

@@ -1,0 +1,109 @@
+/* think.2347ca2a.css: thought-variants/b's page, the part image 1 shows, scoped under .tv (page px, 1456 wide).
+   Marks and mascot from its styles.css; the bubble from its desk-thought.css (itself superbot-desktop's
+   thought-bubble.css, sonar-trace.css and status-swap.css), rules verbatim. Two changes: the bubble's CSS
+   animations (word fade, line glide, label sheen) are written per frame by think.2347ca2a.js instead, and its
+   Inter is loaded as "Inter TV" so the end card's font stack (which names Inter) is not changed by it. */
+@font-face { font-family: "Inter TV"; src: url("assets/fonts/Inter-Regular.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Caveat"; src: url("assets/fonts/Caveat-latin.woff2") format("woff2"); font-weight: 400 700; font-display: block; }
+
+/* the page's stage, cropped to image 1's band (y 0-280 of its 1456x819) */
+.tv { position: absolute; left: 0; top: 0; width: 1456px; height: 280px; overflow: hidden; transform-origin: 0 0; color: #fff; }
+.tv > * { position: absolute; }
+
+/* ---- styles.css: background marks ---- */
+.tv .marks, .tv .marks > * { position: absolute; }
+.tv .marks { inset: 0; pointer-events: none; }
+.tv .plus { width: 33.4px; height: 32.7px; filter: blur(0.45px); }
+.tv .plus::before, .tv .plus::after { content: ""; position: absolute; background: currentColor; }
+.tv .plus::before { left: 0; right: 0; top: 15.5px; height: 5.2px; }
+.tv .plus::after { top: 0; bottom: 0; left: 14.1px; width: 5.2px; }
+.tv .plus-a { left: 499.2px; top: -1.2px; color: #424242; }
+.tv .plus-b { left: 1085.4px; top: 784.6px; color: #121212; filter: blur(1px); }
+.tv .sq { width: 10px; height: 12px; background: #111111; filter: blur(1px); }
+.tv .sq-a { left: 117.5px; top: 89.5px; }
+.tv .sq-b { left: 976.5px; top: 88.5px; width: 12px; height: 13px; background: #383838; filter: blur(0.6px); }
+.tv .sq-c { left: 1095px; top: 417px; }
+.tv .sq-d { left: 937px; top: 221.5px; width: 12px; height: 13px; background: #2a2a2a; filter: blur(0.6px); }
+.tv .dot { left: 396.5px; top: 367px; width: 2px; height: 2px; background: #3a3a3a; }
+
+/* ---- styles.css: the mascot ---- */
+.tv .mascot { left: 0; top: 0; width: 340px; height: 320px; }
+.tv .mark { position: absolute; left: 13.8px; top: 26.9px; width: 280px; height: 280px; overflow: visible; }
+.tv .mark .ghost-teal { transform: translate(-1.2px, -1.4px); }
+.tv .mark .ghost-magenta { transform: translate(0.8px, 0.8px); }
+
+/* ---- desk-thought.css ---- */
+.tv .desk-thought {
+  --color-bg: #000000;
+  --color-raised: #101013;
+  --color-fg: #e6e8ee;
+  --color-fg-secondary: #c9ccd4;
+  --color-muted: #aeb1bc;
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-24: 24px;
+  --radius-16: 16px;
+  --radius-pill: 9999px;
+  --font-ui: "SF Pro Rounded", ui-rounded, "Inter TV", system-ui, sans-serif;
+  --text-body: 13px;
+  --text-body--line-height: 19px;
+  --text-body--font-weight: 400;
+  --size-measure: 600px;
+  --sb-thought-rows: 3;
+  /* where image 1's chat bar was: the bubble spans the bar's x 306-1410, centred on y 170 */
+  display: block;
+  position: absolute;
+  left: 276.6px;
+  top: 170px;
+  transform: translateY(-50%) scale(1.84);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+.tv .sb-thought-bubble { inline-size: var(--size-measure); }
+
+/* "actual speed": the hand-lettered note over the bubble's right end, the arrow drawn black, shown white */
+.tv .speed-note { position: absolute; left: 1050.7px; top: -31.3px; width: 360px; height: 120px; pointer-events: none; }
+.tv .speed-arrow { position: absolute; left: 0; top: 0; width: 150px; height: 150px; filter: invert(1); }
+.tv .speed-text { position: absolute; left: 150px; top: 44px; font: 600 40px/1 "Caveat", cursive; color: #ffffff; white-space: nowrap; transform: rotate(-4deg); transform-origin: 0 50%; }
+
+.tv .sb-thought { display: flex; align-items: center; gap: var(--spacing-4); flex: 0 1 auto; min-inline-size: 0; max-inline-size: 100%; }
+.tv .sb-thought-tail { position: relative; flex: none; inline-size: var(--spacing-12); block-size: var(--spacing-24); }
+.tv .sb-thought-dot { position: absolute; inset-inline-end: 0; inset-block-start: var(--spacing-4); inline-size: var(--spacing-6); block-size: var(--spacing-6); border-radius: var(--radius-pill); background: var(--color-muted); }
+.tv .sb-thought-dot[data-size="small"] { inset-inline-end: auto; inset-inline-start: 0; inset-block-start: var(--spacing-12); inline-size: var(--spacing-4); block-size: var(--spacing-4); }
+.tv .sb-thought-bubble {
+  position: relative; isolation: isolate; display: flex; flex-direction: column; gap: var(--spacing-4);
+  min-inline-size: 0; max-inline-size: var(--size-measure); padding: var(--spacing-8) var(--spacing-12); border-radius: var(--radius-16);
+  font-family: var(--font-ui); font-size: var(--text-body); line-height: var(--text-body--line-height); font-weight: var(--text-body--font-weight);
+}
+.tv .sb-thought-bubble::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--color-raised); pointer-events: none; }
+.tv .sb-thought-head { display: flex; align-items: center; gap: var(--spacing-8); min-inline-size: 0; color: var(--color-fg); }
+.tv .sb-thought-lines {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+  max-block-size: calc(var(--sb-thought-rows, 6) * var(--text-body--line-height)); overflow: hidden; pointer-events: none;
+}
+.tv .sb-thought-lines[data-clipped="true"] {
+  mask-image: linear-gradient(
+    to bottom,
+    color-mix(in oklch, var(--color-fg) clamp(25%, calc((2 - var(--sb-thought-rows, 6)) * 75% + 25%), 100%), transparent),
+    var(--color-fg) var(--text-body--line-height)
+  );
+}
+.tv .sb-thought-layer { margin-block-end: auto; }
+.tv .sb-thought-text { margin: 0; color: var(--color-fg); overflow-wrap: anywhere; white-space: pre-wrap; }
+
+/* ---- the head row: sonar-trace.css .sb-sonar-label / .sb-sonar-clock, status-swap.css's line box ---- */
+.tv .sb-sonar-label { flex: 0 1 auto; min-inline-size: 0; font-size: var(--text-body); line-height: var(--text-body--line-height); font-weight: var(--text-body--font-weight); color: var(--color-fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tv .sb-swap-line { display: block; position: relative; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* the live sheen: muted -> fg -> muted on a 220% tile, stepped 24 per 1.8 s (position written per frame) */
+.tv .sb-thought[data-live="true"] .sb-sonar-label .sb-swap-line {
+  color: transparent;
+  background: linear-gradient(90deg, var(--color-muted) 0%, var(--color-muted) 35%, var(--color-fg) 50%, var(--color-muted) 65%, var(--color-muted) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.tv .sb-sonar-clock { margin-inline-start: calc(var(--spacing-8) * -1); display: inline-flex; align-items: baseline; flex: none; font-size: var(--text-body); line-height: var(--text-body--line-height); color: var(--color-muted); white-space: nowrap; }
+.tv .sb-sonar-clock-sep { white-space: pre; }
+.tv .sb-sonar-clock-digits { display: inline-block; font-variant-numeric: tabular-nums; }

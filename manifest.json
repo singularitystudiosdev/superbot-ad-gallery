@@ -672,6 +672,48 @@
     }
   },
   {
+    "id": "hood-mask-tavus-b2e2e147",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Hooded mask: no refusals, this fast (Tavus)",
+    "src": "animations/hood-mask-tavus-b2e2e147/",
+    "thumb": "assets/shots/hood-mask-tavus-b2e2e147.png",
+    "desc": "A hooded figure in the superbot cat mask says \"superbot has no refusals\" and \"and it is this fast\" while the real superbot thinking bubble streams at actual speed beside him. Ends on a download call to action at superbot.gg. 12.0 s, 1920x1080, 30 fps, with sound (-14.2 LUFS, -1.5 dB peak). Market: sell-to-reddit llm_ai pain_points, rank 2 \"Output quality, regressions and refusals\" (4,206 authors in 30 days, rising) and rank 4 \"Speed and local hardware\" (2,696 authors in 30 days, rising), data as of 2026-10-05. Source quick-chats/superbot-hood-mask-ad.b2e2e147, variant v1 (Tavus).",
+    "download": "animations/hood-mask-tavus-b2e2e147/final.mp4",
+    "downloadLabel": "MP4 16:9",
+    "downloads": {
+      "16x9": "animations/hood-mask-tavus-b2e2e147/final.mp4"
+    }
+  },
+  {
+    "id": "hood-mask-nanobanana2-b2e2e147",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Hooded mask: no refusals, this fast (Nano Banana 2)",
+    "src": "animations/hood-mask-nanobanana2-b2e2e147/",
+    "thumb": "assets/shots/hood-mask-nanobanana2-b2e2e147.png",
+    "desc": "A hooded figure in the superbot cat mask says \"superbot has no refusals\" and \"and it is this fast\" while the real superbot thinking bubble streams at actual speed beside him. Ends on a download call to action at superbot.gg. 12.0 s, 1920x1080, 30 fps, with sound (-14.2 LUFS, -1.5 dB peak). Market: sell-to-reddit llm_ai pain_points, rank 2 \"Output quality, regressions and refusals\" (4,206 authors in 30 days, rising) and rank 4 \"Speed and local hardware\" (2,696 authors in 30 days, rising), data as of 2026-10-05. Source quick-chats/superbot-hood-mask-ad.b2e2e147, variant v2 (Nano Banana 2).",
+    "download": "animations/hood-mask-nanobanana2-b2e2e147/final.mp4",
+    "downloadLabel": "MP4 16:9",
+    "downloads": {
+      "16x9": "animations/hood-mask-nanobanana2-b2e2e147/final.mp4"
+    }
+  },
+  {
+    "id": "hood-mask-seedance-b2e2e147",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Hooded mask: no refusals, this fast (Seedance 2.5)",
+    "src": "animations/hood-mask-seedance-b2e2e147/",
+    "thumb": "assets/shots/hood-mask-seedance-b2e2e147.png",
+    "desc": "A hooded figure in the superbot cat mask says \"superbot has no refusals\" and \"and it is this fast\" while the real superbot thinking bubble streams at actual speed beside him. Ends on a download call to action at superbot.gg. 12.0 s, 1920x1080, 30 fps, with sound (-14.2 LUFS, -1.5 dB peak). Market: sell-to-reddit llm_ai pain_points, rank 2 \"Output quality, regressions and refusals\" (4,206 authors in 30 days, rising) and rank 4 \"Speed and local hardware\" (2,696 authors in 30 days, rising), data as of 2026-10-05. Source quick-chats/superbot-hood-mask-ad.b2e2e147, variant v3 (Seedance 2.5).",
+    "download": "animations/hood-mask-seedance-b2e2e147/final.mp4",
+    "downloadLabel": "MP4 16:9",
+    "downloads": {
+      "16x9": "animations/hood-mask-seedance-b2e2e147/final.mp4"
+    }
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

@@ -1860,5 +1860,37 @@
     },
     "src": "assets/ads/context-costly-poster.{ar}.png",
     "thumb": "assets/ads/context-costly-poster.{ar}.png"
+  },
+  {
+    "id": "apikey-for-subscriptions-poster-ed0df872",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "the api key for subscriptions · one key, switched on, wired into Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek and three local models (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      },
+      "16x9": {
+        "w": 2400,
+        "h": 1350
+      },
+      "4x3": {
+        "w": 1800,
+        "h": 1350
+      },
+      "1x1": {
+        "w": 1350,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/apikey-for-subscriptions-poster-ed0df872.{ar}.png",
+    "thumb": "assets/ads/apikey-for-subscriptions-poster-ed0df872.{ar}.png"
   }
 ]

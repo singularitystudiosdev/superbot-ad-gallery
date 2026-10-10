@@ -742,6 +742,20 @@
     }
   },
   {
+    "id": "superbot-karaoke-6052630f",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "SUPERBOT, the song: karaoke on the real app",
+    "src": "animations/superbot-karaoke-6052630f/",
+    "thumb": "assets/shots/superbot-karaoke-6052630f.png",
+    "desc": "A karaoke lyric video for the SUPERBOT track. The superbot mascot hops word to word as each line is sung (lyrics timed by MMS forced alignment on the vocal stem), while the iPhone from X ad 2108765283443982398 plays the real superbot-desktop main build answering every line: your subscriptions in the model picker, a one second answer, the Plan rows in Subscriptions & keys, a mid-chat switch to Claude Opus 5.5 and Gemini 3.1 Pro, scraping Zillow, Amazon and Allbirds, connecting Gmail, Slack, Notion, Stripe, GitHub, Linear, Chase, Uber and DoorDash, and publishing sites to Cloudflare Pages, then the superbot.gg end card. 16:9, 1920x1080, 60 fps, 93 s, with sound. Market: sell-to-reddit llm_ai pain_points rank 1 \"Usage limits, pricing and token spend\" (5,816 authors in 30 days; leaves \"ai usage limits\" 437, \"high token consumption\" 258), data as of 2026-10-05.",
+    "download": "animations/superbot-karaoke-6052630f/final.mp4",
+    "downloadLabel": "MP4 16:9",
+    "downloads": {
+      "16x9": "animations/superbot-karaoke-6052630f/final.mp4"
+    }
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

@@ -370,6 +370,12 @@ const more = [
   ["superbot-karaoke-phone-faq-4cec9fd6", "superbot-karaoke-phone-faq-4cec9fd6/", "SUPERBOT, the song: karaoke mascot + the tweet's phone (clean cut)", 'Ad spots',
     {"desc":"The same film as superbot-karaoke-phone-1cd12578, re-rendered frame by frame from its own source rather than masked: every occurrence of the sung word in the on-screen lyric now reads \"faq\" (the three lines \"Fast as fuck, he won't refuse\" in verse 1, verse 2 and the bridge), and the sung word itself is bleeped with a 1 kHz tone at 6.5 s, 35.7 s and 65.7 s, with the vocal muted under it. Everything else is identical: the mascot hopping word to word on 149 verified word starts, the phone from X post 2108765283443982398 running the superbot iOS app line by line, the superbot.gg end card. 16:9, 1920x1080, 60 fps, 93.2 s, with sound. Live as X campaign 42708371 ($25/day).","download":"animations/superbot-karaoke-phone-faq-4cec9fd6/final.mp4","downloadLabel":"MP4 16:9","downloads":{"16x9":"animations/superbot-karaoke-phone-faq-4cec9fd6/final.mp4"}}],
   // <<< superbot-karaoke-phone-faq-4cec9fd6
+  // source quick-chats/superbot-subs-video.839ecec3 (2026-10-10): motion-reel seek(t) render of the tilted
+  // subs-key poster above, synthesized score, live sb-mark mascot; 1920x1080 60 fps, 10 s, with sound.
+  // Played from a video wrapper, 16:9 only, and the download is that bundled file.
+  ['subs-key-video-839ecec3', 'subs-key-video-839ecec3/', 'the api key for subscriptions · video: every switch off and floating, the key fires a streak into the phone, all 15 providers switch on one by one, SUBSCRIPTIONS fills with the moving gradient, each icon flies into the key, the mascot giggles (10 s)', 'Ad spots', {
+    desc: 'One superbot key switches on every AI subscription: Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek, Cursor, GitHub Copilot, Windsurf, Devin, Replit, Warp, Ollama, oMLX, LM Studio.',
+    download: 'animations/subs-key-video-839ecec3/final.mp4', downloadLabel: '16:9 · 1920x1080' }],
 ];
 // an optional 5th field carries extra item fields, e.g. { download, downloadLabel } for a file too big for Pages
 for (const [name, src, title, group, extra] of more) {

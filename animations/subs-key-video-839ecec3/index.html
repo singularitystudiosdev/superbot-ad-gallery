@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The API key for subscriptions: video (16:9)</title>
+<style>
+/* Plays the rendered 1920x1080 film (final.mp4, 10 s, with sound) fitted whole on black.
+   Starts muted so autoplay is allowed; the controls unmute, and so does the gallery
+   lightbox, which posts { type: "unmute" } on the viewer's first click or key. */
+html, body { margin: 0; height: 100%; overflow: hidden; background: #000; }
+video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+</style>
+</head>
+<body>
+<video id="film" src="final.mp4" poster="poster.png" controls autoplay muted loop playsinline preload="auto"
+  aria-label="The API key for subscriptions: every switch off and floating, the key fires a streak into the phone, all 15 providers switch on one by one, SUBSCRIPTIONS fills with the moving gradient, each icon flies into the key, the mascot giggles, 10 seconds"></video>
+<script>
+  const video = document.getElementById("film");
+  addEventListener("message", (e) => {
+    if (e.data && e.data.type === "unmute") {
+      video.muted = false;
+      if (video.paused) video.play().catch(() => {});
+    }
+  });
+  // a muted autoplay can still be refused (low power mode); retry once the file can play
+  video.addEventListener("canplay", () => { if (video.paused) video.play().catch(() => {}); }, { once: true });
+</script>
+</body>
+</html>

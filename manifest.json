@@ -784,6 +784,17 @@
     }
   },
   {
+    "id": "subs-key-video-839ecec3",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "the api key for subscriptions · video: every switch off and floating, the key fires a streak into the phone, all 15 providers switch on one by one, SUBSCRIPTIONS fills with the moving gradient, each icon flies into the key, the mascot giggles (10 s)",
+    "src": "animations/subs-key-video-839ecec3/",
+    "thumb": "assets/shots/subs-key-video-839ecec3.png",
+    "desc": "One superbot key switches on every AI subscription: Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek, Cursor, GitHub Copilot, Windsurf, Devin, Replit, Warp, Ollama, oMLX, LM Studio.",
+    "download": "animations/subs-key-video-839ecec3/final.mp4",
+    "downloadLabel": "16:9 · 1920x1080"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

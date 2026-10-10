@@ -756,6 +756,20 @@
     }
   },
   {
+    "id": "superbot-karaoke-phone-1cd12578",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "SUPERBOT, the song: karaoke mascot + the tweet's phone, line by line",
+    "src": "animations/superbot-karaoke-phone-1cd12578/",
+    "thumb": "assets/shots/superbot-karaoke-phone-1cd12578.png",
+    "desc": "A karaoke lyric video for the full SUPERBOT track, rendered frame by frame from code. Left: every line of the section on screen, sung words wiping white, and the real superbot glitch mascot hopping word to word, landing on each word's start (149 words, each start checked against the vocal stem and the repeated verses, then proven by a frame-level sync test). Right: the phone from X post 2108765283443982398 running the superbot iOS app, every line acted out on its own words: the Add a credential switches flip on \"subscriptions\", \"Make me a million $$$\" sends on \"Fast\", the bill strikes through on \"API\", the Model sheet switches mid-chat, the MrBeast thumbnail scrape runs step by step on \"scrape ... real quick\", Cloudflare and GitHub connect, Publish fires on \"click\", five sites go live on five clicks, and it ends on the real superbot.gg page. 16:9, 1920x1080, 60 fps, 93.2 s, with sound. Market: sell-to-reddit llm_ai pain_points rank 1 \"Usage limits, pricing and token spend\" (5,816 authors in 30 days; leaves \"high token consumption\" 258, \"expensive subscription\" 192), data as of 2026-10-05.",
+    "download": "animations/superbot-karaoke-phone-1cd12578/final.mp4",
+    "downloadLabel": "MP4 16:9",
+    "downloads": {
+      "16x9": "animations/superbot-karaoke-phone-1cd12578/final.mp4"
+    }
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

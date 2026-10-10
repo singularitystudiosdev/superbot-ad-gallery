@@ -40,11 +40,6 @@ const ads = [
   // built from ads-src/apikey-poster-ed0df872: the key drawn as one switched-on
   // plan toggle with the mascot as its knob, wired into the "Your Plans" list (2026-10-10)
   ['apikey-for-subscriptions-poster-ed0df872', 'the api key for subscriptions · one key, switched on, wired into Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek and three local models (static)'],
-  // source quick-chats/superbot-apikey-image-ad.3c7e91d4 (2026-10-10): the App Store previews' look (violet
-  // header glow, white headline with the violet accent word, the credential-row pill) with the rainbow mask
-  // mascot to the right. Answers sell-to-reddit llm_ai rank 1 usage-limits-pricing (5,816 authors, 30 days,
-  // data as of 2026-10-05; want: alternative ai subscription).
-  ['apikey-subscriptions-mascot-poster', 'The API Key for Subscriptions · the headline, the superbot key under it, superbot.gg under that, the mascot to the right (static)'],
 ];
 
 const anims = [

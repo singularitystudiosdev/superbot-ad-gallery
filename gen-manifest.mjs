@@ -45,6 +45,10 @@ const ads = [
   // glitch cat logo (assets/icon/superbot-app-icon-1024.png, background cut away) to the right. Answers
   // sell-to-reddit llm_ai rank 1 usage-limits-pricing (5,816 authors, 30 days, data as of 2026-10-05).
   ['apikey-subscriptions-logo-poster', 'The API Key for Subscriptions · the headline, the superbot key under it, superbot.gg under that, the superbot logo to the right (static)'],
+  // source ads-src/subs-key-tilt-839ecec3 (2026-10-10): the subs-key-dock-b8c369c3 look (SF Pro Rounded 800 caps,
+  // storm gradient, key dock), provider logos from superbot-mobile-clone assets/providers. Answers sell-to-reddit
+  // llm_ai rank 1 usage-limits-pricing (5,816 authors, 30 days, data as of 2026-10-05).
+  ['subs-key-tilt-phone-839ecec3', 'the api key for subscriptions · tilted 3D: the sbc_ key dock and superbot.gg on the left, a phone tilted left with Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek, Cursor, GitHub Copilot, Windsurf, Devin, Replit, Warp and three local models switched on (static)'],
 ];
 
 const anims = [

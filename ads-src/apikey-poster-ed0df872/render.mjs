@@ -24,7 +24,7 @@ for (const [key, r] of Object.entries(ARS)) {
   await p.goto(page, { waitUntil: 'load' });
   await p.waitForFunction(() => document.documentElement.dataset.fitted === '1');
   // the poster is the viewport, so any block past its edge (or a 24px safe margin) is a defect
-  const boxes = await p.evaluate(() => [...document.querySelectorAll('.head, .key, .sub, .foot, .plans')]
+  const boxes = await p.evaluate(() => [...document.querySelectorAll('.head, .dock, .foot, .plans')]
     .filter(e => getComputedStyle(e).display !== 'none')
     .map(e => {
       const b = e.getBoundingClientRect();

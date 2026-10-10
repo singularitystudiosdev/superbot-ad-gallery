@@ -8,21 +8,36 @@
 </head>
 <body>
 <main class="poster">
-  <img class="glow" src="assets/glow.png" alt="">
-  <svg class="wires" aria-hidden="true"></svg>
-
   <h1 class="head"><span class="line">THE API KEY FOR</span><span class="line accent">SUBSCRIPTIONS</span></h1>
 
-  <div class="key" role="img" aria-label="A superbot API key, switched on">
-    <svg class="key-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/>
-      <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>
-    </svg>
-    <span class="key-text">sb-4f9K<span class="mask">••••••</span>q7Za</span>
-    <img class="knob" src="assets/mascot.png" alt="">
+  <!-- the key dock from subs-key-dock-b8c369c3: masked sbc_ key, storm border, mascot beside it -->
+  <div class="dock">
+    <div class="key" role="img" aria-label="A superbot API key, sbc_ masked, ending in 7f3a">
+      <svg class="key-icon" viewBox="0 0 24 24" fill="none" stroke="url(#g-key)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <defs>
+          <linearGradient id="g-key" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#EB47AD"/><stop offset=".5" stop-color="#8D5EF2"/><stop offset="1" stop-color="#637AF4"/>
+          </linearGradient>
+        </defs>
+        <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/>
+        <circle cx="16.5" cy="7.5" r=".5" fill="url(#g-key)"/>
+      </svg>
+      <span class="key-head">sbc_</span>
+      <span class="dots"></span>
+      <span class="key-tail">7f3a</span>
+      <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="url(#g-copy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <defs>
+          <linearGradient id="g-copy" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#607DF6"/><stop offset="1" stop-color="#D33599"/>
+          </linearGradient>
+        </defs>
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+      </svg>
+    </div>
+    <img class="mascot" src="assets/mascot.png" alt="">
   </div>
 
-  <p class="sub">One key that runs on the plans you already pay for.</p>
   <p class="foot">superbot.gg</p>
 
   <section class="plans" aria-label="Plans">

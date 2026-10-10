@@ -37,9 +37,9 @@ const ads = [
   ['context-full-poster', 'context full? superbot can fix it! · before/after: ChatGPT at 188K of 196K, ChatGPT (with superbot) at 113K; 75K tokens freed (static)'],
   ['context-slow-poster', 'agent slow? superbot can fix it! · before/after: ChatGPT at 170K and 36s replies, ChatGPT (with superbot) at 102K and 27s; 1.3x faster (static)'],
   ['context-costly-poster', 'context costly? superbot can fix it! · before/after: Claude Code at $26.40 of a $30 daily budget by 4 pm, Claude Code (with superbot) at $15.84; $10.56 a day saved (static)'],
-  // built from ads-src/apikey-poster-ed0df872: the key drawn as one switched-on
-  // plan toggle with the mascot as its knob, wired into the "Your Plans" list (2026-10-10)
-  ['apikey-for-subscriptions-poster-ed0df872', 'the api key for subscriptions · one key, switched on, wired into Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek and three local models (static)'],
+  // built from ads-src/apikey-poster-ed0df872: the subs-key-dock-b8c369c3 key dock (storm border,
+  // masked sbc_ key, mascot beside it) next to a cleaner "Your Plans" list on a black stage (2026-10-10)
+  ['apikey-for-subscriptions-poster-ed0df872', 'the api key for subscriptions · the sbc_ key dock beside Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek and three local models, all switched on (static)'],
   // source quick-chats/superbot-apikey-image-ad.3c7e91d4 (2026-10-10): the App Store previews' look (violet
   // header glow, white headline with the violet accent word, the credential-row pill) with the previews' own
   // glitch cat logo (assets/icon/superbot-app-icon-1024.png, background cut away) to the right. Answers

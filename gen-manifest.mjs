@@ -37,18 +37,14 @@ const ads = [
   ['context-full-poster', 'context full? superbot can fix it! · before/after: ChatGPT at 188K of 196K, ChatGPT (with superbot) at 113K; 75K tokens freed (static)'],
   ['context-slow-poster', 'agent slow? superbot can fix it! · before/after: ChatGPT at 170K and 36s replies, ChatGPT (with superbot) at 102K and 27s; 1.3x faster (static)'],
   ['context-costly-poster', 'context costly? superbot can fix it! · before/after: Claude Code at $26.40 of a $30 daily budget by 4 pm, Claude Code (with superbot) at $15.84; $10.56 a day saved (static)'],
-  // built from ads-src/apikey-poster-ed0df872: the subs-key-dock-b8c369c3 key dock (storm border,
-  // masked sbc_ key, mascot beside it) next to a cleaner "Your Plans" list on a black stage (2026-10-10)
-  ['apikey-for-subscriptions-poster-ed0df872', 'the api key for subscriptions · the sbc_ key dock beside Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek and three local models, all switched on (static)'],
+  // built from ads-src/apikey-poster-ed0df872: headline and the subs-key-dock-b8c369c3 key centred as one
+  // block, the App Store previews' Add a credential phone turned toward them, previews header glow (2026-10-10)
+  ['apikey-for-subscriptions-poster-ed0df872', 'the api key for subscriptions · the sbc_ key under the headline, superbot\'s Add a credential phone with every provider switched on, superbot.gg and the mascot (static)'],
   // source quick-chats/superbot-apikey-image-ad.3c7e91d4 (2026-10-10): the App Store previews' look (violet
   // header glow, white headline with the violet accent word, the credential-row pill) with the previews' own
   // glitch cat logo (assets/icon/superbot-app-icon-1024.png, background cut away) to the right. Answers
   // sell-to-reddit llm_ai rank 1 usage-limits-pricing (5,816 authors, 30 days, data as of 2026-10-05).
   ['apikey-subscriptions-logo-poster', 'The API Key for Subscriptions · the headline, the superbot key under it, superbot.gg under that, the superbot logo to the right (static)'],
-  // source ads-src/subs-key-tilt-839ecec3 (2026-10-10): the subs-key-dock-b8c369c3 look (SF Pro Rounded 800 caps,
-  // storm gradient, key dock), provider logos from superbot-mobile-clone assets/providers. Answers sell-to-reddit
-  // llm_ai rank 1 usage-limits-pricing (5,816 authors, 30 days, data as of 2026-10-05).
-  ['subs-key-tilt-phone-839ecec3', 'the api key for subscriptions · tilted 3D: the sbc_ key dock and superbot.gg on the left, a phone tilted left with Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek, Cursor, GitHub Copilot, Windsurf, Devin, Replit, Warp and three local models switched on (static)'],
 ];
 
 const anims = [

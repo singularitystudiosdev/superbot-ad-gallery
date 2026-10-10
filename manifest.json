@@ -1892,5 +1892,37 @@
     },
     "src": "assets/ads/apikey-for-subscriptions-poster-ed0df872.{ar}.png",
     "thumb": "assets/ads/apikey-for-subscriptions-poster-ed0df872.{ar}.png"
+  },
+  {
+    "id": "apikey-subscriptions-mascot-poster",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "The API Key for Subscriptions · the headline, the superbot key under it, superbot.gg under that, the mascot to the right (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      },
+      "16x9": {
+        "w": 1920,
+        "h": 1080
+      },
+      "4x3": {
+        "w": 1440,
+        "h": 1080
+      },
+      "1x1": {
+        "w": 1080,
+        "h": 1080
+      }
+    },
+    "src": "assets/ads/apikey-subscriptions-mascot-poster.{ar}.png",
+    "thumb": "assets/ads/apikey-subscriptions-mascot-poster.{ar}.png"
   }
 ]

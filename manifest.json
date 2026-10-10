@@ -728,6 +728,20 @@
     }
   },
   {
+    "id": "stop-paying-api-superbot-9f784e9d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "STOP PAYING API.",
+    "src": "animations/stop-paying-api-superbot-9f784e9d/",
+    "thumb": "assets/shots/stop-paying-api-superbot-9f784e9d.png",
+    "desc": "The hooded figure in the superbot cat mask, the narrator from X ad 2108408273007522114, speaks the fish.audio HACKER VOICE line \"superbot.gg allows you to have one API key, with all your subscriptions, that is correct, I repeat one API key for all your subscriptions, and it's free\", then the superbot.gg end card. 16:9, 1920x1080, 30 fps, fish.audio HACKER VOICE, with sound. Market: sell-to-reddit llm_ai pain_points, rank 1 \"Usage limits, pricing and token spend\" (5,816 authors in 30 days; its leaf \"expensive subscription\" at 192 authors), data as of 2026-10-05. Source clips/stop-paying-api/stop-paying-api.mp4 (iteration).",
+    "download": "animations/stop-paying-api-superbot-9f784e9d/final.mp4",
+    "downloadLabel": "MP4 16:9",
+    "downloads": {
+      "16x9": "animations/stop-paying-api-superbot-9f784e9d/final.mp4"
+    }
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

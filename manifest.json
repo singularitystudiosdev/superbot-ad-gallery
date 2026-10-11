@@ -1732,6 +1732,14 @@
     "thumb": "assets/shots/one-key-every-model-superbot-7fcf1c91.png"
   },
   {
+    "id": "keep-the-thread-real-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "SWITCH AI. KEEP THE THREAD. (real UI) · one superbot thread, three models: search, switch in the picker, the same thread keeps working (31 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/keep-the-thread-real-superbot-7fcf1c91/",
+    "thumb": "assets/shots/keep-the-thread-real-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

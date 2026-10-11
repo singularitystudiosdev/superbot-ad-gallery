@@ -862,6 +862,14 @@
     "thumb": "assets/shots/negagg-second-superbot-0741e029.png"
   },
   {
+    "id": "negagg-local-superbot-85368a00",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "KEEP IT ON YOUR MACHINE. · one thread on this device: superbot-omni sorts the spending, finds the forgotten subscriptions and cancels two (23 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-local-superbot-85368a00/",
+    "thumb": "assets/shots/negagg-local-superbot-85368a00.png"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

@@ -448,6 +448,12 @@ const realUi = [
   // 16:9 + 4:5 renders are copied in below)
   ['negagg-second-superbot-0741e029', 'ASK ANOTHER MODEL. SAME CHAT. · one thread, two models: ChatGPT plans the trip, Claude checks the budget and books the hotel (23 s)'],
   // <<< negagg-second-superbot-0741e029
+  // >>> negagg-local-superbot-85368a00 (negativity-agg theme 'privacy-data' is the internal reason for the feature; no complaint, quote, count or error UI is
+  // on screen. Opens straight in the real superbot hub: a bank statement is dropped in, the composer's model picker sets superbot-omni
+  // (ON THIS DEVICE), which sorts the spending, finds the forgotten subscriptions and cancels the two unused. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-local-superbot-85368a00', 'KEEP IT ON YOUR MACHINE. · one thread on this device: superbot-omni sorts the spending, finds the forgotten subscriptions and cancels two (23 s)'],
+  // <<< negagg-local-superbot-85368a00
 
   // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.

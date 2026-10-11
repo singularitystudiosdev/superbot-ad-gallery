@@ -743,6 +743,8 @@ const realUi = [
   ['one-key-every-model-superbot-7fcf1c91', 'ONE KEY. EVERY MODEL. · one endpoint, one key: the model id changes and each answer streams back (17 s)'],
   // Switch AI. Keep the thread. (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 3 v2): mirrored from Real UI; rebuilt from the real superbot-desktop UI: search finds a thread mid-task, the model picker switches GPT-5 Codex -> Sonnet 4.6 -> superbot and the same thread keeps working (31 s). Solution only (user ruling)
   ['keep-the-thread-real-superbot-7fcf1c91', 'SWITCH AI. KEEP THE THREAD. (real UI) · one superbot thread, three models: search, switch in the picker, the same thread keeps working (31 s)'],
+  // Every plan's limits, live. (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 1 v2): mirrored from Real UI; rebuilt from the real superbot-desktop UI: a real thread does the work, the real Usage panel shows every plan's 5 hour and 7 day bars filling and ticking live, the same thread carries on (32 s). Solution only (user ruling)
+  ['live-limits-real-superbot-7fcf1c91', 'EVERY PLAN\'S LIMITS, LIVE. (real UI) · the real Usage panel: every plan\'s 5 hour and 7 day bars fill and tick live while the same thread keeps working (32 s)'],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

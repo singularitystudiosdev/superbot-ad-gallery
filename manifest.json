@@ -33,6 +33,17 @@
     "downloadLabel": "4:5 · 1080x1350"
   },
   {
+    "id": "muse-ad9-gets-past-bot-walls-49c9db5c",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Blocked again? Superbot gets past it (Muse 'travel agent' layout, 4:5 video)",
+    "src": "animations/muse-ad9-gets-past-bot-walls-49c9db5c/",
+    "thumb": "assets/shots/muse-ad9-gets-past-bot-walls-49c9db5c.png",
+    "desc": "Blocked again? ringed by I'm not a robot, 403 Forbidden, Verify you are human, Access denied and 429 chips struck out one by one. Superbot gets past it in real time: the agent that solves captchas, gets past bot walls and finishes the job. The chat solves the bot check (Verified human, 0.8 s), then saves products.csv with 1,280 rows and 0 blocks, ending on \"Doesn't get stopped by anti-bot.\" (13.4s loop).",
+    "download": "animations/muse-ad9-gets-past-bot-walls-49c9db5c/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
     "id": "knit-intro-v01-4x5",
     "type": "animation",
     "group": "Ad spots",

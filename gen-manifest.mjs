@@ -460,6 +460,12 @@ const realUi = [
   // 16:9 + 4:5 renders are copied in below)
   ['negagg-quick-superbot-e89033d8', 'FAST MODEL. ONE CLICK. · one thread, superbot-fast does three small jobs: renames 12 photos, captions the best one, translates the caption (23 s)'],
   // <<< negagg-quick-superbot-e89033d8
+  // >>> negagg-cost-superbot-c8101703 (negativity-agg theme 'subscription-cost' is the internal reason for the feature; no complaint, quote, count, competitor price or error UI is
+  // on screen. Opens straight in the real superbot hub: superbot connects the ChatGPT, Claude and Gemini plans, the composer's model picker routes a bakery poster to ChatGPT and an
+  // Instagram caption to Claude (both on the user's own plan, 0 superbot credits), and the post is scheduled. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-cost-superbot-c8101703', 'ONE APP FOR EVERY AI YOU PAY FOR. · one thread on your own plans: superbot connects ChatGPT, Claude and Gemini, ChatGPT makes a bakery poster, Claude writes and schedules the caption (24 s)'],
+  // <<< negagg-cost-superbot-c8101703
 
   // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.

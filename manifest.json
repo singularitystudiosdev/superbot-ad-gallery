@@ -838,6 +838,54 @@
     "thumb": "assets/shots/negagg-privacy-superbot-30c6568c.png"
   },
   {
+    "id": "negagg-fast-superbot-3f3e0f39",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "FAST MODEL. ONE CLICK. · the model picker switches one chat to superbot-fast, which answers the follow-up (21 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-fast-superbot-3f3e0f39/",
+    "thumb": "assets/shots/negagg-fast-superbot-3f3e0f39.png"
+  },
+  {
+    "id": "negagg-switch-superbot-73abddeb",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "SWITCH MODELS. KEEP THE CHAT. · one thread, three models: ChatGPT finds the listings, Gemini ranks them, Claude sends the message (24 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-switch-superbot-73abddeb/",
+    "thumb": "assets/shots/negagg-switch-superbot-73abddeb.png"
+  },
+  {
+    "id": "negagg-second-superbot-0741e029",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "ASK ANOTHER MODEL. SAME CHAT. · one thread, two models: ChatGPT plans the trip, Claude checks the budget and books the hotel (23 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-second-superbot-0741e029/",
+    "thumb": "assets/shots/negagg-second-superbot-0741e029.png"
+  },
+  {
+    "id": "negagg-local-superbot-85368a00",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "KEEP IT ON YOUR MACHINE. · one thread on this device: superbot-omni sorts the spending, finds the forgotten subscriptions and cancels two (23 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-local-superbot-85368a00/",
+    "thumb": "assets/shots/negagg-local-superbot-85368a00.png"
+  },
+  {
+    "id": "negagg-quick-superbot-e89033d8",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "FAST MODEL. ONE CLICK. · one thread, superbot-fast does three small jobs: renames 12 photos, captions the best one, translates the caption (23 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-quick-superbot-e89033d8/",
+    "thumb": "assets/shots/negagg-quick-superbot-e89033d8.png"
+  },
+  {
+    "id": "negagg-cost-superbot-c8101703",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "ONE APP FOR EVERY AI YOU PAY FOR. · one thread on your own plans: superbot connects ChatGPT, Claude and Gemini, ChatGPT makes a bakery poster, Claude writes and schedules the caption (24 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-cost-superbot-c8101703/",
+    "thumb": "assets/shots/negagg-cost-superbot-c8101703.png"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",
@@ -2126,5 +2174,22 @@
     },
     "src": "assets/ads/muse-meet-superbot-not-another-chatbot-49c9db5c.{ar}.png",
     "thumb": "assets/ads/muse-meet-superbot-not-another-chatbot-49c9db5c.{ar}.png"
+  },
+  {
+    "id": "muse-let-superbot-switch-models-49c9db5c",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Let Superbot switch your models. · Muse \"Let Muse manage your calendar\" headline over the chat layout: Claude hits its limit, the chat moves to ChatGPT with context saved, \"Perfect, keep going!\" (static, 4:5, X campaign 42718200)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/muse-let-superbot-switch-models-49c9db5c.{ar}.png",
+    "thumb": "assets/ads/muse-let-superbot-switch-models-49c9db5c.{ar}.png"
   }
 ]

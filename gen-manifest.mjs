@@ -58,6 +58,7 @@ const ads = [
   ['muse-let-superbot-scrape-any-site-49c9db5c', 'Let Superbot scrape any site. · Muse "Let Muse review your bills." chat: 412 listings saved to listings.csv through a stealth browser, "Yes please!" (static, 4:5, X campaign 42715957)', ['4x5']],
   ['muse-ai-that-never-stops-halfway-49c9db5c', 'superbot: AI that never stops halfway. · Muse "AI that hustles for you" wordmark poster, the big cat rising from the storm (static, 4:5, X campaign 42715971)', ['4x5']],
   ['muse-meet-superbot-not-another-chatbot-49c9db5c', 'Meet Superbot. Not another chatbot. · Muse "Voici Muse" layout, the app icon ringed by Claude, ChatGPT, Gemini, Cursor, Copilot, Grok, Qwen and Windsurf marks (static, 4:5, X campaign 42715981)', ['4x5']],
+  ['muse-let-superbot-switch-models-49c9db5c', 'Let Superbot switch your models. · Muse "Let Muse manage your calendar" headline over the chat layout: Claude hits its limit, the chat moves to ChatGPT with context saved, "Perfect, keep going!" (static, 4:5, X campaign 42718200)', ['4x5']],
   // <<< muse-adapt-49c9db5c
 ];
 
@@ -429,6 +430,42 @@ const realUi = [
   // answered on the machine. The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
   ['negagg-privacy-superbot-30c6568c', 'KEEP IT ON YOUR MACHINE. · the model picker switches one chat to the local model, which answers on this device (22 s)'],
   // <<< negagg-privacy-superbot-30c6568c
+  // >>> negagg-fast-superbot-3f3e0f39 (negativity-agg complaint rank 4 'slow-laggy' is the internal reason for the feature; no complaint,
+  // quote, count or loading state is on screen. Headline card, then one chat in the real superbot hub: the composer's
+  // model picker opens listing ChatGPT, Claude and superbot-fast, the pointer picks the fast model and the same thread
+  // carries on with a follow-up it answers. The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
+  ['negagg-fast-superbot-3f3e0f39', 'FAST MODEL. ONE CLICK. · the model picker switches one chat to superbot-fast, which answers the follow-up (21 s)'],
+  // <<< negagg-fast-superbot-3f3e0f39
+  // >>> negagg-switch-superbot-73abddeb (negativity-agg theme 'crashes-bugs' is the internal reason for the feature; no complaint, quote, count or error UI is
+  // on screen. Opens straight in the real superbot hub: ChatGPT finds three Austin two-bedrooms (photos, rent, park), the same thread
+  // switches to Gemini for a bike-ride ranking and to Claude for a drafted, sent message. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-switch-superbot-73abddeb', 'SWITCH MODELS. KEEP THE CHAT. · one thread, three models: ChatGPT finds the listings, Gemini ranks them, Claude sends the message (24 s)'],
+  // <<< negagg-switch-superbot-73abddeb
+  // >>> negagg-second-superbot-0741e029 (negativity-agg theme 'wrong-hallucinated-answers' is the internal reason for the feature; no complaint, quote, count or error UI is
+  // on screen. Opens straight in the real superbot hub: ChatGPT plans 4 days in Lisbon (itinerary with photos, budget bar), the same thread
+  // switches to Claude for a line by line budget check and a booked hotel. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-second-superbot-0741e029', 'ASK ANOTHER MODEL. SAME CHAT. · one thread, two models: ChatGPT plans the trip, Claude checks the budget and books the hotel (23 s)'],
+  // <<< negagg-second-superbot-0741e029
+  // >>> negagg-local-superbot-85368a00 (negativity-agg theme 'privacy-data' is the internal reason for the feature; no complaint, quote, count or error UI is
+  // on screen. Opens straight in the real superbot hub: a bank statement is dropped in, the composer's model picker sets superbot-omni
+  // (ON THIS DEVICE), which sorts the spending, finds the forgotten subscriptions and cancels the two unused. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-local-superbot-85368a00', 'KEEP IT ON YOUR MACHINE. · one thread on this device: superbot-omni sorts the spending, finds the forgotten subscriptions and cancels two (23 s)'],
+  // <<< negagg-local-superbot-85368a00
+  // >>> negagg-quick-superbot-e89033d8 (negativity-agg theme 'slow-laggy' is the internal reason for the feature; no complaint, quote, count, speed number or error UI is
+  // on screen. Opens straight in the real superbot hub: 12 travel photos are dropped in, the composer's model picker sets superbot-fast
+  // (Quick and cheap, for small jobs), which renames them by date and place, captions the best one and translates the caption. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-quick-superbot-e89033d8', 'FAST MODEL. ONE CLICK. · one thread, superbot-fast does three small jobs: renames 12 photos, captions the best one, translates the caption (23 s)'],
+  // <<< negagg-quick-superbot-e89033d8
+  // >>> negagg-cost-superbot-c8101703 (negativity-agg theme 'subscription-cost' is the internal reason for the feature; no complaint, quote, count, competitor price or error UI is
+  // on screen. Opens straight in the real superbot hub: superbot connects the ChatGPT, Claude and Gemini plans, the composer's model picker routes a bakery poster to ChatGPT and an
+  // Instagram caption to Claude (both on the user's own plan, 0 superbot credits), and the post is scheduled. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-cost-superbot-c8101703', 'ONE APP FOR EVERY AI YOU PAY FOR. · one thread on your own plans: superbot connects ChatGPT, Claude and Gemini, ChatGPT makes a bakery poster, Claude writes and schedules the caption (24 s)'],
+  // <<< negagg-cost-superbot-c8101703
 
   // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.

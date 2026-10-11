@@ -400,6 +400,11 @@ for (const [name, src, title, group, extra] of more) {
 // pass their own (a ?route= link into the shared page).
 const REAL_UI = 'https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/';
 const realUi = [
+  // >>> negagg-crashes-bugs-superbot-85553d96 (negativity-agg complaint rank 1 'crashes-bugs': 20,488 one and two
+  // star reviews of ChatGPT and Meta AI mention crashes, errors or chats that will not load; ChatGPT 9.1% of its
+  // negatives. The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
+  ['negagg-crashes-bugs-superbot-85553d96', 'CHATGPT WENT OFFLINE · same chat, Gemini picks the ask up'],
+  // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.
   // Two cuts of one page: the default pushes the camera in; ?cut=nozoom keeps it at rest.
   ['bikeride-model-switch-superbot-e13744a9', 'make a relaxing Japanese bike riding game: Gemini, Blender, ElevenLabs, Opus 5.5, then the real Opus 5.5 build plays (4 switches; clip @prasenx)'],

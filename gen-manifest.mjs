@@ -61,6 +61,7 @@ const ads = [
   ['muse-let-superbot-switch-models-49c9db5c', 'Let Superbot switch your models. · Muse "Let Muse manage your calendar" headline over the chat layout: Claude hits its limit, the chat moves to ChatGPT with context saved, "Perfect, keep going!" (static, 4:5, X campaign 42718200)', ['4x5']],
   ['muse-ad8-runs-on-your-plans-49c9db5c', 'Let Superbot run on the plans you already pay for · Muse "Let [icon] Muse help with shopping" layout: the app icon inline in the headline, a row of Claude, ChatGPT, Gemini and Cursor tiles, "API pricing" struck through for "Your subscription" (static, 4:5, X campaign 42720174)', ['4x5']],
   ['muse-ad10-super-fast-49c9db5c', 'Meet Superbot. The fast one. · Muse "Voici Muse" icon-ring layout (the best image so far) with only the claim changed to speed: every model you pay for, one chat, no stopping to ask (static, 4:5, X campaign 42721340)', ['4x5']],
+  ['muse-ad12-ask-what-others-wont-49c9db5c', 'Ask what other AIs won\'t answer. · Muse "Voici Muse" icon-ring layout with only the claim changed to the refusal angle: Superbot is the AI when other AIs refuse, on the plans you already pay for (static, 4:5, X campaign 42721929)', ['4x5']],
   // <<< muse-adapt-49c9db5c
 ];
 

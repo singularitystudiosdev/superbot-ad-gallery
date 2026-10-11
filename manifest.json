@@ -2234,5 +2234,22 @@
     },
     "src": "assets/ads/muse-let-superbot-switch-models-49c9db5c.{ar}.png",
     "thumb": "assets/ads/muse-let-superbot-switch-models-49c9db5c.{ar}.png"
+  },
+  {
+    "id": "muse-ad8-runs-on-your-plans-49c9db5c",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Let Superbot run on the plans you already pay for · Muse \"Let [icon] Muse help with shopping\" layout: the app icon inline in the headline, a row of Claude, ChatGPT, Gemini and Cursor tiles, \"API pricing\" struck through for \"Your subscription\" (static, 4:5, X campaign 42720174)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/muse-ad8-runs-on-your-plans-49c9db5c.{ar}.png",
+    "thumb": "assets/ads/muse-ad8-runs-on-your-plans-49c9db5c.{ar}.png"
   }
 ]

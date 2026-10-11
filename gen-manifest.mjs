@@ -104,6 +104,11 @@ const more = [
   ['muse-video-other-ais-said-no-49c9db5c', 'muse-video-other-ais-said-no-49c9db5c/', "Other AIs said no? Superbot does it (Muse 'shop for you' layout, 4:5 video)", 'Ad spots', {
     desc: "A ChatGPT bubble says \"I can't help with that.\" and gets stamped NO: other AIs said no? Let Superbot do it for you. Superbot can scrape Amazon, track prices and pass bot checks. The camera pushes in on the typed ask, \"Track this on Amazon and tell me when it drops\", pulls back to \"Checked 38 sellers, bot checks passed.\" and a $41.99 (was $58.00) price card with an alert set, then ends on the superbot card (13s loop).",
     download: 'animations/muse-video-other-ais-said-no-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  // Muse's "Meet Your AI Travel Agent" motion graphic re-cut on the captcha / anti-bot claim
+  // (yoinked/ads/muse-ad9-gets-past-bot-walls), 1080x1350 60 fps with synth sfx, 4:5 only; X campaign 42720921
+  ['muse-ad9-gets-past-bot-walls-49c9db5c', 'muse-ad9-gets-past-bot-walls-49c9db5c/', "Blocked again? Superbot gets past it (Muse 'travel agent' layout, 4:5 video)", 'Ad spots', {
+    desc: "Blocked again? ringed by I'm not a robot, 403 Forbidden, Verify you are human, Access denied and 429 chips struck out one by one. Superbot gets past it in real time: the agent that solves captchas, gets past bot walls and finishes the job. The chat solves the bot check (Verified human, 0.8 s), then saves products.csv with 1,280 rows and 0 blocks, ending on \"Doesn't get stopped by anti-bot.\" (13.4s loop).",
+    download: 'animations/muse-ad9-gets-past-bot-walls-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
   // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
   // main cut; v04 v10 v15 v18 v19 v20 v44 are the intros the user kept, v56-v65 are takes on v10 (same cue times)

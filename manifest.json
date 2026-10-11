@@ -2126,5 +2126,22 @@
     },
     "src": "assets/ads/muse-meet-superbot-not-another-chatbot-49c9db5c.{ar}.png",
     "thumb": "assets/ads/muse-meet-superbot-not-another-chatbot-49c9db5c.{ar}.png"
+  },
+  {
+    "id": "muse-let-superbot-switch-models-49c9db5c",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Let Superbot switch your models. · Muse \"Let Muse manage your calendar\" headline over the chat layout: Claude hits its limit, the chat moves to ChatGPT with context saved, \"Perfect, keep going!\" (static, 4:5, X campaign 42718200)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/muse-let-superbot-switch-models-49c9db5c.{ar}.png",
+    "thumb": "assets/ads/muse-let-superbot-switch-models-49c9db5c.{ar}.png"
   }
 ]

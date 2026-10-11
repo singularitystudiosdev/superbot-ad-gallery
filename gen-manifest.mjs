@@ -400,6 +400,13 @@ for (const [name, src, title, group, extra] of more) {
 // pass their own (a ?route= link into the shared page).
 const REAL_UI = 'https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/';
 const realUi = [
+  // >>> negagg-crashes-v2-superbot-e85b3b49 (negativity-agg complaint rank 1 'crashes-bugs' is the internal
+  // reason for the feature only; no complaint, quote, count or recreated error state is on screen. Headline card,
+  // then one thread in the real superbot hub whose model chip is pressed mid-conversation: ChatGPT plans a Lisbon
+  // trip, the same thread carries on in Gemini answering "make day two the museum day" as a change to that plan,
+  // then in Claude for the packing list. The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
+  ['negagg-crashes-v2-superbot-e85b3b49', 'SWITCH MODELS. KEEP THE CHAT. · one thread, three models, switched mid-chat (25 s)'],
+  // <<< negagg-crashes-v2-superbot-e85b3b49
   // >>> negagg-crashes-bugs-superbot-85553d96 (negativity-agg complaint rank 1 'crashes-bugs': 20,488 one and two
   // star reviews of ChatGPT and Meta AI mention crashes, errors or chats that will not load; ChatGPT 9.1% of its
   // negatives. The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)

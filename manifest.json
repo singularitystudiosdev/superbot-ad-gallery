@@ -2270,5 +2270,22 @@
     },
     "src": "assets/ads/muse-ad8-runs-on-your-plans-49c9db5c.{ar}.png",
     "thumb": "assets/ads/muse-ad8-runs-on-your-plans-49c9db5c.{ar}.png"
+  },
+  {
+    "id": "muse-ad10-super-fast-49c9db5c",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Meet Superbot. The fast one. · Muse \"Voici Muse\" icon-ring layout (the best image so far) with only the claim changed to speed: every model you pay for, one chat, no stopping to ask (static, 4:5, X campaign 42721340)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/muse-ad10-super-fast-49c9db5c.{ar}.png",
+    "thumb": "assets/ads/muse-ad10-super-fast-49c9db5c.{ar}.png"
   }
 ]

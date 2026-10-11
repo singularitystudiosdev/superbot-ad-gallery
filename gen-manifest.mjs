@@ -98,6 +98,11 @@ const more = [
   ['muse-video-superbot-does-it-49c9db5c', 'muse-video-superbot-does-it-49c9db5c/', "Superbot does what other AIs won't (Muse 'book appointments' layout, 4:5 video)", 'Ad spots', {
     desc: "Tired of AI that says no? Let Superbot help you: the AI agent that actually does it, that can scrape any site, pass bot checks and publish for you. The chat opens a site that blocks bots in a stealth browser, saves 412 listings to listings.csv, publishes the site and offers to refresh it every morning, then ends on the superbot card (17s loop).",
     download: 'animations/muse-video-superbot-does-it-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  // Muse's "Let Muse shop for you." motion graphic re-cut on the refusal angle (yoinked/ads/muse-video-other-ais-said-no),
+  // 1080x1350 60 fps with synth sfx, 4:5 only; X campaign 42719323
+  ['muse-video-other-ais-said-no-49c9db5c', 'muse-video-other-ais-said-no-49c9db5c/', "Other AIs said no? Superbot does it (Muse 'shop for you' layout, 4:5 video)", 'Ad spots', {
+    desc: "A ChatGPT bubble says \"I can't help with that.\" and gets stamped NO: other AIs said no? Let Superbot do it for you. Superbot can scrape Amazon, track prices and pass bot checks. The camera pushes in on the typed ask, \"Track this on Amazon and tell me when it drops\", pulls back to \"Checked 38 sellers, bot checks passed.\" and a $41.99 (was $58.00) price card with an alert set, then ends on the superbot card (13s loop).",
+    download: 'animations/muse-video-other-ais-said-no-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
   // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
   // main cut; v04 v10 v15 v18 v19 v20 v44 are the intros the user kept, v56-v65 are takes on v10 (same cue times)

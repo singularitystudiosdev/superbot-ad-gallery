@@ -697,6 +697,8 @@ const realUi = [
   ['keep-the-thread-superbot-7fcf1c91', 'SWITCH AI. KEEP THE THREAD. · every agent\'s chats in one searchable list, and the same thread goes on (12 s)'],
   // Every plan's limits, live. (2026-10-11, 7fcf1c91, negativity-agg feed ad 1 v2, usage-limits): mirrored from Real UI; solution only (user ruling), no hook card, no limit notice, no red callout: the relay's Accounts view with a live five-hour and seven-day bar per plan and one endpoint, and a Claude task that keeps going across your plans. 15 s, 60 fps, 4:5 + 16:9 + 4:3 + 1:1.
   ['live-limits-every-plan-superbot-7fcf1c91', 'EVERY PLAN\'S LIMITS, LIVE. · the relay\'s Accounts view with a bar per plan, and a Claude task that keeps going across them (15 s)'],
+  // One key. Every model. (2026-10-11, 7fcf1c91, negativity-agg feed ad 2 v2, one endpoint): mirrored from Real UI; solution only (user ruling), no hook card, no error: a developer's gateway console calls https://api.superbot.gg/v1 three times, the request's model id changes (Claude, GPT, Gemini) and each answer streams back, while the rail lists the key, its scope and the plans behind it. 17 s, 60 fps, 4:5 + 16:9 + 4:3 + 1:1.
+  ['one-key-every-model-superbot-7fcf1c91', 'ONE KEY. EVERY MODEL. · one endpoint, one key: the model id changes and each answer streams back (17 s)'],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

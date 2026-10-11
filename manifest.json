@@ -1713,6 +1713,14 @@
     "thumb": "assets/shots/live-limits-every-plan-superbot-7fcf1c91.png"
   },
   {
+    "id": "one-key-every-model-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "ONE KEY. EVERY MODEL. · one endpoint, one key: the model id changes and each answer streams back (17 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/one-key-every-model-superbot-7fcf1c91/",
+    "thumb": "assets/shots/one-key-every-model-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

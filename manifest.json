@@ -1831,6 +1831,14 @@
     "thumb": "assets/shots/every-ai-pocket-real-superbot-7fcf1c91.png"
   },
   {
+    "id": "one-key-short-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "ONE KEY. EVERY MODEL. (real UI, 15 s cut) · the real API access screen with the one endpoint, the model id swapping in the same request, the call log across models, the answer with its diff (15 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/one-key-short-superbot-7fcf1c91/",
+    "thumb": "assets/shots/one-key-short-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

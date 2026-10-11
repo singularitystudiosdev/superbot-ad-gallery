@@ -757,6 +757,8 @@ const realUi = [
   ['one-spend-number-real-superbot-7fcf1c91', 'ALL YOUR AI. ONE NUMBER. (real UI) · the real Spend modal: every provider as one total with per-day bars, every plan\'s live limits, the call log with tokens and cost per call (34 s)'],
   // Every AI you pay for. In your pocket. (real UI + iOS) (2026-10-11, 7fcf1c91, negativity-agg feed ad 5): mirrored from Real UI; a thread on the Mac across two models, then the shipped iOS app's own screenshots (provider rail, composer, lane sheet) beside short captions (33 s). Solution only (user ruling)
   ['every-ai-pocket-real-superbot-7fcf1c91', 'EVERY AI YOU PAY FOR. IN YOUR POCKET. (real UI + iOS) · a thread on the Mac across two models, then the real iOS app: provider rail, composer, lane sheet (33 s)'],
+  // One key. Every model. 15 s cut (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 2 v3, #46): mirrored from Real UI; the short cut of one-key-real: opens straight on the real Settings > API access screen with the one endpoint, a superbot.gg wordmark from ~1 s, the model id swapping in one request, the call log, the answer with its diff, end card at 11.7 s (15 s). Solution only (user ruling)
+  ['one-key-short-superbot-7fcf1c91', 'ONE KEY. EVERY MODEL. (real UI, 15 s cut) · the real API access screen with the one endpoint, the model id swapping in the same request, the call log across models, the answer with its diff (15 s)'],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

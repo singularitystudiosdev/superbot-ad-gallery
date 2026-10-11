@@ -838,6 +838,14 @@
     "thumb": "assets/shots/negagg-privacy-superbot-30c6568c.png"
   },
   {
+    "id": "negagg-fast-superbot-3f3e0f39",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "FAST MODEL. ONE CLICK. · the model picker switches one chat to superbot-fast, which answers the follow-up (21 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-fast-superbot-3f3e0f39/",
+    "thumb": "assets/shots/negagg-fast-superbot-3f3e0f39.png"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

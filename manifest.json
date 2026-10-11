@@ -1697,6 +1697,14 @@
     "thumb": "assets/shots/keep-the-thread-superbot-7fcf1c91.png"
   },
   {
+    "id": "live-limits-every-plan-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "EVERY PLAN'S LIMITS, LIVE. · the relay's Accounts view with a bar per plan, and a Claude task that keeps going across them (15 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/live-limits-every-plan-superbot-7fcf1c91/",
+    "thumb": "assets/shots/live-limits-every-plan-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

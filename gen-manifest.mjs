@@ -92,6 +92,11 @@ const more = [
   ['data-house-private-panel-4x5', 'data-house-private-panel-4x5/', 'Data House: private niche data (4:5)', 'Ad spots', {
     desc: 'Four questions to Data House, each answered as a raw JSON API response from the private panel: the most common LLM prompts, the ChatGPT x Grok user overlap (the one matching record: 54 shared authors, 1.8%), the average spend of a Cursor user, and the common drop-off points for users talking to LLMs. Each answer shows the GET request, 200 OK, a typed schema and one aligned record per line, then the film ends on the Data House logo card (21.6s loop).',
     download: 'animations/data-house-private-panel-4x5/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  // muse-adapt-49c9db5c video (2026-10-11): Muse's "Muse can book appointments." motion graphic re-cut for
+  // superbot (yoinked/ads/muse-video-superbot-does-it), 1080x1350 30 fps with synth sfx, 4:5 only; X campaign 42717462
+  ['muse-video-superbot-does-it-49c9db5c', 'muse-video-superbot-does-it-49c9db5c/', "Superbot does what other AIs won't (Muse 'book appointments' layout, 4:5 video)", 'Ad spots', {
+    desc: "Tired of AI that says no? Let Superbot help you: the AI agent that actually does it, that can scrape any site, pass bot checks and publish for you. The chat opens a site that blocks bots in a stealth browser, saves 412 listings to listings.csv, publishes the site and offers to refresh it every morning, then ends on the superbot card (17s loop).",
+    download: 'animations/muse-video-superbot-does-it-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
   // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
   // main cut; v04 v10 v15 v18 v19 v20 v44 are the intros the user kept, v56-v65 are takes on v10 (same cue times)

@@ -116,6 +116,11 @@ const more = [
   ['muse-ad11-publishes-everything-49c9db5c', 'muse-ad11-publishes-everything-49c9db5c/', "Built it. Still not live? Superbot ships it (Muse 'fitness goals' layout, 4:5 video)", 'Ad spots', {
     desc: "Built it. Still not live? ringed by Buy a domain, Set up hosting, Export the video, Upload it and Write the post, which tick themselves off. Let Superbot ship it for you: Superbot publishes websites, videos and everything else, on your accounts. The chat ships the site and posts the launch video (Site published launch.superbot.sh, Video posted, live), ending on \"Does what you ask. All of it.\" (13.4s loop).",
     download: 'animations/muse-ad11-publishes-everything-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  // the "Other AIs said no?" refusal video with one variable changed, the hook: three models refuse in a stack
+  // (yoinked/ads/muse-ad13-every-ai-said-no), 1080x1350 60 fps with synth sfx; X campaign 42722160
+  ['muse-ad13-every-ai-said-no-49c9db5c', 'muse-ad13-every-ai-said-no-49c9db5c/', "Every AI said no? Superbot does it (Muse 'shop for you' layout, 4:5 video)", 'Ad spots', {
+    desc: "ChatGPT says \"I can't help with that.\", Claude \"I'm not able to do that.\", Gemini \"I can't assist with that.\", and a NO stamp lands: every AI said no? Let Superbot do it for you. Superbot scrapes Amazon, tracks prices and passes bot checks, sets a $41.99 price alert and ends on the superbot card (13s loop).",
+    download: 'animations/muse-ad13-every-ai-said-no-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
   // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
   // main cut; v04 v10 v15 v18 v19 v20 v44 are the intros the user kept, v56-v65 are takes on v10 (same cue times)

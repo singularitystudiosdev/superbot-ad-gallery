@@ -1665,6 +1665,14 @@
     "thumb": "assets/shots/usage-limit-keep-going-superbot-7fcf1c91.png"
   },
   {
+    "id": "outage-next-model-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "DOWN AGAIN? SAME CHAT, NEXT MODEL. · a ChatGPT task errors and the same chat finishes on Claude (17 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/outage-next-model-superbot-7fcf1c91/",
+    "thumb": "assets/shots/outage-next-model-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

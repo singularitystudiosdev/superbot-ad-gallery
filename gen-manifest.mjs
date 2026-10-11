@@ -670,6 +670,8 @@ const realUi = [
   // <<< cursor-api-pricing-ab187b45 (mirror)
   // Limit hit? Keep going. (2026-10-11, 7fcf1c91, negativity-agg feed ad 1, usage-limits): mirrored from Real UI; Claude hits its 5-hour limit, Superbot's Accounts panel shows live limits on every plan, the call moves to the next sign-in and the same chat finishes. 21 s, 60 fps, 4:5 + 16:9 + 4:3 + 1:1.
   ['usage-limit-keep-going-superbot-7fcf1c91', 'LIMIT HIT? KEEP GOING. · Claude hits its 5-hour limit, the same chat carries on in Superbot (21 s)'],
+  // Down again? Same chat, next model. (2026-10-11, 7fcf1c91, negativity-agg feed ad 2, outages-errors): mirrored from Real UI; a ChatGPT task comes back with the vendor error Selected model is at capacity, the user opens the composer model picker and picks Claude, and the same chat finishes the ask. 16.8 s, 60 fps, 4:5 + 16:9 + 4:3 + 1:1.
+  ['outage-next-model-superbot-7fcf1c91', 'DOWN AGAIN? SAME CHAT, NEXT MODEL. · a ChatGPT task errors and the same chat finishes on Claude (17 s)'],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

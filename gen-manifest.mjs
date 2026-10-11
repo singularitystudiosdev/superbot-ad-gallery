@@ -404,6 +404,13 @@ const realUi = [
   // star reviews of ChatGPT and Meta AI mention crashes, errors or chats that will not load; ChatGPT 9.1% of its
   // negatives. The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
   ['negagg-crashes-bugs-superbot-85553d96', 'CHATGPT WENT OFFLINE · same chat, Gemini picks the ask up'],
+  // >>> negagg-wrong-answers-superbot-4444df6a (negativity-agg complaint rank 2 'wrong-hallucinated-answers' is
+  // the internal reason for the feature; no complaint, quote or count card is on screen. Headline card, then one
+  // question in one chat answered by ChatGPT, then "Ask Claude too" and Claude's take stacked under it in the same
+  // thread, picked with "Use this". The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
+  ['negagg-wrong-answers-superbot-4444df6a', 'ASK ANOTHER MODEL. SAME CHAT. · one ask, second take from Claude in the same thread (22 s)'],
+  // <<< negagg-wrong-answers-superbot-4444df6a
+
   // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.
   // Two cuts of one page: the default pushes the camera in; ?cut=nozoom keeps it at rest.

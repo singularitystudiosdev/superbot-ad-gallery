@@ -803,6 +803,14 @@
     "thumb": "assets/shots/negagg-crashes-bugs-superbot-85553d96.png"
   },
   {
+    "id": "negagg-wrong-answers-superbot-4444df6a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "ASK ANOTHER MODEL. SAME CHAT. · one ask, second take from Claude in the same thread (22 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-wrong-answers-superbot-4444df6a/",
+    "thumb": "assets/shots/negagg-wrong-answers-superbot-4444df6a.png"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

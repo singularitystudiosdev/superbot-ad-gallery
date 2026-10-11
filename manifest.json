@@ -1815,6 +1815,14 @@
     "thumb": "assets/shots/one-key-real-superbot-7fcf1c91.png"
   },
   {
+    "id": "one-spend-number-real-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "ALL YOUR AI. ONE NUMBER. (real UI) · the real Spend modal: every provider as one total with per-day bars, every plan's live limits, the call log with tokens and cost per call (34 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/one-spend-number-real-superbot-7fcf1c91/",
+    "thumb": "assets/shots/one-spend-number-real-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

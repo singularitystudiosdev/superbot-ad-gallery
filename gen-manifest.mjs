@@ -752,6 +752,8 @@ const realUi = [
   ['live-limits-real-superbot-7fcf1c91', 'EVERY PLAN\'S LIMITS, LIVE. (real UI) · the real Usage panel: every plan\'s 5 hour and 7 day bars fill and tick live while the same thread keeps working (32 s)'],
   // One key. Every model. (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 2 v2): mirrored from Real UI; rebuilt from the real superbot-desktop UI: the real Settings > API access screen (one endpoint, one key, the model id swapping in the same request) and its call log across models, the same thread answers (33 s). Solution only (user ruling)
   ['one-key-real-superbot-7fcf1c91', 'ONE KEY. EVERY MODEL. (real UI) · one endpoint, one key: the real API access screen, the model id swapping in the same request, the call log filling across models (33 s)'],
+  // All your AI. One number. (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 4): mirrored from Real UI; built from the real superbot-desktop UI: real work in a thread across two models, then the real Spend modal (All AI, per-day bars, provider totals, every plan's live limits) and the API call log with tokens and cost per call (34 s). Solution only (user ruling)
+  ['one-spend-number-real-superbot-7fcf1c91', 'ALL YOUR AI. ONE NUMBER. (real UI) · the real Spend modal: every provider as one total with per-day bars, every plan\'s live limits, the call log with tokens and cost per call (34 s)'],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

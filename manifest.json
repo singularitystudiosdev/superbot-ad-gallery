@@ -1967,5 +1967,73 @@
     },
     "src": "assets/ads/subs-key-tilt-phone-839ecec3.{ar}.png",
     "thumb": "assets/ads/subs-key-tilt-phone-839ecec3.{ar}.png"
+  },
+  {
+    "id": "muse-personal-agent-actually-does-it-49c9db5c",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Your AI agent that actually does it · Muse \"Your personal AI agent\" layout, the cat peeking bottom-left, app icon bottom-right (static, 4:5, X campaign 42715946)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/muse-personal-agent-actually-does-it-49c9db5c.{ar}.png",
+    "thumb": "assets/ads/muse-personal-agent-actually-does-it-49c9db5c.{ar}.png"
+  },
+  {
+    "id": "muse-let-superbot-scrape-any-site-49c9db5c",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Let Superbot scrape any site. · Muse \"Let Muse review your bills.\" chat: 412 listings saved to listings.csv through a stealth browser, \"Yes please!\" (static, 4:5, X campaign 42715957)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/muse-let-superbot-scrape-any-site-49c9db5c.{ar}.png",
+    "thumb": "assets/ads/muse-let-superbot-scrape-any-site-49c9db5c.{ar}.png"
+  },
+  {
+    "id": "muse-ai-that-never-stops-halfway-49c9db5c",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "superbot: AI that never stops halfway. · Muse \"AI that hustles for you\" wordmark poster, the big cat rising from the storm (static, 4:5, X campaign 42715971)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/muse-ai-that-never-stops-halfway-49c9db5c.{ar}.png",
+    "thumb": "assets/ads/muse-ai-that-never-stops-halfway-49c9db5c.{ar}.png"
+  },
+  {
+    "id": "muse-meet-superbot-not-another-chatbot-49c9db5c",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Meet Superbot. Not another chatbot. · Muse \"Voici Muse\" layout, the app icon ringed by Claude, ChatGPT, Gemini, Cursor, Copilot, Grok, Qwen and Windsurf marks (static, 4:5, X campaign 42715981)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/muse-meet-superbot-not-another-chatbot-49c9db5c.{ar}.png",
+    "thumb": "assets/ads/muse-meet-superbot-not-another-chatbot-49c9db5c.{ar}.png"
   }
 ]

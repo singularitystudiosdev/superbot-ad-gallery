@@ -49,6 +49,16 @@ const ads = [
   // storm gradient, key dock), provider logos from superbot-mobile-clone assets/providers. Answers sell-to-reddit
   // llm_ai rank 1 usage-limits-pricing (5,816 authors, 30 days, data as of 2026-10-05).
   ['subs-key-tilt-phone-839ecec3', 'the api key for subscriptions · tilted 3D: the sbc_ key dock and superbot.gg on the left, a phone tilted left with Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek, Cursor, GitHub Copilot, Windsurf, Devin, Replit, Warp and three local models switched on (static)'],
+  // >>> muse-adapt-49c9db5c
+  // Muse (muse.ai) Meta feed ads re-skinned for superbot (2026-10-11): Muse's white-to-blue wash becomes
+  // superbot.gg's black + storm gradient, the plush mascot becomes the superbot cat (superbot-desktop
+  // favicon.svg), app icon from superbot-desktop build/icon.png. 4:5 only, the ratio Muse runs in feed and
+  // the one published to X. Source: yoinked/ads/<id minus -49c9db5c>/.
+  ['muse-personal-agent-actually-does-it-49c9db5c', 'Your AI agent that actually does it · Muse "Your personal AI agent" layout, the cat peeking bottom-left, app icon bottom-right (static, 4:5, X campaign 42715946)', ['4x5']],
+  ['muse-let-superbot-scrape-any-site-49c9db5c', 'Let Superbot scrape any site. · Muse "Let Muse review your bills." chat: 412 listings saved to listings.csv through a stealth browser, "Yes please!" (static, 4:5, X campaign 42715957)', ['4x5']],
+  ['muse-ai-that-never-stops-halfway-49c9db5c', 'superbot: AI that never stops halfway. · Muse "AI that hustles for you" wordmark poster, the big cat rising from the storm (static, 4:5, X campaign 42715971)', ['4x5']],
+  ['muse-meet-superbot-not-another-chatbot-49c9db5c', 'Meet Superbot. Not another chatbot. · Muse "Voici Muse" layout, the app icon ringed by Claude, ChatGPT, Gemini, Cursor, Copilot, Grok, Qwen and Windsurf marks (static, 4:5, X campaign 42715981)', ['4x5']],
+  // <<< muse-adapt-49c9db5c
 ];
 
 const anims = [
@@ -671,10 +681,11 @@ for (const g of groups.filter(g => g.group === ONLY_GROUP)) {
   }
 }
 
-for (const [id, title] of ads) {
+// an optional 3rd field narrows the ratios an ad ships in (a single-ratio ad falls back to it in the picker)
+for (const [id, title, ars = AD_ARS] of ads) {
   const sizes = {};
-  for (const k of AD_ARS) sizes[k] = pngSize(`assets/ads/${id}.${k}.png`);
-  items.push({ id, type: 'image', group: 'Ad spots', title, ars: AD_ARS, sizes,
+  for (const k of ars) sizes[k] = pngSize(`assets/ads/${id}.${k}.png`);
+  items.push({ id, type: 'image', group: 'Ad spots', title, ars, sizes,
     src: `assets/ads/${id}.{ar}.png`, thumb: `assets/ads/${id}.{ar}.png` });
 }
 

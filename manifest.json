@@ -870,6 +870,14 @@
     "thumb": "assets/shots/negagg-local-superbot-85368a00.png"
   },
   {
+    "id": "negagg-quick-superbot-e89033d8",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "FAST MODEL. ONE CLICK. · one thread, superbot-fast does three small jobs: renames 12 photos, captions the best one, translates the caption (23 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-quick-superbot-e89033d8/",
+    "thumb": "assets/shots/negagg-quick-superbot-e89033d8.png"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

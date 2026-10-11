@@ -454,6 +454,12 @@ const realUi = [
   // 16:9 + 4:5 renders are copied in below)
   ['negagg-local-superbot-85368a00', 'KEEP IT ON YOUR MACHINE. · one thread on this device: superbot-omni sorts the spending, finds the forgotten subscriptions and cancels two (23 s)'],
   // <<< negagg-local-superbot-85368a00
+  // >>> negagg-quick-superbot-e89033d8 (negativity-agg theme 'slow-laggy' is the internal reason for the feature; no complaint, quote, count, speed number or error UI is
+  // on screen. Opens straight in the real superbot hub: 12 travel photos are dropped in, the composer's model picker sets superbot-fast
+  // (Quick and cheap, for small jobs), which renames them by date and place, captions the best one and translates the caption. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-quick-superbot-e89033d8', 'FAST MODEL. ONE CLICK. · one thread, superbot-fast does three small jobs: renames 12 photos, captions the best one, translates the caption (23 s)'],
+  // <<< negagg-quick-superbot-e89033d8
 
   // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.

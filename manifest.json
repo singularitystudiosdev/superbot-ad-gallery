@@ -846,6 +846,14 @@
     "thumb": "assets/shots/negagg-fast-superbot-3f3e0f39.png"
   },
   {
+    "id": "negagg-switch-superbot-73abddeb",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "SWITCH MODELS. KEEP THE CHAT. · one thread, three models: ChatGPT finds the listings, Gemini ranks them, Claude sends the message (24 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-switch-superbot-73abddeb/",
+    "thumb": "assets/shots/negagg-switch-superbot-73abddeb.png"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

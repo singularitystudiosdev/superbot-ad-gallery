@@ -436,6 +436,12 @@ const realUi = [
   // carries on with a follow-up it answers. The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
   ['negagg-fast-superbot-3f3e0f39', 'FAST MODEL. ONE CLICK. · the model picker switches one chat to superbot-fast, which answers the follow-up (21 s)'],
   // <<< negagg-fast-superbot-3f3e0f39
+  // >>> negagg-switch-superbot-73abddeb (negativity-agg theme 'crashes-bugs' is the internal reason for the feature; no complaint, quote, count or error UI is
+  // on screen. Opens straight in the real superbot hub: ChatGPT finds three Austin two-bedrooms (photos, rent, park), the same thread
+  // switches to Gemini for a bike-ride ranking and to Claude for a drafted, sent message. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-switch-superbot-73abddeb', 'SWITCH MODELS. KEEP THE CHAT. · one thread, three models: ChatGPT finds the listings, Gemini ranks them, Claude sends the message (24 s)'],
+  // <<< negagg-switch-superbot-73abddeb
 
   // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.

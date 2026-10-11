@@ -663,6 +663,8 @@ const realUi = [
   ["cursor-api-pricing-picker-1x1-ab187b45", "Cursor charges API pricing · a Superbot row in Cursor's own model picker switches it to your subscription, $13.82 becomes FREE (picker, 12 s, 1:1)", "cursor-api-pricing-picker-1x1-ab187b45/",
     { download: `${REAL_UI}cursor-api-pricing-picker-1x1-ab187b45/final.mp4`, downloadLabel: 'MP4 1:1' }],
   // <<< cursor-api-pricing-ab187b45 (mirror)
+  // Limit hit? Keep going. (2026-10-11, 7fcf1c91, negativity-agg feed ad 1, usage-limits): mirrored from Real UI; Claude hits its 5-hour limit, Superbot's Accounts panel shows live limits on every plan, the call moves to the next sign-in and the same chat finishes. 21 s, 60 fps, 4:5 + 16:9 + 4:3 + 1:1.
+  ['usage-limit-keep-going-superbot-7fcf1c91', 'LIMIT HIT? KEEP GOING. · Claude hits its 5-hour limit, the same chat carries on in Superbot (21 s)'],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

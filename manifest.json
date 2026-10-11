@@ -1649,6 +1649,14 @@
     "downloadLabel": "MP4 1:1"
   },
   {
+    "id": "usage-limit-keep-going-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "LIMIT HIT? KEEP GOING. · Claude hits its 5-hour limit, the same chat carries on in Superbot (21 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/usage-limit-keep-going-superbot-7fcf1c91/",
+    "thumb": "assets/shots/usage-limit-keep-going-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

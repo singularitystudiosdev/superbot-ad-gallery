@@ -110,6 +110,11 @@ const more = [
   ['muse-ad9-gets-past-bot-walls-49c9db5c', 'muse-ad9-gets-past-bot-walls-49c9db5c/', "Blocked again? Superbot gets past it (Muse 'travel agent' layout, 4:5 video)", 'Ad spots', {
     desc: "Blocked again? ringed by I'm not a robot, 403 Forbidden, Verify you are human, Access denied and 429 chips struck out one by one. Superbot gets past it in real time: the agent that solves captchas, gets past bot walls and finishes the job. The chat solves the bot check (Verified human, 0.8 s), then saves products.csv with 1,280 rows and 0 blocks, ending on \"Doesn't get stopped by anti-bot.\" (13.4s loop).",
     download: 'animations/muse-ad9-gets-past-bot-walls-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  // Muse's "Reach fitness goals" motion graphic re-cut on the publishing claim (yoinked/ads/muse-ad11-publishes-everything),
+  // same grammar as ads 7 and 9 with only the hook and claim changed, 1080x1350 60 fps with synth sfx; X campaign 42721665
+  ['muse-ad11-publishes-everything-49c9db5c', 'muse-ad11-publishes-everything-49c9db5c/', "Built it. Still not live? Superbot ships it (Muse 'fitness goals' layout, 4:5 video)", 'Ad spots', {
+    desc: "Built it. Still not live? ringed by Buy a domain, Set up hosting, Export the video, Upload it and Write the post, which tick themselves off. Let Superbot ship it for you: Superbot publishes websites, videos and everything else, on your accounts. The chat ships the site and posts the launch video (Site published launch.superbot.sh, Video posted, live), ending on \"Does what you ask. All of it.\" (13.4s loop).",
+    download: 'animations/muse-ad11-publishes-everything-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
   // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
   // main cut; v04 v10 v15 v18 v19 v20 v44 are the intros the user kept, v56-v65 are takes on v10 (same cue times)

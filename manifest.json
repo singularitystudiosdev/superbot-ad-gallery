@@ -1807,6 +1807,14 @@
     "thumb": "assets/shots/live-limits-real-superbot-7fcf1c91.png"
   },
   {
+    "id": "one-key-real-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "ONE KEY. EVERY MODEL. (real UI) · one endpoint, one key: the real API access screen, the model id swapping in the same request, the call log filling across models (33 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/one-key-real-superbot-7fcf1c91/",
+    "thumb": "assets/shots/one-key-real-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

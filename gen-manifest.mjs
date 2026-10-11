@@ -417,6 +417,13 @@ const realUi = [
   // thread, picked with "Use this". The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
   ['negagg-wrong-answers-superbot-4444df6a', 'ASK ANOTHER MODEL. SAME CHAT. · one ask, second take from Claude in the same thread (22 s)'],
   // <<< negagg-wrong-answers-superbot-4444df6a
+  // >>> negagg-privacy-superbot-30c6568c (negativity-agg complaint rank 3 'privacy-data' is the internal reason
+  // for the feature; no complaint, quote, count or negative hook is on screen. Headline card, then one chat in the
+  // real superbot hub: the composer's model picker opens listing ChatGPT, Claude and superbot-omni (marked ON THIS
+  // DEVICE), the pointer picks the local model, the chip wears LOCAL, and the same thread carries on with a follow-up
+  // answered on the machine. The page plays from Real UI; thumb and the 16:9 + 4:5 renders are copied in below)
+  ['negagg-privacy-superbot-30c6568c', 'KEEP IT ON YOUR MACHINE. · the model picker switches one chat to the local model, which answers on this device (22 s)'],
+  // <<< negagg-privacy-superbot-30c6568c
 
   // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.

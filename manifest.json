@@ -819,6 +819,14 @@
     "thumb": "assets/shots/negagg-wrong-answers-superbot-4444df6a.png"
   },
   {
+    "id": "negagg-privacy-superbot-30c6568c",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "KEEP IT ON YOUR MACHINE. · the model picker switches one chat to the local model, which answers on this device (22 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-privacy-superbot-30c6568c/",
+    "thumb": "assets/shots/negagg-privacy-superbot-30c6568c.png"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

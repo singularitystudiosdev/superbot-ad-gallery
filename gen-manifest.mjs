@@ -442,6 +442,12 @@ const realUi = [
   // 16:9 + 4:5 renders are copied in below)
   ['negagg-switch-superbot-73abddeb', 'SWITCH MODELS. KEEP THE CHAT. · one thread, three models: ChatGPT finds the listings, Gemini ranks them, Claude sends the message (24 s)'],
   // <<< negagg-switch-superbot-73abddeb
+  // >>> negagg-second-superbot-0741e029 (negativity-agg theme 'wrong-hallucinated-answers' is the internal reason for the feature; no complaint, quote, count or error UI is
+  // on screen. Opens straight in the real superbot hub: ChatGPT plans 4 days in Lisbon (itinerary with photos, budget bar), the same thread
+  // switches to Claude for a line by line budget check and a booked hotel. The page plays from Real UI; thumb and the
+  // 16:9 + 4:5 renders are copied in below)
+  ['negagg-second-superbot-0741e029', 'ASK ANOTHER MODEL. SAME CHAT. · one thread, two models: ChatGPT plans the trip, Claude checks the budget and books the hotel (23 s)'],
+  // <<< negagg-second-superbot-0741e029
 
   // <<< negagg-crashes-bugs-superbot-85553d96
   // Every model, one chat: bike ride (2026-09-28): mirrored from Real UI; clip X @prasenx https://x.com/prasenx/status/2102717687604633959, built in the browser with Claude Opus 5.5.

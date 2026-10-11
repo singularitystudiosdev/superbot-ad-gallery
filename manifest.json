@@ -854,6 +854,14 @@
     "thumb": "assets/shots/negagg-switch-superbot-73abddeb.png"
   },
   {
+    "id": "negagg-second-superbot-0741e029",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "ASK ANOTHER MODEL. SAME CHAT. · one thread, two models: ChatGPT plans the trip, Claude checks the budget and books the hotel (23 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/negagg-second-superbot-0741e029/",
+    "thumb": "assets/shots/negagg-second-superbot-0741e029.png"
+  },
+  {
     "id": "bikeride-model-switch-superbot-e13744a9",
     "type": "animation",
     "group": "Ad spots",

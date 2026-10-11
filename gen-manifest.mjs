@@ -672,6 +672,8 @@ const realUi = [
   ['usage-limit-keep-going-superbot-7fcf1c91', 'LIMIT HIT? KEEP GOING. · Claude hits its 5-hour limit, the same chat carries on in Superbot (21 s)'],
   // Down again? Same chat, next model. (2026-10-11, 7fcf1c91, negativity-agg feed ad 2, outages-errors): mirrored from Real UI; a ChatGPT task comes back with the vendor error Selected model is at capacity, the user opens the composer model picker and picks Claude, and the same chat finishes the ask. 16.8 s, 60 fps, 4:5 + 16:9 + 4:3 + 1:1.
   ['outage-next-model-superbot-7fcf1c91', 'DOWN AGAIN? SAME CHAT, NEXT MODEL. · a ChatGPT task errors and the same chat finishes on Claude (17 s)'],
+  // Switch AI. Keep the thread. (2026-10-11, 7fcf1c91, negativity-agg feed ad 3, context-memory-loss): mirrored from Real UI; no complaint is shown (user ruling), the spot is the solution only: every agent's chats in one searchable list, the chat started in Claude Code is opened and carried on, the composer's context meter (Context 31k of 1m) and Pinned context are present, and the same thread finishes on Gemini 3 Pro. 12.4 s, 60 fps, 4:5 + 16:9 + 4:3 + 1:1.
+  ['keep-the-thread-superbot-7fcf1c91', 'SWITCH AI. KEEP THE THREAD. · every agent\'s chats in one searchable list, and the same thread goes on (12 s)'],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

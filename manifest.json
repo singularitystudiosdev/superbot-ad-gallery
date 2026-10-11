@@ -1673,6 +1673,14 @@
     "thumb": "assets/shots/outage-next-model-superbot-7fcf1c91.png"
   },
   {
+    "id": "keep-the-thread-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "SWITCH AI. KEEP THE THREAD. · every agent's chats in one searchable list, and the same thread goes on (12 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/keep-the-thread-superbot-7fcf1c91/",
+    "thumb": "assets/shots/keep-the-thread-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

@@ -66,6 +66,17 @@
     "downloadLabel": "4:5 · 1080x1350"
   },
   {
+    "id": "muse-ad14-every-ai-one-chat-49c9db5c",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Every AI, finally in one chat (Muse 'connect your apps' layout, 4:5 video, voiceover)",
+    "src": "animations/muse-ad14-every-ai-one-chat-49c9db5c/",
+    "thumb": "assets/shots/muse-ad14-every-ai-one-chat-49c9db5c.png",
+    "desc": "The cat juggles Claude, ChatGPT, Gemini, Cursor and Grok tiles: every AI, finally in one chat. The tiles line up with checks, connect the plans you already pay for. Claude hits its limit, the chat moves to ChatGPT with context saved and finishes the report, ending on \"The AI that gets it done.\" A voiceover reads each line (14s loop).",
+    "download": "animations/muse-ad14-every-ai-one-chat-49c9db5c/final.mp4",
+    "downloadLabel": "4:5 · 1080x1350"
+  },
+  {
     "id": "knit-intro-v01-4x5",
     "type": "animation",
     "group": "Ad spots",

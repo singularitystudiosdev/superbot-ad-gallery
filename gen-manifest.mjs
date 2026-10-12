@@ -780,6 +780,8 @@ const realUi = [
   ['every-ai-pocket-real-superbot-7fcf1c91', 'EVERY AI YOU PAY FOR. IN YOUR POCKET. (real UI + iOS) · a thread on the Mac across two models, then the real iOS app: provider rail, composer, lane sheet (33 s)'],
   // One key. Every model. 15 s cut (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 2 v3, #46): mirrored from Real UI; the short cut of one-key-real: opens straight on the real Settings > API access screen with the one endpoint, a superbot.gg wordmark from ~1 s, the model id swapping in one request, the call log, the answer with its diff, end card at 11.7 s (15 s). Solution only (user ruling)
   ['one-key-short-superbot-7fcf1c91', 'ONE KEY. EVERY MODEL. (real UI, 15 s cut) · the real API access screen with the one endpoint, the model id swapping in the same request, the call log across models, the answer with its diff (15 s)'],
+  // Fewer tokens. Same work. 15 s (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 6, #50): mirrored from Real UI; token-burn in the 15 s short format on the real Settings > Context (Tidy) pane: Tidy chosen, the Context map, per-app Tidy, What Tidy did, the thread does the work, end card at 11.7 s (15 s). Solution only (user ruling).
+  ['fewer-tokens-short-superbot-7fcf1c91', 'FEWER TOKENS. SAME WORK. (real UI, 15 s) · the real Settings > Context page: Tidy chosen, the Context map of what each turn sends, per-app Tidy, what Tidy did, then the thread does the work (15 s)'],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

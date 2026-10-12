@@ -1886,6 +1886,14 @@
     "thumb": "assets/shots/one-key-short-superbot-7fcf1c91.png"
   },
   {
+    "id": "fewer-tokens-short-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "FEWER TOKENS. SAME WORK. (real UI, 15 s) · the real Settings > Context page: Tidy chosen, the Context map of what each turn sends, per-app Tidy, what Tidy did, then the thread does the work (15 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/fewer-tokens-short-superbot-7fcf1c91/",
+    "thumb": "assets/shots/fewer-tokens-short-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

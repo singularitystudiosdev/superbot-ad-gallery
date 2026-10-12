@@ -787,6 +787,8 @@ const realUi = [
   ['one-key-short-superbot-7fcf1c91', 'ONE KEY. EVERY MODEL. (real UI, 15 s cut) · the real API access screen with the one endpoint, the model id swapping in the same request, the call log across models, the answer with its diff (15 s)'],
   // Fewer tokens. Same work. 15 s (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 6, #50): mirrored from Real UI; token-burn in the 15 s short format on the real Settings > Context (Tidy) pane: Tidy chosen, the Context map, per-app Tidy, What Tidy did, the thread does the work, end card at 11.7 s (15 s). Solution only (user ruling).
   ['fewer-tokens-short-superbot-7fcf1c91', 'FEWER TOKENS. SAME WORK. (real UI, 15 s) · the real Settings > Context page: Tidy chosen, the Context map of what each turn sends, per-app Tidy, what Tidy did, then the thread does the work (15 s)'],
+  // Every plan's limits, live. 15 s cut (real UI) (2026-10-11, 7fcf1c91, negativity-agg feed ad 7, #52): mirrored from Real UI; the short cut of live-limits-real: opens straight on real work in the thread, a superbot.gg wordmark from ~1 s, the real Usage panel's 5 hour and 7 day bars filling for every plan, the same thread carrying on, end card at 11.7 s (15 s). Solution only (user ruling).
+  ['live-limits-short-superbot-7fcf1c91', "EVERY PLAN'S LIMITS, LIVE. (real UI, 15 s cut) \u00b7 real work in the thread, the real Usage panel's 5 hour and 7 day bars filling for every plan, the same thread carrying on (15 s)"],
 ];
 // an optional 4th field carries extra item fields, e.g. { download, downloadLabel } pointing at the Real UI film
 for (const [name, title, path, extra] of realUi) {

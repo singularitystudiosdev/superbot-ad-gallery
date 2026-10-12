@@ -1905,6 +1905,14 @@
     "thumb": "assets/shots/fewer-tokens-short-superbot-7fcf1c91.png"
   },
   {
+    "id": "live-limits-short-superbot-7fcf1c91",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "EVERY PLAN'S LIMITS, LIVE. (real UI, 15 s cut) · real work in the thread, the real Usage panel's 5 hour and 7 day bars filling for every plan, the same thread carrying on (15 s)",
+    "src": "https://singularitystudiosdev.github.io/superbot-ad-gallery-real-ui/animations/live-limits-short-superbot-7fcf1c91/",
+    "thumb": "assets/shots/live-limits-short-superbot-7fcf1c91.png"
+  },
+  {
     "id": "stop-burning-tokens",
     "type": "image",
     "group": "Ad spots",

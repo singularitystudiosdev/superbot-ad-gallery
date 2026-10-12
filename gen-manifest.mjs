@@ -121,6 +121,11 @@ const more = [
   ['muse-ad13-every-ai-said-no-49c9db5c', 'muse-ad13-every-ai-said-no-49c9db5c/', "Every AI said no? Superbot does it (Muse 'shop for you' layout, 4:5 video)", 'Ad spots', {
     desc: "ChatGPT says \"I can't help with that.\", Claude \"I'm not able to do that.\", Gemini \"I can't assist with that.\", and a NO stamp lands: every AI said no? Let Superbot do it for you. Superbot scrapes Amazon, tracks prices and passes bot checks, sets a $41.99 price alert and ends on the superbot card (13s loop).",
     download: 'animations/muse-ad13-every-ai-said-no-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
+  // Muse's "Connect your apps." motion graphic re-cut on subscriptions + model switching, the first one with a voiceover
+  // (macOS say), (yoinked/ads/muse-ad14-every-ai-one-chat), 1080x1350 60 fps; X campaign 42722516
+  ['muse-ad14-every-ai-one-chat-49c9db5c', 'muse-ad14-every-ai-one-chat-49c9db5c/', "Every AI, finally in one chat (Muse 'connect your apps' layout, 4:5 video, voiceover)", 'Ad spots', {
+    desc: "The cat juggles Claude, ChatGPT, Gemini, Cursor and Grok tiles: every AI, finally in one chat. The tiles line up with checks, connect the plans you already pay for. Claude hits its limit, the chat moves to ChatGPT with context saved and finishes the report, ending on \"The AI that gets it done.\" A voiceover reads each line (14s loop).",
+    download: 'animations/muse-ad14-every-ai-one-chat-49c9db5c/final.mp4', downloadLabel: '4:5 · 1080x1350' }],
   // Knit (projects/knit, 2026-09-30): a Mac scan finds 8 interests, 9 groups near Laramie, join and chat,
   // then the knit card; 1080x1350 60 fps films with sound in video wrappers, 4:5 only. v01 is the
   // main cut; v04 v10 v15 v18 v19 v20 v44 are the intros the user kept, v56-v65 are takes on v10 (same cue times)

@@ -39,18 +39,32 @@ try {
         .map(({ el }) => el);
       if (R !== '16x9' && promptText.right > send.left) clipped.push('prompt-text runs under the send button');
       if (R === '16x9') {
-        // 16:9 layout: the prompt text must sit inside its card (clear of the send button) and the composition must fill the frame
-        const card = document.querySelector('.prompt').getBoundingClientRect();
+        // 16:9 layout: chat pill on top (one line of text, inside the pill, clear of the send button), the 2x2 of horizontal cards
+        // directly below at exactly the pill's width, and the composition filling at least 94% x 88% of the canvas
+        const bar = document.querySelector('.prompt').getBoundingClientRect();
         const range = document.createRange();
         range.selectNodeContents(document.querySelector('.prompt-text'));
         const ink = range.getBoundingClientRect();
-        if (ink.left < card.left + 1 || ink.right > card.right - 1 || ink.top < card.top + 1 || ink.bottom > card.bottom - 1) clipped.push('prompt text spills out of its card');
+        if (range.getClientRects().length !== 1) clipped.push('prompt text wraps onto more than one line');
+        if (ink.left < bar.left + 1 || ink.right > bar.right - 1 || ink.top < bar.top + 1 || ink.bottom > bar.bottom - 1) clipped.push('prompt text spills out of the pill');
         const sendBox = document.querySelector('.send').getBoundingClientRect();
-        if (ink.bottom > sendBox.top && ink.right > sendBox.left) clipped.push('prompt text collides with the send button');
+        if (ink.right > sendBox.left - 8) clipped.push('prompt text runs into the send button');
         const gridBox = document.querySelector('.grid').getBoundingClientRect();
-        const fillW = (Math.max(card.right, gridBox.right) - Math.min(card.left, gridBox.left)) / stage.width;
-        const fillH = (Math.max(card.bottom, gridBox.bottom) - Math.min(card.top, gridBox.top)) / stage.height;
-        if (fillW < 0.92 || fillH < 0.85) clipped.push(`composition fills only ${(fillW * 100).toFixed(1)}% x ${(fillH * 100).toFixed(1)}% of the 16:9 canvas`);
+        if (gridBox.top < bar.bottom || Math.abs(gridBox.left - bar.left) > 1 || Math.abs(gridBox.right - bar.right) > 1) clipped.push('chat bar and card grid are not the same width, stacked bar over grid');
+        for (const card of document.querySelectorAll('.card')) {
+          const cardBox = card.getBoundingClientRect();
+          const head = card.querySelector('header').getBoundingClientRect();
+          const shot = card.querySelector('.shot').getBoundingClientRect();
+          const name = card.querySelector('h2').getBoundingClientRect();
+          if (!(head.right <= shot.left + 1 && name.left >= head.left - 1 && name.right <= head.right + 1)) clipped.push(`${card.querySelector('h2').textContent} label does not fit its column beside the image`);
+          if (shot.right > cardBox.right || shot.bottom > cardBox.bottom) clipped.push('card image spills out of its card');
+          const img = card.querySelector('.shot img');
+          const crop = 1 - Math.min(img.naturalWidth / img.naturalHeight, shot.width / shot.height) / Math.max(img.naturalWidth / img.naturalHeight, shot.width / shot.height);
+          if (crop > 0.22) clipped.push(`${card.querySelector('h2').textContent} screenshot is cropped ${(crop * 100).toFixed(1)}%`);
+        }
+        const fillW = (Math.max(bar.right, gridBox.right) - Math.min(bar.left, gridBox.left)) / stage.width;
+        const fillH = (Math.max(bar.bottom, gridBox.bottom) - Math.min(bar.top, gridBox.top)) / stage.height;
+        if (fillW < 0.94 || fillH < 0.88) clipped.push(`composition fills only ${(fillW * 100).toFixed(1)}% x ${(fillH * 100).toFixed(1)}% of the 16:9 canvas`);
       }
       return clipped;
     }, key);

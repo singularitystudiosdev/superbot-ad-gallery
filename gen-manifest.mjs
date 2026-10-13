@@ -66,6 +66,9 @@ const ads = [
   // same-prompt comparison, built from ads-src/baking-website-compare-2ec6b7f6
   // (node render.mjs <out>; the HTML there is the animated version)
   ['baking-website-compare-2ec6b7f6', 'Make me a baking website · one prompt, four results: Gemini, Perplexity, Devin, then Superbot with the gradient ring (static)'],
+  // the white 16:9 cut of the same comparison, all four results in one row
+  // (ads-src/baking-website-compare-white-2ec6b7f6, node render.mjs <out>)
+  ['baking-website-compare-white-2ec6b7f6', 'Make me a baking website · white, all four in a row: Gemini, Perplexity, Devin, Superbot (static, 16:9)', ['16x9']],
 ];
 
 const anims = [

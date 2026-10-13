@@ -2399,5 +2399,22 @@
     },
     "src": "assets/ads/baking-website-compare-2ec6b7f6.{ar}.png",
     "thumb": "assets/ads/baking-website-compare-2ec6b7f6.{ar}.png"
+  },
+  {
+    "id": "baking-website-compare-white-2ec6b7f6",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Make me a baking website · white, all four in a row: Gemini, Perplexity, Devin, Superbot (static, 16:9)",
+    "ars": [
+      "16x9"
+    ],
+    "sizes": {
+      "16x9": {
+        "w": 2400,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/baking-website-compare-white-2ec6b7f6.{ar}.png",
+    "thumb": "assets/ads/baking-website-compare-white-2ec6b7f6.{ar}.png"
   }
 ]

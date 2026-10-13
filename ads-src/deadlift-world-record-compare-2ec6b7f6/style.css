@@ -141,3 +141,40 @@ body {
   border-width: 2px;
   box-shadow: 0 18px 50px rgba(139, 92, 255, 0.22), 0 6px 18px rgba(196, 43, 216, 0.12);
 }
+
+/* Aspect ratios: render.mjs sets html[data-ar]. No attribute keeps the 1:1 look above. */
+html[data-ar="1x1"] .stage { width: 1080px; height: 1080px; }
+
+/* 4:5 canvas 864x1080: same 2x2 grid, scaled so the grid fills about 90% of the width */
+html[data-ar="4x5"] {
+  --card-w: 380px;
+  --gap: 20px;
+}
+html[data-ar="4x5"] .stage { width: 864px; height: 1080px; }
+html[data-ar="4x5"] .content { gap: 48px; }
+html[data-ar="4x5"] .prompt { min-height: 74px; padding: 0 12px 0 30px; font-size: 26px; }
+html[data-ar="4x5"] .send { width: 50px; height: 50px; }
+html[data-ar="4x5"] .send svg { width: 24px; height: 24px; }
+html[data-ar="4x5"] .card { padding: 10px; border-radius: 21px; }
+html[data-ar="4x5"] .card header { height: 36px; gap: 10px; margin: 0 4px 10px; }
+html[data-ar="4x5"] .card h2 { font-size: 22px; }
+html[data-ar="4x5"] .icon { width: 32px; height: 32px; border-radius: 8px; }
+html[data-ar="4x5"] .icon-superbot img { width: 23px; }
+html[data-ar="4x5"] .shot { border-radius: 12px; }
+
+/* 16:9 canvas 1920x1080: prompt pill on top, the 2x2 grid below as wide as the pill, block about 90% of the height */
+html[data-ar="16x9"] {
+  --card-w: 570px;
+  --gap: 24px;
+}
+html[data-ar="16x9"] .stage { width: 1920px; height: 1080px; }
+html[data-ar="16x9"] .content { gap: 56px; padding: 0; }
+html[data-ar="16x9"] .prompt { min-height: 108px; padding: 0 16px 0 46px; font-size: 42px; box-shadow: 0 0 0 8px rgba(139, 92, 255, 0.07), 0 16px 40px rgba(17, 12, 46, 0.1); }
+html[data-ar="16x9"] .send { width: 76px; height: 76px; }
+html[data-ar="16x9"] .send svg { width: 36px; height: 36px; }
+html[data-ar="16x9"] .card { padding: 12px; border-radius: 26px; }
+html[data-ar="16x9"] .card header { height: 48px; gap: 14px; margin: 2px 6px 14px; }
+html[data-ar="16x9"] .card h2 { font-size: 30px; }
+html[data-ar="16x9"] .icon { width: 44px; height: 44px; border-radius: 11px; }
+html[data-ar="16x9"] .icon-superbot img { width: 32px; }
+html[data-ar="16x9"] .shot { border-radius: 16px; }

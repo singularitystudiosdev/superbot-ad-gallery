@@ -141,3 +141,11 @@ body {
   border-width: 2px;
   box-shadow: 0 18px 50px rgba(139, 92, 255, 0.22), 0 6px 18px rgba(196, 43, 216, 0.12);
 }
+
+/* 16:9 canvas (1920x1080 CSS, 2400x1350 at 1.25x): same white 2x2, scaled up so it fills the height */
+body.ratio-16x9 { --card-w: 456px; }
+body.ratio-16x9 .stage { width: 1920px; height: 1080px; }
+body.ratio-16x9 .content { gap: 48px; }
+body.ratio-16x9 .prompt { font-size: 34px; min-height: 88px; }
+body.ratio-16x9 .send { width: 62px; height: 62px; }
+body.ratio-16x9 .card h2 { font-size: 28px; }

@@ -2440,11 +2440,16 @@
     "group": "Ad spots",
     "title": "Make me a baking website · white 2x2: Gemini, Muse over Devin, Superbot, prompt on top (static, 4:5)",
     "ars": [
-      "4x5"
+      "4x5",
+      "16x9"
     ],
     "sizes": {
       "4x5": {
         "w": 1080,
+        "h": 1350
+      },
+      "16x9": {
+        "w": 2400,
         "h": 1350
       }
     },
@@ -2457,11 +2462,16 @@
     "group": "Ad spots",
     "title": "Make me 3D jello · white 2x2: Gemini (code only), Muse, Devin, Superbot's glossy tiered mold, prompt on top (static, 4:5)",
     "ars": [
-      "4x5"
+      "4x5",
+      "16x9"
     ],
     "sizes": {
       "4x5": {
         "w": 1080,
+        "h": 1350
+      },
+      "16x9": {
+        "w": 2400,
         "h": 1350
       }
     },
@@ -2474,11 +2484,21 @@
     "group": "Ad spots",
     "title": "Thumbnail for my game Dig to Escape on Roblox · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)",
     "ars": [
-      "1x1"
+      "1x1",
+      "4x5",
+      "16x9"
     ],
     "sizes": {
       "1x1": {
         "w": 1350,
+        "h": 1350
+      },
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      },
+      "16x9": {
+        "w": 2400,
         "h": 1350
       }
     },
@@ -2491,11 +2511,21 @@
     "group": "Ad spots",
     "title": "Make thumbnails for \"Deadlift World Record\" · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)",
     "ars": [
-      "1x1"
+      "1x1",
+      "4x5",
+      "16x9"
     ],
     "sizes": {
       "1x1": {
         "w": 1350,
+        "h": 1350
+      },
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      },
+      "16x9": {
+        "w": 2400,
         "h": 1350
       }
     },

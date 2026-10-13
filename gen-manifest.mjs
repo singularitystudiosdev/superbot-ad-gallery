@@ -74,16 +74,16 @@ const ads = [
   ['baking-website-compare-white-grid-2ec6b7f6', 'Make me a baking website · white 2x2: Gemini, Perplexity over Devin, Superbot, prompt on top (static, 4:5)', ['4x5']],
   // the white 2x2 with Muse in Perplexity's slot; ads-src/baking-website-compare-muse-2ec6b7f6
   // also renders <id>.png, cropped tight on white
-  ['baking-website-compare-muse-2ec6b7f6', 'Make me a baking website · white 2x2: Gemini, Muse over Devin, Superbot, prompt on top (static, 4:5)', ['4x5']],
+  ['baking-website-compare-muse-2ec6b7f6', 'Make me a baking website · white 2x2: Gemini, Muse over Devin, Superbot, prompt on top (static, 4:5)', ['4x5', '16x9']],
   // same white 2x2 format for a second prompt; ads-src/jello-3d-compare-2ec6b7f6
   // also renders <id>.png, cropped tight on white
-  ['jello-3d-compare-2ec6b7f6', 'Make me 3D jello · white 2x2: Gemini (code only), Muse, Devin, Superbot\'s glossy tiered mold, prompt on top (static, 4:5)', ['4x5']],
+  ['jello-3d-compare-2ec6b7f6', 'Make me 3D jello · white 2x2: Gemini (code only), Muse, Devin, Superbot\'s glossy tiered mold, prompt on top (static, 4:5)', ['4x5', '16x9']],
   // the same white 2x2 with 16:9 thumbnails; ads-src/dig-to-escape-compare-2ec6b7f6
   // also renders <id>.png, cropped tight on white
-  ['dig-to-escape-compare-2ec6b7f6', 'Thumbnail for my game Dig to Escape on Roblox · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)', ['1x1']],
+  ['dig-to-escape-compare-2ec6b7f6', 'Thumbnail for my game Dig to Escape on Roblox · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)', ['1x1', '4x5', '16x9']],
   // same format, second thumbnail prompt; ads-src/deadlift-world-record-compare-2ec6b7f6
   // also renders <id>.png, cropped tight on white
-  ['deadlift-world-record-compare-2ec6b7f6', 'Make thumbnails for "Deadlift World Record" · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)', ['1x1']],
+  ['deadlift-world-record-compare-2ec6b7f6', 'Make thumbnails for "Deadlift World Record" · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)', ['1x1', '4x5', '16x9']],
 ];
 
 const anims = [

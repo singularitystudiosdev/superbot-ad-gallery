@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ads</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html { background: #0b0b0d; }
+  body { min-height: 100vh; background: #0b0b0d; display: grid; place-items: center; padding: 32px; overflow-x: hidden; }
+  .ads { display: grid; grid-template-columns: 1fr; gap: 24px; width: min(100%, 1600px); align-items: start; }
+  @media (min-width: 700px) { .ads { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1200px) { .ads { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .ad { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .ad > a { display: block; transition: transform 0.15s ease; }
+  .ad > a:hover { transform: translateY(-3px); }
+  .ad > a:focus-visible { outline: 3px solid #8b5cff; outline-offset: 4px; }
+  .ad img { display: block; width: 100%; height: auto; }
+  .ratio { align-self: flex-end; display: flex; padding: 2px; gap: 2px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.22); }
+  .ratio button { appearance: none; border: 0; margin: 0; cursor: pointer; font: 600 12px/1 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; background: transparent; padding: 7px 11px; min-height: 28px; border-radius: 999px; }
+  .ratio button[aria-pressed="true"] { background: #fff; color: #0b0b0d; }
+  .ratio button:not([aria-pressed="true"]):hover { background: rgba(255, 255, 255, 0.2); }
+  .ratio button:focus-visible { outline: 3px solid #8b5cff; outline-offset: 1px; }
+  @media (pointer: coarse) { .ratio button { min-height: 44px; min-width: 52px; font-size: 14px; } }
+</style>
+</head>
+<body>
+<main class="ads" id="ads"></main>
+<script>
+(function () {
+  var ADS = [
+    { id: 'deadlift-world-record-compare-2ec6b7f6', slug: 'deadlift-world-record', name: 'Deadlift World Record' },
+    { id: 'dig-to-escape-compare-2ec6b7f6', slug: 'dig-to-escape', name: 'Dig to Escape' },
+    { id: 'jello-3d-compare-2ec6b7f6', slug: '3d-jello', name: '3D jello' },
+    { id: 'baking-website-compare-muse-2ec6b7f6', slug: 'baking-website', name: 'Baking website' }
+  ];
+  var RATIOS = [{ key: '4x5', label: '4:5' }, { key: '16x9', label: '16:9' }];
+  var root = document.getElementById('ads');
+
+  function load(slug) {
+    try {
+      var v = localStorage.getItem('ad-ratio:' + slug);
+      if (v === '4x5' || v === '16x9') return v;
+    } catch (e) { console.error('ad-ratio storage failed', e); }
+    return '4x5';
+  }
+  function save(slug, v) {
+    try { localStorage.setItem('ad-ratio:' + slug, v); } catch (e) { console.error('ad-ratio storage failed', e); }
+  }
+
+  ADS.forEach(function (ad) {
+    var cell = document.createElement('div');
+    cell.className = 'ad';
+
+    var a = document.createElement('a');
+    var img = document.createElement('img');
+    a.appendChild(img);
+
+    var group = document.createElement('div');
+    group.className = 'ratio';
+    group.setAttribute('role', 'group');
+    group.setAttribute('aria-label', ad.name + ' aspect ratio');
+
+    var buttons = {};
+    function apply(key) {
+      var url = '../assets/ads/' + ad.id + '.' + key + '.png';
+      a.href = url;
+      a.setAttribute('download', ad.slug + '-' + key + '.png');
+      img.src = url;
+      img.alt = ad.name + ' ad, download ' + key.replace('x', ':');
+      RATIOS.forEach(function (r) {
+        buttons[r.key].setAttribute('aria-pressed', r.key === key ? 'true' : 'false');
+      });
+    }
+
+    RATIOS.forEach(function (r) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = r.label;
+      b.setAttribute('aria-label', ad.name + ' ' + r.label);
+      b.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        save(ad.slug, r.key);
+        apply(r.key);
+      });
+      buttons[r.key] = b;
+      group.appendChild(b);
+    });
+
+    apply(load(ad.slug));
+    cell.appendChild(group);
+    cell.appendChild(a);
+    root.appendChild(cell);
+  });
+})();
+</script>
+</body>
+</html>

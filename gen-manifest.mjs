@@ -75,6 +75,9 @@ const ads = [
   // the white 2x2 with Muse in Perplexity's slot; ads-src/baking-website-compare-muse-2ec6b7f6
   // also renders <id>.png, cropped tight on white
   ['baking-website-compare-muse-2ec6b7f6', 'Make me a baking website · white 2x2: Gemini, Muse over Devin, Superbot, prompt on top (static, 4:5)', ['4x5']],
+  // same white 2x2 format for a second prompt; ads-src/jello-3d-compare-2ec6b7f6
+  // also renders <id>.png, cropped tight on white
+  ['jello-3d-compare-2ec6b7f6', 'Make me 3D jello · white 2x2: Gemini (code only), Muse, Devin, Superbot\'s glossy tiered mold, prompt on top (static, 4:5)', ['4x5']],
 ];
 
 const anims = [

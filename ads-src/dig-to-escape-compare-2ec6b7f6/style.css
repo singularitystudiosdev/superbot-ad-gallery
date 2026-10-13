@@ -164,21 +164,32 @@ html.r-4x5 {
 
 html.r-4x5 .content { padding: 0; }
 
-/* 16:9 canvas (1920x1080 CSS -> 2400x1350 at 1.25x): prompt on top as wide as the grid, 2x2 below,
-   block ~90% of the height and centred */
-html.r-16x9 {
-  --stage-w: 1920px;
-  --card-w: 604px;
-  --gap: 24px;
-  --content-gap: 40px;
-  --prompt-size: 44px;
-  --prompt-h: 104px;
-  --send: 76px;
-  --name-size: 28px;
+/* 16:9 canvas (1920x1080 CSS -> 2400x1350 at 1.25x), scoped to the 16:9 hook only.
+   Layout: prompt composer as a tall card on the left (440px column, card hugs its text), the 2x2 results on the right, the
+   whole block 1840px wide (40px side margins). Same card chrome, type scale and gaps in every ad. */
+html.r-16x9 { --card-w: 668px; }
+html.r-16x9 .stage { width: 1920px; height: 1080px; }
+html.r-16x9 .content { flex-direction: row; align-items: center; gap: 40px; width: 1840px; padding: 0; }
+html.r-16x9 .prompt {
+  flex: none;
+  flex-direction: column;
+  align-items: stretch;
+  width: 440px;
+  padding: 36px 32px 32px 36px;
+  border-radius: 36px;
+  font-size: 48px;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  white-space: normal;
+  box-shadow: 0 0 0 8px rgba(139, 92, 255, 0.07), 0 18px 44px rgba(17, 12, 46, 0.1);
 }
-
-html.r-16x9 .content { padding: 0; }
-
-html.r-16x9 .prompt { padding: 0 14px 0 48px; }
-
-html.r-16x9 .send svg { width: 36px; height: 36px; }
+html.r-16x9 .prompt-text { display: block; text-align: left; text-wrap: balance; overflow-wrap: break-word; }
+html.r-16x9 .send { width: 84px; height: 84px; margin: 24px 0 0 auto; }
+html.r-16x9 .send svg { width: 40px; height: 40px; }
+html.r-16x9 .grid { grid-template-columns: repeat(2, var(--card-w)); gap: 24px; }
+html.r-16x9 .card { padding: 12px; border-radius: 26px; }
+html.r-16x9 .card header { height: 48px; gap: 14px; margin: 2px 6px 14px; }
+html.r-16x9 .card h2 { font-size: 30px; }
+html.r-16x9 .icon { width: 44px; height: 44px; border-radius: 11px; }
+html.r-16x9 .icon-superbot img { width: 32px; }
+html.r-16x9 .shot { border-radius: 16px; }

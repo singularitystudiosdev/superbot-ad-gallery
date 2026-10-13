@@ -22,13 +22,28 @@ async function renderRatio({ browser, ratio, viewport, outputs }) {
     [...document.images].filter((img) => !img.complete || img.naturalWidth === 0).map((img) => img.src),
   );
   if (brokenImages.length) throw new Error(`Images failed to load: ${brokenImages.join(', ')}`);
-  const overflow = await page.evaluate(() => {
+  const overflow = await page.evaluate((R) => {
     const stage = document.querySelector('.stage').getBoundingClientRect();
-    return [...document.querySelectorAll('.prompt, .card')]
+    const clipped = [...document.querySelectorAll('.prompt, .card')]
       .map((el) => ({ el: el.className, box: el.getBoundingClientRect() }))
       .filter(({ box }) => box.top < stage.top || box.bottom > stage.bottom || box.left < stage.left || box.right > stage.right)
       .map(({ el }) => el);
-  });
+    if (R === '16x9') {
+      // 16:9 layout: the prompt text must sit inside its card (clear of the send button) and the composition must fill the frame
+      const card = document.querySelector('.prompt').getBoundingClientRect();
+      const range = document.createRange();
+      range.selectNodeContents(document.querySelector('.prompt-text'));
+      const ink = range.getBoundingClientRect();
+      if (ink.left < card.left + 1 || ink.right > card.right - 1 || ink.top < card.top + 1 || ink.bottom > card.bottom - 1) clipped.push('prompt text spills out of its card');
+      const sendBox = document.querySelector('.send').getBoundingClientRect();
+      if (ink.bottom > sendBox.top && ink.right > sendBox.left) clipped.push('prompt text collides with the send button');
+      const gridBox = document.querySelector('.grid').getBoundingClientRect();
+      const fillW = (Math.max(card.right, gridBox.right) - Math.min(card.left, gridBox.left)) / stage.width;
+      const fillH = (Math.max(card.bottom, gridBox.bottom) - Math.min(card.top, gridBox.top)) / stage.height;
+      if (fillW < 0.92 || fillH < 0.85) clipped.push(`composition fills only ${(fillW * 100).toFixed(1)}% x ${(fillH * 100).toFixed(1)}% of the 16:9 canvas`);
+    }
+    return clipped;
+  }, ratio);
   if (overflow.length) throw new Error(`Elements overflow the ${ratio} canvas: ${overflow.join(', ')}`);
   for (const { selector, file } of outputs) {
     const target = join(outDir, file);

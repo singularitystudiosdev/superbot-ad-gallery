@@ -162,16 +162,29 @@ html[data-ar="4x5"] .icon { width: 32px; height: 32px; border-radius: 8px; }
 html[data-ar="4x5"] .icon-superbot img { width: 23px; }
 html[data-ar="4x5"] .shot { border-radius: 12px; }
 
-/* 16:9 canvas 1920x1080: prompt pill on top, the 2x2 grid below as wide as the pill, block about 90% of the height */
-html[data-ar="16x9"] {
-  --card-w: 570px;
-  --gap: 24px;
-}
+/* 16:9 canvas (1920x1080 CSS -> 2400x1350 at 1.25x), scoped to the 16:9 hook only.
+   Layout: prompt composer as a tall card on the left (440px column, card hugs its text), the 2x2 results on the right, the
+   whole block 1840px wide (40px side margins). Same card chrome, type scale and gaps in every ad. */
+html[data-ar="16x9"] { --card-w: 668px; }
 html[data-ar="16x9"] .stage { width: 1920px; height: 1080px; }
-html[data-ar="16x9"] .content { gap: 56px; padding: 0; }
-html[data-ar="16x9"] .prompt { min-height: 108px; padding: 0 16px 0 46px; font-size: 42px; box-shadow: 0 0 0 8px rgba(139, 92, 255, 0.07), 0 16px 40px rgba(17, 12, 46, 0.1); }
-html[data-ar="16x9"] .send { width: 76px; height: 76px; }
-html[data-ar="16x9"] .send svg { width: 36px; height: 36px; }
+html[data-ar="16x9"] .content { flex-direction: row; align-items: center; gap: 40px; width: 1840px; padding: 0; }
+html[data-ar="16x9"] .prompt {
+  flex: none;
+  flex-direction: column;
+  align-items: stretch;
+  width: 440px;
+  padding: 36px 32px 32px 36px;
+  border-radius: 36px;
+  font-size: 48px;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  white-space: normal;
+  box-shadow: 0 0 0 8px rgba(139, 92, 255, 0.07), 0 18px 44px rgba(17, 12, 46, 0.1);
+}
+html[data-ar="16x9"] .prompt-text { display: block; text-align: left; text-wrap: balance; overflow-wrap: break-word; }
+html[data-ar="16x9"] .send { width: 84px; height: 84px; margin: 24px 0 0 auto; }
+html[data-ar="16x9"] .send svg { width: 40px; height: 40px; }
+html[data-ar="16x9"] .grid { grid-template-columns: repeat(2, var(--card-w)); gap: 24px; }
 html[data-ar="16x9"] .card { padding: 12px; border-radius: 26px; }
 html[data-ar="16x9"] .card header { height: 48px; gap: 14px; margin: 2px 6px 14px; }
 html[data-ar="16x9"] .card h2 { font-size: 30px; }

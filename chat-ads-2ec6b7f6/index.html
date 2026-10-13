@@ -8,10 +8,15 @@
   * { box-sizing: border-box; margin: 0; }
   html { background: #0b0b0d; }
   body { min-height: 100vh; background: #0b0b0d; display: grid; place-items: center; padding: 32px; overflow-x: hidden; }
-  .ads { display: grid; grid-template-columns: 1fr; gap: 24px; width: min(100%, 1600px); align-items: start; }
-  @media (min-width: 700px) { .ads { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 1200px) { .ads { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .ad { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .ads { --gap: 24px; display: flex; flex-direction: column; gap: var(--gap); width: min(100%, 1600px); align-items: stretch; }
+  .row { display: flex; flex-direction: row; gap: var(--gap); align-items: flex-start; min-width: 0; }
+  /* Justified rows: every ad flexes by its aspect ratio (--a), so equal-height images fill the row. */
+  .ad { display: flex; flex-direction: column; gap: 10px; min-width: 0; flex: var(--a, 0.8) 1 0; }
+  /* >= 900px: both rows sit side by side. Each row's basis is its one inner gap, its grow is the sum of its aspects (--s),
+     so row width = gap + height * sum and the image height matches across rows. */
+  @media (min-width: 900px) { .ads { flex-direction: row; align-items: flex-start; } .row { flex: var(--s, 1.6) 1 var(--gap); } }
+  /* < 600px: one ad per row at full width. */
+  @media (max-width: 599px) { .row { flex-direction: column; align-items: stretch; } .ad { flex: none; width: 100%; } }
   .ad > a { display: block; transition: transform 0.15s ease; }
   .ad > a:hover { transform: translateY(-3px); }
   .ad > a:focus-visible { outline: 3px solid #8b5cff; outline-offset: 4px; }
@@ -36,6 +41,23 @@
   ];
   var RATIOS = [{ key: '4x5', label: '4:5' }, { key: '16x9', label: '16:9' }];
   var root = document.getElementById('ads');
+  var ASPECT = { '4x5': 0.8, '16x9': 16 / 9 };
+  var rows = [];
+  var state = [];
+  var PER_ROW = 2;
+  for (var r = 0; r < ADS.length; r += PER_ROW) {
+    var rowEl = document.createElement('div');
+    rowEl.className = 'row';
+    root.appendChild(rowEl);
+    rows.push(rowEl);
+  }
+  function layout() {
+    rows.forEach(function (rowEl, ri) {
+      var sum = 0;
+      for (var k = ri * PER_ROW; k < Math.min(ADS.length, (ri + 1) * PER_ROW); k++) sum += ASPECT[state[k]] || ASPECT['4x5'];
+      rowEl.style.setProperty('--s', String(sum));
+    });
+  }
 
   function load(slug) {
     try {
@@ -48,7 +70,7 @@
     try { localStorage.setItem('ad-ratio:' + slug, v); } catch (e) { console.error('ad-ratio storage failed', e); }
   }
 
-  ADS.forEach(function (ad) {
+  ADS.forEach(function (ad, idx) {
     var cell = document.createElement('div');
     cell.className = 'ad';
 
@@ -67,6 +89,9 @@
       a.href = url;
       a.setAttribute('download', ad.slug + '-' + key + '.png');
       img.src = url;
+      state[idx] = key;
+      cell.style.setProperty('--a', String(ASPECT[key]));
+      layout();
       img.alt = ad.name + ' ad, download ' + key.replace('x', ':');
       RATIOS.forEach(function (r) {
         buttons[r.key].setAttribute('aria-pressed', r.key === key ? 'true' : 'false');
@@ -91,7 +116,7 @@
     apply(load(ad.slug));
     cell.appendChild(group);
     cell.appendChild(a);
-    root.appendChild(cell);
+    rows[Math.floor(idx / PER_ROW)].appendChild(cell);
   });
 })();
 </script>

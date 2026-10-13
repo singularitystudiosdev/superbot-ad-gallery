@@ -142,11 +142,35 @@ body {
   box-shadow: 0 18px 50px rgba(139, 92, 255, 0.22), 0 6px 18px rgba(196, 43, 216, 0.12);
 }
 
-/* 16:9 canvas (1920x1080 CSS, 2400x1350 at 1.25x): same white 2x2, scaled up so it fills the height.
-   render.mjs adds .ratio-16x9 to <body>; the 4:5 render is unaffected. */
-body.ratio-16x9 { --card-w: 456px; }
+/* 16:9 canvas (1920x1080 CSS -> 2400x1350 at 1.25x), scoped to the 16:9 hook only.
+   Screenshots (not 16:9 thumbnails) take a wider box here, cropped from the bottom (about 19%).
+   Layout: prompt composer as a tall card on the left (440px column, card hugs its text), the 2x2 results on the right, the
+   whole block 1840px wide (40px side margins). Same card chrome, type scale and gaps in every ad. */
+body.ratio-16x9 { --card-w: 668px; }
 body.ratio-16x9 .stage { width: 1920px; height: 1080px; }
-body.ratio-16x9 .content { gap: 48px; }
-body.ratio-16x9 .prompt { font-size: 34px; min-height: 88px; }
-body.ratio-16x9 .send { width: 62px; height: 62px; }
-body.ratio-16x9 .card h2 { font-size: 28px; }
+body.ratio-16x9 .content { flex-direction: row; align-items: center; gap: 40px; width: 1840px; padding: 0; }
+body.ratio-16x9 .prompt {
+  flex: none;
+  flex-direction: column;
+  align-items: stretch;
+  width: 440px;
+  padding: 36px 32px 32px 36px;
+  border-radius: 36px;
+  font-size: 48px;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  white-space: normal;
+  box-shadow: 0 0 0 8px rgba(139, 92, 255, 0.07), 0 18px 44px rgba(17, 12, 46, 0.1);
+}
+body.ratio-16x9 .prompt-text { display: block; text-align: left; text-wrap: balance; overflow-wrap: break-word; }
+body.ratio-16x9 .send { width: 84px; height: 84px; margin: 24px 0 0 auto; }
+body.ratio-16x9 .send svg { width: 40px; height: 40px; }
+body.ratio-16x9 .grid { grid-template-columns: repeat(2, var(--card-w)); gap: 24px; }
+body.ratio-16x9 .card { padding: 12px; border-radius: 26px; }
+body.ratio-16x9 .card header { height: 48px; gap: 14px; margin: 2px 6px 14px; }
+body.ratio-16x9 .card h2 { font-size: 30px; }
+body.ratio-16x9 .icon { width: 44px; height: 44px; border-radius: 11px; }
+body.ratio-16x9 .icon-superbot img { width: 32px; }
+body.ratio-16x9 .shot { border-radius: 16px; }
+body.ratio-16x9 .shot { aspect-ratio: 1.61; }
+body.ratio-16x9 .shot img { object-position: top center; }

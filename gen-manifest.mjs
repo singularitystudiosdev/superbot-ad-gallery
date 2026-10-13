@@ -63,6 +63,9 @@ const ads = [
   ['muse-ad10-super-fast-49c9db5c', 'Meet Superbot. The fast one. · Muse "Voici Muse" icon-ring layout (the best image so far) with only the claim changed to speed: every model you pay for, one chat, no stopping to ask (static, 4:5, X campaign 42721340)', ['4x5']],
   ['muse-ad12-ask-what-others-wont-49c9db5c', 'Ask what other AIs won\'t answer. · Muse "Voici Muse" icon-ring layout with only the claim changed to the refusal angle: Superbot is the AI when other AIs refuse, on the plans you already pay for (static, 4:5, X campaign 42721929)', ['4x5']],
   // <<< muse-adapt-49c9db5c
+  // same-prompt comparison, built from ads-src/baking-website-compare-2ec6b7f6
+  // (node render.mjs <out>; the HTML there is the animated version)
+  ['baking-website-compare-2ec6b7f6', 'Make me a baking website · one prompt, four results: Gemini, Perplexity, Devin, then Superbot with the gradient ring (static)'],
 ];
 
 const anims = [

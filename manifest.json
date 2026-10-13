@@ -2367,5 +2367,37 @@
     },
     "src": "assets/ads/muse-ad12-ask-what-others-wont-49c9db5c.{ar}.png",
     "thumb": "assets/ads/muse-ad12-ask-what-others-wont-49c9db5c.{ar}.png"
+  },
+  {
+    "id": "baking-website-compare-2ec6b7f6",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Make me a baking website · one prompt, four results: Gemini, Perplexity, Devin, then Superbot with the gradient ring (static)",
+    "ars": [
+      "4x5",
+      "16x9",
+      "4x3",
+      "1x1"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      },
+      "16x9": {
+        "w": 2400,
+        "h": 1350
+      },
+      "4x3": {
+        "w": 1800,
+        "h": 1350
+      },
+      "1x1": {
+        "w": 1350,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/baking-website-compare-2ec6b7f6.{ar}.png",
+    "thumb": "assets/ads/baking-website-compare-2ec6b7f6.{ar}.png"
   }
 ]

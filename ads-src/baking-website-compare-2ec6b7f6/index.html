@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make me a baking website · Gemini, Perplexity, Devin, Superbot</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  // ?ar=4x5|16x9|4x3|1x1 picks the canvas; ?still=1 skips the entrance animation (used by render.mjs).
+  const params = new URLSearchParams(location.search);
+  const aspect = ['4x5', '16x9', '4x3', '1x1'].includes(params.get('ar')) ? params.get('ar') : '4x5';
+  document.documentElement.classList.add('ar-' + aspect);
+  if (params.get('still') === '1') document.documentElement.classList.add('still');
+</script>
+</head>
+<body>
+<main class="stage">
+  <section class="prompt" aria-label="Prompt">
+    <span class="prompt-text" data-text="Make me a baking website">Make me a baking website</span><span class="caret" aria-hidden="true"></span>
+    <span class="send" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg>
+    </span>
+  </section>
+
+  <section class="grid">
+    <article class="card" style="--i:0">
+      <header><img class="icon" src="assets/icon-gemini.png" alt=""><h2>Gemini</h2></header>
+      <div class="shot"><img src="assets/shot-gemini.png" alt="Gemini result: a unit and oven temperature converter page"></div>
+    </article>
+    <article class="card" style="--i:1">
+      <header><img class="icon" src="assets/icon-perplexity.png" alt=""><h2>Perplexity</h2></header>
+      <div class="shot"><img src="assets/shot-perplexity.png" alt="Perplexity result: a kitchen timer page"></div>
+    </article>
+    <article class="card" style="--i:2">
+      <header><img class="icon" src="assets/icon-devin.png" alt=""><h2>Devin</h2></header>
+      <div class="shot"><img src="assets/shot-devin.png" alt="Devin result: a recipe card grid with gradient placeholders"></div>
+    </article>
+    <article class="card card-superbot" style="--i:3">
+      <header><span class="icon icon-superbot"><img src="assets/mascot.png" alt=""></span><h2>Superbot</h2></header>
+      <div class="shot"><img src="assets/shot-superbot.png" alt="Superbot result: a full baking site with recipe photography"></div>
+    </article>
+  </section>
+
+  <footer class="lockup">
+    <img src="assets/mascot.png" alt="">
+    <span>superbot.gg</span>
+  </footer>
+</main>
+<script>
+  if (!document.documentElement.classList.contains('still')) {
+    const promptText = document.querySelector('.prompt-text');
+    const fullText = promptText.dataset.text;
+    promptText.textContent = '';
+    let typed = 0;
+    const typeNext = () => {
+      promptText.textContent = fullText.slice(0, ++typed);
+      if (typed < fullText.length) setTimeout(typeNext, 55);
+      else document.documentElement.classList.add('sent');
+    };
+    setTimeout(typeNext, 450);
+  }
+</script>
+</body>
+</html>

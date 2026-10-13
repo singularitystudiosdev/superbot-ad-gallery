@@ -2467,5 +2467,22 @@
     },
     "src": "assets/ads/jello-3d-compare-2ec6b7f6.{ar}.png",
     "thumb": "assets/ads/jello-3d-compare-2ec6b7f6.{ar}.png"
+  },
+  {
+    "id": "dig-to-escape-compare-2ec6b7f6",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Thumbnail for my game Dig to Escape on Roblox · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)",
+    "ars": [
+      "1x1"
+    ],
+    "sizes": {
+      "1x1": {
+        "w": 1350,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/dig-to-escape-compare-2ec6b7f6.{ar}.png",
+    "thumb": "assets/ads/dig-to-escape-compare-2ec6b7f6.{ar}.png"
   }
 ]

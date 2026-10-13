@@ -78,6 +78,9 @@ const ads = [
   // same white 2x2 format for a second prompt; ads-src/jello-3d-compare-2ec6b7f6
   // also renders <id>.png, cropped tight on white
   ['jello-3d-compare-2ec6b7f6', 'Make me 3D jello · white 2x2: Gemini (code only), Muse, Devin, Superbot\'s glossy tiered mold, prompt on top (static, 4:5)', ['4x5']],
+  // the same white 2x2 with 16:9 thumbnails; ads-src/dig-to-escape-compare-2ec6b7f6
+  // also renders <id>.png, cropped tight on white
+  ['dig-to-escape-compare-2ec6b7f6', 'Thumbnail for my game Dig to Escape on Roblox · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)', ['1x1']],
 ];
 
 const anims = [

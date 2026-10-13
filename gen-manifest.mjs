@@ -69,6 +69,9 @@ const ads = [
   // the white 16:9 cut of the same comparison, all four results in one row
   // (ads-src/baking-website-compare-white-2ec6b7f6, node render.mjs <out>)
   ['baking-website-compare-white-2ec6b7f6', 'Make me a baking website · white, all four in a row: Gemini, Perplexity, Devin, Superbot (static, 16:9)', ['16x9']],
+  // the white 2x2 cut, the one picked; ads-src/baking-website-compare-white-grid-2ec6b7f6
+  // also renders <id>.png, the prompt and four results cropped tight on white
+  ['baking-website-compare-white-grid-2ec6b7f6', 'Make me a baking website · white 2x2: Gemini, Perplexity over Devin, Superbot, prompt on top (static, 4:5)', ['4x5']],
 ];
 
 const anims = [

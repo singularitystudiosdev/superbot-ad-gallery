@@ -72,6 +72,9 @@ const ads = [
   // the white 2x2 cut, the one picked; ads-src/baking-website-compare-white-grid-2ec6b7f6
   // also renders <id>.png, the prompt and four results cropped tight on white
   ['baking-website-compare-white-grid-2ec6b7f6', 'Make me a baking website · white 2x2: Gemini, Perplexity over Devin, Superbot, prompt on top (static, 4:5)', ['4x5']],
+  // the white 2x2 with Muse in Perplexity's slot; ads-src/baking-website-compare-muse-2ec6b7f6
+  // also renders <id>.png, cropped tight on white
+  ['baking-website-compare-muse-2ec6b7f6', 'Make me a baking website · white 2x2: Gemini, Muse over Devin, Superbot, prompt on top (static, 4:5)', ['4x5']],
 ];
 
 const anims = [

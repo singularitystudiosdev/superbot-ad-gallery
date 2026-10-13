@@ -2433,5 +2433,22 @@
     },
     "src": "assets/ads/baking-website-compare-white-grid-2ec6b7f6.{ar}.png",
     "thumb": "assets/ads/baking-website-compare-white-grid-2ec6b7f6.{ar}.png"
+  },
+  {
+    "id": "baking-website-compare-muse-2ec6b7f6",
+    "type": "image",
+    "group": "Ad spots",
+    "title": "Make me a baking website · white 2x2: Gemini, Muse over Devin, Superbot, prompt on top (static, 4:5)",
+    "ars": [
+      "4x5"
+    ],
+    "sizes": {
+      "4x5": {
+        "w": 1080,
+        "h": 1350
+      }
+    },
+    "src": "assets/ads/baking-website-compare-muse-2ec6b7f6.{ar}.png",
+    "thumb": "assets/ads/baking-website-compare-muse-2ec6b7f6.{ar}.png"
   }
 ]

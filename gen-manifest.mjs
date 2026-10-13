@@ -81,6 +81,9 @@ const ads = [
   // the same white 2x2 with 16:9 thumbnails; ads-src/dig-to-escape-compare-2ec6b7f6
   // also renders <id>.png, cropped tight on white
   ['dig-to-escape-compare-2ec6b7f6', 'Thumbnail for my game Dig to Escape on Roblox · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)', ['1x1']],
+  // same format, second thumbnail prompt; ads-src/deadlift-world-record-compare-2ec6b7f6
+  // also renders <id>.png, cropped tight on white
+  ['deadlift-world-record-compare-2ec6b7f6', 'Make thumbnails for "Deadlift World Record" · white 2x2 of 16:9 thumbnails: Gemini, Midjourney, Perplexity, Superbot (static, 1:1)', ['1x1']],
 ];
 
 const anims = [

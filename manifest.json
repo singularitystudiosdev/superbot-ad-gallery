@@ -272,6 +272,15 @@
     "desc": "The Gemini muse meme spot, garden template variant. \"make me a garden design template\" is typed; superbot switches to Gemini, which draws a printable 24 x 18 ft backyard plan onto grid paper: outlines sketch in blue and fill in, raised beds A to E, gravel paths, a seating circle, a pond, lawn, shrubs and a tree pop in, then the key, the bed list, blank name and date fields, the scale bar and the north arrow. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-game-superbot-d9bc17e9",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: make me a zombie game",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=game",
+    "thumb": "assets/shots/gemini-muse-meme-game-superbot-d9bc17e9.png",
+    "desc": "The Gemini muse meme spot, zombie game variant. \"make me a zombie game\" is typed; Gemini writes zombie-run.js line by line while a Creating game pill counts up, then the card boots into a 3D zombie endless runner: the zombie dodges between lanes past graves and picks up brains while the Score and Brains counters climb. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

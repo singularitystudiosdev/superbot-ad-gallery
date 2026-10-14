@@ -10,7 +10,7 @@ const CSS_W = 236, CSS_H = Math.round(236 * 1024 / 870); // the meme card's foot
 const PIXEL_RATIO = 2.5;  // stays crisp under the stage scale and the camera push
 const FOV = 50;
 const NIGHT = 0x1a2124;   // clear colour and fog
-const GROUND = 0x1f2725, PATH = 0x343b38, DASH = 0x4b524e, STONE = 0x8a8f94, BRAIN = 0xf2a7b8, LIGHT = 0xffffff;
+const GROUND = 0x1f2725, PATH = 0x343b38, DASH = 0x4b524e, STONE = 0x8a8f94, BRAIN = 0xf2a7b8, LIGHT = 0xe3e3e3;
 const SPEED = 9;          // units per second once up to speed
 const RAMP = 0.25;        // seconds of ease-in from the boot
 const LANE = 1.1;         // lane spacing: x in { -LANE, 0, LANE }

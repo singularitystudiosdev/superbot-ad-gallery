@@ -8,6 +8,7 @@ import { clamp, lerp, seg, outCubic, outBack, inOutCubic, esc, boxIn, placeCurso
 import { makeCursor } from '../../shell.9b47fc30.js';
 import gemini from './beats/gemini.9b47fc30.js?v=1';
 import doordash from './beats/doordash.d9bc17e9.js?v=1';
+import climb from './beats/climb.080da517.js?v=1';
 import { variant } from '../../variant.9e82faf1.js';
 
 const brand = (f) => new URL('../../brand/' + f, import.meta.url).href;
@@ -26,9 +27,9 @@ const APPS = {
 const BASE = [
   {
     app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']], ask: 'make me a muse meme',
-    askBy: { 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template' },
+    askBy: { 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', climbing: 'Show me rock climbing videos' },
     // one [app, label] per base chip, so the route keeps the base chips' clock
-    routeBy: { doordash: { app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] } },
+    routeBy: { doordash: { app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] } },
   },
 ];
 

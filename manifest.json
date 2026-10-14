@@ -272,6 +272,15 @@
     "desc": "The Gemini muse meme spot, garden template variant. \"make me a garden design template\" is typed; superbot switches to Gemini, which draws a printable 24 x 18 ft backyard plan onto grid paper: outlines sketch in blue and fill in, raised beds A to E, gravel paths, a seating circle, a pond, lawn, shrubs and a tree pop in, then the key, the bed list, blank name and date fields, the scale bar and the north arrow. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-climbing-superbot-080da517",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Show me rock climbing videos",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=climbing",
+    "thumb": "assets/shots/gemini-muse-meme-climbing-superbot-080da517.png",
+    "desc": "The Gemini muse meme spot, rock climbing videos variant. \"Show me rock climbing videos\" is typed; superbot switches to Gemini, which searches YouTube: a featured player and three up-next videos shimmer as skeletons under \"Searching YouTube\", land one by one, and the featured climb starts playing (the play button clears, the controls rise, the buffer runs ahead of the playhead). Same 6.3 s loop as the meme variants; the top-right selector switches variants live. Thumbnails are public-domain and CC0 Commons photos; the titles and channels are made up."
+  },
+  {
     "id": "gemini-muse-meme-game-superbot-d9bc17e9",
     "type": "animation",
     "group": "Ad spots",

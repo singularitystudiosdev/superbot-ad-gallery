@@ -3,7 +3,7 @@
 // band; '10' generates ten tiles at once, each landing on its own clock inside the same window; '3d' builds a zombie
 // model from the feet up on a turntable (zombie3d.9e82faf1.js); 'game' types out a zombie runner's code, then boots it
 // into the running game (zombiegame.7b46b820.js); 'garden' draws a garden design template onto grid paper
-// (garden.410879cc.js); 'logo' resolves a generated coffee shop logo (img/coffee-logo.a133a772.png) as the 1-image card
+// (garden.410879cc.js); 'roadtrip' draws a Google-Maps-style route card, LA to SF up the coast (roadtrip.9bc0f433.js); 'logo' resolves a generated coffee shop logo (img/coffee-logo.a133a772.png) as the 1-image card
 // does. Every variant keeps the beat's length. All layouts are
 // built once and the variant picks which one shows; the 3D viewer (and three.js) loads the first time its variant shows.
 import { lerp, seg, outCubic, inOutCubic, streamCount } from '../../../lib.9b47fc30.js';
@@ -12,8 +12,9 @@ import { track } from '../../../loads.9e82faf1.js';
 import { makeZombieViewer } from './zombie3d.9e82faf1.js';
 import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_H } from './zombiegame.7b46b820.js';
 import { makeGarden } from './garden.410879cc.js';
+import { makeRoadtrip } from './roadtrip.9bc0f433.js';
 
-const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.', logo: 'Here’s your coffee shop logo.' };
+const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.', roadtrip: 'Here’s a 3-day coastal drive from LA to SF.', logo: 'Here’s your coffee shop logo.' };
 const ZOMBIE = new URL('../../../models/zombie-3d.9e82faf1.glb', import.meta.url).href;
 const BOOT = 0.75, BOOT_LEN = 0.2, PLAY = 0.8; // the code view hands over to the game at T.w0 + BOOT; play counts from T.w0 + PLAY
 const SPIN0 = -0.75, SPIN = 0.55; // the turntable's angle as the card lands (a three-quarter view), and its turn in rad/s
@@ -66,6 +67,8 @@ export default {
     media.append(card, grid, model, game, logo);
     const garden = makeGarden(x);
     media.append(garden.node);
+    const roadtrip = makeRoadtrip(x);
+    media.append(roadtrip.node);
     const vis = say.firstElementChild, hid = say.lastElementChild;
     const im = card.querySelector('img'), gen = card.querySelector('.qc-gen'), genl = card.querySelector('.qc-genl');
     const tiles = [...grid.querySelectorAll('.qc-gt')].map((n, i) => ({ n, im: n.querySelector('img'), gen: n.querySelector('.qc-gen'), g: TILES[i] }));
@@ -88,6 +91,7 @@ export default {
           model.style.display = v === '3d' ? '' : 'none';
           game.style.display = v === 'game' ? '' : 'none';
           garden.node.style.display = v === 'garden' ? '' : 'none';
+          roadtrip.node.style.display = v === 'roadtrip' ? '' : 'none';
           logo.style.display = v === 'logo' ? '' : 'none';
           lastV = v; shown = -1;
         }
@@ -99,6 +103,7 @@ export default {
         media.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
         const label = (1 - seg(t, T.w1 - 0.25, T.w1)).toFixed(3);
         if (v === 'garden') { garden.render(t, T, label); return; }
+        if (v === 'roadtrip') { roadtrip.render(t, T, label); return; }
         if (v === 'game') {
           if (!runner) { runner = makeZombieGame(gcanvas, ZOMBIE); track(runner.ready); }
           const g = Math.max(0, t - (T.w0 + PLAY));

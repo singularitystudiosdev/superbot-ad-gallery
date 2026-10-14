@@ -23,7 +23,7 @@ const CSS = `
 .${P}-s.pre { background: #10162c; }
 .${P}-s.pre b { opacity: 0; }
 .${P}-s.pre b::after { opacity: 1; }
-.${P}-s img { position: absolute; inset: 0; display: none; width: 100%; height: 100%; object-fit: cover; }
+.${P}-s img { display: block; width: 100%; height: 100%; object-fit: cover; visibility: hidden; }
 .${P}-line { position: relative; height: 18px; margin-top: 10px; }
 .${P}-line > div { position: absolute; left: 0; top: 0; right: 0; }
 .${P}-ok { height: 18px; font-size: 11px; line-height: 18px; color: #dfe3f0; }
@@ -73,7 +73,7 @@ export default {
         slots.forEach((s, i) => {
           const mode = t >= ctx.seq(i)[1] ? 'img' : pre ? 'pre' : 'grey';
           if (mode !== s.mode) {
-            s.im.style.display = mode === 'img' ? 'block' : 'none';
+            s.im.style.visibility = mode === 'img' ? 'visible' : 'hidden';
             s.n.classList.toggle('pre', mode === 'pre');
             s.n.firstElementChild.style.display = mode === 'img' ? 'none' : '';
             s.mode = mode;

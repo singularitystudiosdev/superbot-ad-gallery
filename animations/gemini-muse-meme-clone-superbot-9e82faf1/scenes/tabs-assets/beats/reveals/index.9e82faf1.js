@@ -48,5 +48,9 @@ import dreamstudio from './dreamstudio.9e82faf1.js';
 import hailuo from './hailuo.9e82faf1.js';
 import midjourneyDiscord from './midjourney-discord.9e82faf1.js';
 import chatgptDalle3 from './chatgpt-dalle3.9e82faf1.js';
+import appleImagePlayground from './apple-image-playground.9e82faf1.js';
+import googleWhisk from './google-whisk.9e82faf1.js';
+import googleImagefx from './google-imagefx.9e82faf1.js';
+import leonardoFlow from './leonardo-flow.9e82faf1.js';
 
-export const REVEALS = [chatgpt, gemini, sdwebui, krea, bing, ideogram, perplexity, leonardo, firefly, copilot, higgsfield, midjourney, grok, geminiApp, meta, metaChat, kling, flux, recraft, luma, qwen, reve, canva, freepik, jimeng, hunyuan, jimengWeb, kandinsky, tensorArt, picsart, dreamstudio, hailuo, midjourneyDiscord, chatgptDalle3];
+export const REVEALS = [chatgpt, gemini, sdwebui, krea, bing, ideogram, perplexity, leonardo, firefly, copilot, higgsfield, midjourney, grok, geminiApp, meta, metaChat, kling, flux, recraft, luma, qwen, reve, canva, freepik, jimeng, hunyuan, jimengWeb, kandinsky, tensorArt, picsart, dreamstudio, hailuo, midjourneyDiscord, chatgptDalle3, appleImagePlayground, googleWhisk, googleImagefx, leonardoFlow];

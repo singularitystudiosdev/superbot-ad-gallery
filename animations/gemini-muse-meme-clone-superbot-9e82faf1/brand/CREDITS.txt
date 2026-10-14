@@ -62,3 +62,10 @@ Added for the 'doordash' variant (2026-10-14):
   doordash-logo.svg         the DoorDash dash logomark, copied from every-model-one-chat-superbot-efa8df82/brand (the inline
                             <svg viewBox="0 0 99.5 56.5"> from the www.doordash.com header, paths verbatim, fill DoorDash
                             Red #FF3008). Trademark of DoorDash, Inc.
+
+ELEVENLABS (song variant: routing chip, reply header, platform chip, cover art)
+  elevenlabs-icon.svg       the app icon (white rounded tile, black "II" bars), byte-for-byte copy of
+                            https://elevenlabs.io/icon.svg (linked as rel="icon" from https://elevenlabs.io/). Fetched 2026-10-14.
+  elevenlabs-logo.svg       the "II" logomark alone: the two bar <path>s copied verbatim out of elevenlabs-icon.svg, the
+                            viewBox cropped to the bars and the fill recoloured black -> white for dark surfaces.
+  Usage: trademarks of ElevenLabs; shown nominatively, naming the product that answers the ask.

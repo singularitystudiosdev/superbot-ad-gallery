@@ -20,28 +20,28 @@ const COLS = 4, GAP = 6, SLOTS0 = 4;               // the thumbnail grid's colum
 const CSS = `
 .${P} { box-sizing: border-box; position: relative; display: flex; flex-direction: column; width: 560px; max-width: 100%; height: ${H}px; border-radius: 12px; overflow: hidden; background: #f3f5f5; box-shadow: 0 0 0 1px rgba(14, 19, 24, .1); color: #0e1318; font-family: ${UI_FONT}; -webkit-font-smoothing: antialiased; }
 .${P}-top { flex: none; display: flex; align-items: center; gap: 14px; height: ${BAR}px; padding: 0 10px; background: linear-gradient(90deg, #1eb2c8 0%, #4b8fd0 52%, #7b3fe3 100%); font-size: 10.5px; line-height: 14px; font-weight: 600; color: #fff; white-space: nowrap; }
-.${P}-top .sp { flex: 1; }
-.${P}-top .sh { padding: 3px 11px; border-radius: 6px; background: #fff; color: #1b1340; font-weight: 600; }
+.${P}-top .${P}-sp { flex: 1; }
+.${P}-top .${P}-sh { padding: 3px 11px; border-radius: 6px; background: #fff; color: #1b1340; font-weight: 600; }
 .${P}-bd { flex: 1; min-height: 0; display: flex; }
 .${P}-rl { flex: none; box-sizing: border-box; width: ${RAIL}px; padding: 8px 0; display: flex; flex-direction: column; align-items: center; gap: 9px; background: #fcfcfc; box-shadow: 1px 0 0 rgba(14, 19, 24, .08); }
 .${P}-ri { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 44px; padding: 3px 0; border-radius: 6px; font-size: 7.5px; line-height: 9px; color: #3b4148; }
 .${P}-ri i { display: block; width: 14px; height: 14px; box-sizing: border-box; border: 1.4px solid #4a5058; border-radius: 4px; }
-.${P}-ri.on { color: #8b3dff; font-weight: 600; }
-.${P}-ri.on i { border-color: #8b3dff; background: rgba(139, 61, 255, .14); }
+.${P}-ri.${P}-on { color: #8b3dff; font-weight: 600; }
+.${P}-ri.${P}-on i { border-color: #8b3dff; background: rgba(139, 61, 255, .14); }
 .${P}-pn { flex: none; box-sizing: border-box; width: ${PANEL}px; padding: 10px 12px 10px; display: flex; flex-direction: column; background: #fcfcfc; box-shadow: 1px 0 0 rgba(14, 19, 24, .08); }
 .${P}-hd { display: flex; align-items: center; justify-content: space-between; height: 20px; font-size: 12px; line-height: 16px; font-weight: 600; }
 .${P}-hd i { display: block; width: 12px; height: 12px; box-sizing: border-box; border: 1.4px solid #3b4148; border-radius: 50%; }
 .${P}-tabs { display: flex; gap: 14px; height: 26px; margin-top: 4px; font-size: 10.5px; line-height: 14px; color: #4a5058; }
 .${P}-tabs span { position: relative; padding: 5px 0; }
-.${P}-tabs .on { color: #0e1318; font-weight: 600; }
-.${P}-tabs .on::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 1px; background: #7d2ae8; }
+.${P}-tabs .${P}-on { color: #0e1318; font-weight: 600; }
+.${P}-tabs .${P}-on::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 1px; background: #7d2ae8; }
 .${P}-gr { flex: none; display: grid; grid-template-columns: repeat(${COLS}, minmax(0, 1fr)); gap: ${GAP}px; align-content: start; height: 178px; margin-top: 8px; }
 .${P}-t { position: relative; aspect-ratio: 1; border-radius: 6px; overflow: hidden; background: #ffffff; box-shadow: 0 0 0 1px rgba(14, 19, 24, .06); }
 .${P}-t b { position: absolute; left: 50%; top: 50%; width: 17px; height: 17px; margin: -8.5px 0 0 -8.5px; border-radius: 5px; background: #cde9cc; }
 .${P}-t b::after { content: ""; position: absolute; left: 4px; bottom: 3.5px; width: 0; height: 0; border-left: 4.5px solid transparent; border-right: 4.5px solid transparent; border-bottom: 6px solid rgba(255, 255, 255, .92); }
 .${P}-t b::before { content: ""; position: absolute; left: 10px; top: 3px; width: 3.5px; height: 3.5px; border-radius: 50%; background: rgba(255, 255, 255, .92); }
-.${P}-t.k1 b { background: #e3d7f6; }
-.${P}-t.k2 b { background: #cfe3f7; }
+.${P}-t.${P}-k1 b { background: #e3d7f6; }
+.${P}-t.${P}-k2 b { background: #cfe3f7; }
 .${P}-t img { position: absolute; inset: 0; display: none; width: 100%; height: 100%; object-fit: cover; }
 .${P}-pend, .${P}-form { flex: 1; min-height: 0; margin-top: 8px; }
 .${P}-pend { display: flex; flex-direction: column; align-items: stretch; }
@@ -80,9 +80,9 @@ export default {
     injectStyle(P, CSS);
     const { tiles } = ctx;
     const src = ownSrc(ctx.src, 'canva');
-    const slot = (g, i) => `<div class="${P}-t k${i % 3}"><b></b><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/></div>`;
-    const railItem = (name, on) => `<div class="${P}-ri${on ? ' on' : ''}"><i></i>${name}</div>`;
-    const root = x.el(`<div class="${P}"><div class="${P}-top"><span>File</span><span>Resize</span><span>Editing</span><span class="sp"></span><span class="sh">Share</span></div><div class="${P}-bd"><div class="${P}-rl">${RAIL_ITEMS.map((n) => railItem(n, false)).join('')}${railItem('Magic Media', true)}</div><div class="${P}-pn"><div class="${P}-hd">Magic Media<i></i></div><div class="${P}-tabs">${TABS.map((n, i) => `<span${i === 0 ? ' class="on"' : ''}>${n}</span>`).join('')}</div><div class="${P}-gr">${tiles.map(slot).join('')}</div><div class="${P}-pend"><div class="${P}-cap">Wait with us while we generate “${x.esc(PROMPT)}”</div><div class="${P}-trk"><div class="${P}-fill"></div></div><div class="${P}-cx">Cancel</div></div><div class="${P}-form"><div class="${P}-box">${x.esc(PROMPT)}<u>Clear</u></div><div class="${P}-opt"><span>Styles</span><span>Square</span></div><div class="${P}-gen">Generate again</div></div></div><div class="${P}-cv"><div class="${P}-pg"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme 1" style="transform-origin: ${tiles[0].origin}"/></div></div></div></div>`);
+    const slot = (g, i) => `<div class="${P}-t ${P}-k${i % 3}"><b></b><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/></div>`;
+    const railItem = (name, on) => `<div class="${P}-ri${on ? ` ${P}-on` : ''}"><i></i>${name}</div>`;
+    const root = x.el(`<div class="${P}"><div class="${P}-top"><span>File</span><span>Resize</span><span>Editing</span><span class="${P}-sp"></span><span class="${P}-sh">Share</span></div><div class="${P}-bd"><div class="${P}-rl">${RAIL_ITEMS.map((n) => railItem(n, false)).join('')}${railItem('Magic Media', true)}</div><div class="${P}-pn"><div class="${P}-hd">Magic Media<i></i></div><div class="${P}-tabs">${TABS.map((n, i) => `<span${i === 0 ? ` class="${P}-on"` : ''}>${n}</span>`).join('')}</div><div class="${P}-gr">${tiles.map(slot).join('')}</div><div class="${P}-pend"><div class="${P}-cap">Wait with us while we generate “${x.esc(PROMPT)}”</div><div class="${P}-trk"><div class="${P}-fill"></div></div><div class="${P}-cx">Cancel</div></div><div class="${P}-form"><div class="${P}-box">${x.esc(PROMPT)}<u>Clear</u></div><div class="${P}-opt"><span>Styles</span><span>Square</span></div><div class="${P}-gen">Generate again</div></div></div><div class="${P}-cv"><div class="${P}-pg"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme 1" style="transform-origin: ${tiles[0].origin}"/></div></div></div></div>`);
     const fill = root.querySelector(`.${P}-fill`), pend = root.querySelector(`.${P}-pend`), form = root.querySelector(`.${P}-form`);
     const pageIm = root.querySelector(`.${P}-pg img`);
     const cells = [...root.querySelectorAll(`.${P}-gr .${P}-t`)].map((n, i) => ({ n, im: n.querySelector('img'), g: tiles[i], state: null }));

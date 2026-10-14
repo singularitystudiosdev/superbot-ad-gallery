@@ -9,7 +9,7 @@
 // Adapted to ten images: ten tiles in a 5 x 2 block from the canvas's top-left, every one blurred with its 'In progress' pill until its
 // turn, then sharp, landing in strict reading order (the placeholder is our own meme under a heavy blur). Distinct from the light
 // 'Higgsfield Katana' module: a dark studio with the bottom composer pill, not a warm off-white card typed into and collapsed.
-// Omitted: the Black Friday promo banner, the Higgsfield glyph and wordmark in the nav row, the account controls and the browser
+// Omitted: the Black Friday promo banner, the nav's 'Pricing' link, the Higgsfield glyph and wordmark in the nav row, the account controls and the browser
 // chrome. No platform logo or font is drawn (plain text chips, system type); the model name is plain text.
 import { seg, press } from '../../../../lib.9b47fc30.js';
 import { injectStyle, restTransform, restFilter, ownSrc, UI_FONT } from './util.9e82faf1.js';
@@ -20,8 +20,7 @@ const CSS = `
 .${P} { position: relative; box-sizing: border-box; width: 560px; max-width: 100%; height: ${ROOT_H}px; border-radius: 12px; background: #0b0d0e; color: #d8dbdc; font-family: ${UI_FONT}; -webkit-font-smoothing: antialiased; overflow: hidden; box-shadow: 0 0 0 1px #1a1d1f; }
 .${P}-nav { display: flex; align-items: center; gap: 13px; height: ${NAV_H}px; padding: 0 14px; font-size: 8px; font-weight: 500; color: #8a9093; white-space: nowrap; }
 .${P}-nav .on { color: #ffffff; font-weight: 600; }
-.${P}-nav .r { margin-left: auto; }
-.${P}-nav b { display: grid; place-items: center; box-sizing: border-box; height: 17px; padding: 0 8px; border-radius: 9px; background: #1c2022; font-size: 7.5px; font-weight: 500; color: #d8dbdc; }
+.${P}-nav b { margin-left: auto; display: grid; place-items: center; box-sizing: border-box; height: 17px; padding: 0 8px; border-radius: 9px; background: #1c2022; font-size: 7.5px; font-weight: 500; color: #d8dbdc; }
 .${P}-cv { position: absolute; left: 0; right: 0; top: ${NAV_H}px; bottom: 0; background: #000000; }
 .${P}-es { position: absolute; left: 0; right: 0; top: 70px; text-align: center; font-size: 8px; color: #4b5154; }
 .${P}-g { position: absolute; left: 8px; right: 8px; top: 8px; display: grid; grid-template-columns: repeat(${COLS}, minmax(0, 1fr)); gap: ${GAP}px; }
@@ -61,7 +60,7 @@ export default {
     const src = ownSrc(ctx.src, 'higgsfield-studio');
     const cell = (g, i) => `<div class="${P}-t"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/><span class="${P}-pg">In progress</span></div>`;
     const nav = ['Explore', 'Image', 'Video', 'Edit', 'Character', 'Assist', 'Apps', 'Community'].map((n) => `<span${n === 'Image' ? ' class="on"' : ''}>${n}</span>`).join('');
-    const root = x.el(`<div class="${P}"><div class="${P}-nav">${nav}<span class="r">Pricing</span><b>Browse Assets</b></div><div class="${P}-cv"><div class="${P}-es">Your generations will appear here</div><div class="${P}-g" style="visibility: hidden">${tiles.map(cell).join('')}</div></div><div class="${P}-cp"><div class="${P}-col"><div class="${P}-in"><i class="${P}-plus">+</i><div class="${P}-tx">${x.esc(PROMPT)}</div></div><div class="${P}-chips"><span>Nano Banana Pro</span><span>Auto</span><span>2K</span><span class="un">Unlimited<i></i></span><span>Draw</span></div></div><div class="${P}-go">Generate</div></div></div>`);
+    const root = x.el(`<div class="${P}"><div class="${P}-nav">${nav}<b>Browse Assets</b></div><div class="${P}-cv"><div class="${P}-es">Your generations will appear here</div><div class="${P}-g" style="visibility: hidden">${tiles.map(cell).join('')}</div></div><div class="${P}-cp"><div class="${P}-col"><div class="${P}-in"><i class="${P}-plus">+</i><div class="${P}-tx">${x.esc(PROMPT)}</div></div><div class="${P}-chips"><span>Nano Banana Pro</span><span>Auto</span><span>2K</span><span class="un">Unlimited<i></i></span><span>Draw</span></div></div><div class="${P}-go">Generate</div></div></div>`);
     const go = root.querySelector(`.${P}-go`), es = root.querySelector(`.${P}-es`), grid = root.querySelector(`.${P}-g`);
     const cells = [...root.querySelectorAll(`.${P}-t`)].map((n, i) => ({ im: n.querySelector('img'), pg: n.querySelector(`.${P}-pg`), g: tiles[i] }));
     ctx.gate(cells.map((c) => c.im));

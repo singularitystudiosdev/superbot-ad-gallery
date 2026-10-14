@@ -12,7 +12,8 @@ const H = 1080;
 const W = () => (window.AR && window.AR.w) || 1920;
 const stage = document.getElementById('stage');
 const SCENE_FADE = 0.3;
-const CYCLE = tabs.dur;
+// the loop length follows the variant (tabs.dur is a getter), so it is read per frame
+const cycle = () => tabs.dur;
 
 // the scene section, mounted once; it is shown only while its opacity is above zero
 const section = document.createElement('section');
@@ -23,6 +24,7 @@ tabs.mount(section);
 
 // one frame: fade the section at the loop's ends, then draw the scene at its local time
 function render(t) {
+  const CYCLE = cycle();
   const o = seg(t, 0, SCENE_FADE) * (1 - seg(t, CYCLE - SCENE_FADE, CYCLE));
   section.style.opacity = o.toFixed(3);
   section.classList.toggle('on', o > 0);
@@ -52,6 +54,7 @@ const now = () => (paused ? base : base + (performance.now() - started) / 1000);
 
 // the clock wrapped into [0, CYCLE) and quantised to whole frames
 function timeNow() {
+  const CYCLE = cycle();
   const t = ((now() % CYCLE) + CYCLE) % CYCLE;
   const f = Math.round(t * FPS) / FPS;
   return f >= CYCLE ? 0 : f;
@@ -76,7 +79,7 @@ requestAnimationFrame(frame);
 
 // frame-exact QA: pause the clock and draw t now; ready once every tracked asset (loads.9e82faf1.js) is in
 window.__AD = {
-  CYCLE,
+  get CYCLE() { return cycle(); },
   get ready() { return settled(); },
   seek(t) { paused = true; base = t; started = performance.now(); render(timeNow()); },
   // play on from t (a variant or appear pick skips the wait and shows its animation)

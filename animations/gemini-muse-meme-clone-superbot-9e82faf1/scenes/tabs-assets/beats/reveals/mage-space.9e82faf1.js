@@ -24,7 +24,7 @@ const CSS = `
 .${P}-lab { flex: none; font-size: 8.5px; font-weight: 700; letter-spacing: .02em; color: #f0f0f2; }
 .${P}-models { flex: none; display: flex; gap: 7px; }
 .${P}-mc { flex: 1; box-sizing: border-box; height: 74px; padding: 8px; border-radius: 8px; background: #151517; box-shadow: inset 0 0 0 1px #26262a; display: flex; flex-direction: column; gap: 3px; }
-.${P}-mc.on { box-shadow: inset 0 0 0 1.2px #e6e6e9; }
+.${P}-mc.${P}-on { box-shadow: inset 0 0 0 1.2px #e6e6e9; }
 .${P}-mc i { display: block; height: 28px; margin: -2px -2px 3px; border-radius: 5px; }
 .${P}-mc b { font-size: 8px; font-weight: 600; color: #f0f0f2; }
 .${P}-mc small { display: flex; gap: 3px; font-size: 5.5px; font-weight: 700; color: #b8b8bf; }
@@ -32,8 +32,8 @@ const CSS = `
 .${P}-asp { flex: none; display: flex; gap: 7px; }
 .${P}-asp span { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 6.5px; color: #9a9aa2; }
 .${P}-asp span i { display: block; box-sizing: border-box; border-radius: 2px; box-shadow: inset 0 0 0 1px #4a4a52; background: #111113; }
-.${P}-asp span.on { color: #f0f0f2; }
-.${P}-asp span.on i { box-shadow: inset 0 0 0 1.2px #e6e6e9; background: #1b1b1e; }
+.${P}-asp span.${P}-on { color: #f0f0f2; }
+.${P}-asp span.${P}-on i { box-shadow: inset 0 0 0 1.2px #e6e6e9; background: #1b1b1e; }
 .${P}-res { flex: none; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; height: 22px; padding: 0 9px; border-radius: 6px; background: #151517; font-size: 7.5px; color: #cfcfd5; }
 .${P}-comp { margin-top: auto; flex: none; box-sizing: border-box; padding: 8px 9px 7px; border-radius: 12px; background: #151517; box-shadow: inset 0 0 0 1px #2a2a2e; }
 .${P}-ctop { display: flex; align-items: center; gap: 8px; font-size: 8px; color: #e6e6e9; }
@@ -41,10 +41,10 @@ const CSS = `
 .${P}-ptxt { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .${P}-tog { flex: none; display: flex; height: 14px; border-radius: 7px; background: #0e0e10; font-size: 6.5px; line-height: 14px; color: #9a9aa2; }
 .${P}-tog span { padding: 0 6px; border-radius: 7px; }
-.${P}-tog .on { background: #2b2b30; color: #f0f0f2; }
+.${P}-tog .${P}-on { background: #2b2b30; color: #f0f0f2; }
 .${P}-crow { display: flex; align-items: center; gap: 5px; margin-top: 9px; font-size: 6.5px; color: #b3b3ba; white-space: nowrap; }
 .${P}-crow span { display: flex; align-items: center; height: 15px; padding: 0 6px; border-radius: 5px; background: #1d1d20; }
-.${P}-crow .sp { flex: 1; background: none; padding: 0; }
+.${P}-crow .${P}-sp { flex: 1; background: none; padding: 0; }
 .${P}-gen { position: relative; flex: none; width: 24px; height: 24px; border-radius: 50%; background: #e8912b; }
 .${P}-gen::after { content: ""; position: absolute; left: 7.5px; top: 9.5px; width: 6px; height: 6px; box-sizing: border-box; border-left: 1.8px solid #1a1206; border-top: 1.8px solid #1a1206; transform: rotate(45deg); }
 .${P}-pn { flex: none; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; width: ${PANEL_W}px; margin: 8px 8px 8px 0; padding: 9px 8px; border-radius: 10px; background: #111113; box-shadow: inset 0 0 0 1px #212124; }
@@ -55,7 +55,7 @@ const CSS = `
 .${P}-spin { position: relative; display: block; width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 1.2px #3a3a40; }
 .${P}-spin::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, #bdbdc4 0deg, #bdbdc4 100deg, transparent 101deg); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.8px), #000 calc(100% - 1.4px)); mask: radial-gradient(farthest-side, transparent calc(100% - 1.8px), #000 calc(100% - 1.4px)); }
 .${P}-pill { display: grid; place-items: center; box-sizing: border-box; height: 20px; border-radius: 6px; background: #1b1b1e; font-size: 7.5px; font-weight: 500; color: #d9d9de; }
-.${P}-pill.red { background: #2a1517; color: #e8706c; }
+.${P}-pill.${P}-red { background: #2a1517; color: #e8706c; }
 .${P}-jobs { text-align: center; font-size: 6.5px; color: #8e8e96; }
 .${P}-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 3px; }
 .${P}-t { position: relative; aspect-ratio: 870 / 1024; border-radius: 6px; overflow: hidden; background: #151517; }
@@ -86,9 +86,9 @@ export default {
     const src = ownSrc(ctx.src, 'mage-space');
     const cell = (g, i) => `<div class="${P}-t"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="visibility: hidden; transform-origin: ${g.origin}"/><div class="${P}-slot"></div></div>`;
     const models = [['Mango 2', 'linear-gradient(135deg, #5b3f2a, #c98a52)', true], ['Mango 3d', 'linear-gradient(135deg, #7a4a1c, #e6b066)'], ['Mango', 'linear-gradient(135deg, #3a4a5a, #8fa6b8)']];
-    const mc = ([n, bg, on]) => `<div class="${P}-mc${on ? ' on' : ''}"><i style="background: ${bg}"></i><b>${n}</b><small><em>BASE</em><em>PHOTOREALISM</em></small></div>`;
-    const asp = ([n, w, h], i) => `<span${i === 1 ? ' class="on"' : ''}><i style="width: ${w * 1.4}px; height: ${h * 1.4}px"></i>${n}</span>`;
-    const root = x.el(`<div class="${P}"><div class="${P}-main"><div class="${P}-chips"><span>Prompt Enhance</span><span><i></i>Prompt Flair</span><span>Dynamic Prompt</span></div><div class="${P}-lab">Model</div><div class="${P}-models">${models.map(mc).join('')}</div><div class="${P}-lab">Aspect Ratio</div><div class="${P}-asp">${ASPECTS.map(asp).join('')}</div><div class="${P}-lab">Resolution</div><div class="${P}-res">1K</div><div class="${P}-comp"><div class="${P}-ctop"><i class="${P}-plus">+</i><span class="${P}-ptxt">${x.esc(PROMPT)}</span><div class="${P}-tog"><span class="on">Image</span><span>Video</span></div></div><div class="${P}-crow"><span>Mango 2</span><span>Fast</span><span>Character</span><span>Reference</span><span>Advanced</span><span class="sp"></span><i class="${P}-gen"></i></div></div></div><div class="${P}-pn"><div class="${P}-ph">Recent creations<small>Hide &gt;&gt;</small></div><div class="${P}-q" style="display: none"><div class="${P}-gh"><i class="${P}-spin"></i><span class="${P}-gk"></span><small>&#8964;</small></div><div class="${P}-pill">Cancel</div><div class="${P}-pill">Pause Queue</div><div class="${P}-pill red">Clear Queue</div><div class="${P}-jobs">1 job running</div></div><div class="${P}-strip">${tiles.map(cell).join('')}</div><div class="${P}-end">You've reached the end</div></div></div>`);
+    const mc = ([n, bg, on]) => `<div class="${P}-mc${on ? ` ${P}-on` : ''}"><i style="background: ${bg}"></i><b>${n}</b><small><em>BASE</em><em>PHOTOREALISM</em></small></div>`;
+    const asp = ([n, w, h], i) => `<span${i === 1 ? ` class="${P}-on"` : ''}><i style="width: ${w * 1.4}px; height: ${h * 1.4}px"></i>${n}</span>`;
+    const root = x.el(`<div class="${P}"><div class="${P}-main"><div class="${P}-chips"><span>Prompt Enhance</span><span><i></i>Prompt Flair</span><span>Dynamic Prompt</span></div><div class="${P}-lab">Model</div><div class="${P}-models">${models.map(mc).join('')}</div><div class="${P}-lab">Aspect Ratio</div><div class="${P}-asp">${ASPECTS.map(asp).join('')}</div><div class="${P}-lab">Resolution</div><div class="${P}-res">1K</div><div class="${P}-comp"><div class="${P}-ctop"><i class="${P}-plus">+</i><span class="${P}-ptxt">${x.esc(PROMPT)}</span><div class="${P}-tog"><span class="${P}-on">Image</span><span>Video</span></div></div><div class="${P}-crow"><span>Mango 2</span><span>Fast</span><span>Character</span><span>Reference</span><span>Advanced</span><span class="${P}-sp"></span><i class="${P}-gen"></i></div></div></div><div class="${P}-pn"><div class="${P}-ph">Recent creations<small>Hide &gt;&gt;</small></div><div class="${P}-q" style="display: none"><div class="${P}-gh"><i class="${P}-spin"></i><span class="${P}-gk"></span><small>&#8964;</small></div><div class="${P}-pill">Cancel</div><div class="${P}-pill">Pause Queue</div><div class="${P}-pill ${P}-red">Clear Queue</div><div class="${P}-jobs">1 job running</div></div><div class="${P}-strip">${tiles.map(cell).join('')}</div><div class="${P}-end">You've reached the end</div></div></div>`);
     const q = root.querySelector(`.${P}-q`), gk = root.querySelector(`.${P}-gk`), spin = root.querySelector(`.${P}-spin`), gen = root.querySelector(`.${P}-gen`);
     const cells = [...root.querySelectorAll(`.${P}-t`)].map((n, i) => ({ im: n.querySelector('img'), cover: n.querySelector(`.${P}-slot`), g: tiles[i] }));
     ctx.gate(cells.map((c) => c.im));

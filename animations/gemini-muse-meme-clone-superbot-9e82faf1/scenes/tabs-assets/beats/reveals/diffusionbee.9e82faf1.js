@@ -25,7 +25,7 @@ const CSS = `
 .${P}-body { flex: 1; min-height: 0; display: flex; }
 .${P}-rail { flex: none; display: flex; flex-direction: column; align-items: center; gap: 9px; box-sizing: border-box; width: ${RAIL_W}px; padding: 8px 0; background: #0a0a0b; }
 .${P}-rail i { display: block; width: 14px; height: 14px; border-radius: 4px; box-shadow: inset 0 0 0 1.3px #6a6a72; }
-.${P}-rail i.on { width: 20px; height: 20px; border-radius: 6px; background: #1f5fe8; box-shadow: inset 0 0 0 4px #1f5fe8, inset 0 0 0 5.4px #fff; }
+.${P}-rail i.${P}-on { width: 20px; height: 20px; border-radius: 6px; background: #1f5fe8; box-shadow: inset 0 0 0 4px #1f5fe8, inset 0 0 0 5.4px #fff; }
 .${P}-side { flex: none; box-sizing: border-box; display: flex; flex-direction: column; gap: 7px; width: ${SIDE_W}px; padding: 4px 8px 8px; background: #121214; }
 .${P}-prompt { flex: none; box-sizing: border-box; height: 66px; padding: 6px 7px; border-radius: 5px; background: #0e0e10; box-shadow: inset 0 0 0 1px #2c52c4; font-size: 8px; line-height: 11px; color: #e1e1e5; overflow: hidden; }
 .${P}-adv { flex: none; display: flex; align-items: center; justify-content: space-between; height: 14px; font-size: 8px; font-weight: 600; color: #f0f0f2; }
@@ -33,10 +33,10 @@ const CSS = `
 .${P}-sw::after { content: ""; position: absolute; right: 1.5px; top: 1.5px; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
 .${P}-f { flex: none; display: flex; align-items: center; justify-content: space-between; height: 20px; font-size: 7.5px; font-weight: 500; color: #d9d9de; white-space: nowrap; }
 .${P}-f span { display: flex; align-items: center; justify-content: space-between; gap: 5px; box-sizing: border-box; height: 18px; padding: 0 6px; border-radius: 5px; background: #1b1b1e; font-size: 7.5px; color: #e9e9ec; }
-.${P}-f.m span { flex: 1; margin-left: 8px; }
-.${P}-f.m { gap: 0; }
-.${P}-f .two { display: flex; gap: 4px; padding: 0; background: none; }
-.${P}-f .two em { font-style: normal; box-sizing: border-box; height: 18px; padding: 0 6px; border-radius: 5px; background: #1b1b1e; line-height: 18px; font-size: 7.5px; }
+.${P}-f.${P}-m span { flex: 1; margin-left: 8px; }
+.${P}-f.${P}-m { gap: 0; }
+.${P}-f .${P}-two { display: flex; gap: 4px; padding: 0; background: none; }
+.${P}-f .${P}-two em { font-style: normal; box-sizing: border-box; height: 18px; padding: 0 6px; border-radius: 5px; background: #1b1b1e; line-height: 18px; font-size: 7.5px; }
 .${P}-btns { margin-top: auto; flex: none; display: flex; gap: 6px; }
 .${P}-btns b { flex: 1; display: grid; place-items: center; height: 22px; border-radius: 6px; background: #1f5fe8; font-size: 8px; font-weight: 600; color: #fff; white-space: nowrap; }
 .${P}-cv { position: relative; flex: 1; min-width: 0; background: #0b0b0c; }
@@ -75,8 +75,8 @@ export default {
     const { tiles } = ctx;
     const src = ownSrc(ctx.src, 'diffusionbee');
     const cell = (g, i) => `<div class="${P}-t"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="visibility: hidden; transform-origin: ${g.origin}"/><div class="${P}-pend"><i class="${P}-ring"></i></div></div>`;
-    const railIcons = '<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i>';
-    const root = x.el(`<div class="${P}"><div class="${P}-top"><div class="${P}-menu"><i></i><i></i><i></i></div><b>Text to image</b><span class="${P}-act" style="visibility: hidden"><i></i></span></div><div class="${P}-body"><div class="${P}-rail">${railIcons}</div><div class="${P}-side"><div class="${P}-prompt">${x.esc(PROMPT)}</div><div class="${P}-adv">Advanced Options<i class="${P}-sw"></i></div><div class="${P}-f m">Model<span>FLUX.1-schnell<small>&#8964;</small></span></div><div class="${P}-f">Resolution<div class="two"><em>1024</em><em>1216</em></div></div><div class="${P}-f">Number of images<span>10</span></div><div class="${P}-f">Seed<span>-1</span></div><div class="${P}-f">Sampling Steps<span>2</span></div><div class="${P}-btns"><b>Add to Queue</b><b class="${P}-go">Generate</b></div></div><div class="${P}-cv"><div class="${P}-es"><i></i><b>No images to display</b>Enter a prompt to generate images using AI.</div><div class="${P}-g" style="visibility: hidden">${tiles.map(cell).join('')}</div></div></div></div>`);
+    const railIcons = `<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="${P}-on"></i>`;
+    const root = x.el(`<div class="${P}"><div class="${P}-top"><div class="${P}-menu"><i></i><i></i><i></i></div><b>Text to image</b><span class="${P}-act" style="visibility: hidden"><i></i></span></div><div class="${P}-body"><div class="${P}-rail">${railIcons}</div><div class="${P}-side"><div class="${P}-prompt">${x.esc(PROMPT)}</div><div class="${P}-adv">Advanced Options<i class="${P}-sw"></i></div><div class="${P}-f ${P}-m">Model<span>FLUX.1-schnell<small>&#8964;</small></span></div><div class="${P}-f">Resolution<div class="${P}-two"><em>1024</em><em>1216</em></div></div><div class="${P}-f">Number of images<span>10</span></div><div class="${P}-f">Seed<span>-1</span></div><div class="${P}-f">Sampling Steps<span>2</span></div><div class="${P}-btns"><b>Add to Queue</b><b class="${P}-go">Generate</b></div></div><div class="${P}-cv"><div class="${P}-es"><i></i><b>No images to display</b>Enter a prompt to generate images using AI.</div><div class="${P}-g" style="visibility: hidden">${tiles.map(cell).join('')}</div></div></div></div>`);
     const go = root.querySelector(`.${P}-go`), es = root.querySelector(`.${P}-es`), grid = root.querySelector(`.${P}-g`), act = root.querySelector(`.${P}-act`), actI = act.firstElementChild;
     const cells = [...root.querySelectorAll(`.${P}-t`)].map((n, i) => ({ im: n.querySelector('img'), pend: n.querySelector(`.${P}-pend`), ring: n.querySelector(`.${P}-ring`), g: tiles[i] }));
     ctx.gate(cells.map((c) => c.im));

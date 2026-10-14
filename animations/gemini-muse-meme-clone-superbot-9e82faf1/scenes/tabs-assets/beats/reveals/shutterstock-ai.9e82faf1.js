@@ -8,7 +8,7 @@
 // 'Hold on just a moment. AI is analyzing billions of creative data points...'). The card then gives way to 'Freshly AI-generated images
 // showing <prompt>' and the result tiles, which fill from a top band downward one by one, under a 'More AI-generated images' strip.
 // Adapted to ten images: the card, then ten tiles in a 5 x 2 block decoding one after another in strict order, each from its top edge
-// downward (a cover that recedes). Omitted: the wordmark, the banner and the account controls' details. The source's pictures are never
+// downward (a cover that recedes). Omitted: the wordmark, the nav's 'Pricing' link, the banner and the account controls' details. The source's pictures are never
 // reproduced (the card's preview is a plain grey gradient, every tile is our own meme), the tips are shortened and carry no brand name,
 // and the face is the system UI face.
 import { seg, press } from '../../../../lib.9b47fc30.js';
@@ -19,29 +19,28 @@ const COLS = 5, GAP = 6;
 const CSS = `
 .${P} { box-sizing: border-box; display: flex; flex-direction: column; width: 560px; max-width: 100%; height: 384px; border-radius: 12px; background: #fff; color: #11151f; font-family: ${UI_FONT}; -webkit-font-smoothing: antialiased; overflow: hidden; box-shadow: 0 0 0 1px #dde0e6; }
 .${P}-nav { flex: none; display: flex; align-items: center; gap: 11px; height: 26px; padding: 0 12px; box-shadow: 0 1px 0 #e8eaee; font-size: 6.5px; font-weight: 600; letter-spacing: .02em; color: #1d2230; white-space: nowrap; }
-.${P}-nav .sp { flex: 1; }
-.${P}-nav .av { display: block; width: 14px; height: 14px; border-radius: 50%; background: #d7dae0; }
-.${P}-nav .pr { font-weight: 500; }
+.${P}-nav .${P}-sp { flex: 1; }
+.${P}-nav .${P}-av { display: block; width: 14px; height: 14px; border-radius: 50%; background: #d7dae0; }
 .${P}-wrap { flex: 1; min-height: 0; display: flex; }
 .${P}-rail { flex: none; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px; width: 40px; padding: 10px 0; box-shadow: 1px 0 0 #eceef1; }
 .${P}-rail span { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 5.5px; color: #4a5162; }
 .${P}-rail span i { display: block; width: 9px; height: 9px; border-radius: 2px; box-shadow: inset 0 0 0 1.3px #4a5162; }
-.${P}-rail .on { color: #11151f; font-weight: 700; box-shadow: -1.5px 0 0 #11151f; }
-.${P}-rail .on i { box-shadow: inset 0 0 0 1.3px #11151f; }
-.${P}-rail .gap { flex: 1; }
+.${P}-rail .${P}-on { color: #11151f; font-weight: 700; box-shadow: -1.5px 0 0 #11151f; }
+.${P}-rail .${P}-on i { box-shadow: inset 0 0 0 1.3px #11151f; }
+.${P}-rail .${P}-gap { flex: 1; }
 .${P}-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .${P}-bar { flex: none; box-sizing: border-box; height: 64px; padding: 9px 14px 0; background: #0b101c; }
 .${P}-q { display: flex; align-items: center; gap: 10px; height: 20px; box-shadow: 0 1px 0 #4a5162; padding-bottom: 6px; font-size: 9px; color: #fff; }
 .${P}-q em { flex: 1; font-style: normal; white-space: nowrap; overflow: hidden; }
-.${P}-q .x { flex: none; width: 8px; height: 8px; position: relative; }
-.${P}-q .x::before, .${P}-q .x::after { content: ""; position: absolute; left: 3.5px; top: -1px; width: 1.4px; height: 10px; border-radius: 1px; background: #cfd3dc; transform: rotate(45deg); }
-.${P}-q .x::after { transform: rotate(-45deg); }
+.${P}-q .${P}-qx { flex: none; width: 8px; height: 8px; position: relative; }
+.${P}-q .${P}-qx::before, .${P}-q .${P}-qx::after { content: ""; position: absolute; left: 3.5px; top: -1px; width: 1.4px; height: 10px; border-radius: 1px; background: #cfd3dc; transform: rotate(45deg); }
+.${P}-q .${P}-qx::after { transform: rotate(-45deg); }
 .${P}-go { flex: none; display: grid; place-items: center; height: 18px; padding: 0 11px; border-radius: 9px; background: #fff; font-size: 7.5px; font-weight: 700; color: #11151f; }
 .${P}-chips { display: flex; gap: 5px; margin-top: 8px; }
 .${P}-chips span { display: flex; align-items: center; gap: 4px; box-sizing: border-box; height: 18px; padding: 0 7px 0 0; border-radius: 3px; box-shadow: inset 0 0 0 1px #2c3447; font-size: 6.5px; font-weight: 600; color: #e8ebf2; white-space: nowrap; }
 .${P}-chips span i { display: block; width: 18px; height: 18px; border-radius: 3px 0 0 3px; }
 .${P}-chips span:nth-child(1) { box-shadow: inset 0 0 0 1.4px #fff; }
-.${P}-chips span.n { padding-left: 7px; }
+.${P}-chips span.${P}-cn { padding-left: 7px; }
 .${P}-cv { position: relative; flex: 1; min-height: 0; box-sizing: border-box; padding: 10px 14px 0; }
 .${P}-res { visibility: hidden; }
 .${P}-h { height: 16px; font-size: 10px; font-weight: 700; line-height: 16px; color: #11151f; white-space: nowrap; overflow: hidden; }
@@ -94,10 +93,10 @@ export default {
     const src = ownSrc(ctx.src, 'shutterstock-ai');
     const cell = (g, i) => `<div class="${P}-t"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="visibility: hidden; transform-origin: ${g.origin}"/><div class="${P}-cov"></div></div>`;
     const nav = ['IMAGES', 'VIDEO', 'MUSIC', 'EDITORIAL', '3D MODELS', 'CREATIVE FLOW', 'BLOG', 'ENTERPRISE'].map((n) => `<span>${n}</span>`).join('');
-    const rail = RAIL.map((n) => `<span${n === 'Generate' ? ' class="on"' : ''}><i></i>${n}</span>`).join('') + `<span class="gap"></span><span><i></i>Account</span><span><i></i>Help</span>`;
-    const chips = CHIPS.map(([n, bg]) => `<span><i style="background: ${bg}"></i>${n}</span>`).join('') + '<span class="n">No styles</span>';
+    const rail = RAIL.map((n) => `<span${n === 'Generate' ? ` class="${P}-on"` : ''}><i></i>${n}</span>`).join('') + `<span class="${P}-gap"></span><span><i></i>Account</span><span><i></i>Help</span>`;
+    const chips = CHIPS.map(([n, bg]) => `<span><i style="background: ${bg}"></i>${n}</span>`).join('') + `<span class="${P}-cn">No styles</span>`;
     const tip = TIPS.map(([a, b], i) => `<div class="${P}-tx"${i ? ' style="display: none"' : ''}><span>${x.esc(a)}</span><p>${x.esc(b)}</p></div>`).join('');
-    const root = x.el(`<div class="${P}"><div class="${P}-nav">${nav}<span class="sp"></span><span class="pr">Pricing</span><i class="av"></i></div><div class="${P}-wrap"><div class="${P}-rail">${rail}</div><div class="${P}-main"><div class="${P}-bar"><div class="${P}-q"><em>${x.esc(PROMPT)}</em><i class="x"></i><div class="${P}-go">Generate</div></div><div class="${P}-chips">${chips}</div></div><div class="${P}-cv"><div class="${P}-res"><div class="${P}-h">Freshly AI-generated images showing ${x.esc(PROMPT)}</div><div class="${P}-g">${tiles.map(cell).join('')}</div></div><div class="${P}-more">More AI-generated images from the library.<div><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="${P}-card" style="display: none"><b>Bringing your description to life! Please allow 10-15 seconds.</b><div class="${P}-trk"><i></i></div><div class="${P}-tip"><i class="${P}-th"></i>${tip}</div></div></div></div></div></div>`);
+    const root = x.el(`<div class="${P}"><div class="${P}-nav">${nav}<span class="${P}-sp"></span><i class="${P}-av"></i></div><div class="${P}-wrap"><div class="${P}-rail">${rail}</div><div class="${P}-main"><div class="${P}-bar"><div class="${P}-q"><em>${x.esc(PROMPT)}</em><i class="${P}-qx"></i><div class="${P}-go">Generate</div></div><div class="${P}-chips">${chips}</div></div><div class="${P}-cv"><div class="${P}-res"><div class="${P}-h">Freshly AI-generated images showing ${x.esc(PROMPT)}</div><div class="${P}-g">${tiles.map(cell).join('')}</div></div><div class="${P}-more">More AI-generated images from the library.<div><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="${P}-card" style="display: none"><b>Bringing your description to life! Please allow 10-15 seconds.</b><div class="${P}-trk"><i></i></div><div class="${P}-tip"><i class="${P}-th"></i>${tip}</div></div></div></div></div></div>`);
     const go = root.querySelector(`.${P}-go`), res = root.querySelector(`.${P}-res`), card = root.querySelector(`.${P}-card`), fill = root.querySelector(`.${P}-trk i`);
     const tips = [...root.querySelectorAll(`.${P}-tx`)];
     const cells = [...root.querySelectorAll(`.${P}-t`)].map((n, i) => ({ im: n.querySelector('img'), cv: n.querySelector(`.${P}-cov`), g: tiles[i] }));

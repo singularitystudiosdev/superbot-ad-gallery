@@ -4,7 +4,7 @@
 // middle and a bottom prompt bar with a 'Complimentary' chip and a blue Generate button that dims while a job runs. While it
 // generates the canvas holds FLAT light-grey rounded rectangles (#E2E2E2) exactly where the images will land, with no
 // shimmer, glyph, text, spinner or percentage, and they are replaced by the images in one frame (no fade). For ten images the
-// canvas is a grid of ten such slots that swap in reading order. The product name is plain text; no logo is drawn.
+// canvas is a grid of ten such slots that swap in reading order. The product name is plain text; no logo is drawn. Omitted: the top bar's 'Upgrade' pill (an upsell control, pin p5), so the three tabs sit centred in the bar. The tab classes are prefixed because the host's `#s-tabs .tab` browser-tab rules would otherwise pin them.
 import { injectStyle, restTransform, restFilter, ownSrc, UI_FONT } from './util.9e82faf1.js';
 
 const P = 'rv-ff';
@@ -12,9 +12,9 @@ const CSS = `
 .${P} { box-sizing: border-box; width: 560px; max-width: 100%; padding: 0 12px 12px; border-radius: 12px; background: #fcf6ee; color: #2c2c2c; font-family: ${UI_FONT}; -webkit-font-smoothing: antialiased; box-shadow: 0 0 0 1px #eadfce; }
 .${P}-top { display: flex; align-items: center; gap: 12px; height: 30px; font-size: 10px; color: #6e6e6e; white-space: nowrap; }
 .${P}-top b { font-size: 11px; color: #2c2c2c; }
-.${P}-top .tab { margin-left: 4px; }
-.${P}-top .on { color: #2c2c2c; font-weight: 600; box-shadow: 0 2px 0 #2c2c2c; }
-.${P}-top .up { margin-left: auto; padding: 3px 9px; border-radius: 999px; background: #2c2c2c; font-size: 8.5px; color: #fff; }
+.${P}-bk, .${P}-sp { flex: 1; min-width: 0; }
+.${P}-tb { margin: 0 6px; }
+.${P}-tb-on { color: #2c2c2c; font-weight: 600; box-shadow: 0 2px 0 #2c2c2c; }
 .${P}-body { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 10px; }
 .${P}-rail { box-sizing: border-box; padding: 9px; border-radius: 10px; background: #fff; box-shadow: 0 0 0 1px #eadfce; font-size: 9px; color: #6e6e6e; }
 .${P}-rail h5 { margin: 0 0 7px; font: 600 10px/13px ${UI_FONT}; color: #2c2c2c; }
@@ -49,7 +49,7 @@ export default {
     injectStyle(P, CSS);
     const { tiles } = ctx;
     const src = ownSrc(ctx.src, 'firefly');
-    const root = x.el(`<div class="${P}"><div class="${P}-top"><span>‹ Generate image</span><span class="tab">Gallery</span><span class="tab on">Generate</span><span class="tab">Edit</span><span class="up">Upgrade</span></div><div class="${P}-body"><div class="${P}-rail"><h5>General settings</h5><div class="${P}-f">Model<u>Image model 5</u></div><div class="${P}-f">Aspect ratio<u>Portrait (870:1024)</u></div><div class="${P}-f">Visual intensity<i></i></div><div class="${P}-f">Reference images (0/4)<div class="${P}-add">+</div></div></div><div class="${P}-cv"><div class="${P}-g">${tiles.map((g, i) => `<div class="${P}-s"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/></div>`).join('')}</div></div></div><div class="${P}-bar"><span class="${P}-pt">a cheerful ghost holding a handwritten note in a lecture hall</span><span class="${P}-ch">Complimentary</span><span class="${P}-go">Generate</span></div></div>`);
+    const root = x.el(`<div class="${P}"><div class="${P}-top"><span class="${P}-bk">‹ Generate image</span><span class="${P}-tb">Gallery</span><span class="${P}-tb ${P}-tb-on">Generate</span><span class="${P}-tb">Edit</span><span class="${P}-sp"></span></div><div class="${P}-body"><div class="${P}-rail"><h5>General settings</h5><div class="${P}-f">Model<u>Image model 5</u></div><div class="${P}-f">Aspect ratio<u>Portrait (870:1024)</u></div><div class="${P}-f">Visual intensity<i></i></div><div class="${P}-f">Reference images (0/4)<div class="${P}-add">+</div></div></div><div class="${P}-cv"><div class="${P}-g">${tiles.map((g, i) => `<div class="${P}-s"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/></div>`).join('')}</div></div></div><div class="${P}-bar"><span class="${P}-pt">a cheerful ghost holding a handwritten note in a lecture hall</span><span class="${P}-ch">Complimentary</span><span class="${P}-go">Generate</span></div></div>`);
     const go = root.querySelector(`.${P}-go`);
     const slots = [...root.querySelectorAll(`.${P}-s img`)].map((im) => ({ im, shown: null }));
     ctx.gate(slots.map((s) => s.im));

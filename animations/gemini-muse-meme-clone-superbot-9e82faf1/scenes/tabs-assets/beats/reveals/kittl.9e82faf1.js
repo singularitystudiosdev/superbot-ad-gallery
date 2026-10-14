@@ -9,7 +9,7 @@
 // frame (no blur, no fade, no percentage, no queue label).
 // Adapted to ten images: ten purple tiles in a 5 x 2 block, each counting 00:30 down to 00:19 over its own wait and hard-swapping to its
 // image in reading order, the count chip reading '10'. Omitted: the Kittl logo in the rail, the 'Install' pill, the right-hand tools
-// column, the 'Learning Hub' tooltip, the credit counter's figure and the footage's own pictures: every tile is our own meme.
+// column, the 'Learning Hub' tooltip, the credit counter and its 'Upgrade' button, and the footage's own pictures: every tile is our own meme.
 import { press, clamp } from '../../../../lib.9b47fc30.js';
 import { injectStyle, restTransform, restFilter, ownSrc, UI_FONT, MONO_FONT } from './util.9e82faf1.js';
 
@@ -38,17 +38,17 @@ const CSS = `
 .${P}-lb em { font-style: normal; font-family: ${MONO_FONT}; font-size: 5.2px; color: #d7ccf5; }
 .${P}-panel { flex: none; align-self: center; box-sizing: border-box; width: 430px; margin-top: 10px; padding: 7px 7px 7px; border-radius: 10px; background: #12171e; box-shadow: 0 0 0 1px #232a34; }
 .${P}-tabs { display: flex; gap: 12px; height: 14px; padding: 0 3px; font-size: 7px; line-height: 14px; color: #8f98a5; white-space: nowrap; }
-.${P}-tabs .on { color: #f1f3f6; }
+.${P}-tabs .${P}-on { color: #f1f3f6; }
 .${P}-ta { position: relative; box-sizing: border-box; height: 58px; margin-top: 4px; padding: 6px 8px; border-radius: 6px; background: #0c1016; box-shadow: 0 0 0 1px #2f7de1; font-size: 7.5px; line-height: 11px; color: #e6e9ee; }
 .${P}-ta u { display: block; width: 14px; height: 14px; margin-bottom: 4px; border-radius: 3px; background: linear-gradient(135deg, #3a4452, #20262f); }
 .${P}-pb { position: absolute; left: 8px; bottom: 5px; font-size: 6.5px; color: #aab2be; }
 .${P}-opts { display: flex; align-items: center; gap: 12px; height: 24px; margin-top: 3px; padding: 0 3px; font-size: 7px; color: #cdd2da; white-space: nowrap; }
 .${P}-opts i { display: inline-block; vertical-align: -1px; width: 6px; height: 6px; margin-right: 3px; border-radius: 2px; box-shadow: inset 0 0 0 1.1px #8f98a5; }
-.${P}-opts .sp { flex: 1; }
-.${P}-opts .go { height: 18px; padding: 0 9px; border-radius: 5px; background: #f4f5f7; font-size: 7.5px; font-weight: 600; line-height: 18px; color: #060a10; }
+.${P}-opts .${P}-osp { flex: 1; }
+.${P}-opts .${P}-ogo { height: 18px; padding: 0 9px; border-radius: 5px; background: #f4f5f7; font-size: 7.5px; font-weight: 600; line-height: 18px; color: #060a10; }
 .${P}-bar { flex: none; align-self: center; display: flex; align-items: center; gap: 6px; height: 24px; margin-top: 8px; font-size: 7px; color: #aab2be; }
 .${P}-bar i { display: block; width: 14px; height: 14px; border-radius: 4px; box-shadow: inset 0 0 0 1px #2a323d; }
-.${P}-bar i.on { background: #1c2430; box-shadow: inset 0 0 0 1px #3a4452; }
+.${P}-bar i.${P}-on { background: #1c2430; box-shadow: inset 0 0 0 1px #3a4452; }
 .${P}-bar span { box-sizing: border-box; height: 20px; padding: 0 9px; border-radius: 6px; background: #12171e; box-shadow: inset 0 0 0 1px #232a34; line-height: 20px; }
 `;
 
@@ -82,9 +82,9 @@ export default {
     const { tiles } = ctx;
     const src = ownSrc(ctx.src, 'kittl');
     const cell = (g, i) => `<div class="${P}-t"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="visibility: hidden; transform-origin: ${g.origin}"/><div class="${P}-pend"><div class="${P}-lb"><i class="${P}-sp"></i><b>Generating</b><em>00:30</em></div></div></div>`;
-    const root = x.el(`<div class="${P}"><div class="${P}-rail"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="${P}-main"><div class="${P}-top"><b>Untitled Project</b><span>Share</span></div><div class="${P}-body"><div class="${P}-ab"><small>Artboard 1</small><div></div></div><div class="${P}-g" style="visibility: hidden">${tiles.map(cell).join('')}</div></div><div class="${P}-panel"><div class="${P}-tabs"><span class="on">Generate Image</span><span>Remix Image</span><span>Generate Video</span></div><div class="${P}-ta"><u></u>${x.esc(PROMPT)}<div class="${P}-pb">Prompt builder</div></div><div class="${P}-opts"><span><i></i>Style</span><span><i></i>Nano Banana Pro</span><span><i></i>1:1</span><span><i></i>10</span><span class="sp"></span><span class="go">Generate</span></div></div><div class="${P}-bar"><i class="on"></i><i></i><i></i><i></i><span>57%</span><span>170</span><span>Upgrade</span></div></div></div>`);
+    const root = x.el(`<div class="${P}"><div class="${P}-rail"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="${P}-main"><div class="${P}-top"><b>Untitled Project</b><span>Share</span></div><div class="${P}-body"><div class="${P}-ab"><small>Artboard 1</small><div></div></div><div class="${P}-g" style="visibility: hidden">${tiles.map(cell).join('')}</div></div><div class="${P}-panel"><div class="${P}-tabs"><span class="${P}-on">Generate Image</span><span>Remix Image</span><span>Generate Video</span></div><div class="${P}-ta"><u></u>${x.esc(PROMPT)}<div class="${P}-pb">Prompt builder</div></div><div class="${P}-opts"><span><i></i>Style</span><span><i></i>Nano Banana Pro</span><span><i></i>1:1</span><span><i></i>10</span><span class="${P}-osp"></span><span class="${P}-ogo">Generate</span></div></div><div class="${P}-bar"><i class="${P}-on"></i><i></i><i></i><i></i><span>57%</span></div></div></div>`);
     const q = (s) => root.querySelector(s);
-    const go = q(`.${P}-opts .go`), ab = q(`.${P}-ab`), grid = q(`.${P}-g`);
+    const go = q(`.${P}-opts .${P}-ogo`), ab = q(`.${P}-ab`), grid = q(`.${P}-g`);
     const cells = [...root.querySelectorAll(`.${P}-t`)].map((n, i) => ({ im: n.querySelector('img'), pend: n.querySelector(`.${P}-pend`), sp: n.querySelector(`.${P}-sp`), clk: n.querySelector(`.${P}-lb em`), g: tiles[i] }));
     ctx.gate(cells.map((c) => c.im));
 

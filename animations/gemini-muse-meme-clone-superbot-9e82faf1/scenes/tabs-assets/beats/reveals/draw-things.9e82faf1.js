@@ -23,11 +23,11 @@ const CSS = `
 .${P}-ph { flex: none; display: flex; flex-direction: column; width: ${PHONE_W}px; height: 100%; border-radius: 18px; background: #f4f3f6; overflow: hidden; }
 .${P}-hd { flex: none; display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; font-size: 10.5px; font-weight: 600; color: #26262a; white-space: nowrap; }
 .${P}-hd svg { flex: none; width: 13px; height: 13px; fill: none; stroke: #4a4a50; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.${P}-hd .sp { flex: 1; }
+.${P}-hd .${P}-sp { flex: 1; }
 .${P}-sl { flex: none; position: relative; height: 10px; margin: 0 14px; }
 .${P}-sl i { position: absolute; left: 0; right: 0; top: 4px; height: 2px; border-radius: 1px; background: #6a9be4; }
 .${P}-sl b { position: absolute; right: -2px; top: 1px; width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 .8px #cfcfd6, 0 1px 2px rgba(0, 0, 0, .25); }
-.${P}-sl.low i { background: #f2c7c2; }
+.${P}-sl.${P}-low i { background: #f2c7c2; }
 .${P}-pr { flex: none; box-sizing: border-box; height: 50px; margin: 4px 10px 0; padding: 6px 8px; border-radius: 9px; background: #fff; box-shadow: inset 0 0 0 1px #e1e1e7; font-size: 9.5px; line-height: 13px; color: #2c2c30; overflow: hidden; }
 .${P}-row { flex: none; display: flex; gap: 6px; height: 32px; margin: 7px 10px 0; }
 .${P}-pre { flex: none; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 4px; width: 84px; border-radius: 9px; background: #fff; box-shadow: inset 0 0 0 1px #f0c3be; font-size: 9.5px; font-weight: 500; color: #2c2c30; white-space: nowrap; }
@@ -42,9 +42,9 @@ const CSS = `
 .${P}-art img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
 .${P}-flat { position: absolute; inset: 0; background: #b7b8be; }
 .${P}-bar { position: absolute; left: 50%; bottom: 8px; width: ${PILL_W}px; height: 24px; margin-left: ${-PILL_W / 2}px; border-radius: 9px; background: #e3e4eb; overflow: hidden; }
-.${P}-bar .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: #0f1013; overflow: hidden; }
+.${P}-bar .${P}-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: #0f1013; overflow: hidden; }
 .${P}-line { position: absolute; left: 0; top: 0; width: ${PILL_W}px; height: 24px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 9.5px; color: #6e6f77; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.${P}-bar .fill .${P}-line { color: #eeecef; }
+.${P}-bar .${P}-fill .${P}-line { color: #eeecef; }
 .${P}-zoom { position: absolute; right: 8px; bottom: 8px; display: flex; align-items: center; gap: 4px; box-sizing: border-box; height: 20px; padding: 0 7px; border-radius: 7px; background: #26262b; color: #f2f2f4; font-size: 9px; font-weight: 600; }
 .${P}-zoom svg { width: 9px; height: 9px; fill: none; stroke: #f2f2f4; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .${P}-tb { flex: none; display: flex; align-items: center; justify-content: space-around; height: 38px; padding: 0 6px; }
@@ -102,11 +102,11 @@ export default {
     const { tiles } = ctx;
     const src = ownSrc(ctx.src, 'draw-things');
     const thumb = (g, i) => `<div class="${P}-t"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="visibility: hidden; transform-origin: ${g.origin}"/><div class="${P}-slot"></div></div>`;
-    const line = '<span class="l"></span><span class="r"></span>';
-    const root = x.el(`<div class="${P}"><div class="${P}-ph"><div class="${P}-hd">${ICON.menu}<span>Untitled-59220</span>${ICON.chev}<i class="sp"></i>${ICON.dots}${ICON.save}</div><div class="${P}-sl"><i></i><b></b></div><div class="${P}-pr">${x.esc(PROMPT)}</div><div class="${P}-row"><div class="${P}-pre">${ICON.gear}プリセット</div><div class="${P}-gen"><div class="${P}-gl"></div><div class="${P}-gs">${ICON.updown}<span>10</span></div></div></div><div class="${P}-cv"><div class="${P}-art" style="visibility: hidden"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme canvas" style="visibility: hidden"/><div class="${P}-flat"></div></div><div class="${P}-bar" style="display: none"><div class="${P}-line">${line}</div><div class="fill"><div class="${P}-line">${line}</div></div></div><div class="${P}-zoom" style="display: none">${ICON.zoom}<span>100%</span>${ICON.chev.replace('<svg', '<svg style="width:8px;height:8px"')}</div></div><div class="${P}-sl low"><i></i><b></b></div><div class="${P}-tb">${ICON.wand}${ICON.eraser}${ICON.brush}${ICON.page}${ICON.cam}${ICON.clock}</div></div><div class="${P}-rail"><div class="${P}-rh">${ICON.clock}<span>10</span></div><div class="${P}-grid">${tiles.map(thumb).join('')}</div></div></div>`);
+    const line = `<span class="${P}-l"></span><span class="${P}-r"></span>`;
+    const root = x.el(`<div class="${P}"><div class="${P}-ph"><div class="${P}-hd">${ICON.menu}<span>Untitled-59220</span>${ICON.chev}<i class="${P}-sp"></i>${ICON.dots}${ICON.save}</div><div class="${P}-sl"><i></i><b></b></div><div class="${P}-pr">${x.esc(PROMPT)}</div><div class="${P}-row"><div class="${P}-pre">${ICON.gear}プリセット</div><div class="${P}-gen"><div class="${P}-gl"></div><div class="${P}-gs">${ICON.updown}<span>10</span></div></div></div><div class="${P}-cv"><div class="${P}-art" style="visibility: hidden"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme canvas" style="visibility: hidden"/><div class="${P}-flat"></div></div><div class="${P}-bar" style="display: none"><div class="${P}-line">${line}</div><div class="${P}-fill"><div class="${P}-line">${line}</div></div></div><div class="${P}-zoom" style="display: none">${ICON.zoom}<span>100%</span>${ICON.chev.replace('<svg', '<svg style="width:8px;height:8px"')}</div></div><div class="${P}-sl ${P}-low"><i></i><b></b></div><div class="${P}-tb">${ICON.wand}${ICON.eraser}${ICON.brush}${ICON.page}${ICON.cam}${ICON.clock}</div></div><div class="${P}-rail"><div class="${P}-rh">${ICON.clock}<span>10</span></div><div class="${P}-grid">${tiles.map(thumb).join('')}</div></div></div>`);
     const gl = root.querySelector(`.${P}-gl`), gs = root.querySelector(`.${P}-gs`), gen = root.querySelector(`.${P}-gen`);
     const art = root.querySelector(`.${P}-art`), cim = art.querySelector('img'), flat = art.querySelector(`.${P}-flat`);
-    const bar = root.querySelector(`.${P}-bar`), fill = bar.querySelector('.fill'), zoom = root.querySelector(`.${P}-zoom`);
+    const bar = root.querySelector(`.${P}-bar`), fill = bar.querySelector(`.${P}-fill`), zoom = root.querySelector(`.${P}-zoom`);
     const lines = [...bar.querySelectorAll(`.${P}-line`)];
     const cells = [...root.querySelectorAll(`.${P}-t`)].map((n, i) => ({ im: n.querySelector('img'), cover: n.querySelector(`.${P}-slot`), g: tiles[i] }));
     ctx.gate([cim, ...cells.map((c) => c.im)]);

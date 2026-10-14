@@ -1,6 +1,6 @@
 // A dark-theme text-to-image feed with a queue (the screen recordings under .tmp/clone-9e82faf1/reveal-refs/ideogram, spec
-// confidence 0.62): a near-black page, a prompt field with option chips, a page-level chip 'Wait <N>s' (counting down) over
-// 'Upgrade to skip the wait', and the batch as landscape tiles in a grid. Every tile of a batch runs at once: it starts as a
+// confidence 0.62): a near-black page, a prompt field with option chips, a page-level chip 'Wait <N>s' (counting down; the
+// 'Upgrade to skip the wait' line under it is omitted as an upsell), and the batch as landscape tiles in a grid. Every tile of a batch runs at once: it starts as a
 // flat #3E3E44 grey with a small centred glyph and a slim caption strip, 'Waiting in the slow queue…'; then a heavy blur of
 // the picture sharpens and gains colour while the caption counts 'NN% complete' and a thin white rule along the tile's bottom
 // edge fills; then the caption reads 'Generation complete' with a small check, and clears, leaving the image. Ten images: a
@@ -19,7 +19,6 @@ const CSS = `
 .${P}-chip { flex: none; height: 28px; padding: 0 9px; border-radius: 8px; background: #232327; font-size: 9.5px; line-height: 28px; color: #a1a1aa; }
 .${P}-q { display: flex; align-items: baseline; gap: 8px; height: 26px; margin: 8px 12px 0; }
 .${P}-q b { padding: 3px 9px; border-radius: 999px; background: #2a2a2f; font-size: 10px; line-height: 12px; font-weight: 600; color: #f4f4f5; font-variant-numeric: tabular-nums; }
-.${P}-q span { font-size: 9.5px; color: #8b8b94; }
 .${P}-g { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0 12px; }
 .${P}-t { position: relative; aspect-ratio: 3 / 2; border-radius: 8px; overflow: hidden; background: #3e3e44; }
 .${P}-t img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
@@ -52,7 +51,7 @@ export default {
     injectStyle(P, CSS);
     const { tiles } = ctx;
     const src = ownSrc(ctx.src, 'ideogram');
-    const root = x.el(`<div class="${P}"><div class="${P}-top"><b>Create</b><span>Feed</span><span>Library</span></div><div class="${P}-pr"><div class="${P}-in">a cheerful ghost holding a handwritten note in a lecture hall</div><span class="${P}-chip">Model</span><span class="${P}-chip">Style</span><span class="${P}-chip">Aspect 3:2</span></div><div class="${P}-q"><b></b><span>Upgrade to skip the wait</span></div><div class="${P}-g">${tiles.map((g, i) => `<div class="${P}-t"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/><div class="${P}-cv"><div class="${P}-gl">${GLYPH}</div></div><div class="${P}-cap"><i></i><span></span></div><div class="${P}-rule"></div></div>`).join('')}</div></div>`);
+    const root = x.el(`<div class="${P}"><div class="${P}-top"><b>Create</b><span>Feed</span><span>Library</span></div><div class="${P}-pr"><div class="${P}-in">a cheerful ghost holding a handwritten note in a lecture hall</div><span class="${P}-chip">Model</span><span class="${P}-chip">Style</span><span class="${P}-chip">Aspect 3:2</span></div><div class="${P}-q"><b></b></div><div class="${P}-g">${tiles.map((g, i) => `<div class="${P}-t"><img src="${src}" width="870" height="1024" decoding="sync" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/><div class="${P}-cv"><div class="${P}-gl">${GLYPH}</div></div><div class="${P}-cap"><i></i><span></span></div><div class="${P}-rule"></div></div>`).join('')}</div></div>`);
     const q = root.querySelector(`.${P}-q`), chip = q.querySelector('b');
     const cells = [...root.querySelectorAll(`.${P}-t`)].map((n, i) => ({
       n, im: n.querySelector('img'), cv: n.querySelector(`.${P}-cv`), cap: n.querySelector(`.${P}-cap`), ck: n.querySelector(`.${P}-cap i`),

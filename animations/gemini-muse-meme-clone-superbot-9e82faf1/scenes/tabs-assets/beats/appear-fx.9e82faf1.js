@@ -4,8 +4,9 @@
 //    holds the two ends, an empty slot (p <= 0) and the landed tile (p >= 1, sharp, graded, unclipped), in the exact CSS
 //    the grid has always rested in.
 //  - gateImages: a frozen ?t= capture waits on __AD.ready (loads.9e82faf1.js), so a reveal module's tile images are tracked
-//    until they load; a failed load settles too and is logged.
-import { track } from '../../../loads.9e82faf1.js';
+//    until they have loaded and (in a frozen capture) settled; a failed load settles too and is logged. loads.9e82faf1.js
+//    gateTiles does the work, and says why it never calls img.decode().
+import { gateTiles } from '../../../loads.9e82faf1.js';
 
 export function makeTileFx(im, gen, g) {
   const rest = (opacity) => {
@@ -28,13 +29,6 @@ export function makeTileFx(im, gen, g) {
 }
 
 export function gateImages(imgs) {
-  for (const im of imgs) {
-    // the gate holds until the image has loaded AND decoded, so a block built mid-sequence never paints a half-decoded tile
-    track(new Promise((resolve) => {
-      const fin = () => (im.decode ? im.decode().then(resolve, resolve) : resolve());
-      if (im.complete && im.naturalWidth > 0) { fin(); return; }
-      im.addEventListener('load', fin, { once: true });
-      im.addEventListener('error', (e) => { console.error('reveal tile image failed to load', im.src, e); resolve(); }, { once: true });
-    }));
-  }
+  // decode-free, and in a frozen ?t= capture the tiles are held out of the first paint until they have settled: see gateTiles in loads.9e82faf1.js
+  gateTiles(imgs);
 }

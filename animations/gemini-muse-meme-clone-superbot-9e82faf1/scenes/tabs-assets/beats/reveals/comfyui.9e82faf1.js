@@ -28,10 +28,10 @@ const CSS = `
 .${P}-run svg { width: 7px; height: 7px; fill: none; stroke: #fff; stroke-width: 1.3; stroke-linejoin: round; }
 .${P}-dd { display: grid; place-items: center; width: 11px; height: 17px; border-radius: 4px; background: #262626; font-size: 6px; color: #b5b5b5; }
 .${P}-x { display: grid; place-items: center; width: 17px; height: 17px; border-radius: 4px; background: #5a2724; font-size: 8px; color: #9a6a68; }
-.${P}-x.on { background: #c0443b; color: #fff; }
+.${P}-x.${P}-on { background: #c0443b; color: #fff; }
 .${P}-jobs { position: relative; display: flex; align-items: center; box-sizing: border-box; height: 17px; padding: 0 7px; border-radius: 4px; background: #262626; font-size: 7px; color: #ececec; white-space: nowrap; }
 .${P}-jobs i { position: absolute; right: -1.5px; top: -2px; display: none; width: 4px; height: 4px; border-radius: 50%; background: #1c8cf2; }
-.${P}-jobs.on i { display: block; }
+.${P}-jobs.${P}-on i { display: block; }
 .${P}-read { display: flex; align-items: center; justify-content: flex-end; gap: 8px; box-sizing: border-box; height: ${READ_H}px; padding: 0 10px; font-size: 6.5px; color: #cfcfcf; white-space: nowrap; }
 .${P}-read b { color: #f2f2f2; }
 .${P}-read s { text-decoration: none; position: relative; width: 120px; height: 2.5px; margin-right: auto; border-radius: 2px; background: #2a2a2a; overflow: hidden; }
@@ -39,13 +39,13 @@ const CSS = `
 .${P}-cv { position: relative; height: ${CANVAS_H}px; background: #151515; overflow: hidden; }
 .${P}-wires { position: absolute; left: 0; top: 0; width: ${ROOT_W}px; height: ${CANVAS_H}px; overflow: visible; }
 .${P}-n { position: absolute; box-sizing: border-box; border-radius: 4px; background: #222; box-shadow: 0 0 0 1px #343434; }
-.${P}-n.act { box-shadow: 0 0 0 1.5px #3fbf6f; }
+.${P}-n.${P}-act { box-shadow: 0 0 0 1.5px #3fbf6f; }
 .${P}-nt { height: ${TITLE_H}px; padding: 0 6px; border-radius: 4px 4px 0 0; background: #353535; font-size: 6.5px; line-height: ${TITLE_H}px; color: #d4d4d4; white-space: nowrap; overflow: hidden; }
 .${P}-nt::before { content: ""; display: inline-block; width: 3px; height: 3px; margin-right: 4px; border-radius: 50%; background: #8a8a8a; vertical-align: 0.5px; }
 .${P}-r { position: relative; display: flex; justify-content: space-between; height: ${ROW}px; padding: 0 6px; font-size: 5.5px; line-height: ${ROW}px; color: #b4b4b4; white-space: nowrap; }
 .${P}-r i { position: absolute; top: 2.5px; width: 4px; height: 4px; border-radius: 50%; }
-.${P}-r i.l { left: -2px; }
-.${P}-r i.o { right: -2px; }
+.${P}-r i.${P}-dl { left: -2px; }
+.${P}-r i.${P}-do { right: -2px; }
 .${P}-w { display: flex; justify-content: space-between; box-sizing: border-box; height: 8px; margin: 1px 4px 0; padding: 0 4px; border-radius: 4px; background: #303030; font-size: 5.2px; line-height: 8px; color: #a6a6a6; white-space: nowrap; overflow: hidden; }
 .${P}-w b { font-weight: 400; color: #e4e4e4; }
 .${P}-ta { box-sizing: border-box; height: 34px; margin: 2px 4px 0; padding: 3px 4px; border-radius: 3px; background: #2b2b2b; font-size: 5.5px; line-height: 8px; color: #d6d6d6; overflow: hidden; }
@@ -104,7 +104,7 @@ export default {
     const src = ownSrc(ctx.src, 'comfyui');
     const node = (key) => {
       const n = NODES[key], rows = rowsOf(n);
-      const dot = (ty, side) => `<i class="${side === 'l' ? 'l' : 'o'}" style="background: ${W_TYPE[ty]}"></i>`;
+      const dot = (ty, side) => `<i class="${P}-d${side === 'l' ? 'l' : 'o'}" style="background: ${W_TYPE[ty]}"></i>`;
       const slots = Array.from({ length: rows }, (_, k) => { const a = n.ins[k], b = n.outs[k]; return `<div class="${P}-r"><span>${a ? `${dot(a[1], 'l')}${a[0]}` : ''}</span><span>${b ? `${b[0]}${dot(b[1], 'o')}` : ''}</span></div>`; }).join('');
       const wid = (n.widgets || []).map(([a, b]) => `<div class="${P}-w"><span>${a}</span><b>${b}</b></div>`).join('');
       const area = n.area ? `<div class="${P}-ta">${x.esc(n.area)}</div>` : '';
@@ -144,7 +144,7 @@ export default {
         // 运行 is pressed; the counter reads 1 while the job is live, 0 before and after
         const rp = press(s, RUN_AT, 0.05, 0.05, 0.12);
         put('run', rp.toFixed(3), () => { run.style.transform = rp > 0 ? `scale(${(1 - 0.06 * rp).toFixed(4)})` : 'none'; });
-        put('job', running, (v) => { jobsTxt.textContent = `${v ? 1 : 0} 个活动任务`; jobs.classList.toggle('on', v); xb.classList.toggle('on', v); });
+        put('job', running, (v) => { jobsTxt.textContent = `${v ? 1 : 0} 个活动任务`; jobs.classList.toggle(`${P}-on`, v); xb.classList.toggle(`${P}-on`, v); });
         put('tq', s >= QUEUED[0] && s < QUEUED[1], (v) => { toastQ.style.visibility = v ? '' : 'hidden'; });
         put('td', done, (v) => { toastD.style.visibility = v ? '' : 'hidden'; });
 
@@ -161,7 +161,7 @@ export default {
         const p = s >= S0 ? seg(s, lay(ctx.seq(ci)[0]), L(ci)) : 0;
         if (act === 'E') curP = Math.floor(p * 100);
         const total = done ? 100 : Math.floor(100 * seg(s, S0, L(9)));
-        Object.keys(nodeEls).forEach((key) => put(`n${key}`, act === key, (v) => { nodeEls[key].classList.toggle('act', v); }));
+        Object.keys(nodeEls).forEach((key) => put(`n${key}`, act === key, (v) => { nodeEls[key].classList.toggle(`${P}-act`, v); }));
         const live = running || done;
         put('rv', running, (v) => { rall.style.visibility = v ? '' : 'hidden'; rcur.style.visibility = v ? '' : 'hidden'; rbar.style.visibility = v ? '' : 'hidden'; });
         if (!running) rfill.style.width = '';

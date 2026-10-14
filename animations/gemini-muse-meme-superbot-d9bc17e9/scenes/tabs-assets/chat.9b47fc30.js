@@ -11,6 +11,7 @@ import doordash from './beats/doordash.d9bc17e9.js?v=1';
 import climb from './beats/climb.080da517.js?v=1';
 import bedtime from './beats/bedtime.b60749a3.js?v=1';
 import bakery from './beats/bakery.005f5570.js?v=1';
+import pitchdeck from './beats/pitchdeck.fad54971.js?v=1';
 import { variant } from '../../variant.9e82faf1.js';
 
 const brand = (f) => new URL('../../brand/' + f, import.meta.url).href;
@@ -29,9 +30,9 @@ const APPS = {
 const BASE = [
   {
     app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']], ask: 'make me a muse meme',
-    askBy: { 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', climbing: 'Show me rock climbing videos', logo: 'Design a logo for my coffee shop', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery' },
+    askBy: { pitchdeck: 'Make a slide deck for my pitch', 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', climbing: 'Show me rock climbing videos', logo: 'Design a logo for my coffee shop', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery' },
     // one [app, label] per base chip, so the route keeps the base chips' clock
-    routeBy: { doordash: { app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'gemini', mod: bakery, chips: [['gemini', 'Switching to Gemini']] } },
+    routeBy: { pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gemini', 'Switching to Gemini']] }, doordash: { app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'gemini', mod: bakery, chips: [['gemini', 'Switching to Gemini']] } },
   },
 ];
 

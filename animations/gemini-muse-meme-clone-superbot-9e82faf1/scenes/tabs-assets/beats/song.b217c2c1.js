@@ -9,7 +9,7 @@ import { lerp, seg, outCubic, outBack, streamCount } from '../../../lib.9b47fc30
 import { track } from '../../../loads.9e82faf1.js';
 
 const SAY = "Here's an upbeat acoustic pop song about your dog.";
-const CSS = new URL('../song.b217c2c1.css?v=2', import.meta.url).href;
+const CSS = new URL('../song.b217c2c1.css?v=3', import.meta.url).href;
 const TITLE = 'Muddy Paws';
 const META = 'Acoustic pop · Eleven Music';
 const LEN = 30; // the track's length in seconds, for the playhead

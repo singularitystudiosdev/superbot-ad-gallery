@@ -42,7 +42,7 @@ const CSS = `
 .${P}-act s { text-decoration: none; display: grid; place-items: center; width: 17px; height: 17px; border-radius: 6px; background: #1b1b1f; font-size: 8px; line-height: 1; color: #d3d3d9; }
 .${P}-cmp { flex: none; box-sizing: border-box; display: flex; flex-direction: column; margin: auto 40px 14px; height: 74px; padding: 8px 10px 7px 10px; border-radius: 14px; background: #1b1b1f; }
 .${P}-ct { flex: 1; min-height: 0; display: flex; gap: 9px; font-size: 7.5px; line-height: 11px; color: #dcdce0; overflow: hidden; }
-.${P}-ref { flex: none; display: grid; place-items: center; width: 24px; height: 30px; border-radius: 4px; background: #2a2a2f; font-size: 11px; color: #8d8d95; transform: rotate(-5deg); }
+.${P}-ref { flex: none; display: grid; place-items: center; width: 24px; height: 30px; border-radius: 4px; background: #2a2a2f; font-size: 11px; color: #8d8d95; transform: rotate(-5deg); margin: 2px -2px 0 2px; }
 .${P}-row { flex: none; display: flex; align-items: center; gap: 5px; height: 20px; }
 .${P}-row span { display: flex; align-items: center; gap: 3px; box-sizing: border-box; height: 17px; padding: 0 6px; border-radius: 6px; background: #2a2a2f; font-size: 7px; color: #d3d3d9; white-space: nowrap; }
 .${P}-row .${P}-ai { color: ${TEAL}; background: #17302f; }

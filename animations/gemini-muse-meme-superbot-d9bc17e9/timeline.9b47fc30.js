@@ -4,6 +4,8 @@
 import * as lib from './lib.9b47fc30.js';
 import tabs from './scenes/tabs.9b47fc30.js';
 import { settled } from './loads.9e82faf1.js';
+// the same module instance the tabs scene uses (the full URL, query included, keys an instance)
+import { BEATS } from './scenes/tabs-assets/chat.9b47fc30.js?v=8';
 
 const { seg } = lib;
 const H = 1080;
@@ -77,4 +79,10 @@ window.__AD = {
   CYCLE,
   get ready() { return settled(); },
   seek(t) { paused = true; base = t; started = performance.now(); render(timeNow()); },
+  // play on from t (a variant or appear pick skips the wait and shows its animation)
+  play(t) { paused = false; base = t; started = performance.now(); render(timeNow()); },
+  // the moment the reply to the ask starts streaming: every variant's art begins here or just after
+  ART: BEATS[0].k.T.r,
+  // the spot's clock now, wrapped into the loop (read-only)
+  get now() { return timeNow(); },
 };

@@ -10,6 +10,7 @@ import gemini from './beats/gemini.9b47fc30.js?v=1';
 import doordash from './beats/doordash.d9bc17e9.js?v=1';
 import climb from './beats/climb.080da517.js?v=1';
 import catsurf from './beats/catsurf.e2265c3a.js?v=1';
+import catgif from './beats/catgif.df575a7c.js?v=1';
 import bedtime from './beats/bedtime.b60749a3.js?v=1';
 import bakery from './beats/bakery.005f5570.js?v=1';
 import pitchdeck from './beats/pitchdeck.fad54971.js?v=1';
@@ -33,9 +34,9 @@ const APPS = {
 const BASE = [
   {
     app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']], ask: 'make me a muse meme',
-    askBy: { spending: 'Make a chart of my monthly spending', pitchdeck: 'Make a slide deck for my pitch', 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', logo: 'Design a logo for my coffee shop', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space' },
+    askBy: { spending: 'Make a chart of my monthly spending', pitchdeck: 'Make a slide deck for my pitch', 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space' },
     // one [app, label] per base chip, so the route keeps the base chips' clock
-    routeBy: { spending: { app: 'gemini', mod: spending, chips: [['gemini', 'Switching to Gemini']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gemini', 'Switching to Gemini']] }, doordash: { app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] }, catsurf: { app: 'gemini', mod: catsurf, chips: [['gemini', 'Switching to Gemini']] }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'gemini', mod: bakery, chips: [['gemini', 'Switching to Gemini']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] } },
+    routeBy: { spending: { app: 'gemini', mod: spending, chips: [['gemini', 'Switching to Gemini']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gemini', 'Switching to Gemini']] }, doordash: { app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] }, catsurf: { app: 'gemini', mod: catsurf, chips: [['gemini', 'Switching to Gemini']] }, catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'gemini', mod: bakery, chips: [['gemini', 'Switching to Gemini']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] } },
   },
 ];
 

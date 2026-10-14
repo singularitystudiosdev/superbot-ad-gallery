@@ -10,6 +10,7 @@ export const VARIANTS = [
   { id: 'roadtrip', label: 'Road trip map' },
   { id: 'climbing', label: 'Climbing videos' },
   { id: 'catsurf', label: 'Cat surfing video' },
+  { id: 'catgif', label: 'Dancing cat GIF' },
   { id: 'logo', label: 'Coffee logo' },
   { id: 'bedtime', label: 'Bedtime story' },
   { id: 'spending', label: 'Spending chart' },

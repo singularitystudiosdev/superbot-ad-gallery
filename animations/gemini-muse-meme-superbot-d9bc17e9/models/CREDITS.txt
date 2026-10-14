@@ -12,6 +12,7 @@ cat.e2265c3a.glb
   Author: Quaternius, via Poly Pizza
   Licence: CC0 1.0 Universal (public domain dedication); no attribution owed
   URL: https://poly.pizza/m/qKICY6xla2
+  Also used by the catgif variant (a dancing cat GIF): the same model, posed procedurally on its bones.
 
 surfboard.e2265c3a.glb
   Title: Snowboard (recoloured at runtime into a surfboard: cream deck, coral stripe, teal rail)

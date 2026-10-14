@@ -362,6 +362,15 @@
     "desc": "The Gemini muse meme spot, space podcast variant. \"Make a podcast episode about space\" is typed; superbot switches to Gemini, which answers \"Here’s your episode: two hosts, four chapters, about space and the photo that changed how we see it.\" with an Audio Overview style episode card: the Earthrise cover, Earthrise: The Photo That Changed Space from the show Deep Field, two host avatars, a player that shows Generating audio while a speaker-tinted waveform draws in, then plays as Nova’s avatar lights and a highlight glides through the transcript. A chapter-segmented progress line and four chapters sit as show notes. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. The play button is real: clicking it performs the whole episode aloud in two browser voices, one per host, with live word highlighting (pause, play and stop work). The cover is the public-domain NASA Apollo 8 Earthrise photo; the script is original."
   },
   {
+    "id": "gemini-muse-meme-catgif-superbot-df575a7c",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Make a GIF of a dancing cat",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=catgif",
+    "thumb": "assets/shots/gemini-muse-meme-catgif-superbot-df575a7c.png",
+    "desc": "The Gemini muse meme spot, dancing cat GIF variant. \"Make a GIF of a dancing cat\" is typed; superbot switches to Gemini, which answers \"Here’s your GIF of a dancing cat.\" with a square GIF card: it shimmers as a skeleton under \"Creating GIF\" while a counter climbs, the first frame resolves out of a blur, then the GIF loops, a cat bouncing and swaying on a light-up disco floor under a mirror ball and two swinging spotlights, ending each 8 beat loop with a hop and a full spin. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. The card's download icon is real: it renders the 48 frames at 480 x 480, encodes them in the browser and saves an actual animated GIF, dancing-cat.gif. The cat is a CC0 model; the floor, ball and lights are drawn with three.js."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

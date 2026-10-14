@@ -11,6 +11,7 @@ export const VARIANTS = [
   { id: 'catsurf', label: 'Cat surfing video' },
   { id: 'logo', label: 'Coffee logo' },
   { id: 'bedtime', label: 'Bedtime story' },
+  { id: 'spending', label: 'Spending chart' },
   { id: 'bakery', label: 'Bakery website' },
   { id: 'pitchdeck', label: 'Pitch deck' },
 ];

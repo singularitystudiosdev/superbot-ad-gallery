@@ -290,6 +290,15 @@
     "desc": "The Gemini muse meme spot, cat surfing video variant. \"Make a video of a cat surfing\" is typed; superbot switches to Gemini, which answers \"Here’s your video of a cat surfing.\" with a video card: a 16:9 player shimmers as a skeleton under \"Generating video\" while a counter climbs, the first frame resolves out of a blur, then an 8 second clip plays, a cat riding a surfboard across a rolling three.js ocean under a golden-hour sky, spray flying off the tail and a hop mid-ride. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. The player's download icon records the canvas and saves a real webm. The cat and board are CC0 models; the ocean and sky are three.js examples."
   },
   {
+    "id": "gemini-muse-meme-spending-superbot-b92c87dc",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Make a chart of my monthly spending",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=spending",
+    "thumb": "assets/shots/gemini-muse-meme-spending-superbot-b92c87dc.png",
+    "desc": "The Gemini muse meme spot, monthly spending chart variant. \"Make a chart of my monthly spending\" is typed; superbot switches to Gemini, which answers \"Here's your monthly spending from April to September, split by category.\" with a chart card: the title and monthly average sit as skeletons under \"Analyzing 214 transactions\" while a counter climbs, then six stacked columns (housing, food, transport, shopping) rise left to right as the average counts up to $2,656, August's $3,085 total lands on its cap, and the pointer settles on August so its tooltip breaks the month down. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. All figures are mock data."
+  },
+  {
     "id": "gemini-muse-meme-game-superbot-d9bc17e9",
     "type": "animation",
     "group": "Ad spots",

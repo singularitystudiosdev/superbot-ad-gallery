@@ -52,5 +52,13 @@ import appleImagePlayground from './apple-image-playground.9e82faf1.js';
 import googleWhisk from './google-whisk.9e82faf1.js';
 import googleImagefx from './google-imagefx.9e82faf1.js';
 import leonardoFlow from './leonardo-flow.9e82faf1.js';
+import artbreeder from './artbreeder.9e82faf1.js';
+import kolors from './kolors.9e82faf1.js';
+import tongyiWanxiang from './tongyi-wanxiang.9e82faf1.js';
+import wenxinYige from './wenxin-yige.9e82faf1.js';
+import yuanbao from './yuanbao.9e82faf1.js';
+import capcut from './capcut.9e82faf1.js';
+import whatsappImagine from './whatsapp-imagine.9e82faf1.js';
+import snapchatDreams from './snapchat-dreams.9e82faf1.js';
 
-export const REVEALS = [chatgpt, gemini, sdwebui, krea, bing, ideogram, perplexity, leonardo, firefly, copilot, higgsfield, midjourney, grok, geminiApp, meta, metaChat, kling, flux, recraft, luma, qwen, reve, canva, freepik, jimeng, hunyuan, jimengWeb, kandinsky, tensorArt, picsart, dreamstudio, hailuo, midjourneyDiscord, chatgptDalle3, appleImagePlayground, googleWhisk, googleImagefx, leonardoFlow];
+export const REVEALS = [chatgpt, gemini, sdwebui, krea, bing, ideogram, perplexity, leonardo, firefly, copilot, higgsfield, midjourney, grok, geminiApp, meta, metaChat, kling, flux, recraft, luma, qwen, reve, canva, freepik, jimeng, hunyuan, jimengWeb, kandinsky, tensorArt, picsart, dreamstudio, hailuo, midjourneyDiscord, chatgptDalle3, appleImagePlayground, googleWhisk, googleImagefx, leonardoFlow, artbreeder, kolors, tongyiWanxiang, wenxinYige, yuanbao, capcut, whatsappImagine, snapchatDreams];

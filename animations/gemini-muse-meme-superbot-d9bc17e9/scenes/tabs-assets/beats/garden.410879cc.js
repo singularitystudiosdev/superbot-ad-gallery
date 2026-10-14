@@ -101,7 +101,7 @@ function sheetSvg(PL) {
 <defs><clipPath id="gd-wipe-410879cc"><rect class="gd-wipe" x="${X0}" y="${Y0}" width="0" height="${ft(PLOT.h)}"/></clipPath></defs>
 <rect x="6" y="6" width="${W - 12}" height="${H - 12}" fill="none" stroke="#ddd5c3" stroke-width=".6"/>
 ${t(14, 25, 'gd-t', 'GARDEN DESIGN<tspan class="gd-tk" dx="6">TEMPLATE</tspan>')}
-<g class="gd-fields" opacity="0">${t(196, 25, 'gd-k', 'NAME')}<path d="M214 26.5H262" stroke="#b9b09c" stroke-width=".6"/>${t(270, 25, 'gd-k', 'DATE')}<path d="M288 26.5H346" stroke="#b9b09c" stroke-width=".6"/></g>
+<g class="gd-fields" opacity="0"><text x="196" y="25" class="gd-k">NAME</text><path d="M214 26.5H262" stroke="#b9b09c" stroke-width=".6"/><text x="270" y="25" class="gd-k">DATE</text><path d="M288 26.5H346" stroke="#b9b09c" stroke-width=".6"/></g>
 ${draw('M14 32.5H346', 'fill="none" stroke="#cfc6b2" stroke-width=".6"')}
 <g clip-path="url(#gd-wipe-410879cc)" class="gd-grid"><path d="${grid(1)}" fill="none" stroke="#e7e0d0" stroke-width=".45"/><path d="${grid(6)}" fill="none" stroke="#d6ccb6" stroke-width=".7"/></g>
 ${PATHS.map((pa) => draw(pa.d, `class="gd-gravel" fill="none" stroke="#ddd3bf" stroke-width="${ft(pa.w)}"`)).join('')}

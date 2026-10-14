@@ -263,6 +263,15 @@
     "desc": "The Gemini muse meme spot, DoorDash variant. \"order me a burger on doordash\" is typed; superbot connects to DoorDash, picks Main Street Burger Co., checks out with the saved card and the order card resolves to \"Ordered!\" with a 24 min ETA. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-garden-superbot-410879cc",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: make me a garden design template",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=garden",
+    "thumb": "assets/shots/gemini-muse-meme-garden-superbot-410879cc.png",
+    "desc": "The Gemini muse meme spot, garden template variant. \"make me a garden design template\" is typed; superbot switches to Gemini, which draws a printable 24 x 18 ft backyard plan onto grid paper: outlines sketch in blue and fill in, raised beds A to E, gravel paths, a seating circle, a pond, lawn, shrubs and a tree pop in, then the key, the bed list, blank name and date fields, the scale bar and the north arrow. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

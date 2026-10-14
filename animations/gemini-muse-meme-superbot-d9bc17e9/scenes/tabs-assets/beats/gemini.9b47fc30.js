@@ -2,15 +2,17 @@
 // scene's local time) and the variant (variant.9e82faf1.js): '1' resolves one meme card out of a blur under a sweeping
 // band; '10' generates ten tiles at once, each landing on its own clock inside the same window; '3d' builds a zombie
 // model from the feet up on a turntable (zombie3d.9e82faf1.js); 'game' types out a zombie runner's code, then boots it
-// into the running game (zombiegame.7b46b820.js). Every variant keeps the beat's length. All layouts are
+// into the running game (zombiegame.7b46b820.js); 'garden' draws a garden design template onto grid paper
+// (garden.410879cc.js). Every variant keeps the beat's length. All layouts are
 // built once and the variant picks which one shows; the 3D viewer (and three.js) loads the first time its variant shows.
 import { lerp, seg, outCubic, inOutCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { variant } from '../../../variant.9e82faf1.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { makeZombieViewer } from './zombie3d.9e82faf1.js';
 import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_H } from './zombiegame.7b46b820.js';
+import { makeGarden } from './garden.410879cc.js';
 
-const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.' };
+const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.' };
 const ZOMBIE = new URL('../../../models/zombie-3d.9e82faf1.glb', import.meta.url).href;
 const BOOT = 0.75, BOOT_LEN = 0.2, PLAY = 0.8; // the code view hands over to the game at T.w0 + BOOT; play counts from T.w0 + PLAY
 const SPIN0 = -0.75, SPIN = 0.55; // the turntable's angle as the card lands (a three-quarter view), and its turn in rad/s
@@ -60,6 +62,8 @@ export default {
     const model = x.el(`<div class="qc-img qc-3d"><canvas width="590" height="695" role="img" aria-label="3D zombie model"></canvas><span class="qc-genl">${x.tile('gemini')}Creating 3D model<b class="qc-genn"></b></span></div>`);
     const game = x.el(`<div class="qc-img qc-game"><canvas width="590" height="695" role="img" aria-label="Zombie runner game"></canvas><div class="qc-code"><div class="qc-tabs"><span>zombie-run.js</span></div><div class="qc-lines"><pre></pre></div></div><span class="qc-chip qc-score">Score <b>0000</b></span><span class="qc-chip qc-brains">Brains <b>0</b></span><span class="qc-genl">${x.tile('gemini')}Creating game<b class="qc-genn"></b></span></div>`);
     media.append(card, grid, model, game);
+    const garden = makeGarden(x);
+    media.append(garden.node);
     const vis = say.firstElementChild, hid = say.lastElementChild;
     const im = card.querySelector('img'), gen = card.querySelector('.qc-gen'), genl = card.querySelector('.qc-genl');
     const tiles = [...grid.querySelectorAll('.qc-gt')].map((n, i) => ({ n, im: n.querySelector('img'), gen: n.querySelector('.qc-gen'), g: TILES[i] }));
@@ -80,6 +84,7 @@ export default {
           grid.style.display = v === '10' ? '' : 'none';
           model.style.display = v === '3d' ? '' : 'none';
           game.style.display = v === 'game' ? '' : 'none';
+          garden.node.style.display = v === 'garden' ? '' : 'none';
           lastV = v; shown = -1;
         }
         const text = SAY[v];
@@ -89,6 +94,7 @@ export default {
         media.style.opacity = ci.toFixed(3);
         media.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
         const label = (1 - seg(t, T.w1 - 0.25, T.w1)).toFixed(3);
+        if (v === 'garden') { garden.render(t, T, label); return; }
         if (v === 'game') {
           if (!runner) { runner = makeZombieGame(gcanvas, ZOMBIE); track(runner.ready); }
           const g = Math.max(0, t - (T.w0 + PLAY));

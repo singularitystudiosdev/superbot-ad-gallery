@@ -254,6 +254,15 @@
     "thumb": "assets/shots/do-that-too-superbot-9b4bf902.png"
   },
   {
+    "id": "gemini-muse-meme-doordash-superbot-d9bc17e9",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: order me a burger on doordash",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=doordash",
+    "thumb": "assets/shots/gemini-muse-meme-doordash-superbot-d9bc17e9.png",
+    "desc": "The Gemini muse meme spot, DoorDash variant. \"order me a burger on doordash\" is typed; superbot connects to DoorDash, picks Main Street Burger Co., checks out with the saved card and the order card resolves to \"Ordered!\" with a 24 min ETA. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

@@ -1,0 +1,8 @@
+zombie-3d.9e82faf1.glb
+  Source: the user's own Replit project, a Replit Agent output (glTF asset.generator "Replit Agent procedural zombie"),
+  downloaded 2026-10-13 as procedural_zombie.glb. An original procedural character, untextured, 10 flat materials.
+  Licence: the user's own generated asset; no third-party attribution owed.
+
+../vendor/three/
+  three.js r186.1 (build/three.module.js, build/three.core.js, examples/jsm/loaders/GLTFLoader.js and its two utils),
+  MIT licence, copied unmodified from the npm package; see vendor/three/LICENSE.

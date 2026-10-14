@@ -8,6 +8,7 @@ export const VARIANTS = [
   { id: 'doordash', label: 'DoorDash order' },
   { id: 'garden', label: 'Garden template' },
   { id: 'climbing', label: 'Climbing videos' },
+  { id: 'catsurf', label: 'Cat surfing video' },
   { id: 'logo', label: 'Coffee logo' },
   { id: 'bedtime', label: 'Bedtime story' },
   { id: 'bakery', label: 'Bakery website' },

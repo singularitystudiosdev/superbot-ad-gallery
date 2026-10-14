@@ -371,6 +371,33 @@
     "desc": "The Gemini muse meme spot, dancing cat GIF variant. \"Make a GIF of a dancing cat\" is typed; superbot switches to Gemini, which answers \"Here’s your GIF of a dancing cat.\" with a square GIF card: it shimmers as a skeleton under \"Creating GIF\" while a counter climbs, the first frame resolves out of a blur, then the GIF loops, a cat bouncing and swaying on a light-up disco floor under a mirror ball and two swinging spotlights, ending each 8 beat loop with a hop and a full spin. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. The card's download icon is real: it renders the 48 frames at 480 x 480, encodes them in the browser and saves an actual animated GIF, dancing-cat.gif. The cat is a CC0 model; the floor, ball and lights are drawn with three.js."
   },
   {
+    "id": "gemini-muse-meme-clone-1-superbot-9e82faf1",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: make me a muse meme",
+    "src": "animations/gemini-muse-meme-clone-superbot-9e82faf1/",
+    "thumb": "assets/shots/gemini-muse-meme-clone-1-superbot-9e82faf1.png",
+    "desc": "The Gemini muse meme spot, clone build, 1 image cut. \"make me a muse meme\" is typed; superbot switches to Gemini, which answers \"Here’s your Muse meme.\" with one meme card. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. Deep links: ?variant=1 (this cut), ?variant=10 (ten at once, with ?appear=<style>), ?variant=3d (3D zombie)."
+  },
+  {
+    "id": "gemini-muse-meme-clone-10-superbot-9e82faf1",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: make me 10 muse memes",
+    "src": "animations/gemini-muse-meme-clone-superbot-9e82faf1/?variant=10",
+    "thumb": "assets/shots/gemini-muse-meme-clone-10-superbot-9e82faf1.png",
+    "desc": "The Gemini muse meme spot, clone build, 10 images cut. \"make me 10 muse memes\" is typed; superbot switches to Gemini, which answers \"Here are 10 Muse memes.\" and the ten generations arrive. The default grid resolves each tile out of a blur one after another; ?appear=<style> swaps the block for a recreation of another image-generation product’s UI (also pickable live from the Appear menu under the variant selector). Same 6.3 s loop; deep links: ?variant=10&appear=<style>, style one of chatgpt, gemini, sdwebui, krea, bing-image-creator, ideogram, perplexity, leonardo, firefly, copilot, higgsfield, midjourney, grok, gemini-app, meta, meta-chat, kling, flux, recraft, luma, qwen, reve, canva, freepik, jimeng, hunyuan, jimeng-web, kandinsky, tensor-art, picsart, dreamstudio, hailuo, midjourney-discord, chatgpt-dalle3."
+  },
+  {
+    "id": "gemini-muse-meme-clone-3d-superbot-9e82faf1",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: make me a 3d zombie",
+    "src": "animations/gemini-muse-meme-clone-superbot-9e82faf1/?variant=3d",
+    "thumb": "assets/shots/gemini-muse-meme-clone-3d-superbot-9e82faf1.png",
+    "desc": "The Gemini muse meme spot, clone build, 3D model cut. \"Make me a 3d zombie\" is typed; superbot switches to Gemini, which answers \"Here’s your 3D zombie.\" with a 3D model card showing a green zombie rendered with three.js. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

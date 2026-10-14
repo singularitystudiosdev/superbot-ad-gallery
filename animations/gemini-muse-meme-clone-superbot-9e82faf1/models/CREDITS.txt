@@ -1,0 +1,31 @@
+zombie-3d.9e82faf1.glb
+  Source: the user's own Replit project, a Replit Agent output (glTF asset.generator "Replit Agent procedural zombie"),
+  downloaded 2026-10-13 as procedural_zombie.glb. An original procedural character, untextured, 10 flat materials.
+  Licence: the user's own generated asset; no third-party attribution owed.
+
+../vendor/three/
+  three.js r186.1 (build/three.module.js, build/three.core.js, examples/jsm/loaders/GLTFLoader.js and its two utils),
+  MIT licence, copied unmodified from the npm package; see vendor/three/LICENSE.
+
+cat.e2265c3a.glb
+  Title: Cat (rigged, animated: Idle, Jump_Loop and others)
+  Author: Quaternius, via Poly Pizza
+  Licence: CC0 1.0 Universal (public domain dedication); no attribution owed
+  URL: https://poly.pizza/m/qKICY6xla2
+  Also used by the catgif variant (a dancing cat GIF): the same model, posed procedurally on its bones.
+
+surfboard.e2265c3a.glb
+  Title: Snowboard (recoloured at runtime into a surfboard: cream deck, coral stripe, teal rail)
+  Author: Geldvillager, via Poly Pizza
+  Licence: CC0 1.0 Universal (public domain dedication); no attribution owed
+  URL: https://static.poly.pizza/b3f02a40-6db3-46dc-91fd-01d4c3e66598.glb
+  (no CC0 surfboard exists on Poly Pizza; every surfboard there is CC-BY, which would owe on-screen credit)
+
+../vendor/three/examples/jsm/objects/Water.js, ../vendor/three/examples/jsm/objects/Sky.js and
+../vendor/three/examples/textures/waternormals.jpg
+  Title: three.js r186 examples: Water, Sky and the water normal map
+  Author: mrdoob and the three.js authors
+  Licence: MIT (code and texture, three.js repository licence; see vendor/three/LICENSE), copied unmodified
+  URL: https://raw.githubusercontent.com/mrdoob/three.js/r186/examples/jsm/objects/Water.js
+       https://raw.githubusercontent.com/mrdoob/three.js/r186/examples/jsm/objects/Sky.js
+       https://raw.githubusercontent.com/mrdoob/three.js/r186/examples/textures/waternormals.jpg

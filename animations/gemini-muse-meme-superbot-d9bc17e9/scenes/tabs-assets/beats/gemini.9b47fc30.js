@@ -3,7 +3,8 @@
 // band; '10' generates ten tiles at once, each landing on its own clock inside the same window; '3d' builds a zombie
 // model from the feet up on a turntable (zombie3d.9e82faf1.js); 'game' types out a zombie runner's code, then boots it
 // into the running game (zombiegame.7b46b820.js); 'garden' draws a garden design template onto grid paper
-// (garden.410879cc.js). Every variant keeps the beat's length. All layouts are
+// (garden.410879cc.js); 'logo' resolves a generated coffee shop logo (img/coffee-logo.a133a772.png) as the 1-image card
+// does. Every variant keeps the beat's length. All layouts are
 // built once and the variant picks which one shows; the 3D viewer (and three.js) loads the first time its variant shows.
 import { lerp, seg, outCubic, inOutCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { variant } from '../../../variant.9e82faf1.js';
@@ -12,7 +13,7 @@ import { makeZombieViewer } from './zombie3d.9e82faf1.js';
 import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_H } from './zombiegame.7b46b820.js';
 import { makeGarden } from './garden.410879cc.js';
 
-const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.' };
+const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.', logo: 'Here’s your coffee shop logo.' };
 const ZOMBIE = new URL('../../../models/zombie-3d.9e82faf1.glb', import.meta.url).href;
 const BOOT = 0.75, BOOT_LEN = 0.2, PLAY = 0.8; // the code view hands over to the game at T.w0 + BOOT; play counts from T.w0 + PLAY
 const SPIN0 = -0.75, SPIN = 0.55; // the turntable's angle as the card lands (a three-quarter view), and its turn in rad/s
@@ -61,7 +62,8 @@ export default {
     const grid = x.el(`<div class="qc-grid">${TILES.map((g, i) => `<div class="qc-gt"><img src="${src}" width="870" height="1024" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/><i class="qc-gen"></i></div>`).join('')}<span class="qc-genl">${x.tile('gemini')}Creating 10 images<b class="qc-genn"></b></span></div>`);
     const model = x.el(`<div class="qc-img qc-3d"><canvas width="590" height="695" role="img" aria-label="3D zombie model"></canvas><span class="qc-genl">${x.tile('gemini')}Creating 3D model<b class="qc-genn"></b></span></div>`);
     const game = x.el(`<div class="qc-img qc-game"><canvas width="590" height="695" role="img" aria-label="Zombie runner game"></canvas><div class="qc-code"><div class="qc-tabs"><span>zombie-run.js</span></div><div class="qc-lines"><pre></pre></div></div><span class="qc-chip qc-score">Score <b>0000</b></span><span class="qc-chip qc-brains">Brains <b>0</b></span><span class="qc-genl">${x.tile('gemini')}Creating game<b class="qc-genn"></b></span></div>`);
-    media.append(card, grid, model, game);
+    const logo = x.el(`<div class="qc-img qc-logo"><img src="${x.img('coffee-logo.a133a772.png')}" width="720" height="720" alt="Hearth &amp; Bean coffee shop logo"/><i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating logo</span></div>`);
+    media.append(card, grid, model, game, logo);
     const garden = makeGarden(x);
     media.append(garden.node);
     const vis = say.firstElementChild, hid = say.lastElementChild;
@@ -72,6 +74,7 @@ export default {
     const gcanvas = game.querySelector('canvas'), code = game.querySelector('.qc-code'), pre = game.querySelector('pre');
     const gamel = game.querySelector('.qc-genl'), gpct = game.querySelector('.qc-genn');
     const chips = [...game.querySelectorAll('.qc-chip')], scoreEl = game.querySelector('.qc-score b'), brainsEl = game.querySelector('.qc-brains b');
+    const logoIm = logo.querySelector('img'), logoGen = logo.querySelector('.qc-gen'), logoL = logo.querySelector('.qc-genl');
     let shown = -1, lastV = null, landed = -1, viewer = null, built = -1;
     let runner = null, typedN = -1, pcted = -1, scored = '', brained = -1;
     return {
@@ -85,6 +88,7 @@ export default {
           model.style.display = v === '3d' ? '' : 'none';
           game.style.display = v === 'game' ? '' : 'none';
           garden.node.style.display = v === 'garden' ? '' : 'none';
+          logo.style.display = v === 'logo' ? '' : 'none';
           lastV = v; shown = -1;
         }
         const text = SAY[v];
@@ -132,6 +136,12 @@ export default {
           const p = Math.round(build * 100);
           if (p !== built) { pct.textContent = `${p}%`; built = p; }
           modell.style.opacity = label;
+          return;
+        }
+        if (v === 'logo') {
+          // the generated logo resolves exactly as the 1-image card does
+          resolve(logoIm, logoGen, seg(t, T.w0, T.w1));
+          logoL.style.opacity = label;
           return;
         }
         if (v !== '10') {

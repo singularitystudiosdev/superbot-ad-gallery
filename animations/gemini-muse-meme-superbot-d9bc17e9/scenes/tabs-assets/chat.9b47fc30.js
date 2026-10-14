@@ -27,7 +27,7 @@ const APPS = {
 const BASE = [
   {
     app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']], ask: 'make me a muse meme',
-    askBy: { 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', climbing: 'Show me rock climbing videos' },
+    askBy: { 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', climbing: 'Show me rock climbing videos', logo: 'Design a logo for my coffee shop' },
     // one [app, label] per base chip, so the route keeps the base chips' clock
     routeBy: { doordash: { app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] } },
   },

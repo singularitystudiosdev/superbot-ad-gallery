@@ -290,6 +290,15 @@
     "desc": "The Gemini muse meme spot, zombie game variant. \"make me a zombie game\" is typed; Gemini writes zombie-run.js line by line while a Creating game pill counts up, then the card boots into a 3D zombie endless runner: the zombie dodges between lanes past graves and picks up brains while the Score and Brains counters climb. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-logo-superbot-a133a772",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Design a logo for my coffee shop",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=logo",
+    "thumb": "assets/shots/gemini-muse-meme-logo-superbot-a133a772.png",
+    "desc": "The Gemini muse meme spot, coffee shop logo variant. \"Design a logo for my coffee shop\" is typed; superbot switches to Gemini, which answers \"Here’s your coffee shop logo.\" while a Creating logo pill sweeps a blurred card that resolves into a round Hearth & Bean Coffee badge: a steaming cup whose steam curls into a flame, in espresso brown, copper and cream. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. The logo is a real Nano Banana Pro (Gemini 3 Pro Image) generation; the shop name is made up."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

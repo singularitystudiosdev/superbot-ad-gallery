@@ -11,3 +11,7 @@ burger.jpg   "Cheeseburger.jpg" by Renee Comet (photographer), released by the N
              Source: https://commons.wikimedia.org/wiki/File:Cheeseburger.jpg (960px Commons thumbnail, unmodified),
              copied from every-model-one-chat-superbot-efa8df82/img. Used by the 'doordash' variant's order card.
              "Main Street Burger Co.", the address and the card shown are made up.
+
+coffee-logo.a133a772.png: "Hearth & Bean" coffee shop logo, generated 2026-10-14 by Google Nano Banana Pro (Gemini 3 Pro Image)
+via fal (fal-ai/nano-banana-pro), prompt "Design a logo for my coffee shop. The shop is called Hearth & Bean ..." (round badge,
+steam-as-flame cup, espresso/copper/cream). Downscaled to 720px. AI-generated, no third-party rights; shop name invented.

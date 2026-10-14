@@ -91,6 +91,8 @@
 #s-tabs .sbsite .hub .qc-gd .gd-lb { font-weight: 700; fill: #8c6c4c; }
 #s-tabs .sbsite .hub .qc-gd .gd-p { font-size: 5.2px; font-weight: 700; letter-spacing: .12em; fill: #5d6457; }
 #s-tabs .sbsite .hub .qc-gd .gd-b { font-size: 6.4px; font-weight: 700; fill: #5b4630; }
+/* the logo variant: the generated coffee shop logo, square and a little wider than the meme card */
+#s-tabs .sbsite .hub .qc-logo { width: 280px; background: #f4ecdd; }
 /* the 3D variant: the zombie's turntable on a studio backdrop, in the meme card's footprint */
 #s-tabs .sbsite .hub .qc-3d, #s-tabs .sbsite .hub .qc-game { aspect-ratio: 870 / 1024; background: radial-gradient(120% 90% at 50% 38%, #34363f 0%, #1b1c21 58%, #111114 100%); }
 #s-tabs .sbsite .hub .qc-3d canvas, #s-tabs .sbsite .hub .qc-game canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }

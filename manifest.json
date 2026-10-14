@@ -308,6 +308,15 @@
     "desc": "The Gemini muse meme spot, bedtime story variant. \"Read this bedtime story out loud\" is typed; superbot switches to Gemini, which answers \"Reading your story aloud now. Sweet dreams.\" with a read-along card: a moonrise cover, The Moon Who Couldn’t Sleep, and a player that shows Preparing audio, then plays, its waveform waking in moonlight amber while a highlight glides word by word down the serif story page. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. The play button is real: clicking it reads the whole story aloud in a calm browser voice with live word highlighting (pause, play and stop work). The cover is a public-domain NPS photo; the story is original."
   },
   {
+    "id": "gemini-muse-meme-bakery-superbot-005f5570",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Build me a website for my bakery",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=bakery",
+    "thumb": "assets/shots/gemini-muse-meme-bakery-superbot-005f5570.png",
+    "desc": "The Gemini muse meme spot, bakery website variant. \"Build me a website for my bakery\" is typed; superbot switches to Gemini, which answers \"Here's a one-page site for your bakery, with your menu, hours and a pickup order button.\" with a Canvas card: the page's HTML streams into the Code tab while Building website counts to 100%, the toggle slides to Preview and the Crumb & Co. site lands section by section (sticky nav, a croissant hero under \"Baked at 5 a.m. Gone by noon.\", Order for pickup, today's bakes with prices, hours and address), then scrolls to the menu and the nav's Order button presses. Same 6.3 s loop as the meme variants; the top-right selector switches variants live. The hero is a CC0 Wikimedia Commons photo; the bakery is made up."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

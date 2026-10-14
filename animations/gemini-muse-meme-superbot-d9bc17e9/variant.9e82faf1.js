@@ -10,6 +10,7 @@ export const VARIANTS = [
   { id: 'climbing', label: 'Climbing videos' },
   { id: 'logo', label: 'Coffee logo' },
   { id: 'bedtime', label: 'Bedtime story' },
+  { id: 'bakery', label: 'Bakery website' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

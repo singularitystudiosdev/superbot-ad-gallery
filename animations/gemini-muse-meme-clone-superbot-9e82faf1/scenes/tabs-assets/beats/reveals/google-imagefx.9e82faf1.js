@@ -16,7 +16,7 @@
 // tile <img> stays in flow with visibility toggled, never display:none, so a seek paints like a fresh load.
 import { injectStyle, hash, restTransform, restFilter, ownSrc, UI_FONT, MONO_FONT } from './util.9e82faf1.js';
 
-const P = 'rv-fx';
+const P = 'rv-ifx';
 const CSS = `
 .${P} { box-sizing: border-box; position: relative; display: flex; gap: 14px; width: 560px; max-width: 100%; padding: 14px 12px 12px; border-radius: 14px; overflow: hidden; background: #0d0d0d; color: #f1f2f3; font-family: ${UI_FONT}; -webkit-font-smoothing: antialiased; }
 .${P}-sq { position: absolute; width: 22px; height: 22px; border-radius: 6px; background: #1b1830; }

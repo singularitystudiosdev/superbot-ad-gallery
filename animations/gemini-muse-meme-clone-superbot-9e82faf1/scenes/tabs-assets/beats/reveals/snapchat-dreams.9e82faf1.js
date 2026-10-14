@@ -14,7 +14,7 @@
 import { seg } from '../../../../lib.9b47fc30.js';
 import { injectStyle, restTransform, restFilter, ownSrc, UI_FONT } from './util.9e82faf1.js';
 
-const P = 'rv-sd';
+const P = 'rv-snp';
 const ROOT_H = 424, HEAD_H = 46;
 const CSS = `
 .${P} { position: relative; box-sizing: border-box; width: 560px; max-width: 100%; height: ${ROOT_H}px; border-radius: 14px; background: linear-gradient(180deg, #2a3150 0%, #302948 34%, #2d1a3d 72%, #290e2f 100%); color: #ffffff; font-family: ${UI_FONT}; -webkit-font-smoothing: antialiased; overflow: hidden; }

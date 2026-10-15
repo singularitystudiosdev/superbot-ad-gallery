@@ -79,3 +79,10 @@ MESHY (3D variant: 'meshy' route in chat.9b47fc30.js)
                             path removed and the viewBox cropped to the mark (0 0 66 64). Used for the routing chip, reply
                             header, composer chip and the "Creating 3D model" tile.
                             Meshy is a trademark of Meshy, Inc.; shown nominatively (naming the product that made the model).
+
+ELEVENLABS (song variant: routing chip, reply header, platform chip, cover art)
+  elevenlabs-icon.svg       the app icon (white rounded tile, black "II" bars), byte-for-byte copy of
+                            https://elevenlabs.io/icon.svg (linked as rel="icon" from https://elevenlabs.io/). Fetched 2026-10-14.
+  elevenlabs-logo.svg       the "II" logomark alone: the two bar <path>s copied verbatim out of elevenlabs-icon.svg, the
+                            viewBox cropped to the bars and the fill recoloured black -> white for dark surfaces.
+  Usage: trademarks of ElevenLabs; shown nominatively, naming the product that answers the ask.

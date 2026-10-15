@@ -98,6 +98,9 @@
 #s-tabs .sbsite .hub .qc-set .qc-gt { box-shadow: 0 0 0 1px #2a2a2e; }
 #s-tabs .sbsite .hub .qc-set .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
 #s-tabs .sbsite .hub .qc-dlall { border: 0; cursor: pointer; }
+/* '10' spans the chat column (ask.css: 760px) instead of the bakery frame's 560px, its grid and tiles growing with it */
+#s-tabs .sbsite .hub .qc-media[data-v="10"] .qc-set { width: 760px; }
+#s-tabs .sbsite .hub .qc-media[data-v="10"] .qc-set .qc-grid { width: 100%; }
 #s-tabs .sbsite .hub .qc-dlall:disabled { cursor: progress; opacity: .7; }
 /* Gemini's Download button over each generated image's top right corner (gemini.9b47fc30.js dl()): a dark disc carrying
    the bakery frame's download glyph; the grid's tiles carry a smaller one */
@@ -260,5 +263,5 @@
 
 /* a photo attached to the ask (chat.9b47fc30.js attachBy): a 4:3 thumbnail above the user's bubble text, and a small chip
    before the typed text in the composer while the ask types */
-#s-tabs .sbsite .hub .qc-att { display: block; justify-self: end; width: 144px; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; background: #111; box-shadow: 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .qc-att { display: block; justify-self: end; width: 128px; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; background: #111; box-shadow: 0 0 0 1px #2a2a2e; }
 #s-tabs .sbsite .hub .rc-ph .qc-pchip { display: inline-block; width: 28px; height: 21px; margin-right: 7px; vertical-align: -6px; object-fit: cover; border-radius: 5px; box-shadow: 0 0 0 1px #2a2a2e; }

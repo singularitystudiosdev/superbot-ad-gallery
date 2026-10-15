@@ -249,6 +249,10 @@ function renderScroll(c, t) {
     y = lerp(y, bottom(n), inOutCubic(seg(t, a, a + 0.45)));
   }
   c.inner.style.transform = `translateY(${(viewH - 8 - y).toFixed(2)}px)`;
+  // clip at that anchor line: anything laid out below the newest line otherwise bled a device-pixel sliver through
+  // the feed's antialiased bottom edge, just above the composer
+  const clip = `inset(0 0 ${8 + parseFloat(cs.paddingBottom)}px 0)`;
+  if (c.feed.style.clipPath !== clip) c.feed.style.clipPath = clip;
 }
 
 export function renderChat(c, t) {

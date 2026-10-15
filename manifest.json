@@ -434,6 +434,15 @@
     "desc": "The Gemini muse meme spot, 1 image cut, current build. \"make me a muse meme\" is typed; superbot switches to Gemini (\"Switching to Gemini\"), which answers \"Here’s your Muse meme.\" with one meme card and its download button. 6.3 s loop; ?variant= deep links reach the other cuts in the same snapshot."
   },
   {
+    "id": "gemini-muse-meme-computer-control-v1-superbot-15a35ef7",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Take computer control and open a tab",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v1",
+    "thumb": "assets/shots/gemini-muse-meme-computer-control-v1-superbot-15a35ef7.png",
+    "desc": "The Gemini muse meme spot, computer control variant (V1). \"Take computer control and open a tab\" is typed; superbot answers \"Taking control of your computer to open a new tab.\" with a Your computer card showing the user’s screen, a browser window with one tab open. Superbot takes control: a cyan ring draws around the screen and a \"Superbot is in control\" pill with a Stop button rises at its foot. Superbot’s own cursor, tagged with its name, glides to the tab strip’s + button and clicks it; a New Tab grows in and takes focus, the address bar empties to a blinking caret, the page swaps to a new-tab page and the header reads New tab opened. A 7.9 s loop (the meme variants’ 6.3 s plus 1.6 s); the top-right selector switches variants live."
+  },
+  {
     "id": "gemini-muse-meme-computer-control-superbot-6fbc38f8",
     "type": "animation",
     "group": "Ad spots",

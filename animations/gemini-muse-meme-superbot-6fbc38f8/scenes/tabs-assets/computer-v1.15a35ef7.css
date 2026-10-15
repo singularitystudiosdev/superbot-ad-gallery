@@ -1,0 +1,60 @@
+/* The 'computer-control-v1' variant's answer (beats/computer-v1.15a35ef7.js): the bakery artifact frame (.bk, .bk-head,
+   .bk-view from bakery.005f5570.css) holding the user's screen, a light browser window inset 14px on a dark desktop, and
+   the takeover layer over it: a cyan ring, an "in control" pill with Stop, a click ripple and Superbot's named cursor.
+   Everything moves from the beat's render(t) (no CSS animation, no transition), so frozen frames (?t=) hold. Geometry
+   mirrors the beat's constants (window inset 14, tab strip 36 tall from x 72, tabs 150 wide, + button 26 round).
+   Screen palette: desktop #24262b, the window's browser-chrome greys (#dee1e6 strip, #ffffff tab and toolbar, #f1f3f4
+   field, #5f6368 and #202124 text), and the superbot mark's cyan #00e5c3 as the one takeover accent. Radii: 8px for the
+   window and tabs, 999px for every pill. Loaded by the beat module itself, so index.html needs no link. */
+#s-tabs .sbsite .hub .ccv .bk-title small { margin-left: 8px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .ccv-view { background: #24262b; }
+
+/* the browser window */
+#s-tabs .sbsite .hub .ccv-win { position: absolute; inset: 14px; overflow: hidden; border-radius: 8px; background: #ffffff; box-shadow: 0 8px 24px rgba(0,0,0,.35); color: #202124; font: 400 11px/1 var(--ui); }
+#s-tabs .sbsite .hub .ccv-strip { position: relative; display: flex; align-items: flex-end; height: 36px; padding-left: 72px; background: #dee1e6; }
+#s-tabs .sbsite .hub .ccv-lights { position: absolute; left: 14px; top: 13px; display: flex; gap: 7px; }
+#s-tabs .sbsite .hub .ccv-lights i { width: 10px; height: 10px; border-radius: 999px; background: #ff5f57; }
+#s-tabs .sbsite .hub .ccv-lights i:nth-child(2) { background: #febc2e; }
+#s-tabs .sbsite .hub .ccv-lights i:nth-child(3) { background: #28c840; }
+#s-tabs .sbsite .hub .ccv-tab { flex: none; width: 150px; height: 30px; overflow: hidden; border-radius: 8px 8px 0 0; color: #5f6368; }
+#s-tabs .sbsite .hub .ccv-t2 { width: 0; }
+#s-tabs .sbsite .hub .ccv-tab.is-on { background: #ffffff; color: #202124; }
+#s-tabs .sbsite .hub .ccv-tin { display: flex; align-items: center; gap: 8px; width: 150px; height: 100%; box-sizing: border-box; padding: 0 12px; font: 500 11px/1 var(--ui); white-space: nowrap; }
+#s-tabs .sbsite .hub .ccv-fav { flex: none; width: 12px; height: 12px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px #9aa0a6; }
+#s-tabs .sbsite .hub .ccv-t1 .ccv-fav { background: #9aa0a6; box-shadow: none; }
+#s-tabs .sbsite .hub .ccv-plus { flex: none; display: grid; place-items: center; width: 26px; height: 26px; margin: 0 0 2px 4px; border-radius: 999px; color: #5f6368; }
+#s-tabs .sbsite .hub .ccv-plus.is-hot { background: #c4c7cc; color: #202124; }
+#s-tabs .sbsite .hub .ccv-plus svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+
+/* the toolbar: back, forward, reload and the address field */
+#s-tabs .sbsite .hub .ccv-bar { display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 12px; background: #ffffff; box-shadow: inset 0 -1px 0 #dadce0; }
+#s-tabs .sbsite .hub .ccv-nav { display: flex; gap: 12px; color: #5f6368; }
+#s-tabs .sbsite .hub .ccv-nav svg { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .ccv-omni { position: relative; flex: 1; height: 26px; border-radius: 999px; background: #f1f3f4; }
+#s-tabs .sbsite .hub .ccv-url, #s-tabs .sbsite .hub .ccv-ph { position: absolute; left: 14px; top: 0; line-height: 26px; white-space: nowrap; }
+#s-tabs .sbsite .hub .ccv-ph { color: #5f6368; opacity: 0; }
+#s-tabs .sbsite .hub .ccv-caret { position: absolute; left: 13px; top: 6px; width: 1.5px; height: 14px; background: #202124; opacity: 0; }
+
+/* the page: the open document, then the new-tab page */
+#s-tabs .sbsite .hub .ccv-page { position: absolute; top: 72px; left: 0; right: 0; bottom: 0; }
+#s-tabs .sbsite .hub .ccv-doc { position: absolute; inset: 0; padding: 24px 48px; }
+#s-tabs .sbsite .hub .ccv-doc h3 { margin: 0 0 16px; font: 600 16px/20px var(--ui); letter-spacing: -.01em; color: #202124; }
+#s-tabs .sbsite .hub .ccv-lines { display: grid; gap: 8px; }
+#s-tabs .sbsite .hub .ccv-lines i { display: block; height: 7px; border-radius: 999px; background: #e8eaed; }
+#s-tabs .sbsite .hub .ccv-lines b { display: block; height: 4px; }
+#s-tabs .sbsite .hub .ccv-ntp { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding-bottom: 24px; opacity: 0; }
+#s-tabs .sbsite .hub .ccv-find { display: flex; align-items: center; gap: 8px; width: 300px; height: 36px; box-sizing: border-box; padding: 0 16px; border-radius: 999px; box-shadow: 0 0 0 1px #dadce0, 0 1px 6px rgba(32,33,36,.12); color: #5f6368; font: 400 12px/1 var(--ui); }
+#s-tabs .sbsite .hub .ccv-find svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+#s-tabs .sbsite .hub .ccv-shorts { display: flex; gap: 24px; }
+#s-tabs .sbsite .hub .ccv-shorts span { display: flex; flex-direction: column; align-items: center; gap: 8px; font: 400 10px/1 var(--ui); color: #5f6368; }
+#s-tabs .sbsite .hub .ccv-shorts i { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; background: #f1f3f4; font: 600 13px/1 var(--ui); font-style: normal; color: #202124; }
+
+/* the takeover layer */
+#s-tabs .sbsite .hub .ccv-ring { position: absolute; inset: 0; z-index: 4; box-shadow: inset 0 0 0 3px #00e5c3; pointer-events: none; opacity: 0; }
+#s-tabs .sbsite .hub .ccv-pill { position: absolute; left: 50%; bottom: 24px; z-index: 5; display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 4px 0 12px; border-radius: 999px; background: #111113; box-shadow: 0 0 0 1px #00e5c3, 0 6px 16px rgba(0,0,0,.3); font: 600 11px/1 var(--ui); color: #ececec; white-space: nowrap; opacity: 0; }
+#s-tabs .sbsite .hub .ccv-live { width: 7px; height: 7px; border-radius: 999px; background: #00e5c3; }
+#s-tabs .sbsite .hub .ccv-stop { display: inline-flex; align-items: center; height: 22px; padding: 0 12px; border-radius: 999px; background: #e5e5ea; font: 600 10.5px/1 var(--ui); color: #111113; }
+#s-tabs .sbsite .hub .ccv-ripple { position: absolute; z-index: 5; width: 32px; height: 32px; border-radius: 999px; box-shadow: 0 0 0 2px #00e5c3; pointer-events: none; opacity: 0; }
+#s-tabs .sbsite .hub .ccv-cur { position: absolute; left: 0; top: 0; z-index: 6; width: 20px; height: 20px; transform-origin: 2px 2px; pointer-events: none; opacity: 0; }
+#s-tabs .sbsite .hub .ccv-cur svg { display: block; width: 20px; height: 20px; fill: #00e5c3; stroke: #0b0b0d; stroke-width: 1.4; stroke-linejoin: round; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+#s-tabs .sbsite .hub .ccv-tag { position: absolute; left: 14px; top: 18px; display: inline-flex; align-items: center; height: 18px; padding: 0 8px; border-radius: 999px; background: #00e5c3; font: 700 10px/1 var(--ui); color: #04201b; white-space: nowrap; }

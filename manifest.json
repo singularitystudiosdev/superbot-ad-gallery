@@ -425,6 +425,15 @@
     "desc": "The Gemini muse meme spot, clone build, 3D model cut. \"Make me a 3d zombie\" is typed; superbot switches to Meshy (\"Switching to Meshy\"), which answers \"Here’s your 3D zombie.\" with a model card: a percent counter climbs while the textured Meshy 7.1 zombie resolves out of a blur and turns on its stand, lit with PBR lighting. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-1-superbot-6fbc38f8",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: make me a muse meme (2026-10-14 build)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?bar=2",
+    "thumb": "assets/shots/gemini-muse-meme-1-superbot-6fbc38f8.png",
+    "desc": "The Gemini muse meme spot, 1 image cut, current build. \"make me a muse meme\" is typed; superbot switches to Gemini (\"Switching to Gemini\"), which answers \"Here’s your Muse meme.\" with one meme card and its download button. 6.3 s loop; ?variant= deep links reach the other cuts in the same snapshot."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

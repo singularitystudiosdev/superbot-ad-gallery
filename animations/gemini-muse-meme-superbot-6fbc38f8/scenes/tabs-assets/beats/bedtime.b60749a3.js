@@ -13,6 +13,8 @@
 // (img/bedtime.b60749a3/CREDITS.txt); the story is original.
 import { clamp, lerp, seg, outCubic, streamCount, esc, rand } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
+// the Share control every output card carries (share.29a362ea.js), at the head's right end
+import { SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 
 const SAY = 'Reading your story aloud now. Sweet dreams.';
 const CSS = new URL('../bedtime.b60749a3.css?v=1', import.meta.url).href;
@@ -129,6 +131,7 @@ function cardHtml(x, story) {
       <img class="bs-cover" src="${x.img('bedtime.b60749a3/moonrise.jpg')}" width="320" height="320" alt="A full moon rising over a canyon lodge at dusk"/>
       <div class="bs-meta"><b>${x.esc(TITLE)}</b><small>Bedtime story, read by Gemini</small></div>
       <span class="bs-voice">Calm voice</span>
+      <button class="bs-share" type="button" ${shareAttrs('Bedtime story')}>${SHARE_GLYPH}</button>
     </div>
     <div class="bs-player">
       <button class="bs-play" type="button" aria-label="Read the story aloud">${PLAY}${PAUSE}</button>

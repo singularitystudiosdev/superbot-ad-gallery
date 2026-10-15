@@ -10,6 +10,8 @@ import { lerp, seg, outCubic, streamCount, pressScale } from '../../../lib.9b47f
 import { track } from '../../../loads.9e82faf1.js';
 // the bakery variant's Expand button and the sheet that styles it (its .bk-btn / .bk-expand rules)
 import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
+// the Share control every output card carries, in front of Expand (chat.css .pd-head .bk-share keeps the push to the right)
+import { shareBtn } from './share.29a362ea.js';
 
 const SAY = 'Here’s your pitch deck.';
 const CSS = new URL('../pitchdeck.fad54971.css?v=6', import.meta.url).href;
@@ -87,7 +89,7 @@ export default {
     const T = k.T;
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="pd">
-      <div class="pd-head"><b>Fernway pitch deck</b><span>${N} slides</span>${EXPAND}<span class="pd-exp"><img src="${x.brand('slides-logo.svg')}" alt=""/>Export to Slides</span></div>
+      <div class="pd-head"><b>Fernway pitch deck</b><span>${N} slides</span>${shareBtn('Fernway pitch deck')}${EXPAND}<span class="pd-exp"><img src="${x.brand('slides-logo.svg')}" alt=""/>Export to Slides</span></div>
       <div class="pd-stage"><div class="pd-shm"><i></i></div>${SLIDES.map((s) => `<div class="pd-sw">${s}</div>`).join('')}
         <div class="pd-nav"><span class="pd-nb pd-prev">${PREV}</span><em></em><span class="pd-nb pd-next">${NEXT}</span></div>
         <span class="qc-genl">${x.tile('gemini')}Creating slides<b class="qc-genn"></b></span>

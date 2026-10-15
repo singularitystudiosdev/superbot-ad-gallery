@@ -14,6 +14,8 @@
 import { lerp, seg, outCubic } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { encodeGif } from './gif-encode.df575a7c.js';
+// the Share control every output card carries (share.29a362ea.js), left of the card's download button
+import { SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 
 const SAY = 'Here’s your GIF of a dancing cat.';
 const CSS = new URL('../catgif.df575a7c.css?v=1', import.meta.url).href;
@@ -320,6 +322,7 @@ export default {
         <canvas class="cg-canvas" width="${SIZE}" height="${SIZE}" role="img" aria-label="A cat dancing on a disco floor under a mirror ball"></canvas>
         <i class="cg-sh"></i>
         <span class="cg-tag">GIF</span>
+        <button type="button" class="cg-share" ${shareAttrs('Dancing cat GIF')}>${SHARE_GLYPH}</button>
         <button type="button" class="cg-save" aria-label="Download GIF">${SAVE}</button>
         <span class="qc-genl">${x.tile('gemini')}Creating GIF<b class="qc-genn"></b></span>
         <i class="cg-prog"><i></i></i>
@@ -328,7 +331,7 @@ export default {
       <div class="cg-t"><b>dancing-cat.gif</b><small>480 × 480, 48 frames, 3.8 s loop</small></div>
     </div>`);
     const $ = (s) => block.querySelector(s);
-    const canvas = $('.cg-canvas'), sh = $('.cg-sh'), tag = $('.cg-tag'), save = $('.cg-save'), genl = $('.qc-genl'), pct = $('.qc-genn');
+    const canvas = $('.cg-canvas'), sh = $('.cg-sh'), tag = $('.cg-tag'), save = $('.cg-save'), share = $('.cg-share'), genl = $('.qc-genl'), pct = $('.qc-genn');
     const prog = $('.cg-prog'), progFill = prog.firstElementChild, xp = $('.cg-xp').firstElementChild;
     const vis = say.firstElementChild, hid = say.lastElementChild;
     let viewer = null, shown = -1, built = -1, frame = -1, exporting = false;
@@ -425,6 +428,8 @@ export default {
         const pl = outCubic(seg(t, T.play, T.play + 0.25));
         save.style.opacity = save.classList.contains('cg-busy') ? '' : pl.toFixed(3);
         save.style.pointerEvents = pl > 0.5 ? 'auto' : 'none';
+        share.style.opacity = pl.toFixed(3);
+        share.style.pointerEvents = pl > 0.5 ? 'auto' : 'none';
       },
     };
   },

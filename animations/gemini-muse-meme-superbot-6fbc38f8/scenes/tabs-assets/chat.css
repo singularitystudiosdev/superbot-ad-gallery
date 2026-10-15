@@ -114,6 +114,25 @@
 #s-tabs .sbsite .hub .qc-dl svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 #s-tabs .sbsite .hub .qc-gt .qc-dl { top: 5px; right: 5px; width: 24px; height: 24px; }
 #s-tabs .sbsite .hub .qc-gt .qc-dl svg { width: 12px; height: 12px; }
+/* the Share control on every output card (beats/share.29a362ea.js): in a frame's header a square, glyph-only twin of the
+   outlined Expand button (bakery.005f5570.css .bk-btn, .bk-expand); over a generated image a twin of the download disc,
+   just left of it when both show, else in its corner. Put the disc's markup BEFORE the .qc-dl it sits beside */
+#s-tabs .sbsite .hub .bk-share { position: relative; justify-content: center; width: 26px; padding: 0; border: 0; background: none; color: #e5e5ea; box-shadow: inset 0 0 0 1px #3a3a3e; cursor: pointer; }
+#s-tabs .sbsite .hub .bk-share:hover { background: rgba(255, 255, 255, .06); }
+/* a deck-style head (pitchdeck.fad54971.css .pd-head) pushes its Expand right; the Share in front of it takes that push */
+#s-tabs .sbsite .hub .pd-head .bk-share { margin-left: auto; }
+#s-tabs .sbsite .hub .pd-head .bk-share + .bk-expand { margin-left: 0; }
+#s-tabs .sbsite .hub .qc-share { position: absolute; top: 8px; right: 8px; z-index: 2; display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 999px; background: rgba(12, 12, 14, .72); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); color: #ececec; cursor: pointer; transition: background-color .15s; }
+#s-tabs .sbsite .hub .qc-share:hover { background: rgba(12, 12, 14, .94); color: #fff; }
+#s-tabs .sbsite .hub .qc-share svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .qc-share:has(~ .qc-dl) { right: 44px; }
+/* the game's top corners hold its Score and Brains chips, so its disc takes the bottom right */
+#s-tabs .sbsite .hub .qc-game .qc-share { top: auto; bottom: 8px; }
+#s-tabs .sbsite .hub .qc-gt .qc-share { top: 5px; right: 5px; width: 24px; height: 24px; }
+#s-tabs .sbsite .hub .qc-gt .qc-share:has(~ .qc-dl) { right: 33px; }
+#s-tabs .sbsite .hub .qc-gt .qc-share svg { width: 12px; height: 12px; }
+/* "Link copied" under the control for a moment, when the browser has no share sheet and the link went to the clipboard */
+#s-tabs .sbsite .hub .is-copied::after { content: 'Link copied'; position: absolute; top: calc(100% + 6px); right: 0; z-index: 3; padding: 5px 8px; border-radius: 6px; background: #e5e5ea; color: #111113; font: 500 11px/1 var(--ui); white-space: nowrap; pointer-events: none; }
 #s-tabs .sbsite .hub .qc-genn { margin-left: 3px; font-weight: 500; color: #a1a1a6; font-variant-numeric: tabular-nums; }
 /* the climbing results' skeleton (climb.080da517.css .cv-v, .cv-sh): the slot colour and its soft white sweep, shown on the
    1-image card, the Default 10-image grid and the 3D card until their image lands (beats/thumb-land.309eb9c5.js) */
@@ -122,7 +141,7 @@
 /* the platform reveals (beats/reveals/) inject their own CSS from their JS */
 /* the garden variant: a printable garden design template on cream paper, drawn on in the build window (garden.410879cc.js) */
 #s-tabs .sbsite .hub .qc-gd { width: 360px; aspect-ratio: 360 / 256; background: #f7f4ec; }
-#s-tabs .sbsite .hub .qc-gd svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+#s-tabs .sbsite .hub .qc-gd > svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 #s-tabs .sbsite .hub .qc-gd .qc-gen { mix-blend-mode: multiply; background: linear-gradient(100deg, transparent 25%, rgba(110, 150, 255, .24) 45%, rgba(200, 120, 255, .2) 55%, transparent 75%); }
 #s-tabs .sbsite .hub .qc-gd text { font-family: var(--ui); }
 #s-tabs .sbsite .hub .qc-gd .gd-t { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; fill: #2f3b2c; }

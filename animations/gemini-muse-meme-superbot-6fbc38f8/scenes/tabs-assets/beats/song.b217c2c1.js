@@ -9,6 +9,8 @@
 // (brand/CREDITS.txt); the title and genre are made up.
 import { lerp, seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
+// the Share control every output card carries (share.29a362ea.js), left of the card's download button
+import { SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 
 const SAY = "Here's an upbeat acoustic pop song about your dog.";
 const CSS = new URL('../song.b217c2c1.css?v=11', import.meta.url).href;
@@ -92,6 +94,7 @@ export default {
           <div class="sg-t"><b>${x.esc(TITLE)}</b><small>${x.esc(META)}</small></div>
           <div class="sg-row"><span class="sg-btn">${PLAY}${PAUSE}</span><div class="sg-wave">${wave('sg-w0')}${wave('sg-w1')}</div><span class="sg-time">${clock(0)} / ${clock(LEN)}</span></div>
         </div>
+        <button type="button" class="sg-share" ${shareAttrs('Muddy Paws, a song about my dog')}>${SHARE_GLYPH}</button>
         <span class="sg-dl" role="img" aria-label="Download">${DOWNLOAD}</span>
       </div>
     </div>`);

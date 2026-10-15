@@ -12,6 +12,9 @@
 import { lerp, seg, outCubic, streamCount, pressScale } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, ROUTE, STOPS, DAYS } from './roadtrip.9bc0f433.js';
+// the bakery frame's sheet styles the deck head's Share button (chat.css .bk-share) like its Expand
+import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
+import { shareBtn } from './share.29a362ea.js';
 
 const SAY = 'Here’s a 3-day coastal drive from LA to SF.';
 const SHEETS = ['../pitchdeck.fad54971.css?v=5', '../roadmaps.40d88617.css?v=1'].map((f) => new URL(f, import.meta.url).href);
@@ -150,10 +153,11 @@ export default {
   },
   build(k, x) {
     loadSheets();
+    loadFrameSheet();
     const T = k.T;
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="pd rm">
-      <div class="pd-head"><b>LA to SF road trip</b><span>3 days, ${TOTAL_MI} mi</span><span class="pd-exp"><img src="${x.brand('maps-logo.svg')}" alt=""/>Open in Maps</span></div>
+      <div class="pd-head"><b>LA to SF road trip</b><span>3 days, ${TOTAL_MI} mi</span>${shareBtn('LA to SF road trip')}<span class="pd-exp"><img src="${x.brand('maps-logo.svg')}" alt=""/>Open in Maps</span></div>
       <div class="pd-stage"><div class="pd-shm"><i></i></div>${viewHtml(VIEWS.slice(1).map(card).join(''))}
         <div class="pd-nav"><span class="pd-nb pd-prev">${PREV}</span><em></em><span class="pd-nb pd-next">${NEXT}</span></div>
         <span class="qc-genl">${x.tile('gemini')}Planning route<b class="qc-genn"></b></span>

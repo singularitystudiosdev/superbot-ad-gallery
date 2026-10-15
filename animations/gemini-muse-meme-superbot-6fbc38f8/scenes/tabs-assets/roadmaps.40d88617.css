@@ -20,3 +20,5 @@
 /* the deck's nav sits on paper; on a map it is a white Maps control. The labels are stop names, not slide numbers. */
 #s-tabs .sbsite .hub .rm .pd-nav { padding: 3px; border-radius: 999px; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .24); }
 #s-tabs .sbsite .hub .rm .pd-n { white-space: nowrap; }
+/* the Share button in front of Open in Maps takes the head's push to the right (chat.css .pd-head .bk-share) */
+#s-tabs .sbsite .hub .pd-head .bk-share + .pd-exp { margin-left: 0; }

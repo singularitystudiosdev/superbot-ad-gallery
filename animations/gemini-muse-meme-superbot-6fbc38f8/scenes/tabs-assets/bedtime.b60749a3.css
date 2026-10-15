@@ -33,3 +33,7 @@
 #s-tabs .sbsite .hub .bs-p + .bs-p { margin-top: 8px; }
 #s-tabs .sbsite .hub .bs-w.on { color: var(--fg); }
 #s-tabs .sbsite .hub .bs-hl { position: absolute; left: 0; top: 0; z-index: -1; width: 0; height: 0; border-radius: var(--r-control); background: color-mix(in srgb, var(--warn) 28%, transparent); opacity: 0; }
+/* the Share button, the stop button's outlined twin, at the head's right end (beats/share.29a362ea.js) */
+#s-tabs .sbsite .hub .bs-share { flex: none; position: relative; display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: var(--r-control); background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--fg); cursor: pointer; }
+#s-tabs .sbsite .hub .bs-share:hover { background: rgba(255, 255, 255, .06); }
+#s-tabs .sbsite .hub .bs-share svg { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }

@@ -9,6 +9,8 @@
 import { lerp, seg, outCubic, path, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
+// the Share control every output card carries, in front of Expand
+import { shareBtn } from './share.29a362ea.js';
 
 const SAY = "Here's your monthly spending from April to September, split by category.";
 const CSS = new URL('../spending.b92c87dc.css?v=3', import.meta.url).href;
@@ -88,6 +90,7 @@ export default {
     const block = x.el(`<div class="bk sp">
       <div class="bk-head">
         <b class="bk-title">Monthly spending<small>${x.esc(SCOPE)} · by category</small></b>
+        ${shareBtn('Monthly spending chart')}
         ${EXPAND}
         <span class="bk-btn bk-publish sp-export">${SHEETS}Export to Sheets</span>
       </div>

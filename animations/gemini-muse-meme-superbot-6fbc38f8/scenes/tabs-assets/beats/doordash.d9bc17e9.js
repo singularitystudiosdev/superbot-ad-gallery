@@ -13,6 +13,8 @@ import { lerp, seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
+// the Share control every output card carries, in front of the header's button
+import { shareBtn } from './share.29a362ea.js';
 
 const SAY = 'Your burger has been ordered from Burger King.';
 const CSS = new URL('../doordash.d9bc17e9.css?v=3', import.meta.url).href;
@@ -54,6 +56,7 @@ export default {
     const block = x.el(`<div class="bk ddx">
       <div class="bk-head">
         <b class="bk-title">Burger King order<small>1 item · $25.86 before taxes</small></b>
+        ${shareBtn('Burger King order')}
         <a class="bk-btn bk-publish ddx-open" href="${STORE}" target="_blank" rel="noopener noreferrer"><img src="${x.brand('doordash-logo.svg')}" alt="">View in DoorDash</a>
       </div>
       <div class="bk-view">

@@ -13,6 +13,8 @@
 // (img/podcast.3b06d700/CREDITS.txt); the script is original and its facts are checked.
 import { clamp, lerp, seg, outCubic, streamCount, esc, rand } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
+// the Share control every output card carries (share.29a362ea.js), at the head's right end
+import { SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 
 const SAY = 'Here’s your episode: two hosts, four chapters, about space and the photo that changed how we see it.';
 const CSS = new URL('../podcast.3b06d700.css?v=1', import.meta.url).href;
@@ -170,6 +172,7 @@ function cardHtml(x, ep) {
       <img class="pc-cover" src="${x.img('podcast.3b06d700/earthrise.jpg')}" width="320" height="320" alt="Earthrise: the Earth rising over the Moon's horizon, photographed from Apollo 8"/>
       <div class="pc-meta"><b>${x.esc(TITLE)}</b><small>${x.esc(SHOW)}</small></div>
       <span class="pc-hosts" aria-label="Hosts: Nova and Theo"><i class="pc-av pc-a">N</i><i class="pc-av pc-b">T</i></span>
+      <button class="pc-share" type="button" ${shareAttrs('Podcast episode')}>${SHARE_GLYPH}</button>
     </div>
     <div class="pc-player">
       <button class="pc-play" type="button" aria-label="Play the episode">${PLAY}${PAUSE}</button>

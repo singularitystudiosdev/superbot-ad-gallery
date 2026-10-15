@@ -443,6 +443,15 @@
     "desc": "The Gemini muse meme spot, computer control variant. \"Take computer control and open a tab\" is typed; superbot answers \"Taking control of your computer. Opening a new tab.\" with a small browser window under a \"Superbot is controlling your computer\" pill: the takeover cursor, trailed by a soft purple square, glides to the + button and presses it, and a New Tab grows in, becomes the active tab and takes focus in the address bar. The top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-computer-control-v3-superbot-ba3976b6",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Take computer control and open a tab (V3)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3",
+    "thumb": "assets/shots/gemini-muse-meme-computer-control-v3-superbot-ba3976b6.png",
+    "desc": "The Gemini muse meme spot, Computer Control V3. \"Take computer control and open a tab\" is typed; superbot answers \"Done. I took control of your computer and opened a new tab.\" over a Your computer live view: a browser on superbot.gg. Superbot takes control with a thin turning cyan and magenta ring around the screen, a soft inner glow and a \"superbot is controlling your computer\" pill. The cursor glides to the + button and presses it; a New Tab eases in, becomes active, the page fades to a new-tab page and the address bar takes focus with a blinking caret. Eased fades only, nothing bounces. A 7.9 s loop; the top-right selector switches variants live."
+  },
+  {
     "id": "deny-cascade-superbot-440813d4",
     "type": "animation",
     "group": "Ad spots",

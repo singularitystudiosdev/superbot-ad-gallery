@@ -21,6 +21,7 @@ export const VARIANTS = [
   { id: 'bakery', label: 'Bakery website' },
   { id: 'reminder', label: 'Phone notification' },
   { id: 'computer-control', label: 'Computer Control' },
+  { id: 'computer-control-v3', label: 'Computer Control V3' },
   { id: 'photoedit', label: 'Photo edit' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);

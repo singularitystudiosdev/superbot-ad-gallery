@@ -9,7 +9,7 @@ import { lerp, seg, outCubic, inOutCubic, outBack, streamCount } from '../../../
 import { track } from '../../../loads.9e82faf1.js';
 
 const SAY = 'Here are some rock climbing videos from YouTube.';
-const CSS = new URL('../climb.080da517.css?v=2', import.meta.url).href;
+const CSS = new URL('../climb.080da517.css?v=3', import.meta.url).href;
 // `at` is when the result lands, as a share of the search window; the first is the featured player
 const VIDEOS = [
   { img: '1.jpg', title: 'Joshua Tree granite: a full day of crack climbing', meta: 'Crag Notes · 1.2M views · 8 months ago', len: '14:32', at: 0.5 },

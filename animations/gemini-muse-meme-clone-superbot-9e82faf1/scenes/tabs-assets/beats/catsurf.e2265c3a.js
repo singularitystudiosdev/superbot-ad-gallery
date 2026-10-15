@@ -12,6 +12,8 @@
 import { lerp, seg, outCubic } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
+// the Share control every output card carries (share.29a362ea.js), beside the control row's download link
+import { SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 
 const SAY = 'Here’s your video of a cat surfing.';
 const CSS = new URL('../catsurf.e2265c3a.css?v=3', import.meta.url).href;
@@ -373,7 +375,7 @@ export default {
         <i class="cs-sh"></i>
         <span class="cs-len">${clock(LEN)}</span>
         <div class="cs-ctl"><div class="cs-bar"><i class="cs-played"></i><i class="cs-dot"></i></div>
-          <div class="cs-row">${PAUSE}<span class="cs-time"></span><a class="cs-save" href="${VIDEO}" download="cat-surfing.mp4" aria-label="Download video">${SAVE}</a></div></div>
+          <div class="cs-row">${PAUSE}<span class="cs-time"></span><button type="button" class="cs-share" ${shareAttrs('Cat surfing video', { file: VIDEO })}>${SHARE_GLYPH}</button><a class="cs-save" href="${VIDEO}" download="cat-surfing.mp4" aria-label="Download video">${SAVE}</a></div></div>
         <span class="qc-genl">${x.tile(k.app)}Creating video</span>
       </div>
     </div>`);

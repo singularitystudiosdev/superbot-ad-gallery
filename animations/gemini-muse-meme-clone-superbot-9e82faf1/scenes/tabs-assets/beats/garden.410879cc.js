@@ -4,6 +4,7 @@
 // frame and grid wipe in, outlines sketch in Gemini blue and settle to their ink as the fills flood, plants pop in on a
 // sweep from the top left, then the labels, the key and the bed list land.
 import { lerp, seg, outCubic, outBack, inOutCubic } from '../../../lib.9b47fc30.js';
+import { shareDisc } from './share.29a362ea.js';
 
 const W = 360, H = 256;
 const X0 = 14, Y0 = 40, S = 10; // the plot's top-left corner on the sheet, and sheet px per ft
@@ -130,10 +131,10 @@ ${'<text x="14" y="247" class="gd-k" opacity="1">0</text><text x="64" y="247" cl
 
 export function makeGarden(x) {
   const PL = plants();
-  const node = x.el(`<div class="qc-img qc-gd">${sheetSvg(PL)}<i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating template<b class="qc-genn"></b></span></div>`);
+  const node = x.el(`<div class="qc-img qc-gd">${sheetSvg(PL)}<i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating template<b class="qc-genn"></b></span>${shareDisc('Garden design template')}</div>`);
   const q = (s) => [...node.querySelectorAll(s)];
   const svg = node.querySelector('svg');
-  const gen = node.querySelector('.qc-gen'), pill = node.querySelector('.qc-genl'), pct = node.querySelector('.qc-genn');
+  const gen = node.querySelector('.qc-gen'), pill = node.querySelector('.qc-genl'), pct = node.querySelector('.qc-genn'), share = node.querySelector('.qc-share');
   const wipe = svg.querySelector('.gd-wipe');
   const [title, ...texts] = q('svg > text');
   // every sketched outline with its window: the header rule and the plot's fence frame the sheet, gravel lays in its
@@ -197,6 +198,9 @@ export function makeGarden(x) {
       const pc = Math.round(inOutCubic(p) * 100);
       if (pc !== lastPct) { pct.textContent = `${pc}%`; lastPct = pc; }
       pill.style.opacity = label;
+      // the finished template is what there is to share: the disc comes in as the build pill leaves
+      share.style.opacity = (1 - label).toFixed(3);
+      share.style.visibility = label < 1 ? '' : 'hidden';
     },
   };
 }

@@ -11,6 +11,8 @@ import { variant } from '../../../variant.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { zipStore } from './zip.69098368.js';
+// the Share control every output card carries: a header button, and a disc on each clip beside its download
+import { shareBtn, shareDisc } from './share.29a362ea.js';
 
 const ID = 'catsurf10';               // this answer's route key (chat.9b47fc30.js routeBy, variant.9e82faf1.js)
 const SAY = 'Here are 10 videos of a cat surfing.';
@@ -34,6 +36,8 @@ function showDl(a, p) {
   a.style.opacity = p.toFixed(3);
   a.style.visibility = p > 0 ? '' : 'hidden';
 }
+// the tile's Share disc comes and goes with its download, so neither shows over the skeleton
+const showShare = (tl, p) => { showDl(tl.dl, p); showDl(tl.share, p); };
 
 let sheet = null;
 function loadSheet() {
@@ -110,12 +114,13 @@ export default {
     loadFrameSheet();
     const T = k.T;
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
-    const set = x.el(`<div class="bk qc-set cs10"><div class="bk-head"><b class="bk-title">Cat surfing videos<small>${CLIPS.length} videos</small></b><button type="button" class="bk-btn bk-publish qc-dlall"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download All</button></div><div class="bk-view"><div class="qc-grid">${CLIPS.map((c, i) => `<div class="qc-gt qc-skel">
+    const set = x.el(`<div class="bk qc-set cs10"><div class="bk-head"><b class="bk-title">Cat surfing videos<small>${CLIPS.length} videos</small></b>${shareBtn('Cat surfing videos')}<button type="button" class="bk-btn bk-publish qc-dlall"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download All</button></div><div class="bk-view"><div class="qc-grid">${CLIPS.map((c, i) => `<div class="qc-gt qc-skel">
         <video width="${W}" height="${H}" muted playsinline preload="auto" aria-label="Cat surfing video ${i + 1}: ${c.look}"></video>
-        <i class="qc-sk"></i><span class="cs10-len">${clock(LEN)}</span><i class="cs10-bar"><i></i></i>${dl(c.src, c.name)}</div>`).join('')}</div></div></div>`);
+        <i class="qc-sk"></i><span class="cs10-len">${clock(LEN)}</span><i class="cs10-bar"><i></i></i>${shareDisc(`Cat surfing video ${i + 1}`, { file: c.src })}${dl(c.src, c.name)}</div>`).join('')}</div></div></div>`);
     const dlAll = set.querySelector('.qc-dlall');
     // Space and Enter press the button, not the spot's clock (timeline.9b47fc30.js), as on the 10-memes frame
     dlAll.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') e.stopPropagation(); });
+    set.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('.bk-share, .qc-share')) e.stopPropagation(); });
     const tiles = [...set.querySelectorAll('.qc-gt')].map((n, i) => {
       const video = n.querySelector('video');
       video.muted = true;
@@ -123,7 +128,7 @@ export default {
       return {
         video, at, play: at + LAND, sync: follower(video, CLIPS[i].src),
         sk: n.querySelector('.qc-sk'), len: n.querySelector('.cs10-len'), bar: n.querySelector('.cs10-bar'),
-        head: n.querySelector('.cs10-bar i'), dl: n.querySelector('.qc-dl'),
+        head: n.querySelector('.cs10-bar i'), dl: n.querySelector('.qc-dl'), share: n.querySelector('.qc-share'),
       };
     });
     // a mouse click lets go of the button's or link's focus so the keyboard stays on the spot's clock
@@ -134,7 +139,7 @@ export default {
         if (e.detail > 0) dlAll.blur();
         return;
       }
-      const a = e.target.closest('.qc-dl');
+      const a = e.target.closest('.qc-dl, .qc-share, .bk-share');
       if (a && e.detail > 0) a.blur();
     });
     const vis = say.firstElementChild, hid = say.lastElementChild;
@@ -161,7 +166,7 @@ export default {
           const p = landing(t, tl.at);
           shimmer(tl.sk, t, T.card, i, p);
           settle(tl.video, p);
-          showDl(tl.dl, p);
+          showShare(tl, p);
           const vt = Math.max(0, t - tl.play) % LEN;
           tl.sync(vt, running && t > tl.play);
           const pl = outCubic(seg(t, tl.play, tl.play + 0.25));

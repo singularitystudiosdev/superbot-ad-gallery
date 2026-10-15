@@ -25,6 +25,8 @@ import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_
 import { makeGarden } from './garden.410879cc.js';
 import { makeRoadtrip } from './roadtrip.9bc0f433.js?v=2';
 import { zipStore } from './zip.69098368.js';
+// the Share control every output card carries (share.29a362ea.js): a header button on a framed card, a disc on an image
+import { shareBtn, shareDisc } from './share.29a362ea.js';
 
 // Google Maps URLs (developers.google.com/maps/documentation/urls/get-started): the card's drive, stop by stop
 const MAPS_TRIP = 'https://www.google.com/maps/dir/?api=1&origin=Los+Angeles,CA&destination=San+Francisco,CA&waypoints=Santa+Barbara,CA%7CSan+Luis+Obispo,CA%7CBig+Sur,CA%7CMonterey,CA&travelmode=driving';
@@ -74,6 +76,8 @@ function showDl(a, p) {
   a.style.opacity = p.toFixed(3);
   a.style.visibility = p > 0 ? '' : 'hidden';
 }
+// an image's Share disc lands with its download; one with no download to land beside takes the same fade
+const showShare = (c, p) => { showDl(c.dl, p); showDl(c.share, p); };
 
 // a grid tile shows the meme under its own crop and grade (TILES), so its Download saves the tile as seen: the image
 // redrawn through the same zoom about the same origin and the same CSS filter, as a PNG data URL
@@ -116,35 +120,37 @@ export default {
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY[variant()])}</span></div>`);
     const media = x.el('<div class="qc-media"></div>');
     media.dataset.v = variant();
-    const oneCard = (img, w, h, alt, name) => x.el(`<div class="qc-img qc-skel"><img src="${img}" width="${w}" height="${h}" alt="${alt}"/><i class="qc-sk"></i><span class="qc-genl">${x.tile('gemini')}Creating image</span>${dl(img, name)}</div>`);
-    const card = oneCard(src, 870, 1024, 'Muse meme', 'muse-meme.png');
-    const edit = oneCard(x.img('photoedit.2a3b1461/night.jpg'), 1200, 900, 'The photo with the man in the back removed, at night', 'photo-edited.jpg');
-    const grid = x.el(`<div class="qc-grid">${TILES.map((g, i) => `<div class="qc-gt qc-skel"><img src="${src}" width="870" height="1024" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}; filter: ${g.grade || 'none'}"/><i class="qc-sk"></i>${dl(src, `muse-meme-${i + 1}.png`)}</div>`).join('')}</div>`);
+    const oneCard = (img, w, h, alt, name, what) => x.el(`<div class="qc-img qc-skel"><img src="${img}" width="${w}" height="${h}" alt="${alt}"/><i class="qc-sk"></i><span class="qc-genl">${x.tile('gemini')}Creating image</span>${shareDisc(what, { file: img })}${dl(img, name)}</div>`);
+    const card = oneCard(src, 870, 1024, 'Muse meme', 'muse-meme.png', 'Muse meme');
+    const edit = oneCard(x.img('photoedit.2a3b1461/night.jpg'), 1200, 900, 'The photo with the man in the back removed, at night', 'photo-edited.jpg', 'Edited photo');
+    const grid = x.el(`<div class="qc-grid">${TILES.map((g, i) => `<div class="qc-gt qc-skel"><img src="${src}" width="870" height="1024" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}; filter: ${g.grade || 'none'}"/><i class="qc-sk"></i>${shareDisc(`Muse meme ${i + 1}`, { file: src })}${dl(src, `muse-meme-${i + 1}.png`)}</div>`).join('')}</div>`);
     loadFrameSheet();
     // Default's grid in the bakery artifact frame, as the spending chart sits in it: title and Download All where spending
     // exports, no Expand; the view grows to the grid instead of the frame's fixed 350px (chat.css .qc-set)
-    const set = x.el(`<div class="bk qc-set"><div class="bk-head"><b class="bk-title">Muse memes<small>${TILES.length} images</small></b><button type="button" class="bk-btn bk-publish qc-dlall"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download All</button></div><div class="bk-view"></div></div>`);
+    const set = x.el(`<div class="bk qc-set"><div class="bk-head"><b class="bk-title">Muse memes<small>${TILES.length} images</small></b>${shareBtn('Muse memes')}<button type="button" class="bk-btn bk-publish qc-dlall"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download All</button></div><div class="bk-view"></div></div>`);
     set.querySelector('.bk-view').append(grid);
     const dlAll = set.querySelector('.qc-dlall');
     // Space and Enter press the button, not the spot's clock (timeline.9b47fc30.js), as on the variant picker
     dlAll.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') e.stopPropagation(); });
-    const model = x.el(`<div class="bk"><div class="bk-head"><b class="bk-title">Zombie 3D model</b>${EXPAND}<a class="bk-btn bk-publish" href="${ZOMBIE_3D}" download="zombie.glb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="3D zombie model"></canvas><i class="qc-sk"></i><span class="qc-genl">${x.tile(k.app || 'gemini')}Creating 3D model<b class="qc-genn"></b></span></div></div>`);
-    const game = x.el(`<div class="qc-img qc-game"><canvas width="590" height="695" role="img" aria-label="Zombie runner game"></canvas><div class="qc-code"><div class="qc-tabs"><span>zombie-run.js</span></div><div class="qc-lines"><pre></pre></div></div><span class="qc-chip qc-score">Score <b>0000</b></span><span class="qc-chip qc-brains">Brains <b>0</b></span><span class="qc-genl">${x.tile('gemini')}Creating game<b class="qc-genn"></b></span></div>`);
-    const logo = x.el(`<div class="qc-img qc-logo"><img src="${x.img('coffee-logo.a133a772.png')}" width="720" height="720" alt="Hearth &amp; Bean coffee shop logo"/><i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating logo</span></div>`);
+    // likewise for every Share control on the cards below
+    media.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('.bk-share, .qc-share')) e.stopPropagation(); });
+    const model = x.el(`<div class="bk"><div class="bk-head"><b class="bk-title">Zombie 3D model</b>${shareBtn('Zombie 3D model', { file: ZOMBIE_3D })}${EXPAND}<a class="bk-btn bk-publish" href="${ZOMBIE_3D}" download="zombie.glb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="3D zombie model"></canvas><i class="qc-sk"></i><span class="qc-genl">${x.tile(k.app || 'gemini')}Creating 3D model<b class="qc-genn"></b></span></div></div>`);
+    const game = x.el(`<div class="qc-img qc-game"><canvas width="590" height="695" role="img" aria-label="Zombie runner game"></canvas><div class="qc-code"><div class="qc-tabs"><span>zombie-run.js</span></div><div class="qc-lines"><pre></pre></div></div><span class="qc-chip qc-score">Score <b>0000</b></span><span class="qc-chip qc-brains">Brains <b>0</b></span><span class="qc-genl">${x.tile('gemini')}Creating game<b class="qc-genn"></b></span>${shareDisc('Zombie runner game')}</div>`);
+    const logo = x.el(`<div class="qc-img qc-logo"><img src="${x.img('coffee-logo.a133a772.png')}" width="720" height="720" alt="Hearth &amp; Bean coffee shop logo"/><i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating logo</span>${shareDisc('Hearth & Bean logo', { file: x.img('coffee-logo.a133a772.png') })}</div>`);
     media.append(card, edit, set, model, game, logo);
     const garden = makeGarden(x);
     media.append(garden.node);
     // the route card in the bakery artifact frame: 400x250 .bk-fit scaled into the 560x350 view, "Open in Maps"
     // where bakery publishes; the build pill sits on the unscaled view, as on the 3D frame
     const roadtrip = makeRoadtrip(x);
-    const trip = x.el(`<div class="bk"><div class="bk-head"><b class="bk-title">LA to SF road trip</b>${EXPAND}<a class="bk-btn bk-publish" href="${MAPS_TRIP}" target="_blank" rel="noopener"><img src="${x.brand('maps-logo.svg')}" alt=""/>Open in Maps</a></div><div class="bk-view"><div class="bk-fit"></div></div></div>`);
+    const trip = x.el(`<div class="bk"><div class="bk-head"><b class="bk-title">LA to SF road trip</b>${shareBtn('LA to SF road trip')}${EXPAND}<a class="bk-btn bk-publish" href="${MAPS_TRIP}" target="_blank" rel="noopener"><img src="${x.brand('maps-logo.svg')}" alt=""/>Open in Maps</a></div><div class="bk-view"><div class="bk-fit"></div></div></div>`);
     trip.querySelector('.bk-fit').append(roadtrip.node);
     trip.querySelector('.bk-view').append(roadtrip.node.querySelector('.qc-genl'));
     media.append(trip);
     const vis = say.firstElementChild, hid = say.lastElementChild;
-    const cardParts = (c) => ({ im: c.querySelector('img'), sk: c.querySelector('.qc-sk'), genl: c.querySelector('.qc-genl'), dl: c.querySelector('.qc-dl') });
+    const cardParts = (c) => ({ im: c.querySelector('img'), sk: c.querySelector('.qc-sk'), genl: c.querySelector('.qc-genl'), dl: c.querySelector('.qc-dl'), share: c.querySelector('.qc-share') });
     const meme = cardParts(card), edited = cardParts(edit);
-    const tiles = [...grid.querySelectorAll('.qc-gt')].map((n, i) => ({ im: n.querySelector('img'), sk: n.querySelector('.qc-sk'), dl: n.querySelector('.qc-dl'), g: TILES[i] }));
+    const tiles = [...grid.querySelectorAll('.qc-gt')].map((n, i) => ({ im: n.querySelector('img'), sk: n.querySelector('.qc-sk'), dl: n.querySelector('.qc-dl'), share: n.querySelector('.qc-share'), g: TILES[i] }));
     // a Download click: a tile under a crop or grade saves what it shows (tilePng); a mouse click then lets go of the
     // link's focus so the keyboard stays on the spot's clock, as the variant picker does
     media.addEventListener('click', (e) => {
@@ -170,6 +176,7 @@ export default {
     const gamel = game.querySelector('.qc-genl'), gpct = game.querySelector('.qc-genn');
     const chips = [...game.querySelectorAll('.qc-chip')], scoreEl = game.querySelector('.qc-score b'), brainsEl = game.querySelector('.qc-brains b');
     const logoIm = logo.querySelector('img'), logoGen = logo.querySelector('.qc-gen'), logoL = logo.querySelector('.qc-genl');
+    const gameShare = game.querySelector('.qc-share'), logoShare = logo.querySelector('.qc-share');
     let shown = -1, lastV = null, viewer = null, built = -1;
     // the 10-image variant's platform reveals (reveals/index.9e82faf1.js): each module's block is built once, the first
     // time its style shows, and display-toggled after; Default keeps the grid above
@@ -242,6 +249,7 @@ export default {
           gcanvas.style.opacity = b.toFixed(3);
           gcanvas.style.transform = b >= 1 ? 'none' : `scale(${lerp(1.04, 1, b).toFixed(4)})`;
           gamel.style.opacity = (1 - b).toFixed(3);
+          showDl(gameShare, b);
           const hud = gameState(g);
           const sc = String(hud.score).padStart(4, '0');
           if (sc !== scored) { scoreEl.textContent = sc; scored = sc; }
@@ -265,6 +273,7 @@ export default {
           // the generated logo resolves out of a blur across the generation window
           resolve(logoIm, logoGen, seg(t, T.w0, T.w1));
           logoL.style.opacity = label;
+          showDl(logoShare, 1 - label);
           return;
         }
         if (v !== '10') {
@@ -274,7 +283,7 @@ export default {
           const lp = landing(t, landAt);
           shimmer(c.sk, t, T.card, 0, lp);
           settle(c.im, lp);
-          showDl(c.dl, lp);
+          showShare(c, lp);
           c.genl.style.opacity = label;
           return;
         }
@@ -286,7 +295,7 @@ export default {
           const p = landing(t, T.w0 + GRID0 + i * GRID_STEP);
           shimmer(tl.sk, t, T.card, i, p);
           settle(tl.im, p, tl.g.zoom);
-          showDl(tl.dl, p);
+          showShare(tl, p);
         });
       },
     };

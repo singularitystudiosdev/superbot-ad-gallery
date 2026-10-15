@@ -8,6 +8,8 @@
 // Hero: a CC0 photo from Wikimedia Commons (img/bakery.005f5570/CREDITS.txt); the bakery, menu and address are made up.
 import { lerp, seg, outCubic, inOutCubic, streamCount, press } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
+// the Share control every output card carries, in front of Expand
+import { shareBtn } from './share.29a362ea.js';
 
 const SAY = "Here's a one-page site for your bakery, with your menu, hours and a pickup order button.";
 const CSS = new URL('../bakery.005f5570.css?v=3', import.meta.url).href;
@@ -52,6 +54,7 @@ export default {
     const block = x.el(`<div class="bk">
       <div class="bk-head">
         <b class="bk-title">Crumb &amp; Co. website</b>
+        ${shareBtn('Crumb & Co. website')}
         ${EXPAND}
         <span class="bk-btn bk-publish">Publish</span>
       </div>

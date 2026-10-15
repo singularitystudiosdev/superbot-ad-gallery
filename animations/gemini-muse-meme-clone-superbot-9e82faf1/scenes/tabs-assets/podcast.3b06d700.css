@@ -47,3 +47,7 @@
 #s-tabs .sbsite .hub .pc-who { margin-right: 6px; font: 600 10.5px/20px var(--ui); letter-spacing: .04em; text-transform: uppercase; color: var(--c); }
 #s-tabs .sbsite .hub .pc-w.on { color: var(--fg); }
 #s-tabs .sbsite .hub .pc-hl { position: absolute; left: 0; top: 0; z-index: -1; width: 0; height: 0; border-radius: var(--r-control); background: color-mix(in srgb, var(--c, var(--pc-a)) 26%, transparent); opacity: 0; }
+/* the Share button, the stop button's outlined twin, at the head's right end (beats/share.29a362ea.js) */
+#s-tabs .sbsite .hub .pc-share { flex: none; position: relative; display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: var(--r-control); background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--fg); cursor: pointer; }
+#s-tabs .sbsite .hub .pc-share:hover { background: rgba(255, 255, 255, .06); }
+#s-tabs .sbsite .hub .pc-share svg { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }

@@ -308,6 +308,15 @@
     "desc": "The Gemini muse meme spot, zombie game variant. \"make me a zombie game\" is typed; Gemini writes zombie-run.js line by line while a Creating game pill counts up, then the card boots into a 3D zombie endless runner: the zombie dodges between lanes past graves and picks up brains while the Score and Brains counters climb. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-3d-meshy",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Superbot x Meshy: Make me a 3D zombie",
+    "src": "animations/gemini-muse-meme-superbot-d9bc17e9/?variant=3d",
+    "thumb": "assets/shots/gemini-muse-meme-3d-meshy.png",
+    "desc": "The Gemini muse meme spot, 3D zombie variant. \"Make me a 3d zombie\" is typed; superbot switches to Meshy (\"Switching to Meshy\"), which answers \"Here’s your 3D zombie.\" with a model card: a percent counter climbs while the Meshy 7.1 PBR zombie resolves out of a blur and turns on its stand. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
+  },
+  {
     "id": "gemini-muse-meme-logo-superbot-a133a772",
     "type": "animation",
     "group": "Ad spots",

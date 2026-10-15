@@ -6,16 +6,17 @@
 // module cache on republish.
 import { clamp, lerp, seg, outCubic, outBack, inOutCubic, esc, boxIn, placeCursor } from '../../lib.9b47fc30.js';
 import { makeCursor } from '../../shell.9b47fc30.js';
-import gemini from './beats/gemini.9b47fc30.js?v=1';
+import gemini from './beats/gemini.9b47fc30.js?v=2';
 import doordash from './beats/doordash.d9bc17e9.js?v=1';
 import climb from './beats/climb.080da517.js?v=1';
 import catsurf from './beats/catsurf.e2265c3a.js?v=1';
 import catgif from './beats/catgif.df575a7c.js?v=1';
+import song from './beats/song.b217c2c1.js?v=7';
 import bedtime from './beats/bedtime.b60749a3.js?v=1';
-import bakery from './beats/bakery.005f5570.js?v=1';
-import pitchdeck from './beats/pitchdeck.fad54971.js?v=1';
-import spending from './beats/spending.b92c87dc.js?v=1';
 import podcast from './beats/podcast.3b06d700.js?v=1';
+import pitchdeck from './beats/pitchdeck.fad54971.js?v=1';
+import bakery from './beats/bakery.005f5570.js?v=1';
+import spending from './beats/spending.b92c87dc.js?v=1';
 import { variant } from '../../variant.9e82faf1.js';
 
 const brand = (f) => new URL('../../brand/' + f, import.meta.url).href;
@@ -28,15 +29,18 @@ const APPS = {
   codex: { name: 'GPT-5 Codex', logo: brand('openai-logo.svg'), sub: '' },
   gemini: { name: 'Gemini', logo: brand('gemini-logo.svg'), sub: 'in superbot' },
   doordash: { name: 'DoorDash', logo: brand('doordash-logo.svg'), sub: 'in superbot' },
+  meshy: { name: 'Meshy', logo: brand('meshy-icon.svg'), sub: 'in superbot' },
+  fishaudio: { name: 'Fish Audio', logo: brand('fishaudio-logo.svg'), sub: 'in superbot' },
   superbot: { name: 'Superbot', logo: null, sub: '' }, // drawn as its mark in CSS (SB_MARK, chat.css .sbm), not an image
 };
 
 const BASE = [
   {
     app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']], ask: 'make me a muse meme',
-    askBy: { spending: 'Make a chart of my monthly spending', pitchdeck: 'Make a slide deck for my pitch', 10: 'make me 10 muse memes', '3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space' },
-    // one [app, label] per base chip, so the route keeps the base chips' clock
-    routeBy: { spending: { app: 'gemini', mod: spending, chips: [['gemini', 'Switching to Gemini']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gemini', 'Switching to Gemini']] }, doordash: { app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] }, catsurf: { app: 'gemini', mod: catsurf, chips: [['gemini', 'Switching to Gemini']] }, catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'gemini', mod: bakery, chips: [['gemini', 'Switching to Gemini']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] } },
+    askBy: { pitchdeck: 'Make a slide deck for my pitch', spending: 'Make a chart of my monthly spending', 10: 'make me 10 muse memes','3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', song: 'Make me a song about my dog', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space' },
+    // one [app, label] per base chip, so the route keeps the base chips' clock; `extra` seconds stretch that
+    // variant's loop past the base route's end (the beat is the last, so nothing after it moves)
+    routeBy:{ '3d': { app: 'meshy', mod: gemini, chips: [['meshy', 'Switching to Meshy']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gemini', 'Switching to Gemini']] }, spending: { app: 'gemini', mod: spending, chips: [['gemini', 'Switching to Gemini']] }, doordash:{ app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] }, catsurf: { app: 'gemini', mod: catsurf, chips: [['gemini', 'Switching to Gemini']] }, catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, song: { app: 'fishaudio', mod: song, chips: [['fishaudio', 'Connected to Fish Audio']], extra: 5 }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'gemini', mod: bakery, chips: [['gemini', 'Switching to Gemini']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] } },
   },
 ];
 
@@ -70,6 +74,8 @@ function timeBeats(asks) {
 }
 export const BEATS = timeBeats(BASE);
 export const CHAT_END = BEATS[BEATS.length - 1].k.T.end + 0.3;
+// the loop's end under variant v: the base end plus the last beat's route `extra`
+export const chatEnd = (v) => CHAT_END + ((BASE[BASE.length - 1].routeBy || {})[v]?.extra || 0);
 
 const SB_MARK = '<i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i>';
 export const OK = '<svg class="qc-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -107,7 +113,7 @@ export function mountChat(hub) {
     const routes = { base: { app: k.app, chips: k.chips, inst: k.mod.build(k, ctx) } };
     Object.entries(k.routeBy || {}).forEach(([v, o]) => {
       const chips = k.chips.map((c, i) => ({ ...c, app: o.chips[i][0], label: o.chips[i][1] }));
-      routes[v] = { app: o.app, chips, inst: o.mod.build({ ...k, app: o.app, chips, T: o.mod.times(k.reply, k.T.end) }, ctx) };
+      routes[v] = { app: o.app, chips, inst: o.mod.build({ ...k, app: o.app, chips, T: o.mod.times(k.reply, k.T.end + (o.extra || 0)) }, ctx) };
     });
     Object.values(routes).forEach((ro) => ro.inst.nodes.forEach((n) => main.appendChild(n)));
     return { k, u, ut: u && u.querySelector('.m-text'), sws, r, who: main.firstElementChild, routes, route: null, v: null };

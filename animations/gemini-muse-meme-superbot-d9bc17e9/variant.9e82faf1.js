@@ -12,11 +12,12 @@ export const VARIANTS = [
   { id: 'catsurf', label: 'Cat surfing video' },
   { id: 'catgif', label: 'Dancing cat GIF' },
   { id: 'logo', label: 'Coffee logo' },
+  { id: 'song', label: 'Dog song' },
   { id: 'bedtime', label: 'Bedtime story' },
+  { id: 'podcast', label: 'Space podcast' },
+  { id: 'pitchdeck', label: 'Pitch deck' },
   { id: 'spending', label: 'Spending chart' },
   { id: 'bakery', label: 'Bakery website' },
-  { id: 'pitchdeck', label: 'Pitch deck' },
-  { id: 'podcast', label: 'Space podcast' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

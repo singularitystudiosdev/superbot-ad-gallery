@@ -22,9 +22,14 @@
 #s-tabs .sbsite .hub .qc-tile { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; overflow: hidden; }
 #s-tabs .sbsite .hub .qc-tile img { width: 15px; height: 15px; object-fit: contain; display: block; }
 #s-tabs .sbsite .hub .qc-t-gemini { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-meshy { background: #181818; box-shadow: inset 0 0 0 1px #34343a; }
 #s-tabs .sbsite .hub .qc-t-cursor { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
 #s-tabs .sbsite .hub .qc-t-cursor img { width: 16px; height: 16px; }
 #s-tabs .sbsite .hub .qc-t-doordash { background: #ff3008; }
+/* Fish Audio's mark is a wide row of bars, so it gets the tile's full width instead of the square glyph box */
+#s-tabs .sbsite .hub .qc-t-fishaudio { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-fishaudio img { width: 18px; height: 18px; }
+#s-tabs .sbsite .hub .qc-who .qc-t-fishaudio img { width: 15px; height: 15px; }
 #s-tabs .sbsite .hub .qc-t-doordash img { width: 15px; height: 9px; filter: brightness(0) invert(1); }
 /* superbot's tile: its mark, static. The silhouette is the mask geometry of assets/sb-mark-live.html (eyes cut out)
    used as a CSS mask, three layers deep like the live mark (storm-0 up-left, storm-3 down-right, fg on top), so
@@ -71,6 +76,10 @@
 #s-tabs .sbsite .hub .qc-genl { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 11px 0 4px; border-radius: 999px; background: rgba(12, 12, 14, .78); font: 600 11px/1 var(--ui); color: #ececec; }
 #s-tabs .sbsite .hub .qc-genl .qc-tile { width: 20px; height: 20px; border-radius: 999px; }
 #s-tabs .sbsite .hub .qc-genl .qc-tile img { width: 13px; height: 13px; }
+/* the 10-image variant's feed is not a will-change layer: a layer keeps the raster scale it was first drawn at, so a page
+   seeked through the camera push rasterised the whole feed (the reveal block with it) differently from a fresh load at the
+   same t. The rule is scoped to variant 10 (the beat sets data-v on .qc-media); the other variants keep the layer */
+#s-tabs .sbsite .hub .feed-in:has(.qc-media[data-v="10"]) { will-change: auto; }
 /* the beat's art wrapper: as wide as whichever variant shows, so its entrance scales about that art's centre */
 #s-tabs .sbsite .hub .qc-media { width: fit-content; max-width: 100%; }
 /* the 10-image variant: ten generations at once, five across, one shared "Creating" pill with a landed count */
@@ -78,6 +87,7 @@
 #s-tabs .sbsite .hub .qc-gt { position: relative; aspect-ratio: 870 / 1024; border-radius: 9px; overflow: hidden; background: #111; box-shadow: 0 0 0 1px #2a2a2e, 0 8px 20px rgba(0,0,0,.35); }
 #s-tabs .sbsite .hub .qc-gt img { display: block; width: 100%; height: 100%; object-fit: cover; }
 #s-tabs .sbsite .hub .qc-genn { margin-left: 3px; font-weight: 500; color: #a1a1a6; font-variant-numeric: tabular-nums; }
+/* the platform reveals (beats/reveals/) inject their own CSS from their JS */
 /* the garden variant: a printable garden design template on cream paper, drawn on in the build window (garden.410879cc.js) */
 #s-tabs .sbsite .hub .qc-gd { width: 360px; aspect-ratio: 360 / 256; background: #f7f4ec; }
 #s-tabs .sbsite .hub .qc-gd svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }

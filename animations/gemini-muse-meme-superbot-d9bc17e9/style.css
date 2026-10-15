@@ -59,13 +59,31 @@ body.freeze .hint { display: none; }
 body.freeze .rec-btn { display: none; }
 /* the variant selector (variant-select.9e82faf1.js): the rec-btn's pill chrome, as a two-option segmented control */
 .variant-select { position: fixed; top: 18px; right: 18px; z-index: 40; display: inline-flex; align-items: center; gap: 2px; padding: 4px; border-radius: 999px;
-  background: var(--card); border: 1px solid var(--line); font: 600 13px/1 var(--ui); user-select: none; }
-.variant-select .vs-label { padding: 0 8px 0 10px; color: var(--muted); font-weight: 500; }
-.variant-select button { appearance: none; margin: 0; border: 0; height: 30px; padding: 0 14px; border-radius: 999px; background: transparent; color: var(--fg-2);
+  background: var(--card); border: 1px solid var(--line); font: 600 13px/1 var(--ui); user-select: none;
+  max-width: calc(100vw - 36px); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+.variant-select::-webkit-scrollbar { display: none; }
+.variant-select .vs-label { flex: none; padding: 0 8px 0 10px; color: var(--muted); font-weight: 500; }
+.variant-select button { flex: none; appearance: none; margin: 0; border: 0; height: 30px; padding: 0 14px; border-radius: 999px; background: transparent; color: var(--fg-2);
   font: inherit; cursor: pointer; transition: background-color .15s, color .15s; }
 .variant-select button:hover { color: var(--fg); background: var(--raised); }
 .variant-select button[aria-checked="true"] { background: var(--fg); color: var(--card); }
 .variant-select button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (pointer: coarse) { .variant-select button { height: 44px; padding: 0 16px; } }
 body.freeze .variant-select { display: none; }
+/* the appear sub-selector (variant-select.9e82faf1.js): the same pill directly under the variant selector (18px top + its 40px
+   height + 8px gap), shown only on the '10 images' variant; a native select, since nine styles are too wide for a segmented row */
+.appear-select { position: fixed; top: 66px; right: 18px; z-index: 40; display: inline-flex; align-items: center; gap: 2px; padding: 4px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line); font: 600 13px/1 var(--ui); user-select: none; }
+.appear-select[hidden] { display: none; }
+.appear-select .vs-label { padding: 0 8px 0 10px; color: var(--muted); font-weight: 500; }
+.appear-select .as-wrap { position: relative; display: inline-flex; }
+.appear-select .as-wrap::after { content: ""; position: absolute; right: 12px; top: 50%; margin-top: -2px; pointer-events: none;
+  border: 4px solid transparent; border-top-color: var(--muted); border-bottom-width: 0; }
+.appear-select select { appearance: none; -webkit-appearance: none; margin: 0; border: 0; height: 30px; padding: 0 30px 0 12px; border-radius: 999px;
+  background: transparent; color: var(--fg); font: inherit; cursor: pointer; transition: background-color .15s; }
+.appear-select select:hover { background: var(--raised); }
+.appear-select select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.appear-select option { background: var(--raised); color: var(--fg); }
+@media (pointer: coarse) { .appear-select { top: 80px; } .appear-select select { height: 44px; } .appear-select .as-wrap::after { margin-top: -2px; } }
+body.freeze .appear-select { display: none; }
 

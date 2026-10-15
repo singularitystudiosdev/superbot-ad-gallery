@@ -6,12 +6,12 @@
 // module cache on republish.
 import { clamp, lerp, seg, outCubic, outBack, inOutCubic, esc, boxIn, placeCursor } from '../../lib.9b47fc30.js';
 import { makeCursor } from '../../shell.9b47fc30.js';
-import gemini from './beats/gemini.9b47fc30.js?v=1';
+import gemini from './beats/gemini.9b47fc30.js?v=2';
 import doordash from './beats/doordash.d9bc17e9.js?v=1';
 import climb from './beats/climb.080da517.js?v=1';
 import catsurf from './beats/catsurf.e2265c3a.js?v=1';
 import catgif from './beats/catgif.df575a7c.js?v=1';
-import song from './beats/song.b217c2c1.js?v=2';
+import song from './beats/song.b217c2c1.js?v=7';
 import bedtime from './beats/bedtime.b60749a3.js?v=1';
 import podcast from './beats/podcast.3b06d700.js?v=1';
 import pitchdeck from './beats/pitchdeck.fad54971.js?v=1';
@@ -29,7 +29,8 @@ const APPS = {
   codex: { name: 'GPT-5 Codex', logo: brand('openai-logo.svg'), sub: '' },
   gemini: { name: 'Gemini', logo: brand('gemini-logo.svg'), sub: 'in superbot' },
   doordash: { name: 'DoorDash', logo: brand('doordash-logo.svg'), sub: 'in superbot' },
-  elevenlabs: { name: 'ElevenLabs', logo: brand('elevenlabs-logo.svg'), sub: 'in superbot' },
+  meshy: { name: 'Meshy', logo: brand('meshy-icon.svg'), sub: 'in superbot' },
+  fishaudio: { name: 'Fish Audio', logo: brand('fishaudio-logo.svg'), sub: 'in superbot' },
   superbot: { name: 'Superbot', logo: null, sub: '' }, // drawn as its mark in CSS (SB_MARK, chat.css .sbm), not an image
 };
 
@@ -39,7 +40,7 @@ const BASE = [
     askBy: { pitchdeck: 'Make a slide deck for my pitch', spending: 'Make a chart of my monthly spending', 10: 'make me 10 muse memes','3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', song: 'Make me a song about my dog', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space' },
     // one [app, label] per base chip, so the route keeps the base chips' clock; `extra` seconds stretch that
     // variant's loop past the base route's end (the beat is the last, so nothing after it moves)
-    routeBy:{ pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gemini', 'Switching to Gemini']] }, spending: { app: 'gemini', mod: spending, chips: [['gemini', 'Switching to Gemini']] }, doordash:{ app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] }, catsurf: { app: 'gemini', mod: catsurf, chips: [['gemini', 'Switching to Gemini']] }, catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, song: { app: 'elevenlabs', mod: song, chips: [['elevenlabs', 'Connected to Eleven Labs']], extra: 5 }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'gemini', mod: bakery, chips: [['gemini', 'Switching to Gemini']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] } },
+    routeBy:{ '3d': { app: 'meshy', mod: gemini, chips: [['meshy', 'Switching to Meshy']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gemini', 'Switching to Gemini']] }, spending: { app: 'gemini', mod: spending, chips: [['gemini', 'Switching to Gemini']] }, doordash:{ app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'gemini', mod: climb, chips: [['gemini', 'Switching to Gemini']] }, catsurf: { app: 'gemini', mod: catsurf, chips: [['gemini', 'Switching to Gemini']] }, catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, song: { app: 'fishaudio', mod: song, chips: [['fishaudio', 'Connected to Fish Audio']], extra: 5 }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'gemini', mod: bakery, chips: [['gemini', 'Switching to Gemini']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] } },
   },
 ];
 

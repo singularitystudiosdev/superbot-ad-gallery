@@ -63,9 +63,19 @@ Added for the 'doordash' variant (2026-10-14):
                             <svg viewBox="0 0 99.5 56.5"> from the www.doordash.com header, paths verbatim, fill DoorDash
                             Red #FF3008). Trademark of DoorDash, Inc.
 
-ELEVENLABS (song variant: routing chip, reply header, platform chip, cover art)
-  elevenlabs-icon.svg       the app icon (white rounded tile, black "II" bars), byte-for-byte copy of
-                            https://elevenlabs.io/icon.svg (linked as rel="icon" from https://elevenlabs.io/). Fetched 2026-10-14.
-  elevenlabs-logo.svg       the "II" logomark alone: the two bar <path>s copied verbatim out of elevenlabs-icon.svg, the
-                            viewBox cropped to the bars and the fill recoloured black -> white for dark surfaces.
-  Usage: trademarks of ElevenLabs; shown nominatively, naming the product that answers the ask.
+FISH AUDIO (song variant: routing chip, reply header, platform chip, cover art)
+  fishaudio-icon.svg        the logo (a fish drawn as rounded waveform bars, black with a grey #7a7a7a reflection) on
+                            white, as the site's apple-touch-icon shows it. Its 21 <rect>s (x, y, width, height, fill,
+                            rx 8, viewBox 0 0 512 512) are copied verbatim from the rect list in the site's nav logo
+                            bundle https://fish.audio/assets/nav-logo-CIGKsgTA.js. Fetched 2026-10-14.
+  fishaudio-logo.svg        the same 21 rects with the site's own dark-mode treatment (its `dark:invert`: #000 -> #fff,
+                            #7a7a7a -> #858585), viewBox cropped to the marks, for dark tiles.
+  Usage: trademarks of Fish Audio; shown nominatively, naming the product that answers the ask.
+
+MESHY (3D variant: 'meshy' route in chat.9b47fc30.js)
+  meshy-logo.svg            the full "Meshy" lockup (mascot + wordmark), byte-for-byte copy of the header logo <svg> served
+                            inline on https://www.meshy.ai (fetched 2026-10-14); only the page's CSS class attribute was dropped.
+  meshy-icon.svg            the mascot mark alone: the first 18 <path>s of that same lockup SVG, unaltered, with the wordmark
+                            path removed and the viewBox cropped to the mark (0 0 66 64). Used for the routing chip, reply
+                            header, composer chip and the "Creating 3D model" tile.
+                            Meshy is a trademark of Meshy, Inc.; shown nominatively (naming the product that made the model).

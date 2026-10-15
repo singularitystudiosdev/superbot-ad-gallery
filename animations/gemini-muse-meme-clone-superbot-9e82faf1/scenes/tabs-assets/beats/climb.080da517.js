@@ -1,6 +1,6 @@
-// Rock-climbing beat (the 'climbing' variant): asked "Show me rock climbing videos", Gemini answers from YouTube. A
-// featured player and three up-next rows shimmer while "Searching YouTube" counts the results in, each lands on its own
-// clock, then the featured video starts: its play button presses and clears, the controls rise, the buffer runs ahead
+// Rock-climbing beat (the 'climbing' variant): asked "Show me rock climbing videos", Gemini answers from YouTube. Four
+// equal 16:9 tiles in a 2x2 grid shimmer while "Searching YouTube" counts the results in, each lands on its own
+// clock, then the first video starts: its play button presses and clears, the controls rise, the buffer runs ahead
 // of the playhead and the frame drifts (a slow push on the still). Squeezed into the window the Gemini beat leaves
 // (times(r, end)) so every variant loops the same length. Its stylesheet (../climb.080da517.css) loads with the module.
 // Thumbnails: public-domain and CC0 photos from Wikimedia Commons (img/climb.080da517/CREDITS.txt); every title,
@@ -9,7 +9,7 @@ import { lerp, seg, outCubic, inOutCubic, outBack, streamCount } from '../../../
 import { track } from '../../../loads.9e82faf1.js';
 
 const SAY = 'Here are some rock climbing videos from YouTube.';
-const CSS = new URL('../climb.080da517.css?v=1', import.meta.url).href;
+const CSS = new URL('../climb.080da517.css?v=2', import.meta.url).href;
 // `at` is when the result lands, as a share of the search window; the first is the featured player
 const VIDEOS = [
   { img: '1.jpg', title: 'Joshua Tree granite: a full day of crack climbing', meta: 'Crag Notes · 1.2M views · 8 months ago', len: '14:32', at: 0.5 },
@@ -55,8 +55,8 @@ export default {
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="cv">
       <div class="cv-src"><img class="cv-yt" src="${yt}" width="20" height="14" alt=""/><b>YouTube</b><span>rock climbing videos</span></div>
-      <div class="cv-body">
-        <div class="cv-main">
+      <div class="cv-grid">
+        <div class="cv-item">
           <div class="cv-player cv-v">${pic(lead, 0)}
             <img class="cv-big" src="${yt}" width="57" height="40" alt="Play"/>
             <div class="cv-ctl"><div class="cv-bar"><i class="cv-buf"></i><i class="cv-played"></i><i class="cv-dot"></i></div>
@@ -65,11 +65,11 @@ export default {
           </div>
           ${text(lead)}
         </div>
-        <div class="cv-list">${rest.map((v, i) => `<div class="cv-item"><div class="cv-thumb cv-v">${pic(v, i + 1)}</div>${text(v)}</div>`).join('')}</div>
+        ${rest.map((v, i) => `<div class="cv-item"><div class="cv-v">${pic(v, i + 1)}</div>${text(v)}</div>`).join('')}
       </div>
     </div>`);
     const $ = (s) => block.querySelector(s);
-    // each result's thumbnail box sits beside (or above) its title block, under one parent
+    // each result's thumbnail box sits above its title block, under one parent
     const items = [...block.querySelectorAll('.cv-v')].map((n, i) => ({
       im: n.querySelector('.cv-pic'), sh: n.querySelector('.cv-sh'), len: n.querySelector('.cv-len'),
       t: n.parentElement.querySelector('.cv-t'), v: VIDEOS[i],

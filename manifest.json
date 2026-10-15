@@ -404,7 +404,7 @@
     "title": "superbot: make me a 3d zombie",
     "src": "animations/gemini-muse-meme-clone-superbot-9e82faf1/?variant=3d",
     "thumb": "assets/shots/gemini-muse-meme-clone-3d-superbot-9e82faf1.png",
-    "desc": "The Gemini muse meme spot, clone build, 3D model cut. \"Make me a 3d zombie\" is typed; superbot switches to Gemini, which answers \"Here’s your 3D zombie.\" with a 3D model card showing a green zombie rendered with three.js. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
+    "desc": "The Gemini muse meme spot, clone build, 3D model cut. \"Make me a 3d zombie\" is typed; superbot switches to Meshy (\"Switching to Meshy\"), which answers \"Here’s your 3D zombie.\" with a model card: a percent counter climbs while the textured Meshy 7.1 zombie resolves out of a blur and turns on its stand, lit with PBR lighting. Same 6.3 s loop as the meme variants; the top-right selector switches variants live."
   },
   {
     "id": "deny-cascade-superbot-440813d4",

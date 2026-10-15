@@ -13,13 +13,14 @@ import { track } from '../../../loads.9e82faf1.js';
 import { appear } from '../../../appear.9e82faf1.js';
 import { makeTileFx, gateImages } from './appear-fx.9e82faf1.js';
 import { REVEALS } from './reveals/index.9e82faf1.js';
-import { makeZombieViewer } from './zombie3d.9e82faf1.js';
+import { makeZombieViewer } from './zombie3d.9e82faf1.js?v=2';
 import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_H } from './zombiegame.7b46b820.js';
 import { makeGarden } from './garden.410879cc.js';
 import { makeRoadtrip } from './roadtrip.9bc0f433.js';
 
 const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.', roadtrip: 'Here’s a 3-day coastal drive from LA to SF.', logo: 'Here’s your coffee shop logo.' };
-const ZOMBIE = new URL('../../../models/zombie-3d.9e82faf1.glb', import.meta.url).href;
+const ZOMBIE = new URL('../../../models/zombie-3d.9e82faf1.glb', import.meta.url).href; // the game's blocky runner
+const ZOMBIE_3D = new URL('../../../models/zombie-meshy.4490ac01.glb', import.meta.url).href; // the 3D variant's Meshy 7.1 model
 const BOOT = 0.75, BOOT_LEN = 0.2, PLAY = 0.8; // the code view hands over to the game at T.w0 + BOOT; play counts from T.w0 + PLAY
 const SPIN0 = -0.75, SPIN = 0.55; // the turntable's angle as the card lands (a three-quarter view), and its turn in rad/s
 
@@ -69,7 +70,7 @@ export default {
     media.dataset.v = variant();
     const card = x.el(`<div class="qc-img"><img src="${src}" width="870" height="1024" alt="Muse meme"/><i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating image</span></div>`);
     const grid = x.el(`<div class="qc-grid">${TILES.map((g, i) => `<div class="qc-gt"><img src="${src}" width="870" height="1024" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/><i class="qc-gen"></i></div>`).join('')}<span class="qc-genl">${x.tile('gemini')}Creating 10 images<b class="qc-genn"></b></span></div>`);
-    const model = x.el(`<div class="qc-img qc-3d"><canvas width="590" height="695" role="img" aria-label="3D zombie model"></canvas><i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating 3D model<b class="qc-genn"></b></span></div>`);
+    const model = x.el(`<div class="qc-img qc-3d"><canvas width="590" height="695" role="img" aria-label="3D zombie model"></canvas><i class="qc-gen"></i><span class="qc-genl">${x.tile(k.app || 'gemini')}Creating 3D model<b class="qc-genn"></b></span></div>`);
     const game = x.el(`<div class="qc-img qc-game"><canvas width="590" height="695" role="img" aria-label="Zombie runner game"></canvas><div class="qc-code"><div class="qc-tabs"><span>zombie-run.js</span></div><div class="qc-lines"><pre></pre></div></div><span class="qc-chip qc-score">Score <b>0000</b></span><span class="qc-chip qc-brains">Brains <b>0</b></span><span class="qc-genl">${x.tile('gemini')}Creating game<b class="qc-genn"></b></span></div>`);
     const logo = x.el(`<div class="qc-img qc-logo"><img src="${x.img('coffee-logo.a133a772.png')}" width="720" height="720" alt="Hearth &amp; Bean coffee shop logo"/><i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating logo</span></div>`);
     media.append(card, grid, model, game, logo);
@@ -168,7 +169,7 @@ export default {
           return;
         }
         if (v === '3d') {
-          if (!viewer) { viewer = makeZombieViewer(canvas, ZOMBIE); track(viewer.ready); }
+          if (!viewer) { viewer = makeZombieViewer(canvas, ZOMBIE_3D); track(viewer.ready); }
           // the finished model turns on its stand from the moment the card lands; it resolves in exactly as the 1-image card does
           if (ci > 0) viewer.draw({ spin: SPIN0 + SPIN * (t - T.card) });
           const rp = seg(t, T.w0, T.w1);

@@ -22,11 +22,14 @@
 #s-tabs .sbsite .hub .qc-tile { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; overflow: hidden; }
 #s-tabs .sbsite .hub .qc-tile img { width: 15px; height: 15px; object-fit: contain; display: block; }
 #s-tabs .sbsite .hub .qc-t-gemini { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-meshy { background: #181818; box-shadow: inset 0 0 0 1px #34343a; }
 #s-tabs .sbsite .hub .qc-t-cursor { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
 #s-tabs .sbsite .hub .qc-t-cursor img { width: 16px; height: 16px; }
 #s-tabs .sbsite .hub .qc-t-doordash { background: #ff3008; }
-#s-tabs .sbsite .hub .qc-t-elevenlabs { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
-#s-tabs .sbsite .hub .qc-t-elevenlabs img { width: 11px; height: 11px; }
+/* Fish Audio's mark is a wide row of bars, so it gets the tile's full width instead of the square glyph box */
+#s-tabs .sbsite .hub .qc-t-fishaudio { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-fishaudio img { width: 18px; height: 18px; }
+#s-tabs .sbsite .hub .qc-who .qc-t-fishaudio img { width: 15px; height: 15px; }
 #s-tabs .sbsite .hub .qc-t-doordash img { width: 15px; height: 9px; filter: brightness(0) invert(1); }
 /* superbot's tile: its mark, static. The silhouette is the mask geometry of assets/sb-mark-live.html (eyes cut out)
    used as a CSS mask, three layers deep like the live mark (storm-0 up-left, storm-3 down-right, fg on top), so

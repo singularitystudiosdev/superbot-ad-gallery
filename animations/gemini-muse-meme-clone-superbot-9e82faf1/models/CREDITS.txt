@@ -29,3 +29,12 @@ surfboard.e2265c3a.glb
   URL: https://raw.githubusercontent.com/mrdoob/three.js/r186/examples/jsm/objects/Water.js
        https://raw.githubusercontent.com/mrdoob/three.js/r186/examples/jsm/objects/Sky.js
        https://raw.githubusercontent.com/mrdoob/three.js/r186/examples/textures/waternormals.jpg
+
+zombie-meshy.4490ac01.glb   (the 3D variant's zombie; the older zombie-3d.9e82faf1.glb above now only drives the game variant)
+  Title: AI-generated horror zombie, textured PBR (base colour, metallic-roughness, normal), ~118k triangles, 2048px WebP textures
+  Generator: Meshy 7.1 text-to-3D (mode full, 4k geometry, PBR on) via fal.ai, endpoint meshy/v7.1/text-to-3d
+  Request id: 01a13d4e-7ac6-7e10-8633-f98b2113f850, seed 11 (a second candidate, seed 4242, was generated and not used)
+  Prompt: "A highly detailed horror zombie, full body, standing, hunched and lurching forward with both arms reaching out,
+  decaying grey-green skin, sunken glowing eyes, torn dirty shirt and ragged trousers, game-ready character"
+  Generated 2026-10-14, $0.80 per generation. Output owned by the user (paid generation); no attribution owed and no
+  on-screen credit. Web-optimised with @gltf-transform/cli (optimize: WebP textures, quantized vertex attributes; 13.4 MB -> 4.8 MB).

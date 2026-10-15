@@ -3,7 +3,6 @@
 // space, the arrows and R go back to the spot's own clock (timeline.9b47fc30.js).
 import { VARIANTS, variant, setVariant } from './variant.9e82faf1.js';
 import { APPEARS, appear, setAppear } from './appear.9e82faf1.js';
-
 const bar = document.createElement('div');
 bar.className = 'variant-select';
 bar.setAttribute('role', 'radiogroup');

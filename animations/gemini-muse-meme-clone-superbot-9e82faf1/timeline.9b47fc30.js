@@ -44,13 +44,30 @@ addEventListener('archange', fit);
 fit();
 
 // ---------- the clock ----------
-// time = base + (performance.now() - started) while playing; base alone while paused, so seeks and pauses are exact
+// time = base + (performance.now() - started) * rate while playing; base alone while paused, so seeks and pauses are exact.
+// rate is the playback speed (?speed=, the Speed pill in variant-select.9e82faf1.js, ',' and '.' keys); changing it rebases
+// first, so the frame never jumps.
 const q = new URLSearchParams(location.search);
 const hasT = q.has('t'), freeze = hasT && !q.has('play');
 if (freeze) document.body.classList.add('freeze');
 const FPS = 60;
+const SPEEDS = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+const asSpeed = (v) => { const n = Number(v); return SPEEDS.find((s) => Math.abs(s - n) < 1e-6); };
+let rate = asSpeed(q.get('speed')) || 1;
 let paused = freeze, base = hasT ? parseFloat(q.get('t')) || 0 : 0, started = performance.now();
-const now = () => (paused ? base : base + (performance.now() - started) / 1000);
+const now = () => (paused ? base : base + (performance.now() - started) / 1000 * rate);
+
+// pick a preset (anything else is ignored), persist it in ?speed= like the variant, and tell the pill
+function setSpeed(r) {
+  const v = asSpeed(r);
+  if (v === undefined || v === rate) return;
+  base = now(); started = performance.now();
+  rate = v;
+  const u = new URL(location.href);
+  if (v === 1) u.searchParams.delete('speed'); else u.searchParams.set('speed', String(v));
+  history.replaceState(null, '', u);
+  dispatchEvent(new CustomEvent('speedchange', { detail: v }));
+}
 
 // the clock wrapped into [0, CYCLE) and quantised to whole frames
 function timeNow() {
@@ -61,7 +78,12 @@ function timeNow() {
 }
 
 addEventListener('keydown', (e) => {
-  if (e.key === ' ') {
+  if (/^(INPUT|SELECT|TEXTAREA)$/.test(e.target && e.target.tagName)) return;
+  if (e.key === ',' || e.key === '<' || e.key === '.' || e.key === '>') {
+    const i = SPEEDS.indexOf(rate) + (e.key === ',' || e.key === '<' ? -1 : 1);
+    setSpeed(SPEEDS[Math.min(SPEEDS.length - 1, Math.max(0, i))]);
+  }
+  else if (e.key === ' ') {
     e.preventDefault();
     if (paused) { paused = false; started = performance.now(); }
     else { base = now(); paused = true; }
@@ -86,6 +108,10 @@ window.__AD = {
   play(t) { paused = false; base = t; started = performance.now(); render(timeNow()); },
   // the moment the reply to the ask starts streaming: every variant's art begins here or just after
   ART: BEATS[0].k.T.r,
+  // playback speed: a multiplier of real time, one of SPEEDS
+  SPEEDS,
+  get speed() { return rate; },
+  setSpeed,
   // the spot's clock now, wrapped into the loop (read-only)
   get now() { return timeNow(); },
 };

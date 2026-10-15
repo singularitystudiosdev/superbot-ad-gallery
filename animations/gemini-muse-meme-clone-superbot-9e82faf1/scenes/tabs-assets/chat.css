@@ -8,8 +8,8 @@
 
 /* composer: the ask is typed in, the send button lights while there is text */
 #s-tabs .sbsite .hub .rc-ph .qc-typed { color: #f2f2f7; }
-#s-tabs .sbsite .hub .rc-ph .qc-caret { display: inline-block; width: 1.5px; height: 13px; margin-left: 1px; vertical-align: -2px; background: #5d91ec; }
-#s-tabs .sbsite .hub .rc-send.qc-on { background: linear-gradient(90deg, #5d91ec, #866cf6); color: #fff !important; }
+#s-tabs .sbsite .hub .rc-ph .qc-caret { display: inline-block; width: 1.5px; height: 13px; margin-left: 1px; vertical-align: -2px; background: #e8e8e8; }
+#s-tabs .sbsite .hub .rc-send.qc-on { background: #e8e8e8; color: #161618 !important; }
 #s-tabs .sbsite .hub .qc-pi { display: inline-grid; place-items: center; width: 12px; height: 12px; }
 #s-tabs .sbsite .hub .qc-pi img { width: 12px; height: 12px; object-fit: contain; }
 #s-tabs .sbsite .hub .qc-pi img[data-app="doordash"] { height: 8px; }
@@ -22,6 +22,11 @@
 #s-tabs .sbsite .hub .qc-tile { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; overflow: hidden; }
 #s-tabs .sbsite .hub .qc-tile img { width: 15px; height: 15px; object-fit: contain; display: block; }
 #s-tabs .sbsite .hub .qc-t-gemini { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-fal { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-deepseek { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-opus { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-youtube { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-maps { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
 #s-tabs .sbsite .hub .qc-t-meshy { background: #181818; box-shadow: inset 0 0 0 1px #34343a; }
 #s-tabs .sbsite .hub .qc-t-cursor { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
 #s-tabs .sbsite .hub .qc-t-cursor img { width: 16px; height: 16px; }
@@ -51,6 +56,11 @@
 #s-tabs .sbsite .hub .qc-spin { position: absolute; inset: 1px; border-radius: 50%; border: 2px solid #3a3a3f; border-top-color: #ececec; }
 #s-tabs .sbsite .hub .qc-ok { width: 14px; height: 14px; fill: none; stroke: #34d399; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 #s-tabs .sbsite .hub .qc-st .qc-ok { position: absolute; inset: 0; opacity: 0; }
+/* the image-gen variants' credits frame, its own row under the resolved chip, in the chip's frame (chat.9b47fc30.js creditsBy) */
+#s-tabs .sbsite .hub .qc-cr { display: inline-flex; align-items: center; gap: 9px; height: 40px; padding: 0 5px 0 9px; border-radius: 999px; background: #141416; box-shadow: inset 0 0 0 1px #2a2a2e; white-space: nowrap; }
+#s-tabs .sbsite .hub .qc-cr-t { font: 600 13px/1 var(--ui); color: #ececec; }
+#s-tabs .sbsite .hub .qc-cr-n { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; margin-right: 4px; border-radius: 999px; background: #232326; color: #c7c7cc; font: 600 12px/1 var(--ui); font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .qc-cr-b { height: 30px; padding: 0 14px; border: 0; border-radius: 999px; background: #e5e5ea; color: #111113; font: 600 12.5px/1 var(--ui); cursor: pointer; }
 
 /* the routed app's answer */
 #s-tabs .sbsite .hub .qc-who { display: flex; align-items: center; gap: 7px; margin: 2px 0 7px; font: 600 12.5px/1 var(--ui); color: #ececec; }
@@ -82,11 +92,33 @@
 #s-tabs .sbsite .hub .feed-in:has(.qc-media[data-v="10"]) { will-change: auto; }
 /* the beat's art wrapper: as wide as whichever variant shows, so its entrance scales about that art's centre */
 #s-tabs .sbsite .hub .qc-media { width: fit-content; max-width: 100%; }
-/* the 10-image variant: ten generations at once, five across, one shared "Creating" pill with a landed count */
+/* the 10-image variant: ten generations at once, five across, the tiles landing in reading order */
 #s-tabs .sbsite .hub .qc-grid { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; width: 560px; max-width: 100%; }
 #s-tabs .sbsite .hub .qc-gt { position: relative; aspect-ratio: 870 / 1024; border-radius: 9px; overflow: hidden; background: #111; box-shadow: 0 0 0 1px #2a2a2e, 0 8px 20px rgba(0,0,0,.35); }
 #s-tabs .sbsite .hub .qc-gt img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Default's grid inside the bakery artifact frame (gemini.9b47fc30.js .qc-set): the view takes the grid's height plus an
+   8px inset instead of the frame's fixed 350px, the tiles drop their drop shadow inside it, and the title's count reads
+   as spending's scope does; Download All is a <button>, so it sheds the UA border */
+#s-tabs .sbsite .hub .qc-set .bk-view { height: auto; padding: 8px; }
+#s-tabs .sbsite .hub .qc-set .qc-gt { box-shadow: 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .qc-set .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .qc-dlall { border: 0; cursor: pointer; }
+/* '10' spans the chat column (ask.css: 760px) instead of the bakery frame's 560px, its grid and tiles growing with it */
+#s-tabs .sbsite .hub .qc-media[data-v="10"] .qc-set { width: 760px; }
+#s-tabs .sbsite .hub .qc-media[data-v="10"] .qc-set .qc-grid { width: 100%; }
+#s-tabs .sbsite .hub .qc-dlall:disabled { cursor: progress; opacity: .7; }
+/* Gemini's Download button over each generated image's top right corner (gemini.9b47fc30.js dl()): a dark disc carrying
+   the bakery frame's download glyph; the grid's tiles carry a smaller one */
+#s-tabs .sbsite .hub .qc-dl { position: absolute; top: 8px; right: 8px; z-index: 2; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 999px; background: rgba(12, 12, 14, .72); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); color: #ececec; text-decoration: none; transition: background-color .15s; }
+#s-tabs .sbsite .hub .qc-dl:hover { background: rgba(12, 12, 14, .94); color: #fff; }
+#s-tabs .sbsite .hub .qc-dl svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .qc-gt .qc-dl { top: 5px; right: 5px; width: 24px; height: 24px; }
+#s-tabs .sbsite .hub .qc-gt .qc-dl svg { width: 12px; height: 12px; }
 #s-tabs .sbsite .hub .qc-genn { margin-left: 3px; font-weight: 500; color: #a1a1a6; font-variant-numeric: tabular-nums; }
+/* the climbing results' skeleton (climb.080da517.css .cv-v, .cv-sh): the slot colour and its soft white sweep, shown on the
+   1-image card, the Default 10-image grid and the 3D card until their image lands (beats/thumb-land.309eb9c5.js) */
+#s-tabs .sbsite .hub .qc-skel { background: #1c1c20; }
+#s-tabs .sbsite .hub .qc-sk { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.08) 50%, transparent 70%); }
 /* the platform reveals (beats/reveals/) inject their own CSS from their JS */
 /* the garden variant: a printable garden design template on cream paper, drawn on in the build window (garden.410879cc.js) */
 #s-tabs .sbsite .hub .qc-gd { width: 360px; aspect-ratio: 360 / 256; background: #f7f4ec; }
@@ -103,8 +135,14 @@
 #s-tabs .sbsite .hub .qc-gd .gd-b { font-size: 6.4px; font-weight: 700; fill: #5b4630; }
 /* the logo variant: the generated coffee shop logo, square and a little wider than the meme card */
 #s-tabs .sbsite .hub .qc-logo { width: 280px; background: #f4ecdd; }
-/* the 3D variant: the zombie's turntable on a studio backdrop, in the meme card's footprint */
-#s-tabs .sbsite .hub .qc-3d, #s-tabs .sbsite .hub .qc-game { aspect-ratio: 870 / 1024; background: radial-gradient(120% 90% at 50% 38%, #34363f 0%, #1b1c21 58%, #111114 100%); }
+/* the 3D variant: the zombie's turntable on a studio backdrop, filling the bakery variant's artifact frame view
+   (bakery.005f5570.css .bk-view, 560x350); its Download button is a real link to the model. The game keeps the meme card's footprint.
+   The 3D backdrop is painted on the (transparent WebGL) canvas, so while it generates the view is the climbing skeleton's
+   slot (.qc-skel) and the backdrop lands with the model as a thumbnail does */
+#s-tabs .sbsite .hub .qc-3d canvas, #s-tabs .sbsite .hub .qc-game { background: radial-gradient(120% 90% at 50% 38%, #34363f 0%, #1b1c21 58%, #111114 100%); }
+#s-tabs .sbsite .hub .qc-game { aspect-ratio: 870 / 1024; }
+#s-tabs .sbsite .hub a.bk-btn { text-decoration: none; }
+#s-tabs .sbsite .hub .bk-btn img { display: block; width: auto; height: 13px; }
 #s-tabs .sbsite .hub .qc-3d canvas, #s-tabs .sbsite .hub .qc-game canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 /* the game variant: Gemini types the runner's code into an editor, which lifts away to show the running game and its HUD */
 #s-tabs .sbsite .hub .qc-game canvas { opacity: 0; }
@@ -227,3 +265,8 @@
 #s-tabs .sbsite .hub .yt-dl .dd-grp-a svg { width: 13px; height: 13px; stroke-width: 2.3; }
 #s-tabs .sbsite .hub .yt-dl .dd-check { width: 18px; height: 18px; stroke-width: 2.9; }
 #s-tabs .sbsite .hub .yt-lab-a { display: inline-block; min-width: 118px; }
+
+/* a photo attached to the ask (chat.9b47fc30.js attachBy): a 4:3 thumbnail above the user's bubble text, and a small chip
+   before the typed text in the composer while the ask types */
+#s-tabs .sbsite .hub .qc-att { display: block; justify-self: end; width: 128px; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; background: #111; box-shadow: 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .rc-ph .qc-pchip { display: inline-block; width: 28px; height: 21px; margin-right: 7px; vertical-align: -6px; object-fit: cover; border-radius: 5px; box-shadow: 0 0 0 1px #2a2a2e; }

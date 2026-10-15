@@ -3,7 +3,7 @@
 // always whole and solid; how it arrives is the beat's job (gemini.9b47fc30.js resolves the canvas the way the
 // 1-image card resolves its image). three.js loads on first use, so the image variants never pay for it; `ready`
 // settles once the first frame is drawn.
-const CSS_W = 236, CSS_H = Math.round(236 * 1024 / 870); // the meme card's footprint (chat.css .qc-img), so the camera push frames it the same
+const CSS_W = 560, CSS_H = 350; // the artifact frame's view (bakery.005f5570.css .bk-view), so the camera push frames it the same
 const PIXEL_RATIO = 2.5;  // stays crisp under the stage scale and the camera push
 const FOV = 28;
 const VIEW_H = 1.34;      // world units visible top to bottom at least; the model is normalised to 1 unit tall
@@ -30,9 +30,11 @@ async function setup(canvas, url) {
   const { GLTFLoader } = await import('../../../vendor/three/examples/jsm/loaders/GLTFLoader.js');
   const gltf = await new GLTFLoader().loadAsync(url);
 
+  // the drawing buffer is sized before the context exists: setPixelRatio() and setSize() after it would reallocate the
+  // multisampled, preserved buffer twice (once at 2.5x the canvas), a 35-120 ms main-thread stall on load
+  canvas.width = Math.floor(CSS_W * PIXEL_RATIO);
+  canvas.height = Math.floor(CSS_H * PIXEL_RATIO);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
-  renderer.setPixelRatio(PIXEL_RATIO);
-  renderer.setSize(CSS_W, CSS_H, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = EXPOSURE;
@@ -40,8 +42,10 @@ async function setup(canvas, url) {
 
   // image-based light for the PBR maps (metalness, roughness, normals): a small studio baked once through PMREM
   const pmrem = new THREE.PMREMGenerator(renderer);
+  const room = studio(THREE);
+  await linkPmrem(THREE, renderer, pmrem, room);
   const scene = new THREE.Scene();
-  scene.environment = pmrem.fromScene(studio(THREE), 0.03).texture;
+  scene.environment = pmrem.fromScene(room, 0.03).texture;
   scene.environmentIntensity = ENV;
   pmrem.dispose();
   const key = new THREE.DirectionalLight(0xfff1e0, 2.2);
@@ -72,10 +76,39 @@ async function setup(canvas, url) {
   camera.position.set(0, viewH * 0.45, viewH / (2 * Math.tan(THREE.MathUtils.degToRad(FOV / 2))));
   camera.lookAt(0, viewH * 0.35, 0);
 
+  // link the scene's programs in parallel and upload its maps one per frame now, while the card is still hidden: left
+  // to the first draw, the link wait and the 2048px uploads land as one stall the moment the card does
+  await renderer.compileAsync(scene, camera);
+  const maps = new Set();
+  scene.traverse((o) => { if (o.isMesh) for (const v of Object.values(o.material)) if (v?.isTexture) maps.add(v); });
+  for (const map of maps) {
+    renderer.initTexture(map);
+    await new Promise(requestAnimationFrame);
+  }
+
   return ({ spin }) => {
     turntable.rotation.y = spin;
     renderer.render(scene, camera);
   };
+}
+
+// fromScene() links each of its programs (the studio's front- and back-sided basic materials, the blur and the GGX
+// filter) on first use, synchronously: the main thread and the GPU process, which also composites the page, wait out
+// every link. Link them in parallel first (KHR_parallel_shader_compile through compileAsync) under the state fromScene
+// renders with: its half-float target, meshes with a position attribute. _setSize and _allocateTargets are
+// PMREMGenerator internals of the vendored three r186; they build the blur and GGX materials fromScene then reuses.
+async function linkPmrem(THREE, renderer, pmrem, room) {
+  pmrem._setSize(256);
+  const target = pmrem._allocateTargets();
+  const quad = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0], 3));
+  const filters = new THREE.Scene();
+  filters.add(new THREE.Mesh(quad, pmrem._blurMaterial), new THREE.Mesh(quad, pmrem._ggxMaterial));
+  renderer.setRenderTarget(target);
+  const linked = Promise.all([renderer.compileAsync(room, new THREE.PerspectiveCamera()), renderer.compileAsync(filters, new THREE.OrthographicCamera())]);
+  renderer.setRenderTarget(null);
+  await linked;
+  target.dispose();
+  quad.dispose();
 }
 
 // a small studio for PMREM: a big warm softbox up front-right, a cool strip behind-left, a bright ceiling, a dim green fill

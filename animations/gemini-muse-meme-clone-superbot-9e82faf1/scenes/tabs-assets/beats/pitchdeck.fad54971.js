@@ -1,26 +1,28 @@
 // Pitch-deck beat (the 'pitchdeck' variant): asked "Make a slide deck for my pitch", Gemini answers in one line, then a
 // deck card generates: six filmstrip thumbs shimmer as skeletons and land in order while "Creating slides N/6" counts
-// them, the stage resolves slide 1 out of a blur, then the deck advances slide 1 to 4 (the next chevron presses, the
-// outgoing slide leaves left, the incoming one arrives from the right, each builds as it becomes active and the thumb
-// ring glides along). Squeezed into the window the Gemini beat leaves (times(r, end)) so every variant loops the same
-// length. Its stylesheet (../pitchdeck.fad54971.css) loads with the module. The startup, its numbers and its copy are
+// them, the stage lands slide 1 the same way (each image settles in like the climbing variant's results: a fade in
+// from a slight zoom on the same clock), then the deck advances slide 1 to 4 (the next chevron presses, the
+// outgoing slide leaves left, the incoming one arrives from the right, each builds as it becomes active and the blue
+// thumb ring steps to its thumb). Squeezed into the window the Gemini beat leaves (times(r, end)) so every variant
+// loops the same length. Its stylesheet (../pitchdeck.fad54971.css) loads with the module. The startup, its numbers and its copy are
 // made up. Every slide is authored once at stage size; the filmstrip scales the same markup down.
 import { lerp, seg, outCubic, streamCount, pressScale } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
+// the bakery variant's Expand button and the sheet that styles it (its .bk-btn / .bk-expand rules)
+import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 
 const SAY = 'Here’s your pitch deck.';
-const CSS = new URL('../pitchdeck.fad54971.css?v=1', import.meta.url).href;
-// `LAND` is when each slide lands, as a share of the generation window
-const LAND = [0.2, 0.36, 0.52, 0.68, 0.84, 1];
+const CSS = new URL('../pitchdeck.fad54971.css?v=6', import.meta.url).href;
+// `LAND` is when each slide lands, as a share of the generation window (the climbing variant's schedule)
+const LAND = [0.4, 0.52, 0.64, 0.76, 0.88, 1];
 const N = LAND.length;
 const STEP = 84;        // filmstrip pitch: a 76px thumb plus the 8px gap
 const SLIDE = 40;       // how far (px) a slide travels as it leaves or arrives
 const MONTHS = [['May', 18], ['Jun', 22], ['Jul', 26], ['Aug', 32], ['Sep', 39], ['Oct', 48]];
 const FUNDS = [['Product', 45, 'rgba(31,122,90,1)'], ['Sales', 35, 'rgba(31,122,90,.6)'], ['Ops', 20, 'rgba(31,122,90,.3)']];
 
-// lucide icons (api.iconify.design/lucide/{presentation,chevron-left,chevron-right}.svg)
+// lucide icons (api.iconify.design/lucide/{chevron-left,chevron-right}.svg)
 const ICON = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
-const PRESENTATION = ICON('M2 3h20m-1 0v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3m4 18l5-5l5 5');
 const PREV = ICON('m15 18l-6-6l6-6');
 const NEXT = ICON('m9 18l6-6l-6-6');
 
@@ -81,10 +83,11 @@ export default {
   },
   build(k, x) {
     loadSheet();
+    loadFrameSheet();
     const T = k.T;
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="pd">
-      <div class="pd-head"><b>Fernway pitch deck</b><span>${N} slides</span><span class="pd-exp">${PRESENTATION}Export to Slides</span></div>
+      <div class="pd-head"><b>Fernway pitch deck</b><span>${N} slides</span>${EXPAND}<span class="pd-exp"><img src="${x.brand('slides-logo.svg')}" alt=""/>Export to Slides</span></div>
       <div class="pd-stage"><div class="pd-shm"><i></i></div>${SLIDES.map((s) => `<div class="pd-sw">${s}</div>`).join('')}
         <div class="pd-nav"><span class="pd-nb pd-prev">${PREV}</span><em></em><span class="pd-nb pd-next">${NEXT}</span></div>
         <span class="qc-genl">${x.tile('gemini')}Creating slides<b class="qc-genn"></b></span>
@@ -113,7 +116,7 @@ export default {
         block.style.opacity = ci.toFixed(3);
         block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
 
-        // generation: each thumb shimmers as a skeleton until its own landing time, then scales and fades in
+        // generation: each thumb shimmers as a skeleton until its own landing time, then fades in and settles from a slight zoom
         const span = T.w1 - T.w0;
         const at = LAND.map((s) => T.w0 + span * s);
         let done = 0;
@@ -121,15 +124,15 @@ export default {
           const p = outCubic(seg(t, at[i], at[i] + 0.3));
           if (t >= at[i]) done++;
           th.shm.style.opacity = (1 - p).toFixed(3);
-          th.sh.style.transform = `translateX(${lerp(-100, 300, ((t - T.card) * 0.9 + i * 0.17) % 1).toFixed(1)}%)`;
+          th.sh.style.transform = `translateX(${lerp(-100, 100, ((t - T.card) * 1.4 + i * 0.17) % 1).toFixed(1)}%)`;
           th.tin.style.opacity = p.toFixed(3);
-          th.tin.style.transform = p >= 1 ? 'none' : `scale(${lerp(0.88, 1, p).toFixed(4)})`;
+          th.tin.style.transform = p >= 1 ? 'none' : `scale(${lerp(1.08, 1, p).toFixed(4)})`;
         });
         if (done !== landed) { count.textContent = `${done}/${N}`; landed = done; }
         genl.style.opacity = (1 - seg(t, T.w1, T.w1 + 0.2)).toFixed(3);
 
-        // the stage: its skeleton gives way to slide 1 resolving out of a blur as that slide lands
-        const land = outCubic(seg(t, at[0], at[0] + 0.45));
+        // the stage: its skeleton gives way to slide 1 settling in from a slight zoom as that slide lands
+        const land = outCubic(seg(t, at[0], at[0] + 0.3));
         stageSh.style.opacity = (1 - land).toFixed(3);
         stageSh.firstElementChild.style.transform = thumbs[0].sh.style.transform;
 
@@ -143,13 +146,12 @@ export default {
           w.style.visibility = o > 0 ? '' : 'hidden';
           w.style.opacity = o.toFixed(3);
           const dx = (i ? (1 - p) * SLIDE : 0) - q * SLIDE;
-          w.style.transform = dx ? `translateX(${dx.toFixed(2)}px)` : 'none';
-          w.style.filter = i === 0 && land < 1 ? `blur(${lerp(12, 0, land).toFixed(2)}px)` : 'none';
+          w.style.transform = dx ? `translateX(${dx.toFixed(2)}px)` : i === 0 && land < 1 ? `scale(${lerp(1.08, 1, land).toFixed(4)})` : 'none';
           const a0 = i === 0 ? at[0] : T.adv[i - 1] === undefined ? Infinity : T.adv[i - 1];
           items[i].forEach((it) => it.fx(it.e, outCubic(seg(t, a0 + it.s, a0 + it.s + it.d))));
         });
 
-        // the nav and the filmstrip follow: the counter swaps halfway through a move, the ring glides between thumbs
+        // the nav and the filmstrip follow: the counter, the label and the ring all swap halfway through a move
         const now = Math.round(idx);
         if (now !== cur) {
           counter.textContent = `${now + 1} / ${N}`;
@@ -159,7 +161,7 @@ export default {
         prev.style.opacity = lerp(0.4, 1, Math.min(1, idx)).toFixed(3);
         next.style.transform = `scale(${T.adv.reduce((s, a) => s * pressScale(t, a, 0.18), 1).toFixed(4)})`;
         ring.style.opacity = outCubic(seg(t, at[0], at[0] + 0.3)).toFixed(3);
-        ring.style.transform = `translateX(${(idx * STEP).toFixed(2)}px)`;
+        ring.style.transform = now ? `translateX(${now * STEP}px)` : 'none';
       },
     };
   },

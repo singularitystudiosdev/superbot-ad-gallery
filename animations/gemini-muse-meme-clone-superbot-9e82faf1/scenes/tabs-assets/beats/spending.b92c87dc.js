@@ -1,16 +1,20 @@
 // Monthly-spending beat (the 'spending' variant): asked "Make a chart of my monthly spending", Gemini answers with a
-// stacked column chart, six months split by category. The card shimmers while "Analyzing 214 transactions" counts to
-// 100%, the columns rise left to right as the monthly average counts up, the highest month gets its total on the cap,
-// then the pointer glides onto August and its tooltip breaks the month down. Squeezed into the window the Gemini beat
-// leaves (times(r, end)) so every variant loops the same length; the scene is a pure function of t. Its stylesheet
-// (../spending.b92c87dc.css) loads with the module. All figures are made up: no real account or bank data.
+// stacked column chart, six months split by category, in the bakery variant's artifact frame (bakery.005f5570.js: title,
+// Expand and, in Publish's place, Export to Sheets in its header). The chart lands the way the 'climbing' variant's
+// search thumbnails do (beats/climb.080da517.js): a grey skeleton shimmer sweeps the view, then the chart crossfades in
+// as it settles from a slight zoom; then the pointer glides onto August and its tooltip breaks the month down. Squeezed
+// into the window the Gemini beat leaves (times(r, end)) so every variant loops the same length; the scene is a pure
+// function of t. Its stylesheet (../spending.b92c87dc.css) loads with the module. All figures are made up: no real
+// account or bank data. The Sheets mark is Google's public-domain 2020 logo (img/spending.b92c87dc/CREDITS.txt).
 import { lerp, seg, outCubic, path, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
+import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 
 const SAY = "Here's your monthly spending from April to September, split by category.";
-const CSS = new URL('../spending.b92c87dc.css?v=1', import.meta.url).href;
+const CSS = new URL('../spending.b92c87dc.css?v=3', import.meta.url).href;
+// Google Sheets 2020 logo, inlined from img/spending.b92c87dc/google-sheets.svg so a frozen frame never waits on it
+const SHEETS = '<svg viewBox="0 0 64 88" aria-hidden="true"><path fill="#188038" d="M 42,0 64,22 53,24 42,22 40,11 Z"/><path fill="#34a853" d="M 42,22 V 0 H 6 C 2.685,0 0,2.685 0,6 v 76 c 0,3.315 2.685,6 6,6 h 52 c 3.315,0 6,-2.685 6,-6 V 22 Z"/><path fill="#fff" d="M 12,34 V 63 H 52 V 34 Z M 29.5,58 H 17 v -7 h 12.5 z m 0,-12 H 17 V 39 H 29.5 Z M 47,58 H 34.5 V 51 H 47 Z M 47,46 H 34.5 V 39 H 47 Z"/></svg>';
 const SCOPE = 'Apr to Sep 2026';
-const TXNS = 214;
 // categorical slots 1-4 of the dataviz reference palette, dark steps (validated on the #1c1c20 card surface)
 const CATS = [['Housing', '#3987e5'], ['Food', '#d95926'], ['Transport', '#199e70'], ['Shopping', '#c98500']];
 const MONTHS = [
@@ -26,7 +30,7 @@ const AVG = Math.round(TOTALS.reduce((a, b) => a + b, 0) / TOTALS.length);
 const HOT = TOTALS.indexOf(Math.max(...TOTALS)); // the highest month: its cap is labelled and the pointer hovers it
 const MAX = 3500; // the y scale's top, a clean step above the highest month
 const TICKS = [0, 1000, 2000, 3000];
-const H = 124; // plot height in px
+const H = 262; // plot height in px (.sp-plot): sized so the view fills the bakery frame's 350px
 const GAP = 2; // the surface gap between stacked segments
 const usd = (n) => `$${Math.round(n).toLocaleString('en-US')}`;
 
@@ -63,13 +67,13 @@ export default {
   times(r, end = r + 2.35) {
     const T = { r };
     T.card = r + 0.22;
-    T.w0 = r + 0.3; T.w1 = r + 0.95;
-    T.g0 = r + 0.8; T.g1 = T.g0 + 0.8;
+    T.g0 = r + 0.8; // the chart's landing time, inside climbing's thumbnail landing window (r+0.7 to r+1.3)
     T.ptr = r + 1.42; T.hov = r + 1.78;
     T.end = end;
     return T;
   },
   build(k, x) {
+    loadFrameSheet();
     loadSheet();
     const T = k.T;
     const legend = CATS.map(([name, c]) => `<span><i style="background:${c}"></i>${x.esc(name)}</span>`).join('');
@@ -81,32 +85,33 @@ export default {
       `<p><i style="background:${c}"></i><span>${x.esc(name)}</span><span>${x.esc(usd(hotVals[i]))}</span></p>`).join('')}`;
     const rows = MONTHS.map((m, i) => `<tr><th scope="row">${m[1]}</th>${m[2].map((v) => `<td>${usd(v)}</td>`).join('')}<td>${usd(TOTALS[i])}</td></tr>`).join('');
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
-    const block = x.el(`<div class="sp">
-      <div class="sp-card">
-        <div class="sp-head">
-          <div class="sp-ttl"><b><span>Monthly spending</span></b><small><span>${x.esc(SCOPE)} · by category</span></small></div>
-          <div class="sp-kpi"><b><span class="sp-avg">${x.esc(usd(AVG))}</span></b><small><span>avg per month</span></small></div>
-        </div>
-        <div class="sp-leg">${legend}</div>
-        <div class="sp-plot" aria-hidden="true">
-          <div class="sp-grid">${grid}</div>
-          <div class="sp-cols">${cols}</div>
-          <div class="sp-tip">${tip}</div>
-        </div>
-        <div class="sp-x" aria-hidden="true">${xs}</div>
-        <i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Analyzing ${TXNS} transactions<b class="qc-genn"></b></span>
+    const block = x.el(`<div class="bk sp">
+      <div class="bk-head">
+        <b class="bk-title">Monthly spending<small>${x.esc(SCOPE)} · by category</small></b>
+        ${EXPAND}
+        <span class="bk-btn bk-publish sp-export">${SHEETS}Export to Sheets</span>
       </div>
-      <table class="sp-sr"><caption>Monthly spending by category, ${x.esc(SCOPE)}</caption>
-        <tr><th scope="col">Month</th>${CATS.map(([name]) => `<th scope="col">${x.esc(name)}</th>`).join('')}<th scope="col">Total</th></tr>${rows}</table>
+      <div class="bk-view">
+        <div class="sp-body">
+          <div class="sp-top"><div class="sp-leg">${legend}</div><div class="sp-kpi"><b><span class="sp-avg">${x.esc(usd(AVG))}</span></b><span>avg per month</span></div></div>
+          <div class="sp-plot" aria-hidden="true">
+            <div class="sp-grid">${grid}</div>
+            <div class="sp-cols">${cols}</div>
+            <div class="sp-tip">${tip}</div>
+          </div>
+          <div class="sp-x" aria-hidden="true">${xs}</div>
+        </div>
+        <i class="bk-sh"></i>
+        <table class="sp-sr"><caption>Monthly spending by category, ${x.esc(SCOPE)}</caption>
+          <tr><th scope="col">Month</th>${CATS.map(([name]) => `<th scope="col">${x.esc(name)}</th>`).join('')}<th scope="col">Total</th></tr>${rows}</table>
+      </div>
     </div>`);
     const $ = (s) => block.querySelector(s);
-    const head = $('.sp-head'), leg = $('.sp-leg'), avg = $('.sp-avg'), tipEl = $('.sp-tip'), cap = $('.sp-cap');
+    const body = $('.sp-body'), sh = $('.bk-sh'), tipEl = $('.sp-tip');
     const colEls = [...block.querySelectorAll('.sp-col')];
-    const barEls = colEls.map((c) => c.firstElementChild);
-    const hotBar = barEls[HOT];
-    const gen = $('.qc-gen'), genl = $('.qc-genl'), count = $('.qc-genn');
+    const hotBar = colEls[HOT].firstElementChild;
     const vis = say.firstElementChild, hid = say.lastElementChild;
-    let shown = -1, pct = -1, money = -1, waiting = null, hot = null;
+    let shown = -1, hot = null;
 
     return {
       nodes: [say, block],
@@ -118,25 +123,13 @@ export default {
         block.style.opacity = ci.toFixed(3);
         block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
 
-        // analyzing: the shimmer sweeps and the counter climbs while the title and figures are skeleton bars
-        const cp = seg(t, T.w0, T.w1);
-        const p = Math.floor(cp * 100);
-        if (p !== pct) { count.textContent = `${p}%`; pct = p; }
-        gen.style.opacity = (1 - outCubic(seg(t, T.w1 - 0.3, T.w1 + 0.15))).toFixed(3);
-        gen.style.transform = `translateX(${lerp(-100, 100, ((t - T.card) * 1.3) % 1).toFixed(1)}%)`;
-        genl.style.opacity = (1 - seg(t, T.w1 - 0.2, T.w1)).toFixed(3);
-        const wait = t < T.g0;
-        if (wait !== waiting) { head.classList.toggle('sp-wait', wait); waiting = wait; }
-        leg.style.opacity = seg(t, T.g0, T.g0 + 0.3).toFixed(3);
-
-        // the columns rise left to right from the baseline and the monthly average counts up with them
-        barEls.forEach((b, i) => {
-          const g = outCubic(seg(t, T.g0 + i * 0.07, T.g0 + i * 0.07 + 0.45));
-          b.style.clipPath = g >= 1 ? 'none' : `inset(${((1 - g) * 100).toFixed(2)}% 0 0 0)`;
-        });
-        const m = Math.round(AVG * outCubic(seg(t, T.g0, T.g1)));
-        if (m !== money) { avg.textContent = usd(m); money = m; }
-        cap.style.opacity = seg(t, T.g1 - 0.15, T.g1 + 0.1).toFixed(3);
+        // the chart lands like a climbing search thumbnail: the view shimmers as a skeleton until T.g0, then the chart
+        // crossfades in as it settles from a 1.08 zoom
+        const p = outCubic(seg(t, T.g0, T.g0 + 0.3));
+        sh.style.opacity = (1 - p).toFixed(3);
+        sh.style.transform = `translateX(${lerp(-100, 100, ((t - T.card) * 1.4) % 1).toFixed(1)}%)`;
+        body.style.opacity = p.toFixed(3);
+        body.style.transform = p >= 1 ? 'none' : `scale(${lerp(1.08, 1, p).toFixed(4)})`;
 
         // hover: the pointer settles on the highest month, the other columns recede and its tooltip breaks it down
         const h = outCubic(seg(t, T.hov, T.hov + 0.18));

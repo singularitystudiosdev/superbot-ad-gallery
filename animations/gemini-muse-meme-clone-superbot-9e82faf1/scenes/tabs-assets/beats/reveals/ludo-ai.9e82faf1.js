@@ -20,7 +20,7 @@ const CSS = `
 .${P}-top { flex: none; display: flex; align-items: center; gap: 14px; height: 28px; padding: 0 14px; background: #0f0a24; font-size: 8px; font-weight: 500; color: #7f76a6; white-space: nowrap; }
 .${P}-top b { font-size: 10px; font-weight: 700; color: #f4f1ff; }
 .${P}-top span { padding: 3px 0; }
-.${P}-fil { flex: none; box-sizing: border-box; display: flex; flex-direction: column; gap: 5px; height: 56px; padding: 8px 14px 0 14px; background: #0a0a36; box-shadow: inset 3px 0 0 #4b4be0; }
+.${P}-fil { flex: none; box-sizing: border-box; display: flex; flex-direction: column; gap: 5px; height: 60px; padding: 9px 14px 0 14px; background: #0a0a36; box-shadow: inset 3px 0 0 #4b4be0; }
 .${P}-fh { display: flex; align-items: center; gap: 4px; height: 10px; font-size: 8px; font-weight: 600; color: #cfd0ff; }
 .${P}-fh svg { width: 7px; height: 7px; fill: none; stroke: #9a9bdc; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .${P}-fr { display: flex; gap: 16px; }

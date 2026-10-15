@@ -11,7 +11,7 @@ import { lerp, seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 
 const SAY = "Here's an upbeat acoustic pop song about your dog.";
-const CSS = new URL('../song.b217c2c1.css?v=10', import.meta.url).href;
+const CSS = new URL('../song.b217c2c1.css?v=11', import.meta.url).href;
 const TITLE = 'Muddy Paws';
 const META = 'Acoustic pop · Fish Audio';
 const LEN = 30; // the track's length in seconds, for the playhead
@@ -87,7 +87,7 @@ export default {
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="sg">
       <div class="sg-card">
-        <div class="sg-art"><img class="sg-pic" src="${x.brand('fishaudio-icon.svg')}" width="512" height="512" alt="Fish Audio logo" fetchpriority="high"/></div>
+        <div class="sg-art"><img class="sg-pic" src="${x.brand('fishaudio-logo.svg')}" width="435" height="161" alt="Fish Audio logo" fetchpriority="high"/></div>
         <div class="sg-side">
           <div class="sg-t"><b>${x.esc(TITLE)}</b><small>${x.esc(META)}</small></div>
           <div class="sg-row"><span class="sg-btn">${PLAY}${PAUSE}</span><div class="sg-wave">${wave('sg-w0')}${wave('sg-w1')}</div><span class="sg-time">${clock(0)} / ${clock(LEN)}</span></div>

@@ -1,34 +1,47 @@
 // Gemini beat: the reply streams, then the art resolves while the camera pushes onto it. Pure function of t (the tabs
-// scene's local time) and the variant (variant.9e82faf1.js): '1' resolves one meme card out of a blur under a sweeping
-// band; '10' lands ten tiles one after another in reading order, either as Default's grid or as one platform's whole
-// generation UI picked via appear() (appear.9e82faf1.js; reveals/); '3d' lands a finished zombie model on a turntable
-// (zombie3d.9e82faf1.js) with the same resolve as the 1-image card; 'game' types out a zombie runner's code, then boots it
+// scene's local time) and the variant (variant.9e82faf1.js): '1' lands one meme card the way the climbing variant's
+// thumbnails land (thumb-land.309eb9c5.js: a shimmering skeleton, then the image fades in and settles); 'photoedit' lands
+// the user's attached photo, edited (img/photoedit.2a3b1461/night.jpg), in that same card the same way; '10' lands ten
+// tiles one after another in reading order, either as Default's grid (the same thumbnail landing, in the bakery artifact
+// frame with a Download All that zips the ten as seen; zip.69098368.js) or as one platform's
+// whole generation UI picked via appear() (appear.9e82faf1.js; reveals/); '3d' lands a finished zombie model on a
+// turntable (zombie3d.9e82faf1.js) exactly as the 1-image card lands, in the bakery variant's artifact frame (title, Expand
+// and a Download link to the model over a 560x350 view; bakery.005f5570.js); 'game' types out a zombie runner's code, then boots it
 // into the running game (zombiegame.7b46b820.js); 'garden' draws a garden design template onto grid paper
-// (garden.410879cc.js); 'roadtrip' draws a Google-Maps-style route card, LA to SF up the coast (roadtrip.9bc0f433.js); 'logo' resolves a generated coffee shop logo (img/coffee-logo.a133a772.png) as the 1-image card
-// does. Every variant keeps the beat's length. All layouts are
+// (garden.410879cc.js); 'roadtrip' draws a Google-Maps-style route card, LA to SF up the coast (roadtrip.9bc0f433.js), in the same artifact frame with Open in Maps; 'logo'
+// resolves a generated coffee shop logo (img/coffee-logo.a133a772.png) out of a blur under a sweeping band (resolve()).
+// Every variant keeps the beat's length. All layouts are
 // built once and the variant picks which one shows; the 3D viewer (and three.js) loads the first time its variant shows.
 import { lerp, seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { variant } from '../../../variant.9e82faf1.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { appear } from '../../../appear.9e82faf1.js';
-import { makeTileFx, gateImages } from './appear-fx.9e82faf1.js';
+import { gateImages } from './appear-fx.9e82faf1.js';
+import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { REVEALS } from './reveals/index.9e82faf1.js';
-import { makeZombieViewer } from './zombie3d.9e82faf1.js?v=2';
+import { makeZombieViewer } from './zombie3d.9e82faf1.js?v=3';
+import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_H } from './zombiegame.7b46b820.js';
 import { makeGarden } from './garden.410879cc.js';
-import { makeRoadtrip } from './roadtrip.9bc0f433.js';
+import { makeRoadtrip } from './roadtrip.9bc0f433.js?v=2';
+import { zipStore } from './zip.69098368.js';
 
-const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.', roadtrip: 'Here’s a 3-day coastal drive from LA to SF.', logo: 'Here’s your coffee shop logo.' };
+// Google Maps URLs (developers.google.com/maps/documentation/urls/get-started): the card's drive, stop by stop
+const MAPS_TRIP = 'https://www.google.com/maps/dir/?api=1&origin=Los+Angeles,CA&destination=San+Francisco,CA&waypoints=Santa+Barbara,CA%7CSan+Luis+Obispo,CA%7CBig+Sur,CA%7CMonterey,CA&travelmode=driving';
+
+const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.', roadtrip: 'Here’s a 3-day coastal drive from LA to SF.', logo: 'Here’s your coffee shop logo.', photoedit: 'Here’s your photo with the man in the back removed, now at night.' };
 const ZOMBIE = new URL('../../../models/zombie-3d.9e82faf1.glb', import.meta.url).href; // the game's blocky runner
 const ZOMBIE_3D = new URL('../../../models/zombie-meshy.4490ac01.glb', import.meta.url).href; // the 3D variant's Meshy 7.1 model
 const BOOT = 0.75, BOOT_LEN = 0.2, PLAY = 0.8; // the code view hands over to the game at T.w0 + BOOT; play counts from T.w0 + PLAY
 const SPIN0 = -0.75, SPIN = 0.55; // the turntable's angle as the card lands (a three-quarter view), and its turn in rad/s
 
 // the ten generations: the one sourced meme (img/muse-meme.png) under a different crop and grade per tile until real
-// renders replace it. They land one after another in reading order (left to right, top to bottom): tile i starts at
-// T.card + TILE0 + i * STAGGER and takes TILE_LEN to land (Default; a platform reveal gets these as ctx.win(i) and its own
-// non-overlapping ctx.seq(i), reveals/index.9e82faf1.js)
+// renders replace it. They land one after another in reading order (left to right, top to bottom). Default's grid keeps
+// the climbing results' cadence: tile i lands at T.w0 + GRID0 + i * GRID_STEP (climb.080da517.js VIDEOS[].at over its 1 s
+// search window). A platform reveal runs on its own clock: tile i starts at T.card + TILE0 + i * STAGGER and takes
+// TILE_LEN (ctx.win(i), and its non-overlapping ctx.seq(i), reveals/index.9e82faf1.js)
 const TILE0 = 0.25, STAGGER = 0.11, TILE_LEN = 0.6;
+const GRID0 = 0.4, GRID_STEP = 0.12;
 const TILES = [
   { zoom: 1, origin: '50% 50%', grade: '' },
   { zoom: 1.18, origin: '50% 0%', grade: 'hue-rotate(32deg)' },
@@ -54,6 +67,41 @@ function resolve(im, gen, p, { grade = '', zoom = 1, phase = 0, blur = 18 } = {}
   gen.style.opacity = (p >= 1 ? 0 : 1 - seg(p, 0.8, 1)).toFixed(3);
 }
 
+// Gemini's Download button over a generated image's top right corner (chat.css .qc-dl): a real link to the file that
+// fades in as its image lands and takes no clicks before it does
+const dl = (href, name) => `<a class="qc-dl" href="${href}" download="${name}" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></a>`;
+function showDl(a, p) {
+  a.style.opacity = p.toFixed(3);
+  a.style.visibility = p > 0 ? '' : 'hidden';
+}
+
+// a grid tile shows the meme under its own crop and grade (TILES), so its Download saves the tile as seen: the image
+// redrawn through the same zoom about the same origin and the same CSS filter, as a PNG data URL
+function tilePng(im, { zoom, origin, grade }) {
+  const W = im.naturalWidth, H = im.naturalHeight;
+  const [ox, oy] = origin.split(' ').map((v) => parseFloat(v) / 100);
+  const c = Object.assign(document.createElement('canvas'), { width: W, height: H });
+  const cx = c.getContext('2d');
+  cx.filter = grade || 'none';
+  cx.drawImage(im, ox * W * (1 - 1 / zoom), oy * H * (1 - 1 / zoom), W / zoom, H / zoom, 0, 0, W, H);
+  return c.toDataURL('image/png');
+}
+
+// Download All, the grid frame's header button: every tile as seen (the plain tile's own file, tilePng for the rest),
+// one PNG each, saved as a single zip (zip.69098368.js)
+async function downloadAll(tiles, src) {
+  await Promise.all(tiles.map((tl) => tl.im.decode()));
+  const files = await Promise.all(tiles.map(async (tl, i) => {
+    const url = tl.g.zoom !== 1 || tl.g.grade ? tilePng(tl.im, tl.g) : src;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Download All: tile ${i + 1} answered ${res.status} for ${url.slice(0, 80)}`);
+    return { name: `muse-meme-${i + 1}.png`, bytes: new Uint8Array(await res.arrayBuffer()) };
+  }));
+  const href = URL.createObjectURL(zipStore(files));
+  Object.assign(document.createElement('a'), { href, download: 'muse-memes.zip' }).click();
+  setTimeout(() => URL.revokeObjectURL(href), 1000);
+}
+
 export default {
   times(r) {
     const T = { r };
@@ -68,29 +116,61 @@ export default {
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY[variant()])}</span></div>`);
     const media = x.el('<div class="qc-media"></div>');
     media.dataset.v = variant();
-    const card = x.el(`<div class="qc-img"><img src="${src}" width="870" height="1024" alt="Muse meme"/><i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating image</span></div>`);
-    const grid = x.el(`<div class="qc-grid">${TILES.map((g, i) => `<div class="qc-gt"><img src="${src}" width="870" height="1024" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}"/><i class="qc-gen"></i></div>`).join('')}<span class="qc-genl">${x.tile('gemini')}Creating 10 images<b class="qc-genn"></b></span></div>`);
-    const model = x.el(`<div class="qc-img qc-3d"><canvas width="590" height="695" role="img" aria-label="3D zombie model"></canvas><i class="qc-gen"></i><span class="qc-genl">${x.tile(k.app || 'gemini')}Creating 3D model<b class="qc-genn"></b></span></div>`);
+    const oneCard = (img, w, h, alt, name) => x.el(`<div class="qc-img qc-skel"><img src="${img}" width="${w}" height="${h}" alt="${alt}"/><i class="qc-sk"></i><span class="qc-genl">${x.tile('gemini')}Creating image</span>${dl(img, name)}</div>`);
+    const card = oneCard(src, 870, 1024, 'Muse meme', 'muse-meme.png');
+    const edit = oneCard(x.img('photoedit.2a3b1461/night.jpg'), 1200, 900, 'The photo with the man in the back removed, at night', 'photo-edited.jpg');
+    const grid = x.el(`<div class="qc-grid">${TILES.map((g, i) => `<div class="qc-gt qc-skel"><img src="${src}" width="870" height="1024" alt="Muse meme ${i + 1}" style="transform-origin: ${g.origin}; filter: ${g.grade || 'none'}"/><i class="qc-sk"></i>${dl(src, `muse-meme-${i + 1}.png`)}</div>`).join('')}</div>`);
+    loadFrameSheet();
+    // Default's grid in the bakery artifact frame, as the spending chart sits in it: title and Download All where spending
+    // exports, no Expand; the view grows to the grid instead of the frame's fixed 350px (chat.css .qc-set)
+    const set = x.el(`<div class="bk qc-set"><div class="bk-head"><b class="bk-title">Muse memes<small>${TILES.length} images</small></b><button type="button" class="bk-btn bk-publish qc-dlall"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download All</button></div><div class="bk-view"></div></div>`);
+    set.querySelector('.bk-view').append(grid);
+    const dlAll = set.querySelector('.qc-dlall');
+    // Space and Enter press the button, not the spot's clock (timeline.9b47fc30.js), as on the variant picker
+    dlAll.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') e.stopPropagation(); });
+    const model = x.el(`<div class="bk"><div class="bk-head"><b class="bk-title">Zombie 3D model</b>${EXPAND}<a class="bk-btn bk-publish" href="${ZOMBIE_3D}" download="zombie.glb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="3D zombie model"></canvas><i class="qc-sk"></i><span class="qc-genl">${x.tile(k.app || 'gemini')}Creating 3D model<b class="qc-genn"></b></span></div></div>`);
     const game = x.el(`<div class="qc-img qc-game"><canvas width="590" height="695" role="img" aria-label="Zombie runner game"></canvas><div class="qc-code"><div class="qc-tabs"><span>zombie-run.js</span></div><div class="qc-lines"><pre></pre></div></div><span class="qc-chip qc-score">Score <b>0000</b></span><span class="qc-chip qc-brains">Brains <b>0</b></span><span class="qc-genl">${x.tile('gemini')}Creating game<b class="qc-genn"></b></span></div>`);
     const logo = x.el(`<div class="qc-img qc-logo"><img src="${x.img('coffee-logo.a133a772.png')}" width="720" height="720" alt="Hearth &amp; Bean coffee shop logo"/><i class="qc-gen"></i><span class="qc-genl">${x.tile('gemini')}Creating logo</span></div>`);
-    media.append(card, grid, model, game, logo);
+    media.append(card, edit, set, model, game, logo);
     const garden = makeGarden(x);
     media.append(garden.node);
+    // the route card in the bakery artifact frame: 400x250 .bk-fit scaled into the 560x350 view, "Open in Maps"
+    // where bakery publishes; the build pill sits on the unscaled view, as on the 3D frame
     const roadtrip = makeRoadtrip(x);
-    media.append(roadtrip.node);
+    const trip = x.el(`<div class="bk"><div class="bk-head"><b class="bk-title">LA to SF road trip</b>${EXPAND}<a class="bk-btn bk-publish" href="${MAPS_TRIP}" target="_blank" rel="noopener"><img src="${x.brand('maps-logo.svg')}" alt=""/>Open in Maps</a></div><div class="bk-view"><div class="bk-fit"></div></div></div>`);
+    trip.querySelector('.bk-fit').append(roadtrip.node);
+    trip.querySelector('.bk-view').append(roadtrip.node.querySelector('.qc-genl'));
+    media.append(trip);
     const vis = say.firstElementChild, hid = say.lastElementChild;
-    const im = card.querySelector('img'), gen = card.querySelector('.qc-gen'), genl = card.querySelector('.qc-genl');
-    const tiles = [...grid.querySelectorAll('.qc-gt')].map((n, i) => {
-      const im = n.querySelector('img'), gen = n.querySelector('.qc-gen');
-      return { n, im, gen, g: TILES[i], fx: makeTileFx(im, gen, TILES[i]) };
+    const cardParts = (c) => ({ im: c.querySelector('img'), sk: c.querySelector('.qc-sk'), genl: c.querySelector('.qc-genl'), dl: c.querySelector('.qc-dl') });
+    const meme = cardParts(card), edited = cardParts(edit);
+    const tiles = [...grid.querySelectorAll('.qc-gt')].map((n, i) => ({ im: n.querySelector('img'), sk: n.querySelector('.qc-sk'), dl: n.querySelector('.qc-dl'), g: TILES[i] }));
+    // a Download click: a tile under a crop or grade saves what it shows (tilePng); a mouse click then lets go of the
+    // link's focus so the keyboard stays on the spot's clock, as the variant picker does
+    media.addEventListener('click', (e) => {
+      if (e.target.closest('.qc-dlall')) {
+        dlAll.disabled = true;
+        downloadAll(tiles, src).catch((err) => console.error(err)).finally(() => { dlAll.disabled = false; });
+        if (e.detail > 0) dlAll.blur();
+        return;
+      }
+      const a = e.target.closest('.qc-dl');
+      if (!a) return;
+      const tl = tiles.find((tl) => tl.dl === a);
+      if (tl && (tl.g.zoom !== 1 || tl.g.grade) && tl.im.naturalWidth) {
+        e.preventDefault();
+        Object.assign(document.createElement('a'), { href: tilePng(tl.im, tl.g), download: a.download }).click();
+      }
+      if (e.detail > 0) a.blur();
     });
-    const gridl = grid.querySelector('.qc-genl'), count = grid.querySelector('.qc-genn');
-    const canvas = model.querySelector('canvas'), modelg = model.querySelector('.qc-gen'), modell =model.querySelector('.qc-genl'), pct = model.querySelector('.qc-genn');
+    const canvas = model.querySelector('canvas'), modelSk = model.querySelector('.qc-sk'), modell = model.querySelector('.qc-genl'), pct = model.querySelector('.qc-genn');
+    // the 1-image and 3D cards land as their generation window closes, settled by T.w1
+    const landAt = T.w1 - LAND;
     const gcanvas = game.querySelector('canvas'), code = game.querySelector('.qc-code'), pre = game.querySelector('pre');
     const gamel = game.querySelector('.qc-genl'), gpct = game.querySelector('.qc-genn');
     const chips = [...game.querySelectorAll('.qc-chip')], scoreEl = game.querySelector('.qc-score b'), brainsEl = game.querySelector('.qc-brains b');
     const logoIm = logo.querySelector('img'), logoGen = logo.querySelector('.qc-gen'), logoL = logo.querySelector('.qc-genl');
-    let shown = -1, lastV = null, landed = -1, viewer = null, built = -1;
+    let shown = -1, lastV = null, viewer = null, built = -1;
     // the 10-image variant's platform reveals (reveals/index.9e82faf1.js): each module's block is built once, the first
     // time its style shows, and display-toggled after; Default keeps the grid above
     const reveals = {};
@@ -118,13 +198,14 @@ export default {
         const style = appear();
         if (v !== lastV || style !== lastStyle) {
           card.style.display = v === '1' ? '' : 'none';
-          grid.style.display = v === '10' && style === 'default' ? '' : 'none';
+          edit.style.display = v === 'photoedit' ? '' : 'none';
+          set.style.display = v === '10' && style === 'default' ? '' : 'none';
           for (const id in reveals) reveals[id].root.style.display = 'none';
           if (v === '10' && style !== 'default') revealFor(style).root.style.display = '';
           model.style.display = v === '3d' ? '' : 'none';
           game.style.display = v === 'game' ? '' : 'none';
           garden.node.style.display = v === 'garden' ? '' : 'none';
-          roadtrip.node.style.display = v === 'roadtrip' ? '' : 'none';
+          trip.style.display = v === 'roadtrip' ? '' : 'none';
           logo.style.display = v === 'logo' ? '' : 'none';
           media.dataset.v = v; // chat.css drops the feed's will-change while the 10-image variant shows
           lastV = v; lastStyle = style; shown = -1;
@@ -170,41 +251,43 @@ export default {
         }
         if (v === '3d') {
           if (!viewer) { viewer = makeZombieViewer(canvas, ZOMBIE_3D); track(viewer.ready); }
-          // the finished model turns on its stand from the moment the card lands; it resolves in exactly as the 1-image card does
+          // the finished model turns on its stand from the moment the card lands; it appears exactly as the 1-image card does
           if (ci > 0) viewer.draw({ spin: SPIN0 + SPIN * (t - T.card) });
-          const rp = seg(t, T.w0, T.w1);
-          resolve(canvas, modelg, rp);
-          const p = Math.round(rp * 100);
+          const lp = landing(t, landAt);
+          shimmer(modelSk, t, T.card, 0, lp);
+          settle(canvas, lp);
+          const p = Math.round(seg(t, T.w0, T.w1) * 100);
           if (p !== built) { pct.textContent = `${p}%`; built = p; }
           modell.style.opacity = label;
           return;
         }
         if (v === 'logo') {
-          // the generated logo resolves exactly as the 1-image card does
+          // the generated logo resolves out of a blur across the generation window
           resolve(logoIm, logoGen, seg(t, T.w0, T.w1));
           logoL.style.opacity = label;
           return;
         }
         if (v !== '10') {
-          resolve(im, gen, seg(t, T.w0, T.w1));
-          genl.style.opacity = label;
+          // the meme (or the edited photo) shimmers as a skeleton while it generates, then lands as a climbing result's
+          // thumbnail does
+          const c = v === 'photoedit' ? edited : meme;
+          const lp = landing(t, landAt);
+          shimmer(c.sk, t, T.card, 0, lp);
+          settle(c.im, lp);
+          showDl(c.dl, lp);
+          c.genl.style.opacity = label;
           return;
         }
         // a platform's reveal draws its own whole block
         if (style !== 'default') { revealFor(style).render(t); return; }
-        // Default: ten tiles land one after another in reading order, each resolving out of a blur; an empty slot waits for its turn
-        let done = 0;
-        const first = T.card + TILE0;
+        // Default: every slot shimmers as a skeleton until its turn, then the ten land one after another in reading order,
+        // each as a climbing result's thumbnail does, settling onto its crop
         tiles.forEach((tl, i) => {
-          const p = seg(t, first + i * STAGGER, first + i * STAGGER + TILE_LEN);
-          if (p >= 1) done++;
-          if (tl.fx.draw(p)) return;
-          resolve(tl.im, tl.gen, p, { grade: tl.g.grade, zoom: tl.g.zoom, phase: i * 0.13, blur: 9 });
-          if (p < 1) tl.im.style.opacity = (Number(tl.im.style.opacity) * outCubic(seg(p, 0, 0.2))).toFixed(3);
+          const p = landing(t, T.w0 + GRID0 + i * GRID_STEP);
+          shimmer(tl.sk, t, T.card, i, p);
+          settle(tl.im, p, tl.g.zoom);
+          showDl(tl.dl, p);
         });
-        if (done !== landed) { count.textContent = `${done}/${TILES.length}`; landed = done; }
-        const lastLand = first + (TILES.length - 1) * STAGGER + TILE_LEN;
-        gridl.style.opacity = (1 - seg(t, lastLand, lastLand + 0.25)).toFixed(3);
       },
     };
   },

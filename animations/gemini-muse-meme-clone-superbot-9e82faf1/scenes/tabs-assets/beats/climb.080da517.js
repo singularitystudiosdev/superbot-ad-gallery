@@ -1,21 +1,25 @@
-// Rock-climbing beat (the 'climbing' variant): asked "Show me rock climbing videos", Gemini answers from YouTube. Four
-// equal 16:9 tiles in a 2x2 grid shimmer while "Searching YouTube" counts the results in, each lands on its own
-// clock, then the first video starts: its play button presses and clears, the controls rise, the buffer runs ahead
+// Rock-climbing beat (the 'climbing' variant): asked "Show me rock climbing videos", superbot connects YouTube and
+// DeepSeek answers from it. Six
+// equal 16:9 tiles in a 3x2 grid shimmer as skeletons, each lands on its own clock, then the first video starts: the controls rise, the buffer runs ahead
 // of the playhead and the frame drifts (a slow push on the still). Squeezed into the window the Gemini beat leaves
-// (times(r, end)) so every variant loops the same length. Its stylesheet (../climb.080da517.css) loads with the module.
+// (times(r, end)); the route's extra YouTube chip delays r and stretches end by the same lead (chat.9b47fc30.js
+// leadOf), so this beat's own timing is unchanged. Its stylesheet (../climb.080da517.css) loads with the module.
 // Thumbnails: public-domain and CC0 photos from Wikimedia Commons (img/climb.080da517/CREDITS.txt); every title,
 // channel, view count and duration is made up.
-import { lerp, seg, outCubic, inOutCubic, outBack, streamCount } from '../../../lib.9b47fc30.js';
+import { lerp, seg, outCubic, inOutCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
+import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 
 const SAY = 'Here are some rock climbing videos from YouTube.';
-const CSS = new URL('../climb.080da517.css?v=3', import.meta.url).href;
+const CSS = new URL('../climb.080da517.css?v=4', import.meta.url).href;
 // `at` is when the result lands, as a share of the search window; the first is the featured player
 const VIDEOS = [
-  { img: '1.jpg', title: 'Joshua Tree granite: a full day of crack climbing', meta: 'Crag Notes · 1.2M views · 8 months ago', len: '14:32', at: 0.5 },
-  { img: '2.jpg', title: 'Stemming 101: climb wide cracks with less effort', meta: 'Vertical Daily · 486K views', len: '9:18', at: 0.7 },
-  { img: '3.jpg', title: '2,000 ft above the fjord: big wall climbing in Lyse', meta: 'Send Lab · 2.1M views', len: '22:05', at: 0.85 },
-  { img: '4.jpg', title: 'Lead and boulder finals, every top in 10 minutes', meta: 'Climb Wire · 3.8M views', len: '10:41', at: 1 },
+  { img: '1.jpg', title: 'Joshua Tree granite: a full day of crack climbing', meta: 'Crag Notes · 1.2M views · 8 months ago', len: '14:32', at: 0.4 },
+  { img: '2.jpg', title: 'Stemming 101: climb wide cracks with less effort', meta: 'Vertical Daily · 486K views', len: '9:18', at: 0.52 },
+  { img: '3.jpg', title: '2,000 ft above the fjord: big wall climbing in Lyse', meta: 'Send Lab · 2.1M views', len: '22:05', at: 0.64 },
+  { img: '4.jpg', title: 'Lead and boulder finals, every top in 10 minutes', meta: 'Climb Wire · 3.8M views', len: '10:41', at: 0.76 },
+  { img: '5.jpg', title: 'Top-rope anchors: build one, then throw the rope clean', meta: 'Rope Up · 742K views', len: '12:07', at: 0.88 },
+  { img: '6.jpg', title: 'Hand jams 101: five Joshua Tree cracks for your first trad lead', meta: 'Desert Beta · 318K views', len: '16:54', at: 1 },
 ];
 const LEN = 14 * 60 + 32; // the featured video's length in seconds, for the playhead
 const PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
@@ -58,10 +62,8 @@ export default {
       <div class="cv-grid">
         <div class="cv-item">
           <div class="cv-player cv-v">${pic(lead, 0)}
-            <img class="cv-big" src="${yt}" width="57" height="40" alt="Play"/>
             <div class="cv-ctl"><div class="cv-bar"><i class="cv-buf"></i><i class="cv-played"></i><i class="cv-dot"></i></div>
               <div class="cv-row">${PAUSE}${VOL}<span class="cv-time"></span></div></div>
-            <span class="qc-genl">${x.tile('gemini')}Searching YouTube<b class="qc-genn"></b></span>
           </div>
           ${text(lead)}
         </div>
@@ -74,10 +76,9 @@ export default {
       im: n.querySelector('.cv-pic'), sh: n.querySelector('.cv-sh'), len: n.querySelector('.cv-len'),
       t: n.parentElement.querySelector('.cv-t'), v: VIDEOS[i],
     }));
-    const big = $('.cv-big'), ctl = $('.cv-ctl'), buf = $('.cv-buf'), played = $('.cv-played'), dot = $('.cv-dot'), time = $('.cv-time');
-    const genl = $('.qc-genl'), count = $('.qc-genn');
+    const ctl = $('.cv-ctl'), buf = $('.cv-buf'), played = $('.cv-played'), dot = $('.cv-dot'), time = $('.cv-time');
     const vis = say.firstElementChild, hid = say.lastElementChild;
-    let shown = -1, landed = -1, sec = -1, decoding = false;
+    let shown = -1, sec = -1, decoding = false;
 
     return {
       nodes: [say, block],
@@ -96,34 +97,25 @@ export default {
         block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
 
         // the search: every result shimmers as a skeleton until its own landing time, then its thumbnail settles in
-        let done = 0;
+        // (thumb-land.309eb9c5.js, shared with the Gemini beat's images)
         items.forEach((it, i) => {
           const at = T.w0 + (T.w1 - T.w0) * it.v.at;
-          const p = outCubic(seg(t, at, at + 0.3));
-          if (t >= at) done++;
-          it.sh.style.opacity = (1 - p).toFixed(3);
-          it.sh.style.transform = `translateX(${lerp(-100, 100, ((t - T.card) * 1.4 + i * 0.17) % 1).toFixed(1)}%)`;
-          it.im.style.opacity = p.toFixed(3);
+          const p = landing(t, at);
+          shimmer(it.sh, t, T.card, i, p);
           it.len.style.opacity = p.toFixed(3);
           it.t.classList.toggle('cv-wait', t < at);
           it.t.style.opacity = t < at ? '' : lerp(0.4, 1, p).toFixed(3);
-          if (i) it.im.style.transform = p >= 1 ? 'none' : `scale(${lerp(1.08, 1, p).toFixed(4)})`;
+          // the featured still's transform is set below, where it also plays
+          if (i) settle(it.im, p); else it.im.style.opacity = p.toFixed(3);
         });
-        if (done !== landed) { count.textContent = `${done}/${VIDEOS.length}`; landed = done; }
-        genl.style.opacity = (1 - seg(t, T.w1 - 0.25, T.w1)).toFixed(3);
 
-        // the featured video plays: the button presses and clears, the controls rise, the buffer runs ahead of the
-        // playhead and the still drifts like a moving shot
+        // the featured video plays: the controls rise, the buffer runs ahead of the playhead and the still drifts
+        // like a moving shot
         const feat = items[0];
         const at0 = T.w0 + (T.w1 - T.w0) * feat.v.at;
-        const press = seg(t, T.play - 0.12, T.play) * (1 - seg(t, T.play, T.play + 0.08));
-        const pop = outBack(seg(t, at0, at0 + 0.35));
-        const gone = outCubic(seg(t, T.play, T.play + 0.28));
-        big.style.opacity = (seg(t, at0, at0 + 0.2) * (1 - gone)).toFixed(3);
-        big.style.transform = `translate(-50%, -50%) scale(${(lerp(0.6, 1, pop) * (1 - 0.1 * press) * lerp(1, 1.3, gone)).toFixed(4)})`;
         const pl = seg(t, T.play, T.play + 0.25);
         ctl.style.opacity = outCubic(pl).toFixed(3);
-        feat.len.style.opacity = (seg(t, at0, at0 + 0.3) * (1 - pl)).toFixed(3);
+        feat.len.style.opacity = (seg(t, at0, at0 + LAND) * (1 - pl)).toFixed(3);
         const el = Math.max(0, t - T.play);
         const head = Math.min(100, (el / LEN) * 100 + 0.6 * pl);
         played.style.width = `${head.toFixed(3)}%`;
@@ -132,7 +124,7 @@ export default {
         const s = Math.floor(el);
         if (s !== sec) { time.textContent = `${clock(s)} / ${feat.v.len}`; sec = s; }
         const drift = inOutCubic(seg(t, T.play, T.play + 3.5));
-        const land = outCubic(seg(t, at0, at0 + 0.3));
+        const land = landing(t, at0);
         feat.im.style.transform = t < T.play
           ? (land >= 1 ? 'none' : `scale(${lerp(1.08, 1, land).toFixed(4)})`)
           : `scale(${lerp(1, 1.08, drift).toFixed(4)}) translateX(${lerp(0, -1.6, drift).toFixed(3)}%)`;

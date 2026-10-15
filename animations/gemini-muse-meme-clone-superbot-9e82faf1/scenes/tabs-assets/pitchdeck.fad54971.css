@@ -5,15 +5,18 @@
 #s-tabs .sbsite .hub .pd * { box-sizing: border-box; }
 #s-tabs .sbsite .hub .pd-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 #s-tabs .sbsite .hub .pd-head b { font: 600 13px/18px var(--ui); color: #e5e5ea; }
-#s-tabs .sbsite .hub .pd-head span { font: 400 12px/18px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .pd-head span:not(.bk-btn) { font: 400 12px/18px var(--ui); color: #a1a1a6; }
 #s-tabs .sbsite .hub .pd-exp { display: inline-flex; align-items: center; gap: 6px; height: 26px; margin-left: auto; padding: 0 11px 0 9px; border-radius: 999px; box-shadow: inset 0 0 0 1px #2a2a2e; font: 600 11px/1 var(--ui); color: #e5e5ea; }
-#s-tabs .sbsite .hub .pd-exp svg { display: block; width: 13px; height: 13px; }
+#s-tabs .sbsite .hub .pd-exp img { display: block; width: 11px; height: 15px; object-fit: contain; }
+/* the bakery frame's Expand (beats/bakery.005f5570.js EXPAND) sits right-aligned beside Export to Slides */
+#s-tabs .sbsite .hub .pd-head .bk-expand { margin-left: auto; }
+#s-tabs .sbsite .hub .pd-head .bk-expand + .pd-exp { margin-left: 0; }
 
 /* the stage */
 #s-tabs .sbsite .hub .pd-stage { position: relative; width: 496px; height: 279px; overflow: hidden; border-radius: 6px; background: #232327; }
 #s-tabs .sbsite .hub .pd-sw { position: absolute; inset: 0; }
 #s-tabs .sbsite .hub .pd-shm { position: absolute; inset: 0; overflow: hidden; }
-#s-tabs .sbsite .hub .pd-shm i { position: absolute; top: 0; bottom: 0; left: 0; width: 34%; background: rgba(255,255,255,.05); }
+#s-tabs .sbsite .hub .pd-shm i { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.08) 50%, transparent 70%); }
 #s-tabs .sbsite .hub .pd-stage .qc-genl { z-index: 3; }
 #s-tabs .sbsite .hub .pd-nav { position: absolute; right: 10px; bottom: 10px; z-index: 2; display: flex; align-items: center; gap: 6px; }
 #s-tabs .sbsite .hub .pd-nav em { min-width: 34px; text-align: center; font: normal 600 11px/1 var(--ui); color: #16181d; opacity: .62; font-variant-numeric: tabular-nums; }
@@ -24,10 +27,13 @@
 #s-tabs .sbsite .hub .pd-strip { position: relative; display: grid; grid-template-columns: repeat(6, 76px); gap: 8px; margin-top: 10px; }
 #s-tabs .sbsite .hub .pd-th { position: relative; width: 76px; height: 42.75px; overflow: hidden; border-radius: 6px; background: #232327; }
 #s-tabs .sbsite .hub .pd-tin { position: absolute; inset: 0; }
+/* the thumb's 1px gray border sits over its own edge: drawn outside, the two anti-aliased edges left a dark seam at fractional scales */
+#s-tabs .sbsite .hub .pd-th::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px #c5c7c5; pointer-events: none; }
 #s-tabs .sbsite .hub .pd-th .pd-sl { transform: scale(.153226); transform-origin: 0 0; }
 #s-tabs .sbsite .hub .pd-n { margin-top: 5px; text-align: center; font: 500 10px/12px var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
 #s-tabs .sbsite .hub .pd-n.on { color: #e5e5ea; }
-#s-tabs .sbsite .hub .pd-ring { position: absolute; left: -2px; top: -2px; width: 80px; height: 46.75px; border-radius: 6px; border: 2px solid #e5e5ea; pointer-events: none; }
+/* the active thumb's ring: solid blue, 1.5px outside the thumb and 1px over its gray border (no seam), inner radius 5 like the border's */
+#s-tabs .sbsite .hub .pd-ring { position: absolute; left: -1.5px; top: -1.5px; width: 79px; height: 45.75px; border-radius: 7.5px; border: 2.5px solid #2656c9; pointer-events: none; }
 
 /* the slides: light paper, one accent */
 #s-tabs .sbsite .hub .pd-sl { position: absolute; left: 0; top: 0; width: 496px; height: 279px; padding: 26px 28px; overflow: hidden; background: #f7f5f0; color: #16181d; font-family: var(--ui); }

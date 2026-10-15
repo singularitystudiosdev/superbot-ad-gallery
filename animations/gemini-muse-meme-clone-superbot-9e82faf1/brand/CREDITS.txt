@@ -63,14 +63,6 @@ Added for the 'doordash' variant (2026-10-14):
                             <svg viewBox="0 0 99.5 56.5"> from the www.doordash.com header, paths verbatim, fill DoorDash
                             Red #FF3008). Trademark of DoorDash, Inc.
 
-FISH AUDIO (song variant: routing chip, reply header, platform chip, cover art)
-  fishaudio-icon.svg        the logo (a fish drawn as rounded waveform bars, black with a grey #7a7a7a reflection) on
-                            white, as the site's apple-touch-icon shows it. Its 21 <rect>s (x, y, width, height, fill,
-                            rx 8, viewBox 0 0 512 512) are copied verbatim from the rect list in the site's nav logo
-                            bundle https://fish.audio/assets/nav-logo-CIGKsgTA.js. Fetched 2026-10-14.
-  fishaudio-logo.svg        the same 21 rects with the site's own dark-mode treatment (its `dark:invert`: #000 -> #fff,
-                            #7a7a7a -> #858585), viewBox cropped to the marks, for dark tiles.
-  Usage: trademarks of Fish Audio; shown nominatively, naming the product that answers the ask.
 
 MESHY (3D variant: 'meshy' route in chat.9b47fc30.js)
   meshy-logo.svg            the full "Meshy" lockup (mascot + wordmark), byte-for-byte copy of the header logo <svg> served
@@ -79,10 +71,35 @@ MESHY (3D variant: 'meshy' route in chat.9b47fc30.js)
                             path removed and the viewBox cropped to the mark (0 0 66 64). Used for the routing chip, reply
                             header, composer chip and the "Creating 3D model" tile.
                             Meshy is a trademark of Meshy, Inc.; shown nominatively (naming the product that made the model).
+FISH AUDIO (song variant: routing chip, reply header, platform chip, cover art)
+  fishaudio-logo.svg        the logo (a fish drawn as rounded waveform bars, with a grey reflection) in the site's own
+                            dark-mode treatment, shown white on a black tile everywhere it appears. Its 21 <rect>s (x, y,
+                            width, height, rx 8) are copied verbatim from the rect list in the site's nav logo bundle
+                            https://fish.audio/assets/nav-logo-CIGKsgTA.js (fetched 2026-10-14), recoloured as that
+                            bundle's `dark:invert` renders them (#000 -> #fff, #7a7a7a -> #858585), viewBox cropped to
+                            the marks.
+  Usage: trademarks of Fish Audio; shown nominatively, naming the product that answers the ask.
 
-ELEVENLABS (song variant: routing chip, reply header, platform chip, cover art)
-  elevenlabs-icon.svg       the app icon (white rounded tile, black "II" bars), byte-for-byte copy of
-                            https://elevenlabs.io/icon.svg (linked as rel="icon" from https://elevenlabs.io/). Fetched 2026-10-14.
-  elevenlabs-logo.svg       the "II" logomark alone: the two bar <path>s copied verbatim out of elevenlabs-icon.svg, the
-                            viewBox cropped to the bars and the fill recoloured black -> white for dark surfaces.
-  Usage: trademarks of ElevenLabs; shown nominatively, naming the product that answers the ask.
+GOOGLE SLIDES (pitchdeck variant: 'Connecting to Google Slides' routing chip, reply header, platform chip, 'Export to Slides' pill)
+  slides-logo.svg           the Google Slides product icon (2020 Workspace logo: yellow page, folded corner, white slide
+                            frame), byte-for-byte copy of https://commons.wikimedia.org/wiki/File:Google_Slides_2020_Logo.svg
+                            (fetched 2026-10-14 via Special:FilePath). Same artwork as Google's own product icon
+                            https://www.gstatic.com/images/branding/product/2x/slides_2020q4_48dp.png.
+  Usage: Google and Google Slides are trademarks of Google LLC; shown nominatively (naming the product the deck is exported to).
+
+GOOGLE MAPS (roadtrip variant: 'Connecting to Google Maps' routing chip, platform chip, 'Open in Maps' pill)
+  maps-logo.svg             the Google Maps product icon (2020 pin logo, five colour segments), byte-for-byte copy of
+                            https://commons.wikimedia.org/wiki/File:Google_Maps_icon_(2020).svg (fetched 2026-10-14 from
+                            upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg).
+  Usage: Google and Google Maps are trademarks of Google LLC; shown nominatively (naming the product the trip opens in).
+
+FAL.AI (catsurf variant: 'Connecting Fal.ai' routing chip)
+  fal-icon.svg              the fal.ai product mark (magenta #EC0648 four-lobed ring), byte-for-byte copy of fal.ai's own
+                            https://fal.ai/fal-icon.svg (fetched 2026-10-14).
+  Usage: fal and fal.ai are trademarks of Features & Labels, Inc.; shown nominatively (naming the service that renders the video).
+
+CLAUDE / OPUS 5.5 (bakery variant: 'Switching to Opus 5.5' routing chip, reply header, platform chip)
+  claude-logo.svg           the Claude mark (terracotta #D97757 starburst), byte-for-byte copy of claude-color.svg from
+                            @lobehub/icons-static-svg (MIT), https://unpkg.com/@lobehub/icons-static-svg@latest/icons/claude-color.svg
+                            (fetched 2026-10-14), shown on the same dark tile as Gemini and DeepSeek.
+  Usage: Claude and Opus are trademarks of Anthropic, PBC; shown nominatively (naming the model that answers the ask).

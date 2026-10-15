@@ -64,8 +64,8 @@
 .sbx .ch-caret { display: inline-block; width: 2px; height: 13px; margin-left: 2px; vertical-align: -2px; background: #e5e5ea; }
 .sbx .composer { flex: none; padding: 0 10px 10px; }
 .sbx .chatp { container-type: inline-size; }
-@container (max-width: 390px) { .sbx .chatp .rc-computer { display: none; } }
-@container (max-width: 340px) { .sbx .chatp .rc-super { display: none; } }
+@container (max-width: 450px) { .sbx .chatp .rc-computer { display: none; } }
+@container (max-width: 415px) { .sbx .chatp .rc-super { display: none; } }
 
 /* preview pane */
 .sbx .pv-body { position: relative; flex: 1; min-height: 0; background: #fff8ee; overflow: hidden; }
@@ -90,9 +90,9 @@ html[data-ar="4x3"] .sbx .work { grid-template-columns: minmax(0, 360px) minmax(
 /* ---------- composer: the typed draft, its caret and the lit send button ---------- */
 .sbx .rc-ph { color: #8e8e93; }
 .sbx .rc-text { color: #f2f2f7; white-space: pre-wrap; }
-.sbx .rc-caret { display: inline-block; width: 1.5px; height: 13px; margin-left: 1px; vertical-align: -2px; background: #5b8dff; }
+.sbx .rc-caret { display: inline-block; width: 1.5px; height: 13px; margin-left: 1px; vertical-align: -2px; background: #e8e8e8; }
 .sbx .rc-send { transform-origin: 50% 50%; }
-.sbx .rc-send.on { background: linear-gradient(135deg, #5d91ec, #866cf6); color: #fff !important; }
+.sbx .rc-send.on { background: #e8e8e8; color: #161618 !important; }
 .sbx .ch-bot .lb-caret, .sbx .lb-caret { display: inline-block; width: 2px; height: 13px; margin-left: 2px; vertical-align: -2px; background: #e5e5ea; }
 
 /* ---------- code mode: a phone emulator slot in the preview pane ---------- */

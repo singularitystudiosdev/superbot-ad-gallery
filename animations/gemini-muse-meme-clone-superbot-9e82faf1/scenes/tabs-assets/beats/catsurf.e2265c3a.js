@@ -1,18 +1,21 @@
-// Cat-surfing beat (the 'catsurf' variant): asked "Make a video of a cat surfing", Gemini answers with a generated video.
-// A 16:9 player shimmers as a skeleton while "Generating video" counts up, the first frame resolves out of a blur, then
-// the video plays: a CC0 cat (Quaternius) on a recoloured CC0 board (Geldvillager) riding a three.js ocean under a
-// golden-hour sky (examples Water.js and Sky.js, vendored). The render is a pure function of the video time vt, so a
-// frozen ?t= frame and the timeline's seeks always draw the same picture: the clip mixer is set from vt, the ocean's
-// swell, the board's pitch and roll, the camera and the spray all come from vt, and the one random source is a seeded
-// PRNG. The player's download icon records the canvas for real (captureStream + MediaRecorder, about 8 s, saved as
-// cat-surfing.webm); window.__catsurfRecord() runs the same recording and resolves with the Blob. Nothing records
-// unless asked. Squeezed into the window the Gemini beat leaves (times(r, end)) so every variant loops the same
-// length; its stylesheet (../catsurf.e2265c3a.css) loads with the module. Sources: models/CREDITS.txt.
+// Cat-surfing beat (the 'catsurf' variant): asked "Make a video of a cat surfing", fal.ai answers with a generated video.
+// After a "Connecting Fal.ai" routing chip, a 16:9 player shimmers as a skeleton under a "Creating video" pill (the way
+// the base route creates its image: no count, no progress bar), the first frame lands the way the 'climbing'
+// thumbnails do (thumb-land.309eb9c5.js), then a real <video> plays: media/cat-surfing.e2265c3a.mp4, a CC0 cat
+// (Quaternius) on a recoloured CC0 board (Geldvillager) riding a three.js ocean under a golden-hour sky (examples Water.js
+// and Sky.js, vendored). The clip was rendered from makeCatSurfViewer below: draw(V0 + i / 30) for LEN s in headless
+// Chromium, each canvas frame saved as PNG, then `ffmpeg -framerate 30 -i f%04d.png -c:v libx264 -crf 19 -pix_fmt yuv420p
+// -g 15 -movflags +faststart` (the short GOP keeps seeks quick). The video follows the spot's clock: it plays while the
+// spot plays and is paused and seeked to the asked frame while it is paused, scrubbed or frozen (?t=), and a frozen
+// capture waits on that seek. Its loop runs 7 s past the base route's end (routeBy `extra` in chat.9b47fc30.js) so the
+// clip plays for about 8.6 s; its stylesheet (../catsurf.e2265c3a.css) loads with the module. Sources: models/CREDITS.txt.
 import { lerp, seg, outCubic } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
+import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 
 const SAY = 'Here’s your video of a cat surfing.';
-const CSS = new URL('../catsurf.e2265c3a.css?v=1', import.meta.url).href;
+const CSS = new URL('../catsurf.e2265c3a.css?v=3', import.meta.url).href;
+const VIDEO = new URL('../../../media/cat-surfing.e2265c3a.mp4', import.meta.url).href;
 const CAT = new URL('../../../models/cat.e2265c3a.glb', import.meta.url).href;
 const BOARD = new URL('../../../models/surfboard.e2265c3a.glb', import.meta.url).href;
 const NORMALS = new URL('../../../vendor/three/examples/textures/waternormals.jpg', import.meta.url).href;
@@ -20,8 +23,8 @@ const GLTF = '../../../vendor/three/examples/jsm/loaders/GLTFLoader.js';
 const WATER = '../../../vendor/three/examples/jsm/objects/Water.js';
 const SKY = '../../../vendor/three/examples/jsm/objects/Sky.js';
 
-const LEN = 8;            // the video's length in seconds: the playhead, and what the download records
-const V0 = 1.2;           // the video time the first frame shows (a clean composition for the generating reveal)
+const LEN = 10;           // the clip's length in seconds (the playhead's span)
+const V0 = 1.2;           // the render time of the clip's first frame (a clean composition for the generating reveal)
 const W = 960, H = 540;   // the render's pixel size (16:9)
 const FOV = 38;
 const SUN = { elev: 6, az: 262 }; // golden hour: low, ahead of the camera and off to its left
@@ -315,7 +318,8 @@ async function setup(canvas) {
   };
 }
 
-// one viewer per canvas: draw(vt) paints when vt changes; ready settles once the first frame can be drawn
+// one viewer per canvas: draw(vt) paints when vt changes; ready settles once the first frame can be drawn. The beat no
+// longer draws live: this is the source the shipped clip was rendered from (see the header)
 export function makeCatSurfViewer(canvas) {
   let paint = null, want = null, lastKey = '';
   const draw = (vt) => {
@@ -350,12 +354,12 @@ function loadSheet() {
 }
 
 export default {
-  // `end` is the base route's end (chat.9b47fc30.js routeBy), so the loop never changes length with the variant
+  // `end` is the base route's end plus this variant's `extra` (chat.9b47fc30.js routeBy)
   times(r, end = r + 2.35) {
     const T = { r };
     T.card = r + 0.22;
     T.w0 = r + 0.3; T.w1 = T.w0 + 1.0;
-    T.play = T.w1 + 0.15;
+    T.play = T.w1;
     T.end = end;
     return T;
   },
@@ -365,72 +369,48 @@ export default {
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="cs">
       <div class="cs-player">
-        <canvas class="cs-canvas" width="${W}" height="${H}" role="img" aria-label="A cat surfing a wave at golden hour"></canvas>
+        <video class="cs-video" src="${VIDEO}" width="${W}" height="${H}" muted playsinline preload="auto" aria-label="A cat surfing a wave at golden hour"></video>
         <i class="cs-sh"></i>
-        <span class="cs-len">0:08</span>
+        <span class="cs-len">${clock(LEN)}</span>
         <div class="cs-ctl"><div class="cs-bar"><i class="cs-played"></i><i class="cs-dot"></i></div>
-          <div class="cs-row">${PAUSE}<span class="cs-time"></span><button type="button" class="cs-save" aria-label="Download video">${SAVE}</button></div></div>
-        <span class="qc-genl">${x.tile('gemini')}Generating video<b class="qc-genn"></b></span>
-        <i class="cs-prog"><i></i></i>
+          <div class="cs-row">${PAUSE}<span class="cs-time"></span><a class="cs-save" href="${VIDEO}" download="cat-surfing.mp4" aria-label="Download video">${SAVE}</a></div></div>
+        <span class="qc-genl">${x.tile(k.app)}Creating video</span>
       </div>
-      <div class="cs-t"><b>A cat surfing at golden hour</b><small>8 second video, 16:9</small></div>
     </div>`);
     const $ = (s) => block.querySelector(s);
-    const canvas = $('.cs-canvas'), sh = $('.cs-sh'), len = $('.cs-len'), ctl = $('.cs-ctl');
-    const played = $('.cs-played'), dot = $('.cs-dot'), time = $('.cs-time'), genl = $('.qc-genl'), pct = $('.qc-genn');
-    const prog = $('.cs-prog'), progFill = prog.firstElementChild, save = $('.cs-save');
+    const video = $('.cs-video'), sh = $('.cs-sh'), len = $('.cs-len'), ctl = $('.cs-ctl');
+    const played = $('.cs-played'), dot = $('.cs-dot'), time = $('.cs-time'), genl = $('.qc-genl');
     const vis = say.firstElementChild, hid = say.lastElementChild;
-    let viewer = null, shown = -1, built = -1, sec = -1, recording = false;
-    const ensure = () => {
-      if (!viewer) { viewer = makeCatSurfViewer(canvas); track(viewer.ready); }
-      return viewer;
-    };
+    let shown = -1, sec = -1;
+    video.muted = true;
 
-    // The download: draw the video's own clock for LEN seconds into the canvas while a MediaRecorder watches its
-    // stream, then hand back the webm. The page's clock does not draw into the canvas meanwhile.
-    function record() {
-      if (recording) return Promise.reject(new Error('already recording'));
-      recording = true;
-      const v = ensure();
-      return v.ready.then(() => new Promise((resolve, reject) => {
-        const type = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find((m) => window.MediaRecorder && MediaRecorder.isTypeSupported(m));
-        if (!type) { recording = false; reject(new Error('this browser cannot record webm')); return; }
-        const stream = canvas.captureStream(30);
-        const rec = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: 6e6 });
-        const parts = [];
-        rec.ondataavailable = (e) => { if (e.data.size) parts.push(e.data); };
-        rec.onerror = (e) => { recording = false; reject(e.error || new Error('recording failed')); };
-        rec.onstop = () => { recording = false; stream.getTracks().forEach((tr) => tr.stop()); v.redraw(); resolve(new Blob(parts, { type: 'video/webm' })); };
-        const t0 = performance.now();
-        const step = () => {
-          const el = (performance.now() - t0) / 1000;
-          if (el >= LEN) { rec.stop(); return; }
-          v.draw(V0 + el);
-          requestAnimationFrame(step);
-        };
-        v.draw(V0);
-        rec.start();
-        requestAnimationFrame(step);
-      }));
+    // The video follows the spot's clock. While the clock runs (it moved within the last 150 ms) the video plays at the
+    // spot's speed and is only re-seeked when it drifts; while the spot is paused, scrubbed or frozen (?t=) it is
+    // paused on the asked frame, and the spot's ready state waits on that seek, so a frozen capture shows it.
+    let want = 0, lastT = NaN, moved = -Infinity;
+    const seekTo = (vt) => {
+      if (video.readyState < 1 || Math.abs(video.currentTime - vt) <= 0.5 / 30) return;
+      track(new Promise((done) => video.addEventListener('seeked', done, { once: true })));
+      video.currentTime = vt;
+    };
+    track(new Promise((done) => {
+      video.addEventListener('loadeddata', () => { seekTo(want); done(); }, { once: true });
+      video.addEventListener('error', () => { console.error(new Error(`cat surfing video failed to load: ${VIDEO}`)); done(); }, { once: true });
+    }));
+    function sync(t, vt) {
+      const now = performance.now();
+      if (t !== lastT) { if (t > lastT && t - lastT < 0.5) moved = now; lastT = t; }
+      want = vt;
+      if (now - moved < 150 && t > T.play) {
+        const rate = (window.__AD && window.__AD.speed) || 1;
+        if (video.playbackRate !== rate) video.playbackRate = rate;
+        if (Math.abs(video.currentTime - vt) > 0.25) video.currentTime = vt;
+        if (video.paused) video.play().catch((e) => { if (e.name !== 'AbortError') console.error('cat surfing video failed to play', e); });
+        return;
+      }
+      if (!video.paused) video.pause();
+      seekTo(vt);
     }
-    window.__catsurfRecord = record;
-    save.addEventListener('click', () => {
-      if (recording) return;
-      save.classList.add('cs-busy');
-      save.setAttribute('aria-busy', 'true');
-      record().then((blob) => {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'cat-surfing.webm';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-      }).catch((e) => console.error('cat surfing download failed', e)).finally(() => {
-        save.classList.remove('cs-busy');
-        save.removeAttribute('aria-busy');
-      });
-    });
 
     return {
       nodes: [say, block],
@@ -442,31 +422,26 @@ export default {
         block.style.opacity = ci.toFixed(3);
         block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
 
-        // the video's clock: the first frame holds while it generates, then plays from T.play and loops every LEN seconds
-        const el = Math.max(0, t - T.play);
-        if (!recording) ensure().draw(V0 + (el % LEN));
+        // the video's clock: the first frame holds while it generates, then plays from T.play
+        const vt = Math.max(0, t - T.play) % LEN;
+        sync(t, vt);
 
-        // generating: the skeleton shimmers and the first frame resolves out of a blur as the count reaches 100
-        const rp = seg(t, T.w0, T.w1), e = outCubic(rp);
-        canvas.style.filter = e >= 1 ? 'none' : `blur(${((1 - e) * 16).toFixed(2)}px) saturate(${lerp(0.3, 1, e).toFixed(3)})`;
-        canvas.style.opacity = lerp(0.25, 1, e).toFixed(3);
-        sh.style.transform = `translateX(${lerp(-110, 110, ((t - T.card) * 1.1) % 1).toFixed(1)}%)`;
-        sh.style.opacity = (rp >= 1 ? 0 : 1 - seg(rp, 0.8, 1)).toFixed(3);
-        const p = Math.round(rp * 100);
-        if (p !== built) { pct.textContent = `${p}%`; built = p; }
-        const label = (1 - seg(t, T.w1 - 0.25, T.w1)).toFixed(3);
-        genl.style.opacity = label;
-        prog.style.opacity = label;
-        progFill.style.transform = `scaleX(${rp.toFixed(3)})`;
+        // creating, as the base route creates its image: the slot is a skeleton under a sweep with the "Creating video"
+        // pill, then the first frame lands like the 'climbing' thumbnails (fades in and settles from 1.08x as the sweep
+        // fades out), at rest by T.w1 while the pill fades
+        const p = landing(t, T.w1 - LAND);
+        shimmer(sh, t, T.card, 0, p);
+        settle(video, p);
+        genl.style.opacity = (1 - seg(t, T.w1 - 0.25, T.w1)).toFixed(3);
 
         // playing: the controls rise, the playhead runs the clip
         const pl = outCubic(seg(t, T.play, T.play + 0.25));
         ctl.style.opacity = pl.toFixed(3);
-        len.style.opacity = (seg(t, T.w1 - 0.1, T.w1 + 0.15) * (1 - pl)).toFixed(3);
-        const head = ((el % LEN) / LEN) * 100;
+        len.style.opacity = (p * (1 - pl)).toFixed(3);
+        const head = (vt / LEN) * 100;
         played.style.width = `${head.toFixed(3)}%`;
         dot.style.left = `${head.toFixed(3)}%`;
-        const s = Math.floor(el % LEN);
+        const s = Math.floor(vt);
         if (s !== sec) { time.textContent = `${clock(s)} / ${clock(LEN)}`; sec = s; }
       },
     };

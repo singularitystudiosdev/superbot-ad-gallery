@@ -3,12 +3,15 @@
 // space, the arrows and R go back to the spot's own clock (timeline.9b47fc30.js).
 import { VARIANTS, variant, setVariant } from './variant.9e82faf1.js';
 import { APPEARS, appear, setAppear } from './appear.9e82faf1.js';
+// variants left out of the pill: still reachable by ?variant=, just not offered as a button or an arrow-key stop
+const HIDDEN = new Set(['game', 'garden', 'bedtime', 'podcast', 'catgif', 'logo']);
+const SHOWN = VARIANTS.filter((v) => !HIDDEN.has(v.id));
 const bar = document.createElement('div');
 bar.className = 'variant-select';
 bar.setAttribute('role', 'radiogroup');
 bar.setAttribute('aria-label', 'Variant');
 bar.innerHTML = '<span class="vs-label" aria-hidden="true">Variant</span>'
-  + VARIANTS.map((v) => `<button type="button" role="radio" data-v="${v.id}">${v.label}</button>`).join('');
+  + SHOWN.map((v) => `<button type="button" role="radio" data-v="${v.id}">${v.label}</button>`).join('');
 document.body.appendChild(bar);
 const buttons = [...bar.querySelectorAll('button')];
 
@@ -51,8 +54,8 @@ bar.addEventListener('keydown', (e) => {
   e.preventDefault();
   e.stopPropagation();
   const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1;
-  const i = VARIANTS.findIndex((v) => v.id === variant());
-  const next = VARIANTS[(i + step + VARIANTS.length) % VARIANTS.length].id;
+  const i = SHOWN.findIndex((v) => v.id === variant());
+  const next = SHOWN[(i + step + SHOWN.length) % SHOWN.length].id;
   setVariant(next);
   jump();
   buttons.find((b) => b.dataset.v === next).focus();
@@ -74,6 +77,7 @@ const pick = sub.querySelector('select');
 
 function syncAppear() {
   sub.hidden = variant() !== '10';
+  document.body.classList.toggle('has-appear', !sub.hidden);
   pick.value = appear();
 }
 
@@ -87,3 +91,31 @@ pick.addEventListener('change', () => {
 addEventListener('variantchange', syncAppear);
 addEventListener('appearchange', syncAppear);
 syncAppear();
+
+// The speed pill: a third pill, fixed under the variant selector (under the appear pill when that shows), that sets the
+// playback speed of the spot's clock (timeline.9b47fc30.js owns the rate; ',' and '.' step it and fire 'speedchange', which
+// keeps this select in step). Same native-select pattern as above: its keys do not reach the clock, a mouse pick drops focus.
+const speedBar = document.createElement('div');
+speedBar.className = 'speed-select';
+speedBar.innerHTML = '<span class="vs-label" aria-hidden="true">Speed</span><span class="as-wrap"><select aria-label="Playback speed"></select></span>';
+document.body.appendChild(speedBar);
+const speedPick = speedBar.querySelector('select');
+const speeds = (window.__AD && window.__AD.SPEEDS) || [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+speedPick.innerHTML = speeds.map((r) => `<option value="${r}">${r}×</option>`).join('');
+
+function syncSpeed() {
+  const ad = window.__AD;
+  if (ad) speedPick.value = String(ad.speed);
+}
+
+speedPick.addEventListener('change', () => {
+  if (window.__AD) window.__AD.setSpeed(parseFloat(speedPick.value));
+});
+speedPick.addEventListener('keydown', (e) => { delete speedPick.dataset.mouse; e.stopPropagation(); });
+speedPick.addEventListener('pointerup', () => { speedPick.dataset.mouse = '1'; });
+speedPick.addEventListener('change', () => {
+  if (speedPick.dataset.mouse) { delete speedPick.dataset.mouse; speedPick.blur(); }
+});
+
+addEventListener('speedchange', syncSpeed);
+syncSpeed();

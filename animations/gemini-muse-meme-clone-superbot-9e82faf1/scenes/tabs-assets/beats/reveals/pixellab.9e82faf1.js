@@ -18,7 +18,7 @@ import { seg, press } from '../../../../lib.9b47fc30.js';
 import { injectStyle, restTransform, restFilter, ownSrc, UI_FONT } from './util.9e82faf1.js';
 
 const P = 'rv-pxa';
-const ROOT_H = 400, CELL_W = 42, CELL_H = 50;
+const ROOT_H = 400, CELL_W = 44, CELL_H = 52;
 const CSS = `
 .${P} { box-sizing: border-box; display: flex; flex-direction: column; width: 560px; max-width: 100%; height: ${ROOT_H}px; border-radius: 10px; background: #1d1722; color: #2c2634; font-family: ${UI_FONT}; -webkit-font-smoothing: antialiased; overflow: hidden; box-shadow: 0 0 0 1px #34293c; }
 .${P}-bar { flex: none; position: relative; display: flex; align-items: center; justify-content: center; height: 16px; font-size: 6.5px; color: #a79eb0; background: #2a2230; }
@@ -38,7 +38,7 @@ const CSS = `
 .${P}-col { box-sizing: border-box; height: 11px; border-radius: 3px; font-size: 5px; line-height: 11px; text-align: center; box-shadow: 0 0 0 1px #2c3744; }
 .${P}-mid { position: relative; flex: 1; min-width: 0; display: flex; justify-content: flex-start; align-items: center; padding-left: 8px; }
 .${P}-cv { position: relative; flex: none; width: 238px; height: 238px; background: repeating-conic-gradient(#c9c9c9 0 25%, #9b9b9b 0 50%) 0 0 / 16px 16px; box-shadow: 0 0 0 1px #2c2634; }
-.${P}-g { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(5, ${CELL_W}px); grid-auto-rows: ${CELL_H}px; gap: 4px; justify-content: center; align-content: center; }
+.${P}-g { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(5, ${CELL_W}px); grid-auto-rows: ${CELL_H}px; gap: 3px; justify-content: center; align-content: center; }
 .${P}-f { position: relative; width: ${CELL_W}px; height: ${CELL_H}px; overflow: hidden; }
 .${P}-f img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
 .${P}-f div { position: absolute; inset: 0; }
@@ -73,7 +73,7 @@ const CSS = `
 .${P}-no.${P}-on { background: #8c93a6; color: #fff; }
 .${P}-pip { flex: none; display: grid; place-items: center; box-sizing: border-box; width: 18px; height: 13px; background: #d8dade; }
 .${P}-pip i { display: block; box-sizing: border-box; width: 7px; height: 7px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px #6d7480; }
-.${P}-stat { display: flex; align-items: center; justify-content: space-between; height: 12px; margin-top: 4px; padding: 0 8px; background: #2a2230; font-size: 6px; color: #a79eb0; }
+.${P}-stat { box-sizing: border-box; overflow: hidden; line-height: 10px; display: flex; align-items: center; justify-content: space-between; height: 12px; margin-top: 4px; padding: 0 8px; background: #2a2230; font-size: 6px; color: #a79eb0; }
 `;
 
 const PROMPT = 'a muse holding a handwritten note in a lecture hall, meme style';

@@ -61,9 +61,6 @@ export default {
     hero.className = 'ask-hero';
     hero.innerHTML = `<img class="ask-cat" src="${asset('mark-clean.svg')}" alt=""/><h1>Good evening. Where do we go?</h1>`;
     main.appendChild(hero);
-    // the composer as the empty state shows it: SUPER is a switch (off), the platform chip names the model
-    const sup = hub.querySelector('.rc-super');
-    sup.innerHTML = 'SUPER<i class="ask-tg"><b></b>OFF</i>';
     el = { site: q('.sbsite'), hub, main, hero, composer: hub.querySelector('.composer'), geo: null };
     el.chat = mountChat(hub);
   },

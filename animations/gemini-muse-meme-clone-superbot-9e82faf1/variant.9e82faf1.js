@@ -10,6 +10,7 @@ export const VARIANTS = [
   { id: 'roadtrip', label: 'Road trip map' },
   { id: 'climbing', label: 'Climbing videos' },
   { id: 'catsurf', label: 'Cat surfing video' },
+  { id: 'catsurf10', label: '10 cat surfing videos' },
   { id: 'catgif', label: 'Dancing cat GIF' },
   { id: 'logo', label: 'Coffee logo' },
   { id: 'song', label: 'Dog song' },
@@ -18,6 +19,8 @@ export const VARIANTS = [
   { id: 'pitchdeck', label: 'Pitch deck' },
   { id: 'spending', label: 'Spending chart' },
   { id: 'bakery', label: 'Bakery website' },
+  { id: 'reminder', label: 'Phone notification' },
+  { id: 'photoedit', label: 'Photo edit' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

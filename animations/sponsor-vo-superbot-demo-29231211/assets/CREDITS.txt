@@ -1,0 +1,29 @@
+Provenance for this ad's assets (internal record; nothing here is shown on screen). Fetched/generated 2026-10-16.
+
+GENERATED (fal.ai queue REST API, https://queue.fal.run/<endpoint>; all prompts are AI output, no real people)
+Thumbnail prompt (identical for the three models; nb2 variant appends a no-extra-text sentence):
+  "YouTube thumbnail, 16:9, high contrast, a shocked young content creator at a desk lit by a glowing screen, a friendly robot hand on the mouse controlling the computer, huge bold white text 'AI RAN MY CHANNEL', clean dark background with a vivid accent color, crisp, professional, click-worthy"
+thumb-nb2.jpg    fal-ai/nano-banana-2 (Google Gemini 3.1 Flash Image), aspect_ratio 16:9, native 1376x768, center-cropped/resized to 1280x720.
+                 Prompt = above + ". The ONLY text in the image is the three words 'AI RAN MY CHANNEL' in huge letters; no other words, no subtitles, no UI text on the screen." (2nd take; 1st take added unwanted "FOR 24 HOURS!"). Cost 2 x $0.08 = $0.16.
+thumb-gpt.jpg    openai/gpt-image-2 (OpenAI GPT Image 2, via fal), image_size landscape_16_9, quality medium, native 1088x608, resized to 1280x720. Prompt = above. 1 call; fal does not publish a per-image price for it (estimate <= ~$0.20).
+thumb-flux.jpg   fal-ai/flux-2-pro (Black Forest Labs FLUX.2 [pro]), image_size 1280x720 (2nd take; 1st was 1024x576). Prompt = above. ~$0.03 per megapixel => ~$0.028 (+ ~$0.018 discarded first take).
+old-1..5.jpg     fal-ai/flux-2-pro, 1280x720. Prompt: "YouTube tech-creator thumbnail, 16:9, high contrast, vivid colors, one clear subject, bold chunky white sans-serif title text reading exactly '<TITLE>' with a thick dark outline, professional click-worthy design, dark background with a bright accent color"
+                 TITLE = I TRIED EVERY AI VIDEO TOOL / $500 VS $5000 DESK SETUP / CODING WITH 10 AI AGENTS AT ONCE / THE BEST FREE APPS OF 2026 / WHY EVERYONE IS QUITTING CHATGPT.
+                 old-2 re-rolled once (1st take garbled the text) with a split-screen desk prompt: "...split screen: left a cheap cluttered budget desk setup, right a luxurious high-end glowing desk setup, huge bold white text at the top center reading exactly '$500 VS $5000' and smaller text below it reading 'DESK SETUP'...". ~$0.028 each, 6 calls = ~$0.17.
+avatar.jpg       fal-ai/flux-2-pro 768x768, downscaled to 256x256. Prompt: "Friendly young tech content creator, smiling, casual hoodie, studio headshot portrait, centered face, soft warm lighting, simple solid dark teal background, photorealistic, not a real person". ~$0.018.
+Spend total: approx $0.50-0.65 (fal.ai; pricing via api.fal.ai/v1/models/pricing; GPT Image 2 is an estimate).
+
+LOGOS (trademarks of their owners, shown nominatively)
+logos/fal-icon.svg meshy-icon.svg openai-logo.svg gemini-logo.svg claude-logo.svg deepseek-logo.svg
+                 copied unmodified from singularitystudiosdev/superbot-ad-gallery animations/gemini-muse-meme-superbot-6fbc38f8/brand/ (its CREDITS.txt: fal = https://fal.ai/fal-icon.svg; meshy = meshy.ai header mark; openai = OpenAI round badge; gemini = Wikimedia Commons Google_Gemini_icon_2025.svg; claude = @lobehub/icons-static-svg claude-color.svg (MIT); deepseek = @lobehub/icons-static-svg deepseek-color.svg).
+logos/devin.png  same gallery, scenes/tabs-assets/devin.png (128x128), copied unmodified.
+logos/youtube.svg  from ads/yt-thumbnail-superbot.aecdec41/assets/youtube.svg (gallery img/climb.080da517/).
+logos/elevenlabs.svg, perplexity.svg, google.svg
+                 Simple Icons 16.35.0 (CC0-1.0), https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/{elevenlabs,perplexity,google}.svg; fill="#ffffff" added on the root <svg> for the dark tile (google is therefore a white "G"). Trademarks of ElevenLabs, Perplexity AI, Google LLC.
+logos/bfl.svg    https://bfl.ai/brand/symbol-white.svg (Black Forest Labs official brand-kit symbol, white), unmodified. Trademark of Black Forest Labs.
+logos/higgsfield.png  https://higgsfield.ai/icon.png (official site app icon, 192x192, lime tile), unmodified. Simple Icons has no Higgsfield entry. Trademark of Higgsfield, Inc.
+
+sb-mark-live.css sb-mark-live.js fonts/  copied from ads/yt-thumbnail-superbot.aecdec41/assets/ (superbot.gg animated mascot via singularitystudiosdev/superbot-ad-gallery-real-ui; Inter, SIL OFL 1.1).
+
+ADDED LATER (2026-10-16)
+old-6.jpg, old-7.jpg  fal-ai/flux-2-pro, 1280x720, same prompt template as old-1..5 with TITLE = I BUILT AN APP IN 24 HOURS WITH AI / TESTING VIRAL AI GADGETS. ~$0.028 each (~$0.056 total; running spend now approx $0.55-0.70).

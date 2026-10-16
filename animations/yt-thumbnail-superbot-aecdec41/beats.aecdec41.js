@@ -96,8 +96,10 @@ T.body1End = T.body1 + playout(TEXT.body1);
 // 4. both image models (Nano Banana Pro on the Google subscription, GPT Image 2 on ChatGPT) and the wait
 T.sw2 = vo4c + 5.9;
 T.sw2Done = T.sw2 + 0.9;
+T.sw2Step = T.sw2Done + 0.25;
 T.sw3 = T.sw2 + 0.55;
 T.sw3Done = T.sw3 + 0.9;
+T.sw3Step = T.sw3Done + 0.25;
 const vo5 = say('5', T.sw2Done - 0.1, 'and now it is using Nano Banana Pro and GPT Image 2');
 T.gen = T.sw3Done + 0.4;
 const vo6 = say('6', vo5 + 4.6, 'now we wait for it to generate');

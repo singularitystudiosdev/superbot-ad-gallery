@@ -48,9 +48,9 @@ const say = (id, t, text) => {
 };
 
 // 1. click: the pointer glides into the home bar and types the ask; Enter docks the bar under the new chat
-T.move1 = 0.1;
-T.click1 = T.move1 + 0.75;
-T.type1 = T.click1 + 0.2;
+// no scripted pointer: the click itself wakes the bar, and typing follows almost at once
+T.click1 = 0.15;
+T.type1 = 0.3;
 export const KEYS1 = keystrokes(PROMPT1, T.type1, 11);
 T.send1 = KEYS1[KEYS1.length - 1] + 0.4;
 T.docked = T.send1 + 0.6;

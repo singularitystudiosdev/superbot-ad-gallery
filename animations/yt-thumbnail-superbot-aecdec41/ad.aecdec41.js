@@ -1,26 +1,25 @@
 // Click-to-play engine. Everything on screen is a function of t (seconds since the click) except the feed's
 // push-up smoothing, which eases whatever height change layout produced. ?t=12.5 freezes a frame, ?cues=1 (or C)
 // shows the voiceline teleprompter, ?channel=Name&handle=@x personalises the channel, ?rate=0.5 slows playback.
-import { T, VO, PRE, CAM, KEYS1, KEYS2, PROMPT1, PROMPT2 } from './beats.aecdec41.js';
+// Playback holds on the finished chat (the creator cuts to their own channel); the next click plays the end card.
+import { T, VO, PRE, CREATOR, CAM, KEYS1, KEYS2, PROMPT1, PROMPT2 } from './beats.aecdec41.js';
 
 const q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 
 const stage = $('#stage'), cam = $('#cam'), feed = $('#feed'), comp = $('#comp');
-const greet = $('#greet'), subs = $('#subs'), studio = $('#studio'), endCard = $('#end');
+const greet = $('#greet'), subs = $('#subs'), endCard = $('#end');
 const cursor = $('#cursor'), ripple = $('#ripple'), hint = $('#hint');
 const typed = $('#c-typed'), placeholder = $('#c-ph'), caret = $('#caret'), attach = $('#c-att'), send = $('#send');
 const model = $('#model'), modelName = $('#m-name'), ytApp = $('#c-yt');
-const tiles = [0, 1, 2].map((i) => $('#gt' + i));
+const tile = $('#gt'), tileLabel = $('#gt .gl'), tilePct = $('#gt .gl-p');
 const upFill = $('#up-fill'), upPct = $('#up-pct');
-const btnStudio = $('#btn-studio'), tcRing = $('#tc-ring'), tcB = $('#tc-b'), tcDot = $('.tc-st i');
 const cues = $('#cues'), cueNow = $('#cue-now'), cueNext = $('#cue-next'), cueT = $('#cue-t');
-const keyFrames = $$('.kf');
 const endParts = { mark: $('#end .mark'), url: $('.end-url'), sub: $('.end-sub') };
 
 const COMPOSER_IDLE_LIFT = 295; // logical px between the idle spot (under the greeting) and the docked spot
-const CLICKS = [T.click1, T.clickPick, T.click2, T.click3];
+const CLICKS = [T.click1, T.clickPick, T.click2];
 
 // ---- personalisation -------------------------------------------------------------------------------------------
 const channel = q.get('channel') || 'My Channel';
@@ -130,32 +129,23 @@ function renderComposer(t) {
 
 // ---- feed contents with their own clocks -----------------------------------------------------------------------
 function renderFeedDetails(t) {
-  keyFrames.forEach((kf, i) => kf.classList.toggle('on', t >= T.tool2 + 0.3 * (i + 1)));
-
-  tiles.forEach((tile, i) => {
-    const r = T.reveal[i];
-    const gen = seg(t, T.gen, r);
-    const rev = easeOut(seg(t, r, r + 0.6));
-    const blur = t < r ? 24 - 14 * gen : 10 * (1 - rev);
-    tile.style.setProperty('--blur', blur.toFixed(2) + 'px');
-    tile.style.setProperty('--sat', (0.5 + 0.5 * rev).toFixed(3));
-    tile.style.setProperty('--bri', (t < r ? 0.35 + 0.25 * gen : 0.6 + 0.4 * rev).toFixed(3));
-    tile.style.setProperty('--bx', (-60 + 120 * (((t - T.gen) * 0.75 + i * 0.22) % 1)).toFixed(1) + '%');
-    tile.style.setProperty('--bo', (1 - seg(t, r, r + 0.35)).toFixed(3));
-    const gl = tile.querySelector('.gl');
-    gl.style.opacity = 1 - seg(t, r, r + 0.3);
-    gl.querySelector('.gl-p').textContent = Math.min(100, Math.floor(100 * (1 - Math.pow(1 - gen, 1.6)))) + '%';
-    const isPick = i === 1;
-    tile.classList.toggle('hover', isPick && t >= T.hoverPick && t < T.move2);
-    tile.classList.toggle('picked', isPick && t >= T.clickPick);
-    tile.style.opacity = isPick ? 1 : 1 - 0.5 * seg(t, T.clickPick, T.clickPick + 0.3);
-  });
+  // GPT Image 2: the thumbnail sharpens out of a blur under a sweeping band, then resolves
+  const r = T.genDone;
+  const gen = seg(t, T.gen, r);
+  const rev = easeOut(seg(t, r, r + 0.6));
+  tile.style.setProperty('--blur', (t < r ? 24 - 14 * gen : 10 * (1 - rev)).toFixed(2) + 'px');
+  tile.style.setProperty('--sat', (0.5 + 0.5 * rev).toFixed(3));
+  tile.style.setProperty('--bri', (t < r ? 0.35 + 0.25 * gen : 0.6 + 0.4 * rev).toFixed(3));
+  tile.style.setProperty('--bx', (-60 + 120 * (((t - T.gen) * 0.75) % 1)).toFixed(1) + '%');
+  tile.style.setProperty('--bo', (1 - seg(t, r, r + 0.35)).toFixed(3));
+  tileLabel.style.opacity = 1 - seg(t, r, r + 0.3);
+  tilePct.textContent = Math.min(100, Math.floor(100 * (1 - Math.pow(1 - gen, 1.6)))) + '%';
+  tile.classList.toggle('hover', t >= T.hoverPick && t < T.move2);
+  tile.classList.toggle('picked', t >= T.clickPick);
 
   const up = easeInOut(seg(t, T.up + 0.15, T.upDone - 0.1));
   upFill.style.width = (up * 100).toFixed(1) + '%';
   upPct.textContent = Math.round(up * 100) + '%';
-
-  btnStudio.classList.toggle('hover', t >= T.click3 - 0.3 && t < T.studio + 0.2);
 }
 
 // new feed rows push the column up smoothly: absorb each height change as an offset, then let it decay
@@ -169,22 +159,7 @@ function smoothFeed(dt, snap) {
   feed.style.transform = feedOffset ? `translateY(${feedOffset.toFixed(2)}px)` : '';
 }
 
-// ---- studio + end card -----------------------------------------------------------------------------------------
-function renderStudio(t) {
-  if (t < T.studio) {
-    studio.style.display = 'none';
-    return;
-  }
-  const k = easeOut(seg(t, T.studio, T.studioIn));
-  const s = 0.94 + 0.06 * k;
-  studio.style.display = 'block';
-  studio.style.opacity = k;
-  studio.style.transform = `scale(1.6) translate(${(1 - s) * 600}px, ${(1 - s) * 337.5 + (1 - k) * 12}px) scale(${s})`;
-  tcRing.style.opacity = (seg(t, T.ring, T.ring + 0.35) * (0.7 + 0.3 * Math.cos((t - T.ring) * 4))).toFixed(3);
-  tcB.classList.toggle('hover', t >= T.move4 + 0.75);
-  tcDot.style.setProperty('--pulse', (((t * 1.2) % 1) * 6).toFixed(2) + 'px');
-}
-
+// ---- end card --------------------------------------------------------------------------------------------------
 function renderEnd(t) {
   endCard.style.opacity = seg(t, T.end, T.end + 0.6);
   const m = easeOut(seg(t, T.end + 0.1, T.end + 0.8));
@@ -218,11 +193,9 @@ const fixed = (x, y) => () => ({ x, y });
 const MOVES = [
   { a: T.move1, b: T.click1, to: at(comp, 0.3, 0.28) },
   { a: T.aside1, b: T.aside1 + 0.9, to: fixed(1530, 610) },
-  { a: T.movePick, b: T.hoverPick, to: at(tiles[1], 0.56, 0.55) },
+  { a: T.movePick, b: T.hoverPick, to: at(tile, 0.58, 0.55) },
   { a: T.move2, b: T.click2, to: at(comp, 0.36, 0.28) },
   { a: T.aside2, b: T.aside2 + 0.9, to: fixed(1540, 560) },
-  { a: T.move3, b: T.click3 - 0.05, to: at(btnStudio, 0.45, 0.55) },
-  { a: T.move4, b: T.move4 + 0.8, to: at(tcB, 0.5, 0.4) },
 ];
 const restAt = new Array(MOVES.length).fill(null);
 let cursorStart = { x: 1320, y: 780 };
@@ -271,6 +244,11 @@ function renderCues(t, idle) {
     cueNext.textContent = 'then click';
     return;
   }
+  if (state === 'held') {
+    cueNow.textContent = `your channel footage: ${CREATOR.join(' ')}`;
+    cueNext.textContent = 'then click for the end card';
+    return;
+  }
   const now = VO.filter((v) => t >= v.t - 0.15 && t < v.t + v.dur + 0.5).pop();
   const next = VO.find((v) => v.t > t + 0.15);
   cueNow.textContent = now ? now.text : '…';
@@ -279,7 +257,7 @@ function renderCues(t, idle) {
 
 // ---- clock -----------------------------------------------------------------------------------------------------
 const rate = Number(q.get('rate')) || 1;
-let state = 'idle'; // idle | playing | paused | ended
+let state = 'idle'; // idle | playing | paused | held (on the finished chat) | ended
 let t = 0;
 let jumped = true;
 let lastNow = performance.now();
@@ -302,7 +280,6 @@ function render(t, dt, snap) {
   renderComposer(t);
   renderFeedDetails(t);
   smoothFeed(dt, snap);
-  renderStudio(t);
   renderEnd(t);
   renderCursor(t, idle);
   renderCues(t, idle);
@@ -313,10 +290,15 @@ function frame(now) {
   const dt = Math.min(0.1, (now - lastNow) / 1000);
   lastNow = now;
   if (state === 'playing') {
-    t += dt * rate;
-    if (t >= T.done) {
+    const next = t + dt * rate;
+    if (t < T.done && next >= T.done) {
       t = T.done;
+      state = 'held';
+    } else if (next >= T.fin) {
+      t = T.fin;
       state = 'ended';
+    } else {
+      t = next;
     }
   }
   render(t, dt, jumped || state !== 'playing');
@@ -349,6 +331,7 @@ function reset() {
 
 addEventListener('pointerdown', (e) => {
   if (state === 'idle') start(e);
+  else if (state === 'held') state = 'playing';
 });
 
 addEventListener('keydown', (e) => {
@@ -356,12 +339,12 @@ addEventListener('keydown', (e) => {
     e.preventDefault();
     if (state === 'idle') start(null);
     else if (state === 'playing') state = 'paused';
-    else if (state === 'paused') state = 'playing';
+    else if (state === 'paused' || state === 'held') state = 'playing';
   } else if (e.key === 'r' || e.key === 'R') {
     reset();
   } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && state !== 'idle') {
-    t = Math.max(0, Math.min(T.done, t + (e.key === 'ArrowRight' ? 2 : -2)));
-    if (state === 'ended' && t < T.done) state = 'paused';
+    t = Math.max(0, Math.min(T.fin, t + (e.key === 'ArrowRight' ? 2 : -2)));
+    state = 'paused';
     jump();
   } else if (e.key === 'c' || e.key === 'C') {
     cuesOn = !cuesOn;

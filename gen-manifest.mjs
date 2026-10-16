@@ -275,7 +275,7 @@ const more = [
     download: 'animations/thumbnail-ab-superbot-67114eb1/final.mp4', downloadLabel: '16:9 · 1920x1080' }],
   // YouTuber voiceover walkthrough, click-to-play (2026-10-16, aecdec41): thumbnail made from the latest upload, then A/B tested.
   ['yt-thumbnail-superbot-aecdec41', 'yt-thumbnail-superbot-aecdec41/', 'superbot: thumbnail to YouTube A/B test (click to play)', 'Ad spots', {
-    desc: 'Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, reads the latest upload through YouTube, makes 3 GPT Image 2 thumbnails and uploads the pick to Test & compare.' }],
+    desc: 'Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, finds the latest upload through YouTube, makes one GPT Image 2 thumbnail and uploads it to a Test & compare A/B test. Holds on the result; the next click plays the end card.' }],
   // Gemini muse meme, 16:9 cuts (2026-10-15, from quick-chats/superbot-muse-split.1d16d488): one 1920x1080 MP4 with sound per
   // variant of the 6fbc38f8 spot, each ending on the superbot.gg + mascot end card. Played from a video wrapper
   // (animations/gemini-muse-16x9-<variant>/index.html), 16:9 only, and the download is that bundled file.

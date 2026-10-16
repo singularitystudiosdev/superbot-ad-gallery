@@ -61,12 +61,9 @@ T.yt = vo4a + 2.9;
 T.ytDone = T.yt + 0.9;
 const vo4b = say('4b', vo4a + 3.4, 'and look there, you see how it also connected to my YouTube channel,');
 T.vid = T.ytDone + 0.55;
-T.tool1 = T.vid + 0.5;
-T.tool1Done = T.tool1 + 1.7;
-T.tool2 = T.tool1Done + 0.2;
-T.tool2Done = T.tool2 + 1.4;
+// superbot finds the video on its own while the line says it needs no context
 const vo4c = say('4c', vo4b + 5.3, "it can work with your platforms so you don't need to give much context at all");
-T.say1 = T.tool2Done + 0.4;
+T.say1 = vo4c + 0.4;
 T.say1End = T.say1 + 2.6;
 
 // 4. GPT Image 2 and the wait
@@ -76,19 +73,18 @@ const vo5 = say('5', T.sw2Done - 0.1, 'and now it is using GPT Image 2');
 T.gen = T.sw2Done + 0.45;
 const vo6 = say('6', vo5 + 3.0, 'now we wait for it to generate');
 T.genDone = vo6 + 4.4;
-T.reveal = [T.genDone, T.genDone + 0.3, T.genDone + 0.6];
 T.say2 = T.genDone + 0.9;
 T.say2End = T.say2 + 1.2;
 
-// 5. three variants, pick the middle one
-const vo7 = say('7', T.genDone + 1.0, 'oh and it gave me 3 variants to pick from, awesome, I like that one');
-T.movePick = vo7 + 3.3;
-T.hoverPick = T.movePick + 0.85;
+// 5. the one thumbnail lands; click it to attach it to the next ask
+const vo7 = say('7', T.genDone + 1.0, 'oh and there it is, awesome, I like that one');
+T.movePick = vo7 + 1.5;
+T.hoverPick = T.movePick + 0.8;
 T.clickPick = T.hoverPick + 0.35;
 T.attach = T.clickPick + 0.25;
 
 // 6. the second ask
-const vo8 = say('8', vo7 + 5.7, 'and now I just ask: use this one and upload it to YouTube A:B tests');
+const vo8 = say('8', vo7 + 4.0, 'and now I just ask: use this one and upload it to YouTube A:B tests');
 T.move2 = vo8 + 0.2;
 T.click2 = T.move2 + 0.7;
 T.type2 = T.click2 + 0.2;
@@ -96,7 +92,7 @@ export const KEYS2 = keystrokes(PROMPT2, T.type2, 23);
 T.send2 = KEYS2[KEYS2.length - 1] + 0.4;
 T.aside2 = T.send2 + 0.25;
 
-// 7. upload + Test & compare, then the hand-off button
+// 7. upload + Test & compare, then playback HOLDS on the finished chat (T.done)
 T.up = T.send2 + 0.45;
 T.upDone = T.up + 1.6;
 T.tool3 = T.upDone + 0.2;
@@ -105,22 +101,15 @@ T.tool4 = T.tool3Done + 0.15;
 T.tool4Done = T.tool4 + 0.8;
 T.say3 = T.tool4Done + 0.3;
 T.say3End = T.say3 + 1.8;
-T.btn = T.say3End + 0.1;
+T.done = T.say3End + 0.6;
 
-// 8. YouTube Studio
-const vo9a = say('9a', T.btn + 0.5, 'lemme check on my channel,');
-T.move3 = vo9a + 0.2;
-T.click3 = T.move3 + 0.8;
-T.studio = T.click3 + 0.12;
-T.studioIn = T.studio + 0.5;
-const vo9b = say('9b', vo9a + 2.2, 'and there it is right there, all uploaded');
-T.move4 = vo9b + 0.35;
-T.ring = vo9b + 0.5;
+// 8. the creator cuts to their own channel here; nothing in the animation plays under it
+export const CREATOR = ['lemme check on my channel, and there it is right there, all uploaded'];
 
-// 9. end card
-const vo10 = say('10', vo9b + 3.5, 'check out superbot.gg in the link below!');
-T.end = vo10 - 0.3;
-T.done = vo10 + 3.4;
+// 9. end card: plays from the hold on the NEXT click
+T.end = T.done + 0.05;
+const vo10 = say('10', T.end + 0.5, 'check out superbot.gg in the link below!');
+T.fin = vo10 + 3.4;
 
 // lines spoken over the idle screen, before the click
 export const PRE = [

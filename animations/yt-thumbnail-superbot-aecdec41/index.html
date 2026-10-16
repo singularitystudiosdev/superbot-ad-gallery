@@ -47,20 +47,9 @@
       </div>
     </div>
 
-    <div class="it tools" data-in="tool1">
-      <div class="tool" data-in="tool1" data-done="tool1Done"><span class="tst"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span><span class="run">Reading title, description and transcript</span><span class="fin">Read title, description and transcript</span></div>
-      <div class="tool" data-in="tool2" data-done="tool2Done"><span class="tst"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span><span class="run">Picking key frames</span><span class="fin">Picked 4 key frames</span></div>
-      <div class="frames" data-in="tool2">
-        <div class="thumb ph kf" style="--img:url(assets/frame.jpg)"></div>
-        <div class="thumb ph kf" style="--img:url(assets/kf2.jpg)"></div>
-        <div class="thumb ph kf" style="--img:url(assets/kf3.jpg)"></div>
-        <div class="thumb ph kf" style="--img:url(assets/kf4.jpg)"></div>
-      </div>
-    </div>
-
     <div class="it ans" data-in="say1">
       <div class="who"><span class="tile t-sb"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>superbot<small>via ChatGPT Plus</small></div>
-      <div class="say" data-a="say1" data-b="say1End">Found your latest upload, “You Are Right To Be Afraid”. I'll design 3 thumbnails from its strongest frames and the quote.</div>
+      <div class="say" data-a="say1" data-b="say1End">Found your latest upload, “You Are Right To Be Afraid”. I'll design a thumbnail around its strongest frame and the quote.</div>
     </div>
 
     <div class="it chip" data-in="sw2" data-done="sw2Done">
@@ -69,23 +58,13 @@
       <span class="st"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>
     </div>
 
-    <div class="it grid" data-in="gen" id="grid">
-      <div class="gt" id="gt0">
-        <div class="thumb v1"><i class="face"></i><span class="tx"><b>HE</b><b class="y">WARNED</b><b class="y">US</b></span></div>
-        <i class="band"></i><span class="gl"><span class="tile"><img src="assets/openai-logo.svg" alt=""></span>GPT Image 2<em class="gl-p">0%</em></span>
-      </div>
-      <div class="gt" id="gt1">
-        <div class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></div>
-        <i class="band"></i><span class="gl"><span class="tile"><img src="assets/openai-logo.svg" alt=""></span>GPT Image 2<em class="gl-p">0%</em></span>
-        <span class="sel"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>
-      </div>
-      <div class="gt" id="gt2">
-        <div class="thumb v3"><i class="face"></i><span class="tx"><b>THE AI</b><b class="r">WARNING</b></span></div>
-        <i class="band"></i><span class="gl"><span class="tile"><img src="assets/openai-logo.svg" alt=""></span>GPT Image 2<em class="gl-p">0%</em></span>
-      </div>
+    <div class="it gt" data-in="gen" id="gt">
+      <div class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></div>
+      <i class="band"></i><span class="gl"><span class="tile"><img src="assets/openai-logo.svg" alt=""></span>GPT Image 2<em class="gl-p">0%</em></span>
+      <span class="sel"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>
     </div>
 
-    <div class="it ans" data-in="say2"><div class="say" data-a="say2" data-b="say2End">Here are 3 options. Pick one and I'll handle the upload.</div></div>
+    <div class="it ans" data-in="say2"><div class="say" data-a="say2" data-b="say2End">Here's your thumbnail, built around the quote.</div></div>
 
     <div class="it u" data-in="send2"><div class="bub"><div class="att"><div class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></div></div>use this one and upload it to youtube a:b tests</div></div>
 
@@ -104,13 +83,12 @@
     <div class="it ans" data-in="say3">
       <div class="who"><span class="tile t-sb"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>superbot<small>via ChatGPT Plus</small></div>
       <div class="say" data-a="say3" data-b="say3End">Done. Your A/B test is live on “You Are Right To Be Afraid”: your current thumbnail vs. the new one. YouTube keeps whichever earns more watch time.</div>
-      <span class="btn" id="btn-studio" data-in="btn"><img src="assets/youtube.svg" alt="">Open in YouTube Studio<svg viewBox="0 0 16 16"><path d="M6 4h6v6M12 4l-7 7"/></svg></span>
     </div>
   </div></div>
 
   <div class="composer" id="comp">
     <div class="c-text">
-      <span class="c-att" id="c-att"><span class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></span>Variant 2</span>
+      <span class="c-att" id="c-att"><span class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></span>Thumbnail</span>
       <span class="c-ph" id="c-ph">How can superbot help you today?</span><span id="c-typed"></span><i class="caret" id="caret"></i>
     </div>
     <div class="c-row">
@@ -136,60 +114,6 @@
     <span class="sc"><span class="tile"><img src="assets/openai-logo.svg" alt=""></span>ChatGPT Plus<i class="live"></i></span>
     <span class="sc"><span class="tile"><img src="assets/claude-logo.svg" alt=""></span>Claude Pro<i class="live"></i></span>
     <span class="sc"><span class="tile"><img src="assets/gemini-logo.svg" alt=""></span>Google AI Pro<i class="live"></i></span>
-  </div>
-</section>
-
-<section id="studio">
-  <div class="br-bar">
-    <span class="lights"><i></i><i></i><i></i></span>
-    <span class="br-nav"><svg viewBox="0 0 16 16"><path d="M10 3.5L5.5 8l4.5 4.5"/></svg><svg viewBox="0 0 16 16"><path d="M6 3.5L10.5 8 6 12.5"/></svg></span>
-    <span class="url"><svg viewBox="0 0 16 16"><rect x="4" y="7" width="8" height="6" rx="1.2"/><path d="M5.8 7V5.4a2.2 2.2 0 014.4 0V7"/></svg>studio.youtube.com/video/kQ7vR9tLp2Q/edit</span>
-  </div>
-  <div class="st-head">
-    <span class="hamb"><svg viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/></svg></span>
-    <span class="st-logo"><img src="assets/youtube.svg" alt="">Studio</span>
-    <span class="st-search"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.2"/><path d="M10.2 10.2L13.5 13.5"/></svg>Search across your channel</span>
-    <span class="st-hr"><span class="st-create"><svg viewBox="0 0 16 16"><rect x="2" y="4" width="9" height="8" rx="1.5"/><path d="M11 7l3-2v6l-3-2"/></svg>Create</span><span class="av" data-ch="initial">M</span></span>
-  </div>
-  <div class="st-body">
-    <aside class="st-nav">
-      <div class="st-back"><svg viewBox="0 0 16 16"><path d="M13 8H3.5M7.5 4L3.5 8l4 4"/></svg>Channel content</div>
-      <div class="st-vid"><div class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></div><small>Your video</small><span>Alex Karp: You Are Right To Be Afraid</span></div>
-      <ul>
-        <li class="on"><svg viewBox="0 0 16 16"><path d="M10.5 2.5l3 3-7.5 7.5H3v-3z"/></svg>Details</li>
-        <li><svg viewBox="0 0 16 16"><path d="M3 13V8M6.3 13V4M9.6 13V7M13 13V3"/></svg>Analytics</li>
-        <li><svg viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="9" rx="1.2"/><path d="M2.5 9.5h11"/></svg>Editor</li>
-        <li><svg viewBox="0 0 16 16"><path d="M3 3.5h10v7H7l-3 2.5v-2.5H3z"/></svg>Comments</li>
-        <li><svg viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="9" rx="1.2"/><path d="M5 8h2.5M9 8h2M5 10.3h6"/></svg>Subtitles</li>
-        <li><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M9.8 6.3a2.3 2.3 0 100 3.4"/></svg>Copyright</li>
-        <li><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 4.8v6.4M9.8 6.2c-.4-.6-1-.9-1.8-.9-1 0-1.7.5-1.7 1.3 0 1.8 3.6.9 3.6 2.7 0 .8-.8 1.3-1.9 1.3-.9 0-1.6-.4-2-1"/></svg>Monetization</li>
-      </ul>
-    </aside>
-    <main class="st-main">
-      <div class="st-row"><h2>Video details</h2><span class="st-btns"><span class="gbtn">Undo changes</span><span class="gbtn dis">Save</span></span></div>
-      <div class="st-cols">
-        <div class="st-left">
-          <div class="field"><label>Title (required)</label><div>Alex Karp: You Are Right To Be Afraid</div></div>
-          <div class="field tall"><label>Description</label><div>Palantir CEO Alex Karp on why the fear around AI is justified, and what he thinks comes next.</div></div>
-          <h3>Thumbnail</h3>
-          <p class="st-sub">Set a thumbnail that stands out and draws viewers' attention.</p>
-          <div class="tc" id="tc">
-            <div class="tc-h"><svg viewBox="0 0 16 16"><rect x="2" y="3.5" width="5" height="9" rx="1"/><rect x="9" y="3.5" width="5" height="9" rx="1"/></svg><b>Test &amp; compare</b><span class="tc-st"><i></i>Testing</span></div>
-            <div class="tc-row">
-              <div class="tc-it"><div class="thumb ph" style="--img:url(assets/frame.jpg)"></div><span class="tc-l"><b>A</b>Current</span></div>
-              <div class="tc-it b" id="tc-b"><div class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></div><span class="tc-new">New</span><span class="tc-l"><b>B</b>Added by superbot · just now</span></div>
-            </div>
-            <p class="tc-n">YouTube shows each thumbnail to viewers and keeps the one with the highest watch time share.</p>
-            <i class="tc-ring" id="tc-ring"></i>
-          </div>
-        </div>
-        <div class="st-right">
-          <div class="pv"><div class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></div><span class="play"><svg viewBox="0 0 16 16"><path d="M5.5 3.8v8.4L12 8z"/></svg></span></div>
-          <div class="pv-meta"><small>Video link</small><span class="lnk">https://youtu.be/kQ7vR9tLp2Q</span><small>Filename</small><span>karp-interview-final.mp4</span></div>
-          <div class="field"><label>Visibility</label><div>Public</div></div>
-        </div>
-      </div>
-    </main>
   </div>
 </section>
 

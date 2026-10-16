@@ -275,7 +275,7 @@ const more = [
     download: 'animations/thumbnail-ab-superbot-67114eb1/final.mp4', downloadLabel: '16:9 · 1920x1080' }],
   // YouTuber voiceover walkthrough, click-to-play (2026-10-16, aecdec41): thumbnail made from the latest upload, then A/B tested.
   ['yt-thumbnail-superbot-aecdec41', 'yt-thumbnail-superbot-aecdec41/', 'superbot: thumbnail to YouTube A/B test (click to play)', 'Ad spots', {
-    desc: 'Click-to-play 16:9 walkthrough timed to a YouTuber voiceover, drawn to match the superbot desktop app: Auto switches to the ChatGPT subscription, connects YouTube, makes one GPT Image 2 thumbnail and starts a Test & compare A/B test. Holds on the result; the next click plays the end card.' }],
+    desc: 'Click-to-play 16:9 walkthrough timed to a YouTuber voiceover, drawn to match the superbot desktop app: Auto switches to the ChatGPT subscription, connects YouTube, makes one thumbnail with Nano Banana Pro and one with GPT Image 2, then starts a Test & compare A/B test. Holds on the result; the next click plays the end card.' }],
   // YouTuber sponsor read, timed word by word to a voiceover (2026-10-16, 29231211). The creative link plays with the scratch read
   // (?align + ?audio); the plain page (no query) runs at default pacing and is the same folder.
   ['sponsor-vo-superbot-29231211', 'sponsor-vo-superbot-29231211/index.html?align=out/scratch-vo.whisper.json&audio=out/scratch-vo.mp3', 'and a word from our sponsor \u00b7 YouTuber sponsor read synced word by word: subscriptions not API pricing, ElevenLabs/Higgsfield/Meshy/fal.ai on credits, $50, three-model thumbnail, computer-control upload to YouTube (animated, 16:9)', 'Ad spots', {

@@ -2,7 +2,10 @@ Provenance for this ad's assets (internal record; nothing here is shown on scree
 
 karp-source.png  User-supplied thumbnail ("YOU ARE RIGHT TO BE AFRAID", Alex Karp), attached in chat 2026-10-16.
                  Kept in the local project only; not shipped with the gallery copy (every derivative below is).
-thumb-new.jpg    karp-source.png padded to 16:9 (dark feathered top extension, ffmpeg). The generated thumbnail.
+thumb-new.jpg    karp-source.png padded to 16:9 (dark feathered top extension, ffmpeg). Shown as the GPT Image 2 result.
+thumb-nano.jpg   Mirrored face crop of karp-source.png over a red glow (ffmpeg), type set in Impact in headless Chrome
+                 (/tmp/scripts-aecdec41/nano-thumb.mjs). Shown as the Nano Banana Pro result.
+gemini-logo.svg  singularitystudiosdev/superbot-ad-gallery, animations/gemini-muse-meme-superbot-6fbc38f8/brand/
 
 youtube.svg      singularitystudiosdev/superbot-ad-gallery, animations/gemini-muse-meme-superbot-6fbc38f8/img/climb.080da517/
 sb-mark-live.css sb-mark-live.js

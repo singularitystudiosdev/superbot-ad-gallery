@@ -2,7 +2,7 @@
 // push-up smoothing, which eases whatever height change layout produced. ?t=12.5 freezes a frame, ?cues=1 (or C)
 // shows the voiceline teleprompter, ?name=Adrian personalises the greeting, ?rate=0.5 slows playback.
 // Playback holds on the finished chat (the creator cuts to their own channel); the next click plays the end card.
-import { T, VO, PRE, CREATOR, KEYS1, KEYS2, PROMPT1, PROMPT2, TEXT } from './beats.aecdec41.js?v=12';
+import { T, VO, PRE, CREATOR, KEYS1, KEYS2, PROMPT1, PROMPT2, TEXT } from './beats.aecdec41.js?v=13';
 
 const q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);

@@ -2,14 +2,14 @@
 // Every beat is placed from the voiceline it illustrates (VO) or from the keystrokes that precede it, so retiming a
 // line moves everything that hangs off it. Speech is budgeted at ~155 wpm (2.6 words/s) plus a breath between lines.
 
-export const PROMPT1 = 'make a thumbnail from my latest video';
+export const PROMPT1 = 'make a thumbnail from my latest video, one with nano banana pro, one with gpt image 2';
 export const PROMPT2 = 'use this one and upload it to youtube a:b tests';
 
 // assistant prose, revealed by a character playout like the app's (it streams 55-200 cps)
 export const TEXT = {
   lead1: 'Found your latest upload.',
-  body1: '“Alex Karp: You Are Right To Be Afraid” went up 2 days ago. I’ll build the thumbnail around the quote.',
-  caption: 'Here’s your thumbnail, built around the quote.',
+  body1: '“Alex Karp: You Are Right To Be Afraid” went up 2 days ago. I’ll make one thumbnail with Nano Banana Pro and one with GPT Image 2.',
+  caption: 'Here are both takes, one from each model.',
   lead2: 'Your A/B test is live.',
   body2: 'YouTube is testing your current thumbnail against the new one and keeps whichever earns more watch time.',
 };
@@ -93,22 +93,24 @@ T.lead1End = T.lead1 + playout(TEXT.lead1);
 T.body1 = T.lead1End + 0.2;
 T.body1End = T.body1 + playout(TEXT.body1);
 
-// 4. GPT Image 2 and the wait
+// 4. both image models (Nano Banana Pro on the Google subscription, GPT Image 2 on ChatGPT) and the wait
 T.sw2 = vo4c + 5.9;
 T.sw2Done = T.sw2 + 0.9;
-const vo5 = say('5', T.sw2Done - 0.1, 'and now it is using GPT Image 2');
-T.gen = T.sw2Done + 0.45;
-const vo6 = say('6', vo5 + 3.0, 'now we wait for it to generate');
-T.genDone = vo6 + 4.4;
+T.sw3 = T.sw2 + 0.55;
+T.sw3Done = T.sw3 + 0.9;
+const vo5 = say('5', T.sw2Done - 0.1, 'and now it is using Nano Banana Pro and GPT Image 2');
+T.gen = T.sw3Done + 0.4;
+const vo6 = say('6', vo5 + 4.6, 'now we wait for it to generate');
+T.genDone = vo6 + 4.0;
+T.genDone2 = T.genDone + 0.5;
 T.prov = T.genDone + 0.3;
-T.cap = T.genDone + 0.45;
+T.prov2 = T.genDone2 + 0.3;
+T.cap = T.genDone2 + 0.45;
 T.capEnd = T.cap + playout(TEXT.caption);
 T.turn1End = T.capEnd + 0.2;
 
-// 5. the thumbnail lands; the pointer settles on it for "I like that one"
-const vo7 = say('7', T.genDone + 1.0, 'oh and there it is, awesome, I like that one');
-T.movePick = vo7 + 1.6;
-T.hoverPick = T.movePick + 0.8;
+// 5. both thumbnails land
+const vo7 = say('7', T.genDone2 + 1.0, 'oh and there they are, awesome, I like that one');
 
 // 6. the second ask
 const vo8 = say('8', vo7 + 4.0, 'and now I just ask: use this one and upload it to YouTube A:B tests');
@@ -145,7 +147,7 @@ T.fin = vo10 + 3.4;
 export const PRE = [
   "What's cool about superbot is, unlike Devin or Perplexity, superbot uses all your existing subscriptions, so you are never upcharged API pricing.",
   "I'll show you a quick example of what it does.",
-  'Say I want to make a thumbnail from my latest video. (click)',
+  'Say I want to make a thumbnail from my latest video, one with Nano Banana Pro, one with GPT Image 2. (click)',
 ];
 
 export { T, VO };

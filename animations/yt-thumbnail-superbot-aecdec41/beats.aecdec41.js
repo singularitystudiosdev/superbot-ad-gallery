@@ -133,10 +133,4 @@ export const PRE = [
   'Say I want to make a thumbnail from my latest video. (click)',
 ];
 
-// camera: [t, scale], eased between keys, origin low-centre so the composer never leaves frame
-export const CAM = [
-  [0, 1], [T.yt - 0.3, 1], [T.yt + 0.8, 1.05], [T.sw2 - 0.5, 1.05], [T.sw2 + 0.5, 1],
-  [T.genDone - 0.4, 1], [T.genDone + 0.6, 1.08], [T.move2 - 0.2, 1.08], [T.move2 + 0.7, 1],
-];
-
 export { T, VO };

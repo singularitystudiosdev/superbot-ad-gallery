@@ -2,13 +2,13 @@
 // push-up smoothing, which eases whatever height change layout produced. ?t=12.5 freezes a frame, ?cues=1 (or C)
 // shows the voiceline teleprompter, ?name=Adrian personalises the greeting, ?rate=0.5 slows playback.
 // Playback holds on the finished chat (the creator cuts to their own channel); the next click plays the end card.
-import { T, VO, PRE, CREATOR, CAM, KEYS1, KEYS2, PROMPT1, PROMPT2, TEXT } from './beats.aecdec41.js?v=8';
+import { T, VO, PRE, CREATOR, KEYS1, KEYS2, PROMPT1, PROMPT2, TEXT } from './beats.aecdec41.js?v=10';
 
 const q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 
-const stage = $('#stage'), cam = $('#cam'), feed = $('#feed'), bar = $('#comp'), scrim = $('#scrim');
+const stage = $('#stage'), feed = $('#feed'), bar = $('#comp'), scrim = $('#scrim');
 const greet = $('#greet'), links = $('#links'), endCard = $('#end'), gen = $('#gen');
 const hint = $('#hint');
 const typed = $('#c-typed'), placeholder = $('#c-ph'), caret = $('#caret'), send = $('#send');
@@ -108,10 +108,6 @@ function renderSays(t) {
   }
 }
 
-const turnClocks = $$('.turn-dur').map((el) => ({ el, from: T[el.dataset.from], to: T[el.dataset.to] }));
-function renderTurnClocks(t) {
-  for (const c of turnClocks) setText(c.el, ` · ${Math.max(0, Math.floor(Math.min(t, c.to) - c.from))}s`);
-}
 
 // ---- composer: the home (hero) bar docks under the transcript on the first send ---------------------------------
 const HERO = { x: 144, y: 229, w: 832, h: 172, ctl: 32, gly: 16, fpy: 16, fpx: 12, cpt: 4, cpb: 8, disc: 0 };
@@ -200,14 +196,6 @@ function renderEnd(t) {
   setStyle(endParts.sub, '--bob', (Math.sin(t * 4) * 5).toFixed(2) + 'px');
 }
 
-function camScale(t) {
-  for (let i = 1; i < CAM.length; i++) {
-    const [t0, s0] = CAM[i - 1];
-    const [t1, s1] = CAM[i];
-    if (t < t1) return s0 + (s1 - s0) * easeInOut(seg(t, t0, t1));
-  }
-  return CAM[CAM.length - 1][1];
-}
 
 let stageScale = 1;
 
@@ -262,10 +250,8 @@ function render(t, dt, snap) {
   setStyle(stage, '--sh', (100 - ((t * 0.75) % 1) * 100).toFixed(1) + '%');
   setStyle(stage, '--rot', ((t * 360) % 360).toFixed(1) + 'deg');
   setStyle(gen, '--gb', (100 - (((t - T.gen) * 0.6) % 1) * 100).toFixed(1) + '%');
-  setStyle(cam, 'transform', `scale(${camScale(t).toFixed(4)})`);
   renderTimed(t);
   renderSays(t);
-  renderTurnClocks(t);
   renderComposer(t);
   smoothFeed(dt, snap);
   renderEnd(t);

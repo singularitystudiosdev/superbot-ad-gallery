@@ -1,14 +1,14 @@
 // Skydio slide beat (the 'skydio' variant): asked for one slide on Skydio for a club's guest speaker, with the Fort Collins
-// flight test site emphasised, superbot reads skydio.com (a connector chip with the site's own mark), then Gemini answers
-// with a line and ONE Google-Slides-style slide in the pitchdeck variant's frame (beats/pitchdeck.fad54971.js: the dark
-// card, its head with Share, Expand and Export to Slides, and the 496 x 279 stage with its shimmer skeleton). No filmstrip
+// flight test site emphasised, superbot reads skydio.com (a connector chip with the site's own mark), then ChatGPT answers
+// with a line and ONE slide in the pitchdeck variant's frame (beats/pitchdeck.fad54971.js: the dark
+// card, its head with Share, Expand and a Download .pptx control, and the 496 x 279 stage with its shimmer skeleton). No filmstrip
 // and no advancing: the stage shimmers, the slide lands from a slight zoom on the same clock as the other variants'
 // results (beats/thumb-land.309eb9c5.js), and its pieces then build in order, the title rule, the headline, what Skydio
 // builds and focuses on, and last the Fort Collins panel, which is the slide's one bold element. Squeezed into the window
 // the router leaves (times(r, end)); a pure function of t, with no pointer. Its stylesheet (../skydio.c9774aa7.css) loads with
 // the module, and the pitchdeck stylesheet it builds on loads beside it (once). Every line of copy is a sourced fact
 // (img/skydio.c9774aa7/CREDITS.txt): the sources describe a flight test site in Fort Collins, not an office, so the slide
-// says test site. The photo is a real public-domain photo of a Skydio X10.
+// says test site. The photo is Skydio's own product image of an X10 in its Dock, from skydio.com.
 import { lerp, seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { landing, shimmer, settle } from './thumb-land.309eb9c5.js';
@@ -18,10 +18,10 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 
 const SAY = 'Here’s your Skydio slide, with the Fort Collins test site up front.';
-const CSS = new URL('../skydio.c9774aa7.css?v=1', import.meta.url).href;
+const CSS = new URL('../skydio.c9774aa7.css?v=2', import.meta.url).href;
 const PD_CSS = new URL('../pitchdeck.fad54971.css?v=6', import.meta.url).href;
 const TITLE = 'Skydio guest speaker slide';
-const PHOTO = 'skydio.c9774aa7/x10-in-flight.jpg'; // 640 x 425, public domain (CREDITS.txt)
+const PHOTO = 'skydio.c9774aa7/dock-for-x10.jpg'; // 752 x 367 crop, Skydio's own product image of an X10 in its Dock (CREDITS.txt)
 
 // the slide's inner markup at stage size. data-fx marks what builds once the slide has landed (the same row / x vocabulary
 // as the pitchdeck slides), data-k its order, data-s / data-d an own start offset and duration in seconds
@@ -35,7 +35,7 @@ const slide = (x) => `<div class="sd-sl">
   </div>
   <div class="sd-fc" data-fx="row" data-s="0.3" data-d="0.34">
     <div class="sd-band">Fort Collins, CO</div>
-    <img class="sd-photo" src="${x.img(PHOTO)}" width="188" height="92" alt="A Skydio X10 drone in flight">
+    <img class="sd-photo" src="${x.img(PHOTO)}" width="188" height="92" alt="A Skydio X10 drone sitting inside an open Skydio Dock for X10">
     <ul>
       <li data-fx="row" data-s="0.78">Flight test site at CSU’s Christman Field</li>
       <li data-fx="row" data-s="0.92">Flight test operators fly docked and hand-flown missions</li>
@@ -80,9 +80,9 @@ export default {
     const T = k.T;
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="pd sd">
-      <div class="pd-head"><b>Skydio guest speaker</b><span>1 slide</span>${shareBtn(TITLE)}${EXPAND}<span class="pd-exp"><img src="${x.brand('slides-logo.svg')}" alt=""/>Export to Slides</span></div>
+      <div class="pd-head"><b>Skydio guest speaker</b><span>1 slide</span>${shareBtn(TITLE)}${EXPAND}<span class="pd-exp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download .pptx</span></div>
       <div class="pd-stage"><div class="pd-shm"><i></i></div><div class="sd-sw">${slide(x)}</div>
-        <span class="qc-genl">${x.tile('gemini')}Creating slide</span>
+        <span class="qc-genl">${x.tile('chatgpt')}Creating slide</span>
       </div>
     </div>`);
     const $ = (s) => block.querySelector(s);

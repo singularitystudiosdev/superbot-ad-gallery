@@ -1,11 +1,13 @@
-x10-in-flight.jpg
-  640px-wide JPEG (q80, resized from the 1230x818 original, no crop) of a Skydio X10 in a flight test at Skydio, San Mateo,
-  California, 2023-12-12. U.S. Department of Defense photo by U.S. Navy Petty Officer 1st Class Alexander Kubitza
-  (DoD release ID 231212-D-PM193-2701). Work of the U.S. federal government: public domain (Wikimedia Commons: Public
-  domain, no attribution required).
-  Source: https://commons.wikimedia.org/wiki/File:Skydio_X10_in_flight.jpg
-  Original: https://upload.wikimedia.org/wikipedia/commons/4/4a/Skydio_X10_in_flight.jpg
-  Not a Fort Collins photo; it is a real Skydio X10 photo used for the Fort Collins flight-test panel.
+dock-for-x10.jpg
+  752x367 JPEG, cropped (rect 600,1180,2375,1160 of the 3575x2507 original) and resized by the site's own image CDN, q80, no
+  other edits: Skydio's own product image of an open Skydio Dock for X10 with a Skydio X10 drone docked on a rooftop at sunset (the site's alt text:
+  "open Skydio Dock for X10 with Skydio X10 drone on a rooftop in a city setting"). Shown inside the slide's Fort Collins
+  panel, which says flight test operators fly docked and hand-flown missions.
+  Source page: https://www.skydio.com/dock (the image sits in the site's product navigation, also served on https://www.skydio.com/x10)
+  Direct image URL: https://cdn.sanity.io/images/mgxz50fq/production-v3-red/f7d19072039f498ee4f69635af8f5c127d4c49b8-3575x2507.jpg
+  (fetched 2026-10-16 as ...jpg?rect=600,1180,2375,1160&w=752&q=80, which crops to the docked X10 so it reads at 188x92)
+  (c) Skydio, Inc.; the subject company's own product imagery, shown inside a mock slide about Skydio (same basis as the
+  traderjoes variant's retailer images). Not a Fort Collins photo. Never credited on screen.
 
 skydio-mark.png
   The Skydio mark, resized to 64x64 from the site's own apple-touch-icon, no edits otherwise.

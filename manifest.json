@@ -458,7 +458,7 @@
     "title": "superbot: I need a slide for Skydio drones as our club will have a guest speaker from skydio",
     "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=skydio",
     "thumb": "assets/shots/gemini-muse-meme-skydio-superbot-c9774aa7.png",
-    "desc": "The Gemini muse meme spot, Skydio slide cut. \"I need a slide for Skydio drones as our club will have a guest speaker from skydio talking about what the company does and focuses on along with emphaises on what there fort collins office does\" is typed; superbot shows Reading skydio.com, then Switching to Gemini, and Gemini answers with one Google Slides style slide: Guest Speaker: Skydio, what the company builds (X10 and Dock, F10 Lightrunner, R10, Skydio Command) and its focus areas, with a Fort Collins, CO panel carrying a real Skydio X10 photo and the flight test site at CSU’s Christman Field. Every line is a sourced fact, nothing invented. 10.7 s run; the top-right selector switches variants live."
+    "desc": "The muse meme spot, Skydio slide cut. \"I need a slide for Skydio drones as our club will have a guest speaker from skydio talking about what the company does and focuses on along with emphaises on what there fort collins office does\" is typed; superbot shows Reading skydio.com, then Switching to ChatGPT, and ChatGPT answers with one slide to download as a .pptx: Guest Speaker: Skydio, what the company builds (X10 and Dock, F10 Lightrunner, R10, Skydio Command) and its focus areas, with a Fort Collins, CO panel carrying Skydio’s own photo of an X10 in its Dock and the flight test site at CSU’s Christman Field. Every line is a sourced fact, nothing invented. 10.7 s run; the top-right selector switches variants live."
   },
   {
     "id": "gemini-muse-16x9-1",

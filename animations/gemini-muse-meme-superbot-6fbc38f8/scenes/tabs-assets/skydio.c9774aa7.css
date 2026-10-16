@@ -3,10 +3,14 @@
    the module loads beside it). The slide is authored once at stage size. Palette, sampled from skydio.com's own CSS: paper
    #f7f7f7, ink #1d1d1f, muted #6e6e73, hairline #d9d9d9 and Skydio blue #087cdb, the one accent, used only on the title rule
    and the Fort Collins panel's band. Radius: 4px for the panel and its photo (the stage's own 6px is the pitchdeck's). The
-   Fort Collins panel is the one bold element: the right 40% of the slide, a band over a real Skydio photo over three facts. */
+   Fort Collins panel is the one bold element: the right 40% of the slide, a band over Skydio's own X10-in-Dock photo over three facts. */
 /* the connected site's chip tile, as the other connectors' (chat.css .qc-t-gemini): the site's own mark fills it */
 #s-tabs .sbsite .hub .qc-t-skydio { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
 #s-tabs .sbsite .hub .qc-t-skydio img { width: 100%; height: 100%; object-fit: cover; }
+/* ChatGPT answers this variant: its tile is the OpenAI mark's own black disc, ringed as the skydio tile is */
+#s-tabs .sbsite .hub .qc-t-chatgpt { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
+/* the head's Download .pptx control carries a download glyph where the pitchdeck's Export to Slides carries the Slides logo */
+#s-tabs .sbsite .hub .sd .pd-exp svg { display: block; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 #s-tabs .sbsite .hub .sd-sw { position: absolute; inset: 0; will-change: transform; }
 #s-tabs .sbsite .hub .sd-sl { position: absolute; inset: 0; overflow: hidden; background: #f7f7f7; color: #1d1d1f; font-family: var(--ui); }
@@ -20,7 +24,7 @@
 
 #s-tabs .sbsite .hub .sd-fc { position: absolute; right: 14px; top: 14px; bottom: 14px; width: 188px; overflow: hidden; border-radius: 4px; background: #f7f7f7; box-shadow: inset 0 0 0 1px #d9d9d9; }
 #s-tabs .sbsite .hub .sd-band { height: 28px; padding: 0 12px; background: #087cdb; font: 600 14px/28px var(--ui); letter-spacing: -.01em; color: #fff; }
-#s-tabs .sbsite .hub .sd-photo { display: block; width: 188px; height: 92px; object-fit: cover; object-position: 50% 45%; }
+#s-tabs .sbsite .hub .sd-photo { display: block; width: 188px; height: 92px; object-fit: cover; object-position: 50% 50%; }
 #s-tabs .sbsite .hub .sd-fc ul { margin: 0; padding: 10px 12px 0; list-style: none; }
 #s-tabs .sbsite .hub .sd-fc li { padding: 0 0 8px; font: 500 11px/14px var(--ui); color: #1d1d1f; }
 

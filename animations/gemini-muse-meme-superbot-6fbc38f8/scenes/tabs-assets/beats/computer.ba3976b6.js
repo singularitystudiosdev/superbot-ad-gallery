@@ -1,9 +1,11 @@
 // Computer-control beat (the 'computer-control-v3' variant): asked "Take computer control and open a tab", superbot
 // answers in one line and shows a live view of the user's screen in the artifact frame (bakery.005f5570.js: the title,
-// Share and, in Publish's place, a Stop button). It takes control the way agent browsers signal it: a glow in
-// superbot's two mark colours (chat.css .sbm-c / .sbm-m) fades in all round the screen's edge, brightest on the edge
-// and fading smoothly inward, and a small pill rises at the bottom ("superbot is controlling your computer"). Then the shared pointer glides onto
-// the browser's new-tab button, presses it, and a New Tab grows in beside the first: the active state moves to it, the
+// Share and, in Publish's place, a Stop button). The view is the whole display edge to edge, as a real screen share
+// shows it: the browser fills the display, with no made-up margin around the window. It takes
+// control the way a desktop agent can actually show it, with a click-through overlay window over the whole display: a
+// glow in superbot's two mark colours (chat.css .sbm-c / .sbm-m) fades in round the display's edges, so on the
+// browser all the way round, brightest on the edge and fading smoothly inward, and a small pill rises at the bottom ("superbot is
+// controlling your computer"). Then the shared pointer glides onto the browser's new-tab button, presses it, and a New Tab grows in beside the first: the active state moves to it, the
 // page crossfades to a new-tab page and the address bar takes focus with a blinking caret. Every move is an eased
 // fade or glide (outCubic, path's inOutCubic), nothing bounces. Squeezed into the window the Gemini beat leaves plus
 // the route's `extra` (chat.9b47fc30.js routeBy), so the scene is a pure function of t. Its stylesheet
@@ -17,7 +19,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 
 const SAY = 'Done. I took control of your computer and opened a new tab.';
-const CSS = new URL('../computer.ba3976b6.css?v=6', import.meta.url).href;
+const CSS = new URL('../computer.ba3976b6.css?v=7', import.meta.url).href;
 const TAB_W = 150; // a tab's width (computer.ba3976b6.css .cc3-tab)
 const PLUS_GAP = 4; // the new-tab button's left margin (.cc3-plus)
 const PLUS = 24; // the new-tab button's size (.cc3-plus)

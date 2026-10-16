@@ -22,7 +22,7 @@ import spending from './beats/spending.b92c87dc.js?v=1';
 import reminder from './beats/reminder.e55fb320.js?v=3';
 import computerControl from './beats/computer-control.e1ecb597.js?v=1';
 import computerV1 from './beats/computer-v1.15a35ef7.js?v=1';
-import computerV3, { withEdge as computerV3Edge } from './beats/computer.ba3976b6.js?v=3';
+import computerV3, { withEdge as computerV3Edge } from './beats/computer.ba3976b6.js?v=4';
 import { variant } from '../../variant.9e82faf1.js';
 
 const brand = (f) => new URL('../../brand/' + f, import.meta.url).href;

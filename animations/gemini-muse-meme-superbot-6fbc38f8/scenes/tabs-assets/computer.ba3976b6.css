@@ -1,16 +1,17 @@
 /* The 'computer-control-v3' variant's answer (beats/computer.ba3976b6.js): the artifact frame (bakery.005f5570.css .bk)
-   over a live view of the user's screen. A quiet dark desktop, one light browser window (tab strip, toolbar, page),
-   then the takeover layers on top: an edge glow in superbot's mark colours (#00e5c3 cyan, #c026d3 magenta; chat.css
-   .sbm-c/.sbm-m) that fades inward, and a status pill. No CSS animation or transition: the beat sets every opacity,
+   over a live view of the user's screen: the whole display edge to edge, as a real screen share shows it, filled by
+   one light browser window (tab strip, toolbar, page). Then the takeover layers on top, drawn where a real takeover
+   overlay (a click-through window over the whole display) can draw: an edge glow in superbot's mark colours (#00e5c3
+   cyan, #c026d3 magenta; chat.css .sbm-c/.sbm-m) round the display's edges, so on the browser all the way round,
+   fading inward, and a status pill. No CSS animation or transition: the beat sets every opacity,
    width and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself, so index.html needs no
    link. Browser palette: strip #dee1e6, page #fff, omnibox #f1f3f4, ink #1f1f1f, icons #5f6368, focus #1a73e8. */
 #s-tabs .sbsite .hub .cc3 .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
 #s-tabs .sbsite .hub .cc3-stop { gap: 7px; }
 #s-tabs .sbsite .hub .cc3-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
 
-/* the screen and the browser window on it */
-#s-tabs .sbsite .hub .cc3-screen { background: radial-gradient(120% 100% at 50% 0%, #24262d 0%, #141518 72%); }
-#s-tabs .sbsite .hub .cc3-win { position: absolute; left: 18px; right: 18px; top: 16px; bottom: 0; overflow: hidden; border-radius: 10px 10px 0 0; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.3), 0 14px 34px rgba(0,0,0,.4); }
+/* the display, filled edge to edge by the browser window: no margin a real screen would not have */
+#s-tabs .sbsite .hub .cc3-win { position: absolute; inset: 0; overflow: hidden; background: #fff; }
 #s-tabs .sbsite .hub .cc3-screen svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 #s-tabs .sbsite .hub .cc3-ic { flex: none; display: grid; place-items: center; width: 14px; height: 14px; color: #5f6368; }
 #s-tabs .sbsite .hub .cc3-dim { opacity: .4; }

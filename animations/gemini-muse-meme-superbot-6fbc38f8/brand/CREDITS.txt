@@ -80,7 +80,8 @@ FISH AUDIO (song variant: routing chip, reply header, platform chip, cover art)
                             the marks.
   Usage: trademarks of Fish Audio; shown nominatively, naming the product that answers the ask.
 
-GOOGLE SLIDES (pitchdeck variant: 'Connecting to Google Slides' routing chip, reply header, platform chip, 'Export to Slides' pill)
+GOOGLE SLIDES (pitchdeck variant: 'Connecting to Google Slides' routing chip, reply header, platform chip, 'Export to Slides' pill;
+               skydio variant: the same 'Export to Slides' pill)
   slides-logo.svg           the Google Slides product icon (2020 Workspace logo: yellow page, folded corner, white slide
                             frame), byte-for-byte copy of https://commons.wikimedia.org/wiki/File:Google_Slides_2020_Logo.svg
                             (fetched 2026-10-14 via Special:FilePath). Same artwork as Google's own product icon

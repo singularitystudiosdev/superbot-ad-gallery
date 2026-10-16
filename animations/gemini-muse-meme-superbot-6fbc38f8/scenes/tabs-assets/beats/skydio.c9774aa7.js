@@ -1,7 +1,7 @@
 // Skydio slide beat (the 'skydio' variant): asked for one slide on Skydio for a club's guest speaker, with the Fort Collins
 // flight test site emphasised, superbot reads skydio.com (a connector chip with the site's own mark), then ChatGPT answers
 // with a line and ONE slide in the pitchdeck variant's frame (beats/pitchdeck.fad54971.js: the dark
-// card, its head with Share, Expand and a Download .pptx control, and the 496 x 279 stage with its shimmer skeleton). No filmstrip
+// card, its head with Share, Download, Expand and Export to Slides, and the 496 x 279 stage with its shimmer skeleton). No filmstrip
 // and no advancing: the stage shimmers, the slide lands from a slight zoom on the same clock as the other variants'
 // results (beats/thumb-land.309eb9c5.js), and its pieces then build in order, the title rule, the headline, what Skydio
 // builds and focuses on, and last the Fort Collins panel, which is the slide's one bold element. Squeezed into the window
@@ -16,10 +16,12 @@ import { landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 // the Share control every output card carries, in front of Expand
 import { shareBtn } from './share.29a362ea.js';
+// the pitchdeck head's glyph-only Download; the same specifier chat.9b47fc30.js imports, so it stays one module
+import { DOWNLOAD } from './pitchdeck.fad54971.js?v=2';
 
 const SAY = 'Here’s your Skydio slide, with the Fort Collins test site up front.';
-const CSS = new URL('../skydio.c9774aa7.css?v=2', import.meta.url).href;
-const PD_CSS = new URL('../pitchdeck.fad54971.css?v=6', import.meta.url).href;
+const CSS = new URL('../skydio.c9774aa7.css?v=3', import.meta.url).href;
+const PD_CSS = new URL('../pitchdeck.fad54971.css?v=7', import.meta.url).href;
 const TITLE = 'Skydio guest speaker slide';
 const PHOTO = 'skydio.c9774aa7/dock-for-x10.jpg'; // 752 x 367 crop, Skydio's own product image of an X10 in its Dock (CREDITS.txt)
 
@@ -80,7 +82,7 @@ export default {
     const T = k.T;
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="pd sd">
-      <div class="pd-head"><b>Skydio guest speaker</b><span>1 slide</span>${shareBtn(TITLE)}${EXPAND}<span class="pd-exp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download .pptx</span></div>
+      <div class="pd-head"><b>Skydio guest speaker</b><span>1 slide</span>${shareBtn(TITLE)}${DOWNLOAD}${EXPAND}<span class="pd-exp"><img src="${x.brand('slides-logo.svg')}" alt=""/>Export to Slides</span></div>
       <div class="pd-stage"><div class="pd-shm"><i></i></div><div class="sd-sw">${slide(x)}</div>
         <span class="qc-genl">${x.tile('chatgpt')}Creating slide</span>
       </div>

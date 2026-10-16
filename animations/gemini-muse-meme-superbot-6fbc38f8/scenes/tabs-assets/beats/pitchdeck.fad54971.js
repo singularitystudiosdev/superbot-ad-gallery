@@ -13,8 +13,12 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 // the Share control every output card carries, in front of Expand (chat.css .pd-head .bk-share keeps the push to the right)
 import { shareBtn } from './share.29a362ea.js';
 
+// the head's glyph-only Download, a square twin of the Share control beside it (../pitchdeck.fad54971.css .pd-dl); the skydio
+// variant's head (beats/skydio.c9774aa7.js) carries the same one
+export const DOWNLOAD = '<span class="bk-btn pd-dl" role="img" aria-label="Download"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span>';
+
 const SAY = 'Here’s your pitch deck.';
-const CSS = new URL('../pitchdeck.fad54971.css?v=6', import.meta.url).href;
+const CSS = new URL('../pitchdeck.fad54971.css?v=7', import.meta.url).href;
 // `LAND` is when each slide lands, as a share of the generation window (the climbing variant's schedule)
 const LAND = [0.4, 0.52, 0.64, 0.76, 0.88, 1];
 const N = LAND.length;
@@ -89,7 +93,7 @@ export default {
     const T = k.T;
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
     const block = x.el(`<div class="pd">
-      <div class="pd-head"><b>Fernway pitch deck</b><span>${N} slides</span>${shareBtn('Fernway pitch deck')}${EXPAND}<span class="pd-exp"><img src="${x.brand('slides-logo.svg')}" alt=""/>Export to Slides</span></div>
+      <div class="pd-head"><b>Fernway pitch deck</b><span>${N} slides</span>${shareBtn('Fernway pitch deck')}${DOWNLOAD}${EXPAND}<span class="pd-exp"><img src="${x.brand('slides-logo.svg')}" alt=""/>Export to Slides</span></div>
       <div class="pd-stage"><div class="pd-shm"><i></i></div>${SLIDES.map((s) => `<div class="pd-sw">${s}</div>`).join('')}
         <div class="pd-nav"><span class="pd-nb pd-prev">${PREV}</span><em></em><span class="pd-nb pd-next">${NEXT}</span></div>
         <span class="qc-genl">${x.tile('gemini')}Creating slides<b class="qc-genn"></b></span>

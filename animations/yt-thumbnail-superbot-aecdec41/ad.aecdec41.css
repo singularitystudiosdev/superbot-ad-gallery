@@ -108,8 +108,6 @@ p { margin: 0; }
 
 .turn { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
 .turn-head { position: relative; height: 31px; display: flex; align-items: center; }
-.avatar { position: absolute; left: 0; top: 3.5px; width: 24px; height: 24px; border-radius: 50%; background: var(--color-raised); display: grid; place-items: center; }
-.avatar .gm { width: 15px; height: 15px; }
 .turn-label { margin-left: 60px; font: 400 13px/19px var(--font-ui); color: var(--color-muted); font-variant-numeric: tabular-nums; }
 .turn-label b { font-weight: 600; color: var(--color-fg); }
 .slot { padding-left: 60px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
@@ -155,7 +153,7 @@ p { margin: 0; }
 .say-caret { display: inline-block; width: 2px; height: 1em; margin-left: 1px; vertical-align: -0.12em; background: currentColor; animation: caret-pulse 1s ease-in-out infinite alternate; }
 @keyframes caret-pulse { to { opacity: 0.2; } }
 
-.generating { position: relative; width: 360px; height: 360px; border-radius: 8px; border: 1px solid var(--color-line); background: var(--color-raised); overflow: hidden; }
+.generating { position: relative; width: 540px; aspect-ratio: 16 / 9; border-radius: 8px; border: 1px solid var(--color-line); background: var(--color-raised); overflow: hidden; }
 .gen-band { position: absolute; inset: 0; background: linear-gradient(90deg, transparent 30%, var(--fg-a12) 50%, transparent 70%); background-size: 250% 100%; background-position: var(--gb, 100%) 0; }
 .gen-chip { position: absolute; left: 8px; bottom: 8px; display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px 0 4px; border-radius: 9999px; border: 1px solid var(--color-line); background: var(--color-bg); font: 600 11px/16px var(--font-ui); color: var(--color-fg); }
 .image-card { width: 540px; aspect-ratio: 16 / 9; border-radius: 8px; border: 1px solid var(--color-line); background: var(--color-raised); overflow: hidden; }
@@ -180,9 +178,6 @@ p { margin: 0; }
 .end-sub { display: flex; align-items: center; gap: 14px; font: 500 38px/1 var(--font-ui); color: #a1a1a6; }
 .end-sub svg { width: 38px; height: 38px; transform: translateY(var(--bob, 0px)); }
 
-/* ---- scripted pointer (the real cursor is hidden once playing) ---- */
-#cursor { position: absolute; left: 0; top: 0; width: 34px; height: 34px; opacity: 0; pointer-events: none; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45)); z-index: 20; }
-#cursor svg { width: 100%; height: 100%; fill: #111; stroke: #fff; stroke-width: 1.5; }
 
 /* ---- rehearsal overlay (?cues=1 or C) and the load hint ---- */
 #cues { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 80px 30px; background: linear-gradient(to top, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.65) 70%, transparent); text-align: center; z-index: 30; }

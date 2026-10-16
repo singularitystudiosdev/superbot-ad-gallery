@@ -2,15 +2,15 @@
 // push-up smoothing, which eases whatever height change layout produced. ?t=12.5 freezes a frame, ?cues=1 (or C)
 // shows the voiceline teleprompter, ?name=Adrian personalises the greeting, ?rate=0.5 slows playback.
 // Playback holds on the finished chat (the creator cuts to their own channel); the next click plays the end card.
-import { T, VO, PRE, CREATOR, CAM, KEYS1, KEYS2, PROMPT1, PROMPT2, TEXT } from './beats.aecdec41.js';
+import { T, VO, PRE, CREATOR, CAM, KEYS1, KEYS2, PROMPT1, PROMPT2, TEXT } from './beats.aecdec41.js?v=6';
 
 const q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 
 const stage = $('#stage'), cam = $('#cam'), feed = $('#feed'), bar = $('#comp'), scrim = $('#scrim');
-const greet = $('#greet'), links = $('#links'), endCard = $('#end'), gen = $('#gen'), img = $('#img');
-const cursor = $('#cursor'), hint = $('#hint');
+const greet = $('#greet'), links = $('#links'), endCard = $('#end'), gen = $('#gen');
+const hint = $('#hint');
 const typed = $('#c-typed'), placeholder = $('#c-ph'), caret = $('#caret'), send = $('#send');
 const model = $('#model'), modelName = $('#m-name'), modelDial = $('#m-dial');
 const cues = $('#cues'), cueNow = $('#cue-now'), cueNext = $('#cue-next'), cueT = $('#cue-t');
@@ -48,8 +48,6 @@ const seg = (t, a, b) => clamp01((t - a) / (b - a));
 const lerp = (a, b, p) => a + (b - a) * p;
 const easeOut = (p) => 1 - Math.pow(1 - p, 3);
 const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
-// minimum-jerk profile (Flash & Hogan 1985): how a hand actually moves a mouse between two points
-const minJerk = (p) => p * p * p * (10 - 15 * p + 6 * p * p);
 
 // write a style or custom property only when it changes: untouched rows cost no style recalc
 const setStyle = (el, prop, value) => {
@@ -211,59 +209,7 @@ function camScale(t) {
   return CAM[CAM.length - 1][1];
 }
 
-// ---- scripted pointer ------------------------------------------------------------------------------------------
 let stageScale = 1;
-const at = (el, fx, fy) => () => {
-  const r = el.getBoundingClientRect();
-  const sr = stage.getBoundingClientRect();
-  return { x: (r.left + r.width * fx - sr.left) / stageScale, y: (r.top + r.height * fy - sr.top) / stageScale };
-};
-const fixed = (x, y) => () => ({ x, y });
-
-const MOVES = [
-  { a: T.move1, b: T.click1, to: at(bar, 0.3, 0.2) },
-  { a: T.aside1, b: T.aside1 + 0.9, to: fixed(1600, 560) },
-  { a: T.movePick, b: T.hoverPick, to: at(img, 0.62, 0.5) },
-  { a: T.move2, b: T.click2, to: at(bar, 0.36, 0.27) },
-  { a: T.aside2, b: T.aside2 + 0.9, to: fixed(1610, 520) },
-];
-const restAt = new Array(MOVES.length).fill(null);
-let cursorStart = { x: 1320, y: 780 };
-
-function arc(a, b, p) {
-  const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1;
-  const bow = Math.min(60, d * 0.1) * Math.sin(Math.PI * p);
-  return { x: a.x + dx * p - (dy / d) * bow, y: a.y + dy * p + (dx / d) * bow };
-}
-
-function cursorAt(t) {
-  let p = cursorStart;
-  for (let i = 0; i < MOVES.length; i++) {
-    const m = MOVES[i];
-    if (t < m.a) break;
-    if (t < m.b) return arc(p, m.to(), minJerk((t - m.a) / (m.b - m.a)));
-    restAt[i] ??= m.to();
-    p = restAt[i];
-  }
-  return p;
-}
-
-function renderCursor(t, idle) {
-  // macOS hides the pointer while you type, until the mouse moves again
-  const typing = (t >= T.type1 && t < T.aside1) || (t >= T.type2 && t < T.aside2);
-  const visible = idle || typing ? 0 : 1 - seg(t, T.end, T.end + 0.3);
-  const p = cursorAt(t);
-  setStyle(cursor, 'opacity', String(visible));
-  setStyle(cursor, 'transform', `translate(${(p.x - 7).toFixed(2)}px, ${(p.y - 3.5).toFixed(2)}px)`);
-
-  // the home mascot's eyes track the scripted pointer the way superbot.gg's track the real one
-  if (!idle && t < T.send1 + 0.3 && (p.x !== lookedAt.x || p.y !== lookedAt.y)) {
-    lookedAt = p;
-    const sr = stage.getBoundingClientRect();
-    dispatchEvent(new PointerEvent('pointermove', { clientX: sr.left + p.x * stageScale, clientY: sr.top + p.y * stageScale }));
-  }
-}
-let lookedAt = { x: NaN, y: NaN };
 
 // ---- teleprompter ----------------------------------------------------------------------------------------------
 let cuesOn = q.get('cues') === '1';
@@ -323,12 +269,11 @@ function render(t, dt, snap) {
   renderComposer(t);
   smoothFeed(dt, snap);
   renderEnd(t);
-  renderCursor(t, idle);
   renderCues(t, idle);
   setStyle(hint, 'opacity', idle && performance.now() - loadedAt < 4000 && !q.has('clean') ? '1' : '0');
 }
 
-function frame(now) {
+function tick(now) {
   const dt = Math.min(0.1, Math.max(0, now - lastNow) / 1000);
   lastNow = now;
   if (state === 'playing') {
@@ -346,19 +291,23 @@ function frame(now) {
   // a starved frame (>=100 ms) snaps the feed instead of easing it from a stale position
   render(t, dt, jumped || state !== 'playing' || dt >= 0.1);
   jumped = false;
+}
+function frame(now) {
+  tick(now);
   requestAnimationFrame(frame);
 }
+// panes that starve requestAnimationFrame (an unfocused preview, an occluded window) still get ~30 redraws a
+// second from a timer, so the typing moves smoothly instead of in once-a-second jumps
+setInterval(() => {
+  const now = performance.now();
+  if (now - lastNow > 50) tick(now);
+}, 33);
 
 function jump() {
   jumped = true;
-  restAt.fill(null);
 }
 
-function start(evt) {
-  if (evt) {
-    const sr = stage.getBoundingClientRect();
-    cursorStart = { x: (evt.clientX - sr.left) / stageScale, y: (evt.clientY - sr.top) / stageScale };
-  }
+function start() {
   t = 0;
   jump();
   setState('playing');
@@ -372,15 +321,15 @@ function reset() {
   document.body.classList.remove('playing');
 }
 
-addEventListener('pointerdown', (e) => {
-  if (state === 'idle') start(e);
+addEventListener('pointerdown', () => {
+  if (state === 'idle') start();
   else if (state === 'held') setState('playing');
 });
 
 addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
     e.preventDefault();
-    if (state === 'idle') start(null);
+    if (state === 'idle') start();
     else if (state === 'playing') setState('paused');
     else if (state === 'paused' || state === 'held') setState('playing');
   } else if (e.key === 'r' || e.key === 'R') {

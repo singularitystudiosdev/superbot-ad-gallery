@@ -58,24 +58,24 @@
 
 /* the takeover's edge glow. .cc3-edge has the view's visible shape (square under the header, the card's 12px radius
    at the bottom; bakery.005f5570.css .bk clips there), so nothing cuts it. Inside, a turning two-colour band runs from
-   12px outside the edge to 10px inside it (a 22px padding masked out of a box set 12px out), and .cc3-soft blurs it:
-   brightest on the edge, fading smoothly to nothing about 25px in, its outer half clipped away by .cc3-edge. The blur
+   8px outside the edge to 7px inside it (a 15px padding masked out of a box set 8px out), and .cc3-soft blurs it:
+   brightest on the edge, fading smoothly to nothing about 17px in, its outer half clipped away by .cc3-edge. The blur
    sits on the band's parent because a filter on the masked element itself would run before its mask. */
 #s-tabs .sbsite .hub .cc3-edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; border-radius: 0 0 12px 12px; opacity: 0; pointer-events: none; }
-#s-tabs .sbsite .hub .cc3-soft { position: absolute; inset: -12px; filter: blur(10px); }
-#s-tabs .sbsite .hub .cc3-band { position: absolute; inset: 0; padding: 22px; border-radius: 0 0 32px 32px; background: conic-gradient(from var(--cc3-a, 0deg), #00e5c3, #c026d3, #00e5c3, #c026d3, #00e5c3); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+#s-tabs .sbsite .hub .cc3-soft { position: absolute; inset: -8px; filter: blur(7px); }
+#s-tabs .sbsite .hub .cc3-band { position: absolute; inset: 0; padding: 15px; border-radius: 0 0 23px 23px; background: conic-gradient(from var(--cc3-a, 0deg), #00e5c3, #c026d3, #00e5c3, #c026d3, #00e5c3); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
 /* the pink and purple vignettes (.cc3-e-*, the computer-control-v3-* variants): the same blurred band in pink and
    purple, so the edge melts into the screen like a thin rectangular vignette, each with its own moving gradient. Band
    extents and blur scale together, so each keeps the same smooth falloff at any depth. soft: a turning conic, about
-   20px deep. deep: about 33px of darker violets and pinks, turning slowly the other way. flow: a diagonal gradient
-   sliding back and forth (--cc3-p). pulse: a turning conic whose depth breathes in and out (--cc3-d, 3px to 17px). */
-#s-tabs .sbsite .hub .cc3-e-soft .cc3-soft { inset: -7px; filter: blur(6px); }
-#s-tabs .sbsite .hub .cc3-e-soft .cc3-band { padding: 18px; border-radius: 0 0 30px 30px; background: conic-gradient(from var(--cc3-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); }
-#s-tabs .sbsite .hub .cc3-e-deep .cc3-soft { inset: -9px; filter: blur(10px); }
-#s-tabs .sbsite .hub .cc3-e-deep .cc3-band { padding: 27px; border-radius: 0 0 39px 39px; background: conic-gradient(from calc(var(--cc3-a, 0deg) * -0.5), #7c3aed, #db2777, #6d28d9, #f472b6, #7c3aed); }
-#s-tabs .sbsite .hub .cc3-e-flow .cc3-soft { inset: -6px; filter: blur(7px); }
-#s-tabs .sbsite .hub .cc3-e-flow .cc3-band { padding: 19px; border-radius: 0 0 31px 31px; background: linear-gradient(120deg, #ec4899, #8b5cf6, #f472b6, #7c3aed, #ec4899) var(--cc3-p, 50%) 50% / 300% 300%; }
-#s-tabs .sbsite .hub .cc3-e-pulse .cc3-soft { inset: -6px; filter: blur(5.5px); }
-#s-tabs .sbsite .hub .cc3-e-pulse .cc3-band { padding: calc(6px + var(--cc3-d, 10px)); border-radius: 0 0 28px 28px; background: conic-gradient(from var(--cc3-a, 0deg), #ec4899, #a855f7, #f472b6, #7c3aed, #ec4899); }
+   14px deep. deep: about 23px of darker violets and pinks, turning slowly the other way. flow: a diagonal gradient
+   sliding back and forth (--cc3-p). pulse: a turning conic whose depth breathes in and out (--cc3-d, 2px to 12px). */
+#s-tabs .sbsite .hub .cc3-e-soft .cc3-soft { inset: -5px; filter: blur(4px); }
+#s-tabs .sbsite .hub .cc3-e-soft .cc3-band { padding: 13px; border-radius: 0 0 25px 25px; background: conic-gradient(from var(--cc3-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); }
+#s-tabs .sbsite .hub .cc3-e-deep .cc3-soft { inset: -6px; filter: blur(7px); }
+#s-tabs .sbsite .hub .cc3-e-deep .cc3-band { padding: 19px; border-radius: 0 0 31px 31px; background: conic-gradient(from calc(var(--cc3-a, 0deg) * -0.5), #7c3aed, #db2777, #6d28d9, #f472b6, #7c3aed); }
+#s-tabs .sbsite .hub .cc3-e-flow .cc3-soft { inset: -4px; filter: blur(5px); }
+#s-tabs .sbsite .hub .cc3-e-flow .cc3-band { padding: 13px; border-radius: 0 0 25px 25px; background: linear-gradient(120deg, #ec4899, #8b5cf6, #f472b6, #7c3aed, #ec4899) var(--cc3-p, 50%) 50% / 300% 300%; }
+#s-tabs .sbsite .hub .cc3-e-pulse .cc3-soft { inset: -4px; filter: blur(4px); }
+#s-tabs .sbsite .hub .cc3-e-pulse .cc3-band { padding: calc(4px + var(--cc3-d, 7px)); border-radius: 0 0 24px 24px; background: conic-gradient(from var(--cc3-a, 0deg), #ec4899, #a855f7, #f472b6, #7c3aed, #ec4899); }
 #s-tabs .sbsite .hub .cc3-pill { position: absolute; left: 50%; bottom: 16px; z-index: 5; display: flex; align-items: center; gap: 8px; height: 30px; box-sizing: border-box; padding: 0 14px 0 6px; border-radius: 15px; white-space: nowrap; opacity: 0; transform: translate(-50%, 8px); background: rgba(22,22,26,.9); box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 8px 24px rgba(0,0,0,.35); font: 500 11.5px/1 var(--ui); color: #f2f2f5; }
 #s-tabs .sbsite .hub .cc3-pill .qc-tile { width: 20px; height: 20px; border-radius: 10px; }

@@ -1,0 +1,5 @@
+thumb.png            Placeholder thumbnail supplied by the user (chat attachment, 2026-10-16).
+sb-mark-live.js/css  superbot.gg animated mark, copied verbatim from the gallery spot
+                     animations/gemini-muse-meme-superbot-6fbc38f8/assets (source: https://beta.superbot.gg/).
+openai.svg youtube.svg claude.svg googlegemini.svg
+                     Simple Icons v13 (CC0 1.0), https://cdn.jsdelivr.net/npm/simple-icons@13/icons/

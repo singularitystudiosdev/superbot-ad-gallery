@@ -26,21 +26,14 @@ function rng(seed) {
   };
 }
 
-// Keystroke times for a 90 wpm typist: a human rhythm (a beat after each space, the odd hesitation between words,
-// shift held for ':' and capitals), then rescaled so the whole prompt lands at exactly WPM (5 chars = 1 word).
-export const WPM = 90;
+// Keystroke times: one character every KEY_GAP seconds on average (the user's spec, 0.02 s), with a little seeded
+// jitter and a slightly longer beat after spaces so the text still lands in small bursts rather than a ruler-even feed.
+export const KEY_GAP = 0.02;
 export function keystrokes(text, start, seed) {
   const r = rng(seed);
   const gaps = [];
-  for (let i = 1; i < text.length; i++) {
-    let d = 0.095 + r() * 0.05;
-    if (text[i - 1] === ' ') d += 0.02 + r() * 0.03;
-    if (text[i - 1] === ' ' && r() < 0.12) d += 0.08 + r() * 0.06;
-    if (/[:A-Z]/.test(text[i])) d += 0.06;
-    gaps.push(d);
-  }
-  const span = (text.length / 5 / WPM) * 60;
-  const scale = span / gaps.reduce((a, b) => a + b, 0);
+  for (let i = 1; i < text.length; i++) gaps.push((text[i - 1] === ' ' ? 1.4 : 0.85) + r() * 0.3);
+  const scale = (KEY_GAP * gaps.length) / gaps.reduce((a, b) => a + b, 0);
   const times = [start];
   for (const d of gaps) times.push(times[times.length - 1] + d * scale);
   return times;
@@ -104,7 +97,8 @@ T.hoverPick = T.movePick + 0.8;
 
 // 6. the second ask
 const vo8 = say('8', vo7 + 4.0, 'and now I just ask: use this one and upload it to YouTube A:B tests');
-T.move2 = vo8 + 0.2;
+// the ask types out as the speaker reaches the quoted words, after "and now I just ask:"
+T.move2 = vo8 + 1.0;
 T.click2 = T.move2 + 0.7;
 T.type2 = T.click2 + 0.2;
 export const KEYS2 = keystrokes(PROMPT2, T.type2, 23);

@@ -161,10 +161,9 @@ body.idle .caret { animation: blink 1.05s steps(1) infinite; }
 #s-end .words h1 { margin: 0; font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #fff; }
 #s-end .words p { margin: 16px 0 0 6px; font-size: 34px; font-weight: 500; color: #aeb1bc; }
 
-/* ---- pointer + click ripple ---- */
+/* ---- pointer ---- */
 #cursor { position: absolute; left: 0; top: 0; z-index: 40; width: 38px; height: 38px; opacity: 0; transform-origin: 9.5px 4.75px; pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5)); }
 #cursor svg { width: 38px; height: 38px; stroke: none; }
-#ripple { position: absolute; left: 0; top: 0; z-index: 39; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .8); opacity: 0; pointer-events: none; }
 
 /* ---- operator chrome (never in a render) ---- */
 .hint { position: fixed; right: 18px; bottom: 14px; z-index: 50; font: 500 12px/1 var(--ui); color: #6e6e73; animation: hint-out 1s 6s forwards; }

@@ -1,10 +1,21 @@
-/* Click-to-start timeline for the superbot thumbnail spot. render(t) writes every moving value from t
-   (seconds since the click), so play, pause, seek and headless renders all land on the same frame.
-   Beat times line up with cues.67114eb1.js. */
+/* Click-to-start timeline for the superbot thumbnail spot. render(d) writes every moving value from the
+   DESIGN time d, the beat literals below and in index.html; warp() maps the real clock (seconds since the
+   click, what cues.67114eb1.js is timed in) onto it, so playback, seek and headless renders share frames. */
 (() => {
   'use strict';
   const qs = new URLSearchParams(location.search);
-  const CYCLE = 75;
+  // [real s, design s]: prompts type ~3x faster than the design, holds between lines are trimmed, and each
+  // voiceline window gets ~0.44 s a word. One run is 54.7 s after the click.
+  const KNOTS = [[0, 0], [.3, .6], [1.55, 4.3], [2.55, 5.6], [6.25, 10.2], [12.15, 17.3], [19.35, 25.9], [22.65, 30],
+    [26.65, 36.8], [32.95, 44.6], [35.55, 47.6], [37.22, 52.6], [37.62, 53.2], [43.22, 61.2], [49.02, 68], [52.32, 72], [54.72, 75]];
+  const CYCLE = KNOTS[KNOTS.length - 1][0];
+  function warp(r) {
+    for (let i = 1; i < KNOTS.length; i++) {
+      const [r0, d0] = KNOTS[i - 1], [r1, d1] = KNOTS[i];
+      if (r <= r1) return d0 + (d1 - d0) * Math.max(0, (r - r0) / (r1 - r0));
+    }
+    return KNOTS[KNOTS.length - 1][1];
+  }
   const SEND1 = 4.9, SEND2 = 53.2;
   const P1 = 'Make a thumbnail from my latest video';
   const P2 = 'Use this one and upload it to YouTube A/B tests';
@@ -64,7 +75,7 @@
   const res = $('#res'), openBtn = $('#openBtn');
   const row1Thumb = $('#row1Thumb'), row1Hl = $('#row1Hl'), tcBadge = $('#tcBadge'), snack = $('#snack');
   const endMark = $('#endMark'), endH1 = $('#s-end h1'), endP = $('#s-end p');
-  const cursor = $('#cursor'), ripple = $('#ripple'), cue = $('#cue'), toastEl = $('#toast');
+  const cursor = $('#cursor'), cue = $('#cue'), toastEl = $('#toast');
 
   if (window.sbMarkLive) {
     window.sbMarkLive('#heroMark', { size: 62 });
@@ -189,8 +200,7 @@
     endP.style.transform = `translateY(${(1 - pk) * 12}px)`;
   }
 
-  // ---------- pointer ----------
-  let click = { x: 960, y: 537 };
+  // ---------- pointer (only the in-app moves; the real click that starts the spot leaves no mark) ----------
   function center(el) {
     const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect();
     return { x: (r.left + r.width / 2 - s.left) / scale, y: (r.top + r.height / 2 - s.top) / scale };
@@ -201,7 +211,6 @@
     { a: 63.0, b: 67.8, from: [1240, 820], el: row1Thumb, m0: 63.2, md: .9, press: -1, dx: -52, dy: 26 },
   ];
   function cursorAt(t) {
-    if (t < 1.3) return { ...click, o: 1 - fin(t, .8, .45), s: press(t, .02) };
     for (const L of legs) {
       if (t < L.a || t >= L.b) continue;
       const c = center(L.el), k = eio(P(t, L.m0, L.md));
@@ -209,18 +218,10 @@
     }
     return null;
   }
-  const presses = [.02, 42.8, 61.6];
   function renderPointer(t) {
     const c = started ? cursorAt(t) : null;
     cursor.style.opacity = c ? c.o : 0;
     if (c) cursor.style.transform = `translate(${(c.x - 9.5).toFixed(1)}px, ${(c.y - 4.75).toFixed(1)}px) scale(${c.s})`;
-    const p = started ? presses.find((x) => t >= x && t < x + .55) : undefined;
-    if (p === undefined) { ripple.style.opacity = 0; return; }
-    const at = cursorAt(p + .001) || click, k = P(t, p, .55);
-    ripple.style.left = at.x + 'px';
-    ripple.style.top = at.y + 'px';
-    ripple.style.opacity = .9 * (1 - k);
-    ripple.style.transform = `scale(${.3 + 1.1 * eo(k)})`;
   }
 
   function render(t) {
@@ -241,7 +242,7 @@
     } else {
       const cur = C.timed.find((c) => t >= c.a && t < c.b), nxt = C.timed.find((c) => c.a > t);
       const now = cur ? cur.text : nxt ? `Next at ${nxt.a.toFixed(1)}s: ${nxt.text}` : '';
-      html = `<small>${t.toFixed(1)}s${paused ? ' · paused' : ''}</small>${esc(now)}` + (cur && nxt ? `<span class="nx">Next at ${nxt.a.toFixed(1)}s: ${esc(nxt.text)}</span>` : '');
+      html = `<small>${t.toFixed(1)}s</small>${esc(now)}` + (cur && nxt ? `<span class="nx">Next at ${nxt.a.toFixed(1)}s: ${esc(nxt.text)}</span>` : '');
     }
     if (html !== lastCue) { cue.innerHTML = html; lastCue = html; }
   }
@@ -256,40 +257,36 @@
   }
 
   // ---------- clock + controls ----------
-  let started = false, paused = false, t = 0, last = performance.now();
+  // One click starts it; after that it runs straight to the end card and later clicks do nothing.
+  // `held` is only set by __AD.seek, so headless renders can step frame by frame.
+  let started = false, held = false, t = 0, last = performance.now();
   let speed = clamp(+(qs.get('speed') || 1) || 1, .5, 1.5);
   const frozen = qs.has('t');
   // ?autoplay=1 (gallery tile): start without a click and loop, holding the end card 2.5 s
   const autoplay = qs.get('autoplay') === '1';
   let endAt = 0;
-  function start(x, y) {
+  function start() {
     if (started) return;
     started = true;
-    paused = false;
+    held = false;
     t = 0;
-    if (x != null) click = { x, y };
     document.body.classList.remove('idle');
     document.body.classList.add('playing');
   }
   function reset() {
     started = false;
-    paused = false;
+    held = false;
     t = 0;
     document.body.classList.add('idle');
     document.body.classList.remove('playing');
     caret.style.opacity = '';
     render(0);
   }
-  stage.addEventListener('click', (e) => {
-    if (started) return;
-    const s = stage.getBoundingClientRect();
-    start((e.clientX - s.left) / scale, (e.clientY - s.top) / scale);
-  });
+  stage.addEventListener('click', start);
   addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
       e.preventDefault();
-      if (!started) start();
-      else { paused = !paused; toast(paused ? 'Paused' : 'Playing'); }
+      start();
     } else if (e.key === 'r' || e.key === 'R') reset();
     else if (e.key === 'ArrowRight') { if (!started) start(); t = Math.min(CYCLE, t + 2); }
     else if (e.key === 'ArrowLeft') t = Math.max(0, t - 2);
@@ -305,12 +302,12 @@
   function loop(now) {
     const dt = Math.min(.1, (now - last) / 1000);
     last = now;
-    if (started && !paused && !frozen) t = Math.min(CYCLE, t + dt * speed);
-    if (autoplay && started && !paused && t >= CYCLE) {
+    if (started && !held && !frozen) t = Math.min(CYCLE, t + dt * speed);
+    if (autoplay && started && !held && t >= CYCLE) {
       endAt = endAt || now;
-      if (now - endAt > 2500) { endAt = 0; reset(); setTimeout(() => start(), 1200); }
+      if (now - endAt > 2500) { endAt = 0; reset(); setTimeout(start, 1200); }
     }
-    render(started ? t : 0);
+    render(started ? warp(t) : 0);
     renderCue(t);
     requestAnimationFrame(loop);
   }
@@ -318,17 +315,18 @@
   window.__AD = {
     ready: false,
     CYCLE,
-    seek(x) { if (!started) start(); paused = true; t = clamp(x, 0, CYCLE); render(t); },
+    seek(x) { start(); held = true; t = clamp(x, 0, CYCLE); render(warp(t)); },
     start,
     reset,
+    warp,
     get t() { return t; },
   };
   document.fonts.ready.then(() => {
     measure();
-    render(started ? t : 0);
+    render(started ? warp(t) : 0);
     window.__AD.ready = true;
     last = performance.now();
     requestAnimationFrame(loop);
-    if (autoplay && !frozen) setTimeout(() => start(), 1200);
+    if (autoplay && !frozen) setTimeout(start, 1200);
   });
 })();

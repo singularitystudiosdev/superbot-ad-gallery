@@ -1,7 +1,10 @@
-// The reveal registry: one module per platform, in the order the Appear dropdown lists them (after Default). A module is
+// The reveal registry: one entry per platform, in the order the Appear dropdown lists them (after Default), each its id,
+// its label and load(), which imports the platform's module. Only ids and labels are here, so the spot's other variants
+// never download the ~200 reveal files: the 10-image beat (gemini.9b47fc30.js) loads a module the first time its style
+// shows. An entry's id and label mirror its module's. A module is
 //   { id, label, source: { platform, feature, refs: [{ url, retrieved }] }, build(x, ctx) -> { root, render(t) } }
 // and builds the WHOLE generation UI (container, header, status, count, timer, progress, tile layout, placeholders and
-// per-tile reveal) for the 10-image variant. A new platform is one new file here plus one import and one entry below.
+// per-tile reveal) for the 10-image variant. A new platform is one new file here plus one entry below.
 //   x   the beat's helpers: x.el(html), x.esc, x.img(name), x.tile(app)
 //   ctx { src            the tile image URL
 //         tiles          TILES: per-tile crop { zoom, origin, grade }
@@ -14,190 +17,190 @@
 //         track          loads.9e82faf1.js track(promise), for image-load gating
 //         gate(imgs)     track each image until it has loaded (a failed load settles and logs)  }
 // render(t) is pure in t. In the landed state every image rests at its crop's own CSS (transform 'none' at zoom 1).
-import chatgpt from './chatgpt.9e82faf1.js';
-import gemini from './gemini.9e82faf1.js';
-import sdwebui from './sdwebui.9e82faf1.js';
-import krea from './krea.9e82faf1.js';
-import bing from './bing-image-creator.9e82faf1.js';
-import ideogram from './ideogram.9e82faf1.js';
-import perplexity from './perplexity.9e82faf1.js';
-import leonardo from './leonardo.9e82faf1.js';
-import firefly from './firefly.9e82faf1.js';
-import copilot from './copilot.9e82faf1.js';
-import higgsfield from './higgsfield.9e82faf1.js';
-import midjourney from './midjourney.9e82faf1.js';
-import grok from './grok.9e82faf1.js';
-import geminiApp from './gemini-app.9e82faf1.js';
-import meta from './meta.9e82faf1.js';
-import metaChat from './meta-chat.9e82faf1.js';
-import kling from './kling.9e82faf1.js';
-import flux from './flux.9e82faf1.js';
-import recraft from './recraft.9e82faf1.js';
-import luma from './luma.9e82faf1.js';
-import qwen from './qwen.9e82faf1.js';
-import reve from './reve.9e82faf1.js';
-import canva from './canva.9e82faf1.js';
-import freepik from './freepik.9e82faf1.js';
-import jimeng from './jimeng.9e82faf1.js';
-import hunyuan from './hunyuan.9e82faf1.js';
-import jimengWeb from './jimeng-web.9e82faf1.js';
-import kandinsky from './kandinsky.9e82faf1.js';
-import tensorArt from './tensor-art.9e82faf1.js';
-import picsart from './picsart.9e82faf1.js';
-import dreamstudio from './dreamstudio.9e82faf1.js';
-import hailuo from './hailuo.9e82faf1.js';
-import midjourneyDiscord from './midjourney-discord.9e82faf1.js';
-import chatgptDalle3 from './chatgpt-dalle3.9e82faf1.js';
-import appleImagePlayground from './apple-image-playground.9e82faf1.js';
-import googleWhisk from './google-whisk.9e82faf1.js';
-import googleImagefx from './google-imagefx.9e82faf1.js';
-import leonardoFlow from './leonardo-flow.9e82faf1.js';
-import artbreeder from './artbreeder.9e82faf1.js';
-import kolors from './kolors.9e82faf1.js';
-import tongyiWanxiang from './tongyi-wanxiang.9e82faf1.js';
-import wenxinYige from './wenxin-yige.9e82faf1.js';
-import yuanbao from './yuanbao.9e82faf1.js';
-import capcut from './capcut.9e82faf1.js';
-import whatsappImagine from './whatsapp-imagine.9e82faf1.js';
-import snapchatDreams from './snapchat-dreams.9e82faf1.js';
-import seaart from './seaart.9e82faf1.js';
-import comfyui from './comfyui.9e82faf1.js';
-import fooocus from './fooocus.9e82faf1.js';
-import ideogramCanvas from './ideogram-canvas.9e82faf1.js';
-import mistralLeChat from './mistral-le-chat.9e82faf1.js';
-import pixelStudio from './pixel-studio.9e82faf1.js';
-import womboDream from './wombo-dream.9e82faf1.js';
-import runway from './runway.9e82faf1.js';
-import craiyon from './craiyon.9e82faf1.js';
-import playground from './playground.9e82faf1.js';
-import geminiMobile from './gemini-mobile.9e82faf1.js';
-import nightcafe from './nightcafe.9e82faf1.js';
-import higgsfieldStudio from './higgsfield-studio.9e82faf1.js';
-import photoshopGenerativeFill from './photoshop-generative-fill.9e82faf1.js';
-import invokeai from './invokeai.9e82faf1.js';
-import getimg from './getimg.9e82faf1.js';
-import starryai from './starryai.9e82faf1.js';
-import mewxai from './mewxai.9e82faf1.js';
-import zhipuQingyan from './zhipu-qingyan.9e82faf1.js';
-import chatgptImages2 from './chatgpt-images-2.9e82faf1.js';
-import drawThings from './draw-things.9e82faf1.js';
-import diffusionbee from './diffusionbee.9e82faf1.js';
-import mageSpace from './mage-space.9e82faf1.js';
-import samsungGalaxyAi from './samsung-galaxy-ai.9e82faf1.js';
-import dreamina from './dreamina.9e82faf1.js';
-import bingImageCreator2026 from './bing-image-creator-2026.9e82faf1.js';
-import ernieBot from './ernie-bot.9e82faf1.js';
-import lensa from './lensa.9e82faf1.js';
-import fotor from './fotor.9e82faf1.js';
-import dzine from './dzine.9e82faf1.js';
-import clipdrop from './clipdrop.9e82faf1.js';
-import stableAssistant from './stable-assistant.9e82faf1.js';
-import hotpot from './hotpot.9e82faf1.js';
-import perchance from './perchance.9e82faf1.js';
-import poe from './poe.9e82faf1.js';
-import envatoImagegen from './envato-imagegen.9e82faf1.js';
-import kittl from './kittl.9e82faf1.js';
-import deepai from './deepai.9e82faf1.js';
-import huggingchat from './huggingchat.9e82faf1.js';
-import shutterstockAi from './shutterstock-ai.9e82faf1.js';
-import pixlr from './pixlr.9e82faf1.js';
-import scenario from './scenario.9e82faf1.js';
-import zhihui360 from './360-zhihui.9e82faf1.js';
-import snapchatAiSnaps from './snapchat-ai-snaps.9e82faf1.js';
-import googlePhotosCreate from './google-photos-create.9e82faf1.js';
-import yodayo from './yodayo.9e82faf1.js';
-import adobeExpress from './adobe-express.9e82faf1.js';
-import istockAiGenerator from './istock-ai-generator.9e82faf1.js';
-import figmaMakeImage from './figma-make-image.9e82faf1.js';
-import powerpointCopilot from './powerpoint-copilot.9e82faf1.js';
-import googleSlidesVisualize from './google-slides-visualize.9e82faf1.js';
-import youComCreate from './you-com-create.9e82faf1.js';
-import dreaminaIntl from './dreamina-intl.9e82faf1.js';
-import piclumen from './piclumen.9e82faf1.js';
-import wixAiImage from './wix-ai-image.9e82faf1.js';
-import remini from './remini.9e82faf1.js';
-import canvaDreamLab from './canva-dream-lab.9e82faf1.js';
-import imagineAi from './imagine-ai.9e82faf1.js';
-import wonderAi from './wonder-ai.9e82faf1.js';
-import photoroom from './photoroom.9e82faf1.js';
-import leonardoRealtimeCanvas from './leonardo-realtime-canvas.9e82faf1.js';
-import ideogramMobile from './ideogram-mobile.9e82faf1.js';
-import hfSpacesGradio from './hf-spaces-gradio.9e82faf1.js';
-import replicate from './replicate.9e82faf1.js';
-import googleAiStudio from './google-ai-studio.9e82faf1.js';
-import openaiPlaygroundImages from './openai-playground-images.9e82faf1.js';
-import azureAiFoundryImages from './azure-ai-foundry-images.9e82faf1.js';
-import awsBedrockImagePlayground from './aws-bedrock-image-playground.9e82faf1.js';
-import instagramImagine from './instagram-imagine.9e82faf1.js';
-import adobeStockGenerate from './adobe-stock-generate.9e82faf1.js';
-import doubao from './doubao.9e82faf1.js';
-import kakaoKarlo from './kakao-karlo.9e82faf1.js';
-import wrtn from './wrtn.9e82faf1.js';
-import quarkAi from './quark-ai.9e82faf1.js';
-import motorolaImageStudio from './motorola-image-studio.9e82faf1.js';
-import dalle2Labs from './dalle2-labs.9e82faf1.js';
-import jasperArt from './jasper-art.9e82faf1.js';
-import gencraft from './gencraft.9e82faf1.js';
-import lexicaAperture from './lexica-aperture.9e82faf1.js';
-import dezgo from './dezgo.9e82faf1.js';
-import photoleap from './photoleap.9e82faf1.js';
-import windowsPhotosImageCreator from './windows-photos-image-creator.9e82faf1.js';
-import miroAiImage from './miro-ai-image.9e82faf1.js';
-import googleAdsImageGen from './google-ads-image-gen.9e82faf1.js';
-import visualElectric from './visual-electric.9e82faf1.js';
-import xiaomiHyperai from './xiaomi-hyperai.9e82faf1.js';
-import fireflyMobile from './firefly-mobile.9e82faf1.js';
-import vistacreateAi from './vistacreate-ai.9e82faf1.js';
-import oppoAiStudio from './oppo-ai-studio.9e82faf1.js';
-import civitai from './civitai.9e82faf1.js';
-import dreamlikeArt from './dreamlike-art.9e82faf1.js';
-import unityMuse from './unity-muse.9e82faf1.js';
-import hostingerAiImage from './hostinger-ai-image.9e82faf1.js';
-import notionAiImage from './notion-ai-image.9e82faf1.js';
-import squarespaceAiImage from './squarespace-ai-image.9e82faf1.js';
-import amdAmuse from './amd-amuse.9e82faf1.js';
-import easyDiffusion from './easy-diffusion.9e82faf1.js';
-import nmkdSdGui from './nmkd-sd-gui.9e82faf1.js';
-import sdNext from './sd-next.9e82faf1.js';
-import swarmui from './swarmui.9e82faf1.js';
-import mochiDiffusion from './mochi-diffusion.9e82faf1.js';
-import printifyAi from './printify-ai.9e82faf1.js';
-import depositphotosAi from './depositphotos-ai.9e82faf1.js';
-import rf123Ai from './123rf-ai.9e82faf1.js';
-import shedevrum from './shedevrum.9e82faf1.js';
-import gigachat from './gigachat.9e82faf1.js';
-import creativeFabricaSpark from './creative-fabrica-spark.9e82faf1.js';
-import shopifyMagicImage from './shopify-magic-image.9e82faf1.js';
-import youcamAiPro from './youcam-ai-pro.9e82faf1.js';
-import photodirectorAi from './photodirector-ai.9e82faf1.js';
-import dawnAi from './dawn-ai.9e82faf1.js';
-import airbrushAi from './airbrush-ai.9e82faf1.js';
-import pixelcut from './pixelcut.9e82faf1.js';
-import pebblely from './pebblely.9e82faf1.js';
-import mokkerAi from './mokker-ai.9e82faf1.js';
-import claidAi from './claid-ai.9e82faf1.js';
-import adcreativeAi from './adcreative-ai.9e82faf1.js';
-import predisAi from './predis-ai.9e82faf1.js';
-import tiktokAiGreenscreen from './tiktok-ai-greenscreen.9e82faf1.js';
-import youtubeDreamScreen from './youtube-dream-screen.9e82faf1.js';
-import instagramAiBackdrop from './instagram-ai-backdrop.9e82faf1.js';
-import kapwingAiImage from './kapwing-ai-image.9e82faf1.js';
-import veedAiImage from './veed-ai-image.9e82faf1.js';
-import preziAiImage from './prezi-ai-image.9e82faf1.js';
-import weavy from './weavy.9e82faf1.js';
-import floraAi from './flora-ai.9e82faf1.js';
-import kaiberSuperstudio from './kaiber-superstudio.9e82faf1.js';
-import illustratorTextToVector from './illustrator-text-to-vector.9e82faf1.js';
-import photoshopGenerateImage from './photoshop-generate-image.9e82faf1.js';
-import googleSearchCreateImages from './google-search-create-images.9e82faf1.js';
-import googleVidsImage from './google-vids-image.9e82faf1.js';
-import fireflyBoards from './firefly-boards.9e82faf1.js';
-import epikAi from './epik-ai.9e82faf1.js';
-import snowAiProfile from './snow-ai-profile.9e82faf1.js';
-import prequelAi from './prequel-ai.9e82faf1.js';
-import voilaAiArtist from './voila-ai-artist.9e82faf1.js';
-import reminiAvatarAi from './remini-avatar-ai.9e82faf1.js';
-import ludoAi from './ludo-ai.9e82faf1.js';
-import pixellab from './pixellab.9e82faf1.js';
-
-export const REVEALS = [chatgpt, gemini, sdwebui, krea, bing, ideogram, perplexity, leonardo, firefly, copilot, higgsfield, midjourney, grok, geminiApp, meta, metaChat, kling, flux, recraft, luma, qwen, reve, canva, freepik, jimeng, hunyuan, jimengWeb, kandinsky, tensorArt, picsart, dreamstudio, hailuo, midjourneyDiscord, chatgptDalle3, appleImagePlayground, googleWhisk, googleImagefx, leonardoFlow, artbreeder, kolors, tongyiWanxiang, wenxinYige, yuanbao, capcut, whatsappImagine, snapchatDreams, seaart, comfyui, fooocus, ideogramCanvas, mistralLeChat, pixelStudio, womboDream, runway, craiyon, playground, geminiMobile, nightcafe, higgsfieldStudio, photoshopGenerativeFill, invokeai, getimg, starryai, mewxai, zhipuQingyan, chatgptImages2, drawThings, diffusionbee, mageSpace, samsungGalaxyAi, dreamina, bingImageCreator2026, ernieBot, lensa, fotor, dzine, clipdrop, stableAssistant, hotpot, perchance, poe, envatoImagegen, kittl, deepai, huggingchat, shutterstockAi, pixlr, scenario, zhihui360, snapchatAiSnaps, googlePhotosCreate, yodayo, adobeExpress, istockAiGenerator, figmaMakeImage, powerpointCopilot, googleSlidesVisualize, youComCreate, dreaminaIntl, piclumen, wixAiImage, remini, canvaDreamLab, imagineAi, wonderAi, photoroom, leonardoRealtimeCanvas, ideogramMobile, hfSpacesGradio, replicate, googleAiStudio, openaiPlaygroundImages, azureAiFoundryImages, awsBedrockImagePlayground, instagramImagine, adobeStockGenerate, doubao, kakaoKarlo, wrtn, quarkAi, motorolaImageStudio, dalle2Labs, jasperArt, gencraft, lexicaAperture, dezgo, photoleap, windowsPhotosImageCreator, miroAiImage, googleAdsImageGen, visualElectric, xiaomiHyperai, fireflyMobile, vistacreateAi, oppoAiStudio, civitai, dreamlikeArt, unityMuse, hostingerAiImage, notionAiImage, squarespaceAiImage, amdAmuse, easyDiffusion, nmkdSdGui, sdNext, swarmui, mochiDiffusion, printifyAi, depositphotosAi, rf123Ai, shedevrum, gigachat, creativeFabricaSpark, shopifyMagicImage, youcamAiPro, photodirectorAi, dawnAi, airbrushAi, pixelcut, pebblely, mokkerAi, claidAi, adcreativeAi, predisAi, tiktokAiGreenscreen, youtubeDreamScreen, instagramAiBackdrop, kapwingAiImage, veedAiImage, preziAiImage, weavy, floraAi, kaiberSuperstudio, illustratorTextToVector, photoshopGenerateImage, googleSearchCreateImages, googleVidsImage, fireflyBoards, epikAi, snowAiProfile, prequelAi, voilaAiArtist, reminiAvatarAi, ludoAi, pixellab];
+export const REVEALS = [
+  { id: 'chatgpt', label: 'ChatGPT', load: () => import('./chatgpt.9e82faf1.js') },
+  { id: 'gemini', label: 'Gemini (AI Studio)', load: () => import('./gemini.9e82faf1.js') },
+  { id: 'sdwebui', label: 'Stable Diffusion WebUI', load: () => import('./sdwebui.9e82faf1.js') },
+  { id: 'krea', label: 'Krea', load: () => import('./krea.9e82faf1.js') },
+  { id: 'bing-image-creator', label: 'Bing Image Creator (2023)', load: () => import('./bing-image-creator.9e82faf1.js') },
+  { id: 'ideogram', label: 'Ideogram', load: () => import('./ideogram.9e82faf1.js') },
+  { id: 'perplexity', label: 'Perplexity', load: () => import('./perplexity.9e82faf1.js') },
+  { id: 'leonardo', label: 'Leonardo', load: () => import('./leonardo.9e82faf1.js') },
+  { id: 'firefly', label: 'Firefly', load: () => import('./firefly.9e82faf1.js') },
+  { id: 'copilot', label: 'Copilot', load: () => import('./copilot.9e82faf1.js') },
+  { id: 'higgsfield', label: 'Higgsfield Katana', load: () => import('./higgsfield.9e82faf1.js') },
+  { id: 'midjourney', label: 'Midjourney', load: () => import('./midjourney.9e82faf1.js') },
+  { id: 'grok', label: 'Grok', load: () => import('./grok.9e82faf1.js') },
+  { id: 'gemini-app', label: 'Gemini', load: () => import('./gemini-app.9e82faf1.js') },
+  { id: 'meta', label: 'Meta AI', load: () => import('./meta.9e82faf1.js') },
+  { id: 'meta-chat', label: 'Meta AI (chat)', load: () => import('./meta-chat.9e82faf1.js') },
+  { id: 'kling', label: 'Kling', load: () => import('./kling.9e82faf1.js') },
+  { id: 'flux', label: 'FLUX playground', load: () => import('./flux.9e82faf1.js') },
+  { id: 'recraft', label: 'Recraft', load: () => import('./recraft.9e82faf1.js') },
+  { id: 'luma', label: 'Luma (Dream Machine)', load: () => import('./luma.9e82faf1.js') },
+  { id: 'qwen', label: 'Qwen Chat', load: () => import('./qwen.9e82faf1.js') },
+  { id: 'reve', label: 'Reve', load: () => import('./reve.9e82faf1.js') },
+  { id: 'canva', label: 'Canva Magic Media', load: () => import('./canva.9e82faf1.js') },
+  { id: 'freepik', label: 'Freepik', load: () => import('./freepik.9e82faf1.js') },
+  { id: 'jimeng', label: 'Jimeng (app)', load: () => import('./jimeng.9e82faf1.js') },
+  { id: 'hunyuan', label: 'Hunyuan (Tencent)', load: () => import('./hunyuan.9e82faf1.js') },
+  { id: 'jimeng-web', label: 'Jimeng (web)', load: () => import('./jimeng-web.9e82faf1.js') },
+  { id: 'kandinsky', label: 'Kandinsky (Fusion Brain)', load: () => import('./kandinsky.9e82faf1.js') },
+  { id: 'tensor-art', label: 'Tensor.art', load: () => import('./tensor-art.9e82faf1.js') },
+  { id: 'picsart', label: 'Picsart (app, 2022)', load: () => import('./picsart.9e82faf1.js') },
+  { id: 'dreamstudio', label: 'DreamStudio (2023, retired)', load: () => import('./dreamstudio.9e82faf1.js') },
+  { id: 'hailuo', label: 'Hailuo AI (image agent)', load: () => import('./hailuo.9e82faf1.js') },
+  { id: 'midjourney-discord', label: 'Midjourney (Discord, classic)', load: () => import('./midjourney-discord.9e82faf1.js') },
+  { id: 'chatgpt-dalle3', label: 'ChatGPT (DALL·E 3, 2023)', load: () => import('./chatgpt-dalle3.9e82faf1.js') },
+  { id: 'apple-image-playground', label: 'Apple Image Playground', load: () => import('./apple-image-playground.9e82faf1.js') },
+  { id: 'google-whisk', label: 'Google Whisk', load: () => import('./google-whisk.9e82faf1.js') },
+  { id: 'google-imagefx', label: 'Google ImageFX (2024, retired)', load: () => import('./google-imagefx.9e82faf1.js') },
+  { id: 'leonardo-flow', label: 'Leonardo (Flow State)', load: () => import('./leonardo-flow.9e82faf1.js') },
+  { id: 'artbreeder', label: 'Artbreeder (2020)', load: () => import('./artbreeder.9e82faf1.js') },
+  { id: 'kolors', label: 'Kolors (Kling AI)', load: () => import('./kolors.9e82faf1.js') },
+  { id: 'tongyi-wanxiang', label: 'Tongyi Wanxiang (Alibaba)', load: () => import('./tongyi-wanxiang.9e82faf1.js') },
+  { id: 'wenxin-yige', label: 'Wenxin Yige (Baidu, 2023)', load: () => import('./wenxin-yige.9e82faf1.js') },
+  { id: 'yuanbao', label: 'Yuanbao (Tencent)', load: () => import('./yuanbao.9e82faf1.js') },
+  { id: 'capcut', label: 'CapCut (AI image)', load: () => import('./capcut.9e82faf1.js') },
+  { id: 'whatsapp-imagine', label: 'WhatsApp Imagine (Meta AI)', load: () => import('./whatsapp-imagine.9e82faf1.js') },
+  { id: 'snapchat-dreams', label: 'Snapchat Dreams (2023)', load: () => import('./snapchat-dreams.9e82faf1.js') },
+  { id: 'seaart', label: 'SeaArt (海艺)', load: () => import('./seaart.9e82faf1.js') },
+  { id: 'comfyui', label: 'ComfyUI', load: () => import('./comfyui.9e82faf1.js') },
+  { id: 'fooocus', label: 'Fooocus', load: () => import('./fooocus.9e82faf1.js') },
+  { id: 'ideogram-canvas', label: 'Ideogram Canvas (2024)', load: () => import('./ideogram-canvas.9e82faf1.js') },
+  { id: 'mistral-le-chat', label: 'Mistral Le Chat (2025)', load: () => import('./mistral-le-chat.9e82faf1.js') },
+  { id: 'pixel-studio', label: 'Pixel Studio (Pixel 9)', load: () => import('./pixel-studio.9e82faf1.js') },
+  { id: 'wombo-dream', label: 'WOMBO Dream (2022)', load: () => import('./wombo-dream.9e82faf1.js') },
+  { id: 'runway', label: 'Runway (Frames)', load: () => import('./runway.9e82faf1.js') },
+  { id: 'craiyon', label: 'Craiyon (V3)', load: () => import('./craiyon.9e82faf1.js') },
+  { id: 'playground', label: 'Playground (2024)', load: () => import('./playground.9e82faf1.js') },
+  { id: 'gemini-mobile', label: 'Gemini (iPhone app)', load: () => import('./gemini-mobile.9e82faf1.js') },
+  { id: 'nightcafe', label: 'NightCafe (2026)', load: () => import('./nightcafe.9e82faf1.js') },
+  { id: 'higgsfield-studio', label: 'Higgsfield Studio (2025)', load: () => import('./higgsfield-studio.9e82faf1.js') },
+  { id: 'photoshop-generative-fill', label: 'Photoshop Generative Fill', load: () => import('./photoshop-generative-fill.9e82faf1.js') },
+  { id: 'invokeai', label: 'Invoke (6.0)', load: () => import('./invokeai.9e82faf1.js') },
+  { id: 'getimg', label: 'getimg.ai (2026)', load: () => import('./getimg.9e82faf1.js') },
+  { id: 'starryai', label: 'starryai (2023)', load: () => import('./starryai.9e82faf1.js') },
+  { id: 'mewxai', label: 'MewXAI (2024)', load: () => import('./mewxai.9e82faf1.js') },
+  { id: 'zhipu-qingyan', label: 'Zhipu Qingyan (2024)', load: () => import('./zhipu-qingyan.9e82faf1.js') },
+  { id: 'chatgpt-images-2', label: 'ChatGPT Images 2.0 (2026)', load: () => import('./chatgpt-images-2.9e82faf1.js') },
+  { id: 'draw-things', label: 'Draw Things (iPhone)', load: () => import('./draw-things.9e82faf1.js') },
+  { id: 'diffusionbee', label: 'DiffusionBee (2023)', load: () => import('./diffusionbee.9e82faf1.js') },
+  { id: 'mage-space', label: 'Mage.space (2026)', load: () => import('./mage-space.9e82faf1.js') },
+  { id: 'samsung-galaxy-ai', label: 'Galaxy AI Sketch to Image (2024)', load: () => import('./samsung-galaxy-ai.9e82faf1.js') },
+  { id: 'dreamina', label: 'Dreamina (2024)', load: () => import('./dreamina.9e82faf1.js') },
+  { id: 'bing-image-creator-2026', label: 'Bing Image Creator (2026)', load: () => import('./bing-image-creator-2026.9e82faf1.js') },
+  { id: 'ernie-bot', label: 'ERNIE Bot (文心一言, 2025)', load: () => import('./ernie-bot.9e82faf1.js') },
+  { id: 'lensa', label: 'Lensa Magic Avatars (2022)', load: () => import('./lensa.9e82faf1.js') },
+  { id: 'fotor', label: 'Fotor (2024)', load: () => import('./fotor.9e82faf1.js') },
+  { id: 'dzine', label: 'Dzine (2025)', load: () => import('./dzine.9e82faf1.js') },
+  { id: 'clipdrop', label: 'Clipdrop (2023)', load: () => import('./clipdrop.9e82faf1.js') },
+  { id: 'stable-assistant', label: 'Stable Assistant (2024)', load: () => import('./stable-assistant.9e82faf1.js') },
+  { id: 'hotpot', label: 'Hotpot.ai (2023)', load: () => import('./hotpot.9e82faf1.js') },
+  { id: 'perchance', label: 'Perchance AI Photo Generator (2025)', load: () => import('./perchance.9e82faf1.js') },
+  { id: 'poe', label: 'Poe (FLUX bot, 2024)', load: () => import('./poe.9e82faf1.js') },
+  { id: 'envato-imagegen', label: 'Envato ImageGen (2024)', load: () => import('./envato-imagegen.9e82faf1.js') },
+  { id: 'kittl', label: 'Kittl (2026)', load: () => import('./kittl.9e82faf1.js') },
+  { id: 'deepai', label: 'DeepAI (2025)', load: () => import('./deepai.9e82faf1.js') },
+  { id: 'huggingchat', label: 'HuggingChat (2024)', load: () => import('./huggingchat.9e82faf1.js') },
+  { id: 'shutterstock-ai', label: 'Shutterstock AI (2023)', load: () => import('./shutterstock-ai.9e82faf1.js') },
+  { id: 'pixlr', label: 'Pixlr (2024)', load: () => import('./pixlr.9e82faf1.js') },
+  { id: 'scenario', label: 'Scenario (2024)', load: () => import('./scenario.9e82faf1.js') },
+  { id: '360-zhihui', label: '360智绘 (2023)', load: () => import('./360-zhihui.9e82faf1.js') },
+  { id: 'snapchat-ai-snaps', label: 'Snapchat AI Snaps (2025)', load: () => import('./snapchat-ai-snaps.9e82faf1.js') },
+  { id: 'google-photos-create', label: 'Google Photos Remix (2025)', load: () => import('./google-photos-create.9e82faf1.js') },
+  { id: 'yodayo', label: 'Yodayo / Moescape (2026)', load: () => import('./yodayo.9e82faf1.js') },
+  { id: 'adobe-express', label: 'Adobe Express (2025)', load: () => import('./adobe-express.9e82faf1.js') },
+  { id: 'istock-ai-generator', label: 'iStock AI Generator (2024)', load: () => import('./istock-ai-generator.9e82faf1.js') },
+  { id: 'figma-make-image', label: 'Figma Make an image (2025)', load: () => import('./figma-make-image.9e82faf1.js') },
+  { id: 'powerpoint-copilot', label: 'PowerPoint Copilot (2025)', load: () => import('./powerpoint-copilot.9e82faf1.js') },
+  { id: 'google-slides-visualize', label: 'Google Slides Help me visualize (2025)', load: () => import('./google-slides-visualize.9e82faf1.js') },
+  { id: 'you-com-create', label: 'You.com Create (2025)', load: () => import('./you-com-create.9e82faf1.js') },
+  { id: 'dreamina-intl', label: 'Dreamina (CapCut, 2025)', load: () => import('./dreamina-intl.9e82faf1.js') },
+  { id: 'piclumen', label: 'PicLumen (2025)', load: () => import('./piclumen.9e82faf1.js') },
+  { id: 'wix-ai-image', label: 'Wix AI Image Creator (2025)', load: () => import('./wix-ai-image.9e82faf1.js') },
+  { id: 'remini', label: 'Remini AI Photos (2023)', load: () => import('./remini.9e82faf1.js') },
+  { id: 'canva-dream-lab', label: 'Canva Dream Lab (2026)', load: () => import('./canva-dream-lab.9e82faf1.js') },
+  { id: 'imagine-ai', label: 'Imagine AI (2023)', load: () => import('./imagine-ai.9e82faf1.js') },
+  { id: 'wonder-ai', label: 'Wonder (2022)', load: () => import('./wonder-ai.9e82faf1.js') },
+  { id: 'photoroom', label: 'Photoroom AI Backgrounds (2025)', load: () => import('./photoroom.9e82faf1.js') },
+  { id: 'leonardo-realtime-canvas', label: 'Leonardo Realtime Canvas (2023)', load: () => import('./leonardo-realtime-canvas.9e82faf1.js') },
+  { id: 'ideogram-mobile', label: 'Ideogram iOS (2025)', load: () => import('./ideogram-mobile.9e82faf1.js') },
+  { id: 'hf-spaces-gradio', label: 'Hugging Face Space, Gradio (2026)', load: () => import('./hf-spaces-gradio.9e82faf1.js') },
+  { id: 'replicate', label: 'Replicate (2023)', load: () => import('./replicate.9e82faf1.js') },
+  { id: 'google-ai-studio', label: 'Google AI Studio, Imagen (2025)', load: () => import('./google-ai-studio.9e82faf1.js') },
+  { id: 'openai-playground-images', label: 'OpenAI Images Playground (2026)', load: () => import('./openai-playground-images.9e82faf1.js') },
+  { id: 'azure-ai-foundry-images', label: 'Azure AI Foundry Images (2025)', load: () => import('./azure-ai-foundry-images.9e82faf1.js') },
+  { id: 'aws-bedrock-image-playground', label: 'Amazon Bedrock Image Playground (2025)', load: () => import('./aws-bedrock-image-playground.9e82faf1.js') },
+  { id: 'instagram-imagine', label: 'Instagram Meta AI Imagine (2026)', load: () => import('./instagram-imagine.9e82faf1.js') },
+  { id: 'adobe-stock-generate', label: 'Adobe Stock Generate (2024)', load: () => import('./adobe-stock-generate.9e82faf1.js') },
+  { id: 'doubao', label: 'Doubao 豆包 (2025)', load: () => import('./doubao.9e82faf1.js') },
+  { id: 'kakao-karlo', label: 'Kakao Karlo (2023)', load: () => import('./kakao-karlo.9e82faf1.js') },
+  { id: 'wrtn', label: 'Wrtn 뤼튼 (2024)', load: () => import('./wrtn.9e82faf1.js') },
+  { id: 'quark-ai', label: 'Quark 夸克 AI生图 (2025)', load: () => import('./quark-ai.9e82faf1.js') },
+  { id: 'motorola-image-studio', label: 'Motorola Image Studio (2026)', load: () => import('./motorola-image-studio.9e82faf1.js') },
+  { id: 'dalle2-labs', label: 'DALL·E 2 Labs (2022)', load: () => import('./dalle2-labs.9e82faf1.js') },
+  { id: 'jasper-art', label: 'Jasper Art (2022)', load: () => import('./jasper-art.9e82faf1.js') },
+  { id: 'gencraft', label: 'Gencraft (2023)', load: () => import('./gencraft.9e82faf1.js') },
+  { id: 'lexica-aperture', label: 'Lexica Aperture (2023)', load: () => import('./lexica-aperture.9e82faf1.js') },
+  { id: 'dezgo', label: 'Dezgo (2023)', load: () => import('./dezgo.9e82faf1.js') },
+  { id: 'photoleap', label: 'Photoleap (2024)', load: () => import('./photoleap.9e82faf1.js') },
+  { id: 'windows-photos-image-creator', label: 'Microsoft Photos Image Creator (2025)', load: () => import('./windows-photos-image-creator.9e82faf1.js') },
+  { id: 'miro-ai-image', label: 'Miro AI (2025)', load: () => import('./miro-ai-image.9e82faf1.js') },
+  { id: 'google-ads-image-gen', label: 'Google Ads image editor (2024)', load: () => import('./google-ads-image-gen.9e82faf1.js') },
+  { id: 'visual-electric', label: 'Visual Electric (2024)', load: () => import('./visual-electric.9e82faf1.js') },
+  { id: 'xiaomi-hyperai', label: 'Xiaomi 小爱 AI创作 (2024)', load: () => import('./xiaomi-hyperai.9e82faf1.js') },
+  { id: 'firefly-mobile', label: 'Adobe Firefly mobile (2025)', load: () => import('./firefly-mobile.9e82faf1.js') },
+  { id: 'vistacreate-ai', label: 'VistaCreate AI (2025)', load: () => import('./vistacreate-ai.9e82faf1.js') },
+  { id: 'oppo-ai-studio', label: 'OPPO AI Studio (2024)', load: () => import('./oppo-ai-studio.9e82faf1.js') },
+  { id: 'civitai', label: 'Civitai generator (2025)', load: () => import('./civitai.9e82faf1.js') },
+  { id: 'dreamlike-art', label: 'Dreamlike.art (2025)', load: () => import('./dreamlike-art.9e82faf1.js') },
+  { id: 'unity-muse', label: 'Unity Muse (2024)', load: () => import('./unity-muse.9e82faf1.js') },
+  { id: 'hostinger-ai-image', label: 'Hostinger AI Image Generator (2025)', load: () => import('./hostinger-ai-image.9e82faf1.js') },
+  { id: 'notion-ai-image', label: 'Notion AI image (2026)', load: () => import('./notion-ai-image.9e82faf1.js') },
+  { id: 'squarespace-ai-image', label: 'Squarespace AI image (2026)', load: () => import('./squarespace-ai-image.9e82faf1.js') },
+  { id: 'amd-amuse', label: 'AMD Amuse (2024)', load: () => import('./amd-amuse.9e82faf1.js') },
+  { id: 'easy-diffusion', label: 'Easy Diffusion (2023)', load: () => import('./easy-diffusion.9e82faf1.js') },
+  { id: 'nmkd-sd-gui', label: 'NMKD Stable Diffusion GUI (2022)', load: () => import('./nmkd-sd-gui.9e82faf1.js') },
+  { id: 'sd-next', label: 'SD.Next (2024)', load: () => import('./sd-next.9e82faf1.js') },
+  { id: 'swarmui', label: 'SwarmUI (2024)', load: () => import('./swarmui.9e82faf1.js') },
+  { id: 'mochi-diffusion', label: 'Mochi Diffusion (2023)', load: () => import('./mochi-diffusion.9e82faf1.js') },
+  { id: 'printify-ai', label: 'Printify AI image generator (2026)', load: () => import('./printify-ai.9e82faf1.js') },
+  { id: 'depositphotos-ai', label: 'Depositphotos AI Image Generator (2024)', load: () => import('./depositphotos-ai.9e82faf1.js') },
+  { id: '123rf-ai', label: '123RF AI Image Generator (2023)', load: () => import('./123rf-ai.9e82faf1.js') },
+  { id: 'shedevrum', label: 'Shedevrum Шедеврум (2025)', load: () => import('./shedevrum.9e82faf1.js') },
+  { id: 'gigachat', label: 'GigaChat ГигаЧат (2025)', load: () => import('./gigachat.9e82faf1.js') },
+  { id: 'creative-fabrica-spark', label: 'Creative Fabrica Spark Art (2022)', load: () => import('./creative-fabrica-spark.9e82faf1.js') },
+  { id: 'shopify-magic-image', label: 'Shopify Magic media generation (2024)', load: () => import('./shopify-magic-image.9e82faf1.js') },
+  { id: 'youcam-ai-pro', label: 'YouCam AI Pro (2024)', load: () => import('./youcam-ai-pro.9e82faf1.js') },
+  { id: 'photodirector-ai', label: 'PhotoDirector AI (2024)', load: () => import('./photodirector-ai.9e82faf1.js') },
+  { id: 'dawn-ai', label: 'Dawn AI avatars (2022)', load: () => import('./dawn-ai.9e82faf1.js') },
+  { id: 'airbrush-ai', label: 'AirBrush AI image generator (2024)', load: () => import('./airbrush-ai.9e82faf1.js') },
+  { id: 'pixelcut', label: 'Pixelcut AI Art (2023)', load: () => import('./pixelcut.9e82faf1.js') },
+  { id: 'pebblely', label: 'Pebblely (2023)', load: () => import('./pebblely.9e82faf1.js') },
+  { id: 'mokker-ai', label: 'Mokker AI (2023)', load: () => import('./mokker-ai.9e82faf1.js') },
+  { id: 'claid-ai', label: 'Claid.ai Studio (2024)', load: () => import('./claid-ai.9e82faf1.js') },
+  { id: 'adcreative-ai', label: 'AdCreative.ai product shoots (2024)', load: () => import('./adcreative-ai.9e82faf1.js') },
+  { id: 'predis-ai', label: 'Predis.ai posts (2024)', load: () => import('./predis-ai.9e82faf1.js') },
+  { id: 'tiktok-ai-greenscreen', label: 'TikTok AI Greenscreen (2022)', load: () => import('./tiktok-ai-greenscreen.9e82faf1.js') },
+  { id: 'youtube-dream-screen', label: 'YouTube Shorts Dream Screen (2024)', load: () => import('./youtube-dream-screen.9e82faf1.js') },
+  { id: 'instagram-ai-backdrop', label: 'Instagram Stories AI backdrop (2024)', load: () => import('./instagram-ai-backdrop.9e82faf1.js') },
+  { id: 'kapwing-ai-image', label: 'Kapwing AI image generator (2023)', load: () => import('./kapwing-ai-image.9e82faf1.js') },
+  { id: 'veed-ai-image', label: 'VEED AI image generator (2023)', load: () => import('./veed-ai-image.9e82faf1.js') },
+  { id: 'prezi-ai-image', label: 'Prezi AI image (2025)', load: () => import('./prezi-ai-image.9e82faf1.js') },
+  { id: 'weavy', label: 'Figma Weave (2025)', load: () => import('./weavy.9e82faf1.js') },
+  { id: 'flora-ai', label: 'FLORA (2026)', load: () => import('./flora-ai.9e82faf1.js') },
+  { id: 'kaiber-superstudio', label: 'Kaiber Superstudio (2024)', load: () => import('./kaiber-superstudio.9e82faf1.js') },
+  { id: 'illustrator-text-to-vector', label: 'Illustrator Text to Vector (2023)', load: () => import('./illustrator-text-to-vector.9e82faf1.js') },
+  { id: 'photoshop-generate-image', label: 'Photoshop Generate Image (2024)', load: () => import('./photoshop-generate-image.9e82faf1.js') },
+  { id: 'google-search-create-images', label: 'Google Search SGE images (2023)', load: () => import('./google-search-create-images.9e82faf1.js') },
+  { id: 'google-vids-image', label: 'Google Vids image (2026)', load: () => import('./google-vids-image.9e82faf1.js') },
+  { id: 'firefly-boards', label: 'Adobe Firefly Boards (2026)', load: () => import('./firefly-boards.9e82faf1.js') },
+  { id: 'epik-ai', label: 'EPIK AI yearbook (2023)', load: () => import('./epik-ai.9e82faf1.js') },
+  { id: 'snow-ai-profile', label: 'SNOW AIアバター (2023)', load: () => import('./snow-ai-profile.9e82faf1.js') },
+  { id: 'prequel-ai', label: 'Prequel AI avatar (2023)', load: () => import('./prequel-ai.9e82faf1.js') },
+  { id: 'voila-ai-artist', label: 'Voila AI Artist (2021)', load: () => import('./voila-ai-artist.9e82faf1.js') },
+  { id: 'remini-avatar-ai', label: 'Remini Avatar AI (2022)', load: () => import('./remini-avatar-ai.9e82faf1.js') },
+  { id: 'ludo-ai', label: 'Ludo.ai Image Generator (2026)', load: () => import('./ludo-ai.9e82faf1.js') },
+  { id: 'pixellab', label: 'PixelLab for Aseprite (2025)', load: () => import('./pixellab.9e82faf1.js') },
+];

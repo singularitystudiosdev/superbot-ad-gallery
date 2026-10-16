@@ -4,7 +4,7 @@
 // module's block in place of the grid). Read from ?appear= so a frozen frame (?t=) keeps it; the sub-selector under the
 // variant selector (variant-select.9e82faf1.js), shown only on the '10' variant, changes it live, without a reload, and the
 // beat reads it every frame. Kept apart from variant.9e82faf1.js, which other variants extend.
-import { REVEALS } from './scenes/tabs-assets/beats/reveals/index.9e82faf1.js';
+import { REVEALS } from './scenes/tabs-assets/beats/reveals/index.9e82faf1.js?v=2';
 
 const KEY = 'appear';
 export const APPEARS = [{ id: 'default', label: 'Default' }, ...REVEALS.map(({ id, label }) => ({ id, label }))];

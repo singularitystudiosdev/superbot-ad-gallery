@@ -2,7 +2,7 @@
 // hidden on a frozen capture (body.freeze) like the hint. Arrow keys move the choice; a mouse pick drops focus so
 // space, the arrows and R go back to the spot's own clock (timeline.9b47fc30.js).
 import { VARIANTS, variant, setVariant } from './variant.9e82faf1.js';
-import { APPEARS, appear, setAppear } from './appear.9e82faf1.js';
+import { APPEARS, appear, setAppear } from './appear.9e82faf1.js?v=2';
 // variants left out of the pill: still reachable by ?variant=, just not offered as a button or an arrow-key stop
 const HIDDEN = new Set(['game', 'garden', 'bedtime', 'podcast', 'catgif', 'logo']);
 const SHOWN = VARIANTS.filter((v) => !HIDDEN.has(v.id));

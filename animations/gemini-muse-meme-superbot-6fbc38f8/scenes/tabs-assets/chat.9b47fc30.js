@@ -7,7 +7,7 @@
 // module cache on republish.
 import { clamp, lerp, seg, outCubic, outBack, inOutCubic, esc, boxIn, placeCursor } from '../../lib.9b47fc30.js';
 import { makeCursor } from '../../shell.9b47fc30.js';
-import gemini from './beats/gemini.9b47fc30.js?v=3';
+import gemini from './beats/gemini.9b47fc30.js?v=4';
 import doordash from './beats/doordash.d9bc17e9.js?v=3';
 import climb from './beats/climb.080da517.js?v=1';
 import catsurf from './beats/catsurf.e2265c3a.js?v=4';

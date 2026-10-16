@@ -15,10 +15,10 @@
 import { lerp, seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { variant } from '../../../variant.9e82faf1.js';
 import { track } from '../../../loads.9e82faf1.js';
-import { appear } from '../../../appear.9e82faf1.js';
+import { appear } from '../../../appear.9e82faf1.js?v=2';
 import { gateImages } from './appear-fx.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
-import { REVEALS } from './reveals/index.9e82faf1.js';
+import { REVEALS } from './reveals/index.9e82faf1.js?v=2';
 import { makeZombieViewer } from './zombie3d.9e82faf1.js?v=3';
 import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_H } from './zombiegame.7b46b820.js';
@@ -178,10 +178,23 @@ export default {
     const logoIm = logo.querySelector('img'), logoGen = logo.querySelector('.qc-gen'), logoL = logo.querySelector('.qc-genl');
     const gameShare = game.querySelector('.qc-share'), logoShare = logo.querySelector('.qc-share');
     let shown = -1, lastV = null, viewer = null, built = -1;
-    // the 10-image variant's platform reveals (reveals/index.9e82faf1.js): each module's block is built once, the first
-    // time its style shows, and display-toggled after; Default keeps the grid above
+    // the 10-image variant's platform reveals (reveals/index.9e82faf1.js): a style's module is fetched the first time that
+    // style shows (the registry holds only ids and labels, so no other variant downloads the ~200 reveal files), and a
+    // frozen frame waits on the fetch (track). Its block is built once the module has arrived and display-toggled
+    // after; until then the card stays empty for that style. Default keeps the grid above
     const reveals = {};
+    const mods = {};
     let lastStyle = null;
+    const modFor = (style) => {
+      if (style in mods) return mods[style];
+      mods[style] = null;
+      const entry = REVEALS.find((r) => r.id === style);
+      track(entry.load().then(
+        (m) => { mods[style] = m.default; lastStyle = null; },
+        (e) => console.error(new Error(`reveal module failed to load: ${style}`, { cause: e })),
+      ));
+      return null;
+    };
     const ctxFor = () => ({
       src, tiles: TILES, count: TILES.length, cardIn: T.card, track, gate: gateImages,
       win: (i) => { const a = T.card + TILE0 + i * STAGGER; return [a, a + TILE_LEN]; },
@@ -190,7 +203,8 @@ export default {
     });
     const revealFor = (style) => {
       if (reveals[style]) return reveals[style];
-      const mod = REVEALS.find((r) => r.id === style);
+      const mod = modFor(style);
+      if (!mod) return null;
       const r = mod.build(x, ctxFor());
       r.root.style.display = 'none';
       media.append(r.root);
@@ -208,7 +222,8 @@ export default {
           edit.style.display = v === 'photoedit' ? '' : 'none';
           set.style.display = v === '10' && style === 'default' ? '' : 'none';
           for (const id in reveals) reveals[id].root.style.display = 'none';
-          if (v === '10' && style !== 'default') revealFor(style).root.style.display = '';
+          const shownReveal = v === '10' && style !== 'default' ? revealFor(style) : null;
+          if (shownReveal) shownReveal.root.style.display = '';
           model.style.display = v === '3d' ? '' : 'none';
           game.style.display = v === 'game' ? '' : 'none';
           garden.node.style.display = v === 'garden' ? '' : 'none';
@@ -288,7 +303,7 @@ export default {
           return;
         }
         // a platform's reveal draws its own whole block
-        if (style !== 'default') { revealFor(style).render(t); return; }
+        if (style !== 'default') { const r = revealFor(style); if (r) r.render(t); return; }
         // Default: every slot shimmers as a skeleton until its turn, then the ten land one after another in reading order,
         // each as a climbing result's thumbnail does, settling onto its crop
         tiles.forEach((tl, i) => {

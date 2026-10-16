@@ -5,6 +5,17 @@
 export const PROMPT1 = 'make a thumbnail from my latest video';
 export const PROMPT2 = 'use this one and upload it to youtube a:b tests';
 
+// assistant prose, revealed by a character playout like the app's (it streams 55-200 cps)
+export const TEXT = {
+  lead1: 'Found your latest upload.',
+  body1: '“Alex Karp: You Are Right To Be Afraid” went up 2 days ago. I’ll build the thumbnail around the quote.',
+  caption: 'Here’s your thumbnail, built around the quote.',
+  lead2: 'Your A/B test is live.',
+  body2: 'YouTube is testing your current thumbnail against the new one and keeps whichever earns more watch time.',
+};
+const CPS = 95;
+const playout = (text) => text.length / CPS;
+
 // mulberry32: the same keystroke rhythm on every play, so the cue sheet stays true
 function rng(seed) {
   return () => {
@@ -15,18 +26,18 @@ function rng(seed) {
   };
 }
 
-// Keystroke times for a ~80 wpm typist: 95-165 ms per key, a beat after each space, the odd hesitation between
-// words, shift held for ':' and capitals.
+// Keystroke times for a ~90 wpm typist (7.5 chars/s): 95-145 ms per key, a beat after each space, the odd
+// hesitation between words, shift held for ':' and capitals.
 export function keystrokes(text, start, seed) {
   const r = rng(seed);
   const times = [];
   let t = start;
   for (let i = 0; i < text.length; i++) {
     if (i > 0) {
-      let d = 0.095 + r() * 0.07;
-      if (text[i - 1] === ' ') d += 0.03 + r() * 0.05;
-      if (text[i - 1] === ' ' && r() < 0.18) d += 0.16 + r() * 0.12;
-      if (/[:A-Z]/.test(text[i])) d += 0.09;
+      let d = 0.095 + r() * 0.05;
+      if (text[i - 1] === ' ') d += 0.02 + r() * 0.03;
+      if (text[i - 1] === ' ' && r() < 0.12) d += 0.08 + r() * 0.06;
+      if (/[:A-Z]/.test(text[i])) d += 0.06;
       t += d;
     }
     times.push(t);
@@ -42,29 +53,36 @@ const say = (id, t, text) => {
   return t;
 };
 
-// 1. click: the cursor glides to the composer and types the ask
+// 1. click: the pointer glides into the home bar and types the ask; Enter docks the bar under the new chat
 T.move1 = 0.1;
 T.click1 = T.move1 + 0.75;
 T.type1 = T.click1 + 0.2;
 export const KEYS1 = keystrokes(PROMPT1, T.type1, 11);
 T.send1 = KEYS1[KEYS1.length - 1] + 0.4;
+T.docked = T.send1 + 0.6;
 T.aside1 = T.send1 + 0.3;
+// the sent bubble lands once the bar has nearly docked, so the moving bar never sweeps across it
+T.bubble1 = T.send1 + 0.45;
+T.head1 = T.send1 + 0.65;
 
-// 2. routing to the ChatGPT subscription
-T.sw1 = T.send1 + 0.45;
+// 2. Auto routes the turn to the ChatGPT subscription
+T.sw1 = T.send1 + 0.8;
 T.sw1Done = T.sw1 + 1.2;
-T.sub = T.sw1Done + 0.35;
+T.sw1Step = T.sw1Done + 0.3;
 const vo4a = say('4a', T.sw1Done + 0.25, 'there it has switched to my ChatGPT subscription,');
 
 // 3. YouTube connects and reads the latest upload
 T.yt = vo4a + 2.9;
 T.ytDone = T.yt + 0.9;
+T.ytStep1 = T.ytDone + 0.25;
+T.ytStep2 = T.ytStep1 + 0.35;
+T.ytStep2Done = T.ytStep2 + 1.6;
 const vo4b = say('4b', vo4a + 3.4, 'and look there, you see how it also connected to my YouTube channel,');
-T.vid = T.ytDone + 0.55;
-// superbot finds the video on its own while the line says it needs no context
 const vo4c = say('4c', vo4b + 5.3, "it can work with your platforms so you don't need to give much context at all");
-T.say1 = vo4c + 0.4;
-T.say1End = T.say1 + 2.6;
+T.lead1 = vo4c + 0.4;
+T.lead1End = T.lead1 + playout(TEXT.lead1);
+T.body1 = T.lead1End + 0.2;
+T.body1End = T.body1 + playout(TEXT.body1);
 
 // 4. GPT Image 2 and the wait
 T.sw2 = vo4c + 5.9;
@@ -73,15 +91,15 @@ const vo5 = say('5', T.sw2Done - 0.1, 'and now it is using GPT Image 2');
 T.gen = T.sw2Done + 0.45;
 const vo6 = say('6', vo5 + 3.0, 'now we wait for it to generate');
 T.genDone = vo6 + 4.4;
-T.say2 = T.genDone + 0.9;
-T.say2End = T.say2 + 1.2;
+T.prov = T.genDone + 0.3;
+T.cap = T.genDone + 0.45;
+T.capEnd = T.cap + playout(TEXT.caption);
+T.turn1End = T.capEnd + 0.2;
 
-// 5. the one thumbnail lands; click it to attach it to the next ask
+// 5. the thumbnail lands; the pointer settles on it for "I like that one"
 const vo7 = say('7', T.genDone + 1.0, 'oh and there it is, awesome, I like that one');
-T.movePick = vo7 + 1.5;
+T.movePick = vo7 + 1.6;
 T.hoverPick = T.movePick + 0.8;
-T.clickPick = T.hoverPick + 0.35;
-T.attach = T.clickPick + 0.25;
 
 // 6. the second ask
 const vo8 = say('8', vo7 + 4.0, 'and now I just ask: use this one and upload it to YouTube A:B tests');
@@ -91,17 +109,19 @@ T.type2 = T.click2 + 0.2;
 export const KEYS2 = keystrokes(PROMPT2, T.type2, 23);
 T.send2 = KEYS2[KEYS2.length - 1] + 0.4;
 T.aside2 = T.send2 + 0.25;
+T.head2 = T.send2 + 0.35;
 
 // 7. upload + Test & compare, then playback HOLDS on the finished chat (T.done)
-T.up = T.send2 + 0.45;
+T.up = T.send2 + 0.6;
 T.upDone = T.up + 1.6;
-T.tool3 = T.upDone + 0.2;
-T.tool3Done = T.tool3 + 0.5;
-T.tool4 = T.tool3Done + 0.15;
-T.tool4Done = T.tool4 + 0.8;
-T.say3 = T.tool4Done + 0.3;
-T.say3End = T.say3 + 1.8;
-T.done = T.say3End + 0.6;
+T.ab = T.upDone + 0.2;
+T.abDone = T.ab + 0.9;
+T.lead2 = T.abDone + 0.3;
+T.lead2End = T.lead2 + playout(TEXT.lead2);
+T.body2 = T.lead2End + 0.2;
+T.body2End = T.body2 + playout(TEXT.body2);
+T.turn2End = T.body2End + 0.2;
+T.done = T.turn2End + 0.6;
 
 // 8. the creator cuts to their own channel here; nothing in the animation plays under it
 export const CREATOR = ['lemme check on my channel, and there it is right there, all uploaded'];
@@ -120,8 +140,8 @@ export const PRE = [
 
 // camera: [t, scale], eased between keys, origin low-centre so the composer never leaves frame
 export const CAM = [
-  [0, 1], [T.yt - 0.3, 1], [T.yt + 0.7, 1.06], [T.sw2 - 0.4, 1.06], [T.sw2 + 0.5, 1],
-  [T.genDone - 0.3, 1], [T.genDone + 0.6, 1.1], [T.move2 - 0.1, 1.1], [T.move2 + 0.6, 1],
+  [0, 1], [T.yt - 0.3, 1], [T.yt + 0.8, 1.05], [T.sw2 - 0.5, 1.05], [T.sw2 + 0.5, 1],
+  [T.genDone - 0.4, 1], [T.genDone + 0.6, 1.08], [T.move2 - 0.2, 1.08], [T.move2 + 0.7, 1],
 ];
 
 export { T, VO };

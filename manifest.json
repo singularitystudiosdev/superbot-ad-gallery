@@ -478,7 +478,7 @@
     "title": "superbot: thumbnail to YouTube A/B test (click to play)",
     "src": "animations/yt-thumbnail-superbot-aecdec41/",
     "thumb": "assets/shots/yt-thumbnail-superbot-aecdec41.png",
-    "desc": "Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, finds the latest upload through YouTube, makes one GPT Image 2 thumbnail and uploads it to a Test & compare A/B test. Holds on the result; the next click plays the end card."
+    "desc": "Click-to-play 16:9 walkthrough timed to a YouTuber voiceover, drawn to match the superbot desktop app: Auto switches to the ChatGPT subscription, connects YouTube, makes one GPT Image 2 thumbnail and starts a Test & compare A/B test. Holds on the result; the next click plays the end card."
   },
   {
     "id": "gemini-muse-meme-lawn-superbot-f5e1d276",

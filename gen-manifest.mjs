@@ -275,7 +275,7 @@ const more = [
     download: 'animations/thumbnail-ab-superbot-67114eb1/final.mp4', downloadLabel: '16:9 · 1920x1080' }],
   // YouTuber voiceover walkthrough, click-to-play (2026-10-16, aecdec41): thumbnail made from the latest upload, then A/B tested.
   ['yt-thumbnail-superbot-aecdec41', 'yt-thumbnail-superbot-aecdec41/', 'superbot: thumbnail to YouTube A/B test (click to play)', 'Ad spots', {
-    desc: 'Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, finds the latest upload through YouTube, makes one GPT Image 2 thumbnail and uploads it to a Test & compare A/B test. Holds on the result; the next click plays the end card.' }],
+    desc: 'Click-to-play 16:9 walkthrough timed to a YouTuber voiceover, drawn to match the superbot desktop app: Auto switches to the ChatGPT subscription, connects YouTube, makes one GPT Image 2 thumbnail and starts a Test & compare A/B test. Holds on the result; the next click plays the end card.' }],
   // Front lawn garden (2026-10-16, f5e1d276): a ?variant=lawn cut in the 6fbc38f8 snapshot folder; the address stays
   // city-level (the ask names no street and the card\u2019s Open in Maps pill is the keyless google.com/maps/search/?api=1
   // link, never an Embed API call). The before photo is CC0 and the after is a model edit of that same photo, so the

@@ -1,92 +1,127 @@
 // Click-to-play engine. Everything on screen is a function of t (seconds since the click) except the feed's
 // push-up smoothing, which eases whatever height change layout produced. ?t=12.5 freezes a frame, ?cues=1 (or C)
-// shows the voiceline teleprompter, ?channel=Name&handle=@x personalises the channel, ?rate=0.5 slows playback.
+// shows the voiceline teleprompter, ?name=Adrian personalises the greeting, ?rate=0.5 slows playback.
 // Playback holds on the finished chat (the creator cuts to their own channel); the next click plays the end card.
-import { T, VO, PRE, CREATOR, CAM, KEYS1, KEYS2, PROMPT1, PROMPT2 } from './beats.aecdec41.js';
+import { T, VO, PRE, CREATOR, CAM, KEYS1, KEYS2, PROMPT1, PROMPT2, TEXT } from './beats.aecdec41.js';
 
 const q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 
-const stage = $('#stage'), cam = $('#cam'), feed = $('#feed'), comp = $('#comp');
-const greet = $('#greet'), subs = $('#subs'), endCard = $('#end');
-const cursor = $('#cursor'), ripple = $('#ripple'), hint = $('#hint');
-const typed = $('#c-typed'), placeholder = $('#c-ph'), caret = $('#caret'), attach = $('#c-att'), send = $('#send');
-const model = $('#model'), modelName = $('#m-name'), ytApp = $('#c-yt');
-const tile = $('#gt'), tileLabel = $('#gt .gl'), tilePct = $('#gt .gl-p');
-const upFill = $('#up-fill'), upPct = $('#up-pct');
+const stage = $('#stage'), cam = $('#cam'), feed = $('#feed'), bar = $('#comp'), scrim = $('#scrim');
+const greet = $('#greet'), links = $('#links'), endCard = $('#end'), gen = $('#gen'), img = $('#img');
+const cursor = $('#cursor'), hint = $('#hint');
+const typed = $('#c-typed'), placeholder = $('#c-ph'), caret = $('#caret'), send = $('#send');
+const model = $('#model'), modelName = $('#m-name'), modelDial = $('#m-dial');
 const cues = $('#cues'), cueNow = $('#cue-now'), cueNext = $('#cue-next'), cueT = $('#cue-t');
-const endParts = { mark: $('#end .mark'), url: $('.end-url'), sub: $('.end-sub') };
+const endParts = { mark: $('.end-mark'), url: $('.end-url'), sub: $('.end-sub') };
 
-const COMPOSER_IDLE_LIFT = 295; // logical px between the idle spot (under the greeting) and the docked spot
-const CLICKS = [T.click1, T.clickPick, T.click2];
+// ---- the app's own marks (marks/mark-superbot-glitch.tsx, the composer's OpenAI tile) ---------------------------
+const CAT_HEAD = 'M29 32H71A15 15 0 0 1 86 47V71A15 15 0 0 1 71 86H29A15 15 0 0 1 14 71V47A15 15 0 0 1 29 32ZM33 43.5H37A9.5 12.5 0 0 1 46.5 56V60A9.5 12.5 0 0 1 37 72.5H33A9.5 12.5 0 0 1 23.5 60V56A9.5 12.5 0 0 1 33 43.5ZM63 43.5H67A9.5 12.5 0 0 1 76.5 56V60A9.5 12.5 0 0 1 67 72.5H63A9.5 12.5 0 0 1 53.5 60V56A9.5 12.5 0 0 1 63 43.5Z';
+const CAT_EARS = 'M14 46V28Q14 20 21 21Q28 24 36 32ZM86 46V28Q86 20 79 21Q72 24 64 32Z';
+const catLayer = (fill, d) => `<g fill="${fill}" stroke="none" transform="translate(${d} ${d})"><path fill-rule="evenodd" d="${CAT_HEAD}"/><path d="${CAT_EARS}"/></g>`;
+const CAT_MARK = `<svg viewBox="0 0 100 100" aria-hidden="true">${catLayer('#00e5c3', -1.2)}${catLayer('#c026d3', 1.2)}${catLayer('#ffffff', 0)}</svg>`;
+const PETAL = 'M1107.3 299.1c-197.999 0-373.9 127.3-435.2 315.3L650 743.5v427.9c0 21.4 11 40.4 29.4 51.4l344.5 198.515V833.3h.1v-27.9L1372.7 604c33.715-19.52 70.44-32.857 108.47-39.828L1447.6 450.3C1361 353.5 1237.1 298.5 1107.3 299.1zm0 117.5-.6.6c79.699 0 156.3 27.5 217.6 78.4-2.5 1.2-7.4 4.3-11 6.1L952.8 709.3c-18.4 10.4-29.4 30-29.4 51.4V1248l-155.1-89.4V755.8c-.1-187.099 151.601-338.9 339-339.2z';
+const KNOT = `<svg viewBox="0 0 2406 2406" aria-hidden="true"><g fill="currentColor" stroke="none">${[0, 60, 120, 180, 240, 300].map((a) => `<path d="${PETAL}" transform="rotate(${a} 1203 1203)"/>`).join('')}</g></svg>`;
+$$('.gm').forEach((el) => (el.innerHTML = CAT_MARK));
+$$('.knot').forEach((el) => (el.innerHTML = KNOT));
 
-// ---- personalisation -------------------------------------------------------------------------------------------
-const channel = q.get('channel') || 'My Channel';
-const handle = q.get('handle') || '@' + channel.toLowerCase().replace(/[^a-z0-9]/g, '');
-$$('[data-ch=name]').forEach((el) => (el.textContent = channel));
-$$('[data-ch=handle]').forEach((el) => (el.textContent = handle));
-$$('[data-ch=initial]').forEach((el) => (el.textContent = channel.trim()[0].toUpperCase()));
+// greeting copy from packages/core/src/greeting: a time-band LEAD plus the first-open ASK
 const hour = new Date().getHours();
-$('#greet-text').textContent = `${hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'}. Where do we go?`;
+const band = hour >= 5 && hour < 12 ? 'morning' : hour >= 12 && hour < 17 ? 'afternoon' : hour >= 17 && hour < 22 ? 'evening' : 'night';
+const name = q.get('name');
+const LEAD = {
+  morning: name ? `Morning, ${name}.` : 'Good morning.',
+  afternoon: name ? `Afternoon, ${name}.` : 'Good afternoon.',
+  evening: name ? `Evening, ${name}.` : 'Good evening.',
+  night: 'Quiet hours.',
+};
+$('#greet-text').textContent = `${LEAD[band]} What's first?`;
 
 // ---- easing ----------------------------------------------------------------------------------------------------
 const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
 const seg = (t, a, b) => clamp01((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
 const easeOut = (p) => 1 - Math.pow(1 - p, 3);
 const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
-const bump = (t, at, half) => clamp01(1 - Math.abs(t - at) / half);
+// minimum-jerk profile (Flash & Hogan 1985): how a hand actually moves a mouse between two points
+const minJerk = (p) => p * p * p * (10 - 15 * p + 6 * p * p);
 
-// ---- timed elements: data-in shows, data-done flips spinner to check --------------------------------------------
+// write a style or custom property only when it changes: untouched rows cost no style recalc
+const setStyle = (el, prop, value) => {
+  const cache = (el._sty ??= {});
+  if (cache[prop] === value) return;
+  cache[prop] = value;
+  if (prop.startsWith('--')) el.style.setProperty(prop, value);
+  else el.style[prop] = value;
+};
+const setText = (el, value) => {
+  if (el._txt !== value) el.textContent = el._txt = value;
+};
+const setClass = (el, cls, on) => {
+  const key = '_c_' + cls;
+  if (el[key] !== on) el.classList.toggle(cls, (el[key] = on));
+};
+
+// ---- timed rows: data-in shows (rise 10px + fade, as ProviderSwitchBlock enters), data-out hides,
+//      data-done flips spinner to check ------------------------------------------------------------------------
 const timed = $$('[data-in]').map((el) => {
-  const tin = T[el.dataset.in];
-  const tdone = el.dataset.done ? T[el.dataset.done] : null;
-  if (tin === undefined || tdone === undefined) console.error('unknown beat on', el, el.dataset);
-  return { el, tin, tdone };
+  const row = { el, tin: T[el.dataset.in], tout: el.dataset.out ? T[el.dataset.out] : Infinity, tdone: el.dataset.done ? T[el.dataset.done] : null };
+  if (row.tin === undefined || row.tout === undefined || row.tdone === undefined) console.error('unknown beat on', el, el.dataset);
+  return row;
 });
 
 function renderTimed(t) {
-  for (const { el, tin, tdone } of timed) {
-    const on = t >= tin;
-    el.style.display = on ? '' : 'none';
+  for (const { el, tin, tout, tdone } of timed) {
+    const on = t >= tin && t < tout;
+    setStyle(el, 'display', on ? '' : 'none');
     if (on) {
-      const p = easeOut(seg(t, tin, tin + 0.32));
-      el.style.opacity = p;
-      el.style.transform = p < 1 ? `translateY(${(1 - p) * 8}px)` : '';
+      const p = easeOut(seg(t, tin, tin + 0.42));
+      setStyle(el, 'opacity', p.toFixed(3));
+      setStyle(el, 'transform', p < 1 ? `translateY(${((1 - p) * 10).toFixed(2)}px)` : '');
     }
-    if (tdone !== null) el.classList.toggle('done', t >= tdone);
+    if (tdone !== null) setClass(el, 'done', t >= tdone);
   }
 }
 
-// assistant text streams word by word; the unrevealed tail is laid out transparent so the height never jumps
-const says = $$('.say').map((el) => {
-  const text = el.textContent.trim();
+// assistant prose: character playout with the app's trailing typing caret; the unrevealed tail is laid out
+// transparent so the paragraph's height never jumps while it streams
+const says = $$('[data-say]').map((el) => {
+  const text = TEXT[el.dataset.say];
   const shown = document.createElement('span');
+  const tip = document.createElement('i');
   const hid = document.createElement('span');
-  hid.className = 'hid';
-  el.replaceChildren(shown, hid);
-  return { text, shown, hid, a: T[el.dataset.a], b: T[el.dataset.b], n: -1 };
+  tip.className = 'say-caret';
+  hid.style.color = 'transparent';
+  el.replaceChildren(shown, tip, hid);
+  return { text, shown, tip, hid, a: T[el.dataset.a], b: T[el.dataset.b] };
 });
 
 function renderSays(t) {
   for (const s of says) {
-    let n = Math.round(s.text.length * seg(t, s.a, s.b));
-    if (n < s.text.length) n = Math.max(0, s.text.lastIndexOf(' ', n));
-    if (n === s.n) continue;
-    s.n = n;
-    s.shown.textContent = s.text.slice(0, n);
-    s.hid.textContent = s.text.slice(n);
+    const n = Math.floor(s.text.length * seg(t, s.a, s.b));
+    setText(s.shown, s.text.slice(0, n));
+    setText(s.hid, s.text.slice(n));
+    setStyle(s.tip, 'display', t >= s.a && t < s.b + 0.2 ? '' : 'none');
   }
 }
 
-// ---- composer --------------------------------------------------------------------------------------------------
+const turnClocks = $$('.turn-dur').map((el) => ({ el, from: T[el.dataset.from], to: T[el.dataset.to] }));
+function renderTurnClocks(t) {
+  for (const c of turnClocks) setText(c.el, ` · ${Math.max(0, Math.floor(Math.min(t, c.to) - c.from))}s`);
+}
+
+// ---- composer: the home (hero) bar docks under the transcript on the first send ---------------------------------
+const HERO = { x: 144, y: 229, w: 832, h: 172, ctl: 32, gly: 16, fpy: 16, fpx: 12, cpt: 4, cpb: 8, disc: 0 };
+const DOCK = { x: 192, y: 528, w: 736, h: 94, ctl: 28, gly: 12, fpy: 12, fpx: 8, cpt: 0, cpb: 0, disc: 1 };
+
 const keysDown = (keys, t) => {
   let n = 0;
   while (n < keys.length && keys[n] <= t) n++;
   return n;
 };
 
-function composerState(t) {
+function composerText(t) {
   if (t >= T.type1 && t < T.send1) {
     const n = keysDown(KEYS1, t);
     return { text: PROMPT1.slice(0, n), lastKey: n ? KEYS1[n - 1] : -9 };
@@ -99,53 +134,43 @@ function composerState(t) {
 }
 
 function renderComposer(t) {
-  const { text, lastKey } = composerState(t);
-  const focused = (t >= T.click1 && t < T.send1) || (t >= T.click2 && t < T.send2);
-  const hasAttach = t >= T.attach && t < T.send2;
-  if (typed.textContent !== text) typed.textContent = text;
-  placeholder.style.display = text || hasAttach || focused ? 'none' : '';
-  attach.style.display = hasAttach ? '' : 'none';
-  attach.style.opacity = easeOut(seg(t, T.attach, T.attach + 0.25));
-  caret.style.visibility = focused && (t - lastKey < 0.45 || Math.floor(t * 1.9) % 2 === 0) ? 'visible' : 'hidden';
-  comp.classList.toggle('focus', focused);
-  send.classList.toggle('lit', text.length > 0);
-  send.style.transform = `scale(${1 - 0.14 * Math.max(bump(t, T.send1, 0.12), bump(t, T.send2, 0.12))})`;
+  const k = easeInOut(seg(t, T.send1, T.docked));
+  for (const key of ['x', 'y', 'w', 'h']) {
+    const prop = { x: 'left', y: 'top', w: 'width', h: 'height' }[key];
+    setStyle(bar, prop, lerp(HERO[key], DOCK[key], k).toFixed(2) + 'px');
+  }
+  for (const key of ['ctl', 'gly', 'fpy', 'fpx', 'cpt', 'cpb']) setStyle(bar, '--' + key, lerp(HERO[key], DOCK[key], k).toFixed(2) + 'px');
+  setStyle(bar, '--disc', lerp(HERO.disc, DOCK.disc, k).toFixed(3));
 
-  const dock = easeInOut(seg(t, T.send1, T.send1 + 0.6));
-  comp.style.transform = `translateY(${-COMPOSER_IDLE_LIFT * (1 - dock)}px)`;
-  const fade = 1 - seg(t, T.send1, T.send1 + 0.35);
-  greet.style.opacity = subs.style.opacity = fade;
-  greet.style.transform = subs.style.transform = `translateY(${-14 * (1 - fade)}px)`;
+  // at rest a 40% scrim dims the whole bar; focusing it lifts the scrim over 450ms
+  const focused = t >= T.click1;
+  setStyle(scrim, 'opacity', (1 - easeOut(seg(t, T.click1, T.click1 + 0.45))).toFixed(3));
 
-  const name = t < T.sw1Done ? 'Auto' : t < T.sw2Done ? 'ChatGPT' : t < T.send2 ? 'GPT Image 2' : 'ChatGPT';
-  if (modelName.textContent !== name) modelName.textContent = name;
-  model.classList.toggle('oa', t >= T.sw1Done);
-  const modelPop = Math.max(bump(t, T.sw1Done + 0.1, 0.18), bump(t, T.sw2Done + 0.1, 0.18), bump(t, T.send2 + 0.1, 0.18));
-  model.style.transform = `scale(${1 + 0.12 * modelPop})`;
+  const { text, lastKey } = composerText(t);
+  setText(typed, text);
+  setStyle(placeholder, 'display', text ? 'none' : '');
+  const blinkOn = t - lastKey < 0.5 || Math.floor((t - lastKey) * 1.9) % 2 === 0;
+  setStyle(caret, 'visibility', focused && blinkOn ? 'visible' : 'hidden');
 
-  ytApp.style.display = t >= T.ytDone ? '' : 'none';
-  ytApp.style.transform = `scale(${easeOut(seg(t, T.ytDone, T.ytDone + 0.3)) + 0.25 * bump(t, T.ytDone + 0.3, 0.2)})`;
-}
+  const live = (t >= T.send1 && t < T.turn1End) || (t >= T.send2 && t < T.turn2End);
+  setClass(send, 'hero', t < T.send1);
+  setClass(send, 'live', live);
+  setClass(send, 'lit', !live && t >= T.send1 && text.length > 0);
 
-// ---- feed contents with their own clocks -----------------------------------------------------------------------
-function renderFeedDetails(t) {
-  // GPT Image 2: the thumbnail sharpens out of a blur under a sweeping band, then resolves
-  const r = T.genDone;
-  const gen = seg(t, T.gen, r);
-  const rev = easeOut(seg(t, r, r + 0.6));
-  tile.style.setProperty('--blur', (t < r ? 24 - 14 * gen : 10 * (1 - rev)).toFixed(2) + 'px');
-  tile.style.setProperty('--sat', (0.5 + 0.5 * rev).toFixed(3));
-  tile.style.setProperty('--bri', (t < r ? 0.35 + 0.25 * gen : 0.6 + 0.4 * rev).toFixed(3));
-  tile.style.setProperty('--bx', (-60 + 120 * (((t - T.gen) * 0.75) % 1)).toFixed(1) + '%');
-  tile.style.setProperty('--bo', (1 - seg(t, r, r + 0.35)).toFixed(3));
-  tileLabel.style.opacity = 1 - seg(t, r, r + 0.3);
-  tilePct.textContent = Math.min(100, Math.floor(100 * (1 - Math.pow(1 - gen, 1.6)))) + '%';
-  tile.classList.toggle('hover', t >= T.hoverPick && t < T.move2);
-  tile.classList.toggle('picked', t >= T.clickPick);
+  const fade = 1 - easeOut(seg(t, T.send1, T.send1 + 0.22));
+  setStyle(greet, 'opacity', fade.toFixed(3));
+  setStyle(greet, 'transform', `translateY(${(-10 * (1 - fade)).toFixed(2)}px)`);
+  setStyle(links, 'opacity', fade.toFixed(3));
+  setStyle(links, 'transform', `translateY(${(8 * (1 - fade)).toFixed(2)}px)`);
+  setStyle(greet, 'visibility', fade > 0 ? 'visible' : 'hidden');
+  setStyle(links, 'visibility', fade > 0 ? 'visible' : 'hidden');
 
-  const up = easeInOut(seg(t, T.up + 0.15, T.upDone - 0.1));
-  upFill.style.width = (up * 100).toFixed(1) + '%';
-  upPct.textContent = Math.round(up * 100) + '%';
+  // Auto routes to the ChatGPT subscription: the model pill takes the picked model and its vendor tile
+  const routed = t >= T.sw1Done;
+  setClass(model, 'oa', routed);
+  setText(modelName, routed ? 'GPT-5.6 Sol' : 'superbot');
+  setText(modelDial, routed ? 'High, 200K' : 'High, 1M');
+  setStyle(model, 'opacity', (routed ? 0.35 + 0.65 * easeOut(seg(t, T.sw1Done, T.sw1Done + 0.3)) : 1).toFixed(3));
 }
 
 // new feed rows push the column up smoothly: absorb each height change as an offset, then let it decay
@@ -153,23 +178,24 @@ let feedPrevH = 0;
 let feedOffset = 0;
 function smoothFeed(dt, snap) {
   const h = feed.offsetHeight;
-  feedOffset = snap ? 0 : (feedOffset + h - feedPrevH) * Math.exp(-dt * 11);
+  feedOffset = snap ? 0 : (feedOffset + h - feedPrevH) * Math.exp(-dt * 9);
   if (Math.abs(feedOffset) < 0.05) feedOffset = 0;
   feedPrevH = h;
-  feed.style.transform = feedOffset ? `translateY(${feedOffset.toFixed(2)}px)` : '';
+  setStyle(feed, 'transform', feedOffset ? `translateY(${feedOffset.toFixed(2)}px)` : '');
 }
 
 // ---- end card --------------------------------------------------------------------------------------------------
 function renderEnd(t) {
-  endCard.style.opacity = seg(t, T.end, T.end + 0.6);
+  setStyle(endCard, 'opacity', seg(t, T.end, T.end + 0.6).toFixed(3));
+  if (t < T.end) return;
   const m = easeOut(seg(t, T.end + 0.1, T.end + 0.8));
-  endParts.mark.style.transform = `scale(${0.85 + 0.15 * m})`;
-  endParts.mark.style.opacity = m;
+  setStyle(endParts.mark, 'transform', `scale(${(0.85 + 0.15 * m).toFixed(4)})`);
+  setStyle(endParts.mark, 'opacity', m.toFixed(3));
   const u = easeOut(seg(t, T.end + 0.3, T.end + 0.9));
-  endParts.url.style.opacity = u;
-  endParts.url.style.transform = `translateY(${(1 - u) * 24}px)`;
-  endParts.sub.style.opacity = easeOut(seg(t, T.end + 0.7, T.end + 1.2));
-  endParts.sub.style.setProperty('--bob', (Math.sin(t * 4) * 5).toFixed(2) + 'px');
+  setStyle(endParts.url, 'opacity', u.toFixed(3));
+  setStyle(endParts.url, 'transform', `translateY(${((1 - u) * 24).toFixed(2)}px)`);
+  setStyle(endParts.sub, 'opacity', easeOut(seg(t, T.end + 0.7, T.end + 1.2)).toFixed(3));
+  setStyle(endParts.sub, '--bob', (Math.sin(t * 4) * 5).toFixed(2) + 'px');
 }
 
 function camScale(t) {
@@ -191,18 +217,18 @@ const at = (el, fx, fy) => () => {
 const fixed = (x, y) => () => ({ x, y });
 
 const MOVES = [
-  { a: T.move1, b: T.click1, to: at(comp, 0.3, 0.28) },
-  { a: T.aside1, b: T.aside1 + 0.9, to: fixed(1530, 610) },
-  { a: T.movePick, b: T.hoverPick, to: at(tile, 0.58, 0.55) },
-  { a: T.move2, b: T.click2, to: at(comp, 0.36, 0.28) },
-  { a: T.aside2, b: T.aside2 + 0.9, to: fixed(1540, 560) },
+  { a: T.move1, b: T.click1, to: at(bar, 0.3, 0.2) },
+  { a: T.aside1, b: T.aside1 + 0.9, to: fixed(1600, 560) },
+  { a: T.movePick, b: T.hoverPick, to: at(img, 0.62, 0.5) },
+  { a: T.move2, b: T.click2, to: at(bar, 0.36, 0.27) },
+  { a: T.aside2, b: T.aside2 + 0.9, to: fixed(1610, 520) },
 ];
 const restAt = new Array(MOVES.length).fill(null);
 let cursorStart = { x: 1320, y: 780 };
 
 function arc(a, b, p) {
   const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1;
-  const bow = Math.min(70, d * 0.12) * Math.sin(Math.PI * p);
+  const bow = Math.min(60, d * 0.1) * Math.sin(Math.PI * p);
   return { x: a.x + dx * p - (dy / d) * bow, y: a.y + dy * p + (dx / d) * bow };
 }
 
@@ -211,7 +237,7 @@ function cursorAt(t) {
   for (let i = 0; i < MOVES.length; i++) {
     const m = MOVES[i];
     if (t < m.a) break;
-    if (t < m.b) return arc(p, m.to(), easeInOut((t - m.a) / (m.b - m.a)));
+    if (t < m.b) return arc(p, m.to(), minJerk((t - m.a) / (m.b - m.a)));
     restAt[i] ??= m.to();
     p = restAt[i];
   }
@@ -223,14 +249,8 @@ function renderCursor(t, idle) {
   const typing = (t >= T.type1 && t < T.aside1) || (t >= T.type2 && t < T.aside2);
   const visible = idle || typing ? 0 : 1 - seg(t, T.end, T.end + 0.3);
   const p = cursorAt(t);
-  const press = Math.max(...CLICKS.map((c) => bump(t, c, 0.09)));
-  cursor.style.opacity = visible;
-  cursor.style.transform = `translate(${(p.x - 7).toFixed(1)}px, ${(p.y - 3.5).toFixed(1)}px) scale(${1 - 0.16 * press})`;
-
-  const since = Math.min(...CLICKS.map((c) => (t >= c ? t - c : 99)));
-  const r = seg(since, 0, 0.45);
-  ripple.style.opacity = !idle && since < 0.45 ? (0.6 * (1 - r)).toFixed(3) : 0;
-  ripple.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) scale(${0.3 + 0.7 * easeOut(r)})`;
+  setStyle(cursor, 'opacity', String(visible));
+  setStyle(cursor, 'transform', `translate(${(p.x - 7).toFixed(2)}px, ${(p.y - 3.5).toFixed(2)}px)`);
 }
 
 // ---- teleprompter ----------------------------------------------------------------------------------------------
@@ -238,21 +258,21 @@ let cuesOn = q.get('cues') === '1';
 function renderCues(t, idle) {
   cues.hidden = !cuesOn;
   if (!cuesOn) return;
-  cueT.textContent = idle ? 'before the click' : `t = ${t.toFixed(1)}s`;
+  setText(cueT, idle ? 'before the click' : `t = ${t.toFixed(1)}s`);
   if (idle) {
-    cueNow.textContent = PRE.join('\n');
-    cueNext.textContent = 'then click';
+    setText(cueNow, PRE.join('\n'));
+    setText(cueNext, 'then click');
     return;
   }
   if (state === 'held') {
-    cueNow.textContent = `your channel footage: ${CREATOR.join(' ')}`;
-    cueNext.textContent = 'then click for the end card';
+    setText(cueNow, `your channel footage: ${CREATOR.join(' ')}`);
+    setText(cueNext, 'then click for the end card');
     return;
   }
   const now = VO.filter((v) => t >= v.t - 0.15 && t < v.t + v.dur + 0.5).pop();
   const next = VO.find((v) => v.t > t + 0.15);
-  cueNow.textContent = now ? now.text : '…';
-  cueNext.textContent = next ? `next in ${(next.t - t).toFixed(1)}s: ${next.text}` : '';
+  setText(cueNow, now ? now.text : '…');
+  setText(cueNext, next ? `next in ${(next.t - t).toFixed(1)}s: ${next.text}` : '');
 }
 
 // ---- clock -----------------------------------------------------------------------------------------------------
@@ -272,18 +292,19 @@ if (q.has('t')) {
 
 function render(t, dt, snap) {
   const idle = state === 'idle';
-  stage.style.setProperty('--sh', (100 - ((t * 0.75) % 1) * 100).toFixed(1) + '%');
-  stage.style.setProperty('--rot', ((t * 400) % 360).toFixed(1) + 'deg');
-  cam.style.transform = `scale(${camScale(t).toFixed(4)})`;
+  setStyle(stage, '--sh', (100 - ((t * 0.75) % 1) * 100).toFixed(1) + '%');
+  setStyle(stage, '--rot', ((t * 360) % 360).toFixed(1) + 'deg');
+  setStyle(gen, '--gb', (100 - (((t - T.gen) * 0.6) % 1) * 100).toFixed(1) + '%');
+  setStyle(cam, 'transform', `scale(${camScale(t).toFixed(4)})`);
   renderTimed(t);
   renderSays(t);
+  renderTurnClocks(t);
   renderComposer(t);
-  renderFeedDetails(t);
   smoothFeed(dt, snap);
   renderEnd(t);
   renderCursor(t, idle);
   renderCues(t, idle);
-  hint.style.opacity = idle && performance.now() - loadedAt < 4000 && !q.has('clean') ? 1 : 0;
+  setStyle(hint, 'opacity', idle && performance.now() - loadedAt < 4000 && !q.has('clean') ? '1' : '0');
 }
 
 function frame(now) {
@@ -371,4 +392,5 @@ window.__ad = {
   play() { state = 'playing'; },
 };
 
-requestAnimationFrame(frame);
+// start the clock only once the bundled Inter faces are in, so the first frames never reflow
+document.fonts.ready.then(() => requestAnimationFrame(frame));

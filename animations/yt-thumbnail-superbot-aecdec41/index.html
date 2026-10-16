@@ -4,128 +4,134 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>superbot · thumbnail to YouTube A/B test</title>
+<link rel="preload" href="assets/fonts/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/fonts/Inter-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="ad.aecdec41.css">
 </head>
 <body>
+<!-- Mirrors superbot-desktop origin/main (4dc801f89): Composer, ThreadIdle + NewChatChips, MessageRow, TurnHead,
+     ProviderSwitchBlock, ProviderSwitchGenerating, ImageCard, StepList. The <i class="gm"> and <i class="knot">
+     placeholders are filled with the app's own cat mark and OpenAI knot by ad.aecdec41.js. -->
 <div id="stage">
 <div id="cam">
+<section id="pane">
 
-<section id="hub">
-  <div class="greet" id="greet">
-    <span class="mark"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>
-    <h1 id="greet-text">Good evening. Where do we go?</h1>
+  <div class="hero-greet" id="greet">
+    <span class="hero-mark"><i class="gm"></i></span>
+    <h2 id="greet-text">Good evening. What's first?</h2>
   </div>
 
   <div class="feed-vp"><div class="feed" id="feed">
-    <div class="it u" data-in="send1"><div class="bub">make a thumbnail from my latest video</div></div>
 
-    <div class="it chip" data-in="sw1" data-done="sw1Done">
-      <span class="tile"><img src="assets/openai-logo.svg" alt=""></span>
-      <span class="lbl"><span class="run shim">Switching to ChatGPT</span><span class="fin">Switched to ChatGPT</span></span>
-      <span class="st"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>
-    </div>
+    <div class="row-user" data-in="bubble1"><div class="bubble">make a thumbnail from my latest video</div></div>
 
-    <div class="it cr" data-in="sub">
-      <span class="tile"><img src="assets/openai-logo.svg" alt=""></span>
-      <span class="cr-t">Using your ChatGPT Plus subscription</span>
-      <span class="cr-n">$0 API fees</span>
-    </div>
+    <div class="turn" data-in="head1">
+      <div class="turn-head"><span class="avatar"><i class="gm"></i></span><span class="turn-label"><b>superbot</b><span class="turn-dur" data-from="send1" data-to="turn1End"> · 0s</span></span></div>
+      <div class="slot">
 
-    <div class="it chip" data-in="yt" data-done="ytDone">
-      <span class="tile"><img src="assets/youtube.svg" alt=""></span>
-      <span class="lbl"><span class="run shim">Connecting YouTube</span><span class="fin">Connected to YouTube</span></span>
-      <span class="handle fin" data-ch="handle">@mychannel</span>
-      <span class="st"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>
-    </div>
+        <div class="switch" data-in="sw1" data-done="sw1Done">
+          <span class="switch-pill"><span class="tile tile-oa"><i class="knot"></i></span><span class="run shim">Switching to GPT-5.6 Sol</span><span class="fin">Switched to GPT-5.6 Sol</span><span class="status"><svg class="spin" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></span>
+          <div class="nest">
+            <div class="who"><span class="tile tile-oa"><i class="knot"></i></span><b>GPT-5.6 Sol</b><small>in superbot</small></div>
+            <ol class="steps">
+              <li class="done" data-in="sw1Step"><span class="glyph"><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="step-label">Using your ChatGPT Plus subscription</span><span class="step-detail">no API fees</span></li>
+            </ol>
+          </div>
+        </div>
 
-    <div class="it vc" data-in="vid">
-      <div class="vc-th"><div class="thumb ph" style="--img:url(assets/frame.jpg)"></div><span class="dur">18:42</span></div>
-      <div class="vc-info">
-        <div class="vc-kick"><img src="assets/youtube.svg" alt="">Latest upload</div>
-        <div class="vc-title">Alex Karp: You Are Right To Be Afraid</div>
-        <div class="vc-meta"><span data-ch="name">My Channel</span> · 2 days ago</div>
+        <div class="switch" data-in="yt" data-done="ytDone">
+          <span class="switch-pill"><span class="tile tile-site"><img src="assets/youtube.svg" alt=""></span><span class="run shim">Connecting to YouTube</span><span class="fin">Connected to YouTube</span><span class="status"><svg class="spin" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></span>
+          <div class="nest">
+            <div class="who"><span class="tile tile-site"><img src="assets/youtube.svg" alt=""></span><b>YouTube</b><small>in superbot</small></div>
+            <ol class="steps">
+              <li class="done" data-in="ytStep1"><span class="glyph"><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="step-label">Opened YouTube Studio</span><span class="step-detail">studio.youtube.com</span></li>
+              <li data-in="ytStep2" data-done="ytStep2Done"><span class="glyph"><svg class="spin" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="step-label run">Reading your latest upload</span><span class="step-label fin">Read your latest upload</span><span class="step-detail">Alex Karp: You Are Right To Be Afraid</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <p class="lead" data-in="lead1" data-say="lead1" data-a="lead1" data-b="lead1End"></p>
+        <p class="body" data-in="body1" data-say="body1" data-a="body1" data-b="body1End"></p>
+
+        <div class="switch" data-in="sw2" data-done="sw2Done">
+          <span class="switch-pill"><span class="tile tile-oa"><i class="knot"></i></span><span class="run shim">Switching to GPT Image 2</span><span class="fin">Switched to GPT Image 2</span><span class="status"><svg class="spin" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></span>
+          <div class="nest">
+            <div class="who"><span class="tile tile-oa"><i class="knot"></i></span><b>GPT Image 2</b><small>in superbot</small></div>
+          </div>
+        </div>
+
+        <div class="generating" id="gen" data-in="gen" data-out="genDone">
+          <i class="gen-band"></i>
+          <span class="gen-chip"><span class="tile tile-oa round"><i class="knot"></i></span>Creating image</span>
+        </div>
+        <div class="image-card" id="img" data-in="genDone"><img src="assets/thumb-new.jpg" alt=""></div>
+        <span class="provenance" data-in="prov">via your ChatGPT account</span>
+        <p class="body" data-in="cap" data-say="caption" data-a="cap" data-b="capEnd"></p>
       </div>
     </div>
 
-    <div class="it ans" data-in="say1">
-      <div class="who"><span class="tile t-sb"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>superbot<small>via ChatGPT Plus</small></div>
-      <div class="say" data-a="say1" data-b="say1End">Found your latest upload, “You Are Right To Be Afraid”. I'll design a thumbnail around its strongest frame and the quote.</div>
+    <div class="row-user" data-in="send2"><div class="bubble">use this one and upload it to youtube a:b tests</div></div>
+
+    <div class="turn" data-in="head2">
+      <div class="turn-head"><span class="avatar"><i class="gm"></i></span><span class="turn-label"><b>superbot</b><span class="turn-dur" data-from="send2" data-to="turn2End"> · 0s</span></span></div>
+      <div class="slot">
+        <ol class="sb-steps">
+          <li data-in="up" data-done="upDone"><span class="mk"><i class="dot"></i><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="run"><em>Uploading</em> thumbnail to YouTube</span><span class="fin"><em>Uploaded</em> thumbnail to YouTube</span></li>
+          <li data-in="ab" data-done="abDone"><span class="mk"><i class="dot"></i><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="run"><em>Starting</em> Test &amp; compare</span><span class="fin"><em>Started</em> Test &amp; compare on “You Are Right To Be Afraid”</span></li>
+        </ol>
+        <p class="lead" data-in="lead2" data-say="lead2" data-a="lead2" data-b="lead2End"></p>
+        <p class="body" data-in="body2" data-say="body2" data-a="body2" data-b="body2End"></p>
+      </div>
     </div>
 
-    <div class="it chip" data-in="sw2" data-done="sw2Done">
-      <span class="tile"><img src="assets/openai-logo.svg" alt=""></span>
-      <span class="lbl"><span class="run shim">Switching to GPT Image 2</span><span class="fin">Using GPT Image 2</span></span>
-      <span class="st"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>
-    </div>
-
-    <div class="it gt" data-in="gen" id="gt">
-      <div class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></div>
-      <i class="band"></i><span class="gl"><span class="tile"><img src="assets/openai-logo.svg" alt=""></span>GPT Image 2<em class="gl-p">0%</em></span>
-      <span class="sel"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>
-    </div>
-
-    <div class="it ans" data-in="say2"><div class="say" data-a="say2" data-b="say2End">Here's your thumbnail, built around the quote.</div></div>
-
-    <div class="it u" data-in="send2"><div class="bub"><div class="att"><div class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></div></div>use this one and upload it to youtube a:b tests</div></div>
-
-    <div class="it chip" data-in="up" data-done="upDone">
-      <span class="tile"><img src="assets/youtube.svg" alt=""></span>
-      <span class="lbl"><span class="run shim">Uploading to YouTube</span><span class="fin">Uploaded to YouTube</span></span>
-      <span class="bar"><i id="up-fill"></i></span><span class="pct" id="up-pct">0%</span>
-      <span class="st"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>
-    </div>
-
-    <div class="it tools" data-in="tool3">
-      <div class="tool" data-in="tool3" data-done="tool3Done"><span class="tst"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span><span class="run">Uploading thumbnail B</span><span class="fin">Uploaded thumbnail B (1280×720)</span></div>
-      <div class="tool" data-in="tool4" data-done="tool4Done"><span class="tst"><i class="spin"></i><svg class="ok" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span><span class="run">Starting Test &amp; compare</span><span class="fin">Test &amp; compare running: A (current) vs B (new)</span></div>
-    </div>
-
-    <div class="it ans" data-in="say3">
-      <div class="who"><span class="tile t-sb"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>superbot<small>via ChatGPT Plus</small></div>
-      <div class="say" data-a="say3" data-b="say3End">Done. Your A/B test is live on “You Are Right To Be Afraid”: your current thumbnail vs. the new one. YouTube keeps whichever earns more watch time.</div>
-    </div>
   </div></div>
 
-  <div class="composer" id="comp">
-    <div class="c-text">
-      <span class="c-att" id="c-att"><span class="thumb ph" style="--img:url(assets/thumb-new.jpg)"></span>Thumbnail</span>
-      <span class="c-ph" id="c-ph">How can superbot help you today?</span><span id="c-typed"></span><i class="caret" id="caret"></i>
+  <div class="bar" id="comp">
+    <div class="field-row">
+      <div class="field"><span class="placeholder" id="c-ph">How can superbot help you today?</span><span id="c-typed"></span><i class="caret" id="caret"></i></div>
     </div>
-    <div class="c-row">
-      <span class="c-plus"><svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></span>
-      <span class="c-pills">
-        <span class="cp cp-sb"><svg viewBox="0 0 16 16"><path d="M8 2l1.6 4.4L14 8l-4.4 1.6L8 14l-1.6-4.4L2 8l4.4-1.6z"/></svg></span>
-        <span class="cp">Off<svg class="chev" viewBox="0 0 16 16"><path d="M4.5 6.5L8 10l3.5-3.5"/></svg></span>
-        <span class="cp"><svg viewBox="0 0 16 16"><path d="M3 11l4-4 2 2 4-4M10 5h3v3"/></svg>Agent<svg class="chev" viewBox="0 0 16 16"><path d="M4.5 6.5L8 10l3.5-3.5"/></svg></span>
-      </span>
-      <span class="c-app" id="c-yt"><img src="assets/youtube.svg" alt=""></span>
-      <span class="c-right">
-        <span class="model" id="model"><span class="m-ic"><i class="m-dot"></i><img id="m-img" src="assets/openai-logo.svg" alt=""></span><span id="m-name">Auto</span><svg class="chev" viewBox="0 0 16 16"><path d="M4.5 6.5L8 10l3.5-3.5"/></svg></span>
-        <span class="rb rb-screen"><svg viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="7.5" rx="1.5"/><path d="M6 13.5h4"/></svg></span>
-        <span class="rb"><svg viewBox="0 0 16 16"><path d="M3 7v2M5.5 5v6M8 3.5v9M10.5 5v6M13 7v2"/></svg></span>
-        <span class="rb"><svg viewBox="0 0 16 16"><rect x="6" y="2.5" width="4" height="7" rx="2"/><path d="M4 8a4 4 0 008 0M8 12v1.5"/></svg></span>
-        <span class="rb rb-send" id="send"><svg viewBox="0 0 16 16"><path d="M8 12.5v-9M4.5 7L8 3.5 11.5 7"/></svg></span>
-      </span>
+    <div class="controls">
+      <div class="controls-left">
+        <span class="plus"><svg class="cl" viewBox="0 0 12 12"><path d="M6 1.5v9M1.5 6h9"/></svg></span>
+        <span class="super">
+          <span class="super-cap"><svg class="lu" viewBox="0 0 24 24"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/></svg></span>
+          <span class="super-tag">Auto<svg class="lu chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span>
+          <span class="mode"><svg class="lu" viewBox="0 0 24 24"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg>Agent<svg class="lu chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span>
+        </span>
+      </div>
+      <div class="controls-right">
+        <span class="plat" id="model">
+          <span class="plat-mark plat-cat"><i class="gm"></i></span>
+          <span class="plat-mark plat-oa"><i class="knot"></i></span>
+          <span class="plat-label" id="m-name">superbot</span><span class="plat-dial" id="m-dial">High, 1M</span>
+          <svg class="cl plat-chev" viewBox="0 0 12 12"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
+        </span>
+        <span class="round computer"><svg class="cl" viewBox="0 0 12 12"><rect x="1.5" y="2" width="9" height="6" rx="1"/><path d="M4 10.5h4M6 8v2.5"/></svg></span>
+        <span class="round disc"><svg class="cl fillglyph" viewBox="0 0 12 12"><rect x="1" y="5" width="1.5" height="2" rx="0.75"/><rect x="3.1" y="4.1" width="1.5" height="3.8" rx="0.75"/><rect x="5.2" y="1.3" width="1.6" height="9.4" rx="0.8"/><rect x="7.4" y="4.1" width="1.5" height="3.8" rx="0.75"/><rect x="9.5" y="5" width="1.5" height="2" rx="0.75"/></svg></span>
+        <span class="round disc"><svg class="cl" viewBox="0 0 12 12"><rect x="4.4" y="1.3" width="3.2" height="6" rx="1.6"/><path d="M2.8 5.8a3.2 3.2 0 0 0 6.4 0M6 9v1.7"/></svg></span>
+        <span class="send" id="send"><svg class="cl arrow" viewBox="0 0 12 12"><path d="M6 10V2M2.5 5.5 6 2l3.5 3.5"/></svg><svg class="lu stop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span>
+      </div>
     </div>
+    <i class="scrim" id="scrim"></i>
   </div>
 
-  <div class="subs" id="subs">
-    <span class="subs-l">Runs on the subscriptions you already pay for</span>
-    <span class="sc"><span class="tile"><img src="assets/openai-logo.svg" alt=""></span>ChatGPT Plus<i class="live"></i></span>
-    <span class="sc"><span class="tile"><img src="assets/claude-logo.svg" alt=""></span>Claude Pro<i class="live"></i></span>
-    <span class="sc"><span class="tile"><img src="assets/gemini-logo.svg" alt=""></span>Google AI Pro<i class="live"></i></span>
-  </div>
+  <nav class="start-links" id="links">
+    <span><svg class="lu" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>Write</span>
+    <span><svg class="lu" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>Code</span>
+    <span><svg class="lu" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Research</span>
+    <span><svg class="lu" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Browse</span>
+    <span><svg class="lu" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>Automate</span>
+  </nav>
+
 </section>
-
 </div>
 
 <section id="end">
-  <span class="mark xl"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>
+  <span class="end-mark"><i class="gm"></i></span>
   <div class="end-url">superbot.gg</div>
-  <div class="end-sub">Link in the description<svg viewBox="0 0 16 16"><path d="M8 3v10M4 9l4 4 4-4"/></svg></div>
+  <div class="end-sub">Link in the description<svg class="lu" viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
 </section>
 
-<i id="ripple"></i>
 <div id="cursor"><svg viewBox="0 0 24 24"><path d="M5 2.5v17.2l4.3-4.1 2.9 6.6 3-1.3-2.9-6.5h6z"/></svg></div>
 <div id="cues" hidden><span id="cue-t"></span><div id="cue-now"></div><div id="cue-next"></div></div>
 <div id="hint">click anywhere to play</div>

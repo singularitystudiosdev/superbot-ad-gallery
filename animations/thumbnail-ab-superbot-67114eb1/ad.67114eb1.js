@@ -77,7 +77,7 @@
   ];
   const vcs = ['A', 'B', 'C'].map((L, i) => {
     const el = $('#vc' + L);
-    return { el, th: $('.thw > .th', el), sk: $('.sk', el), pct: $('.pct', el), ob: $('.ob', el), cp: $('.ob .cp', el), ck: $('.ob .ck', el), tip: $('.tip', el), ...GEN[i], n: -1 };
+    return { el, th: $('.thw > .th', el), sk: $('.sk', el), pct: $('.pct', el), ob: $('.ob', el), cp: $('.ob .cp', el), ck: $('.ob .ck', el), ...GEN[i], n: -1 };
   });
   const res = $('#res');
   const endMark = $('#endMark'), endH1 = $('#s-end h1'), endP = $('#s-end p');
@@ -163,13 +163,12 @@
       v.th.style.transform = `scale(${1.05 - .05 * r})`;
       v.ob.style.opacity = r;
       if (i === 1) {
-        // B's copy button is pressed: the icon flips to a check with a "Copied" tip, then back
+        // B's copy button is pressed: it fills green with a white check while the image pastes, then settles back
         v.ob.style.transform = `scale(${press(t, 42.8)})`;
-        const c = Math.min(fin(t, 42.85, .15), 1 - fin(t, 44.6, .25));
+        const c = Math.min(fin(t, 42.85, .15), 1 - fin(t, 48.5, .3));
+        v.ob.style.background = `rgba(${lerp(12, 35, c).toFixed(0)}, ${lerp(12, 165, c).toFixed(0)}, ${lerp(14, 89, c).toFixed(0)}, ${lerp(.72, 1, c).toFixed(2)})`;
         v.cp.style.opacity = 1 - c;
         v.ck.style.opacity = c;
-        v.tip.style.opacity = c;
-        v.tip.style.transform = `translateX(${((1 - fin(t, 42.85, .25)) * 6).toFixed(2)}px)`;
       }
     });
     const rk = fin(t, 60.0, .45);

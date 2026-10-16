@@ -1,0 +1,54 @@
+/* The 'traderjoes' variant's answer (beats/traderjoes.4aaedb8c.js): the real traderjoes.com search page (img/traderjoes.4aaedb8c/
+   site.jpg, 896 x 2250 CSS px) browsed in the bakery variant's artifact frame (bakery.005f5570.css .bk, whose frame, header,
+   button and shimmer rules it reuses, like the spending and doordash variants), then the finished grocery list. A 560px frame,
+   a 40px header (title, Share, Expand, View on Trader Joe's) over a 350px view, so it is 560 x 390 like the others.
+   Palette: the frame's #1c1c20 surface, #2a2a2e hairline, #ececf0 primary, #a1a1a6 secondary and #8a8a90 tertiary text, plus
+   Trader Joe's red, set inline as --tj-red from the data module's RED (the fill of the site's own logo): the one accent, on
+   the picked rows, their check badges, the total and the group dots. Radii: 6px (thumbnails, picked rows, address pill) and
+   999px (pills, dots). The list is laid out so it fits the 350px view exactly: 12 padding, the 24 pill row, 12 gap, then a
+   column of at most 3 headings of 20, 11 rows of 19 and 2 section gaps of 10 = 289 (<= 290), and 12 padding. */
+#s-tabs .sbsite .hub .tj .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+/* the connected store's chip tile, as the other connectors' (chat.css .qc-t-gemini) */
+#s-tabs .sbsite .hub .qc-t-traderjoes { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+/* the site's wordmark is 210 x 23 and would shrink to a hairline in a 22px tile: show its leading T (the first 8.4% of the image,
+   drawn 18px tall, so 164px wide) centred in the tile */
+#s-tabs .sbsite .hub .qc-t-traderjoes img { width: 164px; height: 18px; max-width: none; justify-self: start; margin-left: 4px; clip-path: inset(0 91.6% 0 0); }
+/* View on Trader Joe's is a real link to the store, styled as the header's light button; the site's wordmark is its mark */
+#s-tabs .sbsite .hub a.bk-btn.tj-open { text-decoration: none; cursor: pointer; }
+#s-tabs .sbsite .hub a.bk-btn.tj-open:hover { background: #fff; }
+#s-tabs .sbsite .hub .bk-btn.tj-open img { display: block; width: 82px; height: 9px; }
+
+/* phase A: the capture under a camera that scrolls it, a pill with the page's address, a pill with the picked count */
+#s-tabs .sbsite .hub .tj-site { position: absolute; inset: 0; overflow: hidden; }
+#s-tabs .sbsite .hub .tj-cam { position: absolute; top: 0; left: 0; width: 560px; will-change: transform; }
+#s-tabs .sbsite .hub .tj-shot { display: block; width: 560px; height: 1406.25px; max-width: none; }
+#s-tabs .sbsite .hub .tj-pick { position: absolute; border-radius: 6px; box-shadow: 0 0 0 2px var(--tj-red); opacity: 0; }
+#s-tabs .sbsite .hub .tj-pick i { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 999px; background: var(--tj-red); color: #ececf0; }
+#s-tabs .sbsite .hub .tj-pick svg { display: block; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .tj-url { position: absolute; top: 8px; left: 50%; max-width: calc(100% - 28px); padding: 0 10px; border-radius: 6px; background: #1c1c20; box-shadow: 0 0 0 1px #2a2a2e, 0 6px 16px rgba(0,0,0,.35); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 11px/22px var(--ui); color: #a1a1a6; transform: translateX(-50%); }
+#s-tabs .sbsite .hub .tj-count { position: absolute; bottom: 12px; left: 50%; padding: 0 14px; border-radius: 999px; background: #1c1c20; box-shadow: 0 0 0 1px #2a2a2e, 0 6px 16px rgba(0,0,0,.35); white-space: nowrap; font: 500 12px/28px var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; transform: translateX(-50%); }
+#s-tabs .sbsite .hub .tj-count b { display: inline-block; min-width: 1.1em; text-align: right; font-weight: 600; color: #ececf0; }
+
+/* phase B: pills over two columns of borderless groups */
+#s-tabs .sbsite .hub .tj-list { position: absolute; inset: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; padding: 12px 14px; font-family: var(--ui); opacity: 0; }
+#s-tabs .sbsite .hub .tj-pills { display: flex; gap: 8px; height: 24px; }
+#s-tabs .sbsite .hub .tj-kpi { display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 11px; border-radius: 999px; box-shadow: inset 0 0 0 1px #2a2a2e; font: 400 11px/1 var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .tj-kpi b { font: 600 11px/1 var(--ui); color: #ececf0; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .tj-total { background: var(--tj-red); box-shadow: none; color: #ececf0; }
+#s-tabs .sbsite .hub .tj-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; align-items: start; }
+#s-tabs .sbsite .hub .tj-col { min-width: 0; }
+#s-tabs .sbsite .hub .tj-g + .tj-g { margin-top: 10px; }
+#s-tabs .sbsite .hub .tj-g h3 { display: flex; align-items: center; gap: 6px; height: 20px; margin: 0; font: 600 12px/16px var(--ui); color: #ececf0; }
+#s-tabs .sbsite .hub .tj-g h3 i { flex: none; width: 6px; height: 6px; border-radius: 999px; background: var(--tj-red); }
+#s-tabs .sbsite .hub .tj-g h3 small { font: 400 11px/16px var(--ui); color: #8a8a90; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .tj-g ul { margin: 0; padding: 0; list-style: none; }
+#s-tabs .sbsite .hub .tj-g li { display: flex; align-items: center; gap: 6px; height: 19px; font: 500 11px/19px var(--ui); color: #ececf0; }
+#s-tabs .sbsite .hub .tj-g li img { flex: none; display: block; width: 17px; height: 17px; border-radius: 6px; }
+#s-tabs .sbsite .hub .tj-n { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#s-tabs .sbsite .hub .tj-s { flex: none; max-width: 42px; overflow: hidden; white-space: nowrap; font: 400 10px/19px var(--ui); color: #8a8a90; }
+#s-tabs .sbsite .hub .tj-q { flex: none; width: 15px; font: 400 10px/19px var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .tj-g li b { flex: none; width: 40px; text-align: right; font: 500 11px/19px var(--ui); font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .tj-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* a variant that types a long ask (chat.9b47fc30.js typeCps): the composer wraps it instead of clipping it on one line */
+#s-tabs .sbsite .hub.qc-long .rc-ph { white-space: normal; overflow-wrap: anywhere; line-height: 20px; }

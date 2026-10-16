@@ -3,10 +3,11 @@
 // a 60fps quantised clock. The one scene (scenes/tabs.js) plays once and holds its last frame: no loop. Space after
 // the end replays it from the start.
 import * as lib from './lib.9b47fc30.js';
-import tabs from './scenes/tabs.9b47fc30.js?v=5';
+import tabs from './scenes/tabs.9b47fc30.js?v=6';
 import { settled } from './loads.9e82faf1.js';
 // the same module instance the tabs scene uses (the full URL, query included, keys an instance)
-import { BEATS } from './scenes/tabs-assets/chat.9b47fc30.js?v=12';
+import { BEATS, typeShift } from './scenes/tabs-assets/chat.9b47fc30.js?v=13';
+import { variant } from './variant.9e82faf1.js';
 
 const { seg } = lib;
 const H = 1080;
@@ -110,7 +111,8 @@ window.__AD = {
   // play on from t (a variant or appear pick skips the wait and shows its animation)
   play(t) { paused = false; base = t; started = performance.now(); render(timeNow()); },
   // the moment the reply to the ask starts streaming: every variant's art begins here or just after
-  ART: BEATS[0].k.T.r,
+  // (a variant that types its ask longer starts it that much later: chat.9b47fc30.js typing)
+  get ART() { return BEATS[0].k.T.r + typeShift(variant()); },
   // playback speed: a multiplier of real time, one of SPEEDS
   SPEEDS,
   get speed() { return rate; },

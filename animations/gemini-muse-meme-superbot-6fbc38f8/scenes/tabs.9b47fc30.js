@@ -5,13 +5,12 @@
 // (tabs-assets/chat.js). render(lt) is a pure function of local time. The scene keeps the id "tabs" so the hub's
 // generated stylesheets (scoped under #s-tabs) apply unchanged.
 import { hubMarkup } from './tabs-assets/hub-markup.9b47fc30.js';
-import { mountChat, renderChat, BEATS, CHAT_T0, chatEnd } from './tabs-assets/chat.9b47fc30.js?v=12';
+import { mountChat, renderChat, CHAT_T0, chatEnd, sendAt } from './tabs-assets/chat.9b47fc30.js?v=13';
 import { lerp, seg, outCubic, inOutCubic } from '../lib.9b47fc30.js';
 import { variant } from '../variant.9e82faf1.js';
 
 const asset = (f) => new URL('./tabs-assets/' + f, import.meta.url).href;
 const H = 1080;
-const FIRST = BEATS[0].k;
 
 let el = null;
 
@@ -74,15 +73,16 @@ export default {
 
     // camera: pushed in on the empty state, easing out once the thread starts
     // (a narrow column already fills the frame, so it pushes in less)
+    const send = sendAt(variant()); // the first ask's send under this variant (a longer-typed ask sends later)
     const z0 = g.DW < 700 ? 1.08 : 1.2, z1 = g.DW < 700 ? 1.04 : 1.1;
-    const z = lerp(z0, z1, inOutCubic(seg(t, 0, CHAT_T0))) * lerp(1, 1 / z1, inOutCubic(seg(t, FIRST.send - 0.1, FIRST.send + 0.7)));
+    const z = lerp(z0, z1, inOutCubic(seg(t, 0, CHAT_T0))) * lerp(1, 1 / z1, inOutCubic(seg(t, send - 0.1, send + 0.7)));
     el.site.style.transform = `translate(${(W / 2).toFixed(2)}px,${H / 2}px) scale(${(g.k * z).toFixed(5)}) translate(${(-g.DW / 2).toFixed(2)}px,${(-g.DH / 2).toFixed(2)}px)`;
 
     // empty state -> thread: the composer glides down to the bottom and the greeting lifts away
-    const drop = inOutCubic(seg(t, FIRST.send - 0.08, FIRST.send + 0.42));
+    const drop = inOutCubic(seg(t, send - 0.08, send + 0.42));
     el.composer.style.transform = drop >= 1 ? 'none' : `translateY(${(-up * (1 - drop)).toFixed(2)}px)`;
     const heroIn = outCubic(seg(t, 0.15, 0.8));
-    const heroOut = outCubic(seg(t, FIRST.send - 0.1, FIRST.send + 0.3));
+    const heroOut = outCubic(seg(t, send - 0.1, send + 0.3));
     el.hero.style.opacity = (heroIn * (1 - heroOut)).toFixed(3);
     el.hero.style.transform = `translate(-50%, ${((1 - heroIn) * 10 - heroOut * 40).toFixed(2)}px)`;
 

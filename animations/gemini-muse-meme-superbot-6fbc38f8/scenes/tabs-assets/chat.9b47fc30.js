@@ -19,9 +19,11 @@ import podcast from './beats/podcast.3b06d700.js?v=1';
 import pitchdeck from './beats/pitchdeck.fad54971.js?v=2';
 import bakery from './beats/bakery.005f5570.js?v=3';
 import spending from './beats/spending.b92c87dc.js?v=1';
+import traderjoes from './beats/traderjoes.4aaedb8c.js?v=1';
 import reminder from './beats/reminder.e55fb320.js?v=3';
 import computerV3 from './beats/computer.ba3976b6.js?v=8';
 import { variant } from '../../variant.9e82faf1.js';
+import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';
 
 const brand = (f) => new URL('../../brand/' + f, import.meta.url).href;
 const img = (f) => new URL('../../img/' + f, import.meta.url).href;
@@ -37,6 +39,7 @@ const APPS = {
   gmaps: { name: 'Google Maps', logo: brand('maps-logo.svg'), sub: '', tool: true }, // the roadtrip variant's connected tool, likewise
   maps: { name: 'Maps', logo: brand('maps-logo.svg'), sub: 'in superbot' }, // the roadtrip variant's answering app (its reply header reads Maps in superbot)
   gsheets: { name: 'Google Sheets', logo: img('spending.b92c87dc/google-sheets.svg'), sub: '', tool: true }, // the spending variant's connected tool, likewise
+  traderjoes: { name: "Trader Joe's", logo: img(TRADERJOES_LOGO), sub: '', tool: true }, // the traderjoes variant's connected store, likewise (Gemini answers)
   doordash: { name: 'DoorDash', logo: brand('doordash-logo.svg'), sub: 'in superbot' },
   meshy: { name: 'Meshy', logo: brand('meshy-icon.svg'), sub: 'in superbot' },
   fishaudio: { name: 'Fish Audio', logo: brand('fishaudio-logo.svg'), sub: 'in superbot' },
@@ -50,19 +53,20 @@ const APPS = {
 const BASE = [
   {
     app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']], ask: 'make me a muse meme',
-    askBy: { photoedit: 'Remove the guy in the back and make it night', pitchdeck: 'Make a slide deck for my pitch', spending: 'Make a chart of my monthly spending', 10: 'make me 10 muse memes','3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catsurf10: 'Make 10 videos of a cat surfing',catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', song: 'Make me a song about my dog', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space', reminder: 'Set a notification to go off in my phone in one hour', 'computer-control-v3-soft': 'Take computer control and open a tab' },
+    askBy: { photoedit: 'Remove the guy in the back and make it night', pitchdeck: 'Make a slide deck for my pitch', spending: 'Make a chart of my monthly spending', traderjoes: "Make me a college quick and easy week Trader Joe's list for food. I want to optimized for performance I run 4 times a week around 25 miles and lift 3-4 days a week carbs are good but also make sure I get in lost of protein and fruits and veggies", 10: 'make me 10 muse memes','3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catsurf10: 'Make 10 videos of a cat surfing',catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', song: 'Make me a song about my dog', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space', reminder: 'Set a notification to go off in my phone in one hour', 'computer-control-v3-soft': 'Take computer control and open a tab' },
     // the photo a variant attaches to its ask: shown on the user's bubble and as a chip in the composer while the ask types
     attachBy: { photoedit: img('photoedit.2a3b1461/photo.jpg') },
     // every generating variant spends superbot credits until the user links their own plan: a framed row under the
     // resolved chip, tiled with the route's app, shows what the generation charged and a connect button. Priced off
     // 4 a picture; the variants that only fetch, order, schedule or drive the computer (doordash, roadtrip, climbing,
     // reminder, computer-control-v3-soft) charge none
-    creditsBy: { 1: 4, 10: 40, photoedit: 4, logo: 4, garden: 4, '3d': 20, game: 12, catgif: 10, catsurf: 25, catsurf10: 250, song: 15, bedtime: 6, podcast: 20, pitchdeck: 12, spending: 3, bakery: 18 },
+    creditsBy: { 1: 4, 10: 40, photoedit: 4, logo: 4, garden: 4, '3d': 20, game: 12, catgif: 10, catsurf: 25, catsurf10: 250, song: 15, bedtime: 6, podcast: 20, pitchdeck: 12, spending: 3, traderjoes: 3, bakery: 18 },
     // one [app, label] per base chip, so the route keeps the base chips' clock; a route with more chips than the base
     // lands them one after another (CHIP_STRIDE each), so its reply and beat start that much later and its loop runs
     // that much longer (see leadOf). `extra` seconds stretch that variant's loop past the base route's end (the beat
-    // is the last, so nothing after it moves)
-    routeBy:{ photoedit: { app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']] }, '3d': { app: 'meshy', mod: gemini, chips: [['meshy', 'Switching to Meshy']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gslides', 'Connecting to Google Slides'], ['gemini', 'Switching to Gemini']] }, roadtrip: { app: 'maps', mod: gemini, chips: [['gmaps', 'Connecting to Maps']] }, spending: { app: 'gemini', mod: spending, chips: [['gsheets', 'Connecting to Google Sheets'], ['gemini', 'Switching to Gemini']] }, doordash:{ app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'deepseek', mod: climb, chips: [['youtube', 'Connecting to Youtube'], ['deepseek', 'Switching to DeepSeek']] }, catsurf: { app: 'fal', mod: catsurf, chips: [['fal', 'Connecting Fal.ai']], extra: 7 }, catsurf10: { app: 'fal', mod: catsurf10, chips: [['fal', 'Connecting Fal.ai']], extra: 7 },catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, song: { app: 'fishaudio', mod: song, chips: [['fishaudio', 'Connected to Fish Audio']], extra: 5 }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'opus', mod: bakery, chips: [['opus', 'Switching to Opus 5.5']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] }, reminder: { app: 'superbot', mod: reminder, chips: [['superbot', 'Connecting to your phone']], extra: 1.5 }, 'computer-control-v3-soft': { app: 'superbot', mod: computerV3, chips: [['superbot', 'Taking control of your computer']], extra: 1.6 } },
+    // is the last, so nothing after it moves). `typeCps` types that variant's ask at that many characters a second
+    // instead of the base window (see typing), which moves its send, chips, reply and beat later by the difference
+    routeBy:{ photoedit: { app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']] }, '3d': { app: 'meshy', mod: gemini, chips: [['meshy', 'Switching to Meshy']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gslides', 'Connecting to Google Slides'], ['gemini', 'Switching to Gemini']] }, roadtrip: { app: 'maps', mod: gemini, chips: [['gmaps', 'Connecting to Maps']] }, spending: { app: 'gemini', mod: spending, chips: [['gsheets', 'Connecting to Google Sheets'], ['gemini', 'Switching to Gemini']] }, traderjoes: { app: 'gemini', mod: traderjoes, chips: [['traderjoes', "Connecting to Trader Joe's"], ['gemini', 'Switching to Gemini']], typeCps: 100, extra: 2.4 }, doordash:{ app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'deepseek', mod: climb, chips: [['youtube', 'Connecting to Youtube'], ['deepseek', 'Switching to DeepSeek']] }, catsurf: { app: 'fal', mod: catsurf, chips: [['fal', 'Connecting Fal.ai']], extra: 7 }, catsurf10: { app: 'fal', mod: catsurf10, chips: [['fal', 'Connecting Fal.ai']], extra: 7 },catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, song: { app: 'fishaudio', mod: song, chips: [['fishaudio', 'Connected to Fish Audio']], extra: 5 }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'opus', mod: bakery, chips: [['opus', 'Switching to Opus 5.5']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] }, reminder: { app: 'superbot', mod: reminder, chips: [['superbot', 'Connecting to your phone']], extra: 1.5 }, 'computer-control-v3-soft': { app: 'superbot', mod: computerV3, chips: [['superbot', 'Taking control of your computer']], extra: 1.6 } },
   },
 ];
 
@@ -77,6 +81,16 @@ const routeOf = (b, v) => b.routes[v] || b.routes.base;
 // lands just after, CHIP_STRIDE later
 const CHIP_STRIDE = 0.77;
 const chipsAt = (sw, list) => list.map(([app, label], i) => { const at = sw + i * CHIP_STRIDE; return { app, label, sw: at, swap: at + 0.22, done: at + 0.65 }; });
+// the ask's typing under variant v: the base window (timeBeats) unless the route sets `typeCps`, which types the
+// variant's own ask at that rate (a long ask would otherwise flash by in the base's under-a-second window). send, sw and
+// the shift of everything after them (`delta`) follow; a variant without `typeCps` gets the base's values untouched
+function typing(k, v) {
+  const o = (k.routeBy || {})[v];
+  if (!k.ask || !o || !o.typeCps) return { typeEnd: k.typeEnd, send: k.send, sw: k.sw, delta: 0 };
+  const typeEnd = k.s + ((k.askBy && k.askBy[v]) || k.ask).length / o.typeCps;
+  const send = typeEnd + 0.15, sw = send + 0.35;
+  return { typeEnd, send, sw, delta: sw - k.sw };
+}
 // how much later a route with more chips than the base's lands its reply (and ends its loop)
 const leadOf = (o, base) => Math.max(0, o.chips.length - base.chips.length) * CHIP_STRIDE;
 
@@ -103,8 +117,12 @@ function timeBeats(asks) {
 }
 export const BEATS = timeBeats(BASE);
 export const CHAT_END = BEATS[BEATS.length - 1].k.T.end + 0.3;
-// the loop's end under variant v: the base end plus the last beat's route `extra`
-export const chatEnd = (v) => { const last = BASE[BASE.length - 1], o = (last.routeBy || {})[v]; return CHAT_END + (o ? leadOf(o, last) + (o.extra || 0) : 0); };
+// the loop's end under variant v: the base end plus the last beat's route `extra` and any longer typing
+export const chatEnd = (v) => { const last = BASE[BASE.length - 1], o = (last.routeBy || {})[v]; return CHAT_END + (o ? leadOf(o, last) + (o.extra || 0) + typing(BEATS[BEATS.length - 1].k, v).delta : 0); };
+// when the first ask is sent under variant v (the empty state's composer drop and camera follow it), and how much
+// later than the base the variant's ask is sent (its art, __AD.ART, shifts by the same)
+export const sendAt = (v) => typing(BEATS[0].k, v).send;
+export const typeShift = (v) => typing(BEATS[0].k, v).delta;
 
 const SB_MARK = '<i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i>';
 export const OK = '<svg class="qc-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -143,11 +161,12 @@ export function mountChat(hub) {
     const r = add(`<div class="msg qc-m qc-r">${sbAvatar}<div class="m-main"><div class="qc-who">${whoOf(k.app)}</div></div></div>`);
     const main = r.querySelector('.m-main');
     // every route is built once into the reply; show() picks the one the variant takes
-    const routes = { base: { app: k.app, chips: k.chips, reply: k.reply, inst: k.mod.build(k, ctx) } };
+    const routes = { base: { app: k.app, chips: k.chips, reply: k.reply, typeEnd: k.typeEnd, send: k.send, long: false, inst: k.mod.build(k, ctx) } };
     Object.entries(k.routeBy || {}).forEach(([v, o]) => {
-      const chips = chipsAt(k.sw, o.chips), lead = leadOf(o, k);
+      const ty = typing(k, v);
+      const chips = chipsAt(ty.sw, o.chips), lead = leadOf(o, k);
       const reply = chips[chips.length - 1].done + 0.08;
-      routes[v] = { app: o.app, chips, reply, inst: o.mod.build({ ...k, app: o.app, chips, done: chips[chips.length - 1].done, reply, T: o.mod.times(reply, k.T.end + lead + (o.extra || 0)) }, ctx) };
+      routes[v] = { app: o.app, chips, reply, typeEnd: ty.typeEnd, send: ty.send, long: !!o.typeCps, inst: o.mod.build({ ...k, app: o.app, chips, done: chips[chips.length - 1].done, reply, sw: ty.sw, typeEnd: ty.typeEnd, send: ty.send, T: o.mod.times(reply, k.T.end + lead + ty.delta + (o.extra || 0)) }, ctx) };
     });
     Object.values(routes).forEach((ro) => ro.inst.nodes.forEach((n) => main.appendChild(n)));
     return { k, u, ut: u && u.querySelector('.m-text'), ua: u && u.querySelector('.qc-att'), sws, credits, creditsN: credits && credits.querySelector('.qc-cr-n'), creditsTile: credits && credits.querySelector('.qc-tile'), r, who: main.firstElementChild, routes, route: null, v: null };
@@ -177,7 +196,7 @@ export function mountChat(hub) {
   beats.forEach((b) => show(b, variant()));
   // scroll marks per variant: after each time, the feed's fold glides to that element's bottom
   const scrolls = {};
-  const scrollOf = (v) => scrolls[v] || (scrolls[v] = beats.flatMap((b) => [...(b.u ? [[b.k.send, b.u]] : []), ...b.sws.slice(0, routeOf(b, v).chips.length).map((s, i) => [routeOf(b, v).chips[i].sw, s.w]), [routeOf(b, v).reply, b.who], ...routeOf(b, v).inst.marks]).sort((x, y) => x[0] - y[0]));
+  const scrollOf = (v) => scrolls[v] || (scrolls[v] = beats.flatMap((b) => [...(b.u ? [[routeOf(b, v).send, b.u]] : []), ...b.sws.slice(0, routeOf(b, v).chips.length).map((s, i) => [routeOf(b, v).chips[i].sw, s.w]), [routeOf(b, v).reply, b.who], ...routeOf(b, v).inst.marks]).sort((x, y) => x[0] - y[0]));
 
   // the composer's platform chip names the model, then follows the routed app
   const plat = hub.querySelector('.rc-plat');
@@ -205,17 +224,17 @@ function appear(n, t, a, dy = 10) {
 }
 
 function renderComposer(c, t) {
-  const b = c.beats.find(({ k }) => k.ask && t >= k.s && t < k.send);
+  const b = c.beats.find(({ k, route }) => k.ask && t >= k.s && t < route.send);
   let ph;
   if (b) {
     const ask = askOf(b.k);
-    const n = Math.round(ask.length * seg(t, b.k.s, b.k.typeEnd));
+    const n = Math.round(ask.length * seg(t, b.k.s, b.route.typeEnd));
     const att = attachOf(b.k);
     ph = `${att ? `<img class="qc-pchip" alt="" width="28" height="21" src="${att}"/>` : ''}<span class="qc-typed">${esc(ask.slice(0, n))}</span><i class="qc-caret"></i>`;
   } else ph = esc(c.phText);
   if (ph !== c.lastPh) { c.ph.innerHTML = ph; c.lastPh = ph; }
   c.send.classList.toggle('qc-on', !!b);
-  const at = c.beats.filter(({ k }) => k.ask).map(({ k }) => k.send).find((s) => t >= s - 0.12 && t < s + 0.2);
+  const at = c.beats.filter(({ k }) => k.ask).map(({ route }) => route.send).find((s) => t >= s - 0.12 && t < s + 0.2);
   c.send.style.transform = at === undefined ? 'none' : `scale(${(1 - 0.16 * bump(seg(t, at - 0.12, at + 0.2))).toFixed(4)})`;
 }
 
@@ -272,11 +291,13 @@ export function renderChat(c, t) {
   if (!c) return;
   const v = variant();
   c.beats.forEach((b) => { if (b.v !== v) c.show(b, v); });
+  // a variant that types a long ask lets the composer wrap it (traderjoes.4aaedb8c.css .qc-long); the base keeps its one line
+  c.hub.classList.toggle('qc-long', c.beats.some((b) => b.route.long));
   renderComposer(c, t);
   renderRouting(c, t);
   c.beats.forEach((b) => {
     if (b.u) {
-      appear(b.u, t, b.k.send);
+      appear(b.u, t, b.route.send);
       const ask = askOf(b.k);
       if (b.ut.textContent !== ask) b.ut.textContent = ask;
       const att = attachOf(b.k);

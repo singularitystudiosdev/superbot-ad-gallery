@@ -18,6 +18,7 @@ export const VARIANTS = [
   { id: 'podcast', label: 'Space podcast' },
   { id: 'pitchdeck', label: 'Pitch deck' },
   { id: 'spending', label: 'Spending chart' },
+  { id: 'traderjoes', label: "Trader Joe's list" },
   { id: 'bakery', label: 'Bakery website' },
   { id: 'reminder', label: 'Phone notification' },
   { id: 'computer-control-v3-soft', label: 'Computer Control V3 · Soft Vignette' },

@@ -8,12 +8,13 @@
 // turntable (zombie3d.9e82faf1.js) exactly as the 1-image card lands, in the bakery variant's artifact frame (title, Expand
 // and a Download link to the model over a 560x350 view; bakery.005f5570.js); 'game' types out a zombie runner's code, then boots it
 // into the running game (zombiegame.7b46b820.js); 'garden' draws a garden design template onto grid paper
-// (garden.410879cc.js); 'roadtrip' draws a Google-Maps-style route card, LA to SF up the coast (roadtrip.9bc0f433.js), in the same artifact frame with Open in Maps; 'logo'
+// (garden.410879cc.js); 'roadtrip' draws a Google-Maps-style route card, LA to SF up the coast (roadtrip.9bc0f433.js), in the same artifact frame with Open in Maps; 'lawn'
+// draws a Maps fly-to and pin drop on the address its ask names, then a before/after wipe from the plain front lawn to the planted garden (lawn.f5e1d276.js), in that same frame; 'logo'
 // resolves a generated coffee shop logo (img/coffee-logo.a133a772.png) out of a blur under a sweeping band (resolve()).
 // Every variant keeps the beat's length. All layouts are
 // built once and the variant picks which one shows; the 3D viewer (and three.js) loads the first time its variant shows.
 import { lerp, seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
-import { variant } from '../../../variant.9e82faf1.js';
+import { variant } from '../../../variant.9e82faf1.js?v=2';
 import { track } from '../../../loads.9e82faf1.js';
 import { appear } from '../../../appear.9e82faf1.js?v=2';
 import { gateImages } from './appear-fx.9e82faf1.js';
@@ -24,6 +25,7 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_H } from './zombiegame.7b46b820.js';
 import { makeGarden } from './garden.410879cc.js';
 import { makeRoadtrip } from './roadtrip.9bc0f433.js?v=2';
+import { makeLawn, MAPS_QUERY } from './lawn.f5e1d276.js?v=1';
 import { zipStore } from './zip.69098368.js';
 // the Share control every output card carries (share.29a362ea.js): a header button on a framed card, a disc on an image
 import { shareBtn, shareDisc } from './share.29a362ea.js';
@@ -31,7 +33,7 @@ import { shareBtn, shareDisc } from './share.29a362ea.js';
 // Google Maps URLs (developers.google.com/maps/documentation/urls/get-started): the card's drive, stop by stop
 const MAPS_TRIP = 'https://www.google.com/maps/dir/?api=1&origin=Los+Angeles,CA&destination=San+Francisco,CA&waypoints=Santa+Barbara,CA%7CSan+Luis+Obispo,CA%7CBig+Sur,CA%7CMonterey,CA&travelmode=driving';
 
-const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.', roadtrip: 'Here’s a 3-day coastal drive from LA to SF.', logo: 'Here’s your coffee shop logo.', photoedit: 'Here’s your photo with the man in the back removed, now at night.' };
+const SAY = { 1: 'Here’s your Muse meme.', 10: 'Here are 10 Muse memes.', '3d': 'Here’s your 3D zombie.', game: 'Here’s your zombie game.', garden: 'Here’s your garden design template.', roadtrip: 'Here’s a 3-day coastal drive from LA to SF.', logo: 'Here’s your coffee shop logo.', photoedit: 'Here’s your photo with the man in the back removed, now at night.', lawn: 'Here’s your front lawn with the garden added.' };
 const ZOMBIE = new URL('../../../models/zombie-3d.9e82faf1.glb', import.meta.url).href; // the game's blocky runner
 const ZOMBIE_3D = new URL('../../../models/zombie-meshy.4490ac01.glb', import.meta.url).href; // the 3D variant's Meshy 7.1 model
 const BOOT = 0.75, BOOT_LEN = 0.2, PLAY = 0.8; // the code view hands over to the game at T.w0 + BOOT; play counts from T.w0 + PLAY
@@ -147,6 +149,13 @@ export default {
     trip.querySelector('.bk-fit').append(roadtrip.node);
     trip.querySelector('.bk-view').append(roadtrip.node.querySelector('.qc-genl'));
     media.append(trip);
+    // the lawn card rides the same frame: the 400x250 map/photo card inside .bk-fit, its build pill on the unscaled
+    // view, and "Open in Maps" pointing at the address the ask named (lawn.f5e1d276.js)
+    const lawn = makeLawn(x);
+    const frame = x.el(`<div class="bk"><div class="bk-head"><b class="bk-title">Front lawn garden</b>${shareBtn('Front lawn garden')}${EXPAND}<a class="bk-btn bk-publish" href="${MAPS_QUERY}" target="_blank" rel="noopener"><img src="${x.brand('maps-logo.svg')}" alt=""/>Open in Maps</a></div><div class="bk-view"><div class="bk-fit"></div></div></div>`);
+    frame.querySelector('.bk-fit').append(lawn.node);
+    frame.querySelector('.bk-view').append(lawn.node.querySelector('.qc-genl'));
+    media.append(frame);
     const vis = say.firstElementChild, hid = say.lastElementChild;
     const cardParts = (c) => ({ im: c.querySelector('img'), sk: c.querySelector('.qc-sk'), genl: c.querySelector('.qc-genl'), dl: c.querySelector('.qc-dl'), share: c.querySelector('.qc-share') });
     const meme = cardParts(card), edited = cardParts(edit);
@@ -229,6 +238,7 @@ export default {
           garden.node.style.display = v === 'garden' ? '' : 'none';
           trip.style.display = v === 'roadtrip' ? '' : 'none';
           logo.style.display = v === 'logo' ? '' : 'none';
+          frame.style.display = v === 'lawn' ? '' : 'none';
           media.dataset.v = v; // chat.css drops the feed's will-change while the 10-image variant shows
           lastV = v; lastStyle = style; shown = -1;
         }
@@ -241,6 +251,7 @@ export default {
         const label = (1 - seg(t, T.w1 - 0.25, T.w1)).toFixed(3);
         if (v === 'garden') { garden.render(t, T, label); return; }
         if (v === 'roadtrip') { roadtrip.render(t, T, label); return; }
+        if (v === 'lawn') { lawn.render(t, T, label); return; }
         if (v === 'game') {
           if (!runner) { runner = makeZombieGame(gcanvas, ZOMBIE); track(runner.ready); }
           const g = Math.max(0, t - (T.w0 + PLAY));

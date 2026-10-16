@@ -7,7 +7,7 @@
 // the one meme under ten crops and grades, baked to files so a tile's Download, and Download All, is the clip as seen.
 import { lerp, seg, outCubic } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
-import { variant } from '../../../variant.9e82faf1.js';
+import { variant } from '../../../variant.9e82faf1.js?v=2';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { zipStore } from './zip.69098368.js';

@@ -1,8 +1,8 @@
 // Computer-control beat (the 'computer-control-v3' variant): asked "Take computer control and open a tab", superbot
 // answers in one line and shows a live view of the user's screen in the artifact frame (bakery.005f5570.js: the title,
-// Share and, in Publish's place, a Stop button). It takes control the way agent browsers signal it: a thin ring in
-// superbot's two mark colours (chat.css .sbm-c / .sbm-m) fades in around the screen's edge with a soft inner glow,
-// and a small pill rises at the bottom ("superbot is controlling your computer"). Then the shared pointer glides onto
+// Share and, in Publish's place, a Stop button). It takes control the way agent browsers signal it: a glow in
+// superbot's two mark colours (chat.css .sbm-c / .sbm-m) fades in all round the screen's edge, brightest on the edge
+// and fading smoothly inward, and a small pill rises at the bottom ("superbot is controlling your computer"). Then the shared pointer glides onto
 // the browser's new-tab button, presses it, and a New Tab grows in beside the first: the active state moves to it, the
 // page crossfades to a new-tab page and the address bar takes focus with a blinking caret. Every move is an eased
 // fade or glide (outCubic, path's inOutCubic), nothing bounces. Squeezed into the window the Gemini beat leaves plus
@@ -15,7 +15,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 
 const SAY = 'Done. I took control of your computer and opened a new tab.';
-const CSS = new URL('../computer.ba3976b6.css?v=3', import.meta.url).href;
+const CSS = new URL('../computer.ba3976b6.css?v=4', import.meta.url).href;
 const TAB_W = 150; // a tab's width (computer.ba3976b6.css .cc3-tab)
 const PLUS_GAP = 4; // the new-tab button's left margin (.cc3-plus)
 const PLUS = 24; // the new-tab button's size (.cc3-plus)
@@ -93,15 +93,14 @@ export default {
             </div>
           </div>
         </div>
-        <i class="cc3-glow"></i>
-        <i class="cc3-ring"></i>
+        <i class="cc3-edge"><i class="cc3-soft"><i class="cc3-band"></i></i></i>
         <span class="cc3-pill">${sb}<span>superbot is controlling your computer</span></span>
       </div>
     </div>`);
     const $ = (s) => block.querySelector(s);
     const view = $('.cc3-screen'), t1 = $('.cc3-t1'), t2 = $('.cc3-t2'), plus = $('.cc3-plus');
     const bg1 = t1.querySelector('.cc3-bg'), omni = $('.cc3-omni'), u1 = $('.cc3-u1'), u2 = $('.cc3-u2'), caret = $('.cc3-caret');
-    const p1 = $('.cc3-p1'), p2 = $('.cc3-p2'), glow = $('.cc3-glow'), ring = $('.cc3-ring'), pill = $('.cc3-pill');
+    const p1 = $('.cc3-p1'), p2 = $('.cc3-p2'), edge = $('.cc3-edge'), soft = $('.cc3-soft'), pill = $('.cc3-pill');
     const vis = say.firstElementChild, hid = say.lastElementChild;
     let shown = -1;
 
@@ -115,11 +114,11 @@ export default {
         block.style.opacity = ci.toFixed(3);
         block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
 
-        // the takeover: the ring fades in as its gradient turns slowly, the inner glow breathes, the pill rises
+        // the takeover: the edge glow fades in as its gradient turns slowly and gently breathes, the pill rises
         const g = outCubic(seg(t, T.take, T.take + 0.55));
-        ring.style.opacity = g.toFixed(3);
-        ring.style.setProperty('--cc3-a', `${((t * 60) % 360).toFixed(1)}deg`);
-        glow.style.opacity = (g * (0.82 + 0.18 * Math.sin(t * 2.6))).toFixed(3);
+        edge.style.opacity = g.toFixed(3);
+        edge.style.setProperty('--cc3-a', `${((t * 60) % 360).toFixed(1)}deg`);
+        soft.style.opacity = (0.78 + 0.08 * Math.sin(t * 2.6)).toFixed(3);
         const pi = outCubic(seg(t, T.take + 0.12, T.take + 0.57));
         pill.style.opacity = pi.toFixed(3);
         pill.style.transform = `translate(-50%, ${((1 - pi) * 8).toFixed(2)}px)`;

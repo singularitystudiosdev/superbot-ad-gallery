@@ -5,10 +5,11 @@
   'use strict';
   const qs = new URLSearchParams(location.search);
   // [real s, design s]: prompts type ~3x faster than the design, holds between lines are trimmed, the
-  // latest-upload card (design 13.4 to 25.9) plays 1.7x, and the rest gets ~0.44 s a spoken word.
-  // One run is 50.4 s after the click.
-  const KNOTS = [[0, 0], [.3, .6], [1.55, 4.3], [2.55, 5.6], [6.25, 10.2], [8.91, 13.4], [15.05, 25.9], [18.35, 30],
-    [22.35, 36.8], [28.65, 44.6], [31.25, 47.6], [32.92, 52.6], [33.32, 53.2], [38.92, 61.2], [44.72, 68], [48.02, 72], [50.42, 75]];
+  // latest-upload card (design 13.4 to 25.9) plays ~2.5x, the second prompt starts typing 0.35 s after the
+  // copied thumbnail is pasted (design 43.4 to 47.6), and the rest gets ~0.44 s a spoken word.
+  // One run is 45.2 s after the click.
+  const KNOTS = [[0, 0], [.3, .6], [1.55, 4.3], [2.55, 5.6], [6.25, 10.2], [8.91, 13.4], [13, 25.9], [16.3, 30],
+    [20.3, 36.8], [25.63, 43.4], [25.98, 47.6], [27.65, 52.6], [28.05, 53.2], [33.65, 61.2], [39.45, 68], [42.75, 72], [45.15, 75]];
   const CYCLE = KNOTS[KNOTS.length - 1][0];
   function warp(r) {
     for (let i = 1; i < KNOTS.length; i++) {
@@ -56,7 +57,7 @@
 
   // ---------- element handles ----------
   const sEnd = $('#s-end');
-  const hero = $('#hero'), subs = $('#subs');
+  const hero = $('#hero');
   const composer = $('#composer'), typed = $('#typed'), caret = $('#caret'), ph = $('#cPh'), send = $('#send'), attIn = $('#attIn');
   const cModel = $('#cModel'), models = $$('#cModel .m');
   const items = $$('#feedIn > .it').map((el) => ({ el, inner: el.firstElementChild, tin: +el.dataset.in, h: 0 }));
@@ -69,7 +70,7 @@
   ].map((c) => ({ ...c, lbls: $$('.lbl', c.el), spin: $('.spin', c.el), ok: $('.ok', c.el) }));
   const vcs = ['A', 'B', 'C'].map((L, i) => {
     const el = $('#vc' + L);
-    return { el, th: $('.thw > .th', el), sk: $('.sk', el), pct: $('.pct', el), ob: $('.ob', el), ring: $('.ring', el), gs: 29.9 + i * .25, rev: 36.8 + i * .4, n: -1 };
+    return { el, th: $('.thw > .th', el), sk: $('.sk', el), pct: $('.pct', el), ob: $('.ob', el), cp: $('.ob .cp', el), ck: $('.ob .ck', el), tip: $('.tip', el), gs: 29.9 + i * .25, rev: 36.8 + i * .4, n: -1 };
   });
   const res = $('#res');
   const endMark = $('#endMark'), endH1 = $('#s-end h1'), endP = $('#s-end p');
@@ -152,8 +153,15 @@
       v.th.style.opacity = r;
       v.th.style.transform = `scale(${1.05 - .05 * r})`;
       v.ob.style.opacity = r;
-      v.el.style.opacity = i === 1 ? 1 : 1 - .5 * fin(t, 43.0, .4);
-      if (i === 1) v.ring.style.opacity = fin(t, 42.8, .2);
+      if (i === 1) {
+        // B's copy button is pressed: the icon flips to a check with a "Copied" tip, then back
+        v.ob.style.transform = `scale(${press(t, 42.8)})`;
+        const c = Math.min(fin(t, 42.85, .15), 1 - fin(t, 44.6, .25));
+        v.cp.style.opacity = 1 - c;
+        v.ck.style.opacity = c;
+        v.tip.style.opacity = c;
+        v.tip.style.transform = `translateX(${((1 - fin(t, 42.85, .25)) * 6).toFixed(2)}px)`;
+      }
     });
     const rk = fin(t, 60.0, .45);
     res.style.opacity = rk;
@@ -163,7 +171,6 @@
   function renderScenes(t) {
     hero.style.opacity = 1 - fin(t, SEND1, .35);
     hero.style.transform = `translateX(-50%) translateY(${-24 * fin(t, SEND1, .5)}px)`;
-    subs.style.opacity = 1 - fin(t, SEND1 - .1, .3);
     // the finished chat holds while the presenter shows their own channel, then the end card
     const e = fin(t, 68.0, .5);
     sEnd.style.opacity = e;

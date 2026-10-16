@@ -13,7 +13,7 @@ html, body { margin: 0; height: 100%; background: #000; overflow: hidden; font-f
 body.playing #stage { cursor: none; }
 #stage section { position: absolute; inset: 0; }
 /* line icons only: the mascot's own SVG (.sb-mark) must not inherit a stroke, or its ears and eyes show seams */
-svg:not(.sb-mark) { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+svg:where(:not(.sb-mark)) { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---- brand glyphs: Simple Icons (CC0) as masks so they take any colour ---- */
 .ic { display: block; width: 19px; height: 19px; -webkit-mask: center / contain no-repeat; mask: center / contain no-repeat; background: #fff; }
@@ -28,19 +28,12 @@ svg:not(.sb-mark) { fill: none; stroke: currentColor; stroke-width: 2; stroke-li
 .sbcat { position: relative; display: block; width: 18px; height: 18px; -webkit-mask: var(--sb-cat) center / contain no-repeat; mask: var(--sb-cat) center / contain no-repeat; background: #ececec; box-shadow: none; }
 
 .tile { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
-.tile.s { width: 26px; height: 26px; border-radius: 8px; }
-.tile.s .ic { width: 15px; height: 15px; }
-.tile.s .ytw { width: 16px; height: 16px; }
 
 /* ---- empty state: mark + greeting over the composer ---- */
 .hero { position: absolute; left: 50%; top: 372px; display: flex; align-items: center; gap: 22px; white-space: nowrap; transform: translateX(-50%); }
 .hero-mark { width: 62px; height: 62px; }
 .hero h1 { margin: 0; font: 400 50px/1.1 var(--serif); letter-spacing: -.01em; color: var(--fg); }
 
-.subs { position: absolute; left: 50%; top: 626px; display: flex; align-items: center; gap: 10px; transform: translateX(-50%); white-space: nowrap; }
-.subs-k { font: 500 15px/1 var(--ui); color: var(--muted); margin-right: 4px; }
-.sub { display: inline-flex; align-items: center; gap: 9px; height: 38px; padding: 0 14px 0 6px; border-radius: 999px; background: var(--chip); box-shadow: inset 0 0 0 1px var(--line); font: 600 15px/1 var(--ui); color: #d1d1d6; }
-.sub .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px rgba(52, 211, 153, .6); }
 
 /* ---- composer: the real desktop row ---- */
 .composer { position: absolute; left: 440px; top: 474px; z-index: 5; width: 1040px; padding: 20px 20px 14px; border-radius: 24px; background: #111113; box-shadow: inset 0 0 0 1px #2e2e33, 0 24px 70px rgba(0, 0, 0, .45); }
@@ -92,8 +85,8 @@ body.idle .caret { animation: blink 1.05s steps(1) infinite; }
 .cnt.green { background: rgba(52, 211, 153, .13); color: #6ee7b7; }
 
 /* latest-upload card the YouTube connector pulled */
-.card { display: flex; gap: 22px; width: 860px; padding: 16px; border-radius: 20px; background: #111113; box-shadow: inset 0 0 0 1px #26262a; }
-.vthumb { position: relative; flex: none; width: 272px; height: 153px; border-radius: 12px; overflow: hidden; background: #121212 url(assets/thumb.png) 0% 30% / 295% auto no-repeat; filter: saturate(.75) brightness(.92); }
+.card { display: inline-flex; align-items: center; gap: 20px; max-width: 860px; padding: 14px 32px 14px 14px; border-radius: 20px; background: #111113; box-shadow: inset 0 0 0 1px #26262a; }
+.vthumb { position: relative; flex: none; width: 240px; height: 135px; border-radius: 12px; overflow: hidden; background: #121212 url(assets/thumb.png) 0% 62% / 295% auto no-repeat; filter: saturate(.75) brightness(.92); }
 .vthumb.sm { width: 220px; height: 124px; border-radius: 10px; }
 .dur { position: absolute; right: 8px; bottom: 8px; padding: 3px 6px; border-radius: 5px; background: rgba(0, 0, 0, .82); font: 600 13px/1.2 var(--ui); color: #fff; }
 .lcol { min-width: 0; padding-top: 4px; }
@@ -133,8 +126,9 @@ body.idle .caret { animation: blink 1.05s steps(1) infinite; }
 .genl svg { width: 16px; height: 16px; }
 .genl .pct { font-variant-numeric: tabular-nums; color: var(--muted); }
 .ob { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(12, 12, 14, .72); color: #e5e5ea; opacity: 0; }
-.ob svg { width: 17px; height: 17px; }
-.ring { position: absolute; inset: -6px; border-radius: 19px; box-shadow: 0 0 0 3px #fff; opacity: 0; }
+.ob svg { grid-area: 1 / 1; width: 17px; height: 17px; }
+.ob .ck { opacity: 0; stroke: var(--ok); stroke-width: 2.8; }
+.tip { position: absolute; top: 13px; right: 52px; display: flex; align-items: center; height: 28px; padding: 0 11px; border-radius: 8px; background: rgba(12, 12, 14, .9); font: 600 13.5px/1 var(--ui); color: #fff; opacity: 0; }
 .vcap { display: flex; align-items: center; gap: 10px; margin-top: 12px; font: 600 15.5px/1 var(--ui); color: #c7c7cc; }
 .vl { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: #232326; font: 700 14px/1 var(--ui); color: #fff; }
 

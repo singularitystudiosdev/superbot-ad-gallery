@@ -273,6 +273,9 @@ const more = [
   ['thumbnail-ab-superbot-67114eb1', 'thumbnail-ab-superbot-67114eb1/?autoplay=1', 'superbot: make a thumbnail from my latest video, then A/B test it on YouTube (voiceover demo)', 'Ad spots', {
     desc: 'A click-to-start screen demo a YouTuber talks over, each beat timed to a voiceline. "Make a thumbnail from my latest video" is typed; superbot switches to ChatGPT on the user’s ChatGPT Plus plan (No API charges), connects YouTube and pulls the latest upload with its title, transcript and current thumbnail, then generates with GPT Image 2: three variants resolve out of skeletons and the pointer picks B. "Use this one and upload it to YouTube A/B tests" uploads it and starts a Test & Compare; the cut moves to YouTube Studio’s Channel content page where the video row carries the new thumbnail and a Test & Compare badge, then the superbot.gg end card. 75 s after the click; open without ?autoplay=1 to start it by clicking, Space pauses, C shows the voicelines as a prompter.',
     download: 'animations/thumbnail-ab-superbot-67114eb1/final.mp4', downloadLabel: '16:9 · 1920x1080' }],
+  // YouTuber voiceover walkthrough, click-to-play (2026-10-16, aecdec41): thumbnail made from the latest upload, then A/B tested.
+  ['yt-thumbnail-superbot-aecdec41', 'yt-thumbnail-superbot-aecdec41/', 'superbot: thumbnail to YouTube A/B test (click to play)', 'Ad spots', {
+    desc: 'Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, reads the latest upload through YouTube, makes 3 GPT Image 2 thumbnails and uploads the pick to Test & compare.' }],
   // Gemini muse meme, 16:9 cuts (2026-10-15, from quick-chats/superbot-muse-split.1d16d488): one 1920x1080 MP4 with sound per
   // variant of the 6fbc38f8 spot, each ending on the superbot.gg + mascot end card. Played from a video wrapper
   // (animations/gemini-muse-16x9-<variant>/index.html), 16:9 only, and the download is that bundled file.

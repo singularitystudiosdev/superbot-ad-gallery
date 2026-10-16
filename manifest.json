@@ -472,6 +472,15 @@
     "downloadLabel": "16:9 · 1920x1080"
   },
   {
+    "id": "yt-thumbnail-superbot-aecdec41",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: thumbnail to YouTube A/B test (click to play)",
+    "src": "animations/yt-thumbnail-superbot-aecdec41/",
+    "thumb": "assets/shots/yt-thumbnail-superbot-aecdec41.png",
+    "desc": "Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, reads the latest upload through YouTube, makes 3 GPT Image 2 thumbnails and uploads the pick to Test & compare."
+  },
+  {
     "id": "gemini-muse-16x9-1",
     "type": "animation",
     "group": "Ad spots",

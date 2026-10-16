@@ -1,0 +1,12 @@
+Provenance for this ad's assets (internal record; nothing here is shown on screen).
+
+karp-source.png  User-supplied thumbnail ("YOU ARE RIGHT TO BE AFRAID", Alex Karp), attached in chat 2026-10-16.
+thumb-new.jpg    karp-source.png padded to 16:9 (dark feathered top extension, ffmpeg). The "picked" variant.
+frame.jpg        Face crop of karp-source.png on #0f0f0f, used as the video's current/auto thumbnail (A).
+face.png         Face crop of karp-source.png (x0-205), feathered right edge; composed into variants 1 and 3 with CSS type.
+kf2.jpg kf3.jpg kf4.jpg  Crops / flip of karp-source.png used as "key frames".
+
+openai-logo.svg claude-logo.svg gemini-logo.svg
+                 singularitystudiosdev/superbot-ad-gallery, animations/gemini-muse-meme-superbot-6fbc38f8/brand/
+youtube.svg      singularitystudiosdev/superbot-ad-gallery, animations/gemini-muse-meme-superbot-6fbc38f8/img/climb.080da517/
+superbot mark    CSS mask geometry copied from the same reference animation (scenes/tabs-assets/chat.css).

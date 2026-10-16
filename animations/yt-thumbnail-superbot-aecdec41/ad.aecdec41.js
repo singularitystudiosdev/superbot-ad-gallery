@@ -294,12 +294,21 @@ let t = 0;
 let jumped = true;
 let lastNow = performance.now();
 const loadedAt = lastNow;
+// t is read off the wall clock (anchorT + elapsed since anchorWall), never summed from frame deltas: a throttled
+// pane or background window that delivers ~1 frame/s must still play the ad in real time
+let anchorWall = lastNow;
+let anchorT = 0;
+function setState(next) {
+  state = next;
+  anchorWall = performance.now();
+  anchorT = t;
+}
 
 if (q.has('t')) {
-  state = 'paused';
   t = Number(q.get('t'));
+  setState('paused');
 } else if (q.has('autoplay')) {
-  state = 'playing';
+  setState('playing');
 }
 
 function render(t, dt, snap) {
@@ -320,21 +329,22 @@ function render(t, dt, snap) {
 }
 
 function frame(now) {
-  const dt = Math.min(0.1, (now - lastNow) / 1000);
+  const dt = Math.min(0.1, Math.max(0, now - lastNow) / 1000);
   lastNow = now;
   if (state === 'playing') {
-    const next = t + dt * rate;
+    const next = anchorT + (Math.max(0, now - anchorWall) / 1000) * rate;
     if (t < T.done && next >= T.done) {
       t = T.done;
-      state = 'held';
+      setState('held');
     } else if (next >= T.fin) {
       t = T.fin;
-      state = 'ended';
+      setState('ended');
     } else {
       t = next;
     }
   }
-  render(t, dt, jumped || state !== 'playing');
+  // a starved frame (>=100 ms) snaps the feed instead of easing it from a stale position
+  render(t, dt, jumped || state !== 'playing' || dt >= 0.1);
   jumped = false;
   requestAnimationFrame(frame);
 }
@@ -351,33 +361,33 @@ function start(evt) {
   }
   t = 0;
   jump();
-  state = 'playing';
+  setState('playing');
   document.body.classList.add('playing');
 }
 
 function reset() {
-  state = 'idle';
   t = 0;
+  setState('idle');
   jump();
   document.body.classList.remove('playing');
 }
 
 addEventListener('pointerdown', (e) => {
   if (state === 'idle') start(e);
-  else if (state === 'held') state = 'playing';
+  else if (state === 'held') setState('playing');
 });
 
 addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
     e.preventDefault();
     if (state === 'idle') start(null);
-    else if (state === 'playing') state = 'paused';
-    else if (state === 'paused' || state === 'held') state = 'playing';
+    else if (state === 'playing') setState('paused');
+    else if (state === 'paused' || state === 'held') setState('playing');
   } else if (e.key === 'r' || e.key === 'R') {
     reset();
   } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && state !== 'idle') {
     t = Math.max(0, Math.min(T.fin, t + (e.key === 'ArrowRight' ? 2 : -2)));
-    state = 'paused';
+    setState('paused');
     jump();
   } else if (e.key === 'c' || e.key === 'C') {
     cuesOn = !cuesOn;
@@ -400,8 +410,8 @@ window.__ad = {
   T, VO, KEYS1, KEYS2,
   get t() { return t; },
   get state() { return state; },
-  seek(x) { t = x; state = 'paused'; document.body.classList.add('playing'); jump(); },
-  play() { state = 'playing'; },
+  seek(x) { t = x; setState('paused'); document.body.classList.add('playing'); jump(); },
+  play() { setState('playing'); },
 };
 
 // start the clock only once the bundled Inter faces are in, so the first frames never reflow

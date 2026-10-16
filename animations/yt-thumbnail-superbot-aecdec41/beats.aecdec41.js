@@ -26,13 +26,28 @@ function rng(seed) {
   };
 }
 
-// Keystroke times: one character every KEY_GAP seconds on average (the user's spec, 0.02 s), with a little seeded
-// jitter and a slightly longer beat after spaces so the text still lands in small bursts rather than a ruler-even feed.
-export const KEY_GAP = 0.02;
+// Keystroke times: one character every KEY_GAP seconds on average (0.024 s, 20% slower than the earlier 0.02 s), in an
+// uneven human rhythm: rolled runs of quick keys, the odd slow key, a beat after each space and now and then a
+// hesitation before a word. The relative gaps are then normalised so the prompt still averages KEY_GAP per key.
+export const KEY_GAP = 0.024;
 export function keystrokes(text, start, seed) {
   const r = rng(seed);
   const gaps = [];
-  for (let i = 1; i < text.length; i++) gaps.push((text[i - 1] === ' ' ? 1.4 : 0.85) + r() * 0.3);
+  let run = 0;
+  for (let i = 1; i < text.length; i++) {
+    let d;
+    if (run > 0) {
+      d = 0.45 + r() * 0.25;
+      run--;
+    } else {
+      d = 0.7 + r() * 0.9;
+      if (r() < 0.22) run = 1 + Math.floor(r() * 3);
+    }
+    if (r() < 0.07) d += 1.2 + r();
+    if (text[i - 1] === ' ') d += 0.6 + r() * 0.5;
+    if (text[i - 1] === ' ' && r() < 0.25) d += 2 + r() * 2;
+    gaps.push(d);
+  }
   const scale = (KEY_GAP * gaps.length) / gaps.reduce((a, b) => a + b, 0);
   const times = [start];
   for (const d of gaps) times.push(times[times.length - 1] + d * scale);

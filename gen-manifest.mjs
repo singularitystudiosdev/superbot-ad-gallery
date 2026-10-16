@@ -260,6 +260,54 @@ const more = [
   // snapshot folder, ?variant=computer-control-v3-soft.
   ['gemini-muse-meme-computer-control-v3-soft-superbot-d7dc409d', 'gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3-soft', 'superbot: Take computer control and open a tab (V3, Soft Vignette)', 'Ad spots', {
     desc: 'The Gemini muse meme spot, Computer Control V3 · Soft Vignette. "Take computer control and open a tab" is typed; superbot answers "Done. I took control of your computer and opened a new tab." over a Your computer live view (Share, Expand, Stop) built as a true screen share: full-screen Chrome on a 1470px desktop scaled down whole, the real superbot.gg home page in the open tab and the screen cursor at its real size. As superbot takes control, a thin turning pink and purple vignette melts in from every edge and a "superbot is controlling your computer" pill rises; the cursor glides to + and clicks, a New Tab slides in and the real Chrome New Tab page opens with the address bar focused. The top-right selector switches variants live.' }],
+  // Gemini muse meme, 16:9 cuts (2026-10-15, from quick-chats/superbot-muse-split.1d16d488): one 1920x1080 MP4 with sound per
+  // variant of the 6fbc38f8 spot, each ending on the superbot.gg + mascot end card. Played from a video wrapper
+  // (animations/gemini-muse-16x9-<variant>/index.html), 16:9 only, and the download is that bundled file.
+  ['gemini-muse-16x9-1', 'gemini-muse-16x9-1/', 'Gemini Muse meme 16:9 \u00b7 1 image', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, 1 image variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=1), cut for 16:9: 1920x1080, 60 fps, 8.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-1/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-10', 'gemini-muse-16x9-10/', 'Gemini Muse meme 16:9 \u00b7 10 images', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, 10 images variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=10), cut for 16:9: 1920x1080, 60 fps, 8.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-10/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-3d', 'gemini-muse-16x9-3d/', 'Gemini Muse meme 16:9 \u00b7 3D model', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, 3D model variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=3d), cut for 16:9: 1920x1080, 60 fps, 8.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-3d/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-doordash', 'gemini-muse-16x9-doordash/', 'Gemini Muse meme 16:9 \u00b7 DoorDash order', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, DoorDash order variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=doordash), cut for 16:9: 1920x1080, 60 fps, 8.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-doordash/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-roadtrip', 'gemini-muse-16x9-roadtrip/', 'Gemini Muse meme 16:9 \u00b7 Road trip map', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Road trip map variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=roadtrip), cut for 16:9: 1920x1080, 60 fps, 8.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-roadtrip/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-climbing', 'gemini-muse-16x9-climbing/', 'Gemini Muse meme 16:9 \u00b7 Climbing videos', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Climbing videos variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=climbing), cut for 16:9: 1920x1080, 60 fps, 9.3 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-climbing/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-catsurf', 'gemini-muse-16x9-catsurf/', 'Gemini Muse meme 16:9 \u00b7 Cat surfing video', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Cat surfing video variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=catsurf), cut for 16:9: 1920x1080, 60 fps, 15.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-catsurf/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-catsurf10', 'gemini-muse-16x9-catsurf10/', 'Gemini Muse meme 16:9 \u00b7 10 cat surfing videos', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, 10 cat surfing videos variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=catsurf10), cut for 16:9: 1920x1080, 60 fps, 15.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-catsurf10/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-song', 'gemini-muse-16x9-song/', 'Gemini Muse meme 16:9 \u00b7 Dog song', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Dog song variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=song), cut for 16:9: 1920x1080, 60 fps, 13.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-song/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-pitchdeck', 'gemini-muse-16x9-pitchdeck/', 'Gemini Muse meme 16:9 \u00b7 Pitch deck', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Pitch deck variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=pitchdeck), cut for 16:9: 1920x1080, 60 fps, 9.3 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-pitchdeck/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-spending', 'gemini-muse-16x9-spending/', 'Gemini Muse meme 16:9 \u00b7 Spending chart', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Spending chart variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=spending), cut for 16:9: 1920x1080, 60 fps, 9.3 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-spending/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-bakery', 'gemini-muse-16x9-bakery/', 'Gemini Muse meme 16:9 \u00b7 Bakery website', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Bakery website variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=bakery), cut for 16:9: 1920x1080, 60 fps, 9.3 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-bakery/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-reminder', 'gemini-muse-16x9-reminder/', 'Gemini Muse meme 16:9 \u00b7 Phone notification', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Phone notification variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=reminder), cut for 16:9: 1920x1080, 60 fps, 10 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-reminder/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-computer-control-v3-soft', 'gemini-muse-16x9-computer-control-v3-soft/', 'Gemini Muse meme 16:9 \u00b7 Computer Control V3 · Soft Vignette', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Computer Control V3 · Soft Vignette variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=computer-control-v3-soft), cut for 16:9: 1920x1080, 60 fps, 10.1 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-computer-control-v3-soft/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  ['gemini-muse-16x9-photoedit', 'gemini-muse-16x9-photoedit/', 'Gemini Muse meme 16:9 \u00b7 Photo edit', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Photo edit variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=photoedit), cut for 16:9: 1920x1080, 60 fps, 8.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-photoedit/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
   ['deny-cascade-superbot-440813d4','deny-cascade-superbot-440813d4/', '"ask me anything", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)', 'Ad spots'],
   ['agents-slower-superbot-7bf1a6c6', 'agents-slower-superbot-7bf1a6c6/', 'agents getting slower overtime? · the house card pop, 1.9 seconds flat, then superbot knows why in the wordmark gradient and the end screen (6.5s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],

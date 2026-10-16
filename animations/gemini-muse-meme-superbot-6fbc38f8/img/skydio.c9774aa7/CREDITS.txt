@@ -1,0 +1,26 @@
+x10-in-flight.jpg
+  640px-wide JPEG (q80, resized from the 1230x818 original, no crop) of a Skydio X10 in a flight test at Skydio, San Mateo,
+  California, 2023-12-12. U.S. Department of Defense photo by U.S. Navy Petty Officer 1st Class Alexander Kubitza
+  (DoD release ID 231212-D-PM193-2701). Work of the U.S. federal government: public domain (Wikimedia Commons: Public
+  domain, no attribution required).
+  Source: https://commons.wikimedia.org/wiki/File:Skydio_X10_in_flight.jpg
+  Original: https://upload.wikimedia.org/wikipedia/commons/4/4a/Skydio_X10_in_flight.jpg
+  Not a Fort Collins photo; it is a real Skydio X10 photo used for the Fort Collins flight-test panel.
+
+skydio-mark.png
+  The Skydio mark, resized to 64x64 from the site's own apple-touch-icon, no edits otherwise.
+  Source: https://www.skydio.com/assets/apple-touch-icon.png (page https://www.skydio.com/, 2026-10-16)
+  Shown only as the connector chip's tile ("Reading skydio.com").
+
+Slide facts (every line on the slide), checked 2026-10-16:
+  Founded 2014, HQ San Mateo, CA: https://en.wikipedia.org/wiki/Skydio
+  Products (X10 and Dock for X10, F10 Lightrunner, R10), Skydio Command, focus areas (Drone as First Responder, Physical
+  Security, Asset Inspection, Mapping, National Security): https://www.skydio.com/ and its product pages
+  Fort Collins flight test site at CSU's Christman Field; flight test operators (Dock Generalist, Handflown Generalist
+  tracks); flight data collection for training the follow / subject-tracking AI: Skydio's careers listings for Flight Test
+  Operator (Fort Collins, Colorado) and Skydio's LinkedIn post of ~Dec 2025
+  https://www.linkedin.com/posts/activity-7407228539730694144-Yg7M ; Christman Field is Colorado State University's airfield
+  (https://www.cbsnews.com/colorado/news/colorado-state-expands-fort-collins-airfield-and-uas-drone-research-program/).
+  The sources describe a test site, not an office, so the slide says test site.
+
+Owner: Skydio, Inc. (name, mark, product names). Internal provenance only: never shown on screen.

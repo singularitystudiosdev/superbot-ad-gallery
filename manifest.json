@@ -452,6 +452,15 @@
     "desc": "The Gemini muse meme spot, Trader Joe’s list cut. \"Make me a college quick and easy week Trader Joe’s list\" is typed; superbot shows Connecting to Trader Joe’s, then Switching to Gemini, and the real traderjoes.com page is browsed with 6 products picked. Gemini answers with a clean grouped list of 22 real products (protein, carbs, fruit, veggies, fuel and recovery) with a $114.25 total and 156g+ protein a day. 11.5 s loop; the top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-skydio-superbot-c9774aa7",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: I need a slide for Skydio drones as our club will have a guest speaker from skydio",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=skydio",
+    "thumb": "assets/shots/gemini-muse-meme-skydio-superbot-c9774aa7.png",
+    "desc": "The Gemini muse meme spot, Skydio slide cut. \"I need a slide for Skydio drones as our club will have a guest speaker from skydio talking about what the company does and focuses on along with emphaises on what there fort collins office does\" is typed; superbot shows Reading skydio.com, then Switching to Gemini, and Gemini answers with one Google Slides style slide: Guest Speaker: Skydio, what the company builds (X10 and Dock, F10 Lightrunner, R10, Skydio Command) and its focus areas, with a Fort Collins, CO panel carrying a real Skydio X10 photo and the flight test site at CSU’s Christman Field. Every line is a sourced fact, nothing invented. 10.7 s run; the top-right selector switches variants live."
+  },
+  {
     "id": "gemini-muse-16x9-1",
     "type": "animation",
     "group": "Ad spots",

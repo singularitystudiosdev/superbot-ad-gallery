@@ -12,7 +12,8 @@ html, body { margin: 0; height: 100%; background: #000; overflow: hidden; font-f
 #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 50% 50%; overflow: hidden; background: var(--bg); cursor: pointer; user-select: none; }
 body.playing #stage { cursor: none; }
 #stage section { position: absolute; inset: 0; }
-svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* line icons only: the mascot's own SVG (.sb-mark) must not inherit a stroke, or its ears and eyes show seams */
+svg:not(.sb-mark) { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---- brand glyphs: Simple Icons (CC0) as masks so they take any colour ---- */
 .ic { display: block; width: 19px; height: 19px; -webkit-mask: center / contain no-repeat; mask: center / contain no-repeat; background: #fff; }
@@ -89,7 +90,6 @@ body.idle .caret { animation: blink 1.05s steps(1) infinite; }
 .ok { position: absolute; inset: 0; width: 18px; height: 18px; stroke: var(--ok); stroke-width: 2.8; opacity: 0; }
 .cnt { display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 999px; background: #232326; font: 600 15px/1 var(--ui); color: #c7c7cc; }
 .cnt.green { background: rgba(52, 211, 153, .13); color: #6ee7b7; }
-#ytName { opacity: 0; }
 
 /* latest-upload card the YouTube connector pulled */
 .card { display: flex; gap: 22px; width: 860px; padding: 16px; border-radius: 20px; background: #111113; box-shadow: inset 0 0 0 1px #26262a; }
@@ -100,9 +100,6 @@ body.idle .caret { animation: blink 1.05s steps(1) infinite; }
 .vk { display: flex; align-items: center; gap: 9px; font: 700 13px/1 var(--ui); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
 .vt { margin: 12px 0 7px; font: 600 22px/1.25 var(--ui); color: #fff; }
 .vm { font: 400 15.5px/1.3 var(--ui); color: var(--muted); }
-.ticks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-.tick { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 13px 0 9px; border-radius: 999px; background: #18181b; box-shadow: inset 0 0 0 1px #2a2a2e; font: 600 14.5px/1 var(--ui); color: #d1d1d6; opacity: 0; }
-.tick svg { width: 16px; height: 16px; stroke: var(--ok); stroke-width: 2.8; }
 
 /* assistant turn */
 .who { display: flex; align-items: center; gap: 10px; font: 600 17px/1 var(--ui); color: var(--fg); }
@@ -138,8 +135,6 @@ body.idle .caret { animation: blink 1.05s steps(1) infinite; }
 .ob { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(12, 12, 14, .72); color: #e5e5ea; opacity: 0; }
 .ob svg { width: 17px; height: 17px; }
 .ring { position: absolute; inset: -6px; border-radius: 19px; box-shadow: 0 0 0 3px #fff; opacity: 0; }
-.sel { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #fff; color: #000; opacity: 0; }
-.sel svg { width: 19px; height: 19px; stroke-width: 3; }
 .vcap { display: flex; align-items: center; gap: 10px; margin-top: 12px; font: 600 15.5px/1 var(--ui); color: #c7c7cc; }
 .vl { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: #232326; font: 700 14px/1 var(--ui); color: #fff; }
 
@@ -161,9 +156,6 @@ body.idle .caret { animation: blink 1.05s steps(1) infinite; }
 #s-end .words h1 { margin: 0; font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #fff; }
 #s-end .words p { margin: 16px 0 0 6px; font-size: 34px; font-weight: 500; color: #aeb1bc; }
 
-/* ---- pointer ---- */
-#cursor { position: absolute; left: 0; top: 0; z-index: 40; width: 38px; height: 38px; opacity: 0; transform-origin: 9.5px 4.75px; pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5)); }
-#cursor svg { width: 38px; height: 38px; stroke: none; }
 
 /* ---- operator chrome (never in a render) ---- */
 .hint { position: fixed; right: 18px; bottom: 14px; z-index: 50; font: 500 12px/1 var(--ui); color: #6e6e73; animation: hint-out 1s 6s forwards; }

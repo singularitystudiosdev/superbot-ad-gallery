@@ -4,10 +4,11 @@
 (() => {
   'use strict';
   const qs = new URLSearchParams(location.search);
-  // [real s, design s]: prompts type ~3x faster than the design, holds between lines are trimmed, and each
-  // voiceline window gets ~0.44 s a word. One run is 54.7 s after the click.
-  const KNOTS = [[0, 0], [.3, .6], [1.55, 4.3], [2.55, 5.6], [6.25, 10.2], [12.15, 17.3], [19.35, 25.9], [22.65, 30],
-    [26.65, 36.8], [32.95, 44.6], [35.55, 47.6], [37.22, 52.6], [37.62, 53.2], [43.22, 61.2], [49.02, 68], [52.32, 72], [54.72, 75]];
+  // [real s, design s]: prompts type ~3x faster than the design, holds between lines are trimmed, the
+  // latest-upload card (design 13.4 to 25.9) plays 1.7x, and the rest gets ~0.44 s a spoken word.
+  // One run is 50.4 s after the click.
+  const KNOTS = [[0, 0], [.3, .6], [1.55, 4.3], [2.55, 5.6], [6.25, 10.2], [8.91, 13.4], [15.05, 25.9], [18.35, 30],
+    [22.35, 36.8], [28.65, 44.6], [31.25, 47.6], [32.92, 52.6], [33.32, 53.2], [38.92, 61.2], [44.72, 68], [48.02, 72], [50.42, 75]];
   const CYCLE = KNOTS[KNOTS.length - 1][0];
   function warp(r) {
     for (let i = 1; i < KNOTS.length; i++) {
@@ -54,7 +55,7 @@
   const T1 = typer(P1, .6, 4.3), T2 = typer(P2, 47.6, 52.6);
 
   // ---------- element handles ----------
-  const sChat = $('#s-chat'), sStudio = $('#s-studio'), sEnd = $('#s-end');
+  const sEnd = $('#s-end');
   const hero = $('#hero'), subs = $('#subs');
   const composer = $('#composer'), typed = $('#typed'), caret = $('#caret'), ph = $('#cPh'), send = $('#send'), attIn = $('#attIn');
   const cModel = $('#cModel'), models = $$('#cModel .m');
@@ -66,16 +67,13 @@
     { el: $('#cGen'), steps: [26.1], done: 36.6 },
     { el: $('#cUp'), steps: [54.0, 56.0, 58.5], done: 58.5 },
   ].map((c) => ({ ...c, lbls: $$('.lbl', c.el), spin: $('.spin', c.el), ok: $('.ok', c.el) }));
-  const ytName = $('#ytName');
-  const ticks = $$('.tick').map((el) => ({ el, at: +el.dataset.at }));
   const vcs = ['A', 'B', 'C'].map((L, i) => {
     const el = $('#vc' + L);
-    return { el, thw: $('.thw', el), th: $('.thw > .th', el), sk: $('.sk', el), pct: $('.pct', el), ob: $('.ob', el), ring: $('.ring', el), sel: $('.sel', el), gs: 29.9 + i * .25, rev: 36.8 + i * .4, n: -1 };
+    return { el, th: $('.thw > .th', el), sk: $('.sk', el), pct: $('.pct', el), ob: $('.ob', el), ring: $('.ring', el), gs: 29.9 + i * .25, rev: 36.8 + i * .4, n: -1 };
   });
-  const res = $('#res'), openBtn = $('#openBtn');
-  const row1Thumb = $('#row1Thumb'), row1Hl = $('#row1Hl'), tcBadge = $('#tcBadge'), snack = $('#snack');
+  const res = $('#res');
   const endMark = $('#endMark'), endH1 = $('#s-end h1'), endP = $('#s-end p');
-  const cursor = $('#cursor'), cue = $('#cue'), toastEl = $('#toast');
+  const cue = $('#cue'), toastEl = $('#toast');
 
   if (window.sbMarkLive) {
     window.sbMarkLive('#heroMark', { size: 62 });
@@ -144,8 +142,6 @@
       it.inner.style.transform = `translateY(${((1 - k2) * 16).toFixed(2)}px)`;
     });
     chips.forEach((c) => chip(c, t));
-    ytName.style.opacity = fin(t, 11.7, .3);
-    ticks.forEach((x) => { const k = fin(t, x.at, .35); x.el.style.opacity = k; x.el.style.transform = `scale(${.9 + .1 * eb(k)})`; });
     says.forEach((s) => stream(s, t));
     vcs.forEach((v, i) => {
       const p = Math.round(eio(P(t, v.gs, v.rev - .2 - v.gs)) * 100);
@@ -155,40 +151,20 @@
       v.sk.style.opacity = 1 - r;
       v.th.style.opacity = r;
       v.th.style.transform = `scale(${1.05 - .05 * r})`;
-      const picked = fin(t, 42.8, .2);
-      v.ob.style.opacity = r * (i === 1 ? 1 - picked : 1);
+      v.ob.style.opacity = r;
       v.el.style.opacity = i === 1 ? 1 : 1 - .5 * fin(t, 43.0, .4);
-      v.el.style.transform = i === 1 ? `translateY(${-4 * fin(t, 42.2, .3)}px)` : '';
-      if (i === 1) {
-        v.ring.style.opacity = picked;
-        const s = fin(t, 42.85, .35);
-        v.sel.style.opacity = s;
-        v.sel.style.transform = `scale(${.4 + .6 * eb(s)})`;
-      }
+      if (i === 1) v.ring.style.opacity = fin(t, 42.8, .2);
     });
     const rk = fin(t, 60.0, .45);
     res.style.opacity = rk;
     res.style.transform = `translateY(${(1 - rk) * 12}px)`;
-    openBtn.style.transform = `scale(${press(t, 61.6)})`;
   }
 
   function renderScenes(t) {
     hero.style.opacity = 1 - fin(t, SEND1, .35);
     hero.style.transform = `translateX(-50%) translateY(${-24 * fin(t, SEND1, .5)}px)`;
     subs.style.opacity = 1 - fin(t, SEND1 - .1, .3);
-    const out = eio(P(t, 62.3, .6));
-    sChat.style.opacity = 1 - out;
-    sChat.style.transform = out ? `scale(${1 - .02 * out})` : '';
-    const st = eio(P(t, 62.4, .6));
-    sStudio.style.opacity = st;
-    sStudio.style.visibility = st > 0 ? 'visible' : 'hidden';
-    sStudio.style.transform = `scale(${1.02 - .02 * st})`;
-    row1Hl.style.opacity = Math.min(fin(t, 64.0, .3), 1 - fin(t, 67.6, .4)) * (.82 + .18 * Math.cos((t - 64) * 5));
-    const tb = fin(t, 64.4, .35);
-    tcBadge.style.transform = `scale(${t < 64.4 ? 1 : 1 + .1 * Math.sin(Math.PI * tb)})`;
-    const sn = Math.min(fin(t, 64.8, .35), 1 - fin(t, 67.6, .3));
-    snack.style.opacity = sn;
-    snack.style.transform = `translateY(${(1 - sn) * 20}px)`;
+    // the finished chat holds while the presenter shows their own channel, then the end card
     const e = fin(t, 68.0, .5);
     sEnd.style.opacity = e;
     sEnd.style.visibility = e > 0 ? 'visible' : 'hidden';
@@ -200,35 +176,11 @@
     endP.style.transform = `translateY(${(1 - pk) * 12}px)`;
   }
 
-  // ---------- pointer (only the in-app moves; the real click that starts the spot leaves no mark) ----------
-  function center(el) {
-    const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect();
-    return { x: (r.left + r.width / 2 - s.left) / scale, y: (r.top + r.height / 2 - s.top) / scale };
-  }
-  const legs = [
-    { a: 40.4, b: 44.6, from: [1560, 1010], el: vcs[1].thw, m0: 41.0, md: 1.25, press: 42.8 },
-    { a: 60.5, b: 62.4, from: [1520, 1000], el: openBtn, m0: 60.7, md: .8, press: 61.6 },
-    { a: 63.0, b: 67.8, from: [1240, 820], el: row1Thumb, m0: 63.2, md: .9, press: -1, dx: -52, dy: 26 },
-  ];
-  function cursorAt(t) {
-    for (const L of legs) {
-      if (t < L.a || t >= L.b) continue;
-      const c = center(L.el), k = eio(P(t, L.m0, L.md));
-      return { x: lerp(L.from[0], c.x + (L.dx || 0), k), y: lerp(L.from[1], c.y + (L.dy || 0), k), o: Math.min(fin(t, L.a, .3), 1 - fin(t, L.b - .4, .4)), s: press(t, L.press) };
-    }
-    return null;
-  }
-  function renderPointer(t) {
-    const c = started ? cursorAt(t) : null;
-    cursor.style.opacity = c ? c.o : 0;
-    if (c) cursor.style.transform = `translate(${(c.x - 9.5).toFixed(1)}px, ${(c.y - 4.75).toFixed(1)}px) scale(${c.s})`;
-  }
 
   function render(t) {
     renderComposer(t);
     renderFeed(t);
     renderScenes(t);
-    renderPointer(t);
   }
 
   // ---------- prompter ----------

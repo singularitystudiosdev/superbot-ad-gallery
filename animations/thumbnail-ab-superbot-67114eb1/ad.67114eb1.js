@@ -65,12 +65,19 @@
   const chips = [
     { el: $('#cSw'), steps: [5.6], done: 7.0 },
     { el: $('#cYt'), steps: [10.4, 11.6], done: 11.6 },
-    { el: $('#cGen'), steps: [26.1], done: 36.6 },
+    { el: $('#cGen'), steps: [26.1], done: 38.1 },
     { el: $('#cUp'), steps: [54.0, 56.0, 58.5], done: 58.5 },
   ].map((c) => ({ ...c, lbls: $$('.lbl', c.el), spin: $('.spin', c.el), ok: $('.ok', c.el) }));
+  // each variant is its own job: its own start, a stall at a different point (w = share done before it),
+  // and they land out of order, C then A then B
+  const GEN = [
+    { gs: 30.1, rev: 37.3, w: .4, d1: 1.6, hold: 1.8 },
+    { gs: 30.6, rev: 38.1, w: .7, d1: 3.4, hold: .7 },
+    { gs: 29.9, rev: 36.4, w: .62, d1: 2.0, hold: 1.1 },
+  ];
   const vcs = ['A', 'B', 'C'].map((L, i) => {
     const el = $('#vc' + L);
-    return { el, th: $('.thw > .th', el), sk: $('.sk', el), pct: $('.pct', el), ob: $('.ob', el), cp: $('.ob .cp', el), ck: $('.ob .ck', el), tip: $('.tip', el), gs: 29.9 + i * .25, rev: 36.8 + i * .4, n: -1 };
+    return { el, th: $('.thw > .th', el), sk: $('.sk', el), pct: $('.pct', el), ob: $('.ob', el), cp: $('.ob .cp', el), ck: $('.ob .ck', el), tip: $('.tip', el), ...GEN[i], n: -1 };
   });
   const res = $('#res');
   const endMark = $('#endMark'), endH1 = $('#s-end h1'), endP = $('#s-end p');
@@ -125,7 +132,7 @@
     send.classList.toggle('on', !!txt || att);
     send.style.transform = `scale(${press(t, SEND1) * press(t, SEND2)})`;
     // model pill: Auto -> ChatGPT -> GPT Image 2 -> ChatGPT
-    const mt = [0, 7.0, 26.1, 37.0], mi = [0, 1, 2, 1];
+    const mt = [0, 7.0, 26.1, 38.2], mi = [0, 1, 2, 1];
     let j = 0;
     while (j + 1 < mt.length && t >= mt[j + 1]) j++;
     const k = j ? fin(t, mt[j], .3) : 1;
@@ -145,7 +152,9 @@
     chips.forEach((c) => chip(c, t));
     says.forEach((s) => stream(s, t));
     vcs.forEach((v, i) => {
-      const p = Math.round(eio(P(t, v.gs, v.rev - .2 - v.gs)) * 100);
+      // the percent updates in uneven ~0.23 s polls, phase-shifted per card
+      const tq = t - frac((t + i * .09) / .23) * .23, d2 = v.rev - .2 - v.gs - v.d1 - v.hold;
+      const p = Math.round((v.w * eio(P(tq, v.gs, v.d1)) + (1 - v.w) * eio(P(tq, v.gs + v.d1 + v.hold, d2))) * 100);
       if (p !== v.n) { v.pct.textContent = p + '%'; v.n = p; }
       v.sk.style.setProperty('--sh', `${100 - frac((t - v.gs) / 1.6) * 160}%`);
       const r = fin(t, v.rev, .5);

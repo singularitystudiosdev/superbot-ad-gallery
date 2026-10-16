@@ -1,18 +1,19 @@
 // Gemini-only spot: "make me a muse meme" in the superbot hub. The spot is a pure function of t, like the source
 // engine: ?t=<s> freezes a frame, ?t=<s>&play=1 plays on from there, space pauses, arrows step 0.25s, R restarts;
-// a 60fps quantised clock. The one scene (scenes/tabs.js) loops forever.
+// a 60fps quantised clock. The one scene (scenes/tabs.js) plays once and holds its last frame: no loop. Space after
+// the end replays it from the start.
 import * as lib from './lib.9b47fc30.js';
-import tabs from './scenes/tabs.9b47fc30.js?v=3';
+import tabs from './scenes/tabs.9b47fc30.js?v=4';
 import { settled } from './loads.9e82faf1.js';
 // the same module instance the tabs scene uses (the full URL, query included, keys an instance)
-import { BEATS } from './scenes/tabs-assets/chat.9b47fc30.js?v=10';
+import { BEATS } from './scenes/tabs-assets/chat.9b47fc30.js?v=11';
 
 const { seg } = lib;
 const H = 1080;
 const W = () => (window.AR && window.AR.w) || 1920;
 const stage = document.getElementById('stage');
 const SCENE_FADE = 0.3;
-// the loop length follows the variant (tabs.dur is a getter), so it is read per frame
+// the run length follows the variant (tabs.dur is a getter), so it is read per frame
 const cycle = () => tabs.dur;
 
 // the scene section, mounted once; it is shown only while its opacity is above zero
@@ -22,10 +23,10 @@ section.id = 's-tabs';
 stage.prepend(section);
 tabs.mount(section);
 
-// one frame: fade the section at the loop's ends, then draw the scene at its local time
+// one frame: fade the section in at the start (no closing fade: the last frame is held, not faded to black), then
+// draw the scene at its local time
 function render(t) {
-  const CYCLE = cycle();
-  const o = seg(t, 0, SCENE_FADE) * (1 - seg(t, CYCLE - SCENE_FADE, CYCLE));
+  const o = seg(t, 0, SCENE_FADE);
   section.style.opacity = o.toFixed(3);
   section.classList.toggle('on', o > 0);
   tabs.render(t, { W: W(), H });
@@ -69,13 +70,13 @@ function setSpeed(r) {
   dispatchEvent(new CustomEvent('speedchange', { detail: v }));
 }
 
-// the clock wrapped into [0, CYCLE) and quantised to whole frames
+// the clock held inside [0, CYCLE] (it runs once, then stays on the last frame) and quantised to whole frames
 function timeNow() {
-  const CYCLE = cycle();
-  const t = ((now() % CYCLE) + CYCLE) % CYCLE;
-  const f = Math.round(t * FPS) / FPS;
-  return f >= CYCLE ? 0 : f;
+  const t = Math.min(Math.max(now(), 0), cycle());
+  return Math.min(Math.round(t * FPS) / FPS, cycle());
 }
+// past the end, the clock stops there, so space replays from the start rather than resuming a finished run
+const ended = () => base >= cycle();
 
 addEventListener('keydown', (e) => {
   if (/^(INPUT|SELECT|TEXTAREA)$/.test(e.target && e.target.tagName)) return;
@@ -85,14 +86,16 @@ addEventListener('keydown', (e) => {
   }
   else if (e.key === ' ') {
     e.preventDefault();
-    if (paused) { paused = false; started = performance.now(); }
+    if (paused) { if (ended()) base = 0; paused = false; started = performance.now(); }
     else { base = now(); paused = true; }
   }
-  else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { base = Math.max(0, now() + (e.key === 'ArrowRight' ? 0.25 : -0.25)); paused = true; }
+  else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { base = Math.min(cycle(), Math.max(0, timeNow() + (e.key === 'ArrowRight' ? 0.25 : -0.25))); paused = true; }
   else if (e.key === 'r' || e.key === 'R') { base = 0; started = performance.now(); paused = false; }
 });
 
 function frame() {
+  // the run is over: stop the clock on its last frame
+  if (!paused && now() >= cycle()) { base = cycle(); paused = true; }
   render(timeNow());
   requestAnimationFrame(frame);
 }
@@ -112,6 +115,6 @@ window.__AD = {
   SPEEDS,
   get speed() { return rate; },
   setSpeed,
-  // the spot's clock now, wrapped into the loop (read-only)
+  // the spot's clock now, held at the end once the run is over (read-only)
   get now() { return timeNow(); },
 };

@@ -20,7 +20,7 @@ import pitchdeck from './beats/pitchdeck.fad54971.js?v=2';
 import bakery from './beats/bakery.005f5570.js?v=3';
 import spending from './beats/spending.b92c87dc.js?v=1';
 import reminder from './beats/reminder.e55fb320.js?v=3';
-import computerV3 from './beats/computer.ba3976b6.js?v=7';
+import computerV3 from './beats/computer.ba3976b6.js?v=8';
 import { variant } from '../../variant.9e82faf1.js';
 
 const brand = (f) => new URL('../../brand/' + f, import.meta.url).href;

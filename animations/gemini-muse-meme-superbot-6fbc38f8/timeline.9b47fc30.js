@@ -2,10 +2,10 @@
 // engine: ?t=<s> freezes a frame, ?t=<s>&play=1 plays on from there, space pauses, arrows step 0.25s, R restarts;
 // a 60fps quantised clock. The one scene (scenes/tabs.js) loops forever.
 import * as lib from './lib.9b47fc30.js';
-import tabs from './scenes/tabs.9b47fc30.js';
+import tabs from './scenes/tabs.9b47fc30.js?v=2';
 import { settled } from './loads.9e82faf1.js';
 // the same module instance the tabs scene uses (the full URL, query included, keys an instance)
-import { BEATS } from './scenes/tabs-assets/chat.9b47fc30.js?v=8';
+import { BEATS } from './scenes/tabs-assets/chat.9b47fc30.js?v=9';
 
 const { seg } = lib;
 const H = 1080;

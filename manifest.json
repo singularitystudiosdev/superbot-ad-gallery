@@ -449,7 +449,7 @@
     "title": "superbot: Make me a college quick and easy week Trader Joe's list",
     "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=traderjoes",
     "thumb": "assets/shots/gemini-muse-meme-traderjoes-superbot-4aaedb8c.png",
-    "desc": "The Gemini muse meme spot, Trader Joe’s list cut. \"Make me a college quick and easy week Trader Joe’s list\" is typed; superbot shows Connecting to Trader Joe’s, then Switching to Gemini, and the real traderjoes.com page is browsed with 6 products picked. Gemini answers with a clean grouped list of 22 real products (protein, carbs, fruit, veggies, fuel and recovery) with a $114.25 total and 156g+ protein a day. 11.5 s loop; the top-right selector switches variants live."
+    "desc": "The Gemini muse meme spot, Trader Joe’s list cut. \"Make me a college quick and easy week Trader Joe’s list\" is typed; superbot shows Connecting to Trader Joe’s, then Switching to Gemini. Gemini answers with a 760px card that shimmers as a skeleton, then lands as the grouped list of 22 real Trader Joe’s products (photo, name, quantity, price: protein, carbs, fruit, veggies, fuel and recovery) with a $114.25 total and 156g+ protein a day. 10.3 s loop; the top-right selector switches variants live."
   },
   {
     "id": "gemini-muse-meme-skydio-superbot-c9774aa7",

@@ -1,7 +1,6 @@
 // Real Trader Joe's data for the `traderjoes` ad variant. Sourced from traderjoes.com on 2026-10-15
 // (product titles, sizes, prices, product-page URLs and Nutrition Facts panels read from the site's own
-// search/PDP data; thumbnails are the site's primary product images; site.jpg is a live capture of
-// https://www.traderjoes.com/home/search?q=fresh+veggies at 896 CSS px, 2x).
+// search/PDP data; thumbnails are the site's primary product images).
 // Store context: no store chosen; the site was in its national default catalog (storeCode "TJ") and its
 // header showed "My Store: Littleton" (auto-assigned). Prices are as listed there; they vary by store.
 // protein = grams per whole package = servings per container x protein per serving (Nutrition Facts panel);
@@ -11,7 +10,6 @@
 export const STORE = 'https://www.traderjoes.com/home/products';
 export const LOGO = 'traderjoes.4aaedb8c/traderjoes-logo.svg';
 export const RED = '#C81E24'; // fill of the path in traderjoes.com/content/dam/trjo/pictures/logo.svg
-export const SITE = {"shot":"traderjoes.4aaedb8c/site.jpg","w":896,"h":2250,"url":"traderjoes.com/home/search?q=fresh veggies","picks":[{"x":111,"y":567,"w":674,"h":140,"name":"Ready Veggies"},{"x":111,"y":847,"w":674,"h":140,"name":"Stir Fry Veggie Blend"},{"x":111,"y":987,"w":674,"h":140,"name":"Super Sweet Fresh Corn"},{"x":111,"y":1267,"w":674,"h":140,"name":"Russet Potatoes"},{"x":111,"y":1687,"w":674,"h":140,"name":"Shelled Edamame with Sea Salt"},{"x":111,"y":2107,"w":674,"h":140,"name":"Persian Cucumbers"}]};
 export const GROUPS = [
   {
     "name": "Protein",

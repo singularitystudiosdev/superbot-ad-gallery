@@ -1,12 +1,3 @@
-site.jpg
-  Live capture of traderjoes.com product search results for "fresh veggies" (15 results listed, first ~12 rows
-  in frame): 896x2250 CSS px at 2x (1792x4500), taken 2026-10-15 in a headless Camoufox (Firefox) browser, guest
-  session, cookie banner and the "Join The Adventure" newsletter modal dismissed, images lazy-load scrolled in.
-  Header showed "My Store: Littleton" (auto-assigned by the site). Nothing was bought; no account.
-  Source: https://www.traderjoes.com/home/search?q=fresh%20veggies&section=products&global=no
-  Result order on this page varies between loads; the six on-list tiles recorded in the data module (SITE.picks)
-  are the ones in THIS capture.
-
 traderjoes-logo.svg
   The site's own header logo, byte-for-byte, no edits. Brand red fill #C81E24.
   Source: https://www.traderjoes.com/content/dam/trjo/pictures/logo.svg
@@ -25,4 +16,4 @@ p-*.jpg (22 files)
   Protein per package = servings per container x protein per serving. Brown Rice, Russet Potatoes, Bananas,
   Honeycrisp Apples, Strawberries and Persian Cucumbers have no panel on the site, so protein is null.
 
-Owner: Trader Joe's (name, logo, product names and photos, site UI). Internal provenance only: never shown on screen.
+Owner: Trader Joe's (name, logo, product names and photos). Internal provenance only: never shown on screen.

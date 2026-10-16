@@ -1,59 +1,60 @@
 /* The 'computer-control-v3-soft' variant's answer (beats/computer.ba3976b6.js): the artifact frame
-   (bakery.005f5570.css .bk) over a live view of the user's screen: the whole display edge to edge, as a real screen
-   share shows it, filled by one light browser window (tab strip, toolbar, page). Then the takeover layers on top,
-   drawn where a real takeover overlay (a click-through window over the whole display) can draw: a thin pink and purple
-   vignette round the display's edges, so on the browser all the way round, fading inward, and a status pill. No CSS animation or transition: the beat sets every opacity,
-   width and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself, so index.html needs no
-   link. Browser palette: strip #dee1e6, page #fff, omnibox #f1f3f4, ink #1f1f1f, icons #5f6368, focus #1a73e8. */
+   (bakery.005f5570.css .bk) over a live view of the user's screen, built as a real screen share: a 1470x919 desktop with
+   Chrome full screen on it at Chrome's own sizes, scaled whole into the view by the beat (its FIT), so text, pages and
+   cursor keep their real proportions. The pages are real captures (img/computer.ba3976b6/). Over it, at the view's own
+   size, what a real takeover overlay (a click-through window over the whole display) can draw: a thin pink and purple
+   vignette round the display's edges, fading inward, and a status pill. No CSS animation or transition: the beat sets
+   every opacity, width and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself, so
+   index.html needs no link. Chrome palette: tab strip #dee1e6, tab and toolbar #fff, omnibox #f1f3f4, ink #1f1f1f,
+   icons #474747, focus #1a73e8. */
 #s-tabs .sbsite .hub .cc3 .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
 #s-tabs .sbsite .hub .cc3-stop { gap: 7px; }
 #s-tabs .sbsite .hub .cc3-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
 
-/* the display, filled edge to edge by the browser window: no margin a real screen would not have */
+/* the desktop, in its own px, scaled into the view from its top left; Chrome fills it, no margin a real screen lacks */
+#s-tabs .sbsite .hub .cc3-desk { position: absolute; left: 0; top: 0; width: 1470px; height: 919px; overflow: hidden; transform-origin: 0 0; background: #fff; }
 #s-tabs .sbsite .hub .cc3-win { position: absolute; inset: 0; overflow: hidden; background: #fff; }
-#s-tabs .sbsite .hub .cc3-screen svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-#s-tabs .sbsite .hub .cc3-ic { flex: none; display: grid; place-items: center; width: 14px; height: 14px; color: #5f6368; }
-#s-tabs .sbsite .hub .cc3-dim { opacity: .4; }
+#s-tabs .sbsite .hub .cc3-win svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .cc3-ic { flex: none; display: grid; place-items: center; width: 28px; height: 28px; box-sizing: border-box; padding: 5px; border-radius: 50%; color: #474747; }
+#s-tabs .sbsite .hub .cc3-dim { opacity: .38; }
 
-/* tab strip: traffic lights, the open tab, the new tab (width set by the beat), the new-tab button */
-#s-tabs .sbsite .hub .cc3-strip { display: flex; align-items: flex-end; height: 34px; padding: 0 8px 0 12px; background: #dee1e6; }
-#s-tabs .sbsite .hub .cc3-lights { display: flex; gap: 6px; align-self: center; margin-right: 14px; }
-#s-tabs .sbsite .hub .cc3-lights i { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+/* tab strip, 42px: traffic lights, the open tab, the new tab (width set by the beat), the new-tab button */
+#s-tabs .sbsite .hub .cc3-strip { display: flex; align-items: flex-end; height: 42px; box-sizing: border-box; padding: 0 8px 0 14px; background: #dee1e6; }
+#s-tabs .sbsite .hub .cc3-lights { display: flex; gap: 8px; align-self: center; margin-right: 22px; }
+#s-tabs .sbsite .hub .cc3-lights i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.12); }
 #s-tabs .sbsite .hub .cc3-lights i:nth-child(2) { background: #febc2e; }
 #s-tabs .sbsite .hub .cc3-lights i:nth-child(3) { background: #28c840; }
-#s-tabs .sbsite .hub .cc3-tab { position: relative; flex: none; display: flex; align-items: center; gap: 7px; width: 150px; height: 28px; box-sizing: border-box; padding: 0 8px 0 10px; overflow: hidden; white-space: nowrap; font: 500 11px/1 var(--ui); color: #1f1f1f; }
+#s-tabs .sbsite .hub .cc3-tab { position: relative; flex: none; display: flex; align-items: center; gap: 8px; width: 240px; height: 34px; box-sizing: border-box; padding: 0 8px 0 12px; overflow: hidden; white-space: nowrap; font: 400 12px/1 var(--ui); color: #1f1f1f; }
 /* the new tab's padding lives on its children, so at width 0 it takes no room and the + sits where it was clicked */
 #s-tabs .sbsite .hub .cc3-t2 { width: 0; padding: 0; opacity: 0; }
-#s-tabs .sbsite .hub .cc3-t2 .cc3-fav { margin-left: 10px; }
+#s-tabs .sbsite .hub .cc3-t2 .cc3-tt { margin-left: 12px; }
 #s-tabs .sbsite .hub .cc3-t2 .cc3-x { margin-right: 8px; }
-#s-tabs .sbsite .hub .cc3-bg { position: absolute; inset: 0; border-radius: 8px 8px 0 0; background: #fff; }
+#s-tabs .sbsite .hub .cc3-bg { position: absolute; inset: 0; border-radius: 10px 10px 0 0; background: #fff; }
 #s-tabs .sbsite .hub .cc3-tab > span { position: relative; }
-#s-tabs .sbsite .hub .cc3-fav { flex: none; width: 14px; height: 14px; }
-#s-tabs .sbsite .hub .cc3-fav .qc-tile { width: 14px; height: 14px; border-radius: 4px; }
-#s-tabs .sbsite .hub .cc3-globe { color: #5f6368; }
-#s-tabs .sbsite .hub .cc3-tt { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-#s-tabs .sbsite .hub .cc3-x { flex: none; width: 12px; height: 12px; color: #5f6368; }
-#s-tabs .sbsite .hub .cc3-plus { flex: none; display: grid; place-items: center; align-self: center; width: 24px; height: 24px; margin-left: 4px; box-sizing: border-box; padding: 5px; border-radius: 50%; color: #3c4043; }
+#s-tabs .sbsite .hub .cc3-fav { flex: none; width: 16px; height: 16px; }
+#s-tabs .sbsite .hub .cc3-fav .qc-tile { width: 16px; height: 16px; border-radius: 4px; }
+/* Chrome fades a long title out rather than ending it in an ellipsis */
+#s-tabs .sbsite .hub .cc3-tt { flex: 1; min-width: 0; overflow: hidden; -webkit-mask: linear-gradient(90deg, #000 82%, transparent); mask: linear-gradient(90deg, #000 82%, transparent); }
+#s-tabs .sbsite .hub .cc3-x { flex: none; width: 16px; height: 16px; box-sizing: border-box; padding: 3px; color: #474747; }
+#s-tabs .sbsite .hub .cc3-plus { flex: none; display: grid; place-items: center; align-self: center; width: 28px; height: 28px; margin: 8px 0 0 8px; box-sizing: border-box; padding: 6px; border-radius: 50%; color: #474747; }
 
-/* toolbar: back, forward, reload and the omnibox; its two contents crossfade with the active tab */
-#s-tabs .sbsite .hub .cc3-bar { display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 12px; background: #fff; box-shadow: 0 1px 0 #e8eaed; }
-#s-tabs .sbsite .hub .cc3-omni { position: relative; flex: 1; height: 26px; border-radius: 13px; background: #f1f3f4; }
-#s-tabs .sbsite .hub .cc3-url { position: absolute; inset: 0; display: flex; align-items: center; gap: 8px; padding: 0 12px; font: 400 11.5px/1 var(--ui); color: #1f1f1f; }
-#s-tabs .sbsite .hub .cc3-u2 { gap: 0; opacity: 0; }
-#s-tabs .sbsite .hub .cc3-u2 .cc3-ic { margin-right: 8px; }
-#s-tabs .sbsite .hub .cc3-caret { flex: none; width: 1px; height: 14px; margin-right: 2px; background: #1a73e8; }
-#s-tabs .sbsite .hub .cc3-ph { color: #70757a; }
+/* toolbar, 40px: back, forward, reload, the omnibox (its two contents crossfade with the active tab), profile, menu */
+#s-tabs .sbsite .hub .cc3-bar { display: flex; align-items: center; gap: 4px; height: 40px; box-sizing: border-box; padding: 0 8px; border-bottom: 1px solid #e3e3e3; background: #fff; }
+#s-tabs .sbsite .hub .cc3-omni { position: relative; flex: 1; height: 34px; margin: 0 6px; border-radius: 17px; background: #f1f3f4; }
+#s-tabs .sbsite .hub .cc3-url { position: absolute; inset: 0; display: flex; align-items: center; gap: 4px; padding: 0 14px 0 5px; font: 400 14px/1 var(--ui); color: #1f1f1f; }
+#s-tabs .sbsite .hub .cc3-url .cc3-ic { width: 24px; height: 24px; padding: 4px; }
+#s-tabs .sbsite .hub .cc3-u2 { opacity: 0; }
+#s-tabs .sbsite .hub .cc3-caret { flex: none; width: 1px; height: 18px; margin: 0 1px 0 4px; background: #1f1f1f; }
+#s-tabs .sbsite .hub .cc3-ph { color: #5f6368; }
+#s-tabs .sbsite .hub .cc3-me { flex: none; width: 24px; height: 24px; margin: 0 4px; border-radius: 50%; background: #c2e7ff; }
 
-/* the pages: superbot.gg, then the new-tab page */
-#s-tabs .sbsite .hub .cc3-page { position: absolute; top: 70px; left: 0; right: 0; bottom: 0; }
-#s-tabs .sbsite .hub .cc3-p1, #s-tabs .sbsite .hub .cc3-p2 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding-bottom: 40px; }
-#s-tabs .sbsite .hub .cc3-p1 .qc-tile { width: 44px; height: 44px; border-radius: 13px; }
-#s-tabs .sbsite .hub .cc3-p1 b { font: 700 22px/1 var(--ui); letter-spacing: -.02em; color: #1f1f1f; }
-#s-tabs .sbsite .hub .cc3-p2 { gap: 20px; opacity: 0; }
-#s-tabs .sbsite .hub .cc3-find { display: flex; align-items: center; gap: 10px; width: 330px; height: 38px; box-sizing: border-box; padding: 0 16px; border-radius: 19px; box-shadow: 0 0 0 1px #dfe1e5, 0 1px 6px rgba(32,33,36,.08); font: 400 12px/1 var(--ui); color: #70757a; }
-#s-tabs .sbsite .hub .cc3-cuts { display: flex; gap: 22px; }
-#s-tabs .sbsite .hub .cc3-cut { display: flex; flex-direction: column; align-items: center; gap: 7px; font: 400 10px/1 var(--ui); color: #3c4043; }
-#s-tabs .sbsite .hub .cc3-cut i { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #f1f3f4; font: 600 13px/1 var(--ui); font-style: normal; color: #5f6368; }
+/* the pages: the real captures, below the 82px of tab strip and toolbar */
+#s-tabs .sbsite .hub .cc3-page { position: absolute; top: 82px; left: 0; display: block; width: 1470px; height: auto; }
+#s-tabs .sbsite .hub .cc3-p2 { opacity: 0; }
+
+/* the screen's own cursor: a macOS arrow at its real size on this desktop (about 14x19 of its 24px box), so it shrinks
+   with the screen. Placed by the beat with a transform from its hotspot */
+#s-tabs .sbsite .hub .cc3-cursor { position: absolute; left: 0; top: 0; z-index: 2; width: 24px; height: 24px; overflow: visible; fill: #000; stroke: #fff; stroke-width: 1.5px; stroke-linejoin: round; paint-order: stroke; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.35)); }
 
 /* the takeover's edge: a thin pink and purple vignette. .cc3-edge has the view's visible shape (square under the
    header, the card's 12px radius at the bottom; bakery.005f5570.css .bk clips there), so nothing cuts it. Inside, a

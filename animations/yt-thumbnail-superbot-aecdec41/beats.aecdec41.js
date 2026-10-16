@@ -26,22 +26,23 @@ function rng(seed) {
   };
 }
 
-// Keystroke times for a ~90 wpm typist (7.5 chars/s): 95-145 ms per key, a beat after each space, the odd
-// hesitation between words, shift held for ':' and capitals.
+// Keystroke times for a 90 wpm typist: a human rhythm (a beat after each space, the odd hesitation between words,
+// shift held for ':' and capitals), then rescaled so the whole prompt lands at exactly WPM (5 chars = 1 word).
+export const WPM = 90;
 export function keystrokes(text, start, seed) {
   const r = rng(seed);
-  const times = [];
-  let t = start;
-  for (let i = 0; i < text.length; i++) {
-    if (i > 0) {
-      let d = 0.095 + r() * 0.05;
-      if (text[i - 1] === ' ') d += 0.02 + r() * 0.03;
-      if (text[i - 1] === ' ' && r() < 0.12) d += 0.08 + r() * 0.06;
-      if (/[:A-Z]/.test(text[i])) d += 0.06;
-      t += d;
-    }
-    times.push(t);
+  const gaps = [];
+  for (let i = 1; i < text.length; i++) {
+    let d = 0.095 + r() * 0.05;
+    if (text[i - 1] === ' ') d += 0.02 + r() * 0.03;
+    if (text[i - 1] === ' ' && r() < 0.12) d += 0.08 + r() * 0.06;
+    if (/[:A-Z]/.test(text[i])) d += 0.06;
+    gaps.push(d);
   }
+  const span = (text.length / 5 / WPM) * 60;
+  const scale = span / gaps.reduce((a, b) => a + b, 0);
+  const times = [start];
+  for (const d of gaps) times.push(times[times.length - 1] + d * scale);
   return times;
 }
 

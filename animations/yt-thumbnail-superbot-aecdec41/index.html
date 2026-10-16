@@ -6,18 +6,21 @@
 <title>superbot · thumbnail to YouTube A/B test</title>
 <link rel="preload" href="assets/fonts/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="assets/fonts/Inter-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="assets/sb-mark-live.css">
 <link rel="stylesheet" href="ad.aecdec41.css">
+<script src="assets/sb-mark-live.js"></script>
 </head>
 <body>
 <!-- Mirrors superbot-desktop origin/main (4dc801f89): Composer, ThreadIdle + NewChatChips, MessageRow, TurnHead,
      ProviderSwitchBlock, ProviderSwitchGenerating, ImageCard, StepList. The <i class="gm"> and <i class="knot">
-     placeholders are filled with the app's own cat mark and OpenAI knot by ad.aecdec41.js. -->
+     placeholders get the gallery's mascot.svg and the OpenAI knot from ad.aecdec41.js; the .live-mark hosts get
+     superbot.gg's animated mark through assets/sb-mark-live.js. -->
 <div id="stage">
 <div id="cam">
 <section id="pane">
 
   <div class="hero-greet" id="greet">
-    <span class="hero-mark"><i class="gm"></i></span>
+    <span class="hero-mark live-mark" id="hero-mark"></span>
     <h2 id="greet-text">Good evening. What's first?</h2>
   </div>
 
@@ -127,7 +130,7 @@
 </div>
 
 <section id="end">
-  <span class="end-mark"><i class="gm"></i></span>
+  <span class="end-mark live-mark" id="end-mark"></span>
   <div class="end-url">superbot.gg</div>
   <div class="end-sub">Link in the description<svg class="lu" viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
 </section>

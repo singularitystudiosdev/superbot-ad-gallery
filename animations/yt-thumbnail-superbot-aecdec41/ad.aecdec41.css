@@ -48,6 +48,8 @@ p { margin: 0; }
 /* ---- empty home (ThreadIdle + NewChatChips) ---- */
 .hero-greet { position: absolute; left: 0; right: 0; top: 126px; height: 63px; display: flex; align-items: center; justify-content: center; gap: 24px; }
 .hero-mark { width: 63px; height: 63px; flex: none; }
+/* superbot.gg's live mark, face filled white like the gallery's mascot.svg */
+.live-mark .sb-mark { --fg: #ffffff; }
 .hero-greet h2 { margin: 0; font: 400 42.1px/47.4px var(--font-serif); letter-spacing: -1.12px; color: var(--color-fg); white-space: nowrap; }
 .start-links { position: absolute; left: 0; right: 0; top: 425px; display: flex; justify-content: center; gap: 8px; }
 .start-links span { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 4px 12px; border-radius: 8px; font: 400 15px/20px var(--font-ui); color: var(--color-fg-secondary); }

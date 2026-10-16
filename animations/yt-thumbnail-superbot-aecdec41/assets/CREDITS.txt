@@ -5,6 +5,10 @@ karp-source.png  User-supplied thumbnail ("YOU ARE RIGHT TO BE AFRAID", Alex Kar
 thumb-new.jpg    karp-source.png padded to 16:9 (dark feathered top extension, ffmpeg). The generated thumbnail.
 
 youtube.svg      singularitystudiosdev/superbot-ad-gallery, animations/gemini-muse-meme-superbot-6fbc38f8/img/climb.080da517/
+sb-mark-live.css sb-mark-live.js
+                 superbot.gg's animated mascot, copied verbatim from singularitystudiosdev/superbot-ad-gallery-real-ui
+                 assets/ (itself extracted from https://beta.superbot.gg/, 2026-09-23). Small marks use that repo's
+                 shared animations/*/app/mascot.svg geometry (same oval-eye cat).
 fonts/Inter-*.ttf, fonts/LICENSE-Inter.txt
                  Inter (SIL OFL 1.1), the faces superbot-desktop bundles (apps/desktop/src/renderer/src/assets/fonts).
 superbot UI      Cat "glitch" mark paths, OpenAI knot, composer glyphs, tokens and layout values from superbot-desktop

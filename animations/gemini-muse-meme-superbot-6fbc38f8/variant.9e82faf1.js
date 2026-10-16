@@ -20,13 +20,7 @@ export const VARIANTS = [
   { id: 'spending', label: 'Spending chart' },
   { id: 'bakery', label: 'Bakery website' },
   { id: 'reminder', label: 'Phone notification' },
-  { id: 'computer-control', label: 'Computer Control' },
-  { id: 'computer-control-v1', label: 'Computer Control V1' },
-  { id: 'computer-control-v3', label: 'Computer Control V3' },
   { id: 'computer-control-v3-soft', label: 'Computer Control V3 · Soft Vignette' },
-  { id: 'computer-control-v3-deep', label: 'Computer Control V3 · Deep Vignette' },
-  { id: 'computer-control-v3-flow', label: 'Computer Control V3 · Flowing Vignette' },
-  { id: 'computer-control-v3-pulse', label: 'Computer Control V3 · Pulse Vignette' },
   { id: 'photoedit', label: 'Photo edit' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);

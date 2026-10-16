@@ -481,6 +481,15 @@
     "desc": "Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, finds the latest upload through YouTube, makes one GPT Image 2 thumbnail and uploads it to a Test & compare A/B test. Holds on the result; the next click plays the end card."
   },
   {
+    "id": "gemini-muse-meme-lawn-superbot-f5e1d276",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Add a garden in my front lawn (Raleigh, North Carolina)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=lawn",
+    "thumb": "assets/shots/gemini-muse-meme-lawn-superbot-f5e1d276.png",
+    "desc": "The muse meme spot, front lawn garden cut. \"Add a garden in my front lawn visually, address is Raleigh, North Carolina, USA\" is typed; superbot shows Connecting to Maps, then Switching to Gemini. Gemini answers \"Here’s your front lawn with the garden added.\" with a Google-Maps-style card in the reply: Maps opens on the address typing into its search pill (Raleigh, North Carolina, USA), the camera flies from the whole metro down to the pin’s residential block, a red pin drops on the house’s block with its shadow under it and a small place card names the city, then the map zooms through into the photograph of that front lawn and a before/after wipe sweeps left to right, the plain lawn turning into the planted garden under an After tag while the Before tag fades as the edge reaches it. 11.27 s loop; the top-right selector switches variants live. The address is city-level only, no street and no house; the Open in Maps pill is a keyless Maps search link, no API key."
+  },
+  {
     "id": "gemini-muse-16x9-1",
     "type": "animation",
     "group": "Ad spots",
@@ -643,6 +652,17 @@
     "thumb": "assets/shots/gemini-muse-16x9-photoedit.png",
     "desc": "The Gemini muse meme spot, Photo edit variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=photoedit), cut for 16:9: 1920x1080, 60 fps, 8.5 s, with sound, ending on the superbot.gg end card with the mascot.",
     "download": "animations/gemini-muse-16x9-photoedit/final.mp4",
+    "downloadLabel": "16:9 · 1920x1080"
+  },
+  {
+    "id": "gemini-muse-16x9-lawn",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Gemini Muse meme 16:9 · Front lawn garden",
+    "src": "animations/gemini-muse-16x9-lawn/",
+    "thumb": "assets/shots/gemini-muse-16x9-lawn.png",
+    "desc": "The Gemini muse meme spot, Front lawn garden variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=lawn), cut for 16:9: 1920x1080, 60 fps, 13.5 s, with sound, ending on the superbot.gg end card with the mascot.",
+    "download": "animations/gemini-muse-16x9-lawn/final.mp4",
     "downloadLabel": "16:9 · 1920x1080"
   },
   {

@@ -276,6 +276,12 @@ const more = [
   // YouTuber voiceover walkthrough, click-to-play (2026-10-16, aecdec41): thumbnail made from the latest upload, then A/B tested.
   ['yt-thumbnail-superbot-aecdec41', 'yt-thumbnail-superbot-aecdec41/', 'superbot: thumbnail to YouTube A/B test (click to play)', 'Ad spots', {
     desc: 'Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, finds the latest upload through YouTube, makes one GPT Image 2 thumbnail and uploads it to a Test & compare A/B test. Holds on the result; the next click plays the end card.' }],
+  // Front lawn garden (2026-10-16, f5e1d276): a ?variant=lawn cut in the 6fbc38f8 snapshot folder; the address stays
+  // city-level (the ask names no street and the card\u2019s Open in Maps pill is the keyless google.com/maps/search/?api=1
+  // link, never an Embed API call). The before photo is CC0 and the after is a model edit of that same photo, so the
+  // wipe reads as one lawn being planted (img/lawn.f5e1d276/CREDITS.txt).
+  ['gemini-muse-meme-lawn-superbot-f5e1d276', 'gemini-muse-meme-superbot-6fbc38f8/?variant=lawn', 'superbot: Add a garden in my front lawn (Raleigh, North Carolina)', 'Ad spots', {
+    desc: 'The muse meme spot, front lawn garden cut. "Add a garden in my front lawn visually, address is Raleigh, North Carolina, USA" is typed; superbot shows Connecting to Maps, then Switching to Gemini. Gemini answers "Here\u2019s your front lawn with the garden added." with a Google-Maps-style card in the reply: Maps opens on the address typing into its search pill (Raleigh, North Carolina, USA), the camera flies from the whole metro down to the pin\u2019s residential block, a red pin drops on the house\u2019s block with its shadow under it and a small place card names the city, then the map zooms through into the photograph of that front lawn and a before/after wipe sweeps left to right, the plain lawn turning into the planted garden under an After tag while the Before tag fades as the edge reaches it. 11.27 s loop; the top-right selector switches variants live. The address is city-level only, no street and no house; the Open in Maps pill is a keyless Maps search link, no API key.' }],
   // Gemini muse meme, 16:9 cuts (2026-10-15, from quick-chats/superbot-muse-split.1d16d488): one 1920x1080 MP4 with sound per
   // variant of the 6fbc38f8 spot, each ending on the superbot.gg + mascot end card. Played from a video wrapper
   // (animations/gemini-muse-16x9-<variant>/index.html), 16:9 only, and the download is that bundled file.
@@ -324,6 +330,12 @@ const more = [
   ['gemini-muse-16x9-photoedit', 'gemini-muse-16x9-photoedit/', 'Gemini Muse meme 16:9 \u00b7 Photo edit', 'Ad spots', {
     desc: 'The Gemini muse meme spot, Photo edit variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=photoedit), cut for 16:9: 1920x1080, 60 fps, 8.5 s, with sound, ending on the superbot.gg end card with the mascot.',
     download: 'animations/gemini-muse-16x9-photoedit/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
+  // Front lawn garden (2026-10-16, f5e1d276), cut for 16:9 by the same renderer as its neighbours
+  // (quick-chats/superbot-muse-split.1d16d488/render.1d16d488.mjs lawn: frame-exact 60 fps capture of the
+  // ?variant=lawn spot, then the superbot.gg end card).
+  ['gemini-muse-16x9-lawn', 'gemini-muse-16x9-lawn/', 'Gemini Muse meme 16:9 \u00b7 Front lawn garden', 'Ad spots', {
+    desc: 'The Gemini muse meme spot, Front lawn garden variant (gemini-muse-meme-superbot-6fbc38f8, ?variant=lawn), cut for 16:9: 1920x1080, 60 fps, 13.5 s, with sound, ending on the superbot.gg end card with the mascot.',
+    download: 'animations/gemini-muse-16x9-lawn/final.mp4', downloadLabel: '16:9 \u00b7 1920x1080' }],
   ['deny-cascade-superbot-440813d4','deny-cascade-superbot-440813d4/', '"ask me anything", and ChatGPT denies 35 prompts in 7 seconds; superbot thinks, runs its tools and answers in plain text, ramping 1x to 10x (~19s loop)', 'Ad spots'],
   ['agents-slower-superbot-7bf1a6c6', 'agents-slower-superbot-7bf1a6c6/', 'agents getting slower overtime? · the house card pop, 1.9 seconds flat, then superbot knows why in the wordmark gradient and the end screen (6.5s loop)', 'Ad spots'],
   ['favorite-color', 'favorite-color/', 'favorite color — the chat pitch', 'Ad spots'],

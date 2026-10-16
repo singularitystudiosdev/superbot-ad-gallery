@@ -28,6 +28,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   (28.5s loop, with sound). The clips are `animations/who-are-you-superbot-4a7e2c19/clip-*.mp4`,
   the icon placed per frame from an Apple Vision face track (`.tmp/whoareyou/facetrack.swift`,
   `composite.swift`).
+- **add a garden in my front lawn**: the muse meme spot's lawn cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=lawn`): superbot connects to Maps, the
+  address "Raleigh, North Carolina, USA" types into its search pill, the camera flies from the
+  whole metro down to the pin's residential block, and the map zooms through into the photograph
+  of that front lawn, where a before/after wipe plants the garden (11.27s loop).
 
 Static image ads (`assets/ads/`):
 

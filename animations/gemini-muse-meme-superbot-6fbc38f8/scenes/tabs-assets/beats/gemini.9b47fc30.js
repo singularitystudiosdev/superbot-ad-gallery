@@ -25,7 +25,7 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { makeZombieGame, gameState, codeFrame, CODE_CHARS, CODE_ROWS, CODE_LINE_H } from './zombiegame.7b46b820.js';
 import { makeGarden } from './garden.410879cc.js';
 import { makeRoadtrip } from './roadtrip.9bc0f433.js?v=2';
-import { makeLawn, MAPS_QUERY } from './lawn.f5e1d276.js?v=1';
+import { makeLawn, MAPS_QUERY } from './lawn.f5e1d276.js?v=3';
 import { zipStore } from './zip.69098368.js';
 // the Share control every output card carries (share.29a362ea.js): a header button on a framed card, a disc on an image
 import { shareBtn, shareDisc } from './share.29a362ea.js';

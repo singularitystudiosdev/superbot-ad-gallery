@@ -1,6 +1,7 @@
 Provenance for this ad's assets (internal record; nothing here is shown on screen).
 
 karp-source.png  User-supplied thumbnail ("YOU ARE RIGHT TO BE AFRAID", Alex Karp), attached in chat 2026-10-16.
+                 Kept in the local project only; not shipped with the gallery copy (every derivative below is).
 thumb-new.jpg    karp-source.png padded to 16:9 (dark feathered top extension, ffmpeg). The "picked" variant.
 frame.jpg        Face crop of karp-source.png on #0f0f0f, used as the video's current/auto thumbnail (A).
 face.png         Face crop of karp-source.png (x0-205), feathered right edge; composed into variants 1 and 3 with CSS type.

@@ -458,7 +458,43 @@
     "title": "superbot: Take computer control and open a tab (V3)",
     "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3",
     "thumb": "assets/shots/gemini-muse-meme-computer-control-v3-superbot-ba3976b6.png",
-    "desc": "The Gemini muse meme spot, Computer Control V3. \"Take computer control and open a tab\" is typed; superbot answers \"Done. I took control of your computer and opened a new tab.\" over a Your computer live view: a browser on superbot.gg. Superbot takes control with a thin turning cyan and magenta ring around the screen, a soft inner glow and a \"superbot is controlling your computer\" pill. The cursor glides to the + button and presses it; a New Tab eases in, becomes active, the page fades to a new-tab page and the address bar takes focus with a blinking caret. Eased fades only, nothing bounces. A 7.9 s loop; the top-right selector switches variants live."
+    "desc": "The Gemini muse meme spot, Computer Control V3. \"Take computer control and open a tab\" is typed; superbot answers \"Done. I took control of your computer and opened a new tab.\" over a Your computer live view: a browser on superbot.gg. Superbot takes control with a soft turning cyan and magenta glow all round the edge of the screen, fading inward, and a \"superbot is controlling your computer\" pill. The cursor glides to the + button and presses it; a New Tab eases in, becomes active, the page fades to a new-tab page and the address bar takes focus with a blinking caret. Eased fades only, nothing bounces. A 7.9 s loop; the top-right selector switches variants live."
+  },
+  {
+    "id": "gemini-muse-meme-computer-control-v3-soft-superbot-d7dc409d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Take computer control and open a tab (V3, Soft Vignette)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3-soft",
+    "thumb": "assets/shots/gemini-muse-meme-computer-control-v3-soft-superbot-d7dc409d.png",
+    "desc": "Computer Control V3 with a soft pink and purple vignette: when superbot takes control, a turning pink and purple gradient melts about 70px in from every edge of the screen, then the cursor presses + and a New Tab eases in. The top-right selector switches variants live."
+  },
+  {
+    "id": "gemini-muse-meme-computer-control-v3-deep-superbot-d7dc409d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Take computer control and open a tab (V3, Deep Vignette)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3-deep",
+    "thumb": "assets/shots/gemini-muse-meme-computer-control-v3-deep-superbot-d7dc409d.png",
+    "desc": "Computer Control V3 with a deep vignette: a wide rectangular vignette of violets and pinks, about 110px deep, turning slowly around the screen as superbot takes control, then the cursor presses + and a New Tab eases in. The top-right selector switches variants live."
+  },
+  {
+    "id": "gemini-muse-meme-computer-control-v3-flow-superbot-d7dc409d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Take computer control and open a tab (V3, Flowing Vignette)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3-flow",
+    "thumb": "assets/shots/gemini-muse-meme-computer-control-v3-flow-superbot-d7dc409d.png",
+    "desc": "Computer Control V3 with a flowing vignette: a diagonal pink and purple gradient slides back and forth through a rectangular vignette round the screen while superbot has control, then the cursor presses + and a New Tab eases in. The top-right selector switches variants live."
+  },
+  {
+    "id": "gemini-muse-meme-computer-control-v3-pulse-superbot-d7dc409d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Take computer control and open a tab (V3, Pulse Vignette)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3-pulse",
+    "thumb": "assets/shots/gemini-muse-meme-computer-control-v3-pulse-superbot-d7dc409d.png",
+    "desc": "Computer Control V3 with a pulsing vignette: a turning pink and purple rectangular vignette whose depth breathes in and out while superbot has control, then the cursor presses + and a New Tab eases in. The top-right selector switches variants live."
   },
   {
     "id": "deny-cascade-superbot-440813d4",

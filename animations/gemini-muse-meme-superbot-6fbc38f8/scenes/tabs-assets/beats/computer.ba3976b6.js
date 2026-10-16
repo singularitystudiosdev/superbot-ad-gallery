@@ -8,6 +8,8 @@
 // fade or glide (outCubic, path's inOutCubic), nothing bounces. Squeezed into the window the Gemini beat leaves plus
 // the route's `extra` (chat.9b47fc30.js routeBy), so the scene is a pure function of t. Its stylesheet
 // (../computer.ba3976b6.css) loads with the module. The screen is drawn UI, not a capture: nothing is controlled.
+// withEdge(look) is the same beat with another takeover edge, the pink and purple vignettes of the
+// 'computer-control-v3-*' variants (computer.ba3976b6.css .cc3-e-soft, -deep, -flow, -pulse).
 import { lerp, seg, outCubic, path, press, blink, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
@@ -15,7 +17,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 
 const SAY = 'Done. I took control of your computer and opened a new tab.';
-const CSS = new URL('../computer.ba3976b6.css?v=4', import.meta.url).href;
+const CSS = new URL('../computer.ba3976b6.css?v=5', import.meta.url).href;
 const TAB_W = 150; // a tab's width (computer.ba3976b6.css .cc3-tab)
 const PLUS_GAP = 4; // the new-tab button's left margin (.cc3-plus)
 const PLUS = 24; // the new-tab button's size (.cc3-plus)
@@ -44,7 +46,7 @@ function loadSheet() {
   document.head.appendChild(sheet);
 }
 
-export default {
+const beat = {
   // `end` is the route's end (chat.9b47fc30.js routeBy, base end plus extra), so the loop length is the router's call
   times(r, end = r + 3.75) {
     const T = { r };
@@ -58,13 +60,14 @@ export default {
     T.end = end;
     return T;
   },
-  build(k, x) {
+  // `look` names the takeover edge: '' is the cyan and magenta edge glow, the rest the vignettes (withEdge below)
+  build(k, x, look = '') {
     loadFrameSheet();
     loadSheet();
     const T = k.T;
     const sb = x.tile('superbot', 'cc3-sb');
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
-    const block = x.el(`<div class="bk cc3">
+    const block = x.el(`<div class="bk cc3${look ? ` cc3-e-${look}` : ''}">
       <div class="bk-head">
         <b class="bk-title">Your computer<small>Live view</small></b>
         ${shareBtn('Computer control')}
@@ -114,11 +117,14 @@ export default {
         block.style.opacity = ci.toFixed(3);
         block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
 
-        // the takeover: the edge glow fades in as its gradient turns slowly and gently breathes, the pill rises
+        // the takeover: the edge fades in as its gradient turns slowly and gently breathes, the pill rises. The flowing
+        // vignette slides its gradient back and forth (--cc3-p), the pulsing one breathes its depth (--cc3-d)
         const g = outCubic(seg(t, T.take, T.take + 0.55));
         edge.style.opacity = g.toFixed(3);
         edge.style.setProperty('--cc3-a', `${((t * 60) % 360).toFixed(1)}deg`);
-        soft.style.opacity = (0.78 + 0.08 * Math.sin(t * 2.6)).toFixed(3);
+        if (look === 'flow') edge.style.setProperty('--cc3-p', `${(50 + 50 * Math.sin(t * 0.9)).toFixed(2)}%`);
+        if (look === 'pulse') edge.style.setProperty('--cc3-d', `${(34 + 24 * Math.sin(t * 2.2)).toFixed(2)}px`);
+        soft.style.opacity = ((look ? 0.9 : 0.78) + 0.08 * Math.sin(t * 2.6)).toFixed(3);
         const pi = outCubic(seg(t, T.take + 0.12, T.take + 0.57));
         pill.style.opacity = pi.toFixed(3);
         pill.style.transform = `translate(-50%, ${((1 - pi) * 8).toFixed(2)}px)`;
@@ -157,3 +163,7 @@ export default {
     };
   },
 };
+
+export default beat;
+// the vignette variants (chat.9b47fc30.js routeBy 'computer-control-v3-*'): the same beat with another takeover edge
+export const withEdge = (look) => ({ times: beat.times, build: (k, x) => beat.build(k, x, look) });

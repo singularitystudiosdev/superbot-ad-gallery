@@ -63,5 +63,17 @@
 #s-tabs .sbsite .hub .cc3-edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; border-radius: 0 0 12px 12px; opacity: 0; pointer-events: none; }
 #s-tabs .sbsite .hub .cc3-soft { position: absolute; inset: -12px; filter: blur(10px); }
 #s-tabs .sbsite .hub .cc3-band { position: absolute; inset: 0; padding: 22px; border-radius: 0 0 32px 32px; background: conic-gradient(from var(--cc3-a, 0deg), #00e5c3, #c026d3, #00e5c3, #c026d3, #00e5c3); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+/* the pink and purple vignettes (.cc3-e-*, the computer-control-v3-* variants): the same blurred band, set wider and
+   deeper so the edge melts into the screen like a rectangular vignette, each with its own moving gradient. soft: a
+   turning conic, about 70px deep. deep: about 110px of darker violets and pinks, turning slowly the other way. flow: a
+   diagonal gradient sliding back and forth (--cc3-p). pulse: a turning conic whose depth breathes in and out (--cc3-d). */
+#s-tabs .sbsite .hub .cc3-e-soft .cc3-soft { inset: -24px; filter: blur(20px); }
+#s-tabs .sbsite .hub .cc3-e-soft .cc3-band { padding: 60px; border-radius: 0 0 72px 72px; background: conic-gradient(from var(--cc3-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); }
+#s-tabs .sbsite .hub .cc3-e-deep .cc3-soft { inset: -30px; filter: blur(34px); }
+#s-tabs .sbsite .hub .cc3-e-deep .cc3-band { padding: 90px; border-radius: 0 0 102px 102px; background: conic-gradient(from calc(var(--cc3-a, 0deg) * -0.5), #7c3aed, #db2777, #6d28d9, #f472b6, #7c3aed); }
+#s-tabs .sbsite .hub .cc3-e-flow .cc3-soft { inset: -20px; filter: blur(22px); }
+#s-tabs .sbsite .hub .cc3-e-flow .cc3-band { padding: 64px; border-radius: 0 0 76px 76px; background: linear-gradient(120deg, #ec4899, #8b5cf6, #f472b6, #7c3aed, #ec4899) var(--cc3-p, 50%) 50% / 300% 300%; }
+#s-tabs .sbsite .hub .cc3-e-pulse .cc3-soft { inset: -20px; filter: blur(18px); }
+#s-tabs .sbsite .hub .cc3-e-pulse .cc3-band { padding: calc(20px + var(--cc3-d, 34px)); border-radius: 0 0 60px 60px; background: conic-gradient(from var(--cc3-a, 0deg), #ec4899, #a855f7, #f472b6, #7c3aed, #ec4899); }
 #s-tabs .sbsite .hub .cc3-pill { position: absolute; left: 50%; bottom: 16px; z-index: 5; display: flex; align-items: center; gap: 8px; height: 30px; box-sizing: border-box; padding: 0 14px 0 6px; border-radius: 15px; white-space: nowrap; opacity: 0; transform: translate(-50%, 8px); background: rgba(22,22,26,.9); box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 8px 24px rgba(0,0,0,.35); font: 500 11.5px/1 var(--ui); color: #f2f2f5; }
 #s-tabs .sbsite .hub .cc3-pill .qc-tile { width: 20px; height: 20px; border-radius: 10px; }

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Superbot: thumbnail to YouTube A/B test</title>
+<link rel="stylesheet" href="assets/sb-mark-live.css">
+<link rel="stylesheet" href="style.67114eb1.css">
+<link rel="stylesheet" href="studio.67114eb1.css">
+</head>
+<body class="idle">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" /></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2.1 6.9L21 12l-6.9 2.1L12 21l-2.1-6.9L3 12l6.9-2.1z" /></symbol>
+  <symbol id="i-agent" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" /></symbol>
+  <symbol id="i-screen" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="12" rx="2" /><path d="M9 20h6M12 16.5V20" /></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 10v4" /></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21" /></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" /></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v12M6.5 10.5L12 16l5.5-5.5M5 20h14" /></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5" /></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 18.5A1.6 1.6 0 006 21h12a1.6 1.6 0 001.5-2.5L14 9V3M7.5 14h9" /></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" /><circle cx="9" cy="10" r="1.8" /><path d="M21 16l-5-5-9 9" /></symbol>
+</svg>
+
+<div id="stage">
+  <!-- ============ CHAT (the superbot app) ============ -->
+  <section id="s-chat">
+    <div class="hero" id="hero">
+      <div class="hero-mark" id="heroMark"></div>
+      <h1>Good evening. What should we make?</h1>
+    </div>
+
+    <div class="feed" id="feed"><div class="feed-in" id="feedIn">
+
+      <div class="it" data-in="5.2"><div class="in"><div class="row-r"><div class="bub">Make a thumbnail from my latest video</div></div></div></div>
+
+      <div class="it" data-in="5.6"><div class="in">
+        <div class="chip" id="cSw"><span class="tile"><i class="ic ic-oa"></i></span>
+          <span class="lbls"><span class="lbl">Switching to ChatGPT</span></span>
+          <span class="st"><i class="spin"></i><svg class="ok"><use href="#i-check"/></svg></span></div>
+      </div></div>
+
+      <div class="it" data-in="7.4"><div class="in">
+        <div class="chip plan"><span class="tile"><i class="ic ic-oa"></i></span>
+          <span class="lbl-plain">Using your ChatGPT Plus subscription</span>
+          <span class="cnt green">No API charges</span></div>
+      </div></div>
+
+      <div class="it" data-in="10.4"><div class="in">
+        <div class="chip" id="cYt"><span class="tile"><span class="ytw"><i class="ic ic-yt"></i></span></span>
+          <span class="lbls"><span class="lbl">Connecting YouTube</span><span class="lbl">Connected to YouTube</span></span>
+          <span class="cnt" id="ytName">The Signal</span>
+          <span class="st"><i class="spin"></i><svg class="ok"><use href="#i-check"/></svg></span></div>
+      </div></div>
+
+      <div class="it" data-in="13.4"><div class="in">
+        <div class="card latest">
+          <div class="vthumb"><span class="dur">24:13</span></div>
+          <div class="lcol">
+            <div class="vk"><span class="ytw sm"><i class="ic ic-yt"></i></span>Latest upload</div>
+            <div class="vt">Alex Karp: You Are Right To Be Afraid</div>
+            <div class="vm">The Signal · 184K views · 2 days ago</div>
+            <div class="ticks">
+              <span class="tick" data-at="18.0"><svg><use href="#i-check"/></svg>Title &amp; description</span>
+              <span class="tick" data-at="19.3"><svg><use href="#i-check"/></svg>Transcript, 24 min</span>
+              <span class="tick" data-at="20.6"><svg><use href="#i-check"/></svg>Current thumbnail, 3.1% CTR</span>
+            </div>
+          </div>
+        </div>
+      </div></div>
+
+      <div class="it" data-in="26.1"><div class="in">
+        <div class="chip" id="cGen"><span class="tile"><i class="ic ic-oa"></i></span>
+          <span class="lbls"><span class="lbl">Generating with GPT Image 2</span></span>
+          <span class="st"><i class="spin"></i><svg class="ok"><use href="#i-check"/></svg></span></div>
+      </div></div>
+
+      <div class="it" data-in="29.6"><div class="in">
+        <div class="who"><span class="tile"><i class="ic ic-oa"></i></span>ChatGPT <em>in superbot</em></div>
+        <p class="say" id="sayVar" data-a="36.7" data-b="37.6">Here are 3 thumbnail variants for your latest video.</p>
+        <div class="vgrid">
+          <div class="vc" id="vcA"><div class="thw"><div class="th vA"><i class="bgf"></i><i class="fg"></i></div>
+            <div class="sk"><span class="genl"><svg><use href="#i-img"/></svg><b>Creating image</b><span class="pct">0%</span></span></div>
+            <span class="ob"><svg><use href="#i-down"/></svg></span><i class="ring"></i><span class="sel"><svg><use href="#i-check"/></svg></span></div>
+            <div class="vcap"><span class="vl">A</span>Original grade</div></div>
+          <div class="vc" id="vcB"><div class="thw"><div class="th vB"><i class="bgf"></i><i class="fg"></i></div>
+            <div class="sk"><span class="genl"><svg><use href="#i-img"/></svg><b>Creating image</b><span class="pct">0%</span></span></div>
+            <span class="ob"><svg><use href="#i-down"/></svg></span><i class="ring"></i><span class="sel"><svg><use href="#i-check"/></svg></span></div>
+            <div class="vcap"><span class="vl">B</span>Warm punch</div></div>
+          <div class="vc" id="vcC"><div class="thw"><div class="th vC"><i class="bgf"></i><i class="fg"></i></div>
+            <div class="sk"><span class="genl"><svg><use href="#i-img"/></svg><b>Creating image</b><span class="pct">0%</span></span></div>
+            <span class="ob"><svg><use href="#i-down"/></svg></span><i class="ring"></i><span class="sel"><svg><use href="#i-check"/></svg></span></div>
+            <div class="vcap"><span class="vl">C</span>Red mono</div></div>
+        </div>
+      </div></div>
+
+      <div class="it" data-in="53.5"><div class="in"><div class="row-r"><div class="bub">
+        <div class="att"><div class="th vB mini"><i class="bgf"></i><i class="fg"></i></div><span>Variant B</span></div>
+        Use this one and upload it to YouTube A/B tests</div></div></div></div>
+
+      <div class="it" data-in="54.0"><div class="in">
+        <div class="chip" id="cUp"><span class="tile"><span class="ytw"><i class="ic ic-yt"></i></span></span>
+          <span class="lbls"><span class="lbl">Uploading thumbnail to YouTube</span><span class="lbl">Starting Test &amp; Compare</span><span class="lbl">Test &amp; Compare started</span></span>
+          <span class="st"><i class="spin"></i><svg class="ok"><use href="#i-check"/></svg></span></div>
+      </div></div>
+
+      <div class="it" data-in="58.6"><div class="in">
+        <div class="who"><span class="tile"><i class="ic ic-oa"></i></span>ChatGPT <em>in superbot</em></div>
+        <p class="say" id="sayDone" data-a="58.8" data-b="60.4">Done. Variant B is uploaded and running in a YouTube Test &amp; Compare A/B test on "Alex Karp: You Are Right To Be Afraid", against your current thumbnail. YouTube picks the winner by watch time share.</p>
+        <div class="res" id="res">
+          <div class="res-h"><span class="ytw"><i class="ic ic-yt"></i></span>Test &amp; Compare<span class="cnt green">Running</span></div>
+          <div class="res-ab">
+            <div class="mini-c"><div class="vthumb sm"></div><span><b>A</b> Current</span></div>
+            <div class="mini-c"><div class="th vB small"><i class="bgf"></i><i class="fg"></i></div><span><b>B</b> New, from superbot</span></div>
+          </div>
+          <span class="open" id="openBtn">Open in YouTube Studio<svg><use href="#i-ext"/></svg></span>
+        </div>
+      </div></div>
+
+    </div></div>
+
+    <div class="composer" id="composer">
+      <div class="c-text"><span class="c-ph" id="cPh">How can superbot help you today?</span><span class="att-in" id="attIn"><span class="th vB tiny"><i class="bgf"></i><i class="fg"></i></span>Variant B</span><span id="typed"></span><i class="caret" id="caret"></i></div>
+      <div class="c-row">
+        <span class="c-plus"><svg><use href="#i-plus"/></svg></span>
+        <span class="c-pills"><span class="c-pill ico"><svg><use href="#i-spark"/></svg></span><span class="c-pill">Off<svg class="chev"><use href="#i-chev"/></svg></span><span class="c-pill"><svg><use href="#i-agent"/></svg>Agent<svg class="chev"><use href="#i-chev"/></svg></span></span>
+        <span class="c-sp"></span>
+        <span class="c-model" id="cModel">
+          <span class="mstack">
+            <span class="m"><i class="sbcat"></i>Auto</span>
+            <span class="m"><i class="ic ic-oa"></i>ChatGPT</span>
+            <span class="m"><i class="ic ic-oa"></i>GPT Image 2</span>
+          </span><svg class="chev"><use href="#i-chev"/></svg></span>
+        <span class="c-ib on"><svg><use href="#i-screen"/></svg></span>
+        <span class="c-ib"><svg><use href="#i-wave"/></svg></span>
+        <span class="c-ib"><svg><use href="#i-mic"/></svg></span>
+        <span class="c-send" id="send"><svg><use href="#i-up"/></svg></span>
+      </div>
+    </div>
+
+    <div class="subs" id="subs">
+      <span class="subs-k">Your subscriptions</span>
+      <span class="sub"><span class="tile s"><i class="ic ic-oa"></i></span>ChatGPT Plus<i class="dot"></i></span>
+      <span class="sub"><span class="tile s"><i class="ic ic-cl"></i></span>Claude Pro<i class="dot"></i></span>
+      <span class="sub"><span class="tile s"><i class="ic ic-ge"></i></span>Gemini<i class="dot"></i></span>
+      <span class="sub"><span class="tile s"><span class="ytw"><i class="ic ic-yt"></i></span></span>YouTube<i class="dot"></i></span>
+    </div>
+  </section>
+
+  <!-- ============ YOUTUBE STUDIO (channel content) ============ -->
+  <section id="s-studio">
+    <header class="yt-top">
+      <span class="yt-burger"><i></i><i></i><i></i></span>
+      <span class="yt-logo"><span class="ytw lg"><i class="ic ic-yt"></i></span>Studio</span>
+      <span class="yt-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Search across your channel</span>
+      <span class="yt-create"><span class="ytw sm"><i class="ic ic-yt"></i></span>Create</span>
+      <span class="yt-av sm">TS</span>
+    </header>
+    <div class="yt-body">
+      <aside class="yt-side">
+        <div class="yt-ch"><span class="yt-av lg">TS</span><b>Your channel</b><span>The Signal</span></div>
+        <nav class="yt-nav">
+          <a><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg>Dashboard</a>
+          <a class="on"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M10 9.5v5l4.5-2.5z"/></svg>Content</a>
+          <a><svg viewBox="0 0 24 24"><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg>Analytics</a>
+          <a><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg>Comments</a>
+          <a><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M7 14h4M13 14h4M7 10.5h10"/></svg>Subtitles</a>
+          <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.5a3.5 3.5 0 100 5"/></svg>Copyright</a>
+          <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M14.5 9h-3.5a1.75 1.75 0 000 3.5h2a1.75 1.75 0 010 3.5H9.5M12 7.5v9"/></svg>Earn</a>
+          <a><svg viewBox="0 0 24 24"><path d="M4 20l10-10M14 4l1 2.5L17.5 7.5 15 8.5 14 11l-1-2.5L10.5 7.5 13 6.5z"/></svg>Customization</a>
+        </nav>
+      </aside>
+      <main class="yt-main">
+        <h2 class="yt-h">Channel content</h2>
+        <div class="yt-tabs"><span>Inspiration</span><span class="on">Videos</span><span>Shorts</span><span>Live</span><span>Posts</span><span>Playlists</span><span>Podcasts</span></div>
+        <div class="yt-filter"><svg viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filter</div>
+        <div class="yt-tr yt-th-row"><i class="cb"></i><span>Video</span><span>Visibility</span><span>Restrictions</span><span>Date</span><span>Views</span><span>Comments</span><span>Likes (vs. dislikes)</span></div>
+        <div class="yt-tr r1" id="row1"><i class="cb"></i>
+          <div class="yt-vid"><div class="yt-thumb" id="row1Thumb"><div class="th vB fill"><i class="bgf"></i><i class="fg"></i></div><span class="dur">24:13</span></div>
+            <div><div class="yt-ti">Alex Karp: You Are Right To Be Afraid</div><div class="yt-de">Palantir's CEO on AI, defense and why the West has to build.</div>
+              <span class="tc" id="tcBadge"><svg><use href="#i-flask"/></svg>Test &amp; Compare · Running · 2 thumbnails</span></div></div>
+          <span class="vis"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>Public</span>
+          <span class="mu">None</span><span>Oct 14, 2026<em>Published</em></span><span>184,302</span><span>2,141</span><span>97.8%<i class="lk"><i style="width:97.8%"></i></i></span>
+          <i class="hl" id="row1Hl"></i></div>
+        <div class="yt-tr"><i class="cb"></i>
+          <div class="yt-vid"><div class="yt-thumb ph p1"><i></i><i></i><span class="dur">18:40</span></div>
+            <div><div class="yt-ti">Why Every Startup Is Becoming an AI Company</div><div class="yt-de">We looked at 400 YC companies. Here's what changed.</div></div></div>
+          <span class="vis"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>Public</span>
+          <span class="mu">None</span><span>Oct 7, 2026<em>Published</em></span><span>412,977</span><span>5,830</span><span>96.1%<i class="lk"><i style="width:96.1%"></i></i></span></div>
+        <div class="yt-tr"><i class="cb"></i>
+          <div class="yt-vid"><div class="yt-thumb ph p2"><i></i><i></i><span class="dur">31:05</span></div>
+            <div><div class="yt-ti">The Real Cost of Running AI at Scale</div><div class="yt-de">GPUs, power and the bill nobody talks about.</div></div></div>
+          <span class="vis"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>Public</span>
+          <span class="mu">None</span><span>Sep 30, 2026<em>Published</em></span><span>96,410</span><span>1,207</span><span>95.4%<i class="lk"><i style="width:95.4%"></i></i></span></div>
+        <div class="yt-tr"><i class="cb"></i>
+          <div class="yt-vid"><div class="yt-thumb ph p3"><i></i><i></i><span class="dur">12:22</span></div>
+            <div><div class="yt-ti">I Tried 5 AI Agents for a Week</div><div class="yt-de">One of them actually saved me hours.</div></div></div>
+          <span class="vis"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>Public</span>
+          <span class="mu">None</span><span>Sep 22, 2026<em>Published</em></span><span>238,654</span><span>3,412</span><span>97.2%<i class="lk"><i style="width:97.2%"></i></i></span></div>
+        <div class="yt-snack" id="snack"><svg><use href="#i-check"/></svg>Thumbnail test started on "Alex Karp: You Are Right To Be Afraid"</div>
+      </main>
+    </div>
+  </section>
+
+  <!-- ============ END CARD ============ -->
+  <section id="s-end">
+    <div class="lock">
+      <div class="face" id="endMark"></div>
+      <div class="words"><h1>superbot.gg</h1><p>Link in the description below</p></div>
+    </div>
+  </section>
+
+  <div id="cursor"><svg viewBox="0 0 28 28"><path d="M6 3.5v18.4l4.6-4.4 2.9 6.8 3.2-1.4-2.9-6.6h6.4z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+</div>
+
+<div class="hint" id="hint">Click to start · R restart · C cues · [ ] speed</div>
+<div class="cue" id="cue"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/sb-mark-live.js"></script>
+<script src="cues.67114eb1.js"></script>
+<script src="ad.67114eb1.js"></script>
+</body>
+</html>

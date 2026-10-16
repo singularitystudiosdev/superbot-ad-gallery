@@ -461,6 +461,26 @@
     "desc": "The muse meme spot, Skydio slide cut. \"I need a slide for Skydio drones as our club will have a guest speaker from skydio talking about what the company does and focuses on along with emphaises on what there fort collins office does\" is typed; superbot shows Reading skydio.com, then Switching to ChatGPT, and ChatGPT answers with one slide to download as a .pptx: Guest Speaker: Skydio, what the company builds (X10 and Dock, F10 Lightrunner, R10, Skydio Command) and its focus areas, with a Fort Collins, CO panel carrying Skydio’s own photo of an X10 in its Dock and the flight test site at CSU’s Christman Field. Every line is a sourced fact, nothing invented. 10.7 s run; the top-right selector switches variants live."
   },
   {
+    "id": "thumbnail-ab-superbot-67114eb1",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: make a thumbnail from my latest video, then A/B test it on YouTube (voiceover demo)",
+    "src": "animations/thumbnail-ab-superbot-67114eb1/?autoplay=1",
+    "thumb": "assets/shots/thumbnail-ab-superbot-67114eb1.png",
+    "desc": "A click-to-start screen demo a YouTuber talks over, each beat timed to a voiceline. \"Make a thumbnail from my latest video\" is typed; superbot switches to ChatGPT on the user’s ChatGPT Plus plan (No API charges), connects YouTube and pulls the latest upload with its title, transcript and current thumbnail, then generates with GPT Image 2: three variants resolve out of skeletons and the pointer picks B. \"Use this one and upload it to YouTube A/B tests\" uploads it and starts a Test & Compare; the cut moves to YouTube Studio’s Channel content page where the video row carries the new thumbnail and a Test & Compare badge, then the superbot.gg end card. One click starts it and it runs straight through (prompts type fast, no holds), 55 s to the end card; open without ?autoplay=1 to start it by clicking, C shows the voicelines as a prompter.",
+    "download": "animations/thumbnail-ab-superbot-67114eb1/final.mp4",
+    "downloadLabel": "16:9 · 1920x1080"
+  },
+  {
+    "id": "yt-thumbnail-superbot-aecdec41",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: thumbnail to YouTube A/B test (click to play)",
+    "src": "animations/yt-thumbnail-superbot-aecdec41/",
+    "thumb": "assets/shots/yt-thumbnail-superbot-aecdec41.png",
+    "desc": "Click-to-play 16:9 walkthrough timed to a YouTuber voiceover: superbot switches to the ChatGPT subscription, finds the latest upload through YouTube, makes one GPT Image 2 thumbnail and uploads it to a Test & compare A/B test. Holds on the result; the next click plays the end card."
+  },
+  {
     "id": "gemini-muse-16x9-1",
     "type": "animation",
     "group": "Ad spots",

@@ -467,7 +467,7 @@
     "title": "superbot: Take computer control and open a tab (V3, Soft Vignette)",
     "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3-soft",
     "thumb": "assets/shots/gemini-muse-meme-computer-control-v3-soft-superbot-d7dc409d.png",
-    "desc": "Computer Control V3 with a soft pink and purple vignette: when superbot takes control, a turning pink and purple gradient melts about 70px in from every edge of the screen, then the cursor presses + and a New Tab eases in. The top-right selector switches variants live."
+    "desc": "Computer Control V3 with a soft pink and purple vignette: when superbot takes control, a turning pink and purple gradient melts about 20px in from every edge of the screen, then the cursor presses + and a New Tab eases in. The top-right selector switches variants live."
   },
   {
     "id": "gemini-muse-meme-computer-control-v3-deep-superbot-d7dc409d",
@@ -476,7 +476,7 @@
     "title": "superbot: Take computer control and open a tab (V3, Deep Vignette)",
     "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=computer-control-v3-deep",
     "thumb": "assets/shots/gemini-muse-meme-computer-control-v3-deep-superbot-d7dc409d.png",
-    "desc": "Computer Control V3 with a deep vignette: a wide rectangular vignette of violets and pinks, about 110px deep, turning slowly around the screen as superbot takes control, then the cursor presses + and a New Tab eases in. The top-right selector switches variants live."
+    "desc": "Computer Control V3 with a deep vignette: a thin rectangular vignette of violets and pinks, about 33px deep, turning slowly around the screen as superbot takes control, then the cursor presses + and a New Tab eases in. The top-right selector switches variants live."
   },
   {
     "id": "gemini-muse-meme-computer-control-v3-flow-superbot-d7dc409d",

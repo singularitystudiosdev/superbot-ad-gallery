@@ -17,7 +17,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 
 const SAY = 'Done. I took control of your computer and opened a new tab.';
-const CSS = new URL('../computer.ba3976b6.css?v=5', import.meta.url).href;
+const CSS = new URL('../computer.ba3976b6.css?v=6', import.meta.url).href;
 const TAB_W = 150; // a tab's width (computer.ba3976b6.css .cc3-tab)
 const PLUS_GAP = 4; // the new-tab button's left margin (.cc3-plus)
 const PLUS = 24; // the new-tab button's size (.cc3-plus)
@@ -123,7 +123,7 @@ const beat = {
         edge.style.opacity = g.toFixed(3);
         edge.style.setProperty('--cc3-a', `${((t * 60) % 360).toFixed(1)}deg`);
         if (look === 'flow') edge.style.setProperty('--cc3-p', `${(50 + 50 * Math.sin(t * 0.9)).toFixed(2)}%`);
-        if (look === 'pulse') edge.style.setProperty('--cc3-d', `${(34 + 24 * Math.sin(t * 2.2)).toFixed(2)}px`);
+        if (look === 'pulse') edge.style.setProperty('--cc3-d', `${(10 + 7 * Math.sin(t * 2.2)).toFixed(2)}px`);
         soft.style.opacity = ((look ? 0.9 : 0.78) + 0.08 * Math.sin(t * 2.6)).toFixed(3);
         const pi = outCubic(seg(t, T.take + 0.12, T.take + 0.57));
         pill.style.opacity = pi.toFixed(3);

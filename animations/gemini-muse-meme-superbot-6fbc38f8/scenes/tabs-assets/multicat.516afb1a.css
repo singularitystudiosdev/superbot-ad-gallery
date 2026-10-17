@@ -18,7 +18,7 @@
 #s-tabs .sbsite .hub .qc-genl.mc-genl-bare { padding-left: 11px; }
 /* its feed glides to this zero-height anchor under each answer's card, not the card's bottom, so the newest card clears
    the feed's clip (chat.9b47fc30.js renderScroll) with its edge and shadow; relative, so it takes no room in the thread */
-#s-tabs .sbsite .hub .mc-anchor { display: block; height: 0; position: relative; top: 22px; pointer-events: none; }
+#s-tabs .sbsite .hub .mc-anchor { display: block; height: 0; position: relative; top: 6px; pointer-events: none; }
 /* and its song card has no cover, so the title and the strip get the room the cover's frame gave them */
 #s-tabs .sbsite .hub .mc-sg-bare .mc-sg-card { padding: 14px 16px; }
 #s-tabs .sbsite .hub .mc-sg-bare .mc-sg-side { gap: 8px; }

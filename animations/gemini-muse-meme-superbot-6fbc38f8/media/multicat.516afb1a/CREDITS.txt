@@ -22,7 +22,7 @@ tiny-chaos.mp3
 
 MUSIC PILL (2026-10-17, chat 1345e257)
   The Music pill (top right, ../../music.47e5d94a.js) picks the soundtrack: v5 below (the default), v6 to v17 (offered on
-  the multicat variant only) or None (the song alone). Each was made in its own Cosmos chat from the silent cut (commit
+  the multicat variant only; v16 also on multicat-credits, where it is the default) or None (the song alone). Each was made in its own Cosmos chat from the silent cut (commit
   e1c8ebd), given only the ask quoted with it (v6-v17's asks name the sound wanted: sharp, clean, cool, tight, not
   cartoony), and merged here gated on the pick. Its source copy stays in quick-chats/multicat-music-variants.1345e257/v5; the earlier
   ElevenLabs bed and v1-v4 were taken off the pill on request (git history, commit 5284468, keeps them).

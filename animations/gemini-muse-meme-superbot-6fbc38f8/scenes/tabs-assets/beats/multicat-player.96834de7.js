@@ -5,11 +5,15 @@
 // frozen it stops; once the run has ended it lets the tail ring. Output latency is added in, so what is heard is the
 // frame being drawn. Nothing plays until the sound gate (sound.96834de7.js) has an AudioContext running.
 import { renderScore } from './multicat-score.96834de7.js';
-import { sound } from '../../../sound.96834de7.js';
+import { sound } from '../../../sound.96834de7.js?v=2';
+import { variant } from '../../../variant.9e82faf1.js?v=3';
+
+// one player per chain (multicat, multicat-credits): the Music pill reads the shown variant's, QA any that sounds
+const players = {};
 
 const DRIFT = 0.06;
 
-export function makePlayer(cues) {
+export function makePlayer(cues, id = 'multicat') {
   let job = null, buffer = null, failed = false, src = null, fade = null, startedAt = 0, from = 0, rate = 1;
 
   function prepare() {
@@ -42,7 +46,11 @@ export function makePlayer(cues) {
   }
 
   // the beat calls sync(t) only while v16 is the pick (multicat.516afb1a.js), stop() otherwise
-  (window.__PICKS ||= {}).v16 = { ready: () => !!buffer || failed, sounding: () => !!src && !!sound.ctx && sound.ctx.state === 'running' && !sound.muted };
+  players[id] = { ready: () => !!buffer || failed, sounding: () => !!src && !!sound.ctx && sound.ctx.state === 'running' && !sound.muted };
+  (window.__PICKS ||= {}).v16 = {
+    ready: () => { const p = players[variant()]; return !p || p.ready(); },
+    sounding: () => Object.values(players).some((p) => p.sounding()),
+  };
   return {
     stop,
     sync(t) {

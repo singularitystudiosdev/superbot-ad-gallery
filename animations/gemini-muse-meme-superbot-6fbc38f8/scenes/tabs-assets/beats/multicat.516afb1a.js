@@ -51,8 +51,8 @@ import { makeScore as makeScoreV12 } from './multicat-score.436d3bf2.js';
 import { mountSound as mountV13 } from '../../../sound.f1659cd2.js';
 // v14 runs on its own (music.ff209337.js, index.html); v15's player too (score.83a92e2b.js), on the clocks handed over here
 import { setPlan as setPlanV15 } from '../../../score-cues.83a92e2b.js?v=1';
-import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js';
-import { songLevel as songLevelV16 } from '../../../sound.96834de7.js';
+import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=2';
+import { songLevel as songLevelV16 } from '../../../sound.96834de7.js?v=2';
 import { makeSound as makeSoundV17 } from './multicat-sound.b9427543.js';
 
 const CSS = new URL('../multicat.516afb1a.css?v=8', import.meta.url).href;
@@ -219,7 +219,7 @@ const make = (bare) => ({
     const id = bare ? BARE_ID : ID;
     // v5's soundtrack: its cue sheet is this plan, plus the first ask and its chip as the engine times them (none, bare)
     mountMix({ id, cues: { T, ask0: { text: k.askBy[id], s: k.s, typeEnd: k.typeEnd, send: k.send }, chips0: k.chips }, song: SONG });
-    // v6-v17: mounted on the base chain only, each plays only while it is the pick. songRules[pick] says whether that pick
+    // v6-v17: mounted on the base chain only (v16 on both, below), each plays only while it is the pick. songRules[pick] says whether that pick
     // plays the song itself (owned: the element below stays silent) or has muted it (muted); packRenders follow the clock
     const songRules = {}, packRenders = [];
     // picked through the Music pill (a gesture), a soundtrack whose own unlock missed that gesture may start now
@@ -266,21 +266,6 @@ const make = (bare) => ({
       // its whole render is in. The chain's end is the engine's (chat.9b47fc30.js chatEnd: the plan's end and 0.3 s)
       setPlanV15({ k, send: k.send, T, chatEnd: T.end + 0.3, TYPE_CPS, END_DELAY, FF_IN, SONG, SONG_FOR, SONG_FADE });
       songRules.v15 = { owned: () => !!(window.__SCORE_V15 && window.__SCORE_V15.ownsSong) };
-      // v16: a tight, punchy, premium score rendered from this cue sheet (the engine's first ask, k, and this chain, T); the
-      // song plays on its element at 0.9 (its -14.1 LUFS to the score's -15) and follows the sound pill's mute
-      const v16 = makePlayerV16({
-        typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, end: st.typeEnd }))],
-        sends: [k.send, ...T.steps.map((st) => st.send)],
-        camera: k.send, // the first send drops the composer and pulls the camera out (tabs.9b47fc30.js)
-        resolved: [...k.chips.map((c) => c.done), ...T.steps.flatMap((st) => st.chips.map((c) => c.done))],
-        cards: [T.card, ...T.steps.map((st) => st.card)],
-        gens: [[T.gen0, T.done], ...T.steps.filter((st) => st.gen).map((st) => [st.gen0, st.done])],
-        image: T.done, model: M.done, order: O.done, play: S.play,
-        cover: S.cut, pop: S.cut + END_DELAY, word: S.cut + END_DELAY + 0.3, end: T.end,
-      });
-      songRules.v16 = { trim: (el) => { el.volume *= 0.9 * songLevelV16(); } };
-      packRenders.push((t) => (music() === 'v16' ? v16.sync(t) : v16.stop()));
-      addEventListener('variantchange', () => v16.stop());
       // v17: sharp synthesized effects on every event and a B major bed that clears out on the song's first beat, then the
       // end card's chord; the song plays on its element at 0.75 (about 6 LU over the groove) and follows the pill's mute
       const v17 = makeSoundV17({
@@ -291,6 +276,22 @@ const make = (bare) => ({
       songRules.v17 = { muted: () => v17.muted, trim: (el) => { el.volume *= 0.75; } };
       packRenders.push((t) => { if (music() === 'v17') v17.sync(t); });
     }
+    // v16, on both chains (the bare multicat-credits cut plays it by default, music.47e5d94a.js DEFAULTS): a tight, punchy,
+    // premium score rendered from this chain's cue sheet (the engine's first ask, k, and this plan, T; bare has no chips);
+    // the song plays on its element at 0.9 (its -14.1 LUFS to the score's -15) and follows the sound pill's mute
+    const v16 = makePlayerV16({
+      typing: [{ text: k.askBy[id], s: k.s, end: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, end: st.typeEnd }))],
+      sends: [k.send, ...T.steps.map((st) => st.send)],
+      camera: k.send, // the first send drops the composer and pulls the camera out (tabs.9b47fc30.js)
+      resolved: [...k.chips.map((c) => c.done), ...T.steps.flatMap((st) => st.chips.map((c) => c.done))],
+      cards: [T.card, ...T.steps.map((st) => st.card)],
+      gens: [[T.gen0, T.done], ...T.steps.filter((st) => st.gen).map((st) => [st.gen0, st.done])],
+      image: T.done, model: M.done, order: O.done, play: S.play,
+      cover: S.cut, pop: S.cut + END_DELAY, word: S.cut + END_DELAY + 0.3, end: T.end,
+    }, id);
+    songRules.v16 = { trim: (el) => { el.volume *= 0.9 * songLevelV16(); } };
+    packRenders.push((t) => (music() === 'v16' ? v16.sync(t) : v16.stop()));
+    addEventListener('variantchange', () => v16.stop());
 
     // 1. GPT Image 2, in the engine's own reply
     const say1 = sayEl(x, SAY1);

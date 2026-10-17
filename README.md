@@ -37,10 +37,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=multicat`): one chat asks for a realistic
   cat photo (GPT Image 2), an animated 3D model of it (Meshy, walk rigged by superbot), cat food from
   DoorDash (a Petco order card) and a song about cats (ElevenLabs, plays with sound), each answer a
-  real generation; ends on the superbot.gg end card with the mascot (29s, with sound: a music bed in
-  the song's key and tempo runs under the chat, drops out on the song's first downbeat and comes back
-  for a closing chord on the end card; a Music pill top right swaps it for one of five other soundtracks
-  made for the spot in separate chats, or none: `?music=v1` to `v5`, `none`).
+  real generation; ends on the superbot.gg end card with the mascot (29s, with sound: an original
+  broadcast-mixed score and effects with the song mixed in; a Music pill top right picks it or none,
+  `?music=none`).
 - **a dog, four tools**: the same multi-tool cut for a dog
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=multidog`): a beagle photo (GPT Image 2),
   that beagle as a walking 3D model (Meshy, walk rigged by superbot), a PetSmart dog food order on

@@ -11,11 +11,9 @@
 //      sung line lighting word by word on its forced-alignment timings (multicat-data.516afb1a.js), and the audio itself
 //      kept in step with the spot's clock while it runs; it plays through its second sung line, then fades out as
 //   5. the house superbot.gg end card (the 16:9 cuts' ending: the wordmark, then the mascot) covers the chat.
-// Under it all runs a music bed in the song's key and tempo (bed.47e5d94a.js, BED): it plays from the top, muffles as
-// the song's card lands, makes way once the song is actually sounding (its bar line falls on the song's first downbeat),
-// and comes back for its final chord on the song's beat as the end card's mascot pops. The Music pill (music.47e5d94a.js)
-// swaps that bed for one of five other soundtracks made for the spot, or for none: each takes its cues from this plan
-// and plays only while it is the pick (soundV2, scoreV3, trackV4 and mountMix below; v1 runs on its own).
+// Under it all runs the soundtrack the Music pill picks (music.47e5d94a.js): 5 · Broadcast mix by default, an original
+// score and effects with the song mixed in, rendered from this plan (multicat-mix.08050705.js, mountMix below); or none,
+// the song alone on its own element.
 // Every generation (the photo, the model, the song) waits under a skeleton whose bottom left pill counts the tool's real
 // elapsed time, while an x50 badge sits in the frame's bottom right: the wait plays fast-forwarded (X, GEN).
 // The follow-up messages are built here and moved in after the engine's reply on the first render (they ride in
@@ -30,16 +28,9 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 // the Share control every output card carries (share.29a362ea.js)
 import { shareBtn, shareDisc, SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
-import { makeBed } from './bed.47e5d94a.js?v=2';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
 import { music } from '../../../music.47e5d94a.js';
-// the other soundtracks on the Music pill: v2's band and effects, v3's synthesized score and its sound pill, v4's
-// hit-synced score with the song mixed in, v5's broadcast mix with the song mixed in (v1 is music.942e79ba.js)
-import { makeSound } from './multicat-sound.2e5dba12.js';
-import { makeScore } from './multicat-score.9b4885bb.js';
-import { soundOff } from '../../../sound.9b4885bb.js';
-import { renderScore } from './multicat-score.d9e95fc7.js';
-import { makeSoundtrack } from './soundtrack.d9e95fc7.js';
+// v5 on the Music pill: the broadcast mix, with the song mixed in
 import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js';
 
 const CSS = new URL('../multicat.516afb1a.css?v=5', import.meta.url).href;
@@ -49,7 +40,6 @@ const COVER = asset('img/multicat.516afb1a/cover.jpg'); // the song's cover: tha
 const ORDER = asset('img/multicat.516afb1a/order-placed.jpg');
 const MODEL = asset('models/cat-walk.516afb1a.glb');
 const SONG = asset('media/multicat.516afb1a/tiny-chaos.mp3');
-const BED = asset('media/multicat.516afb1a/bed.47e5d94a.m4a');
 const STORE = 'https://www.doordash.com/convenience/store/25109364/';
 const ORDER_ALT = 'DoorDash order placed: Confirming your order from Petco, one Purina Fancy Feast Seafood Classic Collection Broths Variety Pack (1.4 oz x 12 ct), $16.49 subtotal, $0.00 delivery fee';
 const TITLE = 'Tiny Chaos';
@@ -81,15 +71,6 @@ const SONG_FOR = 5.6;
 const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 2.5;
 const END_GAP = 44;    // the house card's gap between the wordmark and the 220px face, on a 1080-high stage
 const SONG_FADE = 0.9; // the audio's fade-out as the card covers the chat
-// the music bed (media/multicat.516afb1a/CREDITS.txt): ElevenLabs Music in the song's key and tempo, B major at 120 BPM,
-// in 2 s bars, each beat 0.02 s past its grid line as the song's are. Its body plays BED_BAR as the song starts, so the
-// song's first downbeat lands on the bed's bar line; its final chord, struck BED_HIT into the track, rings out to its end
-const BEAT = 0.5;
-const BED_BAR = 22, BED_HIT = 27.5;
-const BED_FREE = 1.5; // the body runs this long past BED_BAR, silent by then, then stops
-// as the song's card lands (S.done to S.play) the bed muffles to MUFFLE_HZ and dips to MUFFLE_GAIN; it is gone once the
-// song is actually sounding, or GRACE after the play press if the song never starts
-const OPEN_HZ = 20000, MUFFLE_HZ = 700, MUFFLE_GAIN = 0.6, GRACE = 0.6;
 // the card's pop: an outBack with the house card's softer overshoot (1.4)
 const popBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
 // the mascot face, verbatim from the house end card: the superbot cat's mask over its cyan and magenta offsets
@@ -130,24 +111,6 @@ function plan(r) {
 }
 // the chain's length from its first reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
-
-// v4's cue sheet (multicat-score.d9e95fc7.js): every moment its music hits, off the clock the frames are drawn by.
-// k is the route's first beat (the engine's ask, send, chips and reply), T the chain's plan
-function cueSheet(k, T) {
-  const [M, O, S] = T.steps;
-  // the composer shows round(len * progress) characters (chat.9b47fc30.js renderComposer): character i lands half a step in
-  const ask = (text, s, typeEnd) => ({ text, s, at: (i) => s + (i + 0.5) * (typeEnd - s) / text.length });
-  return {
-    asks: [ask(k.askBy.multicat, k.s, k.typeEnd), ...T.steps.map((st) => ask(st.ask, st.s, st.typeEnd))],
-    sends: [k.send, ...T.steps.map((st) => st.send)],
-    chips: [...k.chips, ...T.steps.flatMap((st) => st.chips)].map((c) => ({ sw: c.sw, done: c.done })),
-    gens: [T, M, S].map((g) => ({ card: g.card, gen0: g.gen0, done: g.done })),
-    order: { card: O.card, done: O.done },
-    // the song's first downbeat sits 0.205 s into tiny-chaos.mp3 (measured); 0.95 sits it at the score's level
-    song: { play: S.play, for: SONG_FOR, fade: SONG_FADE, gain: 0.95, downbeat: 0.205 },
-    end: { cover: S.cut, pop: S.cut + END_DELAY, word: S.cut + END_DELAY + 0.3 },
-  };
-}
 
 const DL_GLYPH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
 const dl = (href, name) => `<a class="qc-dl" href="${href}" download="${name}" aria-label="Download image" title="Download">${DL_GLYPH}</a>`;
@@ -227,8 +190,6 @@ export default {
     loadFrameSheet();
     const T = k.T;
     const [M, O, S] = T.steps;
-    // v2's soundtrack, on this chain's clock: it hands over to the song at the play press and stings the end card's mascot
-    const soundV2 = makeSound({ k, T, ends: { ask0: (k.askBy && k.askBy.multicat) || '', play: S.play, pop: S.cut + END_DELAY } });
     // v5's soundtrack: its cue sheet is this plan, plus the first ask and its chip as the engine times them
     mountMix({ cues: { T, ask0: { text: k.askBy.multicat, s: k.s, typeEnd: k.typeEnd, send: k.send }, chips0: k.chips }, song: SONG });
 
@@ -310,36 +271,18 @@ export default {
     // file loads on the route's first render, so the play press never waits on the network
     const audio = new Audio();
     audio.preload = 'auto';
-    let blocked = false, songLevel = -1;
+    let blocked = false;
     const unblock = () => { blocked = false; };
     addEventListener('variantchange', () => audio.pause());
     // the gallery lightbox's nudge (a click in its chrome): the song may try again
     addEventListener('message', (e) => { if (e.data && e.data.type === 'unmute') unblock(); });
-    // whether the song is actually sounding: the bed makes way on this, not on the clock alone, so a song slow to start
-    // leaves no gap
-    let songOn = false;
-    audio.addEventListener('playing', () => { songOn = true; });
-    for (const ev of ['pause', 'waiting', 'ended', 'error']) audio.addEventListener(ev, () => { songOn = false; });
     function syncAudio(t, running) {
-      const pick = music();
       // v5 carries the song in its own mix, so this element stays silent under it
-      if (pick === 'v5' && mixOwnsSong()) { if (!audio.paused) audio.pause(); return; }
-      // the picked soundtrack's own sound pill mutes the song too (v4 reaches here only as its own fallback)
-      const muted = (pick === 'v2' && soundV2.muted) || (pick === 'v3' && soundOff()) || (pick === 'v4' && trackV4.muted);
-      if (audio.muted !== muted) audio.muted = muted;
+      if (music() === 'v5' && mixOwnsSong()) { if (!audio.paused) audio.pause(); return; }
       const at = t - S.play;
       if (!running || at < 0 || at >= Math.min(DUR, SONG_FOR + SONG_FADE)) { if (!audio.paused) audio.pause(); return; }
-      // it fades out as the end card covers the chat, so the cut never lands mid-note: evenly in dB (to -40 dB), so its
-      // tail decays under the bed's closing chord instead of dropping away at the last moment. The fade rides the bed's
-      // context once it carries the song (iOS ignores an element's volume), else the element's volume
-      const level = Math.pow(0.01, seg(at, SONG_FOR, SONG_FOR + SONG_FADE));
-      const carry = bed.carry(audio);
-      if (!carry) audio.volume = level;
-      else if (level !== songLevel) {
-        if (audio.volume !== 1) audio.volume = 1;
-        carry.gain.setTargetAtTime(level, carry.context.currentTime, 0.015);
-      }
-      songLevel = level;
+      // it fades out as the end card covers the chat, evenly in dB (to -40 dB), so the cut never lands mid-note
+      audio.volume = Math.pow(0.01, seg(at, SONG_FOR, SONG_FOR + SONG_FADE));
       const rate = (window.__AD && window.__AD.speed) || 1;
       if (audio.playbackRate !== rate) audio.playbackRate = rate;
       if (Math.abs(audio.currentTime - at) > 0.3) audio.currentTime = at;
@@ -353,42 +296,6 @@ export default {
         });
       }
     }
-
-    // the bed: its body from the top, placed so its BED_BAR plays as the song starts; its final chord on the first song
-    // beat at or after the end card's mascot pops (S.cut + END_DELAY)
-    const bed = makeBed(BED, [
-      { from: 0, to: BED_BAR + BED_FREE, at: S.play - BED_BAR },
-      { from: BED_HIT, to: Infinity, at: S.play + Math.ceil((SONG_FOR + END_DELAY) / BEAT) * BEAT },
-    ]);
-    function syncBed(t, running) {
-      const muffle = seg(t, S.done, S.play);
-      const gone = songOn || t >= S.play + GRACE;
-      bed.sync(t, running, [
-        { gain: gone ? 0 : 1 - (1 - MUFFLE_GAIN) * muffle, cutoff: OPEN_HZ * Math.pow(MUFFLE_HZ / OPEN_HZ, muffle) },
-        { gain: 1 },
-      ]);
-    }
-
-    // v3's score, on this beat's own moments: the four asks typing and sending, the chips resolving, the three generations,
-    // each answer landing, the song's ask and play press, and the end card's mascot popping in
-    const scoreV3 = makeScore({
-      asks: [{ text: k.askBy.multicat, s: k.s, typeEnd: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, typeEnd: st.typeEnd }))],
-      sends: [k.send, ...T.steps.map((st) => st.send)],
-      chips: [...k.chips, ...T.steps.flatMap((st) => st.chips)].map((c) => c.done),
-      gens: [[T.gen0, T.done], [M.gen0, M.done], [S.gen0, S.done]],
-      photo: T.done, model: M.done, order: O.done, songAsk: S.send, play: S.play, logo: S.cut + END_DELAY,
-    });
-    window.__MC_SCORE = scoreV3; // QA: scoreV3.bounce() renders it offline
-    // v4's soundtrack: its score with the song mixed in, rendered once when it is first picked and played on the clock
-    // (soundtrack.d9e95fc7.js); the song's <audio> above is its fallback if the score cannot render
-    const trackV4 = makeSoundtrack({
-      id: 'multicat',
-      async render() {
-        const res = await fetch(SONG);
-        if (!res.ok) throw new Error(`multicat: the song failed to load (${res.status}): ${SONG}`);
-        return renderScore(cueSheet(k, T), window.__AD.CYCLE, await res.arrayBuffer());
-      },
-    });
 
     let placed = false, viewer = null, decoding = false, sec = -1, cut = -1, playing = null, line = -1, lit = -1;
     return {
@@ -409,8 +316,8 @@ export default {
           audio.src = SONG;
           placed = true;
         }
-        // QA: the bed and the song against the clock (__AD arrives after the timeline's first frame)
-        if (window.__AD && !window.__AD.sound) window.__AD.sound = () => ({ t: window.__AD.now, music: music(), bed: bed.state(), song: { on: songOn, paused: audio.paused, at: +audio.currentTime.toFixed(3), volume: +audio.volume.toFixed(3) } });
+        // QA: the pick and the song's element against the clock (__AD arrives after the timeline's first frame)
+        if (window.__AD && !window.__AD.sound) window.__AD.sound = () => ({ t: window.__AD.now, music: music(), song: { paused: audio.paused, at: +audio.currentTime.toFixed(3), volume: +audio.volume.toFixed(3) } });
         if (!decoding) {
           decoding = true;
           for (const pic of [im1, order.querySelector('img'), song.querySelector('img')]) {
@@ -475,14 +382,8 @@ export default {
         const n = on ? LINE_WORDS[li].filter((w) => el >= w[1]).length : 0;
         if (n !== lit) { [...lyric.children].forEach((w, i) => w.classList.toggle('on', i < n)); lit = n; }
         lyric.style.opacity = seg(t, S.play - 0.2, S.play + 0.2).toFixed(3);
-        // the soundtrack the Music pill picks: each of them follows the clock only while it is the pick
-        const running = clockRuns(t), pick = music();
-        trackV4.sync(t);
-        // v4 plays the song inside its own mix, unless that failed to render
-        if (pick !== 'v4' || trackV4.failed) syncAudio(t, running); else if (!audio.paused) audio.pause();
-        syncBed(t, running && pick === 'bed');
-        soundV2.render(t);
-        scoreV3.render(t);
+        // the song's element; the picked soundtrack follows the clock on its own (multicat-mix.08050705.js)
+        syncAudio(t, clockRuns(t));
 
         // the end card: the chat fades to black, then the house card's own run (endcard.1d16d488.html render(t))
         const cover = seg(t, S.cut, S.cut + END_IN);

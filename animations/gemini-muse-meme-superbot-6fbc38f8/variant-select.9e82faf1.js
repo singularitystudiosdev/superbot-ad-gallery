@@ -122,7 +122,7 @@ addEventListener('speedchange', syncSpeed);
 syncSpeed();
 
 // The music pill: a fourth pill, under the speed pill, shown only on the multicat variant, that picks its soundtrack
-// (music.47e5d94a.js: the ElevenLabs bed, one of five other soundtracks, or none). A pick holds the spot on its first frame
+// (music.47e5d94a.js: a soundtrack made for the spot, or none). A pick holds the spot on its first frame
 // until that soundtrack's audio is in (read off each one's QA hook; WAIT at most), then plays it from the top, so it is
 // heard from its first bar; the pick is a gesture, so the browser lets its sound start. Same native-select pattern as above.
 const musicBar = document.createElement('div');
@@ -134,10 +134,6 @@ document.body.appendChild(musicBar);
 const musicPick = musicBar.querySelector('select');
 const WAIT = 5000;
 const READY = {
-  bed: () => { const s = window.__AD && window.__AD.sound; return !!(s && s().bed.loaded); },
-  v1: () => !!(window.__MUSIC && window.__MUSIC.ready),
-  v2: () => !!window.__MC_SOUND,
-  v4: () => { const s = window.__SOUNDTRACK && window.__SOUNDTRACK.multicat; return !!(s && (s.buffer || s.failed)); },
   v5: () => !!(window.__MIX && (window.__MIX.state === 'ready' || window.__MIX.state === 'failed')),
 };
 let pickRun = 0;

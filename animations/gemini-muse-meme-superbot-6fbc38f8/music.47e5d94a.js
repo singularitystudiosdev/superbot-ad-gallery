@@ -1,20 +1,14 @@
 // The multicat cut's soundtrack pick, kept in ?music= like the variant and picked from the Music pill
-// (variant-select.9e82faf1.js). 'bed' (the default) is the ElevenLabs bed under the chat (beats/bed.47e5d94a.js); v1 to v5
-// are five soundtracks made for the spot in five separate chats from the same silent cut, each told only to add sound
-// (media/multicat.516afb1a/CREDITS.txt names each one's makers and parts); 'none' leaves the song alone. Each soundtrack
-// plays, shows its own sound pill and unlocks audio only while it is the pick; a pick fires 'musicchange', which each one
-// answers as it does 'variantchange'.
+// (variant-select.9e82faf1.js). v5 (the default) is the broadcast mix made for the spot in its own chat from the silent cut
+// (media/multicat.516afb1a/CREDITS.txt names its maker and parts); 'none' leaves the song alone. A soundtrack plays, shows
+// its own controls and unlocks audio only while it is the pick; a pick fires 'musicchange', which each one answers as it
+// does 'variantchange'.
 export const MUSICS = [
-  { id: 'bed', label: 'ElevenLabs bed' },
-  { id: 'v1', label: '1 · Synth bed' },
-  { id: 'v2', label: '2 · Band + effects' },
-  { id: 'v3', label: '3 · Ad campaign nods' },
-  { id: 'v4', label: '4 · Hit-synced score' },
   { id: 'v5', label: '5 · Broadcast mix' },
   { id: 'none', label: 'None (song only)' },
 ];
 const IDS = new Set(MUSICS.map((m) => m.id));
-const DEFAULT = 'bed';
+const DEFAULT = 'v5';
 
 let current = (() => {
   const v = new URLSearchParams(location.search).get('music');

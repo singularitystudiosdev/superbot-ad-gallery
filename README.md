@@ -33,6 +33,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   address "Raleigh, North Carolina, USA" types into its search pill, the camera flies from the
   whole metro down to the pin's residential block, and the map zooms through into the photograph
   of that front lawn, where a before/after wipe plants the garden (11.27s loop).
+- **a cat, four tools**: the muse meme spot's multi-tool cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=multicat`): one chat asks for a realistic
+  cat photo (GPT Image 2), an animated 3D model of it (Meshy, walk rigged by superbot), cat food from
+  DoorDash (a Petco order card) and a song about cats (ElevenLabs, plays with sound), each answer a
+  real generation (about 30s, with sound).
 
 Static image ads (`assets/ads/`):
 

@@ -3,10 +3,10 @@
 // a 60fps quantised clock. The one scene (scenes/tabs.js) plays once and holds its last frame: no loop. Space after
 // the end replays it from the start.
 import * as lib from './lib.9b47fc30.js';
-import tabs from './scenes/tabs.9b47fc30.js?v=13';
+import tabs from './scenes/tabs.9b47fc30.js?v=14';
 import { settled } from './loads.9e82faf1.js';
 // the same module instance the tabs scene uses (the full URL, query included, keys an instance)
-import { BEATS, typeShift } from './scenes/tabs-assets/chat.9b47fc30.js?v=20';
+import { BEATS, typeShift } from './scenes/tabs-assets/chat.9b47fc30.js?v=21';
 import { variant } from './variant.9e82faf1.js?v=2';
 
 const { seg } = lib;
@@ -119,4 +119,6 @@ window.__AD = {
   setSpeed,
   // the spot's clock now, held at the end once the run is over (read-only)
   get now() { return timeNow(); },
+  // whether the clock is running (false while paused, stepped, frozen or held on the last frame); a beat's audio follows it
+  get playing() { return !paused; },
 };

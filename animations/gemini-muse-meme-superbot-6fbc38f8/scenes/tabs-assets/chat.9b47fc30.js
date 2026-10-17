@@ -23,6 +23,7 @@ import traderjoes from './beats/traderjoes.4aaedb8c.js?v=5';
 import skydio from './beats/skydio.c9774aa7.js?v=2';
 import reminder from './beats/reminder.e55fb320.js?v=3';
 import computerV3 from './beats/computer.ba3976b6.js?v=8';
+import multicat, { TYPE_CPS as MULTICAT_CPS, LEN as MULTICAT_LEN } from './beats/multicat.516afb1a.js?v=1';
 import { variant } from '../../variant.9e82faf1.js?v=2';
 import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';
 
@@ -48,6 +49,9 @@ const APPS = {
   fishaudio: { name: 'Fish Audio', logo: brand('fishaudio-logo.svg'), sub: 'in superbot' },
   deepseek: { name: 'DeepSeek', logo: brand('deepseek-logo.svg'), sub: 'in superbot' },
   opus: { name: 'Opus 5.5', logo: brand('claude-logo.svg'), sub: 'in superbot' }, // the bakery variant's answering model
+  // the multicat variant's image model and song model (beats/multicat.516afb1a.js); Meshy and DoorDash are above
+  gptimage: { name: 'GPT Image 2', logo: brand('openai-logo.svg'), sub: 'in superbot' },
+  elevenlabs: { name: 'ElevenLabs', logo: brand('elevenlabs-logo.svg'), sub: 'in superbot' },
   // a connector, not a model: its chip leaves the composer's platform chip on the model (renderRouting)
   youtube: { name: 'YouTube', logo: img('climb.080da517/youtube.svg'), sub: '', tool: true },
   superbot: { name: 'Superbot', logo: null, sub: '' }, // drawn as its mark in CSS (SB_MARK, chat.css .sbm), not an image
@@ -56,20 +60,20 @@ const APPS = {
 const BASE = [
   {
     app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']], ask: 'make me a muse meme',
-    askBy: { photoedit: 'Remove the guy in the back and make it night', pitchdeck: 'Make a slide deck for my pitch', spending: 'Make a chart of my monthly spending', skydio: 'I need a slide for Skydio drones as our club will have a guest speaker from skydio talking about what the company does and focuses on along with emphaises on what there fort collins office does', traderjoes: "Make me a college quick and easy week Trader Joe's list for food. I want to optimized for performance I run 4 times a week around 25 miles and lift 3-4 days a week carbs are good but also make sure I get in lost of protein and fruits and veggies", 10: 'make me 10 muse memes','3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catsurf10: 'Make 10 videos of a cat surfing',catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', song: 'Make me a song about my dog', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space', reminder: 'Set a notification to go off in my phone in one hour', 'computer-control-v3-soft': 'Take computer control and open a tab', lawn: 'Add a garden in my front lawn visually, address is Raleigh, North Carolina, USA' },
+    askBy: { photoedit: 'Remove the guy in the back and make it night', pitchdeck: 'Make a slide deck for my pitch', spending: 'Make a chart of my monthly spending', skydio: 'I need a slide for Skydio drones as our club will have a guest speaker from skydio talking about what the company does and focuses on along with emphaises on what there fort collins office does', traderjoes: "Make me a college quick and easy week Trader Joe's list for food. I want to optimized for performance I run 4 times a week around 25 miles and lift 3-4 days a week carbs are good but also make sure I get in lost of protein and fruits and veggies", 10: 'make me 10 muse memes','3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catsurf10: 'Make 10 videos of a cat surfing',catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', song: 'Make me a song about my dog', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space', reminder: 'Set a notification to go off in my phone in one hour', 'computer-control-v3-soft': 'Take computer control and open a tab', lawn: 'Add a garden in my front lawn visually, address is Raleigh, North Carolina, USA', multicat: 'Make me a realistic image of a cat' },
     // the photo a variant attaches to its ask: shown on the user's bubble and as a chip in the composer while the ask types
     attachBy: { photoedit: img('photoedit.2a3b1461/photo.jpg') },
     // every generating variant spends superbot credits until the user links their own plan: a framed row under the
     // resolved chip, tiled with the route's app, shows what the generation charged and a connect button. Priced off
     // 4 a picture; the variants that only fetch, order, schedule or drive the computer (doordash, roadtrip, climbing,
     // reminder, computer-control-v3-soft) charge none
-    creditsBy: { 1: 4, 10: 40, photoedit: 4, logo: 4, garden: 4, '3d': 20, game: 12, catgif: 10, catsurf: 25, catsurf10: 250, song: 15, bedtime: 6, podcast: 20, pitchdeck: 12, spending: 3, traderjoes: 3, skydio: 6, bakery: 18, lawn: 4 },
+    creditsBy: { 1: 4, 10: 40, photoedit: 4, logo: 4, garden: 4, '3d': 20, game: 12, catgif: 10, catsurf: 25, catsurf10: 250, song: 15, bedtime: 6, podcast: 20, pitchdeck: 12, spending: 3, traderjoes: 3, skydio: 6, bakery: 18, lawn: 4, multicat: 4 },
     // one [app, label] per base chip, so the route keeps the base chips' clock; a route with more chips than the base
     // lands them one after another (CHIP_STRIDE each), so its reply and beat start that much later and its loop runs
     // that much longer (see leadOf). `extra` seconds stretch that variant's loop past the base route's end (the beat
     // is the last, so nothing after it moves). `typeCps` types that variant's ask at that many characters a second
     // instead of the base window (see typing), which moves its send, chips, reply and beat later by the difference
-    routeBy:{ photoedit: { app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']] }, lawn: { app: 'gemini', mod: gemini, chips: [['gmaps', 'Connecting to Maps'], ['gemini', 'Switching to Gemini']], typeCps: 80, extra: 3.63 }, '3d': { app: 'meshy', mod: gemini, chips: [['meshy', 'Switching to Meshy']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gslides', 'Connecting to Google Slides'], ['gemini', 'Switching to Gemini']] }, roadtrip: { app: 'maps', mod: gemini, chips: [['gmaps', 'Connecting to Maps']] }, spending: { app: 'gemini', mod: spending, chips: [['gsheets', 'Connecting to Google Sheets'], ['gemini', 'Switching to Gemini']] }, skydio: { app: 'chatgpt', mod: skydio, chips: [['skydio', 'Reading skydio.com'], ['chatgpt', 'Switching to ChatGPT']], typeCps: 80, extra: 1.6 }, traderjoes: { app: 'gemini', mod: traderjoes, chips: [['traderjoes', "Connecting to Trader Joe's"], ['gemini', 'Switching to Gemini']], typeCps: 100, extra: 1.2 }, doordash:{ app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'deepseek', mod: climb, chips: [['youtube', 'Connecting to Youtube'], ['deepseek', 'Switching to DeepSeek']] }, catsurf: { app: 'fal', mod: catsurf, chips: [['fal', 'Connecting Fal.ai']], extra: 7 }, catsurf10: { app: 'fal', mod: catsurf10, chips: [['fal', 'Connecting Fal.ai']], extra: 7 },catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, song: { app: 'fishaudio', mod: song, chips: [['fishaudio', 'Connected to Fish Audio']], extra: 5 }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'opus', mod: bakery, chips: [['opus', 'Switching to Opus 5.5']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] }, reminder: { app: 'superbot', mod: reminder, chips: [['superbot', 'Connecting to your phone']], extra: 1.5 }, 'computer-control-v3-soft': { app: 'superbot', mod: computerV3, chips: [['superbot', 'Taking control of your computer']], extra: 1.6 } },
+    routeBy:{ photoedit: { app: 'gemini', mod: gemini, chips: [['gemini', 'Switching to Gemini']] }, lawn: { app: 'gemini', mod: gemini, chips: [['gmaps', 'Connecting to Maps'], ['gemini', 'Switching to Gemini']], typeCps: 80, extra: 3.63 }, '3d': { app: 'meshy', mod: gemini, chips: [['meshy', 'Switching to Meshy']] }, pitchdeck: { app: 'gemini', mod: pitchdeck, chips: [['gslides', 'Connecting to Google Slides'], ['gemini', 'Switching to Gemini']] }, roadtrip: { app: 'maps', mod: gemini, chips: [['gmaps', 'Connecting to Maps']] }, spending: { app: 'gemini', mod: spending, chips: [['gsheets', 'Connecting to Google Sheets'], ['gemini', 'Switching to Gemini']] }, skydio: { app: 'chatgpt', mod: skydio, chips: [['skydio', 'Reading skydio.com'], ['chatgpt', 'Switching to ChatGPT']], typeCps: 80, extra: 1.6 }, traderjoes: { app: 'gemini', mod: traderjoes, chips: [['traderjoes', "Connecting to Trader Joe's"], ['gemini', 'Switching to Gemini']], typeCps: 100, extra: 1.2 }, doordash:{ app: 'doordash', mod: doordash, chips: [['doordash', 'Connecting to DoorDash']] }, climbing: { app: 'deepseek', mod: climb, chips: [['youtube', 'Connecting to Youtube'], ['deepseek', 'Switching to DeepSeek']] }, catsurf: { app: 'fal', mod: catsurf, chips: [['fal', 'Connecting Fal.ai']], extra: 7 }, catsurf10: { app: 'fal', mod: catsurf10, chips: [['fal', 'Connecting Fal.ai']], extra: 7 },catgif: { app: 'gemini', mod: catgif, chips: [['gemini', 'Switching to Gemini']] }, song: { app: 'fishaudio', mod: song, chips: [['fishaudio', 'Connected to Fish Audio']], extra: 5 }, bedtime: { app: 'gemini', mod: bedtime, chips: [['gemini', 'Switching to Gemini']] }, bakery: { app: 'opus', mod: bakery, chips: [['opus', 'Switching to Opus 5.5']] }, podcast: { app: 'gemini', mod: podcast, chips: [['gemini', 'Switching to Gemini']] }, reminder: { app: 'superbot', mod: reminder, chips: [['superbot', 'Connecting to your phone']], extra: 1.5 }, 'computer-control-v3-soft': { app: 'superbot', mod: computerV3, chips: [['superbot', 'Taking control of your computer']], extra: 1.6 }, multicat: { app: 'gptimage', mod: multicat, chips: [['gptimage', 'Switching to GPT Image 2']], typeCps: MULTICAT_CPS, extra: MULTICAT_LEN - gemini.times(0).end } },
   },
 ];
 
@@ -151,6 +155,8 @@ export function mountChat(hub) {
 
   const sbAvatar = `<span class="avatar sb"><img src="${sbSrc}" alt=""/></span>`;
   const whoOf = (app) => `${tile(app)}<b>${APPS[app].name}</b>${APPS[app].sub ? `<small>${APPS[app].sub}</small>` : ''}`;
+  // a chained beat (multicat) draws its own follow-up chips and replies with the engine's markup and motion
+  Object.assign(ctx, { who: whoOf, sbAvatar, appear, renderSwitch });
   const build = ({ k }) => {
     const u = k.ask ? add(`<div class="msg qc-u"><span class="avatar">S</span><div class="m-main"><div class="m-head"><span class="m-name">sam</span></div><img class="qc-att" alt="" width="640" height="480" style="display:none"/><div class="m-text">${esc(k.ask)}</div></div></div>`) : null;
     // one chip row per chip of the longest route; show() hides the rows a route does not use
@@ -228,22 +234,28 @@ function appear(n, t, a, dy = 10) {
 
 function renderComposer(c, t) {
   const b = c.beats.find(({ k, route }) => k.ask && t >= k.s && t < route.send);
+  // a chained route types its own follow-up asks here too: its beat's inst.asks, [{ text, s, typeEnd, send }]
+  const more = c.beats.flatMap(({ route }) => route.inst.asks || []);
+  const f = b ? null : more.find((a) => t >= a.s && t < a.send);
   let ph;
   if (b) {
     const ask = askOf(b.k);
     const n = Math.round(ask.length * seg(t, b.k.s, b.route.typeEnd));
     const att = attachOf(b.k);
     ph = `${att ? `<img class="qc-pchip" alt="" width="28" height="21" src="${att}"/>` : ''}<span class="qc-typed">${esc(ask.slice(0, n))}</span><i class="qc-caret"></i>`;
+  } else if (f) {
+    ph = `<span class="qc-typed">${esc(f.text.slice(0, Math.round(f.text.length * seg(t, f.s, f.typeEnd))))}</span><i class="qc-caret"></i>`;
   } else ph = esc(c.phText);
   if (ph !== c.lastPh) { c.ph.innerHTML = ph; c.lastPh = ph; }
-  c.send.classList.toggle('qc-on', !!b);
-  const at = c.beats.filter(({ k }) => k.ask).map(({ route }) => route.send).find((s) => t >= s - 0.12 && t < s + 0.2);
+  c.send.classList.toggle('qc-on', !!(b || f));
+  const at = [...c.beats.filter(({ k }) => k.ask).map(({ route }) => route.send), ...more.map((a) => a.send)].find((s) => t >= s - 0.12 && t < s + 0.2);
   c.send.style.transform = at === undefined ? 'none' : `scale(${(1 - 0.16 * bump(seg(t, at - 0.12, at + 0.2))).toFixed(4)})`;
 }
 
 function renderRouting(c, t) {
   let app = 'codex', swap = -1;
-  c.beats.forEach((b) => b.route.chips.forEach((ch) => { if (t >= ch.swap && !APPS[ch.app].tool) { app = ch.app; swap = ch.swap; } }));
+  // a chained route's later chips (inst.chips, in time order) move it too; a chip flagged `tool` (superbot's own step) does not
+  c.beats.forEach((b) => [...b.route.chips, ...(b.route.inst.chips || [])].forEach((ch) => { if (t >= ch.swap && !APPS[ch.app].tool && !ch.tool) { app = ch.app; swap = ch.swap; } }));
   // platform chip: dips out, swaps, comes back
   if (app !== c.lastApp) {
     const isMark = app === 'superbot';

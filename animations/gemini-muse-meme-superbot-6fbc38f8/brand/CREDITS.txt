@@ -104,3 +104,11 @@ CLAUDE / OPUS 5.5 (bakery variant: 'Switching to Opus 5.5' routing chip, reply h
                             @lobehub/icons-static-svg (MIT), https://unpkg.com/@lobehub/icons-static-svg@latest/icons/claude-color.svg
                             (fetched 2026-10-14), shown on the same dark tile as Gemini and DeepSeek.
   Usage: Claude and Opus are trademarks of Anthropic, PBC; shown nominatively (naming the model that answers the ask).
+
+multicat additions (fetched 2026-10-16):
+  elevenlabs-logo.svg       the ElevenLabs symbol (the two bars), the official "ElevenLabs Symbol (SVG)" from the brand page
+                            https://elevenlabs.io/brand (https://11labs-nonprd-15f22c1d.s3.eu-west-3.amazonaws.com/a2ea339b-8b5e-41bb-b706-24eda8a4c9e3/elevenlabs-symbol.svg).
+                            Paths verbatim; the viewBox cropped from 876x876 to the 292x292 square round the bars and the fill
+                            set from black to white for dark tiles. Trademark of Eleven Labs, Inc., used nominatively to name
+                            the app superbot routes the song to.
+  openai-logo.svg           (already above) also stands for GPT Image 2, OpenAI's image model, in the multicat variant.

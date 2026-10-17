@@ -4,7 +4,8 @@
 // (manifest.json at the gallery root) whose src opens this spot on that variant. A render exists only where one was made,
 // so each (variant, ratio) is probed once. A plain link with `download`: the browser saves the file itself. With no render
 // there, the button renders the variant at that ratio here instead (export.64039673.js: frame-exact, at the ratio's
-// platform size, silent), its label counting the render up, then saves it; only a browser without WebCodecs gets the old
+// platform size, silent unless the variant registered its soundtrack, as the hotel call does), its label counting the
+// render up, then saves it; only a browser without WebCodecs gets the old
 // quiet 'No render'. Its stylesheet (export.34c23b1d.css) loads with the module.
 import { variant, VARIANTS } from './variant.9e82faf1.js?v=3';
 import { render, download, fileName, outSize, canRender, busy } from './export.64039673.js?v=3';
@@ -79,7 +80,9 @@ export function mountExport(pill) {
       a.removeAttribute('download');
       a.removeAttribute('aria-disabled');
       text.textContent = 'Export';
-      a.title = `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, no sound)`;
+      // a variant that registered its soundtrack (window.__EXPORT_AUDIO, export.64039673.js) renders with it
+      const sound = window.__EXPORT_AUDIO && window.__EXPORT_AUDIO[v] ? 'with sound' : 'no sound';
+      a.title = `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, ${sound})`;
     } else {
       a.removeAttribute('download');
       a.setAttribute('aria-disabled', 'true');

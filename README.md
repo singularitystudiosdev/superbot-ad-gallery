@@ -87,7 +87,8 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   me". superbot connects Garmin Connect and Strava and switches the rule on; the next morning it posts the run
   to Strava by itself, the route drawing onto an SVG map drawn from OpenStreetMap (a real 5.25 mi Fort Collins
   loop, `img/garmin-strava.7a48d642/CREDITS.txt`) as kudos come in; ends on the superbot.gg end card (about 15s,
-  with sound: v16 re-cued to this chain).
+  with sound: v16 re-cued to this chain). The Speed pill's Export button downloads it with sound at every ratio
+  (renders for 16:9, 9:16, 4:5, 1:1 and 4:3 in `assets/video/`, drawn by the spot's own renderer with the v16 score).
 - **refund, then 1 star everywhere**: the muse meme spot's refund cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=refund`), no model on show as in the credits-only
   cat: superbot calls Nimbus+ support (made up), works the phone menu and holds (x50); asked to email them at

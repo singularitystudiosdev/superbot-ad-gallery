@@ -155,6 +155,11 @@ export function makeSound(cues, callUrl) {
 
   return {
     stop,
+    // the rendered soundtrack for the Export button (export.34c23b1d.js, rendering through export.64039673.js): renders it now if it has not yet
+    audio() {
+      prepare();
+      return job.then(() => { if (!buffer) throw new Error('hotelcall: the soundtrack did not render'); return buffer; });
+    },
     ready: () => !!buffer || failed,
     sounding: () => !!src && !!sound.ctx && sound.ctx.state === 'running' && !sound.muted,
     sync(t) {

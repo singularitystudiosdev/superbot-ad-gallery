@@ -24,7 +24,7 @@ import { shareBtn } from './share.29a362ea.js';
 // v16 on the Music pill, this variant's default (music.47e5d94a.js DEFAULTS): the same specifiers multicat imports, so
 // one player registry and one music pick
 import { music } from '../../../music.47e5d94a.js?v=2';
-import { makePlayer } from './multicat-player.96834de7.js?v=3';
+import { makePlayer } from './multicat-player.96834de7.js?v=4';
 
 const CSS = new URL('../costumes.34c23b1d.css?v=3', import.meta.url).href;
 export const ID = 'amazon-costumes';

@@ -22,7 +22,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 import { MAP_W, MAP_H, ROUTE, ROUTE_LEN, START, FINISH, MILES } from './garmin-strava-data.7a48d642.js';
 import { music } from '../../../music.47e5d94a.js?v=2';
-import { makePlayer } from './multicat-player.96834de7.js?v=3';
+import { makePlayer } from './multicat-player.96834de7.js?v=4';
 
 export const ID = 'garmin-strava';
 const CSS = new URL('../garmin-strava.7a48d642.css?v=1', import.meta.url).href;

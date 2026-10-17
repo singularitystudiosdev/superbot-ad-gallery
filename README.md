@@ -68,10 +68,10 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 - **halloween shopping, no model on show**: the credits-only cut's look for two shopping asks
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=halloween-shopping`): "Search on amazon and buy
   the cheapest halloween king sized bag of candy", then "Use Temu to buy x3 pumpkin costumes size small,
-  cheapest and cutest". Each reply's card is the store page superbot drives, rebuilt live over real
-  listings: its pointer searches, sorts by price, rings the pick (Reese's King Size Pumpkins, $28.99; a
-  $7.82 pumpkin bodysuit with a beret), buys it (3 in size S on Temu) and lands on the order
-  confirmation; ends on the superbot.gg end card (about 23s, with sound: the 16 · Punchy premium groove
+  cheapest and cutest". Each reply shows only the end result, as the burger cut does: one line saying
+  what was ordered, then the order's confirmation landing out of a skeleton (Amazon: Reese's King Size
+  Pumpkins, $28.99; Temu: three $7.82 pumpkin bodysuits with berets in size S, $23.46), rebuilt over
+  real listings; ends on the superbot.gg end card (about 15s, with sound: the 16 · Punchy premium groove
   score re-cued to it). Nothing was ordered; provenance in `img/halloween.37ff9e93/CREDITS.txt`.
 - **call my hotel**: the muse meme spot's hotel call cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=hotelcall`), with no model on show as in
@@ -93,6 +93,19 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   with sound under a live transcript (TTS), ending on the approved refund; then one 1-star review posts to ten
   rating platforms, and the superbot.gg end card. Its score is the credits cut's v16 re-cued to this chain
   (`beats/refund-score.d3537b02.js`), stopping for the call (about 32s, with sound).
+- **Discord emojis, then a frog GIF**: the muse meme spot's Discord cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=discord-credits`), made like the credits-only cat cut (no
+  model on show): a breakdown of the emojis the user sends most on Discord (the last 30 days of messages and reactions,
+  :skull: large at 412, the next seven on bars, all in Twemoji), then a GIF of a frog dancing made and sent to
+  jimmydodat133 in a Discord DM drawn in Discord's dark theme, the message going from Sending to Sent; each wait
+  fast-forwarded x50, ending on the superbot.gg end card (about 19s, with sound: the 16 · Punchy premium groove score
+  re-cued to the chain). The frog is a real Gemini Omni generation cut to a 38-frame GIF loop; the counts are mock data.
+- **make me a study guide for my test**: the credits-only cut's telling for one student ask
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=studyguide`): superbot opens a rebuilt Google
+  Classroom, finds the Unit 4 test on the class Stream, reads and tags every Unit 4 post on Classwork
+  (skipping Unit 3), then a Google Doc study guide lands under an x50 generation and scrolls to the
+  questions the student missed on Quiz 4.1, ending on the superbot.gg end card (about 22s, with sound:
+  the 16 · Punchy premium groove score re-cued to this cut). The class and grades are made up.
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

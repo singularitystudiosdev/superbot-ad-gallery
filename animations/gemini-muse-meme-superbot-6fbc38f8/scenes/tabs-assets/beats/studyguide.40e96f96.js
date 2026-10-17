@@ -22,7 +22,7 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 import { music } from '../../../music.47e5d94a.js?v=2';
 // the same instance the multicat chains use (the full URL keys it), so the Music pill sees every chain's player
-import { makePlayer } from './multicat-player.96834de7.js?v=3';
+import { makePlayer } from './multicat-player.96834de7.js?v=4';
 
 const CSS = new URL('../studyguide.40e96f96.css?v=1', import.meta.url).href;
 export const ID = 'studyguide';
@@ -368,7 +368,8 @@ export default {
     // v16 (the default on the Music pill, music.47e5d94a.js DEFAULTS): the multicat score rendered from this beat's cue
     // sheet. A glassy tick as each post is read, air as each page and card comes in, a sub hit as the test is found (the
     // score's `image`), a bell on "9 sources found" (`order`), the big landing on the doc (`model`); `play` is where the
-    // multicat bed hands over to its song, here the end card's cover, so the groove builds straight into the sting
+    // multicat bed hands over to its song, here the end card's cover, so the groove builds straight into the sting; with no
+    // song there is no play press either (`press: false`, as the Discord chain has)
     const v16 = makePlayer({
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }],
       sends: [k.send],
@@ -377,7 +378,7 @@ export default {
       cards: [T.card, T.card + BR.stream, T.card + BR.classwork, T.dcard],
       gens: [[T.gen0, T.fin]],
       image: T.found, model: T.fin, order: T.done, play: T.cut,
-      cover: T.cut, pop: T.cut + END_DELAY, word: T.cut + END_DELAY + 0.3, end: T.end,
+      cover: T.cut, pop: T.cut + END_DELAY, word: T.cut + END_DELAY + 0.3, end: T.end, press: false,
     }, ID);
     addEventListener('variantchange', () => v16.stop());
 

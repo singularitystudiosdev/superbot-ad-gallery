@@ -1,0 +1,14 @@
+Square logo tiles for the refund variant (scenes/tabs-assets/beats/refund.d3537b02.js), built 2026-10-17.
+
+From Simple Icons 16.35.0 (CC0 1.0, https://simpleicons.org), each glyph in white on its brand colour from the same set,
+except where noted:
+  trustpilot.svg (#00B67A), yelp.svg (#FF1A1A), appstore.svg (#0D96F6), roku.svg (#662D91),
+  googleplay.svg (on Google Play's store green #01875F), amazon.svg (orange #FF9900 on #232F3E),
+  gmail.svg (#EA4335 on white).
+google.svg: Google's four-colour G (its sign-in button mark) on white.
+bbb.svg: BBB's own favicon mark (https://www.bbb.org/favicon.svg) on its navy.
+consumeraffairs.svg: the hexagon and star of ConsumerAffairs' site logo (consumeraffairs.com), on white.
+smartcustomer.svg: SmartCustomer's (formerly Sitejabber) favicon star (smartcustomer.com), on its navy #0F2253.
+nimbus.svg: the made-up Nimbus+ mark, drawn for this variant.
+
+The platform names and marks are their owners' trademarks, shown to name where the review goes. Nothing was posted.

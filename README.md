@@ -57,6 +57,20 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   deck cut's card); then talks through the slides in the student's voice, a real Gemini TTS take under its measured
   waveform with word-by-word captions and the slides turning on cue; ends on the superbot.gg end card (about 34s, with
   sound). The study's numbers are mock data.
+- **cheapest, most fun Halloween costumes**: the credits-only chat asked one shopping question
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=amazon-costumes`): "Search on amazon and find
+  me the cheapest and most fun halloween costumes" gets a rebuilt Amazon results page; the search runs
+  x50 under skeleton tiles while 240 listings are compared, six real listings land cheapest first ($7.99
+  crayon to $24.99 inflatable chicken, as listed 2026-10-17), Cheapest and Most fun pop, then the
+  superbot.gg end card (about 12.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
+- **halloween shopping, no model on show**: the credits-only cut's look for two shopping asks
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=halloween-shopping`): "Search on amazon and buy
+  the cheapest halloween king sized bag of candy", then "Use Temu to buy x3 pumpkin costumes size small,
+  cheapest and cutest". Each reply's card is the store page superbot drives, rebuilt live over real
+  listings: its pointer searches, sorts by price, rings the pick (Reese's King Size Pumpkins, $28.99; a
+  $7.82 pumpkin bodysuit with a beret), buys it (3 in size S on Temu) and lands on the order
+  confirmation; ends on the superbot.gg end card (about 23s, with sound: the 16 · Punchy premium groove
+  score re-cued to it). Nothing was ordered; provenance in `img/halloween.37ff9e93/CREDITS.txt`.
 - **Discord emojis, then a frog GIF**: the muse meme spot's Discord cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=discord-credits`), made like the credits-only cat cut (no
   model on show): a breakdown of the emojis the user sends most on Discord (the last 30 days of messages and reactions,

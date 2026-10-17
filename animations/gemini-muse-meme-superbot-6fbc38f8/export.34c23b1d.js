@@ -1,8 +1,10 @@
 // The Export button, the last control in the speed pill (variant-select.9e82faf1.js): it downloads the variant on show at the
 // ratio picked, the same file the gallery lightbox's download serves (gallery.js renderDl): the offline render
-// assets/video/<id>.<ar>.mp4, one loop with its sound at 30 fps, 1080 high (9:16 1080x1920), where <id> is the gallery entry
-// (manifest.json at the gallery root) whose src opens this spot on that variant. A render exists only where one was made,
-// so each (variant, ratio) is probed once. A plain link with `download`: the browser saves the file itself. With no render
+// assets/video/<id>.<ar>.mp4, one loop with its sound, 1080 high (9:16 1080x1920; multicat-credits at 60 fps,
+// export-render.07e9fa90.mjs), where <id> is the gallery entry (manifest.json at the gallery root) whose src opens this spot
+// on that variant. A render exists only where one was made, so each (variant, ratio) is probed once, past the HTTP cache:
+// a 404 or a manifest cached from before a render shipped would otherwise send a variant that has one to the live render
+// for the cache's 10 minutes. A plain link with `download`: the browser saves the file itself. With no render
 // there, the button renders the variant at that ratio here instead (export.64039673.js: frame-exact, at the ratio's
 // platform size, silent unless the variant registered its soundtrack, as the hotel call does), its label counting the
 // render up, then saves it; only a browser without WebCodecs gets the old
@@ -25,7 +27,7 @@ document.head.appendChild(sheet);
 
 // variant -> gallery entry id, read once from the manifest; the entry with no ?variant= is the spot's first variant
 let ids = null;
-const idsOf = () => ids || (ids = fetch(new URL('manifest.json', ROOT))
+const idsOf = () => ids || (ids = fetch(new URL('manifest.json', ROOT), { cache: 'no-cache' })
   .then((r) => (r.ok ? r.json() : []))
   .then((items) => {
     const map = {};
@@ -41,7 +43,7 @@ const idsOf = () => ids || (ids = fetch(new URL('manifest.json', ROOT))
 // whether a render is there, probed once per file
 const probes = new Map();
 const exists = (href) => {
-  if (!probes.has(href)) probes.set(href, fetch(href, { method: 'HEAD' }).then((r) => r.ok).catch(() => false));
+  if (!probes.has(href)) probes.set(href, fetch(href, { method: 'HEAD', cache: 'no-store' }).then((r) => r.ok).catch(() => false));
   return probes.get(href);
 };
 

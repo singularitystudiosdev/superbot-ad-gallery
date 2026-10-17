@@ -1,0 +1,12 @@
+call.mp3 — the phone call in the refund variant (scenes/tabs-assets/beats/refund.d3537b02.js), 9.46 s, mono, 128 kbps.
+
+Three lines of text to speech, generated 2026-10-17 with Gemini 3.8 Flash TTS (gemini-3.8-flash-tts):
+  1. Dana, voice Aoede: "Nimbus Plus support, this is Dana."
+  2. Superbot, voice Puck: "Hi Dana, I'm Superbot, calling for Sam about a full refund on their subscription."
+  3. Dana, voice Aoede: "Sure! I've refunded the full $119.99."
+Each line was trimmed to its speech and cut together with 0.25 s turns (ffmpeg). Dana is band-limited to a telephone
+line (two 300 Hz highpasses, two 3.3 kHz lowpasses, 3:1 compression, +6 dB); Superbot to a wideband call (120 Hz to
+7 kHz, 2:1 compression, -0.9 dB). The cut was normalized to -16 LUFS integrated, -1.5 dBTP (loudnorm).
+
+Nimbus+, Dana, the account, the card and the reference number are made up. No real company was called, emailed or
+reviewed.

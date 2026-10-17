@@ -7,13 +7,14 @@
 //      and the bar counting the listings compared (LISTINGS);
 //   2. six real listings land one by one in price order, cheapest first, each tile a link to its listing
 //      (img/costumes.34c23b1d/CREDITS.txt: titles, prices, ratings and photos as Amazon listed them);
-//   3. the house superbot.gg end card (the 16:9 cuts' ending, as the multicat cut draws it) covers the chat.
+//   3. the answer written out under the card: a table of the six (costume, price, rating, the link to its listing), its
+//      rows streaming in one after another, cheapest first;
+//   4. the house superbot.gg end card (the 16:9 cuts' ending, as the multicat cut draws it) covers the chat.
 // Under it runs the multicat-credits cut's default soundtrack, 16 · Punchy premium groove (multicat-score.96834de7.js),
-// re-cued to this answer: the groove under the ask and the search, a short clear and the big hit as the first result
-// lands, a breakdown bar while they land, a smaller hit on the last and a bell as the page settles, then the build into the
-// end card. A pure function of t,
-// except the score, which follows the clock and never drives it. Its stylesheet (../costumes.34c23b1d.css) loads with the
-// module.
+// re-cued to this answer over four bars: the groove under the ask and the search, a short clear and the big hit as the
+// first result lands, the full groove while they land and the table streams, a bell as the table completes, the
+// breakdown while it is read, then the build into the end card. A pure function of t, except the
+// score, which follows the clock and never drives it. Its stylesheet (../costumes.34c23b1d.css) loads with the module.
 import { clamp, lerp, seg, outCubic, outQuint, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
@@ -23,9 +24,9 @@ import { shareBtn } from './share.29a362ea.js';
 // v16 on the Music pill, this variant's default (music.47e5d94a.js DEFAULTS): the same specifiers multicat imports, so
 // one player registry and one music pick
 import { music } from '../../../music.47e5d94a.js?v=2';
-import { makePlayer } from './multicat-player.96834de7.js?v=3';
+import { makePlayer } from './multicat-player.96834de7.js?v=4';
 
-const CSS = new URL('../costumes.34c23b1d.css?v=2', import.meta.url).href;
+const CSS = new URL('../costumes.34c23b1d.css?v=3', import.meta.url).href;
 export const ID = 'amazon-costumes';
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const pic = (f) => asset(`img/costumes.34c23b1d/${f}`);
@@ -45,10 +46,13 @@ const LISTINGS = 240;    // unique listings the five searches returned (CREDITS.
 // the query types into the search box this long after the card comes in, at this rate, done as the search starts (SEEN)
 const Q_AT = 0.08, Q_CPS = 70;
 const STAGGER = 0.12;    // the tiles land one after another, cheapest first
-// the landed page, from its last tile's settle to the end card covering the chat: the score's three bars run from the
-// send to the cover (multicat-score.96834de7.js bed, its grid locked to `play`, here the cover), so this puts the cover
-// 6.02 s after the send and the first tile's landing on bar 2's downbeat
-const HOLD = 3.12;
+// the written answer: its table comes in this long after the last tile settles, then its header and rows stream in
+// left to right, ROW_GAP apart, each over ROW_IN
+const OUT_AT = 0.2, ROW_GAP = 0.1, ROW_IN = 0.24;
+// the landed page and its table, from the last tile's settle to the end card covering the chat (about 4 s to read the
+// table): the score's four bars run from the send to the cover (multicat-score.96834de7.js bed, its grid locked to `play`,
+// here the cover), so this puts the cover 8.02 s after the send and the first tile's landing on bar 2's downbeat
+const HOLD = 5.12;
 // the house end card (superbot-muse-split.1d16d488/endcard.1d16d488.html, the 16:9 cuts' ending): the chat fades to its
 // black over END_IN, the card's own 2.5s run starts END_DELAY in (mascot pops in, superbot.gg fades up beside it, hold)
 const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 2.5;
@@ -59,31 +63,36 @@ const popBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p
 const END_FACE = '<svg class="amc-end-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="amcEndFace" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#amcEndFace)" transform="translate(-1.2 -1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#amcEndFace)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#amcEndFace)"/></svg>';
 
 // the six picks in the order they land, cheapest first: Amazon's own title, price, star rating and rating count, read
-// 2026-10-17 (CREDITS.txt); each tile links to its listing by ASIN
+// 2026-10-17 (CREDITS.txt); each tile and table row links to its listing by ASIN. `name`: the costume as the written
+// answer's table names it
 const ITEMS = [
-  { asin: 'B0H93H74JX', file: 'crayon.jpg', w: 451, h: 480, price: '$7.99', rating: 4.6, count: '15',
+  { asin: 'B0H93H74JX', file: 'crayon.jpg', w: 451, h: 480, price: '$7.99', rating: 4.6, count: '15', name: 'Crayon costume set',
     title: 'Adult Crayon Costume Set with Inflatable Crayon Prop, Funny Halloween Costume with Apron and Cone Hat' },
-  { asin: 'B0GWM4NNYP', file: 'banana.jpg', w: 317, h: 480, price: '$16.99', rating: 4.5, count: '4.4K',
+  { asin: 'B0GWM4NNYP', file: 'banana.jpg', w: 317, h: 480, price: '$16.99', rating: 4.5, count: '4.4K', name: 'Banana costume',
     title: 'Spooktacular Creations Appealing Banana Costume Adult Deluxe Set for Halloween Dress Up Party and Roleplay Cosplay' },
-  { asin: 'B07NV6GV63', file: 'hotdog.jpg', w: 294, h: 480, price: '$19.98', rating: 4.4, count: '304',
+  { asin: 'B07NV6GV63', file: 'hotdog.jpg', w: 294, h: 480, price: '$19.98', rating: 4.4, count: '304', name: 'Hot dog jumpsuit',
     title: 'Unisex Adult Hot Dog Fancy Jumpsuit' },
-  { asin: 'B0D7V3B7SY', file: 'trex.jpg', w: 343, h: 480, price: '$19.99', rating: 4.4, count: '309',
+  { asin: 'B0D7V3B7SY', file: 'trex.jpg', w: 343, h: 480, price: '$19.99', rating: 4.4, count: '309', name: 'Ride-on inflatable T-rex',
     title: 'Inflatable Dinosaur Costume Adults, Inflatable Halloween Costumes, Ride on Dino Costume, Blow Up T-rex Costume' },
-  { asin: 'B07W45HH8M', file: 'plug.jpg', w: 384, h: 480, price: '$19.99', rating: 4.3, count: '1.9K',
+  { asin: 'B07W45HH8M', file: 'plug.jpg', w: 384, h: 480, price: '$19.99', rating: 4.3, count: '1.9K', name: 'Plug & socket couples set',
     title: 'Spooktacular Creations Plug and Socket Halloween Costume Adult, Plug and Outlet Couples USB Costume' },
-  { asin: 'B09ZQV2ZHW', file: 'chicken.jpg', w: 371, h: 480, price: '$24.99', rating: 4.6, count: '1.8K',
+  { asin: 'B09ZQV2ZHW', file: 'chicken.jpg', w: 371, h: 480, price: '$24.99', rating: 4.6, count: '1.8K', name: 'Ride-on inflatable chicken',
     title: 'KOOY Inflatable Chicken Costume Adult, Inflatables Rooster Costume Women/Men for Party' },
 ];
 const listing = (asin) => `https://www.amazon.com/dp/${asin}`;
 
 // every time in the answer, from the reply r: the card comes in at `card`, the search runs from `gen0` until `done`, the
-// tiles land from `done` STAGGER apart and have settled by `w1`, and the end card covers the chat from `cut`
+// tiles land from `done` STAGGER apart and have settled by `w1`, the written table comes in at `out`, its rows stream in
+// at `rows` and it is complete by `told`, and the end card covers the chat from `cut`
 function plan(r) {
   const card = r + 0.22, gen0 = card + SEEN, done = gen0 + GEN / X;
   const lands = ITEMS.map((_, i) => done + i * STAGGER);
   const w1 = lands[lands.length - 1] + LAND;
+  const out = w1 + OUT_AT;
+  const rows = ITEMS.map((_, i) => out + (i + 1) * ROW_GAP);
+  const told = rows[rows.length - 1] + ROW_IN;
   const cut = w1 + HOLD;
-  return { r, card, gen0, done, lands, w1, cut, end: cut + END_DELAY + END_LEN };
+  return { r, card, gen0, done, lands, w1, out, rows, told, cut, end: cut + END_DELAY + END_LEN };
 }
 // the answer's length from its reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
@@ -128,9 +137,10 @@ export default {
     const T = k.T;
 
     // v16: rendered from this answer's cue sheet (the engine's ask, k, and this plan, T); the score's slots for the
-    // multicat chain's beats take this one's: the model's big hit as the first tile lands (its clear opens just before it,
-    // and the bar it lands on, bar 2, plays as the breakdown while the tiles land), the photo's smaller hit as the last tile
-    // lands, the order's bell as the page settles, and the song's play press at the end card's cover, where the bed stops
+    // multicat chain's beats take this one's: the photo's hit and the model's big hit together as the first tile lands
+    // (the model's clear opens just before it and the photo's clears the drums round it, so the hit rings over the bar it
+    // lands on, bar 2, which plays the full groove while the tiles land and the table streams), the order's bell as the
+    // table completes, and the song's play press at the end card's cover, where the bed stops
     const v16 = makePlayer({
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }],
       sends: [k.send],
@@ -138,7 +148,7 @@ export default {
       resolved: [],
       cards: [T.card],
       gens: [[T.gen0, T.done]],
-      image: T.lands[T.lands.length - 1], model: T.done, order: T.w1, play: T.cut,
+      image: T.done, model: T.done, order: T.told, play: T.cut,
       cover: T.cut, pop: T.cut + END_DELAY, word: T.cut + END_DELAY + 0.3, end: T.end,
     }, ID);
     addEventListener('variantchange', () => v16.stop());
@@ -165,6 +175,13 @@ export default {
     // the feed glides to a zero-height anchor a little under the card instead of the card's own bottom, so the card clears
     // the feed's clip with its edge and shadow (as the multicat-credits cut does, ../costumes.34c23b1d.css .amc-anchor)
     const anchor = x.el('<i class="amc-anchor" aria-hidden="true"></i>');
+    // 3. the written answer under the card: the six as a table, cheapest first, each row's link its listing
+    const answer = x.el(`<div class="amc-out" role="table" aria-label="Cheapest, most fun Halloween costumes on Amazon">
+      <div class="amc-tr amc-th" role="row"><span role="columnheader">#</span><span role="columnheader">Costume</span><span role="columnheader">Price</span><span class="amc-rt" role="columnheader">Rating</span><span role="columnheader">Link</span></div>
+      ${ITEMS.map((it, i) => `<div class="amc-tr" role="row"><span class="amc-i" role="cell">${i + 1}</span><span class="amc-nm" role="cell">${x.esc(it.name)}</span><span class="amc-pr" role="cell">${it.price}</span><span class="amc-rt" role="cell"><b>★</b> ${it.rating.toFixed(1)} <small>(${it.count})</small></span><span class="amc-ln" role="cell"><a href="${listing(it.asin)}" target="_blank" rel="noopener noreferrer">amazon.com/dp/${it.asin}</a></span></div>`).join('')}
+    </div>`);
+    const outRows = [...answer.querySelectorAll('.amc-tr')];
+    answer.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a')) e.stopPropagation(); });
     const $ = (s) => media.querySelector(s);
     const q = $('.amc-q'), caret = $('.amc-caret'), count = $('.amc-n'), pill = $('.qc-genl'), num = $('.qc-genn');
     const tileEls = [...media.querySelectorAll('.amc-tile')].map((n) => ({
@@ -184,9 +201,10 @@ export default {
 
     let placed = false, decoding = false, said = -1, typed = -1, shownN = -1, shownClock = clock(0), pillOp = '';
     return {
-      nodes: [say, media, anchor, endCard, ff],
-      // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
-      marks: [[T.r, say], [T.card, anchor]],
+      nodes: [say, media, anchor, answer, endCard, ff],
+      // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf): the table's whole height
+      // as it comes in, its rows then streaming into the room made for them
+      marks: [[T.r, say], [T.card, anchor], [T.out, answer]],
       render(t) {
         if (!placed) {
           // the end card and the badge leave the hub for the scene section: stage px, unscaled by the hub's camera
@@ -229,10 +247,18 @@ export default {
           tl.skl.style.opacity = (1 - p).toFixed(3);
         });
 
+        // 3. the written answer: the table's frame rises, then its header and rows stream in left to right
+        fade(answer, outCubic(seg(t, T.out, T.out + 0.3)));
+        outRows.forEach((row, i) => {
+          const p = outCubic(seg(t, i ? T.rows[i - 1] : T.out, (i ? T.rows[i - 1] : T.out) + ROW_IN));
+          row.style.opacity = p.toFixed(3);
+          row.style.clipPath = p >= 1 ? 'none' : `inset(0 ${((1 - p) * 100).toFixed(1)}% 0 0)`;
+        });
+
         // the score follows the clock while it is the pick
         if (music() === 'v16') v16.sync(t); else v16.stop();
 
-        // 3. the end card: the chat fades to black, then the house card's own run (endcard.1d16d488.html render(t))
+        // 4. the end card: the chat fades to black, then the house card's own run (endcard.1d16d488.html render(t))
         const cover = seg(t, T.cut, T.cut + END_IN);
         endCard.style.opacity = cover.toFixed(3);
         endCard.style.visibility = cover > 0 ? '' : 'hidden';

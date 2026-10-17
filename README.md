@@ -62,14 +62,16 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   me the cheapest and most fun halloween costumes" gets a rebuilt Amazon results page; the search runs
   x50 under skeleton tiles while 240 listings are compared, six real listings land cheapest first ($7.99
   crayon to $24.99 inflatable chicken, as listed 2026-10-17), each a link to its listing, then the
-  superbot.gg end card (about 12.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
+  same six written out as a table (costume, price, rating, link), then the superbot.gg end card (about 14.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
+  An Export button at the end of the Speed pill downloads the cut at the picked ratio (renders for 16:9, 9:16,
+  4:5, 1:1 and 4:3 in `assets/video/`; a variant without a render shows "No render").
 - **halloween shopping, no model on show**: the credits-only cut's look for two shopping asks
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=halloween-shopping`): "Search on amazon and buy
   the cheapest halloween king sized bag of candy", then "Use Temu to buy x3 pumpkin costumes size small,
-  cheapest and cutest". Each reply's card is the store page superbot drives, rebuilt live over real
-  listings: its pointer searches, sorts by price, rings the pick (Reese's King Size Pumpkins, $28.99; a
-  $7.82 pumpkin bodysuit with a beret), buys it (3 in size S on Temu) and lands on the order
-  confirmation; ends on the superbot.gg end card (about 23s, with sound: the 16 · Punchy premium groove
+  cheapest and cutest". Each reply shows only the end result, as the burger cut does: one line saying
+  what was ordered, then the order's confirmation landing out of a skeleton (Amazon: Reese's King Size
+  Pumpkins, $28.99; Temu: three $7.82 pumpkin bodysuits with berets in size S, $23.46), rebuilt over
+  real listings; ends on the superbot.gg end card (about 15s, with sound: the 16 · Punchy premium groove
   score re-cued to it). Nothing was ordered; provenance in `img/halloween.37ff9e93/CREDITS.txt`.
 - **call my hotel**: the muse meme spot's hotel call cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=hotelcall`), with no model on show as in
@@ -84,6 +86,26 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   to Strava by itself, the route drawing onto an SVG map drawn from OpenStreetMap (a real 5.25 mi Fort Collins
   loop, `img/garmin-strava.7a48d642/CREDITS.txt`) as kudos come in; ends on the superbot.gg end card (about 15s,
   with sound: v16 re-cued to this chain).
+- **refund, then 1 star everywhere**: the muse meme spot's refund cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=refund`), no model on show as in the credits-only
+  cat: superbot calls Nimbus+ support (made up), works the phone menu and holds (x50); asked to email them at
+  the same time, it writes and sends the email while the call holds; the agent picks up and the call plays
+  with sound under a live transcript (TTS), ending on the approved refund; then one 1-star review posts to ten
+  rating platforms, and the superbot.gg end card. Its score is the credits cut's v16 re-cued to this chain
+  (`beats/refund-score.d3537b02.js`), stopping for the call (about 32s, with sound).
+- **Discord emojis, then a frog GIF**: the muse meme spot's Discord cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=discord-credits`), made like the credits-only cat cut (no
+  model on show): a breakdown of the emojis the user sends most on Discord (the last 30 days of messages and reactions,
+  :skull: large at 412, the next seven on bars, all in Twemoji), then a GIF of a frog dancing made and sent to
+  jimmydodat133 in a Discord DM drawn in Discord's dark theme, the message going from Sending to Sent; each wait
+  fast-forwarded x50, ending on the superbot.gg end card (about 19s, with sound: the 16 · Punchy premium groove score
+  re-cued to the chain). The frog is a real Gemini Omni generation cut to a 38-frame GIF loop; the counts are mock data.
+- **make me a study guide for my test**: the credits-only cut's telling for one student ask
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=studyguide`): superbot opens a rebuilt Google
+  Classroom, finds the Unit 4 test on the class Stream, reads and tags every Unit 4 post on Classwork
+  (skipping Unit 3), then a Google Doc study guide lands under an x50 generation and scrolls to the
+  questions the student missed on Quiz 4.1, ending on the superbot.gg end card (about 22s, with sound:
+  the 16 · Punchy premium groove score re-cued to this cut). The class and grades are made up.
 - **koala on Discord**: the muse meme spot's Discord cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=koala-discord`), in the multicat-credits look (no
   model on show): "Send mrmoonshot a koala gif in discord" lands a rebuilt Discord DM where the message goes from
@@ -101,7 +123,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   before superbot rolling down to $800/mo after, One download and stop paying API pricing, superbot.gg
   (13s, with sound: an ElevenLabs bed that drops on the chip flip, one effect per beat). The one spot with a 9:16
   cut: its manifest entry's `extraArs: ['9x16']` adds a 9:16 chip to the lightbox picker for it alone, playing
-  `?ar=9x16` and downloading the 1080x1920 render.
+  `?ar=9x16` and downloading the 1080x1920 render. Its **export** pill (bottom left, `export.842e056d.js`) renders
+  the spot in the browser to 60 fps H.264 MP4s with the sound, at one ratio or all five in a zip (1920x1080,
+  1440x1080, 1080x1080, 1080x1350, 1080x1920): each frame is seeked on the spot's clock and painted through an SVG
+  foreignObject, so the files are frame-exact and 13 s long; about 20 s for all five in Chrome. Needs WebCodecs
+  (Chrome, Edge); the gallery's download links stay the 30 fps renders.
 - **If you use Cursor** (`animations/cursor-upcharged-relay-superbot-2727b383/`): three white-on-black
   title cards, each with its mark to the right: "IF YOU USE CURSOR" with the Cursor cube, "YOU ARE BEING
   UPCHARGED" with a money bag, "SAVE THOUSANDS WITH SUPERBOT RELAY" with a siren, then the superbot.gg

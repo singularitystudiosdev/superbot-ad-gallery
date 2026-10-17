@@ -25,7 +25,9 @@
     if (prev && prev !== key) dispatchEvent(new CustomEvent('archange', { detail: window.AR }));
   }
   apply(locked || nearest());
-  if (!locked) addEventListener('resize', function () { apply(nearest()); });
+  addEventListener('resize', function () { if (!locked) apply(nearest()); });
+  // the export (export.842e056d.js) reframes the live stage one ratio at a time: a key locks it like ?ar=, null unlocks
+  window.setAR = function (key) { locked = RATIOS[key] ? key : null; apply(locked || nearest()); };
 })();
 </script>
 <style>
@@ -124,6 +126,27 @@ html[data-ar="9x16"] .line .g { white-space: normal; width: min-content; }
 .ctrls button:focus-visible { outline: 2px solid var(--storm-1); outline-offset: 2px; }
 .ctrls .sound[aria-pressed="true"] { color: #fff; border-color: rgb(0 229 195 / .6); }
 body.freeze .hint, body.freeze .ctrls { display: none; }
+
+/* export (export.842e056d.js): a pill in the same row that opens a menu of ratios; while it renders, the pill becomes the
+   progress bar and the other controls step aside (they would move the clock under the render) */
+.export { position: relative; display: flex; gap: 8px; }
+.export[hidden] { display: none; }
+.ctrls .export-btn { font-variant-numeric: tabular-nums; }
+.ctrls .export-btn[aria-expanded="true"] { opacity: 1; color: #fff; }
+body.exporting .ctrls .export-btn { opacity: 1; color: #fff; min-width: 128px; text-align: left;
+  background: linear-gradient(90deg, rgb(0 229 195 / .3) var(--p, 0%), rgb(255 255 255 / .06) var(--p, 0%)); border-color: rgb(0 229 195 / .6); }
+body.exporting .ctrls .replay, body.exporting .ctrls .sound, body.exporting .hint { display: none; }
+.ctrls .export-cancel[hidden] { display: none; }
+.export-menu { position: absolute; left: 0; bottom: calc(100% + 8px); z-index: 1; display: grid; min-width: 216px; padding: 4px;
+  background: var(--tile); border: 1px solid rgb(255 255 255 / .12); border-radius: 12px; font: 400 11px/1.4 var(--ui); color: var(--muted); }
+.export-menu[hidden] { display: none; }
+.export-cap { padding: 8px 8px 4px; }
+.ctrls .export-menu button { display: flex; justify-content: space-between; gap: 16px; min-height: 32px; padding: 4px 8px; border: 0;
+  border-radius: 8px; background: none; opacity: 1; font: 500 12px/1.4 var(--ui); color: var(--fg-2); text-align: left; }
+.ctrls .export-menu button:hover, .ctrls .export-menu button:focus-visible { background: rgb(255 255 255 / .08); color: #fff; }
+.ctrls .export-menu button:focus-visible { outline: 2px solid var(--storm-1); outline-offset: -2px; }
+.export-menu .px { font-weight: 400; color: var(--muted); font-variant-numeric: tabular-nums; }
+.export-menu .all { margin-bottom: 4px; box-shadow: 0 1px 0 rgb(255 255 255 / .08); }
 /* a narrow window (the gallery's 9:16 frame is 405 px) has no room for the key hint beside the sound controls */
 @media (max-width: 720px) { .hint { display: none; } }
 </style>
@@ -169,6 +192,19 @@ body.freeze .hint, body.freeze .ctrls { display: none; }
 <div class="ctrls">
   <button class="replay" type="button" aria-label="Replay with sound">replay</button>
   <button class="sound" type="button" aria-pressed="false">sound off · click anywhere</button>
+  <div class="export" hidden>
+    <button class="export-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="export-menu">export</button>
+    <button class="export-cancel" type="button" hidden>cancel</button>
+    <div class="export-menu" id="export-menu" role="menu" aria-label="Export a 60 fps MP4" hidden>
+      <div class="export-cap">60 fps MP4 with sound</div>
+      <button class="all" type="button" role="menuitem" data-ar="all">All ratios<span class="px">5 files in a .zip</span></button>
+      <button type="button" role="menuitem" data-ar="16x9">16:9<span class="px">1920×1080</span></button>
+      <button type="button" role="menuitem" data-ar="4x3">4:3<span class="px">1440×1080</span></button>
+      <button type="button" role="menuitem" data-ar="1x1">1:1<span class="px">1080×1080</span></button>
+      <button type="button" role="menuitem" data-ar="4x5">4:5<span class="px">1080×1350</span></button>
+      <button type="button" role="menuitem" data-ar="9x16">9:16<span class="px">1080×1920</span></button>
+    </div>
+  </div>
 </div>
 <div class="hint">space pause · ←/→ step · R restart · M sound · click the end card for superbot.gg</div>
 
@@ -302,17 +338,20 @@ function fit() {
   stage.style.transform = `translate(-50%, -50%) scale(${k})`;
   // 9:16's stage is so narrow that the usual 70 px a side would cost a quarter of its width; it keeps 48 (8%)
   const pad = window.AR && window.AR.key === '9x16' ? 96 : 140;
+  // measured at the widest the price ever gets, so the cost beat fits $30,000 whatever frame is showing (a ratio change
+  // mid-spot, as the export makes, would otherwise fit it around $0)
+  const shown = num.textContent;
+  num.textContent = money(BEFORE);
   for (const f of stage.querySelectorAll('.fit')) {
     const s = Math.min(1, (w - pad) / f.offsetWidth, (H - 140) / f.offsetHeight);
     f.style.setProperty('--s', s.toFixed(4));
   }
+  num.textContent = shown;
 }
-// the widest the price ever gets, so the cost beat's fit is measured at $30,000 rather than $0
-num.textContent = money(BEFORE);
 fit();
 addEventListener('resize', fit);
 addEventListener('archange', () => { fit(); render(timeNow()); });
-document.fonts && document.fonts.ready.then(() => { num.textContent = money(BEFORE); fit(); render(timeNow()); });
+document.fonts && document.fonts.ready.then(() => { fit(); render(timeNow()); });
 
 // ---------- the clock ----------
 const q = new URLSearchParams(location.search);
@@ -404,5 +443,6 @@ window.__AD = {
   sound: () => ({ on: soundOn, playing: !!source, ctx: actx.state, loaded: !!buffer, t: timeNow() }),
 };
 </script>
+<script type="module" src="export.842e056d.js?v=1"></script>
 </body>
 </html>

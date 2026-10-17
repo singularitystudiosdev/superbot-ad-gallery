@@ -13,7 +13,7 @@
 //   3. the house superbot.gg end card covers the chat.
 // Under it plays 16 · Punchy premium groove (multicat-player.96834de7.js), the credits cuts' default soundtrack, re-cued
 // to this chain: the koala landing takes the model's hit (the fuller section follows it), his answer the order's bell, each
-// reaction a resolve tick, the last one the photo's hit, and the bed builds into the end card.
+// reaction a resolve tick, the last one the photo's hit, and with no song to hand over to, the bed builds into the end card.
 // The follow-up messages are built here and moved in after the engine's reply on the first render (they ride in
 // inst.nodes, so the engine's show() hides them under every other variant). The engine reads inst.asks (the composer's
 // typing and send presses) for them (chat.9b47fc30.js). A pure function of t, except the score, which follows the clock and
@@ -26,7 +26,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 import { music } from '../../../music.47e5d94a.js?v=2';
 // the URL multicat.516afb1a.js imports too, so every chain shares one player registry and one v16 pick
-import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=3';
+import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=4';
 
 const CSS = new URL('../koala.7f80a09a.css?v=1', import.meta.url).href;
 // the end card is multicat's (../multicat.516afb1a.css .mc-end)
@@ -319,7 +319,7 @@ export default {
     const T = k.T, { A, B } = T;
     // 16 · Punchy premium groove: the multicat score rendered from this chain's cue sheet. The koala landing takes the
     // model's hit (the fuller section follows it), his answer the order's bell, every reaction a resolve tick and the last
-    // one the photo's hit; the song's press sits on the end card's cover, where the bed resolves
+    // one the photo's hit; there is no song, so no play press (press: false) and the bed's build runs into the end card's cover
     const v16 = makePlayerV16({
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }, { text: ASK2, s: B.s, end: B.typeEnd }],
       sends: [k.send, B.send],
@@ -327,7 +327,7 @@ export default {
       resolved: B.pops,
       cards: [A.card, B.card],
       gens: [],
-      image: B.done, model: A.done, order: A.reply, play: T.cut,
+      image: B.done, model: A.done, order: A.reply, play: T.cut, press: false,
       cover: T.cut, pop: T.cut + END_DELAY, word: T.cut + END_DELAY + 0.3, end: T.end,
     }, ID);
     addEventListener('variantchange', () => v16.stop());

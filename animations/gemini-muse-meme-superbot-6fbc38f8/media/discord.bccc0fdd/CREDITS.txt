@@ -1,0 +1,15 @@
+media/discord.bccc0fdd CREDITS (the 'discord-credits' variant, scenes/tabs-assets/beats/discord.bccc0fdd.js)
+
+frog-dance.gif   A green tree frog dancing on a lily pad, generated 2026-10-17 by Google Gemini Omni 1.1 Flash
+                 (gemini-omni-1.1-flash, text to video, 4 s, 720p, 16:9, served natively by Google), job mj_al4UaPZ99lL5,
+                 estimated $0.42. 2:04 from the request (11:46:36Z) to the saved file (11:48:40Z): the time the GIF card's
+                 pill counts to. Prompt:
+                   "A tiny photorealistic green tree frog dancing upright on its hind legs on a wet lily pad, centred in
+                   frame, facing the camera. It bounces to a beat, swings its little arms side to side over its head and
+                   wiggles its hips, big red eyes, glossy skin. Soft colourful party lights glow in the dark pond background
+                   with bokeh. Static locked-off camera, the frog stays in the middle of the frame the whole time, a smooth
+                   loopable dance, playful and funny like a reaction GIF. No text."
+                 Cut with ffmpeg: frames 0 to 37 of the clip at 12 fps (frame 38 matches frame 0, arms out wide, so the loop
+                 closes), 480 x 270 lanczos, palettegen (256 colours, diff stats) and paletteuse (sierra2_4a), 8 cs a frame,
+                 looping: 38 frames, 3.04 s. The spot steps the same 38 frames from ../../img/discord.bccc0fdd/frog-frames.jpg.
+                 AI-generated; no third-party rights.

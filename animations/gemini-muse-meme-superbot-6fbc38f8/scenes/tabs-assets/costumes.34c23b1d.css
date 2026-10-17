@@ -62,6 +62,26 @@
    (chat.9b47fc30.js renderScroll) with its edge and shadow; relative, so it takes no room in the thread */
 #s-tabs .sbsite .hub .amc-anchor { display: block; height: 0; position: relative; top: 6px; pointer-events: none; }
 
+/* the written answer under the card: the six as a chat table, as wide as the card, a hairline between rows, the header
+   in the chat's muted grey; the costume column takes the room the others leave and ends in an ellipsis if it runs out */
+#s-tabs .sbsite .hub .amc-out { width: 560px; max-width: 100%; margin-top: 14px; overflow: hidden; border-radius: 10px; background: #151518; box-shadow: 0 0 0 1px #2a2a2e; font: 400 12px/16px var(--ui); color: #e5e5ea; }
+#s-tabs .sbsite .hub .amc-tr { display: grid; grid-template-columns: 14px minmax(0, 1fr) 50px 80px 182px; gap: 8px; align-items: center; height: 31px; padding: 0 12px; box-shadow: inset 0 -1px 0 #232327; }
+#s-tabs .sbsite .hub .amc-tr:last-child { box-shadow: none; }
+#s-tabs .sbsite .hub .amc-th { height: 29px; background: #1c1c20; font: 600 11px/1 var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .amc-tr > span { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+#s-tabs .sbsite .hub .amc-i { color: #6e6e73; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .amc-nm { font-weight: 500; color: #f5f5f7; }
+#s-tabs .sbsite .hub .amc-pr { font-weight: 600; color: #f5f5f7; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .amc-tr .amc-rt { color: #e5e5ea; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .amc-rt b { font-weight: 400; color: #ffa41c; }
+#s-tabs .sbsite .hub .amc-rt small { font-size: 11px; color: #8e8e93; }
+#s-tabs .sbsite .hub .amc-ln a { color: #7cacf8; text-decoration: underline; text-decoration-color: rgba(124, 172, 248, .45); text-underline-offset: 2px; }
+#s-tabs .sbsite .hub .amc-ln a:hover { text-decoration-color: currentColor; }
+#s-tabs .sbsite .hub .amc-ln a:focus-visible { outline: 2px solid #7cacf8; outline-offset: 2px; border-radius: 2px; }
+/* 9:16: the reply column narrows to 471px, so the rating column steps out and the costume keeps a readable width */
+html[data-ar="9x16"] #s-tabs .sbsite .hub .amc-tr { grid-template-columns: 14px minmax(0, 1fr) 50px 182px; }
+html[data-ar="9x16"] #s-tabs .sbsite .hub .amc-tr .amc-rt { display: none; }
+
 /* the fast-forward badge: x50 in the whole frame's bottom right while the search runs, the generating pill's look at the
    1080-high stage's scale, under the end card */
 #s-tabs .amc-ff { position: absolute; right: 44px; bottom: 40px; z-index: 30; display: flex; align-items: center; height: 60px; padding: 0 24px; border-radius: 999px; background: rgba(12, 12, 14, .78); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); font: 600 28px/1 var(--ui); color: #ececec; font-variant-numeric: tabular-nums; pointer-events: none; }

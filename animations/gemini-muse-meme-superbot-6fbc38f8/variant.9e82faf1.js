@@ -12,8 +12,14 @@
 // (scenes/tabs-assets/beats/costumes.34c23b1d.js), or 'halloween-shopping', that cut's look for two shopping asks: the
 // cheapest king size Halloween candy bought on Amazon, then three small pumpkin costumes on Temu
 // (scenes/tabs-assets/beats/halloween.37ff9e93.js), or 'hotelcall', cut as multicat-credits is, where superbot phones the
-// hotel and moves the stay (scenes/tabs-assets/beats/hotelcall.f934b5ee.js), or 'koala-discord', a koala GIF sent to
-// mrmoonshot on Discord, then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js). Read from ?variant= so a frozen
+// hotel and moves the stay (scenes/tabs-assets/beats/hotelcall.f934b5ee.js), or 'refund', superbot calling support
+// for a refund, emailing them while it holds and posting a 1-star review everywhere
+// (scenes/tabs-assets/beats/refund.d3537b02.js)., or 'discord-credits', two asks cut like
+// multicat-credits: a breakdown of the emojis the user sends most on Discord, then a GIF of a dancing frog made and sent
+// to a friend in a Discord DM (scenes/tabs-assets/beats/discord.bccc0fdd.js), or 'studyguide', one ask told the way the credits cut tells its four:
+// superbot reads the user's Google Classroom, then writes them a study guide as a Google Doc
+// (scenes/tabs-assets/beats/studyguide.40e96f96.js), or 'koala-discord', a koala GIF sent to mrmoonshot on Discord,
+// then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -48,6 +54,9 @@ export const VARIANTS = [
   { id: 'halloween-shopping', label: 'Halloween shopping · Amazon + Temu' },
   { id: 'hotelcall', label: 'Hotel call' },
   { id: 'garmin-strava', label: 'Garmin runs to Strava' }, // superbot connects Garmin, then posts the next morning's run to Strava by itself (scenes/tabs-assets/beats/garmin-strava.7a48d642.js)
+  { id: 'refund', label: 'Refund call + 1-star reviews' },
+  { id: 'discord-credits', label: 'Discord emojis + frog GIF · credits only' },
+  { id: 'studyguide', label: 'Classroom study guide' },
   { id: 'koala-discord', label: 'Koala GIF + reactions on Discord' }, // a koala GIF sent to mrmoonshot, then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js)
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);

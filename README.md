@@ -113,7 +113,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   before superbot rolling down to $800/mo after, One download and stop paying API pricing, superbot.gg
   (13s, with sound: an ElevenLabs bed that drops on the chip flip, one effect per beat). The one spot with a 9:16
   cut: its manifest entry's `extraArs: ['9x16']` adds a 9:16 chip to the lightbox picker for it alone, playing
-  `?ar=9x16` and downloading the 1080x1920 render.
+  `?ar=9x16` and downloading the 1080x1920 render. Its **export** pill (bottom left, `export.842e056d.js`) renders
+  the spot in the browser to 60 fps H.264 MP4s with the sound, at one ratio or all five in a zip (1920x1080,
+  1440x1080, 1080x1080, 1080x1350, 1080x1920): each frame is seeked on the spot's clock and painted through an SVG
+  foreignObject, so the files are frame-exact and 13 s long; about 20 s for all five in Chrome. Needs WebCodecs
+  (Chrome, Edge); the gallery's download links stay the 30 fps renders.
 - **If you use Cursor** (`animations/cursor-upcharged-relay-superbot-2727b383/`): three white-on-black
   title cards, each with its mark to the right: "IF YOU USE CURSOR" with the Cursor cube, "YOU ARE BEING
   UPCHARGED" with a money bag, "SAVE THOUSANDS WITH SUPERBOT RELAY" with a siren, then the superbot.gg

@@ -1,0 +1,38 @@
+img/costumes.34c23b1d CREDITS (the 'amazon-costumes' variant, beats/costumes.34c23b1d.js). Internal provenance only: never shown on screen.
+
+The answer card is REBUILT, not captured: an Amazon search results page drawn in HTML (../../scenes/tabs-assets/costumes.34c23b1d.css)
+around six real listings. Nothing was bought or added to a cart.
+
+How the six were picked (2026-10-17, read as a guest from www.amazon.com search, US storefront, no account):
+  five searches, their first result page each (about 60 results a page):
+    https://www.amazon.com/s?k=funny+halloween+costume+adult
+    https://www.amazon.com/s?k=cheap+funny+halloween+costumes
+    https://www.amazon.com/s?k=inflatable+halloween+costume+adult
+    https://www.amazon.com/s?k=banana+costume+adult
+    https://www.amazon.com/s?k=hot+dog+costume+adult
+  297 result rows, 240 unique ASINs (the card's "Compared 240 listings"). Sponsored rows were left out of the picks;
+  accessories (hats, headbands, glasses, tees) were passed over for whole costumes; the six are cheap whole costumes
+  with real ratings, shown cheapest first. "Cheapest" is the lowest price among them; "Most fun" is superbot's pick
+  (the ride-on inflatable T-rex, also the most bought of the six at 2K+ in the past month).
+
+Each listing as Amazon showed it on the search page that day: title, price, star rating, rating count.
+  crayon.jpg   B0H93H74JX  $7.99   4.6 (15)    Adult Crayon Costume Set with Inflatable Crayon Prop, Funny Halloween Costume
+                                                with Apron and Cone Hat                           50+ bought in past month
+  banana.jpg   B0GWM4NNYP  $16.99  4.5 (4.4K)  Spooktacular Creations Appealing Banana Costume Adult Deluxe Set for Halloween
+                                                Dress Up Party and Roleplay Cosplay               50+ bought in past month
+  hotdog.jpg   B07NV6GV63  $19.98  4.4 (304)   Unisex Adult Hot Dog Fancy Jumpsuit                200+ bought in past month
+  trex.jpg     B0D7V3B7SY  $19.99  4.4 (309)   Inflatable Dinosaur Costume Adults, Inflatable Halloween Costumes, Ride on Dino
+                                                Costume, Blow Up T-rex Costume Fancy Dinosaur Suit for Halloween Party
+                                                                                                  2K+ bought in past month
+  plug.jpg     B07W45HH8M  $19.99  4.3 (1.9K)  Spooktacular Creations Plug and Socket Halloween Costume Adult, Plug and Outlet
+                                                Couples USB Costume
+  chicken.jpg  B09ZQV2ZHW  $24.99  4.6 (1.8K)  KOOY Inflatable Chicken Costume Adult, Inflatables Rooster Costume Women/Men
+                                                for Party                                         3K+ bought in past month
+  Product pages: https://www.amazon.com/dp/<ASIN>. The card shows the titles clamped to two lines, as Amazon's grid does
+  (the T-rex title is cut after "Blow Up T-rex Costume"). Prices move; these are the ones read on 2026-10-17.
+
+Photos: each listing's own search-result image (m.media-amazon.com/images/I/<id>._AC_UL960_QL65_.jpg, the srcset's largest),
+resized to 480px on the long side and re-encoded as JPEG q82 (sips):
+  crayon 61MYgjo5rIL, banana 61Ma6sf8s0L, hotdog 61LanpyDsqL, trex 51-ydMdlXXL, plug 71Dx2sV7HEL, chicken 51A5wtCCOdL.
+The photographs belong to their sellers; the Amazon UI and marks belong to Amazon.com, Inc. (brand/CREDITS.txt). Shown
+nominatively, as the answer to the ask.

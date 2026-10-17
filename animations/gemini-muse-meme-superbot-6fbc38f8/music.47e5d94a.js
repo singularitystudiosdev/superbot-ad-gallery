@@ -4,7 +4,8 @@
 // its own controls and unlocks audio only while it is the pick; a pick fires 'musicchange', which each one answers as it
 // does 'variantchange'. `only` names the variants a soundtrack was made for (one, or a list): elsewhere it is not offered,
 // and while it is the pick there, that variant's default plays instead. DEFAULTS gives a variant its own default soundtrack
-// (multicat-credits plays v16 unless another is picked); every other variant defaults to v5.
+// (multicat-credits plays v16 unless another is picked, as does amazon-costumes, re-cued in beats/costumes.34c23b1d.js);
+// every other variant defaults to v5.
 import { variant } from './variant.9e82faf1.js?v=3';
 
 export const MUSICS = [
@@ -19,13 +20,13 @@ export const MUSICS = [
   { id: 'v13', label: '13 · Crisp modern mix', only: 'multicat' },
   { id: 'v14', label: '14 · FM keys, tight low end', only: 'multicat' },
   { id: 'v15', label: '15 · Flagship film score', only: 'multicat' },
-  { id: 'v16', label: '16 · Punchy premium groove', only: ['multicat', 'multicat-credits'] },
+  { id: 'v16', label: '16 · Punchy premium groove', only: ['multicat', 'multicat-credits', 'amazon-costumes'] },
   { id: 'v17', label: '17 · Sharp SFX + bed', only: 'multicat' },
   { id: 'none', label: 'None (song only)' },
 ];
 const BY_ID = new Map(MUSICS.map((m) => [m.id, m]));
 const DEFAULT = 'v5';
-const DEFAULTS = { 'multicat-credits': 'v16' };
+const DEFAULTS = { 'multicat-credits': 'v16', 'amazon-costumes': 'v16' };
 const fallback = () => DEFAULTS[variant()] || DEFAULT;
 
 // the pick in ?music=, or null: then each variant plays its own default

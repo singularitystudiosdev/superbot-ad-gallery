@@ -11,9 +11,8 @@
 // cheapest, most fun Halloween costumes on Amazon, answered with six real listings
 // (scenes/tabs-assets/beats/costumes.34c23b1d.js), or 'halloween-shopping', that cut's look for two shopping asks: the
 // cheapest king size Halloween candy bought on Amazon, then three small pumpkin costumes on Temu
-// (scenes/tabs-assets/beats/halloween.37ff9e93.js), or 'garmin-strava', superbot connecting Garmin and then posting the
-// next morning's run to Strava by itself, no model on show (scenes/tabs-assets/beats/garmin-strava.7a48d642.js). Read
-// from ?variant= so a frozen
+// (scenes/tabs-assets/beats/halloween.37ff9e93.js), or 'hotelcall', cut as multicat-credits is, where superbot phones the
+// hotel and moves the stay (scenes/tabs-assets/beats/hotelcall.f934b5ee.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -46,7 +45,8 @@ export const VARIANTS = [
   { id: 'college', label: 'College research study' },
   { id: 'amazon-costumes', label: 'Amazon Halloween costumes' },
   { id: 'halloween-shopping', label: 'Halloween shopping · Amazon + Temu' },
-  { id: 'garmin-strava', label: 'Garmin runs to Strava' },
+  { id: 'hotelcall', label: 'Hotel call' },
+  { id: 'garmin-strava', label: 'Garmin runs to Strava' }, // superbot connects Garmin, then posts the next morning's run to Strava by itself (scenes/tabs-assets/beats/garmin-strava.7a48d642.js)
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

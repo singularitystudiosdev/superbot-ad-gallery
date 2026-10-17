@@ -4,15 +4,18 @@
 // frozen capture (body.freeze) like the other pills. Clicking it or pressing M turns the sound on, and from then on
 // toggles it; the multicat song (an <audio>, beats/multicat.516afb1a.js) follows the same mute through songLevel().
 // On the Music pill it is pick 'v16' (music.47e5d94a.js): it wakes audio, takes M and shows its pill only while the variant
-// is multicat (or multicat-credits, multidog-credits, amazon-costumes, halloween-shopping or garmin-strava) and v16 is the pick.
+// is multicat (or multicat-credits, multidog-credits, amazon-costumes or halloween-shopping) and v16 is the pick. A variant
+// in OWN plays its own score through this gate whatever the Music pick (hotelcall: its call and score,
+// beats/hotelcall-score.f934b5ee.js); it has no Music pill, so its Sound pill takes that pill's place
+// (sound.96834de7.css .sound-own).
 import { variant } from './variant.9e82faf1.js?v=3';
 import { music } from './music.47e5d94a.js?v=2';
 
 // the base chain and its bare twins, cat and dog (v16 is their default soundtrack), and the Amazon costumes cut, which
-// plays it re-cued (beats/costumes.34c23b1d.js), as do the Halloween shopping chain (beats/halloween.37ff9e93.js) and
-// the Garmin to Strava cut (beats/garmin-strava.7a48d642.js)
+// plays it re-cued (beats/costumes.34c23b1d.js), as does the Halloween shopping chain (beats/halloween.37ff9e93.js)
 const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes', 'halloween-shopping', 'garmin-strava']);
-const on = () => SCORED.has(variant()) && music() === 'v16';
+const OWN = new Set(['hotelcall']);
+const on = () => OWN.has(variant()) || (SCORED.has(variant()) && music() === 'v16');
 const LEVEL = 1; // the master gain while unmuted
 export const sound = { ctx: null, out: null, muted: false };
 
@@ -80,6 +83,7 @@ btn.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter')
 let shown = '';
 function sync() {
   pill.hidden = !on();
+  pill.classList.toggle('sound-own', OWN.has(variant()));
   const state = sound.muted ? 'off' : blocked() ? 'blocked' : 'on';
   if (state === shown) return;
   shown = state;

@@ -121,13 +121,15 @@ body.freeze .speed-select { display: none; }
 @media (pointer: coarse) { .music-pick { top: 142px; } .music-pick select { height: 44px; } }
 body.freeze .music-pick { display: none; }
 
-/* the Export pill (export.64039673.js): the Music pick's chrome, directly under it, offered only on the multicat-credits
-   cut at 9:16. It saves that cut as a video file; it is a control, never part of the spot, so it hides on a frozen capture. */
+/* the Export pill (export.64039673.js): the Music pick's chrome, offered on every variant at every ratio. Its top here is a
+   fallback: the module moves it 8px under the lowest pill showing (the stack changes with the variant, soundtrack and
+   pointer). It saves the variant at the ratio on screen as a video file; it is a control, never part of the spot, so it
+   hides on a frozen capture. */
 .export-pill { position: fixed; top: 162px; right: 18px; z-index: 40; display: inline-flex; align-items: center; padding: 4px; border-radius: 999px;
   background: var(--card); border: 1px solid var(--line); font: 600 13px/1 var(--ui); user-select: none; }
 .export-pill[hidden] { display: none; }
 .export-btn { appearance: none; margin: 0; border: 0; height: 30px; padding: 0 14px; border-radius: 999px; background: transparent;
-  color: var(--fg); font: inherit; cursor: pointer; transition: background-color .15s; }
+  color: var(--fg); font: inherit; font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color .15s; }
 .export-btn:hover:not(:disabled) { background: var(--raised); }
 .export-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .export-btn:disabled { cursor: progress; color: var(--muted); }

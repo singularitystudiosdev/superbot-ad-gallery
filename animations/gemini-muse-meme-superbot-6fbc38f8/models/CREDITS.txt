@@ -55,9 +55,12 @@ dog-meshy.7b007b09.glb   (the 'multidog' variant's walking beagle, beats/multido
   Request id: 01a1485f-20de-7db0-8186-8c6d68a94794, seed 1416444107. Generated 2026-10-17 (UTC), $0.80 per generation.
   Rig and animation: Meshy's auto-rigger (fal-ai/meshy/rigging) takes humanoid characters only, so the quadruped rig was
   built by script over the Meshy mesh: the body axis turned onto +X and the feet set on y = 0, 22 bones (root, pelvis,
-  spine, chest, neck, head, four tail bones, three per leg) placed on the legs' measured centrelines, skin weights from
-  each vertex's distance to its leg and its place along the body, and one 4 s looping clip "Walk" keyed at 30 fps (a
-  lateral-sequence walk, 1 s stride, paw and hock flex in the swing, a 2.5 Hz tail wag, a slow head turn).
+  spine, chest, neck, head, five tail bones, three per leg) placed on the legs' and the tail's measured centrelines (the
+  middle of each 0.025-high slice of the mesh), skin weights from each vertex's distance to its leg and its place along
+  the body, the tail weighted by height between neighbouring bone centres (rebuilt 2026-10-17: the first rig's tail bones
+  sat 0.1 behind the tail and left its front half bound to the hips, which tore the tip as it wagged; the front wrist's
+  swing fold eased from 62 to 42 degrees, which had pinched a crease at the joint), and one 4 s looping clip "Walk" keyed at 30 fps (a
+  lateral-sequence walk, 1 s stride, paw and hock flex in the swing, a 2.5 Hz tail wag of 5-9 degrees a joint, the tip about 38 each way, a slow head turn).
   Scripts: quick-chats/dogchain.7b007b09/{align,legs,rig}.mjs. Web-optimised with @gltf-transform/cli 4 (base colour and
   metal-roughness 2048 px, normal 1024 px, WebP, quantised attributes): 14.9 MB -> 4.75 MB.
   Output owned by the user (paid generation); no attribution owed and no on-screen credit.

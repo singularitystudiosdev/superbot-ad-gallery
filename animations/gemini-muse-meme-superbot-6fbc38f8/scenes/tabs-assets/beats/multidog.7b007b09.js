@@ -31,7 +31,7 @@ const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const DOG = asset('img/dogs.7b007b09/beagle.jpg');
 const COVER = asset('img/dogs.7b007b09/cover.jpg'); // the song's cover: that same beagle, cropped to its face
 const ORDER = asset('img/dogs.7b007b09/order-placed.jpg');
-const MODEL = asset('models/dog-meshy.7b007b09.glb');
+const MODEL = asset('models/dog-meshy.7b007b09.glb?v=2'); // ?v= busts the Pages cache when the rig is rebuilt
 const SONG = asset('media/dogs.7b007b09/tails-up.mp3');
 const STORE = 'https://www.doordash.com/convenience/store/1440871/';
 const ORDER_ALT = 'DoorDash order placed: Confirming your order from PetSmart, one Purina Pro Plan Chicken & Rice Formula Complete Essentials Adult Dry Dog Food Bag (35 lb), $74.99 subtotal';

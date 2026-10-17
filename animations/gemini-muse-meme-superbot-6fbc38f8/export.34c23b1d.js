@@ -4,10 +4,11 @@
 // (manifest.json at the gallery root) whose src opens this spot on that variant. A render exists only where one was made,
 // so each (variant, ratio) is probed once. A plain link with `download`: the browser saves the file itself. With no render
 // there, the button renders the variant at that ratio here instead (export.64039673.js: frame-exact, at the ratio's
-// platform size, silent), its label counting the render up, then saves it; only a browser without WebCodecs gets the old
-// quiet 'No render'. Its stylesheet (export.34c23b1d.css) loads with the module.
+// platform size, with the sound the spot plays, recorded in one real-time pass first), its label counting the sound pass
+// then the render up, then saves it; only a browser without WebCodecs gets the old quiet 'No render'. Its stylesheet
+// (export.34c23b1d.css) loads with the module.
 import { variant, VARIANTS } from './variant.9e82faf1.js?v=3';
-import { render, download, fileName, outSize, canRender, busy } from './export.64039673.js?v=2';
+import { render, download, fileName, outSize, canRender, busy } from './export.64039673.js?v=3';
 
 const ROOT = new URL('../../', import.meta.url);
 // this spot's folder, as the manifest's srcs name it (animations/<folder>/?variant=...)
@@ -94,9 +95,10 @@ export function mountExport(pill) {
     text.textContent = 'Rendering…';
     let after = 'Saved';
     try {
-      const res = await render({ onProgress: (p) => { text.textContent = `Rendering ${Math.round(p * 100)}%`; } });
+      // the sound pass plays the spot through at 1x first (keep this tab in front), then the frames are painted
+      const res = await render({ onProgress: (p, phase) => { text.textContent = `${phase === 'sound' ? 'Recording sound' : 'Rendering'} ${Math.round(p * 100)}%`; } });
       download(res.blob, fileName(res));
-      console.info(`export: ${res.variant} ${res.width}x${res.height}, ${res.frames} frames, ${res.seconds.toFixed(1)}s, ${(res.blob.size / 1e6).toFixed(1)} MB, ${res.missing} bitmap(s) missing`);
+      console.info(`export: ${res.variant} ${res.width}x${res.height}, ${res.frames} frames, ${res.seconds.toFixed(1)}s, ${(res.blob.size / 1e6).toFixed(1)} MB, sound ${res.audio || 'none'}, ${res.missing} bitmap(s) missing`);
     } catch (e) {
       after = 'Export failed';
       console.error(new Error('export: the render failed', { cause: e }));

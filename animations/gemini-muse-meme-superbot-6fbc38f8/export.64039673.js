@@ -25,12 +25,16 @@
 // muxed to MP4 by vendor/mp4-muxer.mjs. The timestamp is the whole design: an encoder writes the time it is given, so the
 // file is exactly the spot's length no matter how long the painting took, at a true 30fps, and a spot renders in well
 // under its own running time. A MediaRecorder would be simpler but unusable here: it stamps every frame by arrival, which
-// would both tie the export to wall clock and leave the webm without a duration in its header. The file is silent: each
-// variant's sound is its own engine (scores, songs, calls), none of it rendered here.
+// would both tie the export to wall clock and leave the webm without a duration in its header.
+//
+// Sound. Each variant's sound is its own engine (scores, songs, calls) that follows the RUNNING clock, so before the frames
+// the spot plays once at 1x from the top while export-sound.64039673.js takes it down; the track is muxed beside the
+// frames as AAC (else Opus). A variant that plays nothing, or a browser without AudioEncoder, gets a silent file.
 //
 // Every variant at every ratio, wherever the browser has WebCodecs; window.__EXPORT.render() drives the same render from a
-// headless check or the console.
+// headless check or the console ({ withSound: false } skips the sound pass).
 import { variant } from './variant.9e82faf1.js?v=3';
+import { recordSound, soundCodec, muxerCodec, encodeSound, SR } from './export-sound.64039673.js?v=1';
 
 const FPS = 30;
 // H.264 High 4.0: the encoder profile every desktop and mobile browser decodes, and the one an editor or an ad platform
@@ -294,7 +298,10 @@ export const busy = () => running;
 // the last finished run, so a headless check can pull the file back instead of only trusting the button
 let lastRun = null;
 
-async function renderNow({ fps = FPS, onProgress } = {}) {
+// the share of the label's count the sound pass takes, when there is one (it plays in real time; the frames paint faster)
+const SOUND_SHARE = 0.4;
+
+async function renderNow({ fps = FPS, withSound = true, onProgress } = {}) {
   const ad = window.__AD;
   if (!ad) throw new Error('export: the spot has no clock yet (window.__AD)');
   if (typeof VideoEncoder !== 'function') throw new Error('export: this browser has no WebCodecs VideoEncoder');
@@ -303,8 +310,19 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
   const [OW, OH] = outSize(ar, W, H);
   const changed = () => variant() !== v || window.AR.key !== ar;
   const total = Math.max(1, Math.round(ad.CYCLE * fps));
+  // 1. the sound, played once in real time (onProgress's second argument names the phase: 'sound', then 'frames')
+  const pcm = withSound ? await recordSound({ seconds: total / fps, changed, onProgress: onProgress && ((p) => onProgress(p * SOUND_SHARE, 'sound')) }) : null;
+  const acodec = pcm ? await soundCodec() : null;
+  if (pcm && !acodec) log('this browser encodes neither AAC nor Opus, so the file is silent');
+  const share = pcm ? SOUND_SHARE : 0;
+  // 2. the pictures, frame by frame
   const { Muxer, ArrayBufferTarget } = await loadMuxer();
-  const muxer = new Muxer({ target: new ArrayBufferTarget(), video: { codec: 'avc', width: OW, height: OH }, fastStart: 'in-memory' });
+  const muxer = new Muxer({
+    target: new ArrayBufferTarget(),
+    video: { codec: 'avc', width: OW, height: OH },
+    ...(acodec ? { audio: { codec: muxerCodec(acodec), numberOfChannels: 2, sampleRate: SR } } : {}),
+    fastStart: 'in-memory',
+  });
   const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => log('the encoder failed', e) });
   const cfg = { codec: AVC, width: OW, height: OH, bitrate: BITRATE, framerate: fps };
   const sup = await VideoEncoder.isConfigSupported(cfg);
@@ -326,7 +344,7 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
         enc.encode(frame, { keyFrame: i % (fps * 2) === 0 });
         frame.close();
       }
-      if (onProgress && i % fps === 0) onProgress(i / total);
+      if (onProgress && i % fps === 0) onProgress(share + (1 - share) * (i / total), 'frames');
       // one frame at a time, but never all at once: the encoder's queue is bounded, and waiting here is what keeps a run
       // from holding every frame in memory at once
       if (enc.encodeQueueSize > 8) await new Promise((r) => setTimeout(r, 0));
@@ -337,9 +355,14 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
     // the spot is left exactly where it started, whatever happened mid-run
     ad.seek(0);
   }
+  // 3. the sound beside them
+  const priming = acodec ? await encodeSound(muxer, acodec, pcm) : 0;
   muxer.finalize();
   const blob = new Blob([muxer.target.buffer], { type: 'video/mp4' });
-  const result = { blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v };
+  const result = {
+    blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v,
+    audio: acodec, peak: pcm ? +pcm.peak.toFixed(3) : 0, priming, latencyMs: pcm ? pcm.latencyMs : [], mediaElements: pcm ? pcm.elements : 0,
+  };
   lastRun = result;
   return result;
 }

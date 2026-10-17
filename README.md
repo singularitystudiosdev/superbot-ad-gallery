@@ -96,7 +96,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   the same time, it writes and sends the email while the call holds; the agent picks up and the call plays
   with sound under a live transcript (TTS), ending on the approved refund; then one 1-star review posts to ten
   rating platforms, and the superbot.gg end card. Its score is the credits cut's v16 re-cued to this chain
-  (`beats/refund-score.d3537b02.js`), stopping for the call (about 32s, with sound).
+  (`beats/refund-score.d3537b02.js`), stopping for the call (about 32s, with sound). Its Download button saves the
+  renders in `assets/video/gemini-muse-meme-refund-superbot-d3537b02.<ar>.mp4` at every ratio (60fps, with sound),
+  made by `export-render.07e9fa90.mjs`.
 - **Discord emojis, then a frog GIF**: the muse meme spot's Discord cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=discord-credits`), made like the credits-only cat cut (no
   model on show): a breakdown of the emojis the user sends most on Discord (the last 30 days of messages and reactions,

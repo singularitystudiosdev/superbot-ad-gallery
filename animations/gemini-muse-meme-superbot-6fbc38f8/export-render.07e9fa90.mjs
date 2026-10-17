@@ -11,7 +11,9 @@
 // renders (multicat-player.96834de7.js, window.__MC_SCORE, sample 0 = t 0) plus the song from its play press at 0.9
 // (songRules.v16 in beats/multicat.516afb1a.js), faded evenly in dB to -40 dB over SONG_FADE after SONG_FOR, as syncAudio
 // does there. Keep SOUND in step with that file. A cut whose soundtrack is one narration (`take`: the college cut) reads its
-// timing from the beat itself (window.__COLLEGE_SOUND in beats/college.057e3dda.js) and lays that take alone.
+// timing from the beat itself (window.__COLLEGE_SOUND in beats/college.057e3dda.js) and lays that take alone. A cut whose
+// beat mixes its whole soundtrack itself (`registered`: the refund cut, its score with the call laid in) hands it over as
+// one buffer, window.__EXPORT_AUDIO[variant], and that goes in from t 0 as it is.
 //
 // usage (from the repo root, with the repo served, e.g. `npx http-server -p 8737 -c-1 .`):
 //   node animations/gemini-muse-meme-superbot-6fbc38f8/export-render.07e9fa90.mjs http://127.0.0.1:8737 [16x9,4x3,1x1,4x5,9x16]
@@ -39,6 +41,11 @@ const RENDERS = {
   college: {
     id: 'gemini-muse-meme-college-superbot-057e3dda',
     sound: { take: '__COLLEGE_SOUND' },
+  },
+  // the refund cut: its beat's own mixdown (beats/refund.d3537b02.js: its v16 re-cue with the support call laid in at its cue)
+  refund: {
+    id: 'gemini-muse-meme-refund-superbot-d3537b02',
+    sound: { registered: true },
   },
 };
 // stage width at 1080 high, and the scale it is drawn at (9:16 to 1080x1920)
@@ -79,12 +86,15 @@ async function renderSound(browser, variant, sound, frames, wav) {
   if (sound.take) {
     // a narration-only cut publishes its take once its beat is built (the college beat's window.__COLLEGE_SOUND)
     await page.waitForFunction((k) => window[k], sound.take, { timeout: 60000 });
+  } else if (sound.registered) {
+    // a self-mixing beat registers its soundtrack once it is built
+    await page.waitForFunction((v) => window.__EXPORT_AUDIO && window.__EXPORT_AUDIO[v], variant, { timeout: 60000 });
   } else {
     // a frame on the cut renders the v16 score (the player prepares it on its first sync)
     await page.evaluate(() => { window.__AD.seek(0); window.__AD.seek(window.__AD.CYCLE / 2); });
     await page.waitForFunction(() => window.__MC_SCORE && window.__MC_SCORE.buffer, null, { timeout: 180000 });
   }
-  const { b64, peak } = await page.evaluate(async ({ sound, seconds, SR, spot }) => {
+  const { b64, peak } = await page.evaluate(async ({ sound, seconds, SR, spot, variant }) => {
     const at = (p) => new URL(p, new URL(spot, location.href)).href;
     const len = Math.round(seconds * SR);
     const ctx = new OfflineAudioContext(2, len, SR);
@@ -104,6 +114,12 @@ async function renderSound(browser, variant, sound, frames, wav) {
       // the narration alone, as the beat plays it (no score under it)
       const t = window[sound.take];
       lay(await ctx.decodeAudioData(await (await fetch(t.url)).arrayBuffer()), t.play, 1, t.fadeAt, t.fadeEnd, t.stop);
+    } else if (sound.registered) {
+      // the beat's own mixdown, sample 0 = t 0
+      const bed = ctx.createBufferSource();
+      bed.buffer = await window.__EXPORT_AUDIO[variant]();
+      bed.connect(ctx.destination);
+      bed.start(0);
     } else {
       const score = window.__MC_SCORE.buffer, play = window.__MC_SCORE.cues.play;
       const { DUR } = await import(at(sound.songData));
@@ -126,7 +142,7 @@ async function renderSound(browser, variant, sound, frames, wav) {
     let s = '';
     for (let i = 0; i < bytes.length; i += 32768) s += String.fromCharCode(...bytes.subarray(i, i + 32768));
     return { b64: btoa(s), peak };
-  }, { sound, seconds: frames / FPS, SR, spot: './' });
+  }, { sound, seconds: frames / FPS, SR, spot: './', variant });
   await page.close();
   console.log(`[sound] ${variant}: ${(frames / FPS).toFixed(3)}s, peak ${(20 * Math.log10(peak)).toFixed(2)} dBFS`);
   const pcm = Buffer.from(b64, 'base64');

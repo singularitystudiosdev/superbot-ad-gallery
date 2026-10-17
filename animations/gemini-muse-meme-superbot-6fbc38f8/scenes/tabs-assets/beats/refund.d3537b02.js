@@ -208,9 +208,9 @@ export default {
     };
     const score = makePlayer(cues);
     addEventListener('variantchange', () => score.stop());
-    // the Export button's soundtrack (export.64039673.js window.__EXPORT_AUDIO): this score's own render with the call laid
-    // in at its cue, at the level the page plays it (sound.96834de7.js songLevel, 1 unmuted), so the file is sample-exact
-    // and needs no real-time pass
+    // the cut's whole soundtrack for its offline renders (window.__EXPORT_AUDIO, read by export-render.07e9fa90.mjs, which
+    // makes the files the Export button downloads): this score's own render with the call laid in at its cue, at the level
+    // the page plays it (sound.96834de7.js songLevel, 1 unmuted), so the file's sound is sample-exact
     let mixdown = null;
     (window.__EXPORT_AUDIO ||= {})[ID] = () => (mixdown ||= Promise.all([
       renderScore(cues),

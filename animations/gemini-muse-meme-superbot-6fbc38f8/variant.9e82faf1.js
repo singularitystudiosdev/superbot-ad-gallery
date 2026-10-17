@@ -5,7 +5,9 @@
 // Meshy 3D cat that walks, cat food from DoorDash and an ElevenLabs cat song (scenes/tabs-assets/beats/multicat.516afb1a.js), or
 // 'multicat-credits', that chain with no model switches on show, each generation landing with the credits it used, or 'multidog',
 // the same four tools for a dog (scenes/tabs-assets/beats/multidog.7b007b09.js), or 'multidog-credits', the
-// multicat-credits chain cut for that dog (multicat.516afb1a.js bareDog). Read from ?variant= so a frozen
+// multicat-credits chain cut for that dog (multicat.516afb1a.js bareDog), or 'halloween-shopping', that cut's look for two
+// shopping asks: the cheapest king size Halloween candy bag bought on Amazon, then three small pumpkin costumes on Temu
+// (scenes/tabs-assets/beats/halloween.37ff9e93.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -35,6 +37,7 @@ export const VARIANTS = [
   { id: 'multicat-credits', label: 'Multi-tool cat · credits only' },
   { id: 'multidog', label: 'Multi-tool dog' },
   { id: 'multidog-credits', label: 'Multi-tool dog · credits only' },
+  { id: 'halloween-shopping', label: 'Halloween shopping · Amazon + Temu' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

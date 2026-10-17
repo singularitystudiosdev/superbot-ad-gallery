@@ -4,11 +4,12 @@
 // frozen capture (body.freeze) like the other pills. Clicking it or pressing M turns the sound on, and from then on
 // toggles it; the multicat song (an <audio>, beats/multicat.516afb1a.js) follows the same mute through songLevel().
 // On the Music pill it is pick 'v16' (music.47e5d94a.js): it wakes audio, takes M and shows its pill only while the variant
-// is multicat (or multicat-credits) and v16 is the pick.
+// is multicat (or multicat-credits, or garmin-strava, which it is re-cued to) and v16 is the pick.
 import { variant } from './variant.9e82faf1.js?v=3';
 import { music } from './music.47e5d94a.js?v=2';
 
-const SCORED = new Set(['multicat', 'multicat-credits']); // the base chain and its bare twin (its default soundtrack)
+// the base chain, its bare twin and the garmin-strava chain (v16 is the default soundtrack of the last two)
+const SCORED = new Set(['multicat', 'multicat-credits', 'garmin-strava']);
 const on = () => SCORED.has(variant()) && music() === 'v16';
 const LEVEL = 1; // the master gain while unmuted
 export const sound = { ctx: null, out: null, muted: false };

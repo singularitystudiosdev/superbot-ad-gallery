@@ -4,7 +4,9 @@
 // (scenes/tabs-assets/beats/lawn.f5e1d276.js), or 'multicat', four asks in one chat, each on its own tool: a GPT Image 2 cat photo, a
 // Meshy 3D cat that walks, cat food from DoorDash and an ElevenLabs cat song (scenes/tabs-assets/beats/multicat.516afb1a.js), or
 // 'multicat-credits', that chain with no model switches on show, each generation landing with the credits it used, or 'multidog',
-// the same four tools for a dog (scenes/tabs-assets/beats/multidog.7b007b09.js). Read from ?variant= so a frozen
+// the same four tools for a dog (scenes/tabs-assets/beats/multidog.7b007b09.js), or 'garmin-strava', superbot connecting
+// Garmin and then posting the next morning's run to Strava by itself, no model on show (scenes/tabs-assets/beats/
+// garmin-strava.7a48d642.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -33,6 +35,7 @@ export const VARIANTS = [
   { id: 'multicat', label: 'Multi-tool cat' },
   { id: 'multicat-credits', label: 'Multi-tool cat · credits only' },
   { id: 'multidog', label: 'Multi-tool dog' },
+  { id: 'garmin-strava', label: 'Garmin runs to Strava' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

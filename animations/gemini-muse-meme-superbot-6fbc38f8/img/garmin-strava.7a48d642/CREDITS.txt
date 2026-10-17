@@ -1,0 +1,32 @@
+img/garmin-strava.7a48d642 CREDITS: the 'garmin-strava' variant ("Connect to my garmin account, and then after every one
+of my runs, post it to strava for me"; scenes/tabs-assets/beats/garmin-strava.7a48d642.js).
+
+map.svg     The Strava card's map: a 560 x 200 SVG drawn from OpenStreetMap data, styled after Strava's light map (warm grey
+            land, green parks, blue water, white streets on a grey casing, primaries pale yellow, trails dashed). No map
+            tile, embed or API key is loaded. Streets (highway motorway..residential, plus footway / path / cycleway over
+            90 m that are not sidewalks or crossings), parks, pitches, grass, water, streams, the CSU campus and rail,
+            fetched with one Overpass query (https://overpass-api.de/api/interpreter, `out geom`) over the box
+            40.5615,-105.1385,40.5965,-105.0445, then projected (equirectangular at the route's mid latitude) and
+            simplified (Douglas-Peucker, 0.3 to 0.4 px).
+            Data: (c) OpenStreetMap contributors, Open Database Licence 1.0 (https://www.openstreetmap.org/copyright).
+            The attribution sits on the map itself, bottom right, as Strava's own maps carry theirs.
+            Fetched 2026-10-17.
+
+The route   scenes/tabs-assets/beats/garmin-strava-data.7a48d642.js: a walking route from the FOSSGIS OSRM server
+            (https://routing.openstreetmap.de/routed-foot/route/v1/driving/, overview=full, geometries=geojson) through
+            these waypoints (lon,lat): Old Town Square -105.0758,40.5876; Mountain Ave -105.0950,40.5873; City Park
+            -105.1035,40.5845, -105.1063,40.5828, -105.1040,40.5813; -105.0960,40.5782; CSU campus -105.0860,40.5735,
+            -105.0830,40.5712; College Ave -105.0771,40.5745; back to Old Town Square. It measures 8,444 m (5.247 mi),
+            the 5.25 mi on the card. Routed on OpenStreetMap data, ODbL as above. Fetched 2026-10-17.
+            Projected onto the same map and simplified to 100 points.
+
+Made up     The athlete ("Sam", the chat's user), the watch (Forerunner 265), the times (6:48 AM start, posted 7:32 AM),
+            the 8:14 /mi pace and the 43m 12s it makes over 5.25 mi, the kudos and their givers. Nothing was connected,
+            recorded or posted; no Garmin or Strava account or API is touched.
+
+Marks       Inline in the beat module, never as files:
+            Garmin delta: the triangle path of the Simple Icons "garmin" logo (https://simpleicons.org, CC0 1.0), drawn in
+            Garmin blue #007CC3. Strava chevrons: the Simple Icons "strava" path (CC0 1.0), in Strava orange #FC5200.
+            Garmin and Garmin Connect are trademarks of Garmin Ltd. or its subsidiaries; Strava is a trademark of
+            Strava, Inc. Both are shown nominatively, naming the services the ask names.
+            Repeat, thumbs-up and message-circle glyphs: Lucide (https://lucide.dev, ISC licence), via the Iconify API.

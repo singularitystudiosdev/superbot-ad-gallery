@@ -112,3 +112,7 @@ multicat additions (fetched 2026-10-16):
                             set from black to white for dark tiles. Trademark of Eleven Labs, Inc., used nominatively to name
                             the app superbot routes the song to.
   openai-logo.svg           (already above) also stands for GPT Image 2, OpenAI's image model, in the multicat variant.
+
+garmin-strava additions (2026-10-17): the Garmin delta and the Strava chevrons are inline SVG paths in
+  scenes/tabs-assets/beats/garmin-strava.7a48d642.js, not files here (Simple Icons, CC0 1.0); their source, colours and
+  trademark notes are in ../img/garmin-strava.7a48d642/CREDITS.txt.

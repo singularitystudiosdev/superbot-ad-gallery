@@ -45,6 +45,13 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   that beagle as a walking 3D model (Meshy, walk rigged by superbot), a PetSmart dog food order on
   DoorDash and "Tails Up", a song about dogs (ElevenLabs, plays with sound), each answer a real
   generation (about 29s, with sound).
+- **Garmin runs to Strava**: the muse meme spot's automation cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=garmin-strava`), in the multicat-credits look (no
+  model on show): "Connect to my garmin account, and then after every one of my runs, post it to strava for
+  me". superbot connects Garmin Connect and Strava and switches the rule on; the next morning it posts the run
+  to Strava by itself, the route drawing onto an SVG map drawn from OpenStreetMap (a real 5.25 mi Fort Collins
+  loop, `img/garmin-strava.7a48d642/CREDITS.txt`) as kudos come in; ends on the superbot.gg end card (about 15s,
+  with sound: v16 re-cued to this chain).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

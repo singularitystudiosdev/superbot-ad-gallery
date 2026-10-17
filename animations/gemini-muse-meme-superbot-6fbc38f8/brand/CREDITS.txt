@@ -121,3 +121,7 @@ AMAZON (amazon-costumes variant: the rebuilt results page's header and the card'
   amazon-wordmark-white.svg the same paths with the letters white, for Amazon's dark #131921 header (as amazon.com draws it).
   Usage: Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates; shown nominatively (naming the
   store superbot searches).
+
+garmin-strava additions (2026-10-17): the Garmin delta and the Strava chevrons are inline SVG paths in
+  scenes/tabs-assets/beats/garmin-strava.7a48d642.js, not files here (Simple Icons, CC0 1.0); their source, colours and
+  trademark notes are in ../img/garmin-strava.7a48d642/CREDITS.txt.

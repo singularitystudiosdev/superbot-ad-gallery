@@ -61,7 +61,7 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=amazon-costumes`): "Search on amazon and find
   me the cheapest and most fun halloween costumes" gets a rebuilt Amazon results page; the search runs
   x50 under skeleton tiles while 240 listings are compared, six real listings land cheapest first ($7.99
-  crayon to $24.99 inflatable chicken, as listed 2026-10-17), Cheapest and Most fun pop, then the
+  crayon to $24.99 inflatable chicken, as listed 2026-10-17), each a link to its listing, then the
   superbot.gg end card (about 12.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
 - **halloween shopping, no model on show**: the credits-only cut's look for two shopping asks
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=halloween-shopping`): "Search on amazon and buy
@@ -71,6 +71,26 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   Pumpkins, $28.99; Temu: three $7.82 pumpkin bodysuits with berets in size S, $23.46), rebuilt over
   real listings; ends on the superbot.gg end card (about 15s, with sound: the 16 · Punchy premium groove
   score re-cued to it). Nothing was ordered; provenance in `img/halloween.37ff9e93/CREDITS.txt`.
+- **call my hotel**: the muse meme spot's hotel call cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=hotelcall`), with no model on show as in
+  the credits-only cat: asked to move a reservation from the 20-25th to the 25-30th, superbot phones
+  the (fictional) hotel itself, the call heard with sound while its transcript fills in word by word,
+  then a Reservation updated card strikes Oct 20–25 and lands Oct 25–30 (about 33s, with sound: the
+  call, two Gemini TTS voices, over a bed synthesized in the multicat score's palette).
+- **Garmin runs to Strava**: the muse meme spot's automation cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=garmin-strava`), in the multicat-credits look (no
+  model on show): "Connect to my garmin account, and then after every one of my runs, post it to strava for
+  me". superbot connects Garmin Connect and Strava and switches the rule on; the next morning it posts the run
+  to Strava by itself, the route drawing onto an SVG map drawn from OpenStreetMap (a real 5.25 mi Fort Collins
+  loop, `img/garmin-strava.7a48d642/CREDITS.txt`) as kudos come in; ends on the superbot.gg end card (about 15s,
+  with sound: v16 re-cued to this chain).
+- **refund, then 1 star everywhere**: the muse meme spot's refund cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=refund`), no model on show as in the credits-only
+  cat: superbot calls Nimbus+ support (made up), works the phone menu and holds (x50); asked to email them at
+  the same time, it writes and sends the email while the call holds; the agent picks up and the call plays
+  with sound under a live transcript (TTS), ending on the approved refund; then one 1-star review posts to ten
+  rating platforms, and the superbot.gg end card. Its score is the credits cut's v16 re-cued to this chain
+  (`beats/refund-score.d3537b02.js`), stopping for the call (about 32s, with sound).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

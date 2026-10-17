@@ -84,6 +84,13 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   to Strava by itself, the route drawing onto an SVG map drawn from OpenStreetMap (a real 5.25 mi Fort Collins
   loop, `img/garmin-strava.7a48d642/CREDITS.txt`) as kudos come in; ends on the superbot.gg end card (about 15s,
   with sound: v16 re-cued to this chain).
+- **refund, then 1 star everywhere**: the muse meme spot's refund cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=refund`), no model on show as in the credits-only
+  cat: superbot calls Nimbus+ support (made up), works the phone menu and holds (x50); asked to email them at
+  the same time, it writes and sends the email while the call holds; the agent picks up and the call plays
+  with sound under a live transcript (TTS), ending on the approved refund; then one 1-star review posts to ten
+  rating platforms, and the superbot.gg end card. Its score is the credits cut's v16 re-cued to this chain
+  (`beats/refund-score.d3537b02.js`), stopping for the call (about 32s, with sound).
 - **Discord emojis, then a frog GIF**: the muse meme spot's Discord cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=discord-credits`), made like the credits-only cat cut (no
   model on show): a breakdown of the emojis the user sends most on Discord (the last 30 days of messages and reactions,

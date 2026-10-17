@@ -12,7 +12,9 @@
 // (scenes/tabs-assets/beats/costumes.34c23b1d.js), or 'halloween-shopping', that cut's look for two shopping asks: the
 // cheapest king size Halloween candy bought on Amazon, then three small pumpkin costumes on Temu
 // (scenes/tabs-assets/beats/halloween.37ff9e93.js), or 'hotelcall', cut as multicat-credits is, where superbot phones the
-// hotel and moves the stay (scenes/tabs-assets/beats/hotelcall.f934b5ee.js), or 'discord-credits', two asks cut like
+// hotel and moves the stay (scenes/tabs-assets/beats/hotelcall.f934b5ee.js), or 'refund', superbot calling support
+// for a refund, emailing them while it holds and posting a 1-star review everywhere
+// (scenes/tabs-assets/beats/refund.d3537b02.js)., or 'discord-credits', two asks cut like
 // multicat-credits: a breakdown of the emojis the user sends most on Discord, then a GIF of a dancing frog made and sent
 // to a friend in a Discord DM (scenes/tabs-assets/beats/discord.bccc0fdd.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
@@ -49,6 +51,7 @@ export const VARIANTS = [
   { id: 'halloween-shopping', label: 'Halloween shopping · Amazon + Temu' },
   { id: 'hotelcall', label: 'Hotel call' },
   { id: 'garmin-strava', label: 'Garmin runs to Strava' }, // superbot connects Garmin, then posts the next morning's run to Strava by itself (scenes/tabs-assets/beats/garmin-strava.7a48d642.js)
+  { id: 'refund', label: 'Refund call + 1-star reviews' },
   { id: 'discord-credits', label: 'Discord emojis + frog GIF · credits only' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);

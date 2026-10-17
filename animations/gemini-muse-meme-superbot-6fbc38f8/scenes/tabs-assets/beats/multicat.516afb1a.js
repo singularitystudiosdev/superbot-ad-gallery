@@ -21,6 +21,10 @@
 // typing and send presses) and inst.chips (the platform chip's swaps) for them (chat.9b47fc30.js). A pure function of
 // t, except the audio, which follows the clock and never drives it. Its stylesheet (../multicat.516afb1a.css) loads with
 // the module.
+// The 'multicat-credits' variant (`bare`, the named export) is the same chain with no model on show: no routing chips, no
+// connect frame, no "<model> in superbot" reply headers (the engine routes it with no chips and keeps the composer on
+// Superbot), each reply answering straight after its send; no tool logo on the generating pills, no credits, and a
+// song card with neither its cover nor the sung line under it.
 import { clamp, lerp, seg, outCubic, outQuint, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
@@ -31,9 +35,11 @@ import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
 import { music } from '../../../music.47e5d94a.js';
 // v5 on the Music pill: the broadcast mix, with the song mixed in
-import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js';
+import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js?v=2';
 
-const CSS = new URL('../multicat.516afb1a.css?v=5', import.meta.url).href;
+const CSS = new URL('../multicat.516afb1a.css?v=6', import.meta.url).href;
+// the two variants this module answers: the base chain and its bare twin (the export `bare`)
+export const ID = 'multicat', BARE_ID = 'multicat-credits';
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const CAT = asset('img/multicat.516afb1a/cat.jpg');
 const COVER = asset('img/multicat.516afb1a/cover.jpg'); // the song's cover: that same cat, cropped to its face
@@ -93,15 +99,16 @@ const STEPS = [
 const chipsAt = (sw, list) => list.map(([app, label, tool], i) => { const at = sw + i * CHIP_STRIDE; return { app, label, tool: !!tool, sw: at, swap: at + 0.22, done: at + 0.65 }; });
 
 // every time in the chain, laid end to end from the first reply r: each answer's card comes in at `card`, generates
-// (its timer running) from `gen0` until `done`, and has landed by `w1`
-function plan(r) {
+// (its timer running) from `gen0` until `done`, and has landed by `w1`. `bare` drops the chips, so each reply comes
+// where the first chip would have landed (the engine's own chipless route, chat.9b47fc30.js)
+function plan(r, bare = false) {
   const card = r + 0.22, gen0 = card + SEEN, done = gen0 + GEN.image / X;
   const T = { r, card, gen0, done, w1: done + LAND, steps: [] };
   let s = T.w1 + IMAGE_HOLD;
   for (const st of STEPS) {
     const typeEnd = s + st.ask.length / TYPE_CPS, send = typeEnd + 0.15;
-    const chips = chipsAt(send + 0.35, st.chips);
-    const rr = chips[chips.length - 1].done + 0.08, at = rr + 0.22, g0 = at + SEEN;
+    const chips = bare ? [] : chipsAt(send + 0.35, st.chips);
+    const rr = (chips.length ? chips[chips.length - 1].done : send + 0.35) + 0.08, at = rr + 0.22, g0 = at + SEEN;
     const fin = st.gen ? g0 + GEN[st.gen] / X : at + ORDER_LOAD, w1 = fin + LAND, play = w1 + PLAY_AFTER;
     T.steps.push({ ...st, s, typeEnd, send, chips, r: rr, card: at, gen0: g0, done: fin, w1, play, cut: play + SONG_FOR });
     s = w1 + st.hold;
@@ -111,6 +118,7 @@ function plan(r) {
 }
 // the chain's length from its first reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
+export const BARE_LEN = plan(0, true).end;
 
 const DL_GLYPH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
 const dl = (href, name) => `<a class="qc-dl" href="${href}" download="${name}" aria-label="Download image" title="Download">${DL_GLYPH}</a>`;
@@ -119,8 +127,8 @@ const PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.
 const DOWNLOAD = '<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 19.5h14"/></svg>';
 const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
-// a generating card's pill in its bottom left: the app, what it makes, and its timer
-const genl = (x, app, what) => `<span class="qc-genl">${x.tile(app)}${what}<b class="qc-genn">${clock(0)}</b></span>`;
+// a generating card's pill in its bottom left: the app, what it makes, and its timer; `bare` leaves the app's tile out
+const genl = (x, app, what, bare = false) => `<span class="qc-genl${bare ? ' mc-genl-bare' : ''}">${bare ? '' : x.tile(app)}${what}<b class="qc-genn">${clock(0)}</b></span>`;
 // that pill at t: the timer counts the real seconds X times the clock's rate from `gen0`, rests on the full `real` from
 // `done`, and the pill fades out as the answer lands (by w1). Returns how much the card is generating now, 0..1, which
 // the frame's badge shows by
@@ -182,23 +190,28 @@ function sayEl(x, text) {
   } };
 }
 
-export default {
-  // `end` (the base route's end plus `extra`) is LEN past r by construction, so the chain keeps its own clock
-  times(r) { return plan(r); },
+const make = (bare) => ({
+  // `end` (the base route's end plus `extra`) is LEN (BARE_LEN) past r by construction, so the chain keeps its own clock
+  times(r) { return plan(r, bare); },
   build(k, x) {
     loadSheet();
     loadFrameSheet();
     const T = k.T;
     const [M, O, S] = T.steps;
-    // v5's soundtrack: its cue sheet is this plan, plus the first ask and its chip as the engine times them
-    mountMix({ cues: { T, ask0: { text: k.askBy.multicat, s: k.s, typeEnd: k.typeEnd, send: k.send }, chips0: k.chips }, song: SONG });
+    const id = bare ? BARE_ID : ID;
+    // v5's soundtrack: its cue sheet is this plan, plus the first ask and its chip as the engine times them (none, bare)
+    mountMix({ id, cues: { T, ask0: { text: k.askBy[id], s: k.s, typeEnd: k.typeEnd, send: k.send }, chips0: k.chips }, song: SONG });
 
     // 1. GPT Image 2, in the engine's own reply
     const say1 = sayEl(x, SAY1);
-    const media1 = x.el(`<div class="qc-media"><div class="qc-img qc-skel mc-img"><img src="${CAT}" width="1536" height="1152" alt="A photorealistic brown tabby cat standing side-on, looking at the camera"/><i class="qc-sk"></i>${genl(x, 'gptimage', 'Creating image')}${shareDisc('Realistic cat', { file: CAT })}${dl(CAT, 'cat.jpg')}</div></div>`);
+    const media1 = x.el(`<div class="qc-media"><div class="qc-img qc-skel mc-img"><img src="${CAT}" width="1536" height="1152" alt="A photorealistic brown tabby cat standing side-on, looking at the camera"/><i class="qc-sk"></i>${genl(x, 'gptimage', 'Creating image', bare)}${shareDisc('Realistic cat', { file: CAT })}${dl(CAT, 'cat.jpg')}</div></div>`);
     const card1 = media1.firstElementChild;
     const im1 = card1.querySelector('img'), sk1 = card1.querySelector('.qc-sk'), gen1 = genPill(card1);
     const dl1 = card1.querySelector('.qc-dl'), share1 = card1.querySelector('.qc-share');
+    // bare: the feed glides to a zero-height anchor a little under each answer's card instead of the card's own bottom,
+    // so the newest card clears the feed's clip with its edge and shadow (../multicat.516afb1a.css .mc-anchor)
+    const anchor = () => (bare ? x.el('<i class="mc-anchor" aria-hidden="true"></i>') : null);
+    const anchor1 = anchor();
 
     // 2-4: each ask's user bubble, its chip rows and its reply
     const follow = [];
@@ -208,38 +221,43 @@ export default {
         const w = x.el(`<div class="msg qc-m">${x.sbAvatar}<div class="m-main"><span class="qc-sw">${x.tile(c.app)}<span class="qc-swl">${x.esc(c.label)}</span><span class="qc-st"><i class="qc-spin"></i>${x.OK}</span></span></div></div>`);
         return { c, w, sw: w.querySelector('.qc-sw'), spin: w.querySelector('.qc-spin'), ok: w.querySelector('.qc-st .qc-ok') };
       });
-      // the credits frame under the resolved chips, the engine's (chat.9b47fc30.js credits), tiled with the answering app
-      const credits = st.credits ? x.el(`<div class="msg qc-m">${x.sbAvatar}<div class="m-main"><span class="qc-cr">${x.tile(st.app)}<span class="qc-cr-t">Credits used until you connect</span><span class="qc-cr-n">${st.credits} credits</span><button type="button" class="qc-cr-b">Connect</button></span></div></div>`) : null;
-      const reply = x.el(`<div class="msg qc-m qc-r">${x.sbAvatar}<div class="m-main"><div class="qc-who">${x.who(st.app)}</div></div></div>`);
+      // the credits frame under the resolved chips, the engine's (chat.9b47fc30.js credits), tiled with the answering app;
+      // bare shows none
+      const credits = st.credits && !bare ? x.el(`<div class="msg qc-m">${x.sbAvatar}<div class="m-main"><span class="qc-cr">${x.tile(st.app)}<span class="qc-cr-t">Credits used until you connect</span><span class="qc-cr-n">${st.credits} credits</span><button type="button" class="qc-cr-b">Connect</button></span></div></div>`) : null;
+      const reply = x.el(`<div class="msg qc-m qc-r">${x.sbAvatar}<div class="m-main">${bare ? '' : `<div class="qc-who">${x.who(st.app)}</div>`}</div></div>`);
       const say = sayEl(x, st.say);
       reply.lastElementChild.append(say.n);
       follow.push(u, ...rows.map((rw) => rw.w), ...(credits ? [credits] : []), reply);
-      return { st, u, rows, credits, creditsAt: st.chips[st.chips.length - 1].done + 0.1, reply, who: reply.querySelector('.qc-who'), say };
+      return { st, u, rows, credits, creditsAt: credits ? st.chips[st.chips.length - 1].done + 0.1 : 0, reply, who: reply.querySelector('.qc-who'), say };
     });
     const [mStep, oStep, sStep] = steps;
 
     // 2. Meshy's model in the 3D variant's artifact frame
-    const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Animated · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="Animated 3D cat model walking on a turntable"></canvas><i class="qc-sk"></i>${genl(x, 'meshy', 'Creating 3D model')}</div></div>`);
+    const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Animated · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="Animated 3D cat model walking on a turntable"></canvas><i class="qc-sk"></i>${genl(x, 'meshy', 'Creating 3D model', bare)}</div></div>`);
     mStep.reply.lastElementChild.append(model);
+    mStep.out = model;
     const canvas = model.querySelector('canvas'), skM = model.querySelector('.qc-sk'), genM = genPill(model);
 
     // 3. the DoorDash order, framed as the doordash variant's is
     const order = x.el(`<div class="bk mc-dd"><div class="bk-head"><b class="bk-title">Petco order<small>1 item · $16.49 subtotal</small></b>${shareBtn('Petco order')}<a class="bk-btn bk-publish mc-dd-open" href="${STORE}" target="_blank" rel="noopener noreferrer"><img src="${x.brand('doordash-logo.svg')}" alt="">View in DoorDash</a></div><div class="bk-view"><div class="mc-dd-cam"><div class="mc-dd-zoom"><img class="mc-dd-shot" src="${ORDER}" width="896" height="560" alt="${x.esc(ORDER_ALT)}"></div></div><i class="bk-sh"></i></div></div>`);
     oStep.reply.lastElementChild.append(order);
+    oStep.out = order;
     const zoom = order.querySelector('.mc-dd-zoom'), shO = order.querySelector('.bk-sh');
 
     // 4. the ElevenLabs track
-    const song = x.el(`<div class="mc-sg"><div class="mc-sg-card">
-      <div class="mc-sg-art"><img src="${COVER}" width="256" height="256" alt="Cover art: the cat from the first answer"/></div>
+    const song = x.el(`<div class="mc-sg${bare ? ' mc-sg-bare' : ''}"><div class="mc-sg-card">
+      ${bare ? '' : `<div class="mc-sg-art"><img src="${COVER}" width="256" height="256" alt="Cover art: the cat from the first answer"/></div>`}
       <div class="mc-sg-side">
         <div class="mc-sg-t"><b>${TITLE}</b><small>Indie pop · ElevenLabs Music</small></div>
         <div class="mc-sg-row"><span class="mc-sg-btn">${PLAY}${PAUSE}</span><div class="mc-sg-wave">${wave('mc-w0')}${wave('mc-w1')}</div><span class="mc-sg-time">${clock(0)} / ${clock(DUR)}</span></div>
       </div>
       <button type="button" class="mc-sg-share" ${shareAttrs(`${TITLE}, a song about cats`, { file: SONG })}>${SHARE_GLYPH}</button>
       <a class="mc-sg-dl" href="${SONG}" download="tiny-chaos.mp3" aria-label="Download" title="Download">${DOWNLOAD}</a>
-      <div class="mc-sg-gen qc-skel"><i class="qc-sk"></i>${genl(x, 'elevenlabs', 'Creating song')}</div>
-    </div><div class="mc-ly" aria-live="off"></div></div>`);
+      <div class="mc-sg-gen qc-skel"><i class="qc-sk"></i>${genl(x, 'elevenlabs', 'Creating song', bare)}</div>
+    </div>${bare ? '' : '<div class="mc-ly" aria-live="off"></div>'}</div>`);
     sStep.reply.lastElementChild.append(song);
+    sStep.out = song;
+    for (const p of steps) { p.anchor = anchor(); if (p.anchor) p.reply.lastElementChild.append(p.anchor); }
     const $ = (s) => song.querySelector(s);
     const btn = $('.mc-sg-btn'), time = $('.mc-sg-time'), played = $('.mc-w1'), lyric = $('.mc-ly');
     const skelS = $('.mc-sg-gen'), skS = $('.mc-sg-gen .qc-sk'), genS = genPill(skelS);
@@ -249,7 +267,7 @@ export default {
 
     // the end card: the house superbot.gg lockup, the wordmark left and the mascot face right, over the spot's black. It
     // rides in nodes (so other variants hide it) and moves to the scene section on the first render, above the hub
-    const endCard = x.el(`<div class="mc-end" role="img" aria-label="superbot.gg"><div class="mc-end-word"><b>superbot.gg</b></div><div class="mc-end-bot">${END_FACE}</div></div>`);
+    const endCard = x.el(`<div class="mc-end" role="img" aria-label="superbot.gg"><div class="mc-end-word"><b>superbot.gg</b></div><div class="mc-end-bot">${bare ? END_FACE.replaceAll('mcEndFace', 'mcEndFaceBare') : END_FACE}</div></div>`);
     const endWord = endCard.querySelector('.mc-end-word'), endBot = endCard.querySelector('.mc-end-bot');
     // the fast-forward badge, x50 over the whole frame's bottom right while any generation runs; it rides in nodes and
     // moves to the scene section as the end card does
@@ -297,11 +315,13 @@ export default {
       }
     }
 
+    // QA: the pick and this route's song element against the clock (__AD arrives after the timeline's first frame)
+    const sound = () => ({ t: window.__AD.now, music: music(), song: { paused: audio.paused, at: +audio.currentTime.toFixed(3), volume: +audio.volume.toFixed(3) } });
     let placed = false, viewer = null, decoding = false, sec = -1, cut = -1, playing = null, line = -1, lit = -1;
     return {
-      nodes: [say1.n, media1, ...follow, endCard, ff],
+      nodes: [say1.n, media1, ...(anchor1 ? [anchor1] : []), ...follow, endCard, ff],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
-      marks: [[T.r, say1.n], [T.card, media1], ...steps.flatMap((p) => [[p.st.send, p.u], ...p.rows.map((rw) => [rw.c.sw, rw.w]), ...(p.credits ? [[p.creditsAt, p.credits]] : []), [p.st.r, p.who], [p.st.r, p.say.n], [p.st.card, p.reply.lastElementChild.lastElementChild]])],
+      marks: [[T.r, say1.n], [T.card, anchor1 || media1], ...steps.flatMap((p) => [[p.st.send, p.u], ...p.rows.map((rw) => [rw.c.sw, rw.w]), ...(p.credits ? [[p.creditsAt, p.credits]] : []), ...(p.who ? [[p.st.r, p.who]] : []), [p.st.r, p.say.n], [p.st.card, p.anchor || p.out]])],
       // the follow-up asks, typed into the composer and sent by the engine (renderComposer), and their chips, which move
       // the composer's platform chip (renderRouting)
       asks: T.steps.map((st) => ({ text: st.ask, s: st.s, typeEnd: st.typeEnd, send: st.send })),
@@ -316,11 +336,11 @@ export default {
           audio.src = SONG;
           placed = true;
         }
-        // QA: the pick and the song's element against the clock (__AD arrives after the timeline's first frame)
-        if (window.__AD && !window.__AD.sound) window.__AD.sound = () => ({ t: window.__AD.now, music: music(), song: { paused: audio.paused, at: +audio.currentTime.toFixed(3), volume: +audio.volume.toFixed(3) } });
+        if (window.__AD && window.__AD.sound !== sound) window.__AD.sound = sound;
         if (!decoding) {
           decoding = true;
-          for (const pic of [im1, order.querySelector('img'), song.querySelector('img')]) {
+          // bare's song card has no cover, so no third picture
+          for (const pic of [im1, order.querySelector('img'), song.querySelector('img')].filter(Boolean)) {
             track(pic.decode().catch((e) => console.error(new Error(`multicat image failed to decode: ${pic.src}`, { cause: e }))));
           }
         }
@@ -376,12 +396,15 @@ export default {
         btn.style.transform = press > 0 ? `scale(${(1 - 0.12 * press).toFixed(4)})` : 'none';
         const on = t >= S.play;
         if (on !== playing) { playIcon.style.display = on ? 'none' : ''; pauseIcon.style.display = on ? '' : 'none'; playing = on; }
-        let li = 0;
-        while (li + 1 < LINES.length && el >= LINE_AT[li + 1]) li++;
-        if (li !== line) { lyric.innerHTML = LINE_WORDS[li].map((w) => `<span>${x.esc(w[0])}</span>`).join(' '); line = li; lit = -1; }
-        const n = on ? LINE_WORDS[li].filter((w) => el >= w[1]).length : 0;
-        if (n !== lit) { [...lyric.children].forEach((w, i) => w.classList.toggle('on', i < n)); lit = n; }
-        lyric.style.opacity = seg(t, S.play - 0.2, S.play + 0.2).toFixed(3);
+        // the sung line (bare has none)
+        if (lyric) {
+          let li = 0;
+          while (li + 1 < LINES.length && el >= LINE_AT[li + 1]) li++;
+          if (li !== line) { lyric.innerHTML = LINE_WORDS[li].map((w) => `<span>${x.esc(w[0])}</span>`).join(' '); line = li; lit = -1; }
+          const n = on ? LINE_WORDS[li].filter((w) => el >= w[1]).length : 0;
+          if (n !== lit) { [...lyric.children].forEach((w, i) => w.classList.toggle('on', i < n)); lit = n; }
+          lyric.style.opacity = seg(t, S.play - 0.2, S.play + 0.2).toFixed(3);
+        }
         // the song's element; the picked soundtrack follows the clock on its own (multicat-mix.08050705.js)
         syncAudio(t, clockRuns(t));
 
@@ -408,4 +431,7 @@ export default {
       },
     };
   },
-};
+});
+
+export default make(false);
+export const bare = make(true);

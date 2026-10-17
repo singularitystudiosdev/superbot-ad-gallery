@@ -139,7 +139,7 @@ const READY = {
 let pickRun = 0;
 
 function syncMusic() {
-  musicBar.hidden = variant() !== 'multicat';
+  musicBar.hidden = variant() !== 'multicat' && variant() !== 'multicat-credits';
   musicPick.value = music();
 }
 

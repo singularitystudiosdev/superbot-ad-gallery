@@ -16,22 +16,26 @@ const RESYNC = 0.05;
 const PICK = 'v5'; // its id on the Music pill (music.47e5d94a.js): it plays, and shows its pill, only while picked
 const PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z"/></svg>';
 
-let cues = null, songUrl = '';
-let state = 'idle', buffer = null, report = null;
-let ctx = null, src = null, srcGain = null, srcAt = 0, srcOff = 0, srcRate = 1;
+// one mix per variant that mounts one (multicat and its bare twin, multicat-credits, run on different clocks), keyed by
+// the variant's id: { cues, song, state, buffer, report }; the one playing is the current variant's
+const mixes = {};
+const cur = () => mixes[variant()] || null;
+let ctx = null, src = null, srcMix = null, srcGain = null, srcAt = 0, srcOff = 0, srcRate = 1;
 let gate = null, held = null, gestured = false;
 
 // the beat's song element stays silent while the soundtrack (which carries the song) is on
-export const mixOwnsSong = () => !OFF && state !== 'failed' && music() === PICK;
+export const mixOwnsSong = () => { const m = cur(); return !OFF && !!m && m.state !== 'failed' && music() === PICK; };
 
-// called once by the beat's build with its plan; the soundtrack does nothing until the variant is multicat
+// called once per variant by the beat's build with its plan ({ id, cues, song }); a mix does nothing until its variant shows
 export function mountMix(c) {
-  if (cues || OFF) return;
-  cues = c.cues; songUrl = c.song;
+  if (OFF || mixes[c.id]) return;
+  const first = !Object.keys(mixes).length;
+  mixes[c.id] = { cues: c.cues, song: c.song, state: 'idle', buffer: null, report: null };
+  if (!first) return;
   for (const type of ['pointerdown', 'keydown']) addEventListener(type, onGesture, { capture: true });
   window.__MIX = {
-    get state() { return state; },
-    get report() { return report; },
+    get state() { const m = cur(); return m ? m.state : 'idle'; },
+    get report() { const m = cur(); return m ? m.report : null; },
     get position() { return src ? srcOff + (ctx.currentTime - srcAt) * srcRate : null; },
   };
   requestAnimationFrame(tick);
@@ -55,22 +59,24 @@ function wake() {
 }
 
 // ---------- render ----------
-async function render() {
-  state = 'rendering';
+async function render(m) {
+  m.state = 'rendering';
   try {
-    const res = await fetch(songUrl);
-    if (!res.ok) throw new Error(`song fetch ${res.status} ${songUrl}`);
+    const res = await fetch(m.song);
+    if (!res.ok) throw new Error(`song fetch ${res.status} ${m.song}`);
     const decoded = await new OfflineAudioContext(2, 1, 48000).decodeAudioData(await res.arrayBuffer());
     const n = Math.min(decoded.length, 7 * 48000);
     const L = decoded.getChannelData(0).slice(0, n), R = decoded.getChannelData(decoded.numberOfChannels > 1 ? 1 : 0).slice(0, n);
-    const out = await inWorker({ ...cues, cycle: window.__AD.CYCLE, song: { L, R } }, [L.buffer, R.buffer]);
-    buffer = new AudioBuffer({ numberOfChannels: 2, length: out.L.length, sampleRate: out.sr });
+    // rendered while its variant shows, so the clock's CYCLE is that variant's loop
+    const out = await inWorker({ ...m.cues, cycle: window.__AD.CYCLE, song: { L, R } }, [L.buffer, R.buffer]);
+    const buffer = new AudioBuffer({ numberOfChannels: 2, length: out.L.length, sampleRate: out.sr });
     buffer.copyToChannel(out.L, 0);
     buffer.copyToChannel(out.R, 1);
-    report = out.report;
-    state = 'ready';
+    m.buffer = buffer;
+    m.report = out.report;
+    m.state = 'ready';
   } catch (e) {
-    state = 'failed';
+    m.state = 'failed';
     console.error(new Error('multicat soundtrack failed to render; the beat plays its song alone', { cause: e }));
     if (gate) showGate(false);
   }
@@ -113,9 +119,10 @@ function stop(fade = 0.02) {
   src.stop(now + fade);
   src = null;
 }
-function play(off, rate) {
+function play(m, off, rate) {
   const node = ctx.createBufferSource(), g = ctx.createGain(), now = ctx.currentTime;
-  node.buffer = buffer;
+  node.buffer = m.buffer;
+  srcMix = m;
   node.playbackRate.value = rate;
   g.gain.setValueAtTime(0, now);
   g.gain.linearRampToValueAtTime(1, now + 0.008);
@@ -127,19 +134,21 @@ function play(off, rate) {
 
 function tick() {
   requestAnimationFrame(tick);
-  const ad = window.__AD;
-  if (!ad || variant() !== 'multicat' || music() !== PICK || FROZEN || document.body.classList.contains('freeze')) {
+  const ad = window.__AD, m = cur();
+  if (!ad || !m || music() !== PICK || FROZEN || document.body.classList.contains('freeze')) {
     if (ctx) stop();
     if (gate) showGate(false);
     held = null;
     return;
   }
-  if (state === 'idle') render();
+  // a switch between two mixed variants: the other's mix stops
+  if (src && srcMix !== m) stop(0.012);
+  if (m.state === 'idle') render(m);
 
   // the gate holds the clock on its frame until a press (or any click or key) lets sound start, and past the press
   // until the mix is rendered, so the spot always starts with its sound
   const gateUp = !!gate && !gate.hidden;
-  if (state !== 'failed' && (!activated() || (gateUp && state !== 'ready'))) {
+  if (m.state !== 'failed' && (!activated() || (gateUp && m.state !== 'ready'))) {
     if (held === null) held = ad.now;
     if (ad.playing || ad.now !== held) ad.seek(held);
     showGate(true);
@@ -152,7 +161,7 @@ function tick() {
   }
   held = null;
 
-  if (state !== 'ready') return;
+  if (m.state !== 'ready') return;
   if (!ctx || ctx.state !== 'running') { wake(); return; }
   const t = ad.now, rate = ad.speed;
   if (!ad.playing) {
@@ -164,5 +173,5 @@ function tick() {
   const lat = Math.max(0, (ctx.outputLatency || 0) + (ctx.baseLatency || 0) - 1 / 60);
   const want = t + lat * rate;
   if (src && (srcRate !== rate || Math.abs(srcOff + (ctx.currentTime - srcAt) * srcRate - want) > RESYNC)) stop(0.012);
-  if (!src && want < buffer.duration - 0.05) play(want, rate);
+  if (!src && want < m.buffer.duration - 0.05) play(m, want, rate);
 }

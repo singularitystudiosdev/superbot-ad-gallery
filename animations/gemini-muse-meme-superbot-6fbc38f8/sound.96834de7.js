@@ -8,7 +8,7 @@
 import { variant } from './variant.9e82faf1.js?v=3';
 import { music } from './music.47e5d94a.js?v=2';
 
-const SCORED = new Set(['multicat', 'multicat-credits']); // the base chain and its bare twin (its default soundtrack)
+const SCORED = new Set(['multicat', 'multicat-credits', 'refund']); // the base chain, its bare twin (its default soundtrack) and the refund chain (its own re-cue)
 const on = () => SCORED.has(variant()) && music() === 'v16';
 const LEVEL = 1; // the master gain while unmuted
 export const sound = { ctx: null, out: null, muted: false };

@@ -45,6 +45,13 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   that beagle as a walking 3D model (Meshy, walk rigged by superbot), a PetSmart dog food order on
   DoorDash and "Tails Up", a song about dogs (ElevenLabs, plays with sound), each answer a real
   generation (about 29s, with sound).
+- **refund, then 1 star everywhere**: the muse meme spot's refund cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=refund`), no model on show as in the credits-only
+  cat: superbot calls Nimbus+ support (made up), works the phone menu and holds (x50); asked to email them at
+  the same time, it writes and sends the email while the call holds; the agent picks up and the call plays
+  with sound under a live transcript (TTS), ending on the approved refund; then one 1-star review posts to ten
+  rating platforms, and the superbot.gg end card. Its score is the credits cut's v16 re-cued to this chain
+  (`beats/refund-score.d3537b02.js`), stopping for the call (about 32s, with sound).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

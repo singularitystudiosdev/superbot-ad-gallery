@@ -11,5 +11,7 @@
 .sound-toggle[data-state="on"] button { color: var(--fg); }
 /* not yet allowed to play: the one state that asks for a click, so it carries the accent */
 .sound-toggle[data-state="blocked"] button { background: var(--fg); color: var(--card); }
-@media (pointer: coarse) { .sound-toggle { top: 204px; } .sound-toggle button { height: 44px; padding: 0 16px 0 13px; } }
+/* a variant with its own score and no Music pill (sound.96834de7.js OWN): the Sound pill takes the Music pill's place */
+.sound-toggle.sound-own { top: 114px; }
+@media (pointer: coarse) { .sound-toggle { top: 204px; } .sound-toggle.sound-own { top: 142px; } .sound-toggle button { height: 44px; padding: 0 16px 0 13px; } }
 body.freeze .sound-toggle { display: none; }

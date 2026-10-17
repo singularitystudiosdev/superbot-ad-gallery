@@ -8,7 +8,7 @@ import { renderScore } from './multicat-score.96834de7.js?v=3';
 import { sound } from '../../../sound.96834de7.js?v=2';
 import { variant } from '../../../variant.9e82faf1.js?v=3';
 
-// one player per chain (multicat, multicat-credits, multidog-credits, discord-credits): the Music pill reads the shown variant's, QA any that sounds
+// one player per chain (multicat, multicat-credits, multidog-credits, discord-credits, studyguide): the Music pill reads the shown variant's, QA any that sounds
 const players = {};
 
 const DRIFT = 0.06;

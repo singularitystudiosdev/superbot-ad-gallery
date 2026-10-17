@@ -1,45 +1,38 @@
-img/halloween.37ff9e93 CREDITS (the 'halloween-shopping' variant, beats/halloween.37ff9e93.js, its listings in
+img/halloween.37ff9e93 CREDITS (the 'halloween-shopping' variant, beats/halloween.37ff9e93.js, its orders in
 beats/halloween-data.37ff9e93.js). Internal provenance only: never shown on screen.
 
-The two store pages are REBUILT, not captured: HTML and CSS drawn live by the beat in the stores' look (Amazon's dark bar
-and results tiles, Temu's white bar, chips and orange). No order was placed, nothing was added to a cart, no account was
-used. The listings are real, read 2026-10-17 from guest sessions on amazon.com and temu.com (search pages, product pages,
-Temu's server-rendered category listing); the photos are each store's own listing image, downscaled to 480px (ffmpeg).
+The two order confirmations are REBUILT, not captured: HTML and CSS drawn live by the beat in each store's look (Amazon's
+dark bar and nav strip, Temu's white bar and orange), shown only as the end result, the way the burger cut shows its
+DoorDash order (beats/doordash.d9bc17e9.js). No order was placed, nothing was added to a cart, no account was used. The
+two items are real listings, read 2026-10-17 from guest sessions on amazon.com and temu.com (search pages, product pages,
+Temu's server-rendered category listing); each photo is the store's own listing image, downscaled to 480px (ffmpeg).
 
 amazon/  The ask: "Search on amazon and buy the cheapest halloween king sized bag of candy". Amazon US carries no listing
          that is literally a Halloween bag of king size bars: searched "halloween king size candy (bag)", "halloween king
          size candy variety pack", "king size candy bag halloween bars", "halloween king size candy bars bulk bag",
          "full size halloween candy bars bag", sorted Price: Low to High. Single king size bars ($2.50-$3.99), non-Halloween
-         king size 3-packs ($14.95) and Halloween "fun size" or mini bags ($5-$20, not king size) came first; the pick is
-         the cheapest listing that is both King Size and Halloween:
-  B0722659X7.jpg  PICK. REESE'S King Size White Peanut Butter Pumpkins, 2.4 Ounce (Pack of 24), $28.99, 4.6 stars (31),
+         king size 3-packs ($14.95) and Halloween "fun size" or mini bags ($5-$20, not king size) came first; the other
+         king size multipacks ran higher (Hershey's 18 ct $35.99, Mounds 18 ct $36.36, Reese's Fast Break 18 ct $38.90,
+         Caramello 18 ct $45.00, M&M's 24 ct $68.85). The order is the cheapest listing that is both King Size and Halloween:
+  B0722659X7.jpg  REESE'S King Size White Peanut Butter Pumpkins, 2.4 Ounce (Pack of 24), $28.99, 4.6 stars (31),
                   https://www.amazon.com/dp/B0722659X7. Wrapper shows a jack-o'-lantern and "King Size"; listing bullets
                   "perfect for trick-or-treaters", "easy to hand out on Halloween". A 24-count multipack, not a resealable
                   bag. The listing photo was 600x299; padded with white to square.
-  B000IXWDFO.jpg  HERSHEY'S Milk Chocolate King Size Candy Bars, 2.6 oz, 18 Ct, $35.99, 4.5 (987)
-  B000IXSN6W.jpg  REESE'S FAST BREAK King Size Candy Bars, 3.5 oz, 18 ct, $38.90, 4.7 (1,271)
-  B000IXSMW2.jpg  MOUNDS Coconut and Dark Chocolate King Size, Candy Bars, 3.5 oz (18 Count), $36.36, 4.4 (176)
-  The three others are the king size results the same searches returned above the pick's price; their order before the
-  pointer's sort is arranged for the animation, not Amazon's relevance order.
 
 temu/    The ask: "Use Temu to buy x3 pumpkin costumes size small, cheapest and cutest". Temu's search page is a script
-         shell to a guest client and its search API answered 403, so the four were read from Temu's server-rendered
-         "baby halloween costumes" listing (schema.org offers: price, availability) and their product pages:
-  606214364721258.jpg  PICK. Autumn/Winter Style Cute Sleeveless Pumpkin Bodysuit with Hat for Girls, Halloween
-                       Children's Costume, Book Week Costume, $7.82 (was $45.88), 1.6K+ sold, 4.8 stars (5), in stock.
-                       The cheapest in-stock pumpkin costume read; cute: an orange fleece jack-o'-lantern vest with a
-                       black face, a green leaf collar and a matching pumpkin beret.
-  607292250522877.jpg  Baby Toddler Pumpkin Long Sleeve Romper with Hat Socks 3pcs Set, $10.98 (was $19.62), 179 sold, 5 (1)
-  606803295310963.jpg  Girls' Crew Neck Bodysuit, Pumpkin Vest, Halloween Outfit, $12.80 (was $18.99), 457 sold, 5 (1)
-  606725247746553.jpg  Newborn Baby Halloween Pumpkin 2pcs Set with Matching Pumpkin Hat, $13.60, 192 sold, 5 (4)
-  ILLUSTRATIVE: the size row. Temu's product pages showed a slider captcha to a browser and an empty shell over plain
-  HTTP, so the listing's size options could not be read; the sheet's XS / S / M / L and the "Size: S" filter are the
-  ask's, not the listing's (a baby item may be sized by age). The titles drop the words Temu masks with "*".
+         shell to a guest client and its search API answered 403, so pumpkin costumes were read from Temu's
+         server-rendered "baby halloween costumes" listing (schema.org offers: price, availability) and their product
+         pages; the others in stock ran higher ($10.98 romper set, $12.80 vest outfit, $13.60 newborn set). The order:
+  606214364721258.jpg  Autumn/Winter Style Cute Sleeveless Pumpkin Bodysuit with Hat for Girls, Halloween Children's
+                       Costume, Book Week Costume, $7.82 (was $45.88), 1.6K+ sold, 4.8 stars (5), in stock. The cheapest
+                       in-stock pumpkin costume read; cute: an orange fleece jack-o'-lantern vest with a black face, a
+                       green leaf collar and a matching pumpkin beret.
+  ILLUSTRATIVE: "Size: S". Temu's product pages showed a slider captcha to a browser and an empty shell over plain HTTP,
+  so the listing's size options could not be read; S is the ask's, not the listing's (a baby item may be sized by age).
 
 Illustrative on both cards, as on the DoorDash cards: the arrival dates (Amazon "Monday, October 19"; Temu "Oct 24 - Oct
 29"), the confirmation wording, the shipping name and address (the DoorDash cards' 455 Market St, Ste 1480), the account
-name, the nav and filter labels besides the ones the pointer presses. Only subtotals are shown (price x quantity: $28.99;
-3 x $7.82 = $23.46): tax and shipping need a real cart.
+and nav labels. Only subtotals are shown (price x quantity: $28.99; 3 x $7.82 = $23.46): tax and shipping need a real cart.
 
 amazon-logo.svg, amazon-logo-white.svg
   The Amazon wordmark and smile, Wikimedia Commons File:Amazon_logo.svg
@@ -50,5 +43,4 @@ temu-logo.svg
   public domain there (simple logo), flagged trademarked; #FB7701.
 
 Amazon and the smile logo are trademarks of Amazon.com, Inc.; Temu is a trademark of Whaleco Inc. (PDD Holdings);
-REESE'S, HERSHEY'S, MOUNDS and FAST BREAK are trademarks of The Hershey Company. The store UIs belong to their owners.
-Used nominatively; no affiliation.
+REESE'S is a trademark of The Hershey Company. The store UIs belong to their owners. Used nominatively; no affiliation.

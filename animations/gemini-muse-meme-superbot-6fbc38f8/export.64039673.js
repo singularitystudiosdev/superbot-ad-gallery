@@ -1,6 +1,7 @@
-// The export renderer: the variant on screen, at the ratio on screen, rendered here as an MP4. It is what the Export button
-// (export.34c23b1d.js, the last control in the speed pill) runs when the gallery holds no offline render of that variant at
-// that ratio. Each ratio comes out at its platform size (OUT: 16:9 1920x1080, 9:16 1080x1920, 4:5 1080x1350, 1:1
+// An in-browser renderer: the variant on screen, at the ratio on screen, rendered in the page as an MP4. The page does not
+// load it: the Export button (export.34c23b1d.js, the last control in the speed pill) only ever downloads the offline
+// renders in assets/video/. Import it from the console or a headless check (it sets window.__EXPORT) to render a variant
+// that has no offline render yet. Each ratio comes out at its platform size (OUT: 16:9 1920x1080, 9:16 1080x1920, 4:5 1080x1350, 1:1
 // 1080x1080, 4:3 1440x1080), the stage drawn as vectors at that scale. The spot is a pure function of t
 // (timeline.9b47fc30.js), so the export does not screen-record: it walks the clock a whole frame at a time and paints each
 // frame itself, then encodes the lot. Every frame is therefore exact, at any speed, with nothing that the viewer's own

@@ -3,7 +3,7 @@
 // space, the arrows and R go back to the spot's own clock (timeline.9b47fc30.js).
 import { VARIANTS, variant, setVariant } from './variant.9e82faf1.js?v=3';
 import { APPEARS, appear, setAppear } from './appear.9e82faf1.js?v=2';
-import { MUSICS, music, setMusic } from './music.47e5d94a.js';
+import { MUSICS, music, setMusic, offered } from './music.47e5d94a.js?v=2';
 // variants left out of the pill: still reachable by ?variant=, just not offered as a button or an arrow-key stop
 const HIDDEN = new Set(['game', 'garden', 'bedtime', 'podcast', 'catgif', 'logo']);
 const SHOWN = VARIANTS.filter((v) => !HIDDEN.has(v.id));
@@ -140,6 +140,8 @@ let pickRun = 0;
 
 function syncMusic() {
   musicBar.hidden = variant() !== 'multicat' && variant() !== 'multicat-credits';
+  // a soundtrack made for one variant is offered only there (music.47e5d94a.js `only`)
+  for (const o of musicPick.options) { const on = offered(o.value); o.hidden = !on; o.disabled = !on; }
   musicPick.value = music();
 }
 
@@ -147,7 +149,8 @@ async function replayWith(id) {
   const ad = window.__AD, run = ++pickRun;
   if (!ad || document.body.classList.contains('freeze')) return;
   ad.seek(0);
-  const ready = READY[id] || (() => true);
+  // the others register window.__PICKS[id] = { ready, sounding } when they mount; one not mounted needs no wait
+  const ready = READY[id] || (() => { const p = window.__PICKS && window.__PICKS[id]; return !p || p.ready(); });
   for (let waited = 0; !ready() && waited < WAIT; waited += 50) {
     await new Promise((r) => setTimeout(r, 50));
     if (run !== pickRun) return;

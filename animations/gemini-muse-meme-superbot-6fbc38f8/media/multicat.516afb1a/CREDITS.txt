@@ -21,9 +21,10 @@ tiny-chaos.mp3
   Licence: generated for this project under the fal.ai / ElevenLabs terms of the account that ran it.
 
 MUSIC PILL (2026-10-17, chat 1345e257)
-  The Music pill (top right, ../../music.47e5d94a.js) picks the soundtrack: v5 below (the default) or None (the song
-  alone). v5 was made in its own Cosmos chat from the silent cut (commit e1c8ebd), given only the ask quoted with it, and
-  merged here gated on the pick. Its source copy stays in quick-chats/multicat-music-variants.1345e257/v5; the earlier
+  The Music pill (top right, ../../music.47e5d94a.js) picks the soundtrack: v5 below (the default), v6 to v17 (offered on
+  the multicat variant only) or None (the song alone). Each was made in its own Cosmos chat from the silent cut (commit
+  e1c8ebd), given only the ask quoted with it (v6-v17's asks name the sound wanted: sharp, clean, cool, tight, not
+  cartoony), and merged here gated on the pick. Its source copy stays in quick-chats/multicat-music-variants.1345e257/v5; the earlier
   ElevenLabs bed and v1-v4 were taken off the pill on request (git history, commit 5284468, keeps them).
 
 v5 (chat a34b5846, asked: "Sound-design this ad like it's about to air on TV: music, effects, mix, whatever it needs, all original")
@@ -45,3 +46,133 @@ v5 (chat a34b5846, asked: "Sound-design this ad like it's about to air on TV: mu
     with mix-web in AAC 320 kbps; the last frame is held 0.3 s for the tail.
   (v5's mix-web and mix-broadcast WAVs and its spot-with-mix MP4, 25 MB of deliverables the page never loads, stay in its
   source copy, multicat-music-variants.1345e257/v5/media/multicat.516afb1a/.)
+
+v6 (chat 535ee6dc, asked: "Make music for this ad, sharp and clean")
+  score.535ee6dc.mp3
+    The variant's music bed (played by ../../score.535ee6dc.js). SYNTHESIZED for this project, no samples and no third-party
+    audio: FM plucks and bells, a sine bass, noise-built kick, clap, snap and hats, a Freeverb-style room and a dotted-8th
+    ping-pong delay, rendered offline by a seeded Node script (render.mjs, kept outside the served folder) on 2026-10-17,
+    then encoded 192 kbps MP3 (libmp3lame, gapless: decodes sample-aligned with the render). 31.6 s, 44.1 kHz stereo.
+    Brief: "sharp and clean". 120 bpm in B major, the key and tempo measured from tiny-chaos.mp3 (beat 1 at track 0.135 s),
+    so the bed's grid is the song's, run back from its play press: second t of the file is second t of the spot.
+    Cue map (spot seconds): typing 16th ticks 1.60/6.36/14.88/19.36; send snaps 2.38/7.38/15.63/20.00; chip blips and check
+    ticks on each routing chip; a riser and climbing V arpeggio under each x50 fast-forward (4.13, 9.88, 21.75) with a 16th of
+    silence before its landing; landings 5.058 (photo), 12.003 (3D model), 17.503 (order, with a two-bell chime), 22.003
+    (song card, on V); a dry tick on the play press 22.50; out by the song's downbeat 22.628; silent under the song; end-card
+    sting on the mascot pop 28.383 and a four-bell sparkle as the wordmark comes up 28.75.
+    Mix: -16.3 LUFS integrated over the bed, -1.9 dBTP, ~2.5 dB under the song (-14.0 LUFS) after the player's 0.9 master gain.
+
+v7 (chat d8ff4cca, asked: "Add sound effects and music to this ad. Sharp and clean, nothing cartoony")
+  SYNTHESIZED for this spot in code; its chat wrote no CREDITS entry, so this is its module header:
+    The multicat spot's cue sheet: every sound and when it plays, in the spot's own seconds, laid out from the beat's plan
+    (multicat.516afb1a.js plan(): the asks, chips, cards, landings, the song and the end card), so a retimed beat
+    re-scores itself. transport.d8ff4cca.js plays it on the spot's clock; the voices are sfx.d8ff4cca.js.
+      The SFX sit on the picture: each lands on the frame its moment happens (a key, a send, a chip, a landing).
+      The bed is a minimal pulse at the song's tempo, 120 BPM in B major, phased so its bar lines meet the song's first
+      downbeat (the track's first beat is 0.205 s in, measured from tiny-chaos.mp3): it hands the song a bar it already
+      agrees with, breaks down for the last bar, and is out before the song plays. The song plays alone; the end card
+      gets a hit and a held chord.
+  Original work for this project; no samples or third-party audio besides tiny-chaos.mp3 above.
+
+v8 (chat 28656fd8, asked: "Give this ad a clean, cool soundtrack")
+  score.28656fd8.mp3
+    The variant's soundtrack bed, 2026-10-17: synthesized entirely in code (../../score.28656fd8.js: Web Audio oscillators,
+    seeded noise and a generated room impulse, no samples or third-party audio), rendered on an OfflineAudioContext in
+    headless Chromium to a 48 kHz WAV and encoded with ffmpeg libmp3lame at 192 kbps. 120 bpm, B major, its bar line locked to
+    tiny-chaos.mp3's first downbeat (0.207 s into that file) so it hands off to the song. 31.59 s, the length of the run.
+    Licence: original work made for this project; no attribution owed.
+
+v9 (chat c3e2b2aa, asked: "Add music and sound effects to this ad that feel clean and cool, confident and understated")
+  SYNTHESIZED for this spot in code; its chat wrote no CREDITS entry, so this is its module header:
+    The multicat variant's sound (multicat.516afb1a.js): a clean, understated bed, quiet interface effects on the beat's
+    events and the ElevenLabs song at its play press, rendered in one offline pass (OfflineAudioContext) from the beat's
+    own plan T, so every cue sits on the frame that draws its event and the spot's clock can seek it like a picture.
+    The bed runs at the song's own tempo (tiny-chaos.mp3 measures 117.5-120 BPM, A440, B major) with its bar lines laid
+    back from the song's play press, which lands on a downbeat; it sits in G# minor, the song's relative minor, on
+    vi9 IVmaj9 Imaj9 V11, so the F#11 under the ElevenLabs reply resolves into the song's opening B. It steps out at the press
+    (the song is the answer and plays alone) and comes back for the end card on a B major 9 that rings out under the
+    lockup. Sections build as the asks do: pad alone on the empty state, a half-time pulse from the first send, the full
+    four-on-the-floor groove from the Meshy ask, a plucked hook once the cat walks, a shaker under the order, a breakdown
+    and a riser under the song's generation.
+    cues(T, o) -> { bars, sfx }: every cue in time order (QA and the mix notes); renderScore(T, o) -> Promise<AudioBuffer>.
+  Original work for this project; no samples or third-party audio besides tiny-chaos.mp3 above.
+
+v10 (chat 0db6a795, asked: "Add sound effects and music that are tight and clean and sharp sounding, not as cartoony")
+  Sound bed and effects (scenes/tabs-assets/beats/multicat-sound.0db6a795.js)
+    No samples and no third-party audio: every sound (kick, clap, hats, bass, chord stabs, plucks, pad, typing keys, send,
+    chip ticks and checks, card air, fast-forward ticks, landing hits, play click, end-card sting) is synthesized live in
+    the browser with Web Audio oscillators, one seeded noise buffer and a generated reverb impulse, written for this
+    project 2026-10-17. Key (B major) and tempo (~118 bpm) were measured from tiny-chaos.mp3 above so the bed hands it a
+    downbeat; the bed itself runs at 119.25 bpm, ten bars from the first send to the song's play press.
+
+v11 (chat 26a3dff0, asked: "Sound-design this ad like it's about to air on TV: tight, clean, sharp, not cartoony, all original")
+  SYNTHESIZED for this spot in code; its chat wrote no CREDITS entry, so this is its module header:
+    The multicat spot's sound engine, part 3: the score, written against the spot's own cue times (cueSheet, from the
+    beat's plan in multicat.516afb1a.js), so every sound sits on the frame it belongs to. An original bed in B major at
+    about 120 BPM, the key and tempo of the ElevenLabs song the spot plays (media/multicat.516afb1a/tiny-chaos.mp3,
+    measured: B major, 118-123 BPM), so the bed hands straight into it; the tempo bends under 2% between the picture's
+    landings so that each one is a downbeat. On top: keystrokes, send swishes, chip ticks and confirms, a fast-forward
+    riser under every generation, a weighted hit on every landing, the play press, and a sonic-logo sting on the end card
+    (the hook's three notes, D#5 F#5 B5). The song itself plays alone: the bed stops a beat before it. Pure: no DOM, no
+    Web Audio, so the worker, a page or node renders the same samples.
+  Original work for this project; no samples or third-party audio besides tiny-chaos.mp3 above.
+
+v12 (chat 436d3bf2, asked: "Score this ad. Clean and cool, every hit deliberate, no goofy sounds")
+  The spot's score (scenes/tabs-assets/beats/multicat-score.436d3bf2.js), 2026-10-17
+    SYNTHESISED in the browser (Web Audio OfflineAudioContext) at page load from the beat's own timing plan: no samples, no
+    third-party audio besides tiny-chaos.mp3 above, which it mixes in from the song's play press. Filtered saw pads, FM plucks
+    and bells, sine ticks and subs, shaped noise swells and hats, a generated room impulse. B major to sit under the track
+    (measured: B major, 120 bpm, first downbeat 28 ms in). Original work for this project; nothing owed.
+
+v13 (chat f1659cd2, asked: "Make the sound for this ad crisp, sharp and modern, and keep the mix clean and tight")
+  soundtrack (sound.f1659cd2.js, scenes/tabs-assets/beats/multicat-score.f1659cd2.js, multicat-synth.f1659cd2.js,
+  multicat-master.f1659cd2.js), 2026-10-17
+    The bed (120 bpm, B major, phase-locked to tiny-chaos.mp3's beat grid) and every sound effect are synthesized in the
+    browser from Web Audio oscillators and a seeded noise buffer: no samples, no third-party audio. tiny-chaos.mp3 plays
+    inside that mix, unedited apart from a 30 Hz high-pass, a 1.5 dB dip at 260 Hz and a 2 dB shelf above 9.5 kHz, then the
+    shared master (28 Hz high-pass, 18 kHz low-pass, 2:1 RMS glue, true-peak limiter at -1.5 dBTP).
+
+v14 (chat ff209337, asked: "This ad needs a soundtrack that sounds sharp and expensive: clean mix, tight low end, nothing cartoony")
+  score.ff209337.mp3
+    SYNTHESIZED for this spot, 2026-10-17: no samples, no third-party audio, no model. Every sound (1:1 FM electric piano,
+    2:1 FM pluck, polyBLEP detuned-saw pad, sine sub, noise and metal drums, 1:4 FM glass bells, filtered-noise risers, an
+    8-line FDN room, a dotted-eighth echo) is computed by a Node renderer kept outside the served folder
+    (/tmp/multicat-v14.ff209337/render.mjs at the time of rendering), mixed with a mono low end (side high-passed at 140 Hz),
+    kick-keyed ducking, a 1.8:1 glue compressor and a true-peak-aware limiter, then encoded with ffmpeg (libmp3lame 256 kbps,
+    48 kHz). 31.6 s, stereo, -16 LUFS over its groove (-16.4 integrated), -1.8 dBTP.
+    Timed on the spot's clock (second 0 of the file is the spot's 0 s; decoded with no offset in Chromium and WebKit): 120 bpm
+    in B major, bars on the song's play press (22.49 s), so the dominant stab as the song lands (21.99 s) resolves into it.
+    Cues: send swishes, chip ticks and resolve tones, risers under each x50 generation, a glass glint as the photo lands
+    (5.058 s), an impact and a chord push as the 3D model lands (11.983 s), a two-note chime as the order lands (17.458 s),
+    silence under the song, and a Bmaj9 resolve on the end card's bar line (28.49 s).
+    Licence: original work made for this project.
+
+v15 (chat 83a92e2b, asked: "Add music and effects to this ad, cool and clean, polished like a flagship product film, all original")
+  The variant's score (music and sound effects, ../../score*.83a92e2b.js)
+    ORIGINAL, written for this spot 2026-10-17 and synthesised in the browser at load (Web Audio oscillators, one seeded noise
+    buffer and a generated reverb impulse): no samples, loops or third-party audio. B major, tempo-mapped near 120 bpm so each
+    reveal lands on a downbeat. tiny-chaos.mp3 is mixed into it unaltered at its play press, with the beat player's own fade.
+
+v16 (chat 96834de7, asked: "Make music and sound effects for this ad that are tight and punchy but clean, less cartoony, more premium")
+  SYNTHESIZED for this spot in code; its chat wrote no CREDITS entry, so this is its module header:
+    The multicat variant's music and sound effects (beats/multicat.516afb1a.js hands it the cue sheet; the player,
+    multicat-player.96834de7.js, keeps the result on the spot's clock). One pass renders the whole spot offline:
+      - the bed: 120 BPM in B major, the shipped song's own tempo and key (media/multicat.516afb1a/tiny-chaos.mp3 measures
+        119.5 BPM by autocorrelation with its beats on 0, 0.5, 1 s, and its mids carry D# and G#, never D), its bar grid
+        phase-locked to the song's play press, so its last bar's V chord resolves into the song's own downbeat. Bars run
+        two five-bar phrases, I vi IV ii V twice, from the first send to the song: an airy pad under the empty state, the
+        groove dropping on the first send's downbeat (the send's knock is its pickup), a fuller section once the 3D model
+        lands, a breakdown under the last ask, a build into the song, then nothing: the song plays alone.
+      - the effects, on the exact frames they belong to: soft key ticks while asks type, a knock on every send, a glassy
+        tick as each routing chip resolves, a pass of air as each answer card rises, a stopwatch tick under each x50
+        generation, a sub impact as the photo and the model land (the drums clear around each), a soft bell on the order's
+        confirmation, and on the end card a swell into the mascot's pop, a sub, a Bmaj9 bloom and one bell on the wordmark.
+    Mastered here too: the bed is brought to TARGET loudness and limited under CEIL (multicat-finish.96834de7.js).
+  Original work for this project; no samples or third-party audio besides tiny-chaos.mp3 above.
+
+v17 (chat b9427543, asked: "Give this ad sharp, clean sound design with music under it. Nothing silly, all original")
+  The score under the spot (sound design and music bed), scenes/tabs-assets/beats/multicat-score.b9427543.js
+    SYNTHESIZED in the browser at load (Web Audio, OfflineAudioContext) by multicat-synth.b9427543.js from oscillators,
+    FM operators and seeded noise: no samples, no third-party audio. Written for this project, 2026-10-17. B major at
+    120 bpm, matched to tiny-chaos.mp3 (key by a chroma/Krumhansl-Schmuckler fit, r 0.93; kick onsets every 0.501 s from
+    0.040 s, measured from this file).

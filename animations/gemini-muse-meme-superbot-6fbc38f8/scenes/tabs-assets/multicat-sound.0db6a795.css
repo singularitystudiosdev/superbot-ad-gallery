@@ -1,0 +1,14 @@
+/* the multicat variant's Sound pill (beats/multicat-sound.0db6a795.js): the speed pill's chrome, under the Music pill (114px top +
+   40px height + 8px gap = 162px), shown only on that variant while the 10 pick is on. One toggle: "Turn on" until the browser lets audio start, then On and Off */
+.sound-select { position: fixed; top: 162px; right: 18px; z-index: 40; display: inline-flex; align-items: center; gap: 2px; padding: 4px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line); font: 600 13px/1 var(--ui); user-select: none; }
+.sound-select[hidden] { display: none; }
+.sound-select .vs-label { padding: 0 8px 0 10px; color: var(--muted); font-weight: 500; }
+.sound-select button { display: inline-flex; align-items: center; gap: 7px; appearance: none; margin: 0; border: 0; height: 30px; padding: 0 14px 0 11px; border-radius: 999px;
+  background: transparent; color: var(--fg-2); font: inherit; cursor: pointer; transition: background-color .15s, color .15s; }
+.sound-select button:hover { color: var(--fg); background: var(--raised); }
+.sound-select button[aria-pressed="true"] { background: var(--fg); color: var(--card); }
+.sound-select button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sound-select svg { flex: none; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (pointer: coarse) { .sound-select { top: 204px; } .sound-select button { height: 44px; padding: 0 16px 0 13px; } }
+body.freeze .sound-select { display: none; }

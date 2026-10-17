@@ -15,6 +15,10 @@
 <link rel="stylesheet" href="scenes/tabs-assets/ports.css?v=8">
 <link rel="stylesheet" href="scenes/tabs-assets/chat.css?v=10">
 <link rel="stylesheet" href="scenes/tabs-assets/ask.css?v=3">
+<link rel="stylesheet" href="score.535ee6dc.css?v=1">
+<link rel="stylesheet" href="music.28656fd8.css?v=2">
+<link rel="stylesheet" href="sound.f1659cd2.css?v=2">
+<link rel="stylesheet" href="music.ff209337.css?v=2">
 <script type="importmap">{ "imports": { "three": "./vendor/three/build/three.module.js" } }</script>
 <link rel="modulepreload" href="lib.9b47fc30.js">
 <link rel="modulepreload" href="shell.9b47fc30.js">
@@ -68,7 +72,11 @@
   };
 })();
 </script>
-<script type="module" src="timeline.9b47fc30.js?v=25" onload="bootLoaded()" onerror="bootFailed()"></script>
-<script type="module" src="variant-select.9e82faf1.js?v=14" onload="bootLoaded()" onerror="bootFailed()"></script>
+<script type="module" src="timeline.9b47fc30.js?v=26" onload="bootLoaded()" onerror="bootFailed()"></script>
+<script type="module" src="variant-select.9e82faf1.js?v=15" onload="bootLoaded()" onerror="bootFailed()"></script>
+<!-- v14 on the Music pill: its score and its music pill; outside the boot count, so a failed score never holds the spot -->
+<script type="module" src="music.ff209337.js?v=2"></script>
+<!-- v15 on the Music pill: its score and its sound pill (it loads its own stylesheet) -->
+<script type="module" src="score.83a92e2b.js?v=3"></script>
 </body>
 </html>

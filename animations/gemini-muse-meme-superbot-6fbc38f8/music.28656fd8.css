@@ -1,0 +1,14 @@
+/* the sound pill (music.28656fd8.js): the speed pill's chrome, under the Music pill (114px top + its 40px height + 8px gap), shown
+   only on the multicat variant; the soundtrack's start gate ("Tap for sound", outlined in the accent), then its mute switch */
+.sound-pill { position: fixed; top: 162px; right: 18px; z-index: 40; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 13px;
+  border-radius: 999px; background: var(--card); border: 1px solid var(--line); color: var(--fg); font: 600 13px/1 var(--ui); cursor: pointer; user-select: none;
+  transition: border-color .15s, background-color .15s, color .15s; }
+.sound-pill[hidden] { display: none; }
+.sound-pill:hover { background: var(--raised); }
+.sound-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sound-pill svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sound-pill[data-state="locked"] { border-color: var(--accent); }
+.sound-pill[data-state="off"] { color: var(--muted); }
+body.has-appear .sound-pill { top: 162px; }
+@media (pointer: coarse) { .sound-pill { top: 204px; height: 52px; } }
+body.freeze .sound-pill { display: none; }

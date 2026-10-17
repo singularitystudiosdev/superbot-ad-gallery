@@ -7,7 +7,7 @@
 //   ?t=<s>    a frozen frame renders and plays nothing
 // window.__MIX reports the render's state and loudness for QA.
 import { variant } from '../../../variant.9e82faf1.js?v=3';
-import { music } from '../../../music.47e5d94a.js';
+import { music } from '../../../music.47e5d94a.js?v=2';
 
 const q = new URLSearchParams(location.search);
 const OFF = q.get('sound') === '0';

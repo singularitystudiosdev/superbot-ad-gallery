@@ -33,9 +33,27 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn, shareDisc, SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
-import { music } from '../../../music.47e5d94a.js';
+import { music } from '../../../music.47e5d94a.js?v=2';
 // v5 on the Music pill: the broadcast mix, with the song mixed in
-import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js?v=2';
+import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js?v=3';
+// v6-v17 on the Music pill: soundtracks made for the multicat cut alone, each mounted once from build() below
+import { variant } from '../../../variant.9e82faf1.js?v=3';
+import { mountScore as mountV6 } from '../../../score.535ee6dc.js';
+import { cueSheet as cueSheetV7 } from './score.d8ff4cca.js';
+import { makeTransport as makeTransportV7 } from './transport.d8ff4cca.js';
+import { makeGate as makeGateV7 } from './sound-gate.d8ff4cca.js';
+import { mountMusic as mountV8 } from '../../../music.28656fd8.js';
+import { makeSound as makeSoundV9 } from './multicat-sound.c3e2b2aa.js';
+import { makeSound as makeSoundV10 } from './multicat-sound.0db6a795.js';
+import { cueSheet as cueSheetV11 } from './multicat-score.26a3dff0.js';
+import { makeSound as makeSoundV11 } from './multicat-sound.26a3dff0.js';
+import { makeScore as makeScoreV12 } from './multicat-score.436d3bf2.js';
+import { mountSound as mountV13 } from '../../../sound.f1659cd2.js';
+// v14 runs on its own (music.ff209337.js, index.html); v15's player too (score.83a92e2b.js), on the clocks handed over here
+import { setPlan as setPlanV15 } from '../../../score-cues.83a92e2b.js?v=1';
+import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js';
+import { songLevel as songLevelV16 } from '../../../sound.96834de7.js';
+import { makeSound as makeSoundV17 } from './multicat-sound.b9427543.js';
 
 const CSS = new URL('../multicat.516afb1a.css?v=8', import.meta.url).href;
 // the two variants this module answers: the base chain and its bare twin (the export `bare`)
@@ -201,6 +219,78 @@ const make = (bare) => ({
     const id = bare ? BARE_ID : ID;
     // v5's soundtrack: its cue sheet is this plan, plus the first ask and its chip as the engine times them (none, bare)
     mountMix({ id, cues: { T, ask0: { text: k.askBy[id], s: k.s, typeEnd: k.typeEnd, send: k.send }, chips0: k.chips }, song: SONG });
+    // v6-v17: mounted on the base chain only, each plays only while it is the pick. songRules[pick] says whether that pick
+    // plays the song itself (owned: the element below stays silent) or has muted it (muted); packRenders follow the clock
+    const songRules = {}, packRenders = [];
+    // picked through the Music pill (a gesture), a soundtrack whose own unlock missed that gesture may start now
+    const activated = () => !!(navigator.userActivation && navigator.userActivation.hasBeenActive);
+    if (!bare) {
+      mountV6();
+      // v7: SFX on the picture and a pulse bed at the song's tempo (score.d8ff4cca.js), played on the clock by its
+      // transport behind its sound pill; that pill's mute mutes the song too
+      const v7 = makeTransportV7(cueSheetV7({ text: k.askBy[ID], s: k.s, typeEnd: k.typeEnd, send: k.send, chips: k.chips }, T, { ffIn: FF_IN }), { active: () => variant() === ID && music() === 'v7' });
+      makeGateV7(v7, ID);
+      songRules.v7 = { muted: () => v7.muted };
+      packRenders.push((t) => v7.sync(t));
+      addEventListener('musicchange', () => { if (music() === 'v7' && activated()) v7.unlock(); });
+      (window.__PICKS ||= {}).v7 = { ready: () => true, sounding: () => v7.sounding };
+      // v8: a deep-house bed rendered from this plan (score.28656fd8.js), shipped as an MP3 while the cues still match; its
+      // pill's mute mutes the song too
+      const v8 = mountV8({ T, send: k.send, len: () => window.__AD.CYCLE });
+      songRules.v8 = { muted: () => v8.off };
+      // v9: a quiet bed and soft effects with the song mixed in, rendered from this plan into one buffer
+      const v9 = makeSoundV9(T, { song: SONG, first: { s: k.s, typeEnd: k.typeEnd, send: k.send, chips: k.chips }, cps: TYPE_CPS, end: { delay: END_DELAY }, songFor: SONG_FOR, songFade: SONG_FADE });
+      songRules.v9 = { owned: () => !v9.failed };
+      packRenders.push((t) => (music() === 'v9' ? v9.sync(t) : v9.idle()));
+      // v10: a tight, tempo-locked bed and crisp effects synthesized live from this plan; no song element (it keeps its own
+      // output), its pill's mute mutes the song through songRules
+      const v10 = makeSoundV10(k, T, { ask: k.askBy[ID], song: null, songSrc: SONG, songAt: S.play, songFadeAt: S.play + SONG_FOR, songFadeEnd: S.play + SONG_FOR + SONG_FADE, endPop: S.cut + END_DELAY });
+      songRules.v10 = { muted: () => v10.muted };
+      packRenders.push((t) => v10.render(t));
+      // v11: a broadcast-style score rendered in a worker from this plan; the song stays on its element, trimmed to sit
+      // level with the bed and faded on its own curve (songRules trim)
+      const v11 = makeSoundV11(cueSheetV11(k, T, { cps: TYPE_CPS, endDelay: END_DELAY }));
+      songRules.v11 = { trim: (el, at) => v11.trim(el, at, SONG_FOR) };
+      packRenders.push((t, running) => v11.sync(t, running));
+      // v12: one clean bed with a hit on every landing and the song riding in it, rendered from this plan (it plays at 1x
+      // only); the end card's pop, its wordmark 0.3 s on, and the spot's last frame 0.7 s past the chain
+      const popV12 = S.cut + END_DELAY;
+      const v12 = makeScoreV12({ T, send: k.send, swap: k.chips[0].swap, pop: popV12, word: popV12 + 0.3, end: T.end + 0.7, song: SONG });
+      songRules.v12 = { owned: () => !v12.failed };
+      packRenders.push((t) => (music() === 'v12' ? v12.sync(t) : v12.idle()));
+      // v13: a crisp, tight mix (bed, effects and the song, mastered) rendered offline from this route; it follows the clock
+      // on its own frame loop
+      const v13 = mountV13({ route: { ask: k.askBy[ID], s: k.s, typeEnd: k.typeEnd, send: k.send, chips: k.chips, T }, song: SONG, songFor: SONG_FOR, songFade: SONG_FADE, endDelay: END_DELAY });
+      songRules.v13 = { owned: () => !v13.failed };
+      // v15: a cool, polished score whose player (score.83a92e2b.js) reads this chain's clocks; it carries the song once
+      // its whole render is in. The chain's end is the engine's (chat.9b47fc30.js chatEnd: the plan's end and 0.3 s)
+      setPlanV15({ k, send: k.send, T, chatEnd: T.end + 0.3, TYPE_CPS, END_DELAY, FF_IN, SONG, SONG_FOR, SONG_FADE });
+      songRules.v15 = { owned: () => !!(window.__SCORE_V15 && window.__SCORE_V15.ownsSong) };
+      // v16: a tight, punchy, premium score rendered from this cue sheet (the engine's first ask, k, and this chain, T); the
+      // song plays on its element at 0.9 (its -14.1 LUFS to the score's -15) and follows the sound pill's mute
+      const v16 = makePlayerV16({
+        typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, end: st.typeEnd }))],
+        sends: [k.send, ...T.steps.map((st) => st.send)],
+        camera: k.send, // the first send drops the composer and pulls the camera out (tabs.9b47fc30.js)
+        resolved: [...k.chips.map((c) => c.done), ...T.steps.flatMap((st) => st.chips.map((c) => c.done))],
+        cards: [T.card, ...T.steps.map((st) => st.card)],
+        gens: [[T.gen0, T.done], ...T.steps.filter((st) => st.gen).map((st) => [st.gen0, st.done])],
+        image: T.done, model: M.done, order: O.done, play: S.play,
+        cover: S.cut, pop: S.cut + END_DELAY, word: S.cut + END_DELAY + 0.3, end: T.end,
+      });
+      songRules.v16 = { trim: (el) => { el.volume *= 0.9 * songLevelV16(); } };
+      packRenders.push((t) => (music() === 'v16' ? v16.sync(t) : v16.stop()));
+      addEventListener('variantchange', () => v16.stop());
+      // v17: sharp synthesized effects on every event and a B major bed that clears out on the song's first beat, then the
+      // end card's chord; the song plays on its element at 0.75 (about 6 LU over the groove) and follows the pill's mute
+      const v17 = makeSoundV17({
+        first: { text: k.askBy[ID], s: k.s, typeEnd: k.typeEnd, send: k.send, chips: k.chips },
+        T, endDelay: END_DELAY, endLen: END_LEN,
+        song: { url: SONG, at: S.play, gain: 0.75, fadeAt: S.play + SONG_FOR, fadeLen: SONG_FADE, stopAt: S.play + Math.min(DUR, SONG_FOR + SONG_FADE) },
+      });
+      songRules.v17 = { muted: () => v17.muted, trim: (el) => { el.volume *= 0.75; } };
+      packRenders.push((t) => { if (music() === 'v17') v17.sync(t); });
+    }
 
     // 1. GPT Image 2, in the engine's own reply
     const say1 = sayEl(x, SAY1);
@@ -295,12 +385,17 @@ const make = (bare) => ({
     // the gallery lightbox's nudge (a click in its chrome): the song may try again
     addEventListener('message', (e) => { if (e.data && e.data.type === 'unmute') unblock(); });
     function syncAudio(t, running) {
-      // v5 carries the song in its own mix, so this element stays silent under it
-      if (music() === 'v5' && mixOwnsSong()) { if (!audio.paused) audio.pause(); return; }
+      // a pick that carries the song in its own mix (v5, and any songRules owner) keeps this element silent under it
+      const pick = music(), rule = songRules[pick];
+      if ((pick === 'v5' && mixOwnsSong()) || (rule && rule.owned && rule.owned())) { if (!audio.paused) audio.pause(); return; }
+      const muted = !!(rule && rule.muted && rule.muted());
+      if (audio.muted !== muted) audio.muted = muted;
       const at = t - S.play;
       if (!running || at < 0 || at >= Math.min(DUR, SONG_FOR + SONG_FADE)) { if (!audio.paused) audio.pause(); return; }
       // it fades out as the end card covers the chat, evenly in dB (to -40 dB), so the cut never lands mid-note
       audio.volume = Math.pow(0.01, seg(at, SONG_FOR, SONG_FOR + SONG_FADE));
+      // a pick that sets the song's level in its own mix (songRules trim) has the last word
+      if (rule && rule.trim) rule.trim(audio, at);
       const rate = (window.__AD && window.__AD.speed) || 1;
       if (audio.playbackRate !== rate) audio.playbackRate = rate;
       if (Math.abs(audio.currentTime - at) > 0.3) audio.currentTime = at;
@@ -405,8 +500,10 @@ const make = (bare) => ({
           if (n !== lit) { [...lyric.children].forEach((w, i) => w.classList.toggle('on', i < n)); lit = n; }
           lyric.style.opacity = seg(t, S.play - 0.2, S.play + 0.2).toFixed(3);
         }
-        // the song's element; the picked soundtrack follows the clock on its own (multicat-mix.08050705.js)
-        syncAudio(t, clockRuns(t));
+        // the song's element; v5 follows the clock on its own (multicat-mix.08050705.js), the others that need a frame here
+        const running = clockRuns(t);
+        syncAudio(t, running);
+        for (const follow of packRenders) follow(t, running);
 
         // the end card: the chat fades to black, then the house card's own run (endcard.1d16d488.html render(t))
         const cover = seg(t, S.cut, S.cut + END_IN);

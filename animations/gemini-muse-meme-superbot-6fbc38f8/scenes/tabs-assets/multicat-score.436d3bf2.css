@@ -1,0 +1,18 @@
+/* the multicat score's sound pill (beats/multicat-score.436d3bf2.js): the unmute gate, in the variant pill's chrome
+   (style.css .variant-select), bottom left, clear of the hint; hidden on a frozen capture like the other chrome */
+.mc-sound-v12 { position: fixed; left: 18px; bottom: 14px; z-index: 40; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 15px 0 12px;
+  border-radius: 999px; background: var(--card); border: 1px solid var(--line); color: var(--fg-2); font: 600 13px/1 var(--ui); cursor: pointer; user-select: none;
+  transition: border-color .15s, color .15s, background-color .15s; }
+.mc-sound-v12[hidden] { display: none; }
+.mc-sound-v12:hover { color: var(--fg); background: var(--raised); }
+.mc-sound-v12:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mc-sound-v12:disabled { opacity: .6; cursor: default; background: var(--card); color: var(--fg-2); }
+.mc-sound-v12 svg { display: block; width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mc-sound-v12 .mc-snd-on { display: none; }
+.mc-sound-v12[data-state="on"] .mc-snd-on, .mc-sound-v12[data-state="speed"] .mc-snd-on { display: block; }
+.mc-sound-v12[data-state="on"] .mc-snd-off, .mc-sound-v12[data-state="speed"] .mc-snd-off { display: none; }
+/* the gate itself: the one state that asks for a press */
+.mc-sound-v12[data-state="locked"] { background: var(--fg); border-color: var(--fg); color: var(--card); }
+.mc-sound-v12[data-state="locked"]:hover { background: #fff; color: var(--card); }
+@media (pointer: coarse) { .mc-sound-v12 { height: 44px; } }
+body.freeze .mc-sound-v12 { display: none; }

@@ -1,0 +1,85 @@
+/* The 'garmin-strava' variant's answers (beats/garmin-strava.7a48d642.js). Loaded by the beat module itself, so index.html
+   needs no link. Both cards are the bakery artifact frame (bakery.005f5570.css .bk); the setup's rows take the routing chip's
+   type and its check (chat.css .qc-sw, .qc-ok), the post's body is Strava's light feed card. No CSS animation or transition:
+   the beat sets every entrance and state from t, so frozen frames (?t=) hold. */
+
+/* the marks' tiles: Garmin's delta in Garmin blue on the spot's black tile, Strava's chevrons white on Strava orange */
+#s-tabs .sbsite .hub .gs-tile { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; }
+#s-tabs .sbsite .hub .gs-tile svg { display: block; }
+#s-tabs .sbsite .hub .gs-t-garmin { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .gs-t-garmin svg { width: 17px; height: 15px; fill: #007cc3; }
+#s-tabs .sbsite .hub .gs-t-strava { background: #fc5200; }
+#s-tabs .sbsite .hub .gs-t-strava svg { width: 17px; height: 17px; fill: #fff; }
+#s-tabs .sbsite .hub .gs-t-rule { background: #232326; box-shadow: inset 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .gs-t-rule svg { width: 16px; height: 16px; fill: none; stroke: #ececec; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* 1. the setup frame: two accounts, then the rule; the header's state pill reads Setting up, then On */
+#s-tabs .sbsite .hub .gs-auto .bk-title small, #s-tabs .sbsite .hub .gs-post .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .gs-acct, #s-tabs .sbsite .hub .gs-rule { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 14px; box-shadow: 0 1px 0 #2a2a2e; }
+#s-tabs .sbsite .hub .gs-rule { box-shadow: none; }
+#s-tabs .sbsite .hub .gs-txt { flex: 1; min-width: 0; display: grid; gap: 3px; }
+#s-tabs .sbsite .hub .gs-txt b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 13px/16px var(--ui); color: #ececec; }
+#s-tabs .sbsite .hub .gs-txt small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 11.5px/14px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .gs-st { flex: none; display: grid; justify-items: end; font: 600 12px/1 var(--ui); }
+#s-tabs .sbsite .hub .gs-st > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 7px; }
+/* "Connecting" shimmers as a routing chip's label does (chat.css .qc-swl), on the beat's --sh */
+#s-tabs .sbsite .hub .gs-st-l { background: linear-gradient(90deg, #8e8e93 0%, #8e8e93 40%, #ffffff 50%, #8e8e93 60%, #8e8e93 100%); background-size: 250% 100%; background-position: var(--sh, 100%) 0; -webkit-background-clip: text; background-clip: text; color: transparent; }
+#s-tabs .sbsite .hub .gs-st-ok { color: #34d399; opacity: 0; }
+#s-tabs .sbsite .hub .gs-spin { flex: none; width: 12px; height: 12px; box-sizing: border-box; border-radius: 50%; border: 2px solid #3a3a3f; border-top-color: #ececec; }
+#s-tabs .sbsite .hub .gs-ok { flex: none; width: 14px; height: 14px; fill: none; stroke: #34d399; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+/* the switch: the track fills green as --on runs 0 to 1, the knob travels 14px */
+#s-tabs .sbsite .hub .gs-sw { flex: none; position: relative; width: 36px; height: 22px; border-radius: 999px; background: color-mix(in srgb, #34d399 calc(var(--on, 0) * 100%), #3a3a3f); }
+#s-tabs .sbsite .hub .gs-sw i { position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.35); }
+#s-tabs .sbsite .hub .gs-state { display: grid; justify-items: end; margin-right: 4px; }
+#s-tabs .sbsite .hub .gs-state > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; font: 600 11px/1 var(--ui); }
+#s-tabs .sbsite .hub .gs-state-wait { color: #a1a1a6; box-shadow: inset 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .gs-state-wait .gs-spin { width: 10px; height: 10px; }
+#s-tabs .sbsite .hub .gs-state-on { padding-left: 8px; background: rgba(52, 211, 153, .12); color: #34d399; opacity: 0; }
+#s-tabs .sbsite .hub .gs-state-on .gs-ok { width: 11px; height: 11px; }
+
+/* the done line, under the setup frame */
+#s-tabs .sbsite .hub .qc-say.gs-said { margin: 12px 0 0; }
+
+/* 2. the night passes: a centred day line between hairlines, across the thread */
+/* past hub.css's reply cap (.msg:has(.avatar.sb) .m-main), from the replies' left edge to the asks' right edge */
+#s-tabs .sbsite .hub .msg.gs-day:has(.avatar.sb) .m-main { flex: 1 1 auto; max-width: none; justify-items: stretch; }
+#s-tabs .sbsite .hub .gs-day-t { display: flex; align-items: center; gap: 12px; margin: 10px 0 12px; font: 600 11px/1 var(--ui); color: #8e8e93; white-space: nowrap; }
+#s-tabs .sbsite .hub .gs-day-t::before, #s-tabs .sbsite .hub .gs-day-t::after { content: ''; flex: 1; height: 1px; background: #2a2a2e; }
+
+/* the post: the frame's open button carries Strava's chevrons in Strava orange */
+#s-tabs .sbsite .hub a.bk-btn.gs-open { text-decoration: none; cursor: pointer; }
+#s-tabs .sbsite .hub a.bk-btn.gs-open:hover { background: #fff; }
+#s-tabs .sbsite .hub .bk-btn.gs-open svg { width: 13px; height: 13px; fill: #fc5200; stroke: none; }
+#s-tabs .sbsite .hub .gs-post .gs-view { height: auto; }
+/* Strava's feed card, light: the athlete, the title, three stats, the map, the kudos bar */
+#s-tabs .sbsite .hub .gs-sv { background: #fff; color: #242428; font: 400 12px/16px var(--ui); transform-origin: 50% 0; }
+#s-tabs .sbsite .hub .gs-sv-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px 0; }
+#s-tabs .sbsite .hub .gs-sv-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #facc15; font: 700 14px/1 var(--ui); color: #1c1917; }
+#s-tabs .sbsite .hub .gs-sv-who { flex: 1; min-width: 0; display: grid; gap: 2px; }
+#s-tabs .sbsite .hub .gs-sv-who b { font: 600 13px/16px var(--ui); color: #242428; }
+#s-tabs .sbsite .hub .gs-sv-who small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 11px/14px var(--ui); color: #6d6d78; }
+#s-tabs .sbsite .hub .gs-sv-mark { flex: none; display: grid; place-items: center; width: 24px; height: 24px; }
+#s-tabs .sbsite .hub .gs-sv-mark svg { display: block; width: 18px; height: 18px; fill: #fc5200; }
+#s-tabs .sbsite .hub .gs-sv-title { padding: 10px 16px 0; font: 700 17px/22px var(--ui); letter-spacing: -.01em; color: #242428; }
+#s-tabs .sbsite .hub .gs-sv-stats { display: flex; padding: 10px 16px 12px; }
+/* separators are borders: a 1px box-shadow under the hub's camera scale antialiased into a hairline along the row's top */
+#s-tabs .sbsite .hub .gs-sv-stats span { display: grid; gap: 3px; padding: 0 16px; border-left: 1px solid #e6e6eb; }
+#s-tabs .sbsite .hub .gs-sv-stats span:first-child { padding-left: 0; border-left: 0; }
+#s-tabs .sbsite .hub .gs-sv-stats small { font: 400 10.5px/12px var(--ui); color: #6d6d78; }
+#s-tabs .sbsite .hub .gs-sv-stats b { font: 600 16px/20px var(--ui); font-variant-numeric: tabular-nums; color: #242428; }
+#s-tabs .sbsite .hub .gs-sv-stats b i { font-style: normal; font-weight: 400; font-size: 12px; color: #6d6d78; }
+#s-tabs .sbsite .hub .gs-sv-map { position: relative; aspect-ratio: 560 / 200; overflow: hidden; background: #f3f1ec; }
+#s-tabs .sbsite .hub .gs-sv-map img, #s-tabs .sbsite .hub .gs-sv-map svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-width: none; }
+#s-tabs .sbsite .hub .gs-route { fill: none; stroke: #fc5200; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .gs-start { fill: #3fa142; stroke: #fff; stroke-width: 1.6; transform-box: fill-box; transform-origin: center; opacity: 0; }
+#s-tabs .sbsite .hub .gs-fin { transform-box: fill-box; transform-origin: center; opacity: 0; }
+#s-tabs .sbsite .hub .gs-fin circle { fill: #fff; stroke: #242428; stroke-width: 1.2; }
+#s-tabs .sbsite .hub .gs-fin path { fill: #242428; }
+#s-tabs .sbsite .hub .gs-sv-foot { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px 0 16px; box-shadow: 0 -1px 0 #e6e6eb; }
+#s-tabs .sbsite .hub .gs-kav { display: flex; padding-right: 4px; }
+#s-tabs .sbsite .hub .gs-kav i { display: grid; place-items: center; width: 20px; height: 20px; margin-right: -4px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 2px #fff; font: 700 9px/1 var(--ui); font-style: normal; color: #fff; opacity: 0; }
+#s-tabs .sbsite .hub .gs-kt { margin-right: auto; font: 400 11.5px/1 var(--ui); color: #6d6d78; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .gs-kb { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; box-shadow: inset 0 0 0 1px #dcdce0; color: #494950; }
+#s-tabs .sbsite .hub .gs-kb svg { display: block; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .gs-kb.gs-kb-on { color: #fc5200; box-shadow: inset 0 0 0 1px #fc5200; }
+#s-tabs .sbsite .hub .gs-kb.gs-kb-on svg { fill: rgba(252, 82, 0, .14); }

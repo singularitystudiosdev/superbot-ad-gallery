@@ -77,6 +77,13 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   the (fictional) hotel itself, the call heard with sound while its transcript fills in word by word,
   then a Reservation updated card strikes Oct 20–25 and lands Oct 25–30 (about 33s, with sound: the
   call, two Gemini TTS voices, over a bed synthesized in the multicat score's palette).
+- **Garmin runs to Strava**: the muse meme spot's automation cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=garmin-strava`), in the multicat-credits look (no
+  model on show): "Connect to my garmin account, and then after every one of my runs, post it to strava for
+  me". superbot connects Garmin Connect and Strava and switches the rule on; the next morning it posts the run
+  to Strava by itself, the route drawing onto an SVG map drawn from OpenStreetMap (a real 5.25 mi Fort Collins
+  loop, `img/garmin-strava.7a48d642/CREDITS.txt`) as kudos come in; ends on the superbot.gg end card (about 15s,
+  with sound: v16 re-cued to this chain).
 - **Discord emojis, then a frog GIF**: the muse meme spot's Discord cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=discord-credits`), made like the credits-only cat cut (no
   model on show): a breakdown of the emojis the user sends most on Discord (the last 30 days of messages and reactions,

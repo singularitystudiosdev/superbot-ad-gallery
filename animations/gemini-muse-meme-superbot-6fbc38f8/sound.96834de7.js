@@ -12,9 +12,9 @@ import { variant } from './variant.9e82faf1.js?v=3';
 import { music } from './music.47e5d94a.js?v=2';
 
 // the base chain and its bare twins, cat and dog (v16 is their default soundtrack), and the Amazon costumes cut, which
-// plays it re-cued (beats/costumes.34c23b1d.js), as do the Halloween shopping chain (beats/halloween.37ff9e93.js) and the
-// bare Discord chain (beats/discord.bccc0fdd.js)
-const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes', 'halloween-shopping', 'discord-credits']);
+// plays it re-cued (beats/costumes.34c23b1d.js), as do the Halloween shopping chain (beats/halloween.37ff9e93.js), the
+// Garmin to Strava chain (beats/garmin-strava.7a48d642.js) and the bare Discord chain (beats/discord.bccc0fdd.js)
+const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes', 'halloween-shopping', 'garmin-strava', 'discord-credits']);
 const OWN = new Set(['hotelcall']);
 const on = () => OWN.has(variant()) || (SCORED.has(variant()) && music() === 'v16');
 const LEVEL = 1; // the master gain while unmuted

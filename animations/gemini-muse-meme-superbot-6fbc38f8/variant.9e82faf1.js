@@ -48,6 +48,7 @@ export const VARIANTS = [
   { id: 'amazon-costumes', label: 'Amazon Halloween costumes' },
   { id: 'halloween-shopping', label: 'Halloween shopping · Amazon + Temu' },
   { id: 'hotelcall', label: 'Hotel call' },
+  { id: 'garmin-strava', label: 'Garmin runs to Strava' }, // superbot connects Garmin, then posts the next morning's run to Strava by itself (scenes/tabs-assets/beats/garmin-strava.7a48d642.js)
   { id: 'discord-credits', label: 'Discord emojis + frog GIF · credits only' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);

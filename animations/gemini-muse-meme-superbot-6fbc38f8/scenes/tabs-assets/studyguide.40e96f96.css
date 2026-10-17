@@ -1,29 +1,28 @@
 /* The 'studyguide' variant's answer (beats/studyguide.40e96f96.js). Loaded by the beat module itself, so index.html needs
-   no link. Both cards are the bakery artifact frame (bakery.005f5570.css .bk), widened to 640 x 400 so the rebuilt pages
-   read; the Classroom page is laid out at 840 x 525 and the Docs screen at 860 x 538, each drawn at the view's width. The
-   x50 badge and the end card are the multicat cut's (multicat.516afb1a.css .mc-ff, .mc-end), restated under sg- so this
-   variant stands on its own. Classroom and Docs colours are those products' own. */
+   no link. Both cards are the bakery artifact frame (bakery.005f5570.css .bk), widened to 640 x 400: the Google Classroom
+   card's page is laid out at 840 x 525 and drawn at the view's width, in Classroom's own colours; the study guide card is
+   superbot's flashcards, in the hub's dark palette. The x50 badge and the end card are the multicat cut's
+   (multicat.516afb1a.css .mc-ff, .mc-end), restated under sg- so this variant stands on its own. */
 
-/* the Classroom and Docs chrome's face (img/studyguide.40e96f96/CREDITS.txt), as a stylesheet rule so the Export button's
+/* the Classroom chrome's face (img/studyguide.40e96f96/CREDITS.txt), as a stylesheet rule so the Export button's
    renderer (export.64039673.js) can inline it into its frames; the beat waits for it before a frozen frame is ready */
 @font-face { font-family: "Google Sans Flex"; src: url("../../img/studyguide.40e96f96/google-sans-flex-latin.woff2") format("woff2"); font-weight: 400 700; font-style: normal; font-display: block; }
 
-#s-tabs .sbsite .hub .bk.sg-cr, #s-tabs .sbsite .hub .bk.sg-dc { width: 640px; }
-#s-tabs .sbsite .hub .bk.sg-cr .bk-view, #s-tabs .sbsite .hub .bk.sg-dc .bk-view { height: 400px; }
+#s-tabs .sbsite .hub .bk.sg-cr, #s-tabs .sbsite .hub .bk.sg-fc { width: 640px; }
+#s-tabs .sbsite .hub .bk.sg-cr .bk-view, #s-tabs .sbsite .hub .bk.sg-fc .bk-view { height: 400px; }
 /* narrower frames (the Ratio select): the reply column is 502px at 9:16 and 607px at 4:5, so the cards are zoomed to it
    rather than clamped, which would cut the right side off the pages drawn inside (as style.css does for the 560px frames) */
-html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main > .bk.sg-cr, html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main > .bk.sg-dc { zoom: .7844; }
-html[data-ar="4x5"] #s-tabs .sbsite .hub .m-main > .bk.sg-cr, html[data-ar="4x5"] #s-tabs .sbsite .hub .m-main > .bk.sg-dc { zoom: .9475; }
-#s-tabs .sbsite .hub .sg-cr .bk-title small, #s-tabs .sbsite .hub .sg-dc .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
+html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main > .bk.sg-cr, html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main > .bk.sg-fc { zoom: .7844; }
+html[data-ar="4x5"] #s-tabs .sbsite .hub .m-main > .bk.sg-cr, html[data-ar="4x5"] #s-tabs .sbsite .hub .m-main > .bk.sg-fc { zoom: .9475; }
+#s-tabs .sbsite .hub .sg-cr .bk-title small, #s-tabs .sbsite .hub .sg-fc .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
 #s-tabs .sbsite .hub a.bk-btn.sg-open { text-decoration: none; cursor: pointer; }
 #s-tabs .sbsite .hub a.bk-btn.sg-open:hover { background: #fff; }
 #s-tabs .sbsite .hub .bk-btn.sg-open img { display: block; width: auto; height: 14px; }
 /* the landing settle scales this wrapper; the page inside keeps its own fit scale */
 #s-tabs .sbsite .hub .sg-zoom { position: absolute; inset: 0; overflow: hidden; background: #fff; }
-#s-tabs .sbsite .hub .sg-dz { background: #f9fbfd; }
-/* the doc's generating pill carries no tool tile (the bare cut's), so its text takes the pill's even inset */
+/* the deck's generating pill carries no tool tile (the bare cut's), so its text takes the pill's even inset */
 #s-tabs .sbsite .hub .qc-genl.sg-genl { z-index: 4; padding-left: 11px; }
-#s-tabs .sbsite .hub .sg-dc .qc-sk { z-index: 3; }
+#s-tabs .sbsite .hub .sg-fc .qc-sk { z-index: 3; }
 /* the feed glides to this zero-height anchor under each card (multicat.516afb1a.css .mc-anchor) */
 #s-tabs .sbsite .hub .sg-anchor { display: block; height: 0; position: relative; top: 6px; pointer-events: none; }
 #s-tabs .sbsite .hub .sg-anchor + .qc-say { margin-top: 16px; }
@@ -128,52 +127,54 @@ html[data-ar="4x5"] #s-tabs .sbsite .hub .m-main > .bk.sg-cr, html[data-ar="4x5"
 #s-tabs .sbsite .hub .gc-it .gc-ic { width: 36px; height: 36px; }
 #s-tabs .sbsite .hub .gc-it .gc-ic .gc-sym { width: 20px; height: 20px; }
 #s-tabs .sbsite .hub .gc-it b { position: relative; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 14px/20px var(--gs); color: #3c4043; }
-#s-tabs .sbsite .hub .gc-due { position: relative; font: 400 12px/16px var(--gs); color: #5f6368; opacity: calc(1 - var(--tag, 0)); }
-#s-tabs .sbsite .hub .gc-tag { position: absolute; right: 10px; top: 50%; opacity: var(--tag, 0); transform: translateY(-50%) scale(calc(.9 + .1 * var(--tag, 0))); transform-origin: 100% 50%; }
+#s-tabs .sbsite .hub .gc-due { position: relative; font: 400 12px/16px var(--gs); color: #5f6368; }
 
 /* the pointer superbot drives the page with, its hotspot at (3, 2) */
 #s-tabs .sbsite .hub .gc-ptr { position: absolute; left: 0; top: 0; z-index: 6; width: 22px; height: 26px; opacity: 0; transform-origin: 3px 2px; filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, .3)); }
 #s-tabs .sbsite .hub .gc-ptr svg { display: block; width: 100%; height: 100%; }
 
-/* ---------- Google Docs ---------- */
-#s-tabs .sbsite .hub .sgd { --gs: "Google Sans Flex", "Google Sans", Roboto, Arial, sans-serif; position: absolute; left: 0; top: 0; width: 860px; height: 538px; overflow: hidden; transform: scale(.744186); transform-origin: 0 0; background: #f9fbfd; color: #1f1f1f; text-align: left; }
-#s-tabs .sbsite .hub .sgd * { box-sizing: border-box; }
-#s-tabs .sbsite .hub .sgd-bar { display: flex; align-items: center; gap: 4px; height: 64px; padding: 0 16px 0 10px; }
-#s-tabs .sbsite .hub .sgd-logo { display: block; width: 40px; height: 40px; }
-#s-tabs .sbsite .hub .sgd-tt { display: flex; flex-wrap: wrap; column-gap: 14px; min-width: 0; font: 400 14px/20px var(--gs); color: #1f1f1f; }
-#s-tabs .sbsite .hub .sgd-tt b { flex-basis: 100%; font: 400 18px/24px var(--gs); }
-#s-tabs .sbsite .hub .sgd-share { margin-left: auto; margin-right: 12px; height: 40px; padding: 0 24px; border-radius: 20px; background: #c2e7ff; color: #001d35; font: 500 14px/40px var(--gs); }
-#s-tabs .sbsite .hub .sgd-tb { display: flex; align-items: center; gap: 14px; height: 40px; margin: 0 8px; padding: 0 18px; border-radius: 20px; background: #edf2fa; font: 400 14px/1 var(--gs); color: #444746; }
-#s-tabs .sbsite .hub .sgd-tb i { width: 1px; height: 20px; background: #c7c7c7; }
-#s-tabs .sbsite .hub .sgd-tb b, #s-tabs .sbsite .hub .sgd-tb em, #s-tabs .sbsite .hub .sgd-tb u, #s-tabs .sbsite .hub .sgd-a { font: 700 15px/1 Arial, sans-serif; color: #444746; }
-#s-tabs .sbsite .hub .sgd-tb em { font-weight: 400; font-style: italic; font-family: Georgia, serif; }
-#s-tabs .sbsite .hub .sgd-tb u { font-weight: 400; }
-#s-tabs .sbsite .hub .sgd-a { font-weight: 400; text-decoration: underline 3px #1f1f1f; text-underline-offset: 3px; }
-#s-tabs .sbsite .hub .sgd-cv { position: absolute; left: 0; right: 0; top: 112px; bottom: 0; overflow: hidden; }
-#s-tabs .sbsite .hub .sgd-sc { padding: 12px 0 24px; }
-/* a Letter page at 100%: 816 x 1056 with 1 in margins, Arial 11 pt at Docs' 1.15 spacing, its default text styles */
-#s-tabs .sbsite .hub .sgd-pg { width: 816px; min-height: 1056px; margin: 0 auto 12px; padding: 96px; background: #fff; box-shadow: 0 0 0 1px #dadce0, 0 1px 3px rgba(60, 64, 67, .15); font: 400 14.667px/1.32 Arial, Helvetica, sans-serif; color: #000; }
-#s-tabs .sbsite .hub .sgd-pg sub, #s-tabs .sbsite .hub .sgd-pg sup { font-size: 70%; line-height: 0; }
-#s-tabs .sbsite .hub .sgd-t { margin: 0 0 4px; font: 400 34.667px/1.15 Arial, Helvetica, sans-serif; }
-#s-tabs .sbsite .hub .sgd-sub { margin: 0 0 14px; font-size: 16px; color: #666; }
-#s-tabs .sbsite .hub .sgd-pg h2 { margin: 24px 0 8px; font: 400 21.333px/1.2 Arial, Helvetica, sans-serif; }
-#s-tabs .sbsite .hub .sgd-pg h2.sgd-quiz { margin-top: 0; }
-#s-tabs .sbsite .hub .sgd-pg p { margin: 0; }
-#s-tabs .sbsite .hub .sgd-eq { margin: 4px 0 10px !important; }
-#s-tabs .sbsite .hub .sgd-pg table { width: 100%; border-collapse: collapse; }
-#s-tabs .sbsite .hub .sgd-pg td, #s-tabs .sbsite .hub .sgd-pg th { padding: 5px 7px; border: 1px solid #000; vertical-align: top; text-align: left; }
-#s-tabs .sbsite .hub .sgd-pg th { background: #f3f3f3; font-weight: 700; }
-#s-tabs .sbsite .hub .sgd-tbl td:first-child { width: 28%; }
-#s-tabs .sbsite .hub .sgd-tbl tr > :nth-child(2) { width: 30%; }
-#s-tabs .sbsite .hub .sgd-voc td:first-child { width: 26%; }
-#s-tabs .sbsite .hub .sgd-voc td:nth-child(2) { width: auto; }
-#s-tabs .sbsite .hub .sgd-call td { padding: 9px 11px; border-color: #b7b7b7; background: #f3f3f3; }
-#s-tabs .sbsite .hub .sgd-pg ul, #s-tabs .sbsite .hub .sgd-pg ol { margin: 8px 0 0; padding-left: 40px; }
-#s-tabs .sbsite .hub .sgd-pg li { margin: 0 0 4px; padding-left: 6px; }
-#s-tabs .sbsite .hub .sgd-src { margin-top: 8px !important; font-size: 13.333px; color: #444; }
-/* a Docs smart chip: the linked file's icon and its name on a soft pill */
-#s-tabs .sbsite .hub .sgd-chip { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px 0 5px; border-radius: 6px; background: #eef1f6; font: 400 13.333px/1 Arial, Helvetica, sans-serif; color: #1f1f1f; vertical-align: middle; white-space: nowrap; }
-#s-tabs .sbsite .hub .sgd-chip img { display: block; width: 15px; height: 15px; object-fit: contain; }
+/* ---------- the study guide: superbot's flashcards ---------- */
+/* the hub's dark palette and face: the frame's surfaces (#141416, #1c1c20, #232328), its hairlines (#2a2a2e, #34343a), its
+   text (#f2f2f5, #c7c7cc, #a1a1a6, #8e8e93) and its white control; one accent, amber, for the question the quiz missed */
+#s-tabs .sbsite .hub .sg-fcz { background: #141416; }
+#s-tabs .sbsite .hub .fc { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 14px 20px 14px; font-family: var(--ui); color: #f2f2f5; text-align: left; }
+#s-tabs .sbsite .hub .fc-top { display: flex; align-items: center; justify-content: space-between; height: 30px; }
+#s-tabs .sbsite .hub .fc-tabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: #1c1c20; box-shadow: inset 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .fc-tabs b { padding: 0 12px; border-radius: 999px; font: 500 12px/24px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .fc-tabs b.on { background: #2c2c31; color: #f2f2f5; font-weight: 600; }
+#s-tabs .sbsite .hub .fc-count { font: 600 12px/1 var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .fc-prog { display: flex; gap: 4px; margin-top: 12px; }
+#s-tabs .sbsite .hub .fc-prog i { flex: 1; height: 4px; border-radius: 999px; background: #2a2a2e; }
+#s-tabs .sbsite .hub .fc-prog i.done { background: #e5e5ea; }
+#s-tabs .sbsite .hub .fc-prog i.now { background: #6e6e76; }
+#s-tabs .sbsite .hub .fc-deck { position: relative; flex: 1; margin: 16px 8px 18px; }
+#s-tabs .sbsite .hub .fc-ghost, #s-tabs .sbsite .hub .fc-card { position: absolute; inset: 0; border-radius: 16px; }
+#s-tabs .sbsite .hub .fc-ghost { background: #1c1c20; box-shadow: inset 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .fc-g1 { transform: translateY(8px) scale(.955); }
+#s-tabs .sbsite .hub .fc-g2 { transform: translateY(16px) scale(.91); }
+#s-tabs .sbsite .hub .fc-card { transform-origin: 50% 100%; }
+#s-tabs .sbsite .hub .fc-face { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 16px 22px 14px; border-radius: 16px; background: #232328; box-shadow: inset 0 0 0 1px #34343a, 0 10px 24px rgba(0, 0, 0, .35); }
+#s-tabs .sbsite .hub .fc-topic { align-self: flex-start; padding: 0 10px; border-radius: 999px; background: #2c2c31; font: 600 11px/22px var(--ui); color: #c7c7cc; }
+#s-tabs .sbsite .hub .fc-q { flex: 1; display: grid; place-items: center; padding: 0 12px; font: 600 21px/28px var(--ui); letter-spacing: -.01em; text-align: center; color: #f2f2f5; text-wrap: balance; }
+#s-tabs .sbsite .hub .fc-q sub, #s-tabs .sbsite .hub .fc-why sub { font-size: 70%; line-height: 0; }
+#s-tabs .sbsite .hub .fc-hint { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font: 500 11.5px/1 var(--ui); color: #8e8e93; }
+#s-tabs .sbsite .hub .fc-hint .gc-sym { width: 14px; height: 14px; }
+#s-tabs .sbsite .hub .fc-a { margin-top: 16px; font: 700 26px/32px var(--ui); letter-spacing: -.015em; color: #fff; }
+#s-tabs .sbsite .hub .fc-why { flex: 1; margin: 8px 0 0; max-width: 520px; font: 400 14.5px/21px var(--ui); color: #c7c7cc; }
+#s-tabs .sbsite .hub .fc-meta { display: flex; align-items: center; gap: 12px; }
+#s-tabs .sbsite .hub .fc-missed { font: 600 12px/1 var(--ui); color: #f5b955; }
+#s-tabs .sbsite .hub .fc-src { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; padding: 0 10px 0 7px; border-radius: 999px; background: #2c2c31; font: 500 11.5px/24px var(--ui); color: #c7c7cc; }
+#s-tabs .sbsite .hub .fc-src img { display: block; width: 15px; height: 13px; }
+#s-tabs .sbsite .hub .fc-ctl { display: flex; align-items: center; justify-content: center; gap: 10px; }
+#s-tabs .sbsite .hub .fc-nav { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; box-shadow: inset 0 0 0 1px #34343a; color: #a1a1a6; }
+#s-tabs .sbsite .hub .fc-nav .gc-sym { width: 18px; height: 18px; }
+#s-tabs .sbsite .hub .fc-btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 18px; border-radius: 999px; font: 600 13px/1 var(--ui); }
+#s-tabs .sbsite .hub .fc-btn .gc-sym { width: 16px; height: 16px; }
+#s-tabs .sbsite .hub .fc-still { color: #e5e5ea; box-shadow: inset 0 0 0 1px #3a3a3e; }
+/* Got it: the white control, brighter (--hot) as the pointer comes onto it */
+#s-tabs .sbsite .hub .fc-got { background: color-mix(in srgb, #fff calc(var(--hot, 0) * 100%), #e5e5ea); color: #111113; }
+#s-tabs .sbsite .hub .fc-ptr { position: absolute; left: 0; top: 0; z-index: 6; width: 22px; height: 26px; opacity: 0; transform-origin: 3px 2px; filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, .45)); }
+#s-tabs .sbsite .hub .fc-ptr svg { display: block; width: 100%; height: 100%; }
 
 /* ---------- the frame's x50 badge and the end card (multicat.516afb1a.css .mc-ff, .mc-end) ---------- */
 #s-tabs .sg-ff { position: absolute; right: 44px; bottom: 40px; z-index: 30; display: flex; align-items: center; height: 60px; padding: 0 24px; border-radius: 999px; background: rgba(12, 12, 14, .78); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); font: 600 28px/1 var(--ui); color: #ececec; font-variant-numeric: tabular-nums; pointer-events: none; }

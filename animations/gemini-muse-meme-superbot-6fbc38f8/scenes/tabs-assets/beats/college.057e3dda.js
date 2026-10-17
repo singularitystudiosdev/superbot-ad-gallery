@@ -498,6 +498,9 @@ export default {
 
     const clockRuns = makeClockRuns();
     const voice = makeVoice(V);
+    // the take as the offline render mixes it (export-render.07e9fa90.mjs): the narration from its play press at full level,
+    // faded evenly in dB to -40 dB over NARR_FADE after NARR_FOR and stopped there or at its end, as makeVoice plays it
+    window.__COLLEGE_SOUND = { url: VOICE, play: V.play, fadeAt: V.play + NARR_FOR, fadeEnd: V.play + NARR_FOR + NARR_FADE, stop: V.play + Math.min(DUR, NARR_FOR + NARR_FADE) };
     // QA: this route's narration element against the clock (__AD arrives after the timeline's first frame)
     const sound = () => ({ t: window.__AD.now, narration: { paused: voice.audio.paused, at: +voice.audio.currentTime.toFixed(3), volume: +voice.audio.volume.toFixed(3) } });
     let placed = false;

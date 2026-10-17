@@ -1202,6 +1202,15 @@
     ]
   },
   {
+    "id": "dear-api-users-synth-superbot-03ef324a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "DEAR API USERS, synth score · the before/after price spot scored in the browser: F minor under the $30,000 count, A-flat major from After superbot, a slash on the strike, superbot.gg (13 s, with sound)",
+    "src": "animations/dear-api-users-synth-superbot-03ef324a/",
+    "thumb": "assets/shots/dear-api-users-synth-superbot-03ef324a.png",
+    "desc": "DEAR API USERS rises word by word under a code glyph on a dark tile; a Before superbot chip sits over a price that counts up to $30,000/mo while a red meter fills, then flips to After superbot as the price rolls down to $800/mo and a 97% less badge pops. One download and stop paying API pricing, with API pricing struck through in red; ends on the superbot.gg end card with the mascot. Sound: an original 125 BPM score synthesised in the page with WebAudio, every hit on a beat of the spot: three plucks for the title words, a ticker pitched by the price as it climbs, a tense stab on $30,000, a lift into a major key as the chip flips and the ticks fall with the price, a chime and a four-on-the-floor groove from 97% less, a pluck per word of the line, a slash panned with the red strike and an 808 drop, then the title motif in the major key with a boop for the mascot and a closing button. -14 LUFS; the page plays it when the browser allows, otherwise from the Tap for sound pill or a tap on the stage (M mutes); the MP4s carry it. 13 s, plays once and holds the end card; 16:9, 4:3, 1:1 and 4:5 (?ar=); 30 fps renders. No vendor is named or shown."
+  },
+  {
     "id": "thinking-speed-superbot-2347ca2a",
     "type": "animation",
     "group": "Ad spots",

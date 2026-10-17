@@ -1,0 +1,24 @@
+dear-api-users-synth.03ef324a: provenance (internal; nothing here is shown on screen)
+
+ORIGIN
+  The DEAR API USERS spot (dear-api-users-superbot-417d180e, chat 417d180e), the silent copy served as
+  quick-chats/dear-api-users-music-variants.c060dffc/v4, scored by chat 03ef324a (2026-10-17) on the user's ask "This ad is
+  silent. Give it a soundtrack". Picture, beats, timing and figures are unchanged; the page adds the sound pill (Tap for
+  sound, then mute; M), answers the lightbox's { type: 'unmute' } message, and exposes the clock (__AD.time, beats, price)
+  the score follows. Icon, mascot and copy provenance: animations/dear-api-users-superbot-417d180e/CREDITS.txt.
+
+SOUND
+  soundtrack.03ef324a.js: an original cue synthesised in the browser with WebAudio oscillators and seeded noise, rendered
+  once through an OfflineAudioContext. No samples, no generated audio, nothing licensed from a third party, no
+  attribution owed.
+  125 BPM, F minor turning to A-flat major on the After superbot chip: three plucks (F Ab C) for DEAR API USERS, a pulse and
+  a counter tick a 16th pitched by the price up to $30,000, a C7(b9) stab, a D-flat lift on the swap with the ticks
+  falling to $800, an A-flat chime on 97% less and the groove, a pluck a word on the line, a left-to-right slash and an
+  808 drop on the strike, the opening motif a third up on superbot.gg with the mascot singing its last note, and a
+  button on the 12.18 s downbeat.
+  Master: -14.0 LUFS integrated, -4.6 dBFS peak (ffmpeg ebur128), 48 kHz stereo, 15.2 s (13 s spot plus a 2.2 s tail);
+  the MP4s fade it over their last 0.4 s. Every hit lands within 30 ms of its beat in the ad's table (onset check).
+
+MARKET
+  As the source spot: sell-to-reddit llm_ai usage-limits-pricing ("Usage limits, pricing and token spend", rank 1,
+  10,223 authors in 30 days, data as of 2026-10-17); wants: alternative ai subscription, alternative ai tool.

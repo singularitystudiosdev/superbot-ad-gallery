@@ -108,7 +108,8 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   Unit 3), then the study guide lands under an x50 generation as superbot's own flashcards in the chat
   (12 cards, tabs, progress, Still learning / Got it); the pointer flips the cards the student missed on
   Quiz 4.1 to their answers, ending on the superbot.gg end card (about 24s, with sound: the 16 · Punchy
-  premium groove score re-cued to this cut). The class and grades are made up.
+  premium groove score re-cued to this cut). The class and grades are made up. It ships its five renders,
+  so Export saves it at any ratio with sound.
 - **koala on Discord**: the muse meme spot's Discord cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=koala-discord`), in the multicat-credits look (no
   model on show): "Send mrmoonshot a koala gif in discord" lands a rebuilt Discord DM where the message goes from

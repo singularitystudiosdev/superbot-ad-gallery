@@ -6,7 +6,7 @@ import * as lib from './lib.9b47fc30.js';
 import tabs from './scenes/tabs.9b47fc30.js?v=32';
 import { settled } from './loads.9e82faf1.js';
 // the same module instance the tabs scene uses (the full URL, query included, keys an instance)
-import { BEATS, typeShift } from './scenes/tabs-assets/chat.9b47fc30.js?v=39';
+import { BEATS, typeShift } from './scenes/tabs-assets/chat.9b47fc30.js?v=40';
 import { variant } from './variant.9e82faf1.js?v=3';
 
 const { seg } = lib;

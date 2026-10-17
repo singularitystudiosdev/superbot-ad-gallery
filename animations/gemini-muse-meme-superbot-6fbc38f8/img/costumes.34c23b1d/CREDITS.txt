@@ -12,8 +12,7 @@ How the six were picked (2026-10-17, read as a guest from www.amazon.com search,
     https://www.amazon.com/s?k=hot+dog+costume+adult
   297 result rows, 240 unique ASINs (the card's "Compared 240 listings"). Sponsored rows were left out of the picks;
   accessories (hats, headbands, glasses, tees) were passed over for whole costumes; the six are cheap whole costumes
-  with real ratings, shown cheapest first. "Cheapest" is the lowest price among them; "Most fun" is superbot's pick
-  (the ride-on inflatable T-rex, also the most bought of the six at 2K+ in the past month).
+  with real ratings, shown cheapest first, each tile a link to its listing (https://www.amazon.com/dp/<ASIN>).
 
 Each listing as Amazon showed it on the search page that day: title, price, star rating, rating count.
   crayon.jpg   B0H93H74JX  $7.99   4.6 (15)    Adult Crayon Costume Set with Inflatable Crayon Prop, Funny Halloween Costume

@@ -5,14 +5,15 @@
 // steps back for another sound. Each clip starts ahead by the output latency, so what is heard matches the frame shown.
 // The track loads, and the AudioContext is made, on the first sync (the multicat route's first render), never for the
 // other variants. Sound waits for the browser's autoplay policy: the first click or key, or the gallery lightbox's
-// { type: 'unmute' } message, starts the context.
+// { type: 'unmute' } message, starts the context. The context can also carry another sound's element (carry), so a
+// fade on it works where an element's own volume is ignored (iOS).
 const TC = 0.02;      // the gain and cutoff follow `mix` with this time constant (s)
 const RAMP = 0.012;   // a clip's stop ramp (s)
 const SLIP = 0.08;    // a clip this far off the clock (s) restarts where the clock is
 const OPEN = 20000;   // a clip's cutoff when nothing muffles it (Hz)
 
 export function makeBed(url, clips) {
-  let ctx = null, buffer = null, warned = false;
+  let ctx = null, buffer = null, warned = false, carried = null;
   const live = clips.map(() => null); // per clip, while it sounds: { src, filter, gain, off0, at0, rate, g, f }
 
   function wake() {
@@ -76,10 +77,19 @@ export function makeBed(url, clips) {
         if (f !== l.f) { l.filter.frequency.setTargetAtTime(f, now, TC); l.f = f; }
       });
     },
+    // routes a media element through this context, its level then on the returned GainNode (iOS ignores an element's
+    // volume). Only once the context runs, since a carried element sounds through it alone: until then, null
+    carry(el) {
+      if (carried) return carried;
+      if (!ctx || ctx.state !== 'running') return null;
+      carried = ctx.createGain();
+      ctx.createMediaElementSource(el).connect(carried).connect(ctx.destination);
+      return carried;
+    },
     // QA: the context, whether the track is in, and where each clip is against its track
     state() {
       return {
-        ctx: ctx ? ctx.state : 'none', loaded: !!buffer,
+        ctx: ctx ? ctx.state : 'none', loaded: !!buffer, carried: carried ? +carried.gain.value.toFixed(3) : null,
         clips: live.map((c) => (c ? { off: +(c.off0 + (ctx.currentTime - c.at0) * c.rate).toFixed(3), gain: +c.gain.gain.value.toFixed(3), cutoff: Math.round(c.filter.frequency.value) } : null)),
       };
     },

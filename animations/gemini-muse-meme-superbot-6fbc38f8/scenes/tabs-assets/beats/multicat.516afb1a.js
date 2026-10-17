@@ -28,7 +28,7 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 // the Share control every output card carries (share.29a362ea.js)
 import { shareBtn, shareDisc, SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
-import { makeBed } from './bed.47e5d94a.js?v=1';
+import { makeBed } from './bed.47e5d94a.js?v=2';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
 
 const CSS = new URL('../multicat.516afb1a.css?v=4', import.meta.url).href;
@@ -277,7 +277,7 @@ export default {
     // file loads on the route's first render, so the play press never waits on the network
     const audio = new Audio();
     audio.preload = 'auto';
-    let blocked = false;
+    let blocked = false, songLevel = -1;
     const unblock = () => { blocked = false; };
     addEventListener('variantchange', () => audio.pause());
     // the gallery lightbox's nudge (a click in its chrome): the song may try again
@@ -291,8 +291,16 @@ export default {
       const at = t - S.play;
       if (!running || at < 0 || at >= Math.min(DUR, SONG_FOR + SONG_FADE)) { if (!audio.paused) audio.pause(); return; }
       // it fades out as the end card covers the chat, so the cut never lands mid-note: evenly in dB (to -40 dB), so its
-      // tail decays under the bed's closing chord instead of dropping away at the last moment
-      audio.volume = Math.pow(0.01, seg(at, SONG_FOR, SONG_FOR + SONG_FADE));
+      // tail decays under the bed's closing chord instead of dropping away at the last moment. The fade rides the bed's
+      // context once it carries the song (iOS ignores an element's volume), else the element's volume
+      const level = Math.pow(0.01, seg(at, SONG_FOR, SONG_FOR + SONG_FADE));
+      const carry = bed.carry(audio);
+      if (!carry) audio.volume = level;
+      else if (level !== songLevel) {
+        if (audio.volume !== 1) audio.volume = 1;
+        carry.gain.setTargetAtTime(level, carry.context.currentTime, 0.015);
+      }
+      songLevel = level;
       const rate = (window.__AD && window.__AD.speed) || 1;
       if (audio.playbackRate !== rate) audio.playbackRate = rate;
       if (Math.abs(audio.currentTime - at) > 0.3) audio.currentTime = at;

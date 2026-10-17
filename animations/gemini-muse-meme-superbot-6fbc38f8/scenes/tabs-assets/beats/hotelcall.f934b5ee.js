@@ -17,7 +17,7 @@ import { clamp, lerp, seg, outCubic, outQuint, streamCount } from '../../../lib.
 import { track } from '../../../loads.9e82faf1.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { PICK, HANG, LINES, ENV } from './hotelcall-data.f934b5ee.js';
-import { makeSound } from './hotelcall-score.f934b5ee.js';
+import { makeSound } from './hotelcall-score.f934b5ee.js?v=2';
 
 const CSS = new URL('../hotelcall.f934b5ee.css?v=1', import.meta.url).href;
 export const ID = 'hotelcall';
@@ -139,6 +139,8 @@ export default {
     // the sound: made on this route's first frame (every route is built at mount, so other variants never pay for it)
     let snd = null;
     addEventListener('variantchange', () => { if (snd) snd.stop(); });
+    // the Export button (export.64039673.js window.__EXPORT_AUDIO) puts this soundtrack, the call included, into the file
+    (window.__EXPORT_AUDIO ||= {})[ID] = () => (snd ||= makeSound(cues(), CALL)).audio();
     const cues = () => ({
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }], send: k.send, cards: [T.card, T.res],
       dial: T.dial, hang: T.hang, done: T.r2, swap: T.swap, cover: T.cut, pop: T.cut + END_DELAY, word: T.cut + END_DELAY + 0.3, end: T.end,

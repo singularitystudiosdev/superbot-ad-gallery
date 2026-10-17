@@ -1,0 +1,16 @@
+img/koala.7f80a09a CREDITS (the 'koala-discord' variant, scenes/tabs-assets/beats/koala.7f80a09a.js)
+
+koala-frames.jpg The GIF's 33 frames, 360 x 270 each, 6 across and 6 down (2160 x 1620, the last 3 cells empty), cut from the
+                 same clip as ../../media/koala.7f80a09a/koala-yawn.gif (that folder's CREDITS.txt: "See a Koala scratch, yawn
+                 and sleep" by Paolo Leone, CC BY-SA 4.0, Wikimedia Commons), JPEG quality 4 (ffmpeg -q:v). Released under the
+                 same licence, CC BY-SA 4.0.
+emoji/*.svg      Twemoji 15.1.0 (jdecked/twemoji, the maintained Twemoji, the emoji art Discord renders), fetched 2026-10-17
+                 from https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/<codepoint>.svg, unmodified:
+                 1f428 koala, 1f62d sob, 1f480 skull. Licence: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/),
+                 Copyright Twitter, Inc and other contributors (graphics licence:
+                 https://github.com/jdecked/twemoji/blob/main/LICENSE-GRAPHICS). Attribution: this file.
+
+The Discord mark the beat inlines is from Simple Icons 13 (https://cdn.jsdelivr.net/npm/simple-icons@13/icons/discord.svg; the
+file is CC0 1.0). Discord is a trademark of Discord Inc., shown nominatively for the app the ask names. The DM view is a rebuild
+in Discord's dark-theme colours, not a screenshot. The DM history, its dates and times and mrmoonshot's answer are made up;
+mrmoonshot is the username the ask names. Nothing was sent to anyone and no reaction was added.

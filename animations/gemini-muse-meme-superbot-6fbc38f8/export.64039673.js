@@ -29,8 +29,12 @@
 // muxed to MP4 by vendor/mp4-muxer.mjs. The timestamp is the whole design: an encoder writes the time it is given, so the
 // file is exactly the spot's length no matter how long the painting took, at a true 30fps, and a spot renders in well
 // under its own running time. A MediaRecorder would be simpler but unusable here: it stamps every frame by arrival, which
-// would both tie the export to wall clock and leave the webm without a duration in its header. The file is silent: each
-// variant's sound is its own engine (scores, songs, calls), none of it rendered here.
+// would both tie the export to wall clock and leave the webm without a duration in its header.
+//
+// Sound. A variant whose whole soundtrack renders as one buffer registers it in window.__EXPORT_AUDIO[variant], a function
+// resolving to that AudioBuffer (the hotel call: its call and score, beats/hotelcall.f934b5ee.js), and it goes in as an AAC
+// track (Opus where the browser has no AAC encoder), cut to the video's length with a short fade. Every other variant's
+// sound is its own engine (scores, songs), none of it rendered here, and its file is silent.
 //
 // Every variant at every ratio, wherever the browser has WebCodecs; window.__EXPORT.render() drives the same render from a
 // headless check or the console.
@@ -57,37 +61,15 @@ const log = (msg, e) => console.error(new Error(`export: ${msg}`, e ? { cause: e
 
 const PAGE = () => location.href.split('#')[0];
 // every url() turned absolute against the sheet it came from (the data: URL the clone is drawn from has no base of its own).
-// A scanner, not a regex: a data: URL is passed over whole, parentheses and all, since an SVG one holds url()s of its own
-// (the superbot mark's mask, `url(%23m)`, which a regex rewrote into a page URL, so the mark lost its ears and eyes), and an
-// in-document `url(#id)` is left as it is
-function absolute(text, base) {
-  let out = '', i = 0;
-  for (;;) {
-    const j = text.indexOf('url(', i);
-    if (j < 0) return out + text.slice(i);
-    let k = j + 4;
-    while (text[k] === ' ') k++;
-    let val, end;
-    const q = text[k];
-    if (q === '"' || q === "'") {
-      const e = text.indexOf(q, k + 1);
-      if (e < 0) return out + text.slice(i);
-      val = text.slice(k + 1, e);
-      end = text.indexOf(')', e) + 1;
-    } else {
-      // unquoted: up to the bracket that closes this url(, counting any nested ones
-      let depth = 1, e = k;
-      for (; e < text.length && depth; e++) { if (text[e] === '(') depth++; else if (text[e] === ')') depth--; }
-      val = text.slice(k, e - 1).trim();
-      end = e;
-    }
-    if (end <= 0) return out + text.slice(i);
-    out += text.slice(i, j);
-    if (/^data:/i.test(val) || val.startsWith('#')) out += text.slice(j, end);
-    else { try { out += `url("${new URL(val, base).href}")`; } catch { out += text.slice(j, end); } }
-    i = end;
-  }
-}
+// Each url() is taken whole, quoted or bare, so a url() inside a data: URL is never read as one of its own: the Superbot
+// mark's mask (chat.css --sb-cat) is an SVG data: URL whose own mask="url(%23m)" was rewritten to a page address, which
+// left the mark a blob in every exported frame. A data: URL and a #fragment (an SVG paint server in the page, hub.css
+// stroke: url(#beam-fade)) stay as they are.
+const absolute = (text, base) => text.replace(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^)"'\s]*))\s*\)/g, (m, q2, q1, bare) => {
+  const u = q2 ?? q1 ?? bare ?? '';
+  if (!u || u.startsWith('data:') || u.startsWith('#')) return m;
+  try { return `url("${new URL(u, base).href}")`; } catch { return m; }
+});
 const fetchText = (href) => fetch(href).then((r) => { if (!r.ok) throw new Error(`${r.status} ${href}`); return r.text(); });
 
 // a sheet's authored text with its @imports inlined in place (each under its own media query, if it has one)
@@ -317,6 +299,46 @@ export function outSize(key = window.AR.key, W = window.AR.w, H = window.AR.h) {
   return [even(W * s), even(H * s)];
 }
 
+// the soundtrack in the file: its rate, its fade into the last frame, and the codec tried first
+const AUDIO_RATE = 48000, AUDIO_FADE = 0.3, AAC = 'mp4a.40.2', AUDIO_BITRATE = 192_000;
+
+// the variant's registered soundtrack (window.__EXPORT_AUDIO), and the codec this browser will encode it in; null: silent
+async function soundtrack(v) {
+  const get = window.__EXPORT_AUDIO && window.__EXPORT_AUDIO[v];
+  if (!get) return null;
+  if (typeof AudioEncoder !== 'function') { log('this browser has no WebCodecs AudioEncoder: the file is silent'); return null; }
+  const buffer = await get();
+  if (buffer.sampleRate !== AUDIO_RATE) throw new Error(`export: the soundtrack is ${buffer.sampleRate} Hz, the encoder is set for ${AUDIO_RATE}`);
+  for (const [codec, muxed] of [[AAC, 'aac'], ['opus', 'opus']]) {
+    const cfg = { codec, sampleRate: AUDIO_RATE, numberOfChannels: 2, bitrate: AUDIO_BITRATE };
+    if ((await AudioEncoder.isConfigSupported(cfg)).supported) return { buffer, cfg, muxed };
+  }
+  log('this browser encodes neither AAC nor Opus: the file is silent');
+  return null;
+}
+
+// the soundtrack into the muxer, cut at `seconds` with a fade into the last frame; mono is doubled to stereo
+async function encodeSound(muxer, { buffer, cfg }, seconds) {
+  const enc = new AudioEncoder({ output: (chunk, meta) => muxer.addAudioChunk(chunk, meta), error: (e) => log('the audio encoder failed', e) });
+  enc.configure(cfg);
+  const n = Math.min(buffer.length, Math.round(seconds * AUDIO_RATE)), fade = Math.round(AUDIO_FADE * AUDIO_RATE), BLOCK = 4096;
+  const chans = [buffer.getChannelData(0), buffer.getChannelData(Math.min(1, buffer.numberOfChannels - 1))];
+  try {
+    for (let i = 0; i < n; i += BLOCK) {
+      const m = Math.min(BLOCK, n - i), data = new Float32Array(m * 2);
+      for (let c = 0; c < 2; c++) {
+        data.set(chans[c].subarray(i, i + m), c * m);
+        for (let j = 0; j < m; j++) { const left = n - (i + j); if (left < fade) data[c * m + j] *= left / fade; }
+      }
+      enc.encode(new AudioData({ format: 'f32-planar', sampleRate: AUDIO_RATE, numberOfFrames: m, numberOfChannels: 2, timestamp: Math.round((i / AUDIO_RATE) * 1e6), data }));
+      if (enc.encodeQueueSize > 16) await new Promise((r) => setTimeout(r, 0));
+    }
+    await enc.flush();
+  } finally {
+    try { enc.close(); } catch (e) { log('the audio encoder was already closed', e); }
+  }
+}
+
 let running = false;
 export const busy = () => running;
 // the last finished run, so a headless check can pull the file back instead of only trusting the button
@@ -331,8 +353,12 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
   const [OW, OH] = outSize(ar, W, H);
   const changed = () => variant() !== v || window.AR.key !== ar;
   const total = Math.max(1, Math.round(ad.CYCLE * fps));
+  const sound = await soundtrack(v);
   const { Muxer, ArrayBufferTarget } = await loadMuxer();
-  const muxer = new Muxer({ target: new ArrayBufferTarget(), video: { codec: 'avc', width: OW, height: OH }, fastStart: 'in-memory' });
+  const muxer = new Muxer({
+    target: new ArrayBufferTarget(), video: { codec: 'avc', width: OW, height: OH },
+    ...(sound ? { audio: { codec: sound.muxed, numberOfChannels: 2, sampleRate: AUDIO_RATE } } : {}), fastStart: 'in-memory',
+  });
   const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => log('the encoder failed', e) });
   const cfg = { codec: AVC, width: OW, height: OH, bitrate: BITRATE, framerate: fps };
   const sup = await VideoEncoder.isConfigSupported(cfg);
@@ -342,6 +368,7 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
   let missing = 0;
   try {
     const run = await prepare();
+    if (sound) await encodeSound(muxer, sound, total / fps);
     for (let i = 0; i < total; i++) {
       if (changed()) throw new Error('export: the variant or ratio changed mid-run, so the render stopped');
       const { canvas, missing: m } = await frameCanvas((i + 0.5) / fps, W, H, run, OW, OH);
@@ -367,7 +394,7 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
   }
   muxer.finalize();
   const blob = new Blob([muxer.target.buffer], { type: 'video/mp4' });
-  const result = { blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v };
+  const result = { blob, mime: 'video/mp4', codec: AVC, audio: sound ? sound.cfg.codec : null, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v };
   lastRun = result;
   return result;
 }

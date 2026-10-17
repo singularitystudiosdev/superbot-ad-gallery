@@ -87,7 +87,8 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   me". superbot connects Garmin Connect and Strava and switches the rule on; the next morning it posts the run
   to Strava by itself, the route drawing onto an SVG map drawn from OpenStreetMap (a real 5.25 mi Fort Collins
   loop, `img/garmin-strava.7a48d642/CREDITS.txt`) as kudos come in; ends on the superbot.gg end card (about 15s,
-  with sound: v16 re-cued to this chain).
+  with sound: v16 re-cued to this chain). The Speed pill's Export button downloads it with sound at every ratio
+  (renders for 16:9, 9:16, 4:5, 1:1 and 4:3 in `assets/video/`, drawn by the spot's own renderer with the v16 score).
 - **refund, then 1 star everywhere**: the muse meme spot's refund cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=refund`), no model on show as in the credits-only
   cat: superbot calls Nimbus+ support (made up), works the phone menu and holds (x50); asked to email them at
@@ -108,6 +109,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   (skipping Unit 3), then a Google Doc study guide lands under an x50 generation and scrolls to the
   questions the student missed on Quiz 4.1, ending on the superbot.gg end card (about 22s, with sound:
   the 16 · Punchy premium groove score re-cued to this cut). The class and grades are made up.
+- **koala on Discord**: the muse meme spot's Discord cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=koala-discord`), in the multicat-credits look (no
+  model on show): "Send mrmoonshot a koala gif in discord" lands a rebuilt Discord DM where the message goes from
+  Sending to Sent as a yawning koala GIF loops, then mrmoonshot answers "LMAOOO why a koala"; "Ok now react to
+  every message of his with a koala emoji" pops a koala reaction onto each of his 14 messages, newest first, as
+  the log scrolls back to the start of the DM history; ends on the superbot.gg end card (about 19s, with sound:
+  v16 re-cued to this chain). The koala is a CC BY-SA 4.0 clip (`media/koala.7f80a09a/CREDITS.txt`); the
+  history is made up and nothing was sent.
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

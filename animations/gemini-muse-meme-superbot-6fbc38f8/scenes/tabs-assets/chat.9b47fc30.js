@@ -32,7 +32,7 @@ import hotelcall, { TYPE_CPS as HOTELCALL_CPS, LEN as HOTELCALL_LEN } from './be
 import garminStrava, { TYPE_CPS as GARMIN_STRAVA_CPS, LEN as GARMIN_STRAVA_LEN } from './beats/garmin-strava.7a48d642.js?v=2';
 import refund, { TYPE_CPS as REFUND_CPS, LEN as REFUND_LEN } from './beats/refund.d3537b02.js?v=1';
 import discord, { TYPE_CPS as DISCORD_CPS, LEN as DISCORD_LEN } from './beats/discord.bccc0fdd.js?v=1';
-import studyguide, { TYPE_CPS as STUDYGUIDE_CPS, LEN as STUDYGUIDE_LEN } from './beats/studyguide.40e96f96.js?v=1';
+import studyguide, { TYPE_CPS as STUDYGUIDE_CPS, LEN as STUDYGUIDE_LEN } from './beats/studyguide.40e96f96.js?v=2';
 import { variant } from '../../variant.9e82faf1.js?v=3';
 import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';
 

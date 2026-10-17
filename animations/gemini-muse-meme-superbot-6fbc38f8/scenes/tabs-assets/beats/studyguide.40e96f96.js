@@ -24,7 +24,7 @@ import { music } from '../../../music.47e5d94a.js?v=2';
 // the same instance the multicat chains use (the full URL keys it), so the Music pill sees every chain's player
 import { makePlayer } from './multicat-player.96834de7.js?v=4';
 
-const CSS = new URL('../studyguide.40e96f96.css?v=1', import.meta.url).href;
+const CSS = new URL('../studyguide.40e96f96.css?v=2', import.meta.url).href;
 export const ID = 'studyguide';
 const asset = (p) => new URL('../../../img/studyguide.40e96f96/' + p, import.meta.url).href;
 const CLASSROOM = asset('classroom.svg'), DOCS = asset('docs.svg'), SLIDES = asset('slides.svg');
@@ -115,15 +115,16 @@ function loadSheet() {
   sheet = document.createElement('link');
   sheet.rel = 'stylesheet';
   sheet.href = CSS;
+  // the sheet declares the face (@font-face, so the Export button's renderer can inline it); a frozen capture (?t=) waits
+  // for the sheet and then the face, like any tracked asset
   track(new Promise((done) => {
-    sheet.onload = done;
+    sheet.onload = () => document.fonts.load('400 16px "Google Sans Flex"')
+      .then((f) => { if (!f.length) console.error(new Error(`studyguide: Google Sans Flex did not load: ${FONT}`)); })
+      .catch((e) => console.error(new Error(`studyguide: Google Sans Flex failed to load: ${FONT}`, { cause: e })))
+      .then(done);
     sheet.onerror = () => { console.error(new Error(`studyguide variant stylesheet failed to load: ${CSS}`)); done(); };
   }));
   document.head.appendChild(sheet);
-  // the face loads through the FontFace API, so a frozen capture (?t=) waits for it like any tracked asset
-  const face = new FontFace('Google Sans Flex', `url(${FONT}) format('woff2')`, { weight: '400 700' });
-  document.fonts.add(face);
-  track(face.load().catch((e) => console.error(new Error(`studyguide: Google Sans Flex failed to load: ${FONT}`, { cause: e }))));
 }
 
 // a block's entrance: it rises and settles in over 0.45s from `at` (the other beats' card entrance)

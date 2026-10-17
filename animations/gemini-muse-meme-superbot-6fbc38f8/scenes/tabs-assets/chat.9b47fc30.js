@@ -30,7 +30,7 @@ import costumes, { TYPE_CPS as COSTUMES_CPS, LEN as COSTUMES_LEN } from './beats
 import halloween, { TYPE_CPS as HALLOWEEN_CPS, LEN as HALLOWEEN_LEN } from './beats/halloween.37ff9e93.js?v=3';
 import hotelcall, { TYPE_CPS as HOTELCALL_CPS, LEN as HOTELCALL_LEN } from './beats/hotelcall.f934b5ee.js?v=2';
 import garminStrava, { TYPE_CPS as GARMIN_STRAVA_CPS, LEN as GARMIN_STRAVA_LEN } from './beats/garmin-strava.7a48d642.js?v=2';
-import refund, { TYPE_CPS as REFUND_CPS, LEN as REFUND_LEN } from './beats/refund.d3537b02.js?v=1';
+import refund, { TYPE_CPS as REFUND_CPS, LEN as REFUND_LEN } from './beats/refund.d3537b02.js?v=2';
 import discord, { TYPE_CPS as DISCORD_CPS, LEN as DISCORD_LEN } from './beats/discord.bccc0fdd.js?v=1';
 import studyguide, { TYPE_CPS as STUDYGUIDE_CPS, LEN as STUDYGUIDE_LEN } from './beats/studyguide.40e96f96.js?v=2';
 import koala, { TYPE_CPS as KOALA_CPS, LEN as KOALA_LEN } from './beats/koala.7f80a09a.js?v=2';

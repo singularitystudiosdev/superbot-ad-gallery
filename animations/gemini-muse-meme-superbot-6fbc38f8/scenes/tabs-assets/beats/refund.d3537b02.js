@@ -23,6 +23,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 import { DUR, LINES, WORDS, FPS, LEVEL } from './refund-data.d3537b02.js';
 import { makePlayer } from './refund-player.d3537b02.js';
+import { renderScore } from './refund-score.d3537b02.js';
 import { music } from '../../../music.47e5d94a.js?v=2';
 import { variant } from '../../../variant.9e82faf1.js?v=3';
 import { songLevel } from '../../../sound.96834de7.js?v=2';
@@ -194,7 +195,7 @@ export default {
 
     // the score: 16 · Punchy premium groove re-cued to this chain, played on the clock while v16 is the pick (the
     // variant's default, music.47e5d94a.js DEFAULTS)
-    const score = makePlayer({
+    const cues = {
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }, { text: M.ask, s: M.s, end: M.typeEnd }, { text: R.ask, s: R.s, end: R.typeEnd }],
       sends: [k.send, M.send, R.send],
       camera: k.send, // the first send drops the composer and pulls the camera out (tabs.9b47fc30.js)
@@ -204,8 +205,24 @@ export default {
       pick: T.pick, voice: [T.a0, T.a0 + DUR], result: T.result,
       posts: R.posts, postWin: [R.q0 + 0.3, R.posts[R.posts.length - 1]],
       cover: T.cut, pop: T.cut + END_DELAY, word: T.cut + END_DELAY + 0.3, end: T.end,
-    });
+    };
+    const score = makePlayer(cues);
     addEventListener('variantchange', () => score.stop());
+    // the Export button's soundtrack (export.64039673.js window.__EXPORT_AUDIO): this score's own render with the call laid
+    // in at its cue, at the level the page plays it (sound.96834de7.js songLevel, 1 unmuted), so the file is sample-exact
+    // and needs no real-time pass
+    let mixdown = null;
+    (window.__EXPORT_AUDIO ||= {})[ID] = () => (mixdown ||= Promise.all([
+      renderScore(cues),
+      fetch(CALL).then((r) => { if (!r.ok) throw new Error(`${r.status} ${CALL}`); return r.arrayBuffer(); }).then((ab) => new OfflineAudioContext(2, 1, 48000).decodeAudioData(ab)),
+    ]).then(([{ buffer }, call]) => {
+      const at = Math.round(T.a0 * buffer.sampleRate);
+      for (let c = 0; c < 2; c++) {
+        const out = buffer.getChannelData(c), voice = call.getChannelData(Math.min(c, call.numberOfChannels - 1));
+        for (let i = 0; i < voice.length && at + i < out.length; i++) out[at + i] += voice[i];
+      }
+      return buffer;
+    }));
 
     // 1. the call, in the engine's own reply
     const say1 = sayEl(x, SAY1);

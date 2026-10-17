@@ -335,6 +335,11 @@ function fromBuffer(buffer, seconds) {
   return { L, R, peak, latencyMs: [], elements: 0 };
 }
 
+let running = false;
+export const busy = () => running;
+// the last finished run, so a headless check can pull the file back instead of only trusting the button
+let lastRun = null;
+
 // the share of the label's count the sound pass takes, when there is one (it plays in real time; the frames paint faster)
 const SOUND_SHARE = 0.4;
 

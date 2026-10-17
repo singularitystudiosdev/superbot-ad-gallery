@@ -13,8 +13,8 @@
 // The pass plays at 1x with the Sound pill's mute lifted, and stops (the export with it) if the clock is paused, sped up,
 // or the variant or ratio changes under it. A pass that plays nothing gives no track: that variant's file stays silent.
 // Then AAC (else Opus) through WebCodecs, the encoder's priming lead-in measured and trimmed (primingOf).
-// Measured against the refund cut's own score render and call clip (export QA, 2026-10-17): the score lands 0.0 ms off its
-// frames, the call within one frame (5 ms).
+// Measured by cross-correlating exports against their own sources (export QA, 2026-10-17): the multicat-credits score 0.0 ms
+// off its frames and its song 10.6 ms (a third of a frame); the refund call 5 ms, the same two runs apart.
 import { music } from './music.47e5d94a.js?v=2';
 import { sound } from './sound.96834de7.js?v=2';
 
@@ -141,8 +141,9 @@ export async function recordSound({ seconds, changed = () => false, onProgress }
     ad.play(0);
     for (const r of recs.values()) r.zero = r.ctx.currentTime;
     started = true;
-    // the clock holds its last frame at CYCLE, which the frame count can round a hair past
-    const until = Math.min(seconds, ad.CYCLE) - 1e-3;
+    // the clock (60 fps quantised) holds its last whole frame at the end, short of CYCLE (multicat-credits: 28.2167 against
+    // 28.2227, which read as a pause), and the frame count can round a hair past CYCLE: the run is done within a frame of it
+    const until = Math.min(seconds, ad.CYCLE) - 1 / 30;
     await new Promise((res, rej) => {
       const tick = () => {
         if (changed()) return rej(new Error('export: the variant or ratio changed while the sound was recording, so the export stopped'));

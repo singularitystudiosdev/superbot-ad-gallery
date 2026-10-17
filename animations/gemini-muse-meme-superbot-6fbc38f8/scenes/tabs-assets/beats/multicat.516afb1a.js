@@ -55,7 +55,7 @@ import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=2';
 import { songLevel as songLevelV16 } from '../../../sound.96834de7.js?v=2';
 import { makeSound as makeSoundV17 } from './multicat-sound.b9427543.js';
 
-const CSS = new URL('../multicat.516afb1a.css?v=8', import.meta.url).href;
+const CSS = new URL('../multicat.516afb1a.css?v=9', import.meta.url).href;
 // the two variants this module answers: the base chain and its bare twin (the export `bare`)
 export const ID = 'multicat', BARE_ID = 'multicat-credits';
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;

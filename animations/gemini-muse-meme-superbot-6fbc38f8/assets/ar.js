@@ -1,6 +1,7 @@
 /* ar.js — the aspect-ratio stage shared by every ad spot.
-   Picks one of 16x9 / 4x3 / 1x1 / 4x5 from ?ar= (the gallery passes it) or, standalone, the
-   nearest to the viewport. Exposes window.AR = { key, w, h, crop, ratio } in stage px (height is
+   Picks one of 16x9 / 4x3 / 1x1 / 4x5 / 9x16 from ?ar= (the gallery passes it) or, standalone, the
+   nearest to the viewport (9x16 only when asked for). window.setAR(key) picks one live (the spot's Ratio
+   select): it applies, stays put on resize, and is kept in ?ar=. Exposes window.AR = { key, w, h, crop, ratio } in stage px (height is
    always 1080, width follows the ratio) and mirrors it onto <html> as data-ar + CSS vars:
      --ar-w      stage width in px            (1920 / 1440 / 1080 / 864)
      --ar-crop   (1920 - w) / 2 in px         how far a 1920-wide scene is shifted to center-crop
@@ -9,7 +10,9 @@
    Load it synchronously in <head> before the ad's own styles so nothing paints at the wrong size. */
 (function () {
   'use strict';
-  var RATIOS = { '16x9': [16, 9], '4x3': [4, 3], '1x1': [1, 1], '4x5': [4, 5] };
+  var RATIOS = { '16x9': [16, 9], '4x3': [4, 3], '1x1': [1, 1], '4x5': [4, 5], '9x16': [9, 16] };
+  // the ratios a viewport may land on by itself; 9x16 (608px wide) only by ?ar= or setAR
+  var AUTO = ['16x9', '4x3', '1x1', '4x5'];
   var H = 1080;
   var doc = document.documentElement;
 
@@ -21,8 +24,8 @@
   }
   function nearest() {
     var f = innerWidth / Math.max(1, innerHeight), best = '16x9', d = Infinity;
-    for (var k in RATIOS) {
-      var r = RATIOS[k][0] / RATIOS[k][1], dd = Math.abs(Math.log(f / r));
+    for (var i = 0; i < AUTO.length; i++) {
+      var k = AUTO[i], r = RATIOS[k][0] / RATIOS[k][1], dd = Math.abs(Math.log(f / r));
       if (dd < d) { d = dd; best = k; }
     }
     return best;
@@ -43,7 +46,17 @@
   }
 
   apply(locked || nearest());
-  if (!locked) addEventListener('resize', function () { apply(nearest()); });
+  addEventListener('resize', function () { if (!locked) apply(nearest()); });
+
+  // a ratio picked on the page: applied now ('archange' refits the stage), locked against resizes, kept in ?ar=
+  window.setAR = function (key) {
+    if (!RATIOS[key]) return;
+    locked = key;
+    apply(key);
+    var u = new URL(location.href);
+    u.searchParams.set('ar', key);
+    history.replaceState(null, '', u);
+  };
 
   /* Hold the first paint until ar.css has applied, but only on a narrower-than-16:9 frame,
      where its rules are what reflow the scene. ar.js is a <script> in <head> and always runs

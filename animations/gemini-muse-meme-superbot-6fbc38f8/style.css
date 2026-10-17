@@ -121,3 +121,8 @@ body.freeze .speed-select { display: none; }
 @media (pointer: coarse) { .music-pick { top: 142px; } .music-pick select { height: 44px; } }
 body.freeze .music-pick { display: none; }
 
+
+/* 9:16 (the Ratio select, assets/ar.js): the hub is 560px of CSS there, so a reply's column must not grow to a card's own
+   width. Its grid track is an auto column, which sizes to a 560px artifact card (.bk: the 3D model, the order) and lets it
+   run past the frame's right edge; a minmax(0, 1fr) track is the column's own width, so the card's max-width clamps it */
+html[data-ar="9x16"] #s-tabs .sbsite .hub .qc-r .m-main { grid-template-columns: minmax(0, 1fr); }

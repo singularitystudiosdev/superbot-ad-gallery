@@ -23,7 +23,7 @@ import traderjoes from './beats/traderjoes.4aaedb8c.js?v=5';
 import skydio from './beats/skydio.c9774aa7.js?v=2';
 import reminder from './beats/reminder.e55fb320.js?v=3';
 import computerV3 from './beats/computer.ba3976b6.js?v=8';
-import multicat, { bare as multicatBare, TYPE_CPS as MULTICAT_CPS, LEN as MULTICAT_LEN, BARE_LEN as MULTICAT_BARE_LEN } from './beats/multicat.516afb1a.js?v=13';
+import multicat, { bare as multicatBare, TYPE_CPS as MULTICAT_CPS, LEN as MULTICAT_LEN, BARE_LEN as MULTICAT_BARE_LEN } from './beats/multicat.516afb1a.js?v=14';
 import multidog, { TYPE_CPS as MULTIDOG_CPS, LEN as MULTIDOG_LEN } from './beats/multidog.7b007b09.js?v=2';
 import { variant } from '../../variant.9e82faf1.js?v=3';
 import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';

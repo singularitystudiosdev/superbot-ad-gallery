@@ -18,6 +18,7 @@ html { --ar-fs: 1; }
 html[data-ar="4x3"] { --ar-fs: .84; }
 html[data-ar="1x1"] { --ar-fs: .68; }
 html[data-ar="4x5"] { --ar-fs: .56; }
+html[data-ar="9x16"] { --ar-fs: .42; }
 
 /* the ChatGPT clone: 1536x864 drawn at 1.25 -> its width follows the stage, its column shrinks to fit */
 html[data-ar]:not([data-ar="16x9"]) #gpt { width: calc(var(--ar-w) / 1.25); }

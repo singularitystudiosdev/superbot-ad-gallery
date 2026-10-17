@@ -91,3 +91,8 @@ body.freeze .mix-gate { display: none; }
 .mix-gate-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .mix-gate-btn[aria-busy="true"] { cursor: progress; opacity: .8; }
 @media (prefers-reduced-motion: reduce) { .mix-gate-btn { transition: background-color .15s; } .mix-gate-btn:hover { transform: none; } }
+
+/* narrower frames (the Ratio select): the composer reaches the frame's right side, so the x50 badge sits 16px above its top
+   (951px down at 1:1 and 4:5, 973px at 9:16) instead of over its send and mic buttons */
+html[data-ar="1x1"] #s-tabs .mc-ff, html[data-ar="4x5"] #s-tabs .mc-ff { bottom: 146px; }
+html[data-ar="9x16"] #s-tabs .mc-ff { bottom: 124px; }

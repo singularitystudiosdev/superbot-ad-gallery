@@ -98,9 +98,10 @@ syncAppear();
 // keeps this select in step). Same native-select pattern as above: its keys do not reach the clock, a mouse pick drops focus.
 const speedBar = document.createElement('div');
 speedBar.className = 'speed-select';
-speedBar.innerHTML = '<span class="vs-label" aria-hidden="true">Speed</span><span class="as-wrap"><select aria-label="Playback speed"></select></span>';
+speedBar.innerHTML = '<span class="vs-label" aria-hidden="true">Speed</span><span class="as-wrap"><select aria-label="Playback speed"></select></span>'
+  + '<span class="vs-label" aria-hidden="true">Ratio</span><span class="as-wrap"><select aria-label="Aspect ratio"></select></span>';
 document.body.appendChild(speedBar);
-const speedPick = speedBar.querySelector('select');
+const [speedPick, ratioPick] = speedBar.querySelectorAll('select');
 const speeds = (window.__AD && window.__AD.SPEEDS) || [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
 speedPick.innerHTML = speeds.map((r) => `<option value="${r}">${r}×</option>`).join('');
 
@@ -120,6 +121,26 @@ speedPick.addEventListener('change', () => {
 
 addEventListener('speedchange', syncSpeed);
 syncSpeed();
+
+// The ratio select, in the speed pill: the stage's aspect ratio (assets/ar.js setAR: the stage keeps its 1080 height and its
+// width follows, the scene reflows, ?ar= keeps it). 4:3, which the gallery or a viewport may still land on, is listed only
+// while it is the frame. The clock plays on; the same keys and focus rules as the speed select.
+const RATIOS = [['16x9', '16:9'], ['9x16', '9:16'], ['4x5', '4:5'], ['1x1', '1:1']];
+function syncRatio() {
+  const key = (window.AR && window.AR.key) || '16x9';
+  const list = RATIOS.some(([k]) => k === key) ? RATIOS : [...RATIOS, [key, key.replace('x', ':')]];
+  const html = list.map(([k, label]) => `<option value="${k}">${label}</option>`).join('');
+  if (ratioPick.innerHTML !== html) ratioPick.innerHTML = html;
+  ratioPick.value = key;
+}
+ratioPick.addEventListener('change', () => { if (window.setAR) window.setAR(ratioPick.value); });
+ratioPick.addEventListener('keydown', (e) => { delete ratioPick.dataset.mouse; e.stopPropagation(); });
+ratioPick.addEventListener('pointerup', () => { ratioPick.dataset.mouse = '1'; });
+ratioPick.addEventListener('change', () => {
+  if (ratioPick.dataset.mouse) { delete ratioPick.dataset.mouse; ratioPick.blur(); }
+});
+addEventListener('archange', syncRatio);
+syncRatio();
 
 // The music pill: a fourth pill, under the speed pill, shown only on the multicat variant, that picks its soundtrack
 // (music.47e5d94a.js: a soundtrack made for the spot, or none). A pick holds the spot on its first frame

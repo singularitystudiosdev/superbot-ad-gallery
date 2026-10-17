@@ -1,0 +1,10 @@
+media/koala.7f80a09a CREDITS (the 'koala-discord' variant, scenes/tabs-assets/beats/koala.7f80a09a.js)
+
+koala-yawn.gif   A koala yawning in a gum tree, cut from "See a Koala scratch, yawn and sleep" by Paolo Leone
+                 (https://www.youtube.com/channel/UCFRQrtHw36NNpX1oXpHMfRw), filmed 2015-09-12, from Wikimedia Commons:
+                 https://commons.wikimedia.org/wiki/File:See_a_Koala_scratch,_yawn_and_sleep.webm (1280 x 720 VP8, 25.8 s),
+                 fetched 2026-10-17. Licence: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
+                 Changes: 14.40 s to 17.04 s of the clip (the yawn), cropped to 520 x 390 at (410, 20), scaled to 400 x 300
+                 (lanczos), resampled to 12.5 fps (33 frames, 8 cs a frame, 2.64 s, looping), palettegen (256 colours, diff
+                 stats) and paletteuse (sierra2_4a), audio dropped. This GIF is released under the same licence, CC BY-SA 4.0.
+                 The spot steps the same 33 frames from ../../img/koala.7f80a09a/koala-frames.jpg.

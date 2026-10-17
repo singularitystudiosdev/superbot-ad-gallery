@@ -84,6 +84,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   to Strava by itself, the route drawing onto an SVG map drawn from OpenStreetMap (a real 5.25 mi Fort Collins
   loop, `img/garmin-strava.7a48d642/CREDITS.txt`) as kudos come in; ends on the superbot.gg end card (about 15s,
   with sound: v16 re-cued to this chain).
+- **koala on Discord**: the muse meme spot's Discord cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=koala-discord`), in the multicat-credits look (no
+  model on show): "Send mrmoonshot a koala gif in discord" lands a rebuilt Discord DM where the message goes from
+  Sending to Sent as a yawning koala GIF loops, then mrmoonshot answers "LMAOOO why a koala"; "Ok now react to
+  every message of his with a koala emoji" pops a koala reaction onto each of his 14 messages, newest first, as
+  the log scrolls back to the start of the DM history; ends on the superbot.gg end card (about 19s, with sound:
+  v16 re-cued to this chain). The koala is a CC BY-SA 4.0 clip (`media/koala.7f80a09a/CREDITS.txt`); the
+  history is made up and nothing was sent.
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

@@ -4,11 +4,11 @@
 // (manifest.json at the gallery root) whose src opens this spot on that variant. A render exists only where one was made,
 // so each (variant, ratio) is probed once. A plain link with `download`: the browser saves the file itself. With no render
 // there, the button renders the variant at that ratio here instead (export.64039673.js: frame-exact, at the ratio's
-// platform size, with the sound the spot plays, recorded in one real-time pass first), its label counting the sound pass
-// then the render up, then saves it; only a browser without WebCodecs gets the old quiet 'No render'. Its stylesheet
-// (export.34c23b1d.css) loads with the module.
+// platform size, with its sound: the soundtrack the variant registered, as the hotel call does, else the sound the spot
+// plays, recorded in one real-time pass first), its label counting the sound pass then the render up, then saves it; only
+// a browser without WebCodecs gets the old quiet 'No render'. Its stylesheet (export.34c23b1d.css) loads with the module.
 import { variant, VARIANTS } from './variant.9e82faf1.js?v=3';
-import { render, download, fileName, outSize, canRender, busy } from './export.64039673.js?v=3';
+import { render, download, fileName, outSize, canRender, busy } from './export.64039673.js?v=5';
 
 const ROOT = new URL('../../', import.meta.url);
 // this spot's folder, as the manifest's srcs name it (animations/<folder>/?variant=...)
@@ -80,7 +80,10 @@ export function mountExport(pill) {
       a.removeAttribute('download');
       a.removeAttribute('aria-disabled');
       text.textContent = 'Export';
-      a.title = `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, no sound)`;
+      // a variant that registered its soundtrack (window.__EXPORT_AUDIO, export.64039673.js) renders with it at once; every
+      // other plays through once first while its sound is recorded (export-sound.64039673.js)
+      const sound = window.__EXPORT_AUDIO && window.__EXPORT_AUDIO[v] ? 'with sound' : 'with sound: it plays through once first, keep this tab in front';
+      a.title = `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, ${sound})`;
     } else {
       a.removeAttribute('download');
       a.setAttribute('aria-disabled', 'true');

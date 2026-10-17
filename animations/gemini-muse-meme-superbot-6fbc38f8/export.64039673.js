@@ -11,13 +11,17 @@
 // into an SVG <foreignObject>, styled by the document's own stylesheets, written as a data: URL and drawn to a canvas. An
 // SVG drawn as an image may fetch nothing, so everything the clone would fetch rides along inside it as a data: URL:
 //   - each painted <img>, CSS background and CSS mask drawn from a file, its file read once and cached;
-//   - each painted <canvas> and <video>, swapped for an <img> of its pixels now (the 3D viewer keeps its drawing buffer for
-//     exactly this);
-//   - each SVG data: URL used as a CSS mask, rasterized to a PNG first: the copy does not apply an SVG mask image.
-// Because the bitmaps stay in the clone, they keep their stacking, their ancestors' clipping and their transforms: the end
-// card covers the chat, the feed's clip trims a rising card, a settling image scales. The stylesheets go in as their authored
-// text (fetched, @imports inlined), not as rule.cssText: Chromium re-serializes a font shorthand that uses var() beside
-// another font longhand as a run of empty longhands, which the copy then drops to the default serif and the layout shifts.
+//   - each painted <canvas> and <video>, its pixels now (the 3D viewer keeps its drawing buffer for exactly this), painted
+//     as the background of the element's own copy (a canvas) or of a <div> standing in with its computed style (a video,
+//     which paints an opaque box over its background in an SVG image), never as an <img>, which the rules written for the
+//     element would no longer place;
+//   - each web font's file (@font-face), so text keeps its face.
+// SVG data: URLs (the superbot mark's mask) are already data and render as they do live. Because the bitmaps stay in the
+// clone, they keep their stacking, their ancestors' clipping and their transforms: the end card covers the chat, the feed's
+// clip trims a rising card, a settling image scales. The stylesheets go in as their authored text (fetched, @imports
+// inlined, url()s made absolute by a scanner that leaves data: URLs whole), not as rule.cssText: Chromium re-serializes a
+// font shorthand that uses var() beside another font longhand as a run of empty longhands, which the copy then drops to
+// the default serif and the layout shifts.
 // The clone has no <html>, so selectors rooted at html (the Ratio select's html[data-ar] rules) are rewritten to :root and
 // <html>'s attributes are copied onto the SVG's root, where :root lands.
 //
@@ -27,9 +31,12 @@
 // under its own running time. A MediaRecorder would be simpler but unusable here: it stamps every frame by arrival, which
 // would both tie the export to wall clock and leave the webm without a duration in its header.
 //
-// Sound. Each variant's sound is its own engine (scores, songs, calls) that follows the RUNNING clock, so before the frames
-// the spot plays once at 1x from the top while export-sound.64039673.js takes it down; the track is muxed beside the
-// frames as AAC (else Opus). A variant that plays nothing, or a browser without AudioEncoder, gets a silent file.
+// Sound. A variant whose whole soundtrack renders as one buffer registers it in window.__EXPORT_AUDIO[variant], a function
+// resolving to that AudioBuffer (the hotel call: its call and score, beats/hotelcall.f934b5ee.js), and that goes in as it
+// is: exact, and with no wait. Every other variant's sound is its own engine (scores, songs, calls) following the RUNNING
+// clock, so before the frames the spot plays once at 1x from the top while export-sound.64039673.js takes it down. Either
+// way the track is muxed as AAC (Opus where the browser has no AAC encoder), its encoder's priming trimmed so it lands on
+// its frames. A variant that plays nothing, or a browser without AudioEncoder, gets a silent file.
 //
 // Every variant at every ratio, wherever the browser has WebCodecs; window.__EXPORT.render() drives the same render from a
 // headless check or the console ({ withSound: false } skips the sound pass).
@@ -56,8 +63,14 @@ const log = (msg, e) => console.error(new Error(`export: ${msg}`, e ? { cause: e
 // ---------------------------------------------------------------------------------------------------------------
 
 const PAGE = () => location.href.split('#')[0];
-// every url() turned absolute against the sheet it came from (the data: URL the clone is drawn from has no base of its own)
-const absolute = (text, base) => text.replace(/url\((?!\s*["']?\s*data:)\s*["']?([^"')]+)["']?\s*\)/g, (m, u) => {
+// every url() turned absolute against the sheet it came from (the data: URL the clone is drawn from has no base of its own).
+// Each url() is taken whole, quoted or bare, so a url() inside a data: URL is never read as one of its own: the Superbot
+// mark's mask (chat.css --sb-cat) is an SVG data: URL whose own mask="url(%23m)" was rewritten to a page address, which
+// left the mark a blob in every exported frame. A data: URL and a #fragment (an SVG paint server in the page, hub.css
+// stroke: url(#beam-fade)) stay as they are.
+const absolute = (text, base) => text.replace(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^)"'\s]*))\s*\)/g, (m, q2, q1, bare) => {
+  const u = q2 ?? q1 ?? bare ?? '';
+  if (!u || u.startsWith('data:') || u.startsWith('#')) return m;
   try { return `url("${new URL(u, base).href}")`; } catch { return m; }
 });
 const fetchText = (href) => fetch(href).then((r) => { if (!r.ok) throw new Error(`${r.status} ${href}`); return r.text(); });
@@ -93,7 +106,18 @@ async function stylesheetText() {
     parts.push(media ? `@media ${media} {\n${text}\n}` : text);
   }
   // html-rooted selectors land on the SVG's root instead (it carries <html>'s attributes); ".html" in a URL is left alone
-  return parts.join('\n').replace(/(^|[\s,{}>+~(])html(?=[\s[.:#{,>+~)])/g, '$1:root');
+  let css = parts.join('\n').replace(/(^|[\s,{}>+~(])html(?=[\s[.:#{,>+~)])/g, '$1:root');
+  // each web font's file inlined: an SVG drawn as an image loads none, so its text would fall back to another face (the
+  // study guide cut's Google Sans Flex, studyguide.40e96f96.css, is one)
+  for (const face of new Set(css.match(/@font-face\s*\{[^}]*\}/g) || [])) {
+    let inlined = face;
+    for (const u of new Set([...face.matchAll(/url\("([^"]+)"\)/g)].map((m) => m[1]).filter((u) => !u.startsWith('data:')))) {
+      const data = await dataUrl(u);
+      if (data) inlined = inlined.split(`url("${u}")`).join(`url("${data}")`);
+    }
+    css = css.split(face).join(inlined);
+  }
+  return css;
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -112,33 +136,12 @@ function dataUrl(src) {
   return dataCache.get(src);
 }
 
-// an SVG data: URL as a PNG data: URL, drawn at 4x the box it masks (cached per URL and size)
-const pngCache = new Map();
-function svgToPng(src, w, h) {
-  const key = `${src}|${Math.round(w)}x${Math.round(h)}`;
-  if (!pngCache.has(key)) {
-    pngCache.set(key, new Promise((res) => {
-      const im = new Image();
-      im.onload = () => {
-        const c = document.createElement('canvas');
-        c.width = Math.max(1, Math.ceil(w * 4)); c.height = Math.max(1, Math.ceil(h * 4));
-        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
-        res(c.toDataURL('image/png'));
-      };
-      im.onerror = () => { log('an SVG mask did not rasterize'); res(src); };
-      im.src = src;
-    }));
-  }
-  return pngCache.get(key);
-}
-
 // the file URLs in a computed background or mask: never a data: URL, never a reference into this document (an SVG
 // mask="url(#id)" computes to this page's own address plus the fragment, and fetching that would paint the page's HTML)
 const files = (val) => [...(val || '').matchAll(/url\("([^"]+)"\)/g)].map((m) => m[1]).filter((u) => {
   if (u.startsWith('data:')) return false;
   try { const r = new URL(u, location.href); return !(r.hash && r.href.split('#')[0] === PAGE()); } catch { return false; }
 });
-const svgData = (val) => [...(val || '').matchAll(/url\("(data:image\/svg\+xml[^"]+)"\)/g)].map((m) => m[1]);
 const IMAGE_PROPS = ['backgroundImage', 'maskImage', 'webkitMaskImage'];
 
 // whether the browser would paint this node at all: every ancestor visible, and real area. Every variant's beat is mounted
@@ -152,20 +155,28 @@ function painted(node) {
   return r.width >= 1 && r.height >= 1;
 }
 
-// a live <canvas> or <video> as an <img> of its pixels now, keeping the element's attributes and its laid-out size
-function pixelsAsImg(live, k) {
-  const r = live.getBoundingClientRect();
-  const im = document.createElement('img');
-  for (const a of live.attributes) if (a.name !== 'width' && a.name !== 'height' && a.name !== 'src') im.setAttribute(a.name, a.value);
-  im.style.width = `${r.width / k}px`; im.style.height = `${r.height / k}px`;
-  let c = live;
+// a live <canvas> or <video>'s pixels now, painted into the clone as the browser paints them live. The copy is never
+// swapped for an <img>: the rules written for the element (the 3D viewer's `.qc-3d canvas`, positioned absolute over its
+// frame) would stop matching it, and the picture would fall out of its box. A canvas copy stays a <canvas>, blank in the
+// SVG, with its pixels as its background at its object-fit; a video paints an opaque box over its own background in an
+// SVG image, so it is stood in for by a <div> carrying the live element's whole computed style and its frame as background
+function paintPixels(copy, live) {
+  let src = live;
   if (live.tagName === 'VIDEO') {
-    c = document.createElement('canvas');
-    c.width = live.videoWidth || 1; c.height = live.videoHeight || 1;
-    c.getContext('2d').drawImage(live, 0, 0, c.width, c.height);
+    src = document.createElement('canvas');
+    src.width = live.videoWidth || 1; src.height = live.videoHeight || 1;
+    src.getContext('2d').drawImage(live, 0, 0, src.width, src.height);
   }
-  im.setAttribute('src', c.toDataURL('image/png'));
-  return im;
+  const cs = getComputedStyle(live);
+  const fit = cs.objectFit === 'cover' || cs.objectFit === 'contain' ? cs.objectFit : '100% 100%';
+  const bg = `url("${src.toDataURL('image/png')}") center / ${fit} no-repeat`;
+  if (live.tagName === 'CANVAS') { copy.style.setProperty('background', bg); return; }
+  const d = document.createElement('div');
+  d.className = copy.className;
+  for (const prop of cs) d.style.setProperty(prop, cs.getPropertyValue(prop));
+  if (cs.display === 'inline') d.style.setProperty('display', 'inline-block');
+  d.style.setProperty('background', bg);
+  copy.replaceWith(d);
 }
 
 // a video the frame just seeked is decoded before its pixels are read (at most 1s)
@@ -187,7 +198,7 @@ async function prepare() {
   const urlNodes = [...stage.querySelectorAll('*')].filter((n) => {
     if (n.tagName === 'IMG' || n.tagName === 'CANVAS' || n.tagName === 'VIDEO') return false;
     const cs = getComputedStyle(n);
-    return IMAGE_PROPS.some((p) => files(cs[p]).length || (p !== 'backgroundImage' && svgData(cs[p]).length));
+    return IMAGE_PROPS.some((p) => files(cs[p]).length);
   });
   return { css, urlNodes };
 }
@@ -201,9 +212,6 @@ async function frameCanvas(t, W, H, run, OW = W, OH = H) {
   ad.seek(t);
   await Promise.all([...stage.querySelectorAll('video')].map(settled));
 
-  // k: the window fit scale fit() gives #stage, which every rect read off the live page carries
-  const sr = stage.getBoundingClientRect();
-  const k = sr.width ? sr.width / W : 1;
   const clone = stage.cloneNode(true);
   // the clone carries no live state: pair each cloned node with the live one by document order
   const live = [...stage.querySelectorAll('*')], copy = [...clone.querySelectorAll('*')];
@@ -223,7 +231,7 @@ async function frameCanvas(t, W, H, run, OW = W, OH = H) {
       if (d) c.setAttribute('href', d); else { c.removeAttribute('href'); if (on && href) missing++; }
       c.removeAttribute('xlink:href');
     } else if (on) {
-      try { c.replaceWith(pixelsAsImg(n, k)); } catch (e) { log(`a ${n.tagName.toLowerCase()} could not be read back`, e); c.remove(); missing++; }
+      try { paintPixels(c, n); } catch (e) { log(`a ${n.tagName.toLowerCase()} could not be read back`, e); c.remove(); missing++; }
     } else c.remove();
   }
   for (const n of run.urlNodes) {
@@ -231,15 +239,16 @@ async function frameCanvas(t, W, H, run, OW = W, OH = H) {
     const on = painted(n);
     const cs = getComputedStyle(n);
     for (const p of IMAGE_PROPS) {
-      const val = cs[p], us = files(val), svgs = p === 'backgroundImage' ? [] : svgData(val);
-      if (!us.length && !svgs.length) continue;
+      // (an SVG data: mask is left to the browser: with the stylesheet's url()s intact it renders in the SVG image as it does
+      // live, internal <mask>s and all, which a PNG of it did not)
+      const val = cs[p], us = files(val);
+      if (!us.length) continue;
       let out = val;
       for (const u of us) {
         const d = on ? await dataUrl(u) : null;
         if (on && !d) missing++;
         out = out.split(u).join(d || '');
       }
-      if (on) { const b = n.getBoundingClientRect(); for (const u of svgs) out = out.split(u).join(await svgToPng(u, b.width / k, b.height / k)); }
       c.style[p] = out;
     }
   }
@@ -293,10 +302,38 @@ export function outSize(key = window.AR.key, W = window.AR.w, H = window.AR.h) {
   return [even(W * s), even(H * s)];
 }
 
-let running = false;
-export const busy = () => running;
-// the last finished run, so a headless check can pull the file back instead of only trusting the button
-let lastRun = null;
+// the soundtrack in the file: its rate, its fade into the last frame, and the codec tried first
+const AUDIO_RATE = 48000, AUDIO_FADE = 0.3, AAC = 'mp4a.40.2', AUDIO_BITRATE = 192_000;
+
+// the variant's registered soundtrack (window.__EXPORT_AUDIO), and the codec this browser will encode it in; null: silent
+async function soundtrack(v) {
+  const get = window.__EXPORT_AUDIO && window.__EXPORT_AUDIO[v];
+  if (!get) return null;
+  if (typeof AudioEncoder !== 'function') { log('this browser has no WebCodecs AudioEncoder: the file is silent'); return null; }
+  const buffer = await get();
+  if (buffer.sampleRate !== AUDIO_RATE) throw new Error(`export: the soundtrack is ${buffer.sampleRate} Hz, the encoder is set for ${AUDIO_RATE}`);
+  for (const [codec, muxed] of [[AAC, 'aac'], ['opus', 'opus']]) {
+    const cfg = { codec, sampleRate: AUDIO_RATE, numberOfChannels: 2, bitrate: AUDIO_BITRATE };
+    if ((await AudioEncoder.isConfigSupported(cfg)).supported) return { buffer, cfg, muxed };
+  }
+  log('this browser encodes neither AAC nor Opus: the file is silent');
+  return null;
+}
+
+// a registered soundtrack as the track: cut at `seconds` with a fade into the last frame; mono is doubled to stereo
+function fromBuffer(buffer, seconds) {
+  const n = Math.round(seconds * AUDIO_RATE), m = Math.min(n, buffer.length), fade = Math.round(AUDIO_FADE * AUDIO_RATE);
+  const L = new Float32Array(n), R = new Float32Array(n);
+  L.set(buffer.getChannelData(0).subarray(0, m));
+  R.set(buffer.getChannelData(Math.min(1, buffer.numberOfChannels - 1)).subarray(0, m));
+  let peak = 0;
+  for (let j = 0; j < m; j++) {
+    const left = m - j;
+    if (left < fade) { L[j] *= left / fade; R[j] *= left / fade; }
+    peak = Math.max(peak, Math.abs(L[j]), Math.abs(R[j]));
+  }
+  return { L, R, peak, latencyMs: [], elements: 0 };
+}
 
 // the share of the label's count the sound pass takes, when there is one (it plays in real time; the frames paint faster)
 const SOUND_SHARE = 0.4;
@@ -310,11 +347,14 @@ async function renderNow({ fps = FPS, withSound = true, onProgress } = {}) {
   const [OW, OH] = outSize(ar, W, H);
   const changed = () => variant() !== v || window.AR.key !== ar;
   const total = Math.max(1, Math.round(ad.CYCLE * fps));
-  // 1. the sound, played once in real time (onProgress's second argument names the phase: 'sound', then 'frames')
-  const pcm = withSound ? await recordSound({ seconds: total / fps, changed, onProgress: onProgress && ((p) => onProgress(p * SOUND_SHARE, 'sound')) }) : null;
-  const acodec = pcm ? await soundCodec() : null;
+  // 1. the sound: the soundtrack the variant registered, as it is; else one real-time pass, recorded (onProgress's second
+  //    argument names the phase: 'sound', then 'frames')
+  const registered = await soundtrack(v);
+  const pcm = registered ? fromBuffer(registered.buffer, total / fps)
+    : withSound ? await recordSound({ seconds: total / fps, changed, onProgress: onProgress && ((p) => onProgress(p * SOUND_SHARE, 'sound')) }) : null;
+  const acodec = registered ? registered.cfg.codec : pcm ? await soundCodec() : null;
   if (pcm && !acodec) log('this browser encodes neither AAC nor Opus, so the file is silent');
-  const share = pcm ? SOUND_SHARE : 0;
+  const share = pcm && !registered ? SOUND_SHARE : 0;
   // 2. the pictures, frame by frame
   const { Muxer, ArrayBufferTarget } = await loadMuxer();
   const muxer = new Muxer({
@@ -361,7 +401,7 @@ async function renderNow({ fps = FPS, withSound = true, onProgress } = {}) {
   const blob = new Blob([muxer.target.buffer], { type: 'video/mp4' });
   const result = {
     blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v,
-    audio: acodec, peak: pcm ? +pcm.peak.toFixed(3) : 0, priming, latencyMs: pcm ? pcm.latencyMs : [], mediaElements: pcm ? pcm.elements : 0,
+    audio: acodec, registered: !!registered, peak: pcm ? +pcm.peak.toFixed(3) : 0, priming, latencyMs: pcm ? pcm.latencyMs : [], mediaElements: pcm ? pcm.elements : 0,
   };
   lastRun = result;
   return result;

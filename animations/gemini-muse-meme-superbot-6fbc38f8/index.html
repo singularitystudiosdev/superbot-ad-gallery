@@ -73,9 +73,30 @@
     }
   };
 })();
+// Freshness. GitHub Pages lets a browser keep this page for 10 minutes (max-age=600) and the spot is republished every few
+// minutes, so a tab, or the gallery's iframe, opened before a deploy keeps booting the old build: every module below is
+// keyed off this page's ?v= stamps. Once the page has loaded, the copy it booted from (the HTTP cache's) is set beside the
+// copy Pages serves now; if they differ, a newer build is out and the page reloads onto it, once per new build per tab, so
+// a stale CDN edge can never make it loop. Never on a frozen capture (?t=), which must not move.
+(function () {
+  var url = location.href; // as loaded: the variant and ratio pickers rewrite the address later
+  if (/[?&]t=/.test(location.search) || !window.fetch || !/^https?:$/.test(location.protocol)) return;
+  var text = function (r) { return r.ok ? r.text() : null; };
+  addEventListener('load', function () {
+    fetch(url, { cache: 'force-cache' }).then(text).then(function (booted) {
+      return fetch(url, { cache: 'no-cache' }).then(text).then(function (now) {
+        if (!booted || !now || booted === now) return;
+        var key = 'fresh:' + location.pathname + ':' + now.length + ':' + now.slice(-400);
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, '1');
+        location.reload();
+      });
+    }).catch(function () {});
+  });
+})();
 </script>
-<script type="module" src="timeline.9b47fc30.js?v=40" onload="bootLoaded()" onerror="bootFailed()"></script>
-<script type="module" src="variant-select.9e82faf1.js?v=23" onload="bootLoaded()" onerror="bootFailed()"></script>
+<script type="module" src="timeline.9b47fc30.js?v=41" onload="bootLoaded()" onerror="bootFailed()"></script>
+<script type="module" src="variant-select.9e82faf1.js?v=25" onload="bootLoaded()" onerror="bootFailed()"></script>
 <!-- v14 on the Music pill: its score and its music pill; outside the boot count, so a failed score never holds the spot -->
 <script type="module" src="music.ff209337.js?v=2"></script>
 <!-- v15 on the Music pill: its score and its sound pill (it loads its own stylesheet) -->

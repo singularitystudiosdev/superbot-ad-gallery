@@ -14,7 +14,7 @@
 // Every variant keeps the beat's length. All layouts are
 // built once and the variant picks which one shows; the 3D viewer (and three.js) loads the first time its variant shows.
 import { lerp, seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
-import { variant } from '../../../variant.9e82faf1.js?v=2';
+import { variant } from '../../../variant.9e82faf1.js?v=3';
 import { track } from '../../../loads.9e82faf1.js';
 import { appear } from '../../../appear.9e82faf1.js?v=2';
 import { gateImages } from './appear-fx.9e82faf1.js';

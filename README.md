@@ -38,6 +38,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   cat photo (GPT Image 2), an animated 3D model of it (Meshy, walk rigged by superbot), cat food from
   DoorDash (a Petco order card) and a song about cats (ElevenLabs, plays with sound), each answer a
   real generation (about 30s, with sound).
+- **a dog, four tools**: the same multi-tool cut for a dog
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=multidog`): a beagle photo (GPT Image 2),
+  that beagle as a walking 3D model (Meshy, walk rigged by superbot), a PetSmart dog food order on
+  DoorDash and "Tails Up", a song about dogs (ElevenLabs, plays with sound), each answer a real
+  generation (about 29s, with sound).
 
 Static image ads (`assets/ads/`):
 

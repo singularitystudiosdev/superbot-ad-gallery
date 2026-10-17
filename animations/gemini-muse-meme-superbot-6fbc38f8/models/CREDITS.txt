@@ -48,3 +48,16 @@ cat-walk.516afb1a.glb (the multicat variant, beats/multicat.516afb1a.js and cat3
   chip says so ("Rigging and animating the cat", superbot's step after Meshy's). Textures recompressed for the web:
   baseColor JPEG q88 2048, metallicRoughness JPEG q85 1024, normal WebP q90 2048 (EXT_texture_webp). 6.7 MB.
   Licence: generated for this project under the fal.ai / Meshy terms of the account that ran it.
+
+dog-meshy.7b007b09.glb   (the 'multidog' variant's walking beagle, beats/multidog.7b007b09.js)
+  Mesh and textures: Meshy 7.1 image-to-3D via fal.ai, endpoint meshy/v7.1/image-to-3d, from the variant's own GPT Image 2
+  photo (img/dogs.7b007b09/beagle.jpg); geometry_resolution 4k, remesh to 80k triangles, PBR on, symmetry auto.
+  Request id: 01a1485f-20de-7db0-8186-8c6d68a94794, seed 1416444107. Generated 2026-10-17 (UTC), $0.80 per generation.
+  Rig and animation: Meshy's auto-rigger (fal-ai/meshy/rigging) takes humanoid characters only, so the quadruped rig was
+  built by script over the Meshy mesh: the body axis turned onto +X and the feet set on y = 0, 22 bones (root, pelvis,
+  spine, chest, neck, head, four tail bones, three per leg) placed on the legs' measured centrelines, skin weights from
+  each vertex's distance to its leg and its place along the body, and one 4 s looping clip "Walk" keyed at 30 fps (a
+  lateral-sequence walk, 1 s stride, paw and hock flex in the swing, a 2.5 Hz tail wag, a slow head turn).
+  Scripts: quick-chats/dogchain.7b007b09/{align,legs,rig}.mjs. Web-optimised with @gltf-transform/cli 4 (base colour and
+  metal-roughness 2048 px, normal 1024 px, WebP, quantised attributes): 14.9 MB -> 4.75 MB.
+  Output owned by the user (paid generation); no attribution owed and no on-screen credit.

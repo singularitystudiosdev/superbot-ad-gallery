@@ -160,7 +160,7 @@ const READY = {
 let pickRun = 0;
 
 function syncMusic() {
-  musicBar.hidden = !['multicat', 'multicat-credits', 'multidog-credits'].includes(variant());
+  musicBar.hidden = !['multicat', 'multicat-credits', 'multidog-credits', 'discord-credits'].includes(variant());
   // a soundtrack made for one variant is offered only there (music.47e5d94a.js `only`)
   for (const o of musicPick.options) { const on = offered(o.value); o.hidden = !on; o.disabled = !on; }
   musicPick.value = music();

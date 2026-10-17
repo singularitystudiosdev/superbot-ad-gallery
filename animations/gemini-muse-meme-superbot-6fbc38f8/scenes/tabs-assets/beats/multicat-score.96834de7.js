@@ -134,8 +134,8 @@ function effects(m, c, v) {
   v.impact(m, c.image, 0.38, 0.85);
   v.impact(m, c.model, 0.52, 1.15);
   v.bell(m, c.order, shift(notes('B5 F#6'), k), 0.045);
-  // the song's play press, a hair before its first note
-  v.tock(m, c.play - 0.03, 0.05);
+  // the song's play press, a hair before its first note; a chain with no song (c.press false, discord.bccc0fdd.js) has none
+  if (c.press !== false) v.tock(m, c.play - 0.03, 0.05);
   // the end card: air swelling as the chat fades to black, then the pop and the wordmark
   v.riser(m, c.cover, c.pop, 0.035, 1500, 7000);
   v.impact(m, c.pop, 0.48, 1.5);

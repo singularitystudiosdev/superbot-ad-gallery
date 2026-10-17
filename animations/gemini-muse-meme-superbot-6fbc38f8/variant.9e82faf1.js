@@ -7,7 +7,9 @@
 // the same four tools for a dog (scenes/tabs-assets/beats/multidog.7b007b09.js), or 'multidog-credits', the
 // multicat-credits chain cut for that dog (multicat.516afb1a.js bareDog), or 'college', a student's research study cut
 // like multicat-credits: 250 calls to a stratified random sample, the results as a Google Slides deck, then that deck talked
-// through in the student's own voice (scenes/tabs-assets/beats/college.057e3dda.js). Read from ?variant= so a frozen
+// through in the student's own voice (scenes/tabs-assets/beats/college.057e3dda.js), or 'discord-credits', two asks cut
+// like multicat-credits: a breakdown of the emojis the user sends most on Discord, then a GIF of a dancing frog made and
+// sent to a friend in a Discord DM (scenes/tabs-assets/beats/discord.bccc0fdd.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -38,6 +40,7 @@ export const VARIANTS = [
   { id: 'multidog', label: 'Multi-tool dog' },
   { id: 'multidog-credits', label: 'Multi-tool dog · credits only' },
   { id: 'college', label: 'College research study' },
+  { id: 'discord-credits', label: 'Discord emojis + frog GIF · credits only' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

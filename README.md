@@ -50,6 +50,12 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   walking 3D beagle, PetSmart order and "Tails Up" with no routing chips or model headers, each
   generation fast-forwarded x50, ending on the superbot.gg end card (about 31s, with sound: the
   16 · Punchy premium groove score moved up a semitone into the song's key).
+- **cheapest, most fun Halloween costumes**: the credits-only chat asked one shopping question
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=amazon-costumes`): "Search on amazon and find
+  me the cheapest and most fun halloween costumes" gets a rebuilt Amazon results page; the search runs
+  x50 under skeleton tiles while 240 listings are compared, six real listings land cheapest first ($7.99
+  crayon to $24.99 inflatable chicken, as listed 2026-10-17), Cheapest and Most fun pop, then the
+  superbot.gg end card (about 12.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

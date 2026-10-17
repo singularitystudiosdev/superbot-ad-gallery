@@ -9,7 +9,9 @@
 // like multicat-credits: 250 calls to a stratified random sample, the results as a Google Slides deck, then that deck talked
 // through in the student's own voice (scenes/tabs-assets/beats/college.057e3dda.js), or 'amazon-costumes', the multicat-credits chat asked to find the
 // cheapest, most fun Halloween costumes on Amazon, answered with six real listings
-// (scenes/tabs-assets/beats/costumes.34c23b1d.js), or 'garmin-strava', superbot connecting Garmin and then posting the
+// (scenes/tabs-assets/beats/costumes.34c23b1d.js), or 'halloween-shopping', that cut's look for two shopping asks: the
+// cheapest king size Halloween candy bought on Amazon, then three small pumpkin costumes on Temu
+// (scenes/tabs-assets/beats/halloween.37ff9e93.js), or 'garmin-strava', superbot connecting Garmin and then posting the
 // next morning's run to Strava by itself, no model on show (scenes/tabs-assets/beats/garmin-strava.7a48d642.js). Read
 // from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
@@ -43,6 +45,7 @@ export const VARIANTS = [
   { id: 'multidog-credits', label: 'Multi-tool dog · credits only' },
   { id: 'college', label: 'College research study' },
   { id: 'amazon-costumes', label: 'Amazon Halloween costumes' },
+  { id: 'halloween-shopping', label: 'Halloween shopping · Amazon + Temu' },
   { id: 'garmin-strava', label: 'Garmin runs to Strava' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);

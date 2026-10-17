@@ -63,6 +63,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   x50 under skeleton tiles while 240 listings are compared, six real listings land cheapest first ($7.99
   crayon to $24.99 inflatable chicken, as listed 2026-10-17), Cheapest and Most fun pop, then the
   superbot.gg end card (about 12.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
+- **halloween shopping, no model on show**: the credits-only cut's look for two shopping asks
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=halloween-shopping`): "Search on amazon and buy
+  the cheapest halloween king sized bag of candy", then "Use Temu to buy x3 pumpkin costumes size small,
+  cheapest and cutest". Each reply's card is the store page superbot drives, rebuilt live over real
+  listings: its pointer searches, sorts by price, rings the pick (Reese's King Size Pumpkins, $28.99; a
+  $7.82 pumpkin bodysuit with a beret), buys it (3 in size S on Temu) and lands on the order
+  confirmation; ends on the superbot.gg end card (about 23s, with sound: the 16 · Punchy premium groove
+  score re-cued to it). Nothing was ordered; provenance in `img/halloween.37ff9e93/CREDITS.txt`.
 - **Garmin runs to Strava**: the muse meme spot's automation cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=garmin-strava`), in the multicat-credits look (no
   model on show): "Connect to my garmin account, and then after every one of my runs, post it to strava for

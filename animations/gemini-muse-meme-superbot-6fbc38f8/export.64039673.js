@@ -1,8 +1,10 @@
-// Export (the variant-select family): a pill in the top-right stack, under the last pill showing, that saves the variant on
-// screen as a video file at the ratio on screen (the Ratio select: 16:9 at 1920x1080, 9:16 at 608x1080, 4:5 at 864x1080,
-// 1:1 at 1080x1080). The spot is a pure function of t (timeline.9b47fc30.js), so the export does not screen-record: it
-// walks the clock a whole frame at a time and paints each frame itself, then encodes the lot. Every frame is therefore
-// exact, at any speed, with nothing that the viewer's own frame timer can drop.
+// The export renderer: the variant on screen, at the ratio on screen, rendered here as an MP4. It is what the Export button
+// (export.34c23b1d.js, the last control in the speed pill) runs when the gallery holds no offline render of that variant at
+// that ratio. Each ratio comes out at its platform size (OUT: 16:9 1920x1080, 9:16 1080x1920, 4:5 1080x1350, 1:1
+// 1080x1080, 4:3 1440x1080), the stage drawn as vectors at that scale. The spot is a pure function of t
+// (timeline.9b47fc30.js), so the export does not screen-record: it walks the clock a whole frame at a time and paints each
+// frame itself, then encodes the lot. Every frame is therefore exact, at any speed, with nothing that the viewer's own
+// frame timer can drop.
 //
 // How one frame is painted. #stage is live DOM plus bitmaps (<img>, the WebGL <canvas>es, CSS backgrounds and masks drawn
 // from files, the odd <video>), and it is not a canvas, so it cannot be photographed in one call. Instead #stage is cloned
@@ -26,8 +28,8 @@
 // would both tie the export to wall clock and leave the webm without a duration in its header. The file is silent: each
 // variant's sound is its own engine (scores, songs, calls), none of it rendered here.
 //
-// Offered on every variant at every ratio, wherever the browser has WebCodecs; window.__EXPORT.render() drives the same
-// render from a headless check or the console.
+// Every variant at every ratio, wherever the browser has WebCodecs; window.__EXPORT.render() drives the same render from a
+// headless check or the console.
 import { variant } from './variant.9e82faf1.js?v=3';
 
 const FPS = 30;
@@ -186,7 +188,8 @@ async function prepare() {
   return { css, urlNodes };
 }
 
-async function frameCanvas(t, W, H, run) {
+// the frame at t, its W x H stage drawn onto an OW x OH canvas (the vectors are drawn at that scale, not stretched after)
+async function frameCanvas(t, W, H, run, OW = W, OH = H) {
   const stage = document.getElementById('stage');
   const ad = window.__AD;
   if (!ad) return { canvas: null, missing: 0 };
@@ -251,7 +254,8 @@ async function frameCanvas(t, W, H, run) {
   div.append(style, holder);
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-  svg.setAttribute('width', String(W)); svg.setAttribute('height', String(H));
+  svg.setAttribute('width', String(OW)); svg.setAttribute('height', String(OH));
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('preserveAspectRatio', 'none');
   for (const a of document.documentElement.attributes) if (a.name !== 'xmlns' && a.name !== 'style') svg.setAttribute(a.name, a.value);
   const fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
   fo.setAttribute('width', String(W)); fo.setAttribute('height', String(H));
@@ -264,10 +268,10 @@ async function frameCanvas(t, W, H, run) {
     img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
   });
   const out = document.createElement('canvas');
-  out.width = W; out.height = H;
+  out.width = OW; out.height = OH;
   const g = out.getContext('2d');
-  g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
-  if (ok) g.drawImage(img, 0, 0, W, H);
+  g.fillStyle = '#000'; g.fillRect(0, 0, OW, OH);
+  if (ok) g.drawImage(img, 0, 0, OW, OH);
   else { log(`frame ${t.toFixed(3)}s did not paint`); missing++; }
   return { canvas: out, missing };
 }
@@ -275,24 +279,36 @@ async function frameCanvas(t, W, H, run) {
 // ---------------------------------------------------------------------------------------------------------------
 // the run: pace the frames, encode them, hand back a blob
 // ---------------------------------------------------------------------------------------------------------------
+// each ratio's platform size; a ratio not listed is scaled so its short side is 1080 (even sides, as H.264 needs). 9:16's
+// 1080 wide is 608 stage px drawn at 1.776, so its height is held at 1920 (a 0.1% stretch no one can see)
+const OUT = { '16x9': [1920, 1080], '9x16': [1080, 1920], '4x5': [1080, 1350], '1x1': [1080, 1080], '4x3': [1440, 1080] };
+const even = (n) => Math.max(2, Math.round(n / 2) * 2);
+export function outSize(key = window.AR.key, W = window.AR.w, H = window.AR.h) {
+  if (OUT[key]) return OUT[key];
+  const s = Math.max(1, 1080 / Math.min(W, H));
+  return [even(W * s), even(H * s)];
+}
+
 let running = false;
+export const busy = () => running;
 // the last finished run, so a headless check can pull the file back instead of only trusting the button
 let lastRun = null;
 
-async function render({ fps = FPS, onProgress } = {}) {
+async function renderNow({ fps = FPS, onProgress } = {}) {
   const ad = window.__AD;
   if (!ad) throw new Error('export: the spot has no clock yet (window.__AD)');
   if (typeof VideoEncoder !== 'function') throw new Error('export: this browser has no WebCodecs VideoEncoder');
   // what is being exported is fixed at the start: a variant or ratio picked mid-run stops it rather than mixing two
   const W = window.AR.w, H = window.AR.h, ar = window.AR.key, v = variant();
+  const [OW, OH] = outSize(ar, W, H);
   const changed = () => variant() !== v || window.AR.key !== ar;
   const total = Math.max(1, Math.round(ad.CYCLE * fps));
   const { Muxer, ArrayBufferTarget } = await loadMuxer();
-  const muxer = new Muxer({ target: new ArrayBufferTarget(), video: { codec: 'avc', width: W, height: H }, fastStart: 'in-memory' });
+  const muxer = new Muxer({ target: new ArrayBufferTarget(), video: { codec: 'avc', width: OW, height: OH }, fastStart: 'in-memory' });
   const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => log('the encoder failed', e) });
-  const cfg = { codec: AVC, width: W, height: H, bitrate: BITRATE, framerate: fps };
+  const cfg = { codec: AVC, width: OW, height: OH, bitrate: BITRATE, framerate: fps };
   const sup = await VideoEncoder.isConfigSupported(cfg);
-  if (!sup.supported) throw new Error(`export: this browser will not encode ${AVC} at ${W}x${H}`);
+  if (!sup.supported) throw new Error(`export: this browser will not encode ${AVC} at ${OW}x${OH}`);
   enc.configure(cfg);
 
   let missing = 0;
@@ -300,7 +316,7 @@ async function render({ fps = FPS, onProgress } = {}) {
     const run = await prepare();
     for (let i = 0; i < total; i++) {
       if (changed()) throw new Error('export: the variant or ratio changed mid-run, so the render stopped');
-      const { canvas, missing: m } = await frameCanvas((i + 0.5) / fps, W, H, run);
+      const { canvas, missing: m } = await frameCanvas((i + 0.5) / fps, W, H, run, OW, OH);
       missing += m;
       if (canvas) {
         // the timestamp is the whole point: an encoder writes the time it is GIVEN, so the file is exactly the spot's
@@ -323,15 +339,21 @@ async function render({ fps = FPS, onProgress } = {}) {
   }
   muxer.finalize();
   const blob = new Blob([muxer.target.buffer], { type: 'video/mp4' });
-  const result = { blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: W, height: H, ar, variant: v };
+  const result = { blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v };
   lastRun = result;
   return result;
 }
+// one render at a time, from the first await on: a second press while one runs is refused
+export async function render(opts) {
+  if (running) throw new Error('export: a render is already running');
+  running = true;
+  try { return await renderNow(opts); } finally { running = false; }
+}
 
 // ---------------------------------------------------------------------------------------------------------------
-// the pill
+// handing the file over
 // ---------------------------------------------------------------------------------------------------------------
-function download(blob, name) {
+export function download(blob, name) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = name;
@@ -342,72 +364,8 @@ function download(blob, name) {
 }
 
 // the file's name: the spot, the variant and the ratio it was cut at
-const fileName = ({ variant: v, ar, fps }) => `gemini-muse-meme-${v}-${ar}-${fps}fps.mp4`;
-const offered = () => typeof VideoEncoder === 'function' && !!window.AR;
-// the pills that stack down the top right (variant-select.9e82faf1.js, sound.96834de7.js): the Export pill sits 8px under
-// the lowest one showing, since which of them show depends on the variant, the soundtrack and the pointer
-const STACK = ['.variant-select', '.appear-select', '.speed-select', '.music-pick', '.sound-toggle'];
-
-export function mountExport() {
-  const bar = document.createElement('div');
-  bar.className = 'export-pill';
-  bar.innerHTML = '<button type="button" class="export-btn" title="Save this variant at this ratio as an MP4"><span class="export-lab">Export</span></button>';
-  document.body.appendChild(bar);
-  const btn = bar.querySelector('button');
-  const lab = bar.querySelector('.export-lab');
-  const idle = () => `Export ${window.AR ? window.AR.key.replace('x', ':') : ''}`.trim();
-
-  function place() {
-    let bottom = 0;
-    for (const sel of STACK) {
-      const n = document.querySelector(sel);
-      if (!n || n.hidden) continue;
-      const r = n.getBoundingClientRect();
-      if (r.height) bottom = Math.max(bottom, r.bottom);
-    }
-    if (bottom) bar.style.top = `${Math.round(bottom + 8)}px`;
-  }
-  function sync() {
-    bar.hidden = !offered();
-    if (!running) lab.textContent = idle();
-    // after the other pills have answered the same event
-    requestAnimationFrame(place);
-  }
-  for (const ev of ['variantchange', 'archange', 'musicchange', 'appearchange', 'resize']) addEventListener(ev, sync);
-  // the sound pill shows and hides on its own (its gate), and the pills mount after this module: follow them
-  const watch = new MutationObserver(() => requestAnimationFrame(place));
-  watch.observe(document.body, { childList: true, attributes: true, attributeFilter: ['class'] });
-  const watched = new Set();
-  const follow = () => { for (const sel of STACK) { const n = document.querySelector(sel); if (n && !watched.has(n)) { watched.add(n); watch.observe(n, { attributes: true, attributeFilter: ['hidden'] }); } } };
-  new MutationObserver(follow).observe(document.body, { childList: true });
-  follow();
-  sync();
-
-  // Space and Enter press the pill, not the spot's clock (timeline.9b47fc30.js)
-  btn.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') e.stopPropagation(); });
-  btn.addEventListener('click', async (e) => {
-    if (e.detail > 0) btn.blur();
-    if (running) return;
-    running = true;
-    btn.disabled = true;
-    lab.textContent = 'Rendering…';
-    try {
-      const res = await render({ onProgress: (p) => { lab.textContent = `Rendering ${Math.round(p * 100)}%`; } });
-      download(res.blob, fileName(res));
-      lab.textContent = 'Saved';
-      console.info(`export: ${res.variant} ${res.width}x${res.height}, ${res.frames} frames, ${res.seconds.toFixed(1)}s, ${(res.blob.size / 1e6).toFixed(1)} MB, ${res.mime}, ${res.missing} bitmap(s) missing`);
-      setTimeout(() => { if (!running) lab.textContent = idle(); }, 2500);
-    } catch (err) {
-      lab.textContent = 'Export failed';
-      log('the render failed', err);
-      setTimeout(() => { if (!running) lab.textContent = idle(); }, 3000);
-    } finally {
-      running = false;
-      btn.disabled = false;
-    }
-  });
-  return bar;
-}
+export const fileName = ({ variant: v, ar, fps }) => `gemini-muse-meme-${v}-${ar}-${fps}fps.mp4`;
+export const canRender = () => typeof VideoEncoder === 'function' && !!window.AR;
 
 function toBase64(blob) {
   return blob.arrayBuffer().then((buf) => {
@@ -420,15 +378,13 @@ function toBase64(blob) {
 
 window.__EXPORT = {
   render,
-  mountExport,
-  get offered() { return offered(); },
   frameCanvas,
+  outSize,
   download,
   fileName,
+  get offered() { return canRender(); },
   // the last finished run, so a check can pull the file back for inspection
   get last() { return lastRun; },
   // a check reads the finished file back through here; the button never calls it
   base64: (blob) => toBase64(blob || (lastRun && lastRun.blob)),
 };
-
-mountExport();

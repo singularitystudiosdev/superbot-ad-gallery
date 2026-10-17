@@ -62,7 +62,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   me the cheapest and most fun halloween costumes" gets a rebuilt Amazon results page; the search runs
   x50 under skeleton tiles while 240 listings are compared, six real listings land cheapest first ($7.99
   crayon to $24.99 inflatable chicken, as listed 2026-10-17), each a link to its listing, then the
-  superbot.gg end card (about 12.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
+  same six written out as a table (costume, price, rating, link), then the superbot.gg end card (about 14.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
+  An Export button at the end of the Speed pill downloads the cut at the picked ratio (renders for 16:9, 9:16,
+  4:5, 1:1 and 4:3 in `assets/video/`; a variant without a render shows "No render").
 - **halloween shopping, no model on show**: the credits-only cut's look for two shopping asks
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=halloween-shopping`): "Search on amazon and buy
   the cheapest halloween king sized bag of candy", then "Use Temu to buy x3 pumpkin costumes size small,

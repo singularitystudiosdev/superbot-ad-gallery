@@ -399,11 +399,16 @@ export default {
       video.addEventListener('loadeddata', () => { seekTo(want); done(); }, { once: true });
       video.addEventListener('error', () => { console.error(new Error(`cat surfing video failed to load: ${VIDEO}`)); done(); }, { once: true });
     }));
+    // The timeline's own word on whether the clock runs (__AD.playing) comes first, the heuristic only before it exists: an
+    // offline render (export-render.07e9fa90.mjs) steps a frozen clock 1/60 s at a time, which the heuristic takes for
+    // playing, and the video would then run free instead of holding each rendered frame's exact picture.
     function sync(t, vt) {
       const now = performance.now();
       if (t !== lastT) { if (t > lastT && t - lastT < 0.5) moved = now; lastT = t; }
       want = vt;
-      if (now - moved < 150 && t > T.play) {
+      const ad = window.__AD;
+      const runs = ad && typeof ad.playing === 'boolean' ? ad.playing : now - moved < 150;
+      if (runs && t > T.play) {
         const rate = (window.__AD && window.__AD.speed) || 1;
         if (video.playbackRate !== rate) video.playbackRate = rate;
         if (Math.abs(video.currentTime - vt) > 0.25) video.currentTime = vt;

@@ -30,6 +30,11 @@ const RENDERS = {
     id: 'gemini-muse-meme-multicat-credits-superbot-0808d12c',
     sound: { song: 'media/multicat.516afb1a/tiny-chaos.mp3', songData: 'scenes/tabs-assets/beats/multicat-data.516afb1a.js', level: 0.9, songFor: 5.6, songFade: 0.9 },
   },
+  // the dog's bare chain (PETS.dog in beats/multicat.516afb1a.js): Tails Up through its second sung line (DOG_SONG_FOR)
+  'multidog-credits': {
+    id: 'gemini-muse-meme-multidog-credits-superbot-17c0131d',
+    sound: { song: 'media/dogs.7b007b09/tails-up.mp3', songData: 'scenes/tabs-assets/beats/multidog-data.7b007b09.js', level: 0.9, songFor: 7.8, songFade: 0.9 },
+  },
   // the college cut: its narration (media/college.057e3dda/narration.mp3) is its whole soundtrack, timed by the beat
   college: {
     id: 'gemini-muse-meme-college-superbot-057e3dda',
@@ -166,7 +171,8 @@ async function renderOne(browser, variant, id, ar, wav) {
   console.log(`[${ar}] ${out}: ${last + 1} frames, ${((last + 1) / FPS).toFixed(3)}s at ${FPS}fps`);
 }
 
-const browser = await chromium.launch({ headless: true });
+// CHROME: an installed Chrome to drive instead of Playwright's own build (e.g. /Applications/Google Chrome.app/...)
+const browser = await chromium.launch({ headless: true, ...(process.env.CHROME ? { executablePath: process.env.CHROME } : {}) });
 try {
   for (const [variant, { id, sound }] of Object.entries(RENDERS)) {
     if (only && only !== variant) continue;

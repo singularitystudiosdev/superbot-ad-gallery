@@ -4,7 +4,7 @@
 import { VARIANTS, variant, setVariant } from './variant.9e82faf1.js?v=3';
 import { APPEARS, appear, setAppear } from './appear.9e82faf1.js?v=2';
 import { MUSICS, music, setMusic, offered } from './music.47e5d94a.js?v=2';
-import { mountExport } from './export.34c23b1d.js?v=6';
+import { mountExport } from './export.34c23b1d.js?v=7';
 // variants left out of the pill: still reachable by ?variant=, just not offered as a button or an arrow-key stop
 const HIDDEN = new Set(['game', 'garden', 'bedtime', 'podcast', 'catgif', 'logo']);
 const SHOWN = VARIANTS.filter((v) => !HIDDEN.has(v.id));

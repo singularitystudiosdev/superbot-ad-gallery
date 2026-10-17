@@ -103,7 +103,13 @@ html[data-ar="1x1"] .less, html[data-ar="4x5"] .less { margin-top: 60px; padding
 
 /* chrome outside the stage, hidden on a frozen capture */
 .hint { position: fixed; right: 18px; bottom: 14px; font: 11px/1 var(--ui); color: var(--muted); opacity: .6; user-select: none; }
-body.freeze .hint { display: none; }
+.ctrls { position: fixed; left: 18px; bottom: 10px; display: flex; gap: 8px; }
+.ctrls button { min-height: 24px; padding: 4px 10px; font: 500 11px/1.4 var(--ui); color: #aeb1bc;
+  background: rgb(255 255 255 / .06); border: 1px solid rgb(255 255 255 / .12); border-radius: 999px; opacity: .7; cursor: pointer; }
+.ctrls button:hover { opacity: 1; color: #fff; }
+.ctrls button:focus-visible { outline: 2px solid var(--storm-1); outline-offset: 2px; }
+.ctrls .sound[aria-pressed="true"] { color: #fff; border-color: rgb(0 229 195 / .6); }
+body.freeze .hint, body.freeze .ctrls { display: none; }
 </style>
 </head>
 <body>
@@ -144,7 +150,11 @@ body.freeze .hint { display: none; }
   </a>
 </div>
 
-<div class="hint">space pause · ←/→ step · R restart · click the end card for superbot.gg</div>
+<div class="ctrls">
+  <button class="replay" type="button" aria-label="Replay with sound">replay</button>
+  <button class="sound" type="button" aria-pressed="false">sound off · click anywhere</button>
+</div>
+<div class="hint">space pause · ←/→ step · R restart · M sound · click the end card for superbot.gg</div>
 
 <script>
 // "DEAR API USERS" (the API-users cut of the f187dd19 spot): the spot is a pure function of t like the reference (multicat-localhost.516afb1a/timeline.9b47fc30.js):
@@ -295,20 +305,70 @@ let paused = freeze, base = hasT ? parseFloat(q.get('t')) || 0 : 0, started = pe
 const now = () => (paused ? base : base + (performance.now() - started) / 1000);
 const timeNow = () => Math.min(Math.round(clamp(now(), 0, CYCLE) * FPS) / FPS, CYCLE);
 const ended = () => base >= CYCLE;
+const restart = () => { base = 0; started = performance.now(); paused = false; };
+
+// ---------- sound: the soundtrack, cut to the spot (track time = ad time) ----------
+// assets/dear-api-users.c060dffc.m4a is a music bed whose drop lands on the chip swap plus one effect per beat of B.
+// It plays when the browser allows it (the gallery lightbox delegates autoplay); otherwise the first click or key, or
+// the lightbox's { type: 'unmute' } message, turns it on, replaying the spot if it has already ended. Web Audio, not
+// <audio>: each run of the clock starts one buffer source at the clock's offset (ahead by the output latency) and never
+// re-seeks it, so it cannot skip; pausing, stepping or seeking the clock (space, arrows, ?t=, seek()) stops it.
+const actx = new AudioContext();
+let buffer = null, source = null, sourceRun = -1, soundOn = false;
+fetch('assets/dear-api-users.c060dffc.m4a')
+  .then((r) => { if (!r.ok) throw new Error(`sound: HTTP ${r.status}`); return r.arrayBuffer(); })
+  .then((bytes) => actx.decodeAudioData(bytes))
+  .then((decoded) => { buffer = decoded; })
+  .catch((err) => console.error('sound: the track failed to load', err));
+const soundBtn = $('.sound');
+function stopSource() {
+  if (source) { source.stop(); source.disconnect(); source = null; }
+  sourceRun = -1;
+}
+function setSound(on, replay = true) {
+  soundOn = on;
+  soundBtn.setAttribute('aria-pressed', String(on));
+  soundBtn.textContent = on ? 'sound on' : 'sound off · click anywhere';
+  if (!on) { stopSource(); return; }
+  if (replay && ended()) restart();
+  actx.resume().catch((err) => { console.error('sound: the audio context refused to start', err); setSound(false); });
+}
+function syncAudio() {
+  if (!soundOn || paused || !buffer || actx.state !== 'running') { stopSource(); return; }
+  if (sourceRun === started) return;
+  stopSource();
+  const at = now() + (actx.outputLatency || actx.baseLatency || 0);
+  if (at >= buffer.duration) return;
+  source = actx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(actx.destination);
+  source.start(0, at);
+  sourceRun = started;
+}
+if (actx.state === 'running' && !freeze) setSound(true);
+// a click on the live end card is a trip to superbot.gg, so it turns sound on without replaying under the link
+addEventListener('pointerdown', (e) => { if (!soundOn && !freeze && !e.target.closest('.ctrls')) setSound(true, !e.target.closest('.end.live')); });
+addEventListener('message', (e) => { if (e.data && e.data.type === 'unmute' && !soundOn && !freeze) setSound(true); });
+soundBtn.addEventListener('click', () => setSound(!soundOn));
+$('.replay').addEventListener('click', () => { setSound(true, false); restart(); });
 
 addEventListener('keydown', (e) => {
+  // a key turns sound on but leaves the clock to the key (space after the end replays by itself)
+  if (!soundOn && !freeze && e.key !== 'm' && e.key !== 'M') setSound(true, false);
   if (e.key === ' ') {
     e.preventDefault();
     if (paused) { if (ended()) base = 0; paused = false; started = performance.now(); }
     else { base = now(); paused = true; }
   }
   else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { base = clamp(timeNow() + (e.key === 'ArrowRight' ? 0.25 : -0.25), 0, CYCLE); paused = true; }
-  else if (e.key === 'r' || e.key === 'R') { base = 0; started = performance.now(); paused = false; }
+  else if (e.key === 'r' || e.key === 'R') restart();
+  else if (e.key === 'm' || e.key === 'M') setSound(!soundOn);
 });
 
 function frame() {
   if (!paused && now() >= CYCLE) { base = CYCLE; paused = true; }
   render(timeNow());
+  syncAudio();
   requestAnimationFrame(frame);
 }
 render(timeNow());
@@ -322,6 +382,8 @@ window.__AD = {
   play(t) { paused = false; base = t; started = performance.now(); render(timeNow()); },
   get now() { return timeNow(); },
   get playing() { return !paused; },
+  // QA: where the sound is against the ad clock
+  sound: () => ({ on: soundOn, playing: !!source, ctx: actx.state, loaded: !!buffer, t: timeNow() }),
 };
 </script>
 </body>

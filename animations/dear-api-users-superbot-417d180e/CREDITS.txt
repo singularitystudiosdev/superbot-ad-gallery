@@ -18,6 +18,20 @@ COPY
   "After superbot", 800$/m, "One download and stop paying api pricing" (API capitalised), superbot.gg.
   "97% less" is derived from those two figures: 800 / 30,000 = 2.7%, so 97.3% less.
 
+SOUND (2026-10-17, chat c060dffc)
+  assets/dear-api-users.c060dffc.m4a, also muxed into assets/video/dear-api-users-superbot-417d180e.<ar>.mp4. All of it
+  generated for this spot through fal (fal-ai/elevenlabs/music, fal-ai/elevenlabs/sound-effects/v2); nothing licensed
+  from a third party, no attribution owed.
+  Music: an instrumental 92.3 BPM composition plan (two bars of build, two of drop, one of sting; a 2.6 s bar puts the
+  bar lines on 5.2 s and 13.0 s), take C of four, advanced 0.47 s so its drop kick lands at 5.25 s as the After chip
+  rises; it decays out under the line's exit at 10 s. Ducked 6 dB under the title hits (0.5-1.25 s).
+  Effects, one per beat of B: tile pop, three title hits (pitched up a step each), whooshes into the price and the line,
+  a count-up ticker (EQ'd and roomed), a boom on $30,000, a sparkle swoosh on the chip swap, a roll-down, a success
+  ding on 97% less, six soft ticks for the line's words, a marker slash on the strike, a reverse-cymbal riser into the
+  end card, a logo sting and a pop for the mascot.
+  Master: -14.0 LUFS integrated, -1.5 dBTP, 48 kHz stereo, exactly 13.000 s. Mix script, stems and prompts:
+  quick-chats/dear-api-users.417d180e/audio.c060dffc/ (gen.c060dffc.sh, mix.c060dffc.mjs).
+
 MARKET
   sell-to-reddit llm_ai usage-limits-pricing ("Usage limits, pricing and token spend", rank 1, 10,223 authors in 30 days,
   data as of 2026-10-17); wants: alternative ai subscription, alternative ai tool.

@@ -50,6 +50,13 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   walking 3D beagle, PetSmart order and "Tails Up" with no routing chips or model headers, each
   generation fast-forwarded x50, ending on the superbot.gg end card (about 31s, with sound: the
   16 · Punchy premium groove score moved up a semitone into the song's key).
+- **a college research study, three asks**: the muse meme spot's college cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=college`), made like the credits-only cat cut (no model on
+  show): superbot calls a stratified random sample of 250 students, one dot per call in four class-year strata resolving
+  to completed, voicemail or declined (184 completed, 73.6%); organizes it into a six-slide Google Slides deck (the pitch
+  deck cut's card); then talks through the slides in the student's voice, a real Gemini TTS take under its measured
+  waveform with word-by-word captions and the slides turning on cue; ends on the superbot.gg end card (about 34s, with
+  sound). The study's numbers are mock data.
 - **cheapest, most fun Halloween costumes**: the credits-only chat asked one shopping question
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=amazon-costumes`): "Search on amazon and find
   me the cheapest and most fun halloween costumes" gets a rebuilt Amazon results page; the search runs

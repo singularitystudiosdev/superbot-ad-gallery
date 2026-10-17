@@ -572,6 +572,11 @@ const more = [
     download: 'animations/dear-cursor-users-superbot-f187dd19/final.mp4', downloadLabel: 'MP4 16:9',
     downloads: { '16x9': 'animations/dear-cursor-users-superbot-f187dd19/final.mp4', '4x5': 'animations/dear-cursor-users-superbot-f187dd19/final-4x5.mp4', '1x1': 'animations/dear-cursor-users-superbot-f187dd19/final-1x1.mp4', '4x3': 'animations/dear-cursor-users-superbot-f187dd19/final-4x3.mp4' } }],
   // <<< dear-cursor-users-superbot-f187dd19
+  // DEAR API USERS (2026-10-17, chat 417d180e): the API-users cut of the spot above, per the user: "make it just dear API
+  // users instead of cursor or explicitly naming cursor or their icon". Same beats, timing and figures; no vendor named or
+  // shown: the tile and the Before chip carry the house `code` glyph (shell.9b47fc30.js ICON.code). Renders in assets/video/.
+  ['dear-api-users-superbot-417d180e', 'dear-api-users-superbot-417d180e/', 'DEAR API USERS · Before superbot counts up to $30,000/mo, the chip flips to After superbot and it rolls down to $800/mo, One download and stop paying API pricing, superbot.gg (13 s)', 'Ad spots', {
+    desc: 'DEAR API USERS rises word by word under a code glyph on a dark tile. A Before superbot chip sits over a price that counts up to $30,000/mo while a red meter fills; the chip flips to After superbot with the mascot as the price rolls down to $800/mo, the meter shrinks to a storm gradient sliver and a 97% less badge pops. Then One download (in the storm gradient) and stop paying API pricing, with API pricing struck through in red. Ends on the house superbot.gg end card with the mascot. 13 s, plays once and holds the end card; 16:9, 4:3, 1:1 and 4:5 (?ar=); 30 fps renders, no sound. No vendor is named or shown.' }],
   // >>> thinking-speed-superbot-2347ca2a
   // actual speed (2026-10-08, chat 2347ca2a): thought-variants/b's thinking bubble streaming at its real speed for 5 s,
   // landing on the user's screenshot of it (Thinking · 11s), then a hard cut to the stop-api-pricing-superbot-e65959ff

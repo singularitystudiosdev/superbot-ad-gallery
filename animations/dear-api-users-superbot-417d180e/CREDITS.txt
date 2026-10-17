@@ -1,0 +1,23 @@
+dear-api-users.417d180e: provenance (internal; nothing here is shown on screen)
+
+ORIGIN
+  The API-users cut of dear-cursor-users-superbot-f187dd19 (superbot-ad-gallery, chat f187dd19): same beats, timing and
+  figures. Per the user (2026-10-17): "make it just dear API users instead of cursor or explicitly naming cursor or their
+  icon". No vendor name, logo or icon appears anywhere in the spot.
+
+ICON
+  The code glyph on the first beat's tile and the Before chip is the house icon set's `code` (multicat-localhost.516afb1a
+  shell.9b47fc30.js ICON.code, the lucide `code` icon, ISC licence). Vector UI furniture, drawn as a white stroke.
+
+SUPERBOT
+  The mascot face is the house end-card mark (multicat-localhost.516afb1a scenes/tabs-assets/beats/multicat.516afb1a.js END_FACE),
+  itself the superbot.gg mark (assets/sb-mark-live.css, beta.superbot.gg, retrieved 2026-09-23).
+
+COPY
+  "DEAR API USERS" is the user's line. The rest is the f187dd19 brief, verbatim apart from case: "Before superbot", 30k/m usd,
+  "After superbot", 800$/m, "One download and stop paying api pricing" (API capitalised), superbot.gg.
+  "97% less" is derived from those two figures: 800 / 30,000 = 2.7%, so 97.3% less.
+
+MARKET
+  sell-to-reddit llm_ai usage-limits-pricing ("Usage limits, pricing and token spend", rank 1, 10,223 authors in 30 days,
+  data as of 2026-10-17); wants: alternative ai subscription, alternative ai tool.

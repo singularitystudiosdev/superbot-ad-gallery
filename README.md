@@ -47,6 +47,10 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the
   superbot.gg end card with the mascot from the multi-tool cat cut (17s, silent).
+- **DEAR API USERS** (`animations/dear-api-users-superbot-417d180e/`): the before/after price spot
+  (`dear-cursor-users-superbot-f187dd19`) with no vendor named or shown: a code glyph, $30,000/mo
+  before superbot rolling down to $800/mo after, One download and stop paying API pricing, superbot.gg
+  (13s, silent).
 - **If you use Cursor** (`animations/cursor-upcharged-relay-superbot-2727b383/`): three white-on-black
   title cards, each with its mark to the right: "IF YOU USE CURSOR" with the Cursor cube, "YOU ARE BEING
   UPCHARGED" with a money bag, "SAVE THOUSANDS WITH SUPERBOT RELAY" with a siren, then the superbot.gg

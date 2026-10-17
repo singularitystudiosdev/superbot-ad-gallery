@@ -91,6 +91,13 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   with sound under a live transcript (TTS), ending on the approved refund; then one 1-star review posts to ten
   rating platforms, and the superbot.gg end card. Its score is the credits cut's v16 re-cued to this chain
   (`beats/refund-score.d3537b02.js`), stopping for the call (about 32s, with sound).
+- **Discord emojis, then a frog GIF**: the muse meme spot's Discord cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=discord-credits`), made like the credits-only cat cut (no
+  model on show): a breakdown of the emojis the user sends most on Discord (the last 30 days of messages and reactions,
+  :skull: large at 412, the next seven on bars, all in Twemoji), then a GIF of a frog dancing made and sent to
+  jimmydodat133 in a Discord DM drawn in Discord's dark theme, the message going from Sending to Sent; each wait
+  fast-forwarded x50, ending on the superbot.gg end card (about 19s, with sound: the 16 · Punchy premium groove score
+  re-cued to the chain). The frog is a real Gemini Omni generation cut to a 38-frame GIF loop; the counts are mock data.
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

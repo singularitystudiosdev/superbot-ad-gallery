@@ -1,0 +1,17 @@
+img/discord.bccc0fdd CREDITS (the 'discord-credits' variant, scenes/tabs-assets/beats/discord.bccc0fdd.js)
+
+emoji/*.svg      Twemoji 15.1.0 (jdecked/twemoji, the maintained Twemoji, the emoji art Discord renders), fetched 2026-10-17
+                 from https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/<codepoint>.svg, unmodified:
+                 1f480 skull, 1f62d sob, 1f438 frog, 1f525 fire, 1f440 eyes, 1f64f pray, 1fae1 saluting face, 2764 heart.
+                 Licence: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/), Copyright Twitter, Inc and other
+                 contributors (graphics licence: https://github.com/jdecked/twemoji/blob/main/LICENSE-GRAPHICS).
+                 Attribution: this file.
+discord.svg      The Discord mark from Simple Icons 13 (https://cdn.jsdelivr.net/npm/simple-icons@13/icons/discord.svg; the
+                 file is CC0 1.0), fetched 2026-10-17; the beat inlines its path (MARK). Discord is a trademark of Discord
+                 Inc., shown nominatively for the app the ask names. The DM view is a rebuild in Discord's dark-theme
+                 colours, not a screenshot.
+frog-frames.jpg  The GIF's 38 frames, 480 x 270 each, 6 across and 7 down (2880 x 1890), cut from the same generation as
+                 ../../media/discord.bccc0fdd/frog-dance.gif (that folder's CREDITS.txt), JPEG quality 4 (ffmpeg -q:v).
+
+The emoji counts, the 30-day total and the message time are made up; jimmydodat133 is the username the ask names. Nothing
+was sent to anyone.

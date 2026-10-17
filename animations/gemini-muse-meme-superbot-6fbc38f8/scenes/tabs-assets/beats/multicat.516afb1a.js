@@ -55,7 +55,7 @@ import { makeScore as makeScoreV12 } from './multicat-score.436d3bf2.js';
 import { mountSound as mountV13 } from '../../../sound.f1659cd2.js';
 // v14 runs on its own (music.ff209337.js, index.html); v15's player too (score.83a92e2b.js), on the clocks handed over here
 import { setPlan as setPlanV15 } from '../../../score-cues.83a92e2b.js?v=1';
-import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=3';
+import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=4';
 import { songLevel as songLevelV16 } from '../../../sound.96834de7.js?v=2';
 import { makeSound as makeSoundV17 } from './multicat-sound.b9427543.js';
 

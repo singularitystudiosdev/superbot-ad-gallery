@@ -19,7 +19,7 @@ import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
-import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=3';
+import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=4';
 import { music } from '../../../music.47e5d94a.js?v=2';
 import { AMAZON, TEMU } from './halloween-data.37ff9e93.js?v=2';
 

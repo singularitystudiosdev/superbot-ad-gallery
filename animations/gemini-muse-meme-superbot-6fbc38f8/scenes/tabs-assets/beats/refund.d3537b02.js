@@ -36,7 +36,7 @@ const CALL = asset('media/refund.d3537b02/call.mp3');
 
 // the company and what superbot gets back from it (made up: a real one would be getting the 1-star reviews)
 const CO = 'Nimbus+', PHONE = '+1 (800) 555-0199', MAIL_TO = 'support@nimbusplus.tv';
-const AMOUNT = '$119.99', CARD = 'Visa ending 4242', REF = 'NB-48213';
+const AMOUNT = '$119.99', CARD = 'card ending 4242', REF = 'NB-48213';
 const ASK2 = 'Also send support an email requesting my refund at the same time';
 const ASK3 = 'Ok rate them 1 star on every possible rating platform';
 const SAY1 = `Calling ${CO} support now.`;
@@ -44,10 +44,12 @@ const SAY2 = 'On it. Emailing support while I hold.';
 const SAY3 = `Dana from ${CO} picked up.`;
 const SUBJECT = `Refund request for my ${CO} Premium renewal`;
 const BODY = `Hi ${CO} Support,\n\nI cancelled my Premium plan on Oct 1, but was still charged ${AMOUNT} for the annual renewal on Oct 3. Please refund the full ${AMOUNT} to my original payment method.\n\nThanks,\nSam`;
-// the ten platforms the review goes up on, in posting order: [tile, name]
+// the ten platforms the review goes up on, in posting order: [tile, name]. All made up, as Nimbus+ is (Gmail is the one
+// real brand on show): a review site, a maps app, a local-chatter app, a consumer bureau, two app stores, a TV store, a
+// shopping store, a deals report and a verdicts site, so "every possible platform" still reads
 const PLATFORMS = [
-  ['trustpilot', 'Trustpilot'], ['google', 'Google'], ['yelp', 'Yelp'], ['bbb', 'BBB'], ['appstore', 'App Store'],
-  ['googleplay', 'Google Play'], ['roku', 'Roku'], ['amazon', 'Amazon Appstore'], ['consumeraffairs', 'ConsumerAffairs'], ['smartcustomer', 'SmartCustomer'],
+  ['truvio', 'Truvio'], ['mapwise', 'Mapwise'], ['chirply', 'Chirply'], ['fairmark', 'Fairmark Bureau'], ['appvault', 'Appvault'],
+  ['playdock', 'PlayDock'], ['channelry', 'Channelry'], ['shelfly', 'Shelfly'], ['dealscope', 'Dealscope'], ['verdictly', 'Verdictly'],
 ];
 const SAY4 = 'On it. Posting your 1-star review everywhere it can go.';
 

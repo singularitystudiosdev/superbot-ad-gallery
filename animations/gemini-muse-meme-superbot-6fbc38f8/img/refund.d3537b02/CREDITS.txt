@@ -1,14 +1,12 @@
 Square logo tiles for the refund variant (scenes/tabs-assets/beats/refund.d3537b02.js), built 2026-10-17.
 
-From Simple Icons 16.35.0 (CC0 1.0, https://simpleicons.org), each glyph in white on its brand colour from the same set,
-except where noted:
-  trustpilot.svg (#00B67A), yelp.svg (#FF1A1A), appstore.svg (#0D96F6), roku.svg (#662D91),
-  googleplay.svg (on Google Play's store green #01875F), amazon.svg (orange #FF9900 on #232F3E),
-  gmail.svg (#EA4335 on white).
-google.svg: Google's four-colour G (its sign-in button mark) on white.
-bbb.svg: BBB's own favicon mark (https://www.bbb.org/favicon.svg) on its navy.
-consumeraffairs.svg: the hexagon and star of ConsumerAffairs' site logo (consumeraffairs.com), on white.
-smartcustomer.svg: SmartCustomer's (formerly Sitejabber) favicon star (smartcustomer.com), on its navy #0F2253.
-nimbus.svg: the made-up Nimbus+ mark, drawn for this variant.
+Every company in the cut is made up except Gmail, so no real company is shown being rated:
+  nimbus.svg: the Nimbus+ mark (the streaming service being refunded), drawn for this variant.
+  The ten rating platforms, each a Lucide icon (ISC licence, https://lucide.dev, fetched through the Iconify API) in white
+  on its own colour tile: truvio.svg (badge-check, #0f766e), mapwise.svg (map-pin, #ea580c), chirply.svg (message-circle,
+  #e11d48), fairmark.svg (shield-check, #1e3a8a), appvault.svg (layout-grid, #4f46e5), playdock.svg (play, #d97706),
+  channelry.svg (tv, #334155), shelfly.svg (shopping-bag, #a16207), dealscope.svg (search-check, #0891b2),
+  verdictly.svg (star, #7c3aed).
 
-The platform names and marks are their owners' trademarks, shown to name where the review goes. Nothing was posted.
+The one real brand: gmail.svg, the Gmail mark from Simple Icons 16.35.0 (CC0 1.0, https://simpleicons.org) in #EA4335 on
+white, on the email card. Gmail is Google's trademark, shown to name where the email is written. Nothing was sent.

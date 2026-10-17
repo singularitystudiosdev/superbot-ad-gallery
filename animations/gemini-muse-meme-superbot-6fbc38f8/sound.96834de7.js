@@ -13,7 +13,8 @@ import { music } from './music.47e5d94a.js?v=2';
 
 // the base chain and its bare twins, cat and dog (v16 is their default soundtrack), and the Amazon costumes cut, which
 // plays it re-cued (beats/costumes.34c23b1d.js), as does the Halloween shopping chain (beats/halloween.37ff9e93.js)
-const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes', 'halloween-shopping', 'garmin-strava']);
+// (and the refund chain, beats/refund-score.d3537b02.js)
+const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes', 'halloween-shopping', 'garmin-strava', 'refund']);
 const OWN = new Set(['hotelcall']);
 const on = () => OWN.has(variant()) || (SCORED.has(variant()) && music() === 'v16');
 const LEVEL = 1; // the master gain while unmuted

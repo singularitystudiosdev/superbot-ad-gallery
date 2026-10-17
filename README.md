@@ -50,6 +50,19 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   walking 3D beagle, PetSmart order and "Tails Up" with no routing chips or model headers, each
   generation fast-forwarded x50, ending on the superbot.gg end card (about 31s, with sound: the
   16 · Punchy premium groove score moved up a semitone into the song's key).
+- **a college research study, three asks**: the muse meme spot's college cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=college`), made like the credits-only cat cut (no model on
+  show): superbot calls a stratified random sample of 250 students, one dot per call in four class-year strata resolving
+  to completed, voicemail or declined (184 completed, 73.6%); organizes it into a six-slide Google Slides deck (the pitch
+  deck cut's card); then talks through the slides in the student's voice, a real Gemini TTS take under its measured
+  waveform with word-by-word captions and the slides turning on cue; ends on the superbot.gg end card (about 34s, with
+  sound). The study's numbers are mock data.
+- **cheapest, most fun Halloween costumes**: the credits-only chat asked one shopping question
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=amazon-costumes`): "Search on amazon and find
+  me the cheapest and most fun halloween costumes" gets a rebuilt Amazon results page; the search runs
+  x50 under skeleton tiles while 240 listings are compared, six real listings land cheapest first ($7.99
+  crayon to $24.99 inflatable chicken, as listed 2026-10-17), Cheapest and Most fun pop, then the
+  superbot.gg end card (about 12.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
 - **halloween shopping, no model on show**: the credits-only cut's look for two shopping asks
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=halloween-shopping`): "Search on amazon and buy
   the cheapest halloween king sized bag of candy", then "Use Temu to buy x3 pumpkin costumes size small,

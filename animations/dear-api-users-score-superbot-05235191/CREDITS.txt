@@ -1,0 +1,27 @@
+dear-api-users-score.05235191: provenance (internal; nothing here is shown on screen)
+
+ORIGIN
+  The DEAR API USERS spot (dear-api-users-superbot-417d180e, chat 417d180e), the silent copy served as
+  quick-chats/dear-api-users-music-variants.c060dffc/v1, scored by chat 05235191 (2026-10-17) on the user's ask "Make music
+  for this ad". Picture, beats, timing and figures are unchanged; the page adds the sound pill (Play with sound, then
+  Sound on / Muted; M), answers the lightbox's { type: 'unmute' } message, and exposes __AD.audio (render, heard).
+  Icon, mascot and copy provenance: animations/dear-api-users-superbot-417d180e/CREDITS.txt.
+  Working copy: quick-chats/dear-api-users-music-variants.c060dffc/v1/with-music.
+
+SOUND
+  synth.05235191.js (instruments) and score.05235191.js (the cue sheet and the live player): an original score
+  synthesised in the browser with WebAudio oscillators and seeded noise; the MP4s carry the same score rendered once
+  through an OfflineAudioContext. No samples, no generated audio, nothing licensed from a third party, no attribution owed.
+  Beatless D minor to the drop, then 114.5 BPM in F major (a tempo whose 16th grid puts the line, the strike and the end
+  card on the grid to 3 ms): a Dm9 bed and an A C D pluck motif for the title words; one coin-tick per $1,000 the counter
+  passes (rising through D minor pentatonic) over a riser and a saw that climb with the price; an impact and a Dm7(b9)
+  stab on $30,000 with a trembling low D; a glitched sparkle and an F major pad on After superbot, ticks falling with the
+  price over a snare build on the groove's grid; the drop on $800 (Bbmaj9, four on the floor, a house offbeat bass), a
+  bell on 97% less, a run up F major for the line's words, Csus4 to C; the strike tape-stops the groove, then a reverse
+  cymbal into superbot.gg on F add9 with the motif resolved (A C, the mascot springing up to F) and a slow arpeggio.
+  Master: -14.7 LUFS integrated, -2.6 dBFS peak (ffmpeg ebur128), 48 kHz stereo, 13.0 s, faded over its last 0.3 s.
+  Onset check: every cue lands within 20 ms of its beat in the ad's table (a constant ~15 ms of that is attack and hop).
+
+MARKET
+  As the source spot: sell-to-reddit llm_ai usage-limits-pricing ("Usage limits, pricing and token spend", rank 1,
+  10,223 authors in 30 days, data as of 2026-10-17); wants: alternative ai subscription.

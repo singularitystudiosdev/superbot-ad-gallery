@@ -52,9 +52,10 @@ const BASE = [
     askBy: { photoedit: 'Remove the guy in the back and make it night', pitchdeck: 'Make a slide deck for my pitch', spending: 'Make a chart of my monthly spending', 10: 'make me 10 muse memes','3d': 'Make me a 3d zombie', game: 'Make me a zombie game', doordash: 'order me a burger on doordash', garden: 'make me a garden design template', roadtrip: 'Plan a road trip from LA to SF on a map', climbing: 'Show me rock climbing videos', catsurf: 'Make a video of a cat surfing', catsurf10: 'Make 10 videos of a cat surfing',catgif: 'Make a GIF of a dancing cat', logo: 'Design a logo for my coffee shop', song: 'Make me a song about my dog', bedtime: 'Read this bedtime story out loud', bakery: 'Build me a website for my bakery', podcast: 'Make a podcast episode about space', reminder: 'Set a notification to go off in my phone in one hour' },
     // the photo a variant attaches to its ask: shown on the user's bubble and as a chip in the composer while the ask types
     attachBy: { photoedit: img('photoedit.2a3b1461/photo.jpg') },
-    // the image-gen variants spend superbot credits until the user links their own plan: a framed row under the
-    // resolved chip shows what the generation charged (4 a picture) and a connect button
-    creditsBy: { 1: 4, 10: 40 },
+    // every generating variant spends superbot credits until the user links their own plan: a framed row under the
+    // resolved chip, tiled with the route's app, shows what the generation charged and a connect button. Priced off
+    // 4 a picture; the variants that only fetch, order or schedule (doordash, roadtrip, climbing, reminder) charge none
+    creditsBy: { 1: 4, 10: 40, photoedit: 4, logo: 4, garden: 4, '3d': 20, game: 12, catgif: 10, catsurf: 25, catsurf10: 250, song: 15, bedtime: 6, podcast: 20, pitchdeck: 12, spending: 3, bakery: 18 },
     // one [app, label] per base chip, so the route keeps the base chips' clock; a route with more chips than the base
     // lands them one after another (CHIP_STRIDE each), so its reply and beat start that much later and its loop runs
     // that much longer (see leadOf). `extra` seconds stretch that variant's loop past the base route's end (the beat
@@ -147,7 +148,7 @@ export function mountChat(hub) {
       routes[v] = { app: o.app, chips, reply, inst: o.mod.build({ ...k, app: o.app, chips, done: chips[chips.length - 1].done, reply, T: o.mod.times(reply, k.T.end + lead + (o.extra || 0)) }, ctx) };
     });
     Object.values(routes).forEach((ro) => ro.inst.nodes.forEach((n) => main.appendChild(n)));
-    return { k, u, ut: u && u.querySelector('.m-text'), ua: u && u.querySelector('.qc-att'), sws, credits, creditsN: credits && credits.querySelector('.qc-cr-n'), r, who: main.firstElementChild, routes, route: null, v: null };
+    return { k, u, ut: u && u.querySelector('.m-text'), ua: u && u.querySelector('.qc-att'), sws, credits, creditsN: credits && credits.querySelector('.qc-cr-n'), creditsTile: credits && credits.querySelector('.qc-tile'), r, who: main.firstElementChild, routes, route: null, v: null };
   };
   // the variant's route: only its beat's nodes show, and the chips and the reply header name its app
   const show = (b, v) => {
@@ -165,6 +166,7 @@ export function mountChat(hub) {
       const n = b.k.creditsBy[v];
       b.credits.style.display = n ? '' : 'none';
       b.creditsN.textContent = n ? `${n} credits` : '';
+      b.creditsTile.replaceWith(b.creditsTile = el(tile(ro.app)));
     }
     b.who.innerHTML = whoOf(ro.app);
     b.route = ro; b.v = v;

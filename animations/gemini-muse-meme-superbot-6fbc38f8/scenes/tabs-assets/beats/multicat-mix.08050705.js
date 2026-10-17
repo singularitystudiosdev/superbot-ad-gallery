@@ -65,7 +65,8 @@ async function render(m) {
     const res = await fetch(m.song);
     if (!res.ok) throw new Error(`song fetch ${res.status} ${m.song}`);
     const decoded = await new OfflineAudioContext(2, 1, 48000).decodeAudioData(await res.arrayBuffer());
-    const n = Math.min(decoded.length, 7 * 48000);
+    // only what the mix plays of the song: the chain's songFor and its 0.9 s fade, with room to spare (7 s for the cat)
+    const n = Math.min(decoded.length, Math.round(Math.max(7, (m.cues.songFor || 0) + 1.4) * 48000));
     const L = decoded.getChannelData(0).slice(0, n), R = decoded.getChannelData(decoded.numberOfChannels > 1 ? 1 : 0).slice(0, n);
     // rendered while its variant shows, so the clock's CYCLE is that variant's loop
     const out = await inWorker({ ...m.cues, cycle: window.__AD.CYCLE, song: { L, R } }, [L.buffer, R.buffer]);
@@ -83,7 +84,7 @@ async function render(m) {
 }
 function inWorker(payload, transfer) {
   return new Promise((resolve, reject) => {
-    const w = new Worker(new URL('./multicat-mix-worker.08050705.js', import.meta.url), { type: 'module' });
+    const w = new Worker(new URL('./multicat-mix-worker.08050705.js?v=2', import.meta.url), { type: 'module' });
     w.onmessage = (e) => { w.terminate(); if (e.data.error) reject(new Error(e.data.error)); else resolve(e.data); };
     w.onerror = (e) => { w.terminate(); reject(new Error(`soundtrack worker: ${e.message || 'failed to load'}`)); };
     w.postMessage(payload, transfer);

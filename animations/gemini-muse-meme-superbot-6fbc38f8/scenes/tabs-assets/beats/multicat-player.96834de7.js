@@ -4,11 +4,11 @@
 // starting over (a 10 ms crossfade) when it drifts 60 ms, the speed changes or the clock seeks; paused, stepped or
 // frozen it stops; once the run has ended it lets the tail ring. Output latency is added in, so what is heard is the
 // frame being drawn. Nothing plays until the sound gate (sound.96834de7.js) has an AudioContext running.
-import { renderScore } from './multicat-score.96834de7.js';
+import { renderScore } from './multicat-score.96834de7.js?v=2';
 import { sound } from '../../../sound.96834de7.js?v=2';
 import { variant } from '../../../variant.9e82faf1.js?v=3';
 
-// one player per chain (multicat, multicat-credits): the Music pill reads the shown variant's, QA any that sounds
+// one player per chain (multicat, multicat-credits, multidog-credits): the Music pill reads the shown variant's, QA any that sounds
 const players = {};
 
 const DRIFT = 0.06;

@@ -5,15 +5,16 @@
 //   1. the frame rises with the query typing into Amazon's search box, six skeleton tiles shimmer while the search runs,
 //      its bottom left pill counting the agent's elapsed time fast-forwarded x50 (X, GEN; the frame's x50 badge says so)
 //      and the bar counting the listings compared (LISTINGS);
-//   2. six real listings land one by one in price order, cheapest first (img/costumes.34c23b1d/CREDITS.txt: titles,
-//      prices, ratings and photos as Amazon listed them), then two verdicts pop: Cheapest on the crayon, Most fun on the
-//      ride-on T-rex;
+//   2. six real listings land one by one in price order, cheapest first, each tile a link to its listing
+//      (img/costumes.34c23b1d/CREDITS.txt: titles, prices, ratings and photos as Amazon listed them);
 //   3. the house superbot.gg end card (the 16:9 cuts' ending, as the multicat cut draws it) covers the chat.
 // Under it runs the multicat-credits cut's default soundtrack, 16 · Punchy premium groove (multicat-score.96834de7.js),
-// re-cued to this answer: the groove under the ask and the search, a hit as the results land, a bell on Cheapest, the big
-// hit and clear on Most fun, then the build into the end card. A pure function of t, except the score, which follows the
-// clock and never drives it. Its stylesheet (../costumes.34c23b1d.css) loads with the module.
-import { clamp, lerp, seg, outCubic, outQuint, outBack, streamCount } from '../../../lib.9b47fc30.js';
+// re-cued to this answer: the groove under the ask and the search, a short clear and the big hit as the first result
+// lands, a breakdown bar while they land, a smaller hit on the last and a bell as the page settles, then the build into the
+// end card. A pure function of t,
+// except the score, which follows the clock and never drives it. Its stylesheet (../costumes.34c23b1d.css) loads with the
+// module.
+import { clamp, lerp, seg, outCubic, outQuint, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
@@ -24,7 +25,7 @@ import { shareBtn } from './share.29a362ea.js';
 import { music } from '../../../music.47e5d94a.js?v=2';
 import { makePlayer } from './multicat-player.96834de7.js?v=3';
 
-const CSS = new URL('../costumes.34c23b1d.css?v=1', import.meta.url).href;
+const CSS = new URL('../costumes.34c23b1d.css?v=2', import.meta.url).href;
 export const ID = 'amazon-costumes';
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const pic = (f) => asset(`img/costumes.34c23b1d/${f}`);
@@ -44,7 +45,6 @@ const LISTINGS = 240;    // unique listings the five searches returned (CREDITS.
 // the query types into the search box this long after the card comes in, at this rate, done as the search starts (SEEN)
 const Q_AT = 0.08, Q_CPS = 70;
 const STAGGER = 0.12;    // the tiles land one after another, cheapest first
-const BADGE_IN = 0.42;   // a verdict's pop
 // the landed page, from its last tile's settle to the end card covering the chat: the score's three bars run from the
 // send to the cover (multicat-score.96834de7.js bed, its grid locked to `play`, here the cover), so this puts the cover
 // 6.02 s after the send and the first tile's landing on bar 2's downbeat
@@ -59,32 +59,31 @@ const popBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p
 const END_FACE = '<svg class="amc-end-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="amcEndFace" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#amcEndFace)" transform="translate(-1.2 -1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#amcEndFace)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#amcEndFace)"/></svg>';
 
 // the six picks in the order they land, cheapest first: Amazon's own title, price, star rating and rating count, read
-// 2026-10-17 (CREDITS.txt). `badge`: superbot's verdict on the tile
+// 2026-10-17 (CREDITS.txt); each tile links to its listing by ASIN
 const ITEMS = [
-  { asin: 'B0H93H74JX', file: 'crayon.jpg', w: 451, h: 480, price: '$7.99', rating: 4.6, count: '15', badge: 'cheap',
+  { asin: 'B0H93H74JX', file: 'crayon.jpg', w: 451, h: 480, price: '$7.99', rating: 4.6, count: '15',
     title: 'Adult Crayon Costume Set with Inflatable Crayon Prop, Funny Halloween Costume with Apron and Cone Hat' },
   { asin: 'B0GWM4NNYP', file: 'banana.jpg', w: 317, h: 480, price: '$16.99', rating: 4.5, count: '4.4K',
     title: 'Spooktacular Creations Appealing Banana Costume Adult Deluxe Set for Halloween Dress Up Party and Roleplay Cosplay' },
   { asin: 'B07NV6GV63', file: 'hotdog.jpg', w: 294, h: 480, price: '$19.98', rating: 4.4, count: '304',
     title: 'Unisex Adult Hot Dog Fancy Jumpsuit' },
-  { asin: 'B0D7V3B7SY', file: 'trex.jpg', w: 343, h: 480, price: '$19.99', rating: 4.4, count: '309', badge: 'fun',
+  { asin: 'B0D7V3B7SY', file: 'trex.jpg', w: 343, h: 480, price: '$19.99', rating: 4.4, count: '309',
     title: 'Inflatable Dinosaur Costume Adults, Inflatable Halloween Costumes, Ride on Dino Costume, Blow Up T-rex Costume' },
   { asin: 'B07W45HH8M', file: 'plug.jpg', w: 384, h: 480, price: '$19.99', rating: 4.3, count: '1.9K',
     title: 'Spooktacular Creations Plug and Socket Halloween Costume Adult, Plug and Outlet Couples USB Costume' },
   { asin: 'B09ZQV2ZHW', file: 'chicken.jpg', w: 371, h: 480, price: '$24.99', rating: 4.6, count: '1.8K',
     title: 'KOOY Inflatable Chicken Costume Adult, Inflatables Rooster Costume Women/Men for Party' },
 ];
-const BADGES = { cheap: 'Cheapest', fun: 'Most fun' };
+const listing = (asin) => `https://www.amazon.com/dp/${asin}`;
 
 // every time in the answer, from the reply r: the card comes in at `card`, the search runs from `gen0` until `done`, the
-// tiles land from `done` STAGGER apart and have settled by `w1`, the verdicts pop at `badges`, and the end card covers the
-// chat from `cut`
+// tiles land from `done` STAGGER apart and have settled by `w1`, and the end card covers the chat from `cut`
 function plan(r) {
   const card = r + 0.22, gen0 = card + SEEN, done = gen0 + GEN / X;
   const lands = ITEMS.map((_, i) => done + i * STAGGER);
   const w1 = lands[lands.length - 1] + LAND;
   const cut = w1 + HOLD;
-  return { r, card, gen0, done, lands, w1, badges: { cheap: w1 + 0.08, fun: w1 + 0.38 }, cut, end: cut + END_DELAY + END_LEN };
+  return { r, card, gen0, done, lands, w1, cut, end: cut + END_DELAY + END_LEN };
 }
 // the answer's length from its reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
@@ -129,9 +128,9 @@ export default {
     const T = k.T;
 
     // v16: rendered from this answer's cue sheet (the engine's ask, k, and this plan, T); the score's slots for the
-    // multicat chain's beats take this one's: the photo's hit as the first tile lands, the order's bell on Cheapest, the
-    // model's big hit (and the clear to the next bar) on Most fun, and the song's play press at the end card's cover,
-    // where the bed stops
+    // multicat chain's beats take this one's: the model's big hit as the first tile lands (its clear opens just before it,
+    // and the bar it lands on, bar 2, plays as the breakdown while the tiles land), the photo's smaller hit as the last tile
+    // lands, the order's bell as the page settles, and the song's play press at the end card's cover, where the bed stops
     const v16 = makePlayer({
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }],
       sends: [k.send],
@@ -139,7 +138,7 @@ export default {
       resolved: [],
       cards: [T.card],
       gens: [[T.gen0, T.done]],
-      image: T.done, model: T.badges.fun, order: T.badges.cheap, play: T.cut,
+      image: T.lands[T.lands.length - 1], model: T.done, order: T.w1, play: T.cut,
       cover: T.cut, pop: T.cut + END_DELAY, word: T.cut + END_DELAY + 0.3, end: T.end,
     }, ID);
     addEventListener('variantchange', () => v16.stop());
@@ -147,16 +146,15 @@ export default {
     // the streamed line the reply opens with: the visible prefix, the rest held in place transparent
     const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
 
-    const tiles = ITEMS.map((it) => `<div class="amc-tile"${it.badge ? ` data-badge="${it.badge}"` : ''}>
-        <div class="amc-pic"><img src="${pic(it.file)}" width="${it.w}" height="${it.h}" alt="${x.esc(it.title)}"/><i class="amc-sk"></i>${it.badge ? `<b class="amc-badge amc-b-${it.badge}">${BADGES[it.badge]}</b>` : ''}</div>
+    const tiles = ITEMS.map((it) => `<a class="amc-tile" href="${listing(it.asin)}" target="_blank" rel="noopener noreferrer">
+        <div class="amc-pic"><img src="${pic(it.file)}" width="${it.w}" height="${it.h}" alt="${x.esc(it.title)}"/><i class="amc-sk"></i></div>
         <div class="amc-info">
           <div class="amc-t">${x.esc(it.title)}</div>
           <div class="amc-r"><span>${it.rating.toFixed(1)}</span><span class="amc-stars">${rated(it.rating)}</span><span class="amc-rc">(${it.count})</span></div>
           <div class="amc-p">${priceHtml(it.price)}</div>
           <div class="amc-skl" aria-hidden="true"><i></i><i></i><i></i></div>
         </div>
-        ${it.badge ? '<i class="amc-ring" aria-hidden="true"></i>' : ''}
-      </div>`).join('');
+      </a>`).join('');
     const media = x.el(`<div class="bk amc"><div class="bk-head"><b class="bk-title">Halloween costumes<small>6 picks · cheapest first</small></b>${shareBtn('Halloween costumes on Amazon', { url: SEARCH })}<a class="bk-btn bk-publish amc-open" href="${SEARCH}" target="_blank" rel="noopener noreferrer">View on<img src="${x.brand('amazon-wordmark.svg')}" alt="Amazon"></a></div>
       <div class="bk-view amc-view">
         <div class="amc-nav"><img class="amc-logo" src="${x.brand('amazon-wordmark-white.svg')}" alt="Amazon"/><span class="amc-search"><span class="amc-q"></span><i class="amc-caret"></i><span class="amc-go">${GLASS}</span></span></div>
@@ -172,7 +170,6 @@ export default {
     const tileEls = [...media.querySelectorAll('.amc-tile')].map((n) => ({
       img: n.querySelector('.amc-pic img'), sk: n.querySelector('.amc-sk'), info: n.querySelector('.amc-info'),
       text: [...n.querySelectorAll('.amc-t, .amc-r, .amc-p')], skl: n.querySelector('.amc-skl'),
-      badge: n.querySelector('.amc-badge'), ring: n.querySelector('.amc-ring'), kind: n.dataset.badge,
     }));
     // Space and Enter press the card's controls, not the spot's clock (timeline.9b47fc30.js), as on the other beats
     media.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
@@ -230,13 +227,6 @@ export default {
           const ps = p.toFixed(3);
           for (const n of tl.text) n.style.opacity = ps;
           tl.skl.style.opacity = (1 - p).toFixed(3);
-          if (!tl.badge) return;
-          // the verdict pops in with its ring around the tile
-          const b = seg(t, T.badges[tl.kind], T.badges[tl.kind] + BADGE_IN);
-          tl.badge.style.opacity = clamp(b * 2.5).toFixed(3);
-          tl.badge.style.transform = b >= 1 ? 'none' : `scale(${lerp(0.4, 1, outBack(b)).toFixed(4)})`;
-          tl.ring.style.opacity = outCubic(b).toFixed(3);
-          tl.ring.style.transform = b >= 1 ? 'none' : `scale(${lerp(1.06, 1, outCubic(b)).toFixed(4)})`;
         });
 
         // the score follows the clock while it is the pick

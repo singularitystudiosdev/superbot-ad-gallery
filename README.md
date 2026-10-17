@@ -56,7 +56,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   to completed, voicemail or declined (184 completed, 73.6%); organizes it into a six-slide Google Slides deck (the pitch
   deck cut's card); then talks through the slides in the student's voice, a real Gemini TTS take under its measured
   waveform with word-by-word captions and the slides turning on cue; ends on the superbot.gg end card (about 34s, with
-  sound). The study's numbers are mock data.
+  sound). The study's numbers are mock data. Its five renders (16:9, 4:3, 1:1, 4:5, 9:16, 60 fps, the narration muxed
+  in) are in `assets/video/`, so the Export button downloads it at every ratio; re-render with
+  `export-render.07e9fa90.mjs ... college`.
 - **cheapest, most fun Halloween costumes**: the credits-only chat asked one shopping question
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=amazon-costumes`): "Search on amazon and find
   me the cheapest and most fun halloween costumes" gets a rebuilt Amazon results page; the search runs
@@ -64,9 +66,8 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   crayon to $24.99 inflatable chicken, as listed 2026-10-17), each a link to its listing, then the
   same six written out as a table (costume, price, rating, link), then the superbot.gg end card (about 14.6s, with sound: the 16 · Punchy premium groove score re-cued to it).
   An Export button at the end of the Speed pill downloads the cut at the picked ratio (renders for 16:9, 9:16,
-  4:5, 1:1 and 4:3 in `assets/video/`). Every other variant and ratio gets the same button: with no offline render,
-  it renders the spot right there, frame by frame, to a silent 30 fps MP4 at the ratio's platform size (1920x1080,
-  1080x1920, 1080x1350, 1080x1080) and saves it (`export.64039673.js`).
+  4:5, 1:1 and 4:3 in `assets/video/`). The button only ever downloads one of these files, never renders in the page;
+  a variant without a render at that ratio shows "No render" (the Discord cut has all five, with its score).
 - **halloween shopping, no model on show**: the credits-only cut's look for two shopping asks
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=halloween-shopping`): "Search on amazon and buy
   the cheapest halloween king sized bag of candy", then "Use Temu to buy x3 pumpkin costumes size small,
@@ -105,10 +106,12 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   re-cued to the chain). The frog is a real Gemini Omni generation cut to a 38-frame GIF loop; the counts are mock data.
 - **make me a study guide for my test**: the credits-only cut's telling for one student ask
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=studyguide`): superbot opens a rebuilt Google
-  Classroom, finds the Unit 4 test on the class Stream, reads and tags every Unit 4 post on Classwork
-  (skipping Unit 3), then a Google Doc study guide lands under an x50 generation and scrolls to the
-  questions the student missed on Quiz 4.1, ending on the superbot.gg end card (about 22s, with sound:
-  the 16 · Punchy premium groove score re-cued to this cut). The class and grades are made up.
+  Classroom, finds the Unit 4 test on the class Stream, reads every Unit 4 post on Classwork (skipping
+  Unit 3), then the study guide lands under an x50 generation as superbot's own flashcards in the chat
+  (12 cards, tabs, progress, Still learning / Got it); the pointer flips the cards the student missed on
+  Quiz 4.1 to their answers, ending on the superbot.gg end card (about 24s, with sound: the 16 · Punchy
+  premium groove score re-cued to this cut). The class and grades are made up. It ships its five renders,
+  so Export saves it at any ratio with sound.
 - **koala on Discord**: the muse meme spot's Discord cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=koala-discord`), in the multicat-credits look (no
   model on show): "Send mrmoonshot a koala gif in discord" lands a rebuilt Discord DM where the message goes from

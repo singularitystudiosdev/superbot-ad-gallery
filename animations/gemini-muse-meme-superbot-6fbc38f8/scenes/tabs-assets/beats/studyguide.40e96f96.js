@@ -4,17 +4,18 @@
 // the ask (chat.9b47fc30.js, a bare route); this beat answers it inside the engine's reply:
 //   1. superbot looks through Google Classroom, rebuilt light inside the bakery artifact frame (bakery.005f5570.css .bk):
 //      from the class list the pointer opens AP Biology; on its Stream, Ms. Rivera's announcement names the test and is
-//      ringed; on Classwork every Unit 4 post is read in turn, tagged with what superbot took from it, and Unit 3 is left
-//      alone. The frame's title counts as it goes, ending on "9 sources found".
+//      ringed; on Classwork every Unit 4 post is read in turn, its row lit, and Unit 3 is left alone. The frame's title
+//      counts as it goes, ending on "9 sources found".
 //   2. the study guide generates under a skeleton whose pill counts its real seconds while the frame's x50 badge says the
-//      wait plays fast-forwarded (as the multicat cut's generations do), then lands as a Google Doc that scrolls from its
-//      overview, through photosynthesis, to "What you missed on Quiz 4.1".
+//      wait plays fast-forwarded (as the multicat cut's generations do), then lands as superbot's own study frontend in
+//      the chat: a deck of flashcards (12, from those 9 sources) that the pointer works through, flipping a card to its
+//      answer and marking it Got it, starting with the questions missed on Quiz 4.1.
 //   3. the house superbot.gg end card (the multicat cut's) covers the chat.
 // The class, its teacher, posts, dates and grades are made up; the biology is not (img/studyguide.40e96f96/CREDITS.txt).
 // Under it plays v16 on the Music pill (multicat-score.96834de7.js through multicat-player.96834de7.js), rendered from
 // this plan's cue sheet, its bed building into the end card where the cat cut's builds into its song. A pure function of
-// t, except that audio, which follows the clock. Its stylesheet (../studyguide.40e96f96.css) and the Classroom and Docs
-// chrome's typeface load with the module.
+// t, except that audio, which follows the clock. Its stylesheet (../studyguide.40e96f96.css) and the Classroom chrome's
+// typeface load with the module.
 import { clamp, lerp, seg, outCubic, outQuint, inOutCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
@@ -24,22 +25,21 @@ import { music } from '../../../music.47e5d94a.js?v=2';
 // the same instance the multicat chains use (the full URL keys it), so the Music pill sees every chain's player
 import { makePlayer } from './multicat-player.96834de7.js?v=4';
 
-const CSS = new URL('../studyguide.40e96f96.css?v=2', import.meta.url).href;
+const CSS = new URL('../studyguide.40e96f96.css?v=3', import.meta.url).href;
 export const ID = 'studyguide';
 const asset = (p) => new URL('../../../img/studyguide.40e96f96/' + p, import.meta.url).href;
-const CLASSROOM = asset('classroom.svg'), DOCS = asset('docs.svg'), SLIDES = asset('slides.svg');
-// Google Sans Flex (OFL), Latin only: the Classroom and Docs chrome's face
+const CLASSROOM = asset('classroom.svg');
+// Google Sans Flex (OFL), Latin only: the Classroom chrome's face
 const FONT = asset('google-sans-flex-latin.woff2');
 const CLASS_URL = 'https://classroom.google.com/';
-const DOC_URL = 'https://docs.google.com/document/';
-const DOC_TITLE = 'Unit 4 Test Study Guide';
+const GUIDE_TITLE = 'Unit 4 Test Study Guide';
 
 export const TYPE_CPS = 55; // the ask types at the multicat chains' rate (chat.9b47fc30.js typing)
 const SAY1 = 'Looking through your Google Classroom for everything on the test.';
-const SAY2 = 'Here’s your study guide for Friday’s Unit 4 test.';
-// the doc's generation plays X times fast (the frame's badge says so): its pill counts GEN real seconds at X times the
-// spot's clock. GEN is an estimate: the nine sources' text in one long-context prompt, then about 1,100 words of guide
-// streamed at the 30 to 40 tokens a second a frontier model writes
+const SAY2 = 'Here’s your study guide as flashcards, starting with what you missed on Quiz 4.1.';
+// the deck's generation plays X times fast (the frame's badge says so): its pill counts GEN real seconds at X times the
+// spot's clock. GEN is an estimate: the nine sources' text in one long-context prompt, then twelve cards with their
+// answers and explanations streamed at the 30 to 40 tokens a second a frontier model writes
 const X = 50, GEN = 52;
 const FF_IN = 0.2; // the frame's badge fades in over this, full as the generation starts
 const SEEN = 0.45; // a card's rise and the feed's glide to it (multicat.516afb1a.js SEEN): its generation starts once in view
@@ -51,26 +51,27 @@ const END_FACE = '<svg class="sg-end-face" viewBox="0 0 100 100" aria-hidden="tr
 // the browse, in seconds from the Classroom card's entrance: the page lands, the pointer opens AP Biology, the Stream
 // comes in and its announcement is ringed, the pointer opens Classwork, then each Unit 4 post is read STEP apart
 const BR = { land: 0.45, ptrIn: 0.7, click1: 1.25, stream: 1.4, found: 1.95, click2: 2.85, classwork: 3.0, read0: 3.3, step: 0.3 };
-// Unit 4's posts on Classwork, newest first as Classroom lists them: [kind, title, the right-hand date, superbot's tag]
+// Unit 4's posts on Classwork, newest first as Classroom lists them: [kind, title, the right-hand date]
 const UNIT4 = [
-  ['assignment', 'Unit 4 Review Packet', 'Due Oct 22', '24 questions'],
-  ['material', 'Ch. 10 Photosynthesis slides', 'Posted Oct 15', '42 slides'],
-  ['assignment', 'Photosynthesis Pigments Lab', 'Due Oct 16', 'Your lab data'],
-  ['quiz', 'Quiz 4.1: Cellular Respiration', 'Due Oct 13', '17/20, 3 missed'],
-  ['assignment', 'Lab: Yeast Fermentation', 'Due Oct 9', 'Your lab report'],
-  ['material', 'Glycolysis and Krebs Cycle notes', 'Posted Oct 7', '4 pages'],
-  ['material', 'Ch. 9 Cellular Respiration slides', 'Posted Oct 6', '38 slides'],
-  ['material', 'Unit 4 Vocabulary', 'Posted Oct 6', '28 terms'],
+  ['assignment', 'Unit 4 Review Packet', 'Due Oct 22'],
+  ['material', 'Ch. 10 Photosynthesis slides', 'Posted Oct 15'],
+  ['assignment', 'Photosynthesis Pigments Lab', 'Due Oct 16'],
+  ['quiz', 'Quiz 4.1: Cellular Respiration', 'Due Oct 13'],
+  ['assignment', 'Lab: Yeast Fermentation', 'Due Oct 9'],
+  ['material', 'Glycolysis and Krebs Cycle notes', 'Posted Oct 7'],
+  ['material', 'Ch. 9 Cellular Respiration slides', 'Posted Oct 6'],
+  ['material', 'Unit 4 Vocabulary', 'Posted Oct 6'],
 ];
 const UNIT3 = [
-  ['assignment', 'Unit 3 Test', 'Due Oct 2', ''],
-  ['material', 'Cell Organelles slides', 'Posted Sep 22', ''],
-  ['assignment', 'Lab: Membrane Transport', 'Due Sep 25', ''],
+  ['assignment', 'Unit 3 Test', 'Due Oct 2'],
+  ['material', 'Cell Organelles slides', 'Posted Sep 22'],
+  ['assignment', 'Lab: Membrane Transport', 'Due Sep 25'],
 ];
-// after the doc lands: it holds, scrolls to its photosynthesis section, holds, scrolls to the quiz review, holds; the
-// end card covers it 6.25 s after the generation ends, so the score's bars (anchored on that cover) put a downbeat 0.25 s
-// after the doc lands (multicat-score.96834de7.js: the drums clear for the landing until the next downbeat)
-const DOC = { scroll1: [0.9, 2.1], scroll2: [3.3, 4.5], cut: 6.25 - LAND };
+// after the deck lands, in seconds from its landing: the pointer comes in, flips card 1 to its answer, presses Got it
+// (card 2 comes up), flips card 2, presses Got it, flips card 3; `slide` is how long a card takes to leave as the next
+// rises. The end card covers it 8.25 s after the generation ends, so the score's bars (anchored on that cover) put a
+// downbeat 0.25 s after the deck lands (multicat-score.96834de7.js: the drums clear for the landing until that downbeat)
+const FC = { ptrIn: 0.55, flips: [1.15, 3.75, 5.95], gots: [2.75, 4.95], flip: 0.42, slide: 0.45, cut: 8.25 - LAND };
 
 // every time in the beat, from the reply r
 function plan(r) {
@@ -78,13 +79,14 @@ function plan(r) {
   const reads = UNIT4.map((_, i) => card + BR.read0 + i * BR.step);
   const done = reads[reads.length - 1] + BR.step + 0.15; // the title reads "9 sources found"
   const r2 = done + 0.45, dcard = r2 + 0.22, gen0 = dcard + SEEN, fin = gen0 + GEN / X, w1 = fin + LAND;
-  const cut = w1 + DOC.cut;
-  return { r, card, found: card + BR.found, reads, done, r2, dcard, gen0, fin, w1, cut, end: cut + END_DELAY + END_LEN };
+  const cut = w1 + FC.cut;
+  return { r, card, found: card + BR.found, reads, done, r2, dcard, gen0, fin, w1, cut, end: cut + END_DELAY + END_LEN,
+    flips: FC.flips.map((f) => w1 + f), gots: FC.gots.map((g) => w1 + g) };
 }
 // the beat's length from its reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
 
-// Material Symbols (Apache 2.0) the Classroom and Docs chrome draw, 24-unit paths
+// Material Symbols (Apache 2.0) the Classroom chrome and the flashcards draw, 24-unit paths
 const SYM = {
   menu: 'M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z',
   apps: 'M6 8a2 2 0 1 1 0-4a2 2 0 0 1 0 4m6 0a2 2 0 1 1 0-4a2 2 0 0 1 0 4m6 0a2 2 0 1 1 0-4a2 2 0 0 1 0 4M6 14a2 2 0 1 1 0-4a2 2 0 0 1 0 4m6 0a2 2 0 1 1 0-4a2 2 0 0 1 0 4m6 0a2 2 0 1 1 0-4a2 2 0 0 1 0 4M6 20a2 2 0 1 1 0-4a2 2 0 0 1 0 4m6 0a2 2 0 1 1 0-4a2 2 0 0 1 0 4m6 0a2 2 0 1 1 0-4a2 2 0 0 1 0 4',
@@ -100,7 +102,8 @@ const SYM = {
   more: 'M12 20q-.825 0-1.412-.587T10 18t.588-1.412T12 16t1.413.588T14 18t-.587 1.413T12 20m0-6q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14m0-6q-.825 0-1.412-.587T10 6t.588-1.412T12 4t1.413.588T14 6t-.587 1.413T12 8',
   check: 'm9.55 15.15l8.475-8.475q.3-.3.7-.3t.7.3t.3.713t-.3.712l-9.175 9.2q-.3.3-.7.3t-.7-.3L4.55 13q-.3-.3-.288-.712t.313-.713t.713-.3t.712.3z',
   chevron: 'M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z',
-  doc: 'M8 18h8v-2H8zm0-4h8v-2H8zm-2 8q-.825 0-1.412-.587T4 20V4q0-.825.588-1.412T6 2h8l6 6v12q0 .825-.587 1.413T18 22zm7-13V4H6v16h12V9zM6 4v5zv16z',
+  back: 'M15.4 18L9.4 12l6-6L16.8 7.4L12.2 12l4.6 4.6z',
+  flip: 'M12 20q-3.35 0-5.675-2.325T4 12t2.325-5.675T12 4q1.725 0 3.3.713T18 6.75V4h2v7h-7V9h4.2q-.8-1.4-2.187-2.2T12 6Q9.5 6 7.75 7.75T6 12t1.75 4.25T12 18q1.925 0 3.475-1.1T17.65 14h2.1q-.7 2.65-2.85 4.325T12 20',
 };
 const sym = (name, cls = '') => `<svg class="gc-sym ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${SYM[name]}"/></svg>`;
 const DL_GLYPH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
@@ -173,7 +176,7 @@ const classCard = (c, i) => `<div class="gc-cc gc-${c.c}${i === 0 ? ' gc-cc-go' 
   <div class="gc-cc-b">${c.due ? `<small>${c.due}</small><span>${c.what}</span>` : ''}</div>
   <div class="gc-cc-f">${sym('yourwork')}${sym('folder')}</div></div>`;
 
-const workRow = ([kind, title, date, tag]) => `<div class="gc-it"><i class="gc-hl"></i><span class="gc-ic">${sym(kind)}</span><b>${title}</b><span class="gc-due">${date}</span>${tag ? `<span class="sg-tag gc-tag">${sym('check')}${tag}</span>` : ''}</div>`;
+const workRow = ([kind, title, date]) => `<div class="gc-it"><i class="gc-hl"></i><span class="gc-ic">${sym(kind)}</span><b>${title}</b><span class="gc-due">${date}</span></div>`;
 
 function buildClassroom(x, T) {
   const node = x.el(`<div class="bk sg-cr"><div class="bk-head"><b class="bk-title">Google Classroom<small class="sg-status"></small></b><a class="bk-btn bk-publish sg-open" href="${CLASS_URL}" target="_blank" rel="noopener noreferrer"><img src="${CLASSROOM}" alt="">Open in Classroom</a></div><div class="bk-view qc-skel"><div class="sg-zoom"><div class="gc" role="img" aria-label="Google Classroom: AP Biology, Period 3, its Stream and Classwork, read by superbot">
@@ -253,13 +256,12 @@ function buildClassroom(x, T) {
     found.style.opacity = f.toFixed(3);
     found.style.transform = `translateY(${((1 - f) * 6).toFixed(2)}px) scale(${lerp(0.9, 1, f).toFixed(4)})`;
 
-    // Classwork: each Unit 4 post flashes as it is read, then rests tinted, its tag replacing the date
+    // Classwork: each Unit 4 post flashes as it is read, then rests tinted
     let n = 0;
     rows.forEach((row, i) => {
       const at = T.reads[i], h = seg(t, at, at + 0.12), rest = seg(t, at + 0.12, at + 0.5);
       if (t >= at) n++;
       row.style.setProperty('--hl', (h * lerp(1, 0.55, rest)).toFixed(3));
-      row.style.setProperty('--tag', outCubic(seg(t, at + 0.05, at + 0.3)).toFixed(3));
     });
     // the list scrolls to keep the post being read in view, then on to show Unit 3, left unread
     const viewH = work.clientHeight, maxY = ws.scrollHeight - viewH;
@@ -277,67 +279,97 @@ function buildClassroom(x, T) {
   } };
 }
 
-// ---------- 2. the study guide, a Google Doc ----------
+// ---------- 2. the study guide, superbot's flashcards ----------
 
-const chip = (icon, text) => `<span class="sgd-chip"><img src="${icon}" alt="">${text}</span>`;
-const DOC_PAGES = [`
-  <h1 class="sgd-t">${DOC_TITLE}</h1>
-  <p class="sgd-sub">AP Biology, Period 3 (Ms. Rivera) | Test: Friday, Oct 23 | Chapters 9 and 10</p>
-  <table class="sgd-call"><tr><td><b>What’s on the test:</b> 35 multiple choice and 2 free response questions on cellular respiration and photosynthesis. Ms. Rivera’s tip: go over your Quiz 4.1 corrections. ${chip(CLASSROOM, 'Announcement, Oct 16')}</td></tr></table>
-  <h2>1. Cellular respiration (Ch. 9)</h2>
-  <p class="sgd-eq">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6O<sub>2</sub> → 6CO<sub>2</sub> + 6H<sub>2</sub>O + ATP</p>
-  <table class="sgd-tbl"><tr><th>Stage</th><th>Where</th><th>Makes (per glucose)</th></tr>
-    <tr><td>Glycolysis</td><td>Cytoplasm</td><td>2 ATP (net), 2 NADH, 2 pyruvate</td></tr>
-    <tr><td>Pyruvate oxidation</td><td>Mitochondrial matrix</td><td>2 NADH, 2 CO<sub>2</sub>, 2 acetyl CoA</td></tr>
-    <tr><td>Krebs cycle</td><td>Mitochondrial matrix</td><td>2 ATP, 6 NADH, 2 FADH<sub>2</sub>, 4 CO<sub>2</sub></td></tr>
-    <tr><td>Electron transport chain</td><td>Inner mitochondrial membrane</td><td>About 26 to 28 ATP; O<sub>2</sub> takes the electrons and becomes water</td></tr></table>
-  <ul><li><b>Fermentation</b> (no O<sub>2</sub>) regenerates NAD<sup>+</sup> so glycolysis can keep making ATP: lactic acid in muscles, ethanol and CO<sub>2</sub> in yeast (your Yeast Fermentation lab).</li></ul>
-  <p class="sgd-src">From ${chip(SLIDES, 'Ch. 9 Cellular Respiration slides')} ${chip(DOCS, 'Glycolysis and Krebs Cycle notes')}</p>
-  <h2 class="sgd-photo">2. Photosynthesis (Ch. 10)</h2>
-  <p class="sgd-eq">6CO<sub>2</sub> + 6H<sub>2</sub>O + light → C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6O<sub>2</sub></p>
-  <ul><li><b>Light reactions</b> (thylakoid membranes): water is split and O<sub>2</sub> is released; photosystem II, then photosystem I, make ATP and NADPH.</li>
-    <li><b>Calvin cycle</b> (stroma): rubisco fixes CO<sub>2</sub>, then ATP and NADPH turn it into G3P, the sugar the plant builds glucose from.</li>
-    <li><b>Pigments</b>: chlorophyll a and b absorb red and blue light and reflect green (your Pigments Lab).</li></ul>
-  <p class="sgd-src">From ${chip(SLIDES, 'Ch. 10 Photosynthesis slides')} ${chip(CLASSROOM, 'Photosynthesis Pigments Lab')}</p>`, `
-  <h2 class="sgd-quiz">3. What you missed on Quiz 4.1 (17/20)</h2>
-  <ol><li>Q6: Where does the electron transport chain happen? <b>The inner mitochondrial membrane.</b></li>
-    <li>Q11: What is the final electron acceptor? <b>Oxygen, which forms water.</b></li>
-    <li>Q14: Which stage makes most of the ATP? <b>Oxidative phosphorylation, through ATP synthase.</b></li></ol>
-  <p class="sgd-src">From ${chip(CLASSROOM, 'Quiz 4.1: Cellular Respiration')}</p>
-  <h2>4. Key vocabulary</h2>
-  <table class="sgd-tbl sgd-voc"><tr><td><b>ATP synthase</b></td><td>Enzyme that makes ATP as H<sup>+</sup> ions flow back across the membrane</td></tr>
-    <tr><td><b>Chemiosmosis</b></td><td>Making ATP from an H<sup>+</sup> gradient (respiration and photosynthesis both use it)</td></tr>
-    <tr><td><b>NADH, FADH<sub>2</sub></b></td><td>Electron carriers that feed the electron transport chain</td></tr>
-    <tr><td><b>Rubisco</b></td><td>Enzyme that fixes CO<sub>2</sub> in the Calvin cycle</td></tr></table>
-  <h2>5. Practice questions</h2>
-  <ol><li>Why does a cell make far less ATP without oxygen?</li>
-    <li>A plant is kept in the dark for three days. What happens to the Calvin cycle, and why?</li>
-    <li>Trace one carbon atom from CO<sub>2</sub> in the air to the CO<sub>2</sub> you breathe out.</li></ol>`];
+// the deck the guide makes: twelve cards from the nine sources, the questions missed on Quiz 4.1 first. Three are played
+// through; the rest only count. [topic, question, answer, why, source, the note a missed question carries]
+const CARDS = [
+  ['Cellular respiration', 'What is the final electron acceptor in cellular respiration?', 'Oxygen',
+    'It takes the electrons at the end of the electron transport chain and becomes water.', 'Quiz 4.1', 'You missed this on Quiz 4.1'],
+  ['Cellular respiration', 'Where does glycolysis happen, and what does it make per glucose?', 'In the cytoplasm',
+    '2 ATP (net), 2 NADH and 2 pyruvate, with no oxygen needed.', 'Ch. 9 slides', ''],
+  ['Photosynthesis', 'Which stage of photosynthesis releases O<sub>2</sub>?', 'The light reactions',
+    'Photosystem II splits water in the thylakoid membranes, and the oxygen is released.', 'Ch. 10 slides', ''],
+];
+const DECK = 12;
 
-function buildDoc(x, T) {
-  const node = x.el(`<div class="bk sg-dc"><div class="bk-head"><b class="bk-title">${DOC_TITLE}<small>Google Doc · 2 pages</small></b>${shareBtn(DOC_TITLE)}${EXPAND}<a class="bk-btn bk-publish sg-open" href="${DOC_URL}" target="_blank" rel="noopener noreferrer"><img src="${DOCS}" alt="">Open in Docs</a></div><div class="bk-view qc-skel"><div class="sg-zoom sg-dz"><div class="sgd">
-    <header class="sgd-bar"><img class="sgd-logo" src="${DOCS}" alt=""><span class="sgd-tt"><b>${DOC_TITLE}</b><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span><span>Extensions</span><span>Help</span></span><span class="sgd-share">Share</span><i class="gc-me">S</i></header>
-    <div class="sgd-tb"><span>100%</span><i></i><span>Normal text</span><i></i><span>Arial</span><i></i><span>11</span><i></i><b>B</b><em>I</em><u>U</u><span class="sgd-a">A</span></div>
-    <div class="sgd-cv"><div class="sgd-sc">${DOC_PAGES.map((p) => `<div class="sgd-pg">${p}</div>`).join('')}</div></div>
+const face = ([topic, q, ans, why, src, missed], back) => back
+  ? `<div class="fc-face fc-back"><span class="fc-topic">${topic}</span><b class="fc-a">${ans}</b><p class="fc-why">${why}</p>
+      <div class="fc-meta">${missed ? `<span class="fc-missed">${missed}</span>` : ''}<span class="fc-src"><img src="${CLASSROOM}" alt="">${src}</span></div></div>`
+  : `<div class="fc-face fc-front"><span class="fc-topic">${topic}</span><b class="fc-q"><span>${q}</span></b><span class="fc-hint">${sym('flip')}Click to flip</span></div>`;
+
+function buildCards(x, T) {
+  const node = x.el(`<div class="bk sg-fc"><div class="bk-head"><b class="bk-title">${GUIDE_TITLE}<small>Flashcards · ${DECK} cards</small></b>${shareBtn(GUIDE_TITLE)}${EXPAND}</div><div class="bk-view qc-skel"><div class="sg-zoom sg-fcz"><div class="fc" role="img" aria-label="${GUIDE_TITLE}: ${DECK} flashcards, starting with the questions missed on Quiz 4.1">
+    <div class="fc-top"><span class="fc-tabs"><b class="on">Flashcards</b><b>Practice quiz</b><b>Notes</b></span><span class="fc-count"></span></div>
+    <div class="fc-prog">${Array.from({ length: DECK }, () => '<i></i>').join('')}</div>
+    <div class="fc-deck"><i class="fc-ghost fc-g2"></i><i class="fc-ghost fc-g1"></i>${CARDS.map((c) => `<div class="fc-card">${face(c, false)}${face(c, true)}</div>`).join('')}</div>
+    <div class="fc-ctl"><span class="fc-nav">${sym('back')}</span><span class="fc-btn fc-still">Still learning</span><span class="fc-btn fc-got">${sym('check')}Got it</span><span class="fc-nav fc-fwd">${sym('chevron')}</span></div>
+    <i class="fc-ptr">${POINTER}</i>
   </div></div><i class="qc-sk"></i><span class="qc-genl sg-genl">Creating study guide<b class="qc-genn">${clock(0)}</b></span></div></div>`);
-  const q = (s) => node.querySelector(s);
-  const zoom = q('.sg-zoom'), sk = q('.qc-sk'), pill = q('.qc-genl'), num = q('.qc-genn');
-  const cv = q('.sgd-cv'), sc = q('.sgd-sc'), photo = q('.sgd-photo'), quiz = q('.sgd-quiz');
-  let shown = clock(0);
+  const q = (s) => node.querySelector(s), qa = (s) => [...node.querySelectorAll(s)];
+  const fc = q('.fc'), zoom = q('.sg-zoom'), sk = q('.qc-sk'), pill = q('.qc-genl'), num = q('.qc-genn');
+  const cards = qa('.fc-card'), segs = qa('.fc-prog i'), count = q('.fc-count'), got = q('.fc-got'), ptr = q('.fc-ptr');
+  let shown = clock(0), counted = '', done = -1;
   return { node, render(t) {
     enter(node, t, T.dcard);
     const lp = landing(t, T.fin);
     shimmer(sk, t, T.dcard, 0, lp);
     settle(zoom, lp);
-    // the pill counts the real seconds X times the clock's rate, rests on GEN, and fades as the doc lands
+    // the pill counts the real seconds X times the clock's rate, rests on GEN, and fades as the deck lands
     const s = clock(t >= T.fin ? GEN : Math.max(0, t - T.gen0) * X);
     if (s !== shown) { num.textContent = s; shown = s; }
     fade(pill, 1 - seg(t, T.w1 - 0.25, T.w1));
-    // the page scrolls to photosynthesis, then on past the page break to the quiz review
-    const top = (h) => clamp(boxOf(h, sc).y - 40, 0, sc.scrollHeight - cv.clientHeight);
-    const y = lerp(lerp(0, top(photo), inOutCubic(seg(t, T.w1 + DOC.scroll1[0], T.w1 + DOC.scroll1[1]))), top(quiz), inOutCubic(seg(t, T.w1 + DOC.scroll2[0], T.w1 + DOC.scroll2[1])));
-    sc.style.transform = `translateY(${(-y).toFixed(2)}px)`;
-    // how much the doc is generating now, which the frame's badge shows by
+
+    // the deck: card i is on top from the Got it before it; it flips at its flip, leaves at the next Got it
+    const passed = T.gots.filter((g) => t >= g + 0.05).length;
+    cards.forEach((card, i) => {
+      const inAt = i ? T.gots[i - 1] + 0.05 : -Infinity, outAt = i < T.gots.length ? T.gots[i] + 0.05 : Infinity;
+      // rising from the stack's first ghost into place, then leaving to the left (the last card never leaves); a leaving card
+      // stays solid over the one rising under it and only fades as it clears the deck
+      const rise = i ? outCubic(seg(t, inAt, inAt + FC.slide)) : 1;
+      const leave = outAt === Infinity ? 0 : inOutCubic(seg(t, outAt, outAt + FC.slide));
+      const on = t >= inAt - 0.01 && leave < 1;
+      card.style.visibility = on ? '' : 'hidden';
+      if (!on) return;
+      card.style.zIndex = String(10 - i);
+      card.style.opacity = (Math.min(1, 0.6 + 0.4 * rise) * (1 - seg(leave, 0.7, 1))).toFixed(3);
+      card.style.transform = leave > 0 ? `translateX(${(-leave * 420).toFixed(1)}px) rotate(${(-leave * 7).toFixed(2)}deg)`
+        : rise < 1 ? `translateY(${((1 - rise) * 12).toFixed(2)}px) scale(${lerp(0.955, 1, rise).toFixed(4)})` : 'none';
+      // the flip: the front turns away to edge-on, the back turns in from edge-on (no backface reliance, so it renders alike
+      // everywhere, the Export renderer's SVG included)
+      const th = 180 * inOutCubic(seg(t, T.flips[i], T.flips[i] + FC.flip));
+      const [front, back] = card.children;
+      front.style.visibility = th < 90 ? '' : 'hidden';
+      back.style.visibility = th >= 90 ? '' : 'hidden';
+      (th < 90 ? front : back).style.transform = th === 0 || th === 180 ? 'none' : `perspective(1100px) rotateY(${(th < 90 ? th : th - 180).toFixed(2)}deg)`;
+    });
+    // progress: one segment lit per card marked Got it, the card on top outlined; the count names it
+    if (passed !== done) { segs.forEach((g, i) => { g.classList.toggle('done', i < passed); g.classList.toggle('now', i === passed); }); done = passed; }
+    const c = `${passed + 1} of ${DECK}`;
+    if (c !== counted) { count.textContent = c; counted = c; }
+
+    // the pointer: in from the lower right, onto the card to flip it, onto Got it, and so on; it drifts off after the last
+    const cardAt = boxOf(q('.fc-deck'), fc), gotAt = boxOf(got, fc);
+    const onCard = { x: cardAt.x + cardAt.w * 0.62, y: cardAt.y + cardAt.h * 0.62 }, onGot = { x: gotAt.x + gotAt.w * 0.55, y: gotAt.y + gotAt.h * 0.6 };
+    const keys = [[T.w1 + FC.ptrIn - 0.2, { x: fc.clientWidth - 30, y: fc.clientHeight - 6 }]];
+    T.flips.forEach((f, i) => { keys.push([f - 0.08, onCard]); if (T.gots[i] !== undefined) keys.push([T.gots[i] - 0.08, onGot]); });
+    keys.push([T.flips[T.flips.length - 1] + 1.1, { x: onCard.x + 120, y: onCard.y + 60 }]);
+    let px = keys[0][1].x, py = keys[0][1].y;
+    for (let i = 1; i < keys.length; i++) {
+      const [t0, a] = keys[i - 1], [t1, b] = keys[i], m = inOutCubic(seg(t, Math.max(t0 + 0.12, t1 - 0.55), t1));
+      if (t <= t0) break;
+      px = lerp(a.x, b.x, m); py = lerp(a.y, b.y, m);
+    }
+    const clicks = [...T.flips, ...T.gots];
+    const press = Math.max(0, ...clicks.map((c2) => seg(t, c2 - 0.08, c2) * (1 - seg(t, c2, c2 + 0.12))));
+    ptr.style.transform = `translate(${(px - 3).toFixed(2)}px, ${(py - 2).toFixed(2)}px) scale(${(1 - 0.14 * press).toFixed(4)})`;
+    ptr.style.opacity = (seg(t, T.w1 + FC.ptrIn - 0.3, T.w1 + FC.ptrIn) * (1 - seg(t, T.flips[T.flips.length - 1] + 0.7, T.flips[T.flips.length - 1] + 1.1))).toFixed(3);
+    // Got it lights under the pointer and dips on its press
+    const gp = Math.max(0, ...T.gots.map((g) => seg(t, g - 0.3, g - 0.1) * (1 - seg(t, g + 0.25, g + 0.45))));
+    got.style.setProperty('--hot', gp.toFixed(3));
+    const gpress = Math.max(0, ...T.gots.map((g) => seg(t, g - 0.08, g) * (1 - seg(t, g, g + 0.14))));
+    got.style.transform = gpress > 0 ? `scale(${(1 - 0.05 * gpress).toFixed(4)})` : 'none';
+    // how much the deck is generating now, which the frame's badge shows by
     return seg(t, T.gen0 - FF_IN, T.gen0) * (1 - seg(t, T.w1 - 0.25, T.w1));
   } };
 }
@@ -352,7 +384,7 @@ export default {
     loadFrameSheet();
     const T = k.T;
     const say1 = sayEl(x, SAY1), say2 = sayEl(x, SAY2);
-    const cr = buildClassroom(x, T), dc = buildDoc(x, T);
+    const cr = buildClassroom(x, T), dc = buildCards(x, T);
     // the feed glides to a zero-height anchor a little under each card instead of its bottom, so the newest card clears
     // the feed's clip with its edge and shadow (as multicat.516afb1a.css .mc-anchor)
     const anchor = () => x.el('<i class="sg-anchor" aria-hidden="true"></i>');
@@ -367,16 +399,17 @@ export default {
     for (const n of [cr.node, dc.node]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
 
     // v16 (the default on the Music pill, music.47e5d94a.js DEFAULTS): the multicat score rendered from this beat's cue
-    // sheet. A glassy tick as each post is read, air as each page and card comes in, a sub hit as the test is found (the
-    // score's `image`), a bell on "9 sources found" (`order`), the big landing on the doc (`model`); `play` is where the
+    // sheet. A glassy tick as each post is read and each flashcard flips or is marked, air as each page, frame and card
+    // comes in, a sub hit as the test is found (the score's `image`), a bell on "9 sources found" (`order`), the big landing
+    // on the deck (`model`); `play` is where the
     // multicat bed hands over to its song, here the end card's cover, so the groove builds straight into the sting; with no
     // song there is no play press either (`press: false`, as the Discord chain has)
     const v16 = makePlayer({
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }],
       sends: [k.send],
       camera: k.send, // the send drops the composer and pulls the camera out (tabs.9b47fc30.js)
-      resolved: T.reads,
-      cards: [T.card, T.card + BR.stream, T.card + BR.classwork, T.dcard],
+      resolved: [...T.reads, ...T.flips, ...T.gots],
+      cards: [T.card, T.card + BR.stream, T.card + BR.classwork, T.dcard, ...T.gots.map((g) => g + 0.05)],
       gens: [[T.gen0, T.fin]],
       image: T.found, model: T.fin, order: T.done, play: T.cut,
       cover: T.cut, pop: T.cut + END_DELAY, word: T.cut + END_DELAY + 0.3, end: T.end, press: false,

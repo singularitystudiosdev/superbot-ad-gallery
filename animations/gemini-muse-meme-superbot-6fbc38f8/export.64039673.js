@@ -1,6 +1,7 @@
-// The export renderer: the variant on screen, at the ratio on screen, rendered here as an MP4. It is what the Export button
-// (export.34c23b1d.js, the last control in the speed pill) runs when the gallery holds no offline render of that variant at
-// that ratio. Each ratio comes out at its platform size (OUT: 16:9 1920x1080, 9:16 1080x1920, 4:5 1080x1350, 1:1
+// An in-browser renderer: the variant on screen, at the ratio on screen, rendered in the page as an MP4. The page does not
+// load it: the Export button (export.34c23b1d.js, the last control in the speed pill) only ever downloads the offline
+// renders in assets/video/. Import it from the console or a headless check (it sets window.__EXPORT) to render a variant
+// that has no offline render yet. Each ratio comes out at its platform size (OUT: 16:9 1920x1080, 9:16 1080x1920, 4:5 1080x1350, 1:1
 // 1080x1080, 4:3 1440x1080), the stage drawn as vectors at that scale. The spot is a pure function of t
 // (timeline.9b47fc30.js), so the export does not screen-record: it walks the clock a whole frame at a time and paints each
 // frame itself, then encodes the lot. Every frame is therefore exact, at any speed, with nothing that the viewer's own
@@ -32,16 +33,13 @@
 // would both tie the export to wall clock and leave the webm without a duration in its header.
 //
 // Sound. A variant whose whole soundtrack renders as one buffer registers it in window.__EXPORT_AUDIO[variant], a function
-// resolving to that AudioBuffer (the hotel call: its call and score, beats/hotelcall.f934b5ee.js), and that goes in as it
-// is: exact, and with no wait. Every other variant's sound is its own engine (scores, songs, calls) following the RUNNING
-// clock, so before the frames the spot plays once at 1x from the top while export-sound.64039673.js takes it down. Either
-// way the track is muxed as AAC (Opus where the browser has no AAC encoder), its encoder's priming trimmed so it lands on
-// its frames. A variant that plays nothing, or a browser without AudioEncoder, gets a silent file.
+// resolving to that AudioBuffer (the hotel call: its call and score, beats/hotelcall.f934b5ee.js), and it goes in as an AAC
+// track (Opus where the browser has no AAC encoder), cut to the video's length with a short fade. Every other variant's
+// sound is its own engine (scores, songs), none of it rendered here, and its file is silent.
 //
 // Every variant at every ratio, wherever the browser has WebCodecs; window.__EXPORT.render() drives the same render from a
-// headless check or the console ({ withSound: false } skips the sound pass).
+// headless check or the console.
 import { variant } from './variant.9e82faf1.js?v=3';
-import { recordSound, soundCodec, muxerCodec, encodeSound, SR } from './export-sound.64039673.js?v=1';
 
 const FPS = 30;
 // H.264 High 4.0: the encoder profile every desktop and mobile browser decodes, and the one an editor or an ad platform
@@ -320,19 +318,26 @@ async function soundtrack(v) {
   return null;
 }
 
-// a registered soundtrack as the track: cut at `seconds` with a fade into the last frame; mono is doubled to stereo
-function fromBuffer(buffer, seconds) {
-  const n = Math.round(seconds * AUDIO_RATE), m = Math.min(n, buffer.length), fade = Math.round(AUDIO_FADE * AUDIO_RATE);
-  const L = new Float32Array(n), R = new Float32Array(n);
-  L.set(buffer.getChannelData(0).subarray(0, m));
-  R.set(buffer.getChannelData(Math.min(1, buffer.numberOfChannels - 1)).subarray(0, m));
-  let peak = 0;
-  for (let j = 0; j < m; j++) {
-    const left = m - j;
-    if (left < fade) { L[j] *= left / fade; R[j] *= left / fade; }
-    peak = Math.max(peak, Math.abs(L[j]), Math.abs(R[j]));
+// the soundtrack into the muxer, cut at `seconds` with a fade into the last frame; mono is doubled to stereo
+async function encodeSound(muxer, { buffer, cfg }, seconds) {
+  const enc = new AudioEncoder({ output: (chunk, meta) => muxer.addAudioChunk(chunk, meta), error: (e) => log('the audio encoder failed', e) });
+  enc.configure(cfg);
+  const n = Math.min(buffer.length, Math.round(seconds * AUDIO_RATE)), fade = Math.round(AUDIO_FADE * AUDIO_RATE), BLOCK = 4096;
+  const chans = [buffer.getChannelData(0), buffer.getChannelData(Math.min(1, buffer.numberOfChannels - 1))];
+  try {
+    for (let i = 0; i < n; i += BLOCK) {
+      const m = Math.min(BLOCK, n - i), data = new Float32Array(m * 2);
+      for (let c = 0; c < 2; c++) {
+        data.set(chans[c].subarray(i, i + m), c * m);
+        for (let j = 0; j < m; j++) { const left = n - (i + j); if (left < fade) data[c * m + j] *= left / fade; }
+      }
+      enc.encode(new AudioData({ format: 'f32-planar', sampleRate: AUDIO_RATE, numberOfFrames: m, numberOfChannels: 2, timestamp: Math.round((i / AUDIO_RATE) * 1e6), data }));
+      if (enc.encodeQueueSize > 16) await new Promise((r) => setTimeout(r, 0));
+    }
+    await enc.flush();
+  } finally {
+    try { enc.close(); } catch (e) { log('the audio encoder was already closed', e); }
   }
-  return { L, R, peak, latencyMs: [], elements: 0 };
 }
 
 let running = false;
@@ -340,10 +345,7 @@ export const busy = () => running;
 // the last finished run, so a headless check can pull the file back instead of only trusting the button
 let lastRun = null;
 
-// the share of the label's count the sound pass takes, when there is one (it plays in real time; the frames paint faster)
-const SOUND_SHARE = 0.4;
-
-async function renderNow({ fps = FPS, withSound = true, onProgress } = {}) {
+async function renderNow({ fps = FPS, onProgress } = {}) {
   const ad = window.__AD;
   if (!ad) throw new Error('export: the spot has no clock yet (window.__AD)');
   if (typeof VideoEncoder !== 'function') throw new Error('export: this browser has no WebCodecs VideoEncoder');
@@ -352,21 +354,11 @@ async function renderNow({ fps = FPS, withSound = true, onProgress } = {}) {
   const [OW, OH] = outSize(ar, W, H);
   const changed = () => variant() !== v || window.AR.key !== ar;
   const total = Math.max(1, Math.round(ad.CYCLE * fps));
-  // 1. the sound: the soundtrack the variant registered, as it is; else one real-time pass, recorded (onProgress's second
-  //    argument names the phase: 'sound', then 'frames')
-  const registered = await soundtrack(v);
-  const pcm = registered ? fromBuffer(registered.buffer, total / fps)
-    : withSound ? await recordSound({ seconds: total / fps, changed, onProgress: onProgress && ((p) => onProgress(p * SOUND_SHARE, 'sound')) }) : null;
-  const acodec = registered ? registered.cfg.codec : pcm ? await soundCodec() : null;
-  if (pcm && !acodec) log('this browser encodes neither AAC nor Opus, so the file is silent');
-  const share = pcm && !registered ? SOUND_SHARE : 0;
-  // 2. the pictures, frame by frame
+  const sound = await soundtrack(v);
   const { Muxer, ArrayBufferTarget } = await loadMuxer();
   const muxer = new Muxer({
-    target: new ArrayBufferTarget(),
-    video: { codec: 'avc', width: OW, height: OH },
-    ...(acodec ? { audio: { codec: muxerCodec(acodec), numberOfChannels: 2, sampleRate: SR } } : {}),
-    fastStart: 'in-memory',
+    target: new ArrayBufferTarget(), video: { codec: 'avc', width: OW, height: OH },
+    ...(sound ? { audio: { codec: sound.muxed, numberOfChannels: 2, sampleRate: AUDIO_RATE } } : {}), fastStart: 'in-memory',
   });
   const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => log('the encoder failed', e) });
   const cfg = { codec: AVC, width: OW, height: OH, bitrate: BITRATE, framerate: fps };
@@ -377,6 +369,7 @@ async function renderNow({ fps = FPS, withSound = true, onProgress } = {}) {
   let missing = 0;
   try {
     const run = await prepare();
+    if (sound) await encodeSound(muxer, sound, total / fps);
     for (let i = 0; i < total; i++) {
       if (changed()) throw new Error('export: the variant or ratio changed mid-run, so the render stopped');
       const { canvas, missing: m } = await frameCanvas((i + 0.5) / fps, W, H, run, OW, OH);
@@ -389,7 +382,7 @@ async function renderNow({ fps = FPS, withSound = true, onProgress } = {}) {
         enc.encode(frame, { keyFrame: i % (fps * 2) === 0 });
         frame.close();
       }
-      if (onProgress && i % fps === 0) onProgress(share + (1 - share) * (i / total), 'frames');
+      if (onProgress && i % fps === 0) onProgress(i / total);
       // one frame at a time, but never all at once: the encoder's queue is bounded, and waiting here is what keeps a run
       // from holding every frame in memory at once
       if (enc.encodeQueueSize > 8) await new Promise((r) => setTimeout(r, 0));
@@ -400,14 +393,9 @@ async function renderNow({ fps = FPS, withSound = true, onProgress } = {}) {
     // the spot is left exactly where it started, whatever happened mid-run
     ad.seek(0);
   }
-  // 3. the sound beside them
-  const priming = acodec ? await encodeSound(muxer, acodec, pcm) : 0;
   muxer.finalize();
   const blob = new Blob([muxer.target.buffer], { type: 'video/mp4' });
-  const result = {
-    blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v,
-    audio: acodec, registered: !!registered, peak: pcm ? +pcm.peak.toFixed(3) : 0, priming, latencyMs: pcm ? pcm.latencyMs : [], mediaElements: pcm ? pcm.elements : 0,
-  };
+  const result = { blob, mime: 'video/mp4', codec: AVC, audio: sound ? sound.cfg.codec : null, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v };
   lastRun = result;
   return result;
 }

@@ -7,10 +7,12 @@
 //      (cat3d.516afb1a.js). Meshy made the mesh; its rigger takes humanoids only, so superbot rigged and keyed the walk
 //      itself, and the chip after Meshy's says so.
 //   3. DoorDash: a rebuilt Petco "Confirming your order" card for a real listing (img/multicat.516afb1a/CREDITS.txt).
-//   4. ElevenLabs: the song plays: the real track (media/multicat.516afb1a/tiny-chaos.mp3) under its real waveform, the
+//   4. ElevenLabs: the song generates under a skeleton, then plays: the real track (media/multicat.516afb1a/tiny-chaos.mp3) under its real waveform, the
 //      sung line lighting word by word on its forced-alignment timings (multicat-data.516afb1a.js), and the audio itself
 //      kept in step with the spot's clock while it runs; it plays through its second sung line, then fades out as
 //   5. the house superbot.gg end card (the 16:9 cuts' ending: the wordmark, then the mascot) covers the chat.
+// Every generation (the photo, the model, the song) waits under a skeleton whose bottom left pill counts the tool's real
+// elapsed time and whose bottom right badge reads x20: the wait plays fast-forwarded (X, GEN).
 // The follow-up messages are built here and moved in after the engine's reply on the first render (they ride in
 // inst.nodes, so the engine's show() hides them under every other variant). The engine reads inst.asks (the composer's
 // typing and send presses) and inst.chips (the platform chip's swaps) for them (chat.9b47fc30.js). A pure function of
@@ -25,7 +27,7 @@ import { shareBtn, shareDisc, SHARE_GLYPH, shareAttrs } from './share.29a362ea.j
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
 
-const CSS = new URL('../multicat.516afb1a.css?v=2', import.meta.url).href;
+const CSS = new URL('../multicat.516afb1a.css?v=3', import.meta.url).href;
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const CAT = asset('img/multicat.516afb1a/cat.jpg');
 const COVER = asset('img/multicat.516afb1a/cover.jpg'); // the song's cover: that same cat, cropped to its face
@@ -39,7 +41,18 @@ const TITLE = 'Tiny Chaos';
 export const TYPE_CPS = 55; // every ask types at this rate; the first one through its route's typeCps (chat.9b47fc30.js)
 const CHIP_STRIDE = 0.77;  // the engine's routing chip clock (chat.9b47fc30.js chipsAt), so every chip lands alike
 const SAY1 = 'Here’s your realistic cat.';
-const IMAGE_HOLD = 2.5;     // the image reply, from its header to the next ask starting to type
+const IMAGE_HOLD = 1;       // the landed photo, from its settle to the next ask starting to type
+// the generating cards run fast-forwarded X times (their badge says so): each card's timer counts its tool's real
+// wall-clock seconds, GEN, at X times the spot's clock, so its skeleton holds GEN / X seconds before the answer lands.
+//   image: GPT Image 2 at medium quality, 40.5 to 52 s measured (ofox.ai 2026-09-07: 41.4 and 40.5 s;
+//          simplemetrics.xyz: 42, 46 and 52 s), 47 s their mean
+//   model: Meshy text to 3D, about 45 s for the preview mesh, then the texture pass (aigamingdev.com Meshy review,
+//          hands-on: each generation under 90 s)
+//   song:  ElevenLabs Music, 13.3 s for a 30 s track (Replicate elevenlabs/music); this one runs 32 s
+const X = 20;
+const GEN = { image: 47, model: 105, song: 14 };
+const ORDER_LOAD = 0.58; // the order generates nothing: its confirmation lands this long after its card comes in
+const PLAY_AFTER = 0.2;  // the song's play press, after its card lands
 // how much of the song plays before the end card: through its second sung line ("...down the hall" ends at 4.92s); the
 // audio then fades out under the card's cover
 const SONG_FOR = 5.6;
@@ -52,32 +65,36 @@ const SONG_FADE = 0.9; // the audio's fade-out as the card covers the chat
 const popBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
 // the mascot face, verbatim from the house end card: the superbot cat's mask over its cyan and magenta offsets
 const END_FACE = '<svg class="mc-end-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="mcEndFace" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#mcEndFace)" transform="translate(-1.2 -1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#mcEndFace)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#mcEndFace)"/></svg>';
-// the turntable's angle as the 3D card lands, and its turn in rad/s: slow, so the walk stays near side-on, where a gait reads
-const SPIN0 = -0.6, SPIN = 0.22;
+// the turntable's angle as the 3D model lands, and its turn in rad/s: slow, so the walk stays near side-on, where a gait reads
+const SPIN_LAND = -0.3, SPIN = 0.22;
 // `credits`: what the generation charges until the user connects their own plan, priced as the single-tool cuts are
-// (chat.9b47fc30.js creditsBy: '3d' 20, song 15; the first ask's 4 is the engine's); an order charges none
+// (chat.9b47fc30.js creditsBy: '3d' 20, song 15; the first ask's 4 is the engine's); an order charges none.
+// `gen`: the step's GEN entry, when it generates. `hold`: how long its landed answer shows before the next ask types
 const STEPS = [
-  { kind: 'model', ask: 'Make me an animated 3d model of a realistic cat', app: 'meshy', say: 'Here’s your cat as an animated 3D model.', hold: 4.2, credits: 20,
+  { kind: 'model', ask: 'Make me an animated 3d model of a realistic cat', app: 'meshy', say: 'Here’s your cat as an animated 3D model.', gen: 'model', hold: 2.6, credits: 20,
     chips: [['meshy', 'Switching to Meshy'], ['superbot', 'Rigging and animating the cat', true]] },
-  { kind: 'order', ask: 'Order me catfood from doordash', app: 'doordash', say: 'Your cat food has been ordered from Petco.', hold: 2.7, credits: 0,
+  { kind: 'order', ask: 'Order me catfood from doordash', app: 'doordash', say: 'Your cat food has been ordered from Petco.', hold: 1.6, credits: 0,
     chips: [['doordash', 'Connecting to DoorDash']] },
-  { kind: 'song', ask: 'Make me a song about cats', app: 'elevenlabs', say: 'Here’s an upbeat indie pop song about cats.', hold: 0.82 + SONG_FOR + END_DELAY + END_LEN, credits: 15,
+  { kind: 'song', ask: 'Make me a song about cats', app: 'elevenlabs', say: 'Here’s an upbeat indie pop song about cats.', gen: 'song', hold: PLAY_AFTER + SONG_FOR + END_DELAY + END_LEN, credits: 15,
     chips: [['elevenlabs', 'Switching to ElevenLabs']] },
 ];
 
 // a chip list on the engine's clock; `tool` chips (superbot's own rigging) leave the composer's platform chip alone
 const chipsAt = (sw, list) => list.map(([app, label, tool], i) => { const at = sw + i * CHIP_STRIDE; return { app, label, tool: !!tool, sw: at, swap: at + 0.22, done: at + 0.65 }; });
 
-// every time in the chain, laid end to end from the first reply r
+// every time in the chain, laid end to end from the first reply r: each answer's card comes in at `card`, generates
+// (its timer running) until `done`, and has landed by `w1`
 function plan(r) {
-  const T = { r, card: r + 0.22, w1: r + 1.5, steps: [] };
-  let s = r + IMAGE_HOLD;
+  const card = r + 0.22, done = card + GEN.image / X;
+  const T = { r, card, done, w1: done + LAND, steps: [] };
+  let s = T.w1 + IMAGE_HOLD;
   for (const st of STEPS) {
     const typeEnd = s + st.ask.length / TYPE_CPS, send = typeEnd + 0.15;
     const chips = chipsAt(send + 0.35, st.chips);
-    const rr = chips[chips.length - 1].done + 0.08;
-    T.steps.push({ ...st, s, typeEnd, send, chips, r: rr, card: rr + 0.22, w0: rr + 0.3, w1: rr + 1.6, g0: rr + 0.8, play: rr + 0.82, cut: rr + 0.82 + SONG_FOR });
-    s = rr + st.hold;
+    const rr = chips[chips.length - 1].done + 0.08, at = rr + 0.22;
+    const fin = at + (st.gen ? GEN[st.gen] / X : ORDER_LOAD), w1 = fin + LAND, play = w1 + PLAY_AFTER;
+    T.steps.push({ ...st, s, typeEnd, send, chips, r: rr, card: at, done: fin, w1, play, cut: play + SONG_FOR });
+    s = w1 + st.hold;
   }
   T.end = s;
   return T;
@@ -91,6 +108,21 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.2v13.6L19 12z"/></svg>';
 const PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
 const DOWNLOAD = '<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 19.5h14"/></svg>';
 const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+// a generating card's bottom corners: the pill (the app, what it makes, its timer) left, the x20 badge right
+const genl = (x, app, what) => `<span class="qc-genl">${x.tile(app)}${what}<b class="qc-genn">${clock(0)}</b></span><span class="mc-x">x${X}</span>`;
+// those corners at t: the timer counts the real seconds X times the clock's rate from `card`, rests on the full `real` from
+// `done`, and the pill and the badge fade out together as the answer lands (by w1)
+function corners(box) {
+  const pill = box.querySelector('.qc-genl'), num = pill.querySelector('.qc-genn'), badge = box.querySelector('.mc-x');
+  let shown = clock(0), op = '';
+  return (t, card, done, w1, real) => {
+    const s = clock(t >= done ? real : Math.max(0, t - card) * X);
+    if (s !== shown) { num.textContent = s; shown = s; }
+    const o = (1 - seg(t, w1 - 0.25, w1)).toFixed(3);
+    if (o !== op) { pill.style.opacity = o; badge.style.opacity = o; op = o; }
+  };
+}
 
 // the track's measured envelope as one filled shape: the top edge left to right, then the bottom edge back
 const WAVE_D = (() => {
@@ -149,9 +181,9 @@ export default {
 
     // 1. GPT Image 2, in the engine's own reply
     const say1 = sayEl(x, SAY1);
-    const media1 = x.el(`<div class="qc-media"><div class="qc-img qc-skel mc-img"><img src="${CAT}" width="1536" height="1152" alt="A photorealistic brown tabby cat standing side-on, looking at the camera"/><i class="qc-sk"></i><span class="qc-genl">${x.tile('gptimage')}Creating image</span>${shareDisc('Realistic cat', { file: CAT })}${dl(CAT, 'cat.jpg')}</div></div>`);
+    const media1 = x.el(`<div class="qc-media"><div class="qc-img qc-skel mc-img"><img src="${CAT}" width="1536" height="1152" alt="A photorealistic brown tabby cat standing side-on, looking at the camera"/><i class="qc-sk"></i>${genl(x, 'gptimage', 'Creating image')}${shareDisc('Realistic cat', { file: CAT })}${dl(CAT, 'cat.jpg')}</div></div>`);
     const card1 = media1.firstElementChild;
-    const im1 = card1.querySelector('img'), sk1 = card1.querySelector('.qc-sk'), genl1 = card1.querySelector('.qc-genl');
+    const im1 = card1.querySelector('img'), sk1 = card1.querySelector('.qc-sk'), gen1 = corners(card1);
     const dl1 = card1.querySelector('.qc-dl'), share1 = card1.querySelector('.qc-share');
 
     // 2-4: each ask's user bubble, its chip rows and its reply
@@ -173,9 +205,9 @@ export default {
     const [mStep, oStep, sStep] = steps;
 
     // 2. Meshy's model in the 3D variant's artifact frame
-    const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Animated · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="Animated 3D cat model walking on a turntable"></canvas><i class="qc-sk"></i><span class="qc-genl">${x.tile('meshy')}Creating 3D model<b class="qc-genn"></b></span></div></div>`);
+    const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Animated · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="Animated 3D cat model walking on a turntable"></canvas><i class="qc-sk"></i>${genl(x, 'meshy', 'Creating 3D model')}</div></div>`);
     mStep.reply.lastElementChild.append(model);
-    const canvas = model.querySelector('canvas'), skM = model.querySelector('.qc-sk'), genlM = model.querySelector('.qc-genl'), pct = model.querySelector('.qc-genn');
+    const canvas = model.querySelector('canvas'), skM = model.querySelector('.qc-sk'), genM = corners(model);
 
     // 3. the DoorDash order, framed as the doordash variant's is
     const order = x.el(`<div class="bk mc-dd"><div class="bk-head"><b class="bk-title">Petco order<small>1 item · $16.49 subtotal</small></b>${shareBtn('Petco order')}<a class="bk-btn bk-publish mc-dd-open" href="${STORE}" target="_blank" rel="noopener noreferrer"><img src="${x.brand('doordash-logo.svg')}" alt="">View in DoorDash</a></div><div class="bk-view"><div class="mc-dd-cam"><div class="mc-dd-zoom"><img class="mc-dd-shot" src="${ORDER}" width="896" height="560" alt="${x.esc(ORDER_ALT)}"></div></div><i class="bk-sh"></i></div></div>`);
@@ -191,10 +223,12 @@ export default {
       </div>
       <button type="button" class="mc-sg-share" ${shareAttrs(`${TITLE}, a song about cats`, { file: SONG })}>${SHARE_GLYPH}</button>
       <a class="mc-sg-dl" href="${SONG}" download="tiny-chaos.mp3" aria-label="Download" title="Download">${DOWNLOAD}</a>
+      <div class="mc-sg-gen qc-skel"><i class="qc-sk"></i>${genl(x, 'elevenlabs', 'Creating song')}</div>
     </div><div class="mc-ly" aria-live="off"></div></div>`);
     sStep.reply.lastElementChild.append(song);
     const $ = (s) => song.querySelector(s);
     const btn = $('.mc-sg-btn'), time = $('.mc-sg-time'), played = $('.mc-w1'), lyric = $('.mc-ly');
+    const skelS = $('.mc-sg-gen'), skS = $('.mc-sg-gen .qc-sk'), genS = corners(skelS);
     const [playIcon, pauseIcon] = btn.querySelectorAll('svg');
     // Space and Enter press the cards' controls, not the spot's clock (timeline.9b47fc30.js), as on the other beats
     for (const n of [media1, model, order, song]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
@@ -238,7 +272,7 @@ export default {
       }
     }
 
-    let placed = false, viewer = null, decoding = false, built = -1, sec = -1, cut = -1, playing = null, line = -1, lit = -1;
+    let placed = false, viewer = null, decoding = false, sec = -1, cut = -1, playing = null, line = -1, lit = -1;
     return {
       nodes: [say1.n, media1, ...follow, endCard],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
@@ -267,11 +301,11 @@ export default {
         // 1. the photo: a skeleton while GPT Image 2 works, then it lands as the 1-image card does
         say1.render(t, T.r);
         enter(media1, t, T.card);
-        const lp1 = landing(t, T.w1 - LAND);
+        const lp1 = landing(t, T.done);
         shimmer(sk1, t, T.card, 0, lp1);
         settle(im1, lp1);
         fade(dl1, lp1); fade(share1, lp1);
-        genl1.style.opacity = (1 - seg(t, T.w1 - 0.25, T.w1)).toFixed(3);
+        gen1(t, T.card, T.done, T.w1, GEN.image);
 
         // 2-4: bubble, chips, reply header and line, as the engine draws its own
         for (const p of steps) {
@@ -284,22 +318,25 @@ export default {
 
         // 2. the model: builds behind the skeleton, lands like the 3D variant's, walking as the turntable turns
         const cm = enter(model, t, M.card);
-        if (cm > 0) viewer.draw({ spin: SPIN0 + SPIN * (t - M.card), time: t - M.card });
-        const lpm = landing(t, M.w1 - LAND);
+        if (cm > 0) viewer.draw({ spin: SPIN_LAND + SPIN * (t - M.w1), time: t - M.card });
+        const lpm = landing(t, M.done);
         shimmer(skM, t, M.card, 0, lpm);
         settle(canvas, lpm);
-        const pc = Math.round(seg(t, M.w0, M.w1) * 100);
-        if (pc !== built) { pct.textContent = `${pc}%`; built = pc; }
-        genlM.style.opacity = (1 - seg(t, M.w1 - 0.25, M.w1)).toFixed(3);
+        genM(t, M.card, M.done, M.w1, GEN.model);
 
-        // 3. the order: a skeleton until O.g0, then the card fades in and settles (doordash.d9bc17e9.js)
+        // 3. the order: a skeleton until O.done, then the card fades in and settles (doordash.d9bc17e9.js)
         enter(order, t, O.card);
-        const lpo = landing(t, O.g0);
+        const lpo = landing(t, O.done);
         shimmer(shO, t, O.card, 0, lpo);
         settle(zoom, lpo);
 
-        // 4. the song: the button presses into pause, the white waveform uncovers to the playhead, the sung line lights
+        // 4. the song: a skeleton over the strip while ElevenLabs works, then the button presses into pause, the white
+        // waveform uncovers to the playhead, the sung line lights
         enter(song, t, S.card);
+        const lps = landing(t, S.done);
+        shimmer(skS, t, S.card, 0, lps);
+        fade(skelS, 1 - lps);
+        genS(t, S.card, S.done, S.w1, GEN.song);
         const el = Math.min(DUR, Math.max(0, t - S.play));
         const s = Math.floor(el);
         if (s !== sec) { time.textContent = `${clock(s)} / ${clock(DUR)}`; sec = s; }

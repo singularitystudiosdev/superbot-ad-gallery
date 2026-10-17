@@ -1327,6 +1327,15 @@
     "downloadLabel": "16:9 · 1920x1080"
   },
   {
+    "id": "dear-cursor-users-superbot-417d180e",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "dear cursor users · white type on black: you are being upcharged and pay api pricing, superbot reroutes to subscription and removes the cursor upcharge, we did this to save people thousands, then superbot.gg with the mascot (17 s)",
+    "src": "animations/dear-cursor-users-superbot-417d180e/",
+    "thumb": "assets/shots/dear-cursor-users-superbot-417d180e.png",
+    "desc": "Four lines in white on black, each arriving word by word: \"dear cursor users\", \"you are being upcharged and pay api pricing\", \"superbot reroutes to subscription and removes the cursor upcharge\", \"we did this to save people thousands\". Ends on the superbot.gg end card with the mascot, the same ending as the multi-tool cat cut."
+  },
+  {
     "id": "negagg-crashes-v2-superbot-e85b3b49",
     "type": "animation",
     "group": "Ad spots",

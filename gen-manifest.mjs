@@ -608,6 +608,12 @@ const more = [
   ['subs-key-video-839ecec3', 'subs-key-video-839ecec3/', 'the api key for subscriptions · video: every switch off and floating, the key fires a streak into the phone, all 15 providers switch on one by one, SUBSCRIPTIONS fills with the moving gradient, each icon flies into the key, the mascot giggles (10 s)', 'Ad spots', {
     desc: 'One superbot key switches on every AI subscription: Claude, ChatGPT, Grok, Gemini, Muse, DeepSeek, Cursor, GitHub Copilot, Windsurf, Devin, Replit, Warp, Ollama, oMLX, LM Studio.',
     download: 'animations/subs-key-video-839ecec3/final.mp4', downloadLabel: '16:9 · 1920x1080' }],
+  // Dear cursor users (2026-10-17, 417d180e): white type on the spots' black, four lines word by word, then the
+  // multicat cut's ending (the house superbot.gg end card, wordmark left, mascot right). One self-contained page, a
+  // pure function of t like the gemini muse meme spots. Answers sell-to-reddit llm_ai rank 1 usage-limits-pricing
+  // (10,223 authors, 30 days, data as of 2026-10-17); its wants: alternative ai subscription.
+  ['dear-cursor-users-superbot-417d180e', 'dear-cursor-users-superbot-417d180e/', 'dear cursor users · white type on black: you are being upcharged and pay api pricing, superbot reroutes to subscription and removes the cursor upcharge, we did this to save people thousands, then superbot.gg with the mascot (17 s)', 'Ad spots', {
+    desc: 'Four lines in white on black, each arriving word by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to subscription and removes the cursor upcharge", "we did this to save people thousands". Ends on the superbot.gg end card with the mascot, the same ending as the multi-tool cat cut.' }],
 ];
 // an optional 5th field carries extra item fields, e.g. { download, downloadLabel } for a file too big for Pages
 for (const [name, src, title, group, extra] of more) {

@@ -43,6 +43,10 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   that beagle as a walking 3D model (Meshy, walk rigged by superbot), a PetSmart dog food order on
   DoorDash and "Tails Up", a song about dogs (ElevenLabs, plays with sound), each answer a real
   generation (about 29s, with sound).
+- **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
+  by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
+  subscription and removes the cursor upcharge", "we did this to save people thousands", then the
+  superbot.gg end card with the mascot from the multi-tool cat cut (17s, silent).
 
 Static image ads (`assets/ads/`):
 

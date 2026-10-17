@@ -45,6 +45,13 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   that beagle as a walking 3D model (Meshy, walk rigged by superbot), a PetSmart dog food order on
   DoorDash and "Tails Up", a song about dogs (ElevenLabs, plays with sound), each answer a real
   generation (about 29s, with sound).
+- **a college research study, three asks**: the muse meme spot's college cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=college`), made like the credits-only cat cut (no model on
+  show): superbot calls a stratified random sample of 250 students, one dot per call in four class-year strata resolving
+  to completed, voicemail or declined (184 completed, 73.6%); organizes it into a six-slide Google Slides deck (the pitch
+  deck cut's card); then talks through the slides in the student's voice, a real Gemini TTS take under its measured
+  waveform with word-by-word captions and the slides turning on cue; ends on the superbot.gg end card (about 34s, with
+  sound). The study's numbers are mock data.
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

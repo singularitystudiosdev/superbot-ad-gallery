@@ -1,0 +1,113 @@
+/* The 'college' variant's three answers (beats/college.057e3dda.js). Loaded by the beat module itself, so index.html needs
+   no link. The calls card is the bakery artifact frame (bakery.005f5570.css .bk) with the spending variant's Export to
+   Sheets button; the deck and the talk-through are the pitch deck card (pitchdeck.fad54971.css .pd), whose paper (#f7f5f0),
+   ink (#16181d) and green (#1f7a5a) the study's slides keep; the talk-through's strip and caption are the song strip and
+   its sung line (multicat.516afb1a.css .mc-sg, .mc-ly), restated here under cr- so this variant stands on its own. One
+   accent, the deck's green: #1f7a5a on paper, the chat's resolved-check green (chat.css .qc-ok, #34d399) on the dark frame.
+   No CSS animation: the beat sets every state from t, so frozen frames (?t=) hold. */
+
+/* the bare chain's working pill: no tool tile, so the text takes the pill's even inset */
+#s-tabs .sbsite .hub .qc-genl.mc-genl-bare { padding-left: 11px; }
+/* the feed glides to this zero-height anchor under each answer's card, not the card's bottom, so the newest card clears
+   the feed's clip (chat.9b47fc30.js renderScroll) with its edge and shadow; relative, so it takes no room in the thread */
+#s-tabs .sbsite .hub .cr-anchor { display: block; height: 0; position: relative; top: 6px; pointer-events: none; }
+/* the composer runs wider than the thread on a bare route (the hub carries .qc-wide, chat.9b47fc30.js renderChat) */
+#s-tabs .sbsite .hub.qc-wide .composer, #s-tabs .sbsite.ask .hub.qc-wide .composer { width: min(800px, calc(100% - 48px)); max-width: 800px; }
+
+/* 1. the calls: the title carries its scope, as spending's does; the Sheets mark keeps its own fills */
+#s-tabs .sbsite .hub .cr-calls .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .bk-btn.cr-sheets svg { width: 10px; height: 14px; stroke: none; }
+/* the view stacks 14px padding, the 42px counters, a 14px gap, four 30px strata rows, a 14px gap and the 44px live line:
+   14 + 42 + 14 + 120 + 14 + 44 = 248 */
+#s-tabs .sbsite .hub .cr-view { box-sizing: border-box; height: 248px; padding: 14px 14px 0; font-family: var(--ui); }
+#s-tabs .sbsite .hub .cr-kpis { display: grid; grid-template-columns: repeat(4, 1fr); height: 42px; }
+#s-tabs .sbsite .hub .cr-kpi { padding-left: 12px; box-shadow: inset 1px 0 0 #2a2a2e; }
+#s-tabs .sbsite .hub .cr-kpi:first-child { padding-left: 0; box-shadow: none; }
+#s-tabs .sbsite .hub .cr-kpi small { display: flex; align-items: center; gap: 6px; font: 500 11px/14px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .cr-kpi b { display: block; margin-top: 4px; font: 600 20px/24px var(--ui); letter-spacing: -.01em; color: #ececf0; font-variant-numeric: tabular-nums; }
+/* one dot per call, and the counters' swatches: queued, ringing (an open ring), completed (green), voicemail (gray),
+   declined (an open gray ring) */
+#s-tabs .sbsite .hub .cr-sw { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+#s-tabs .sbsite .hub .cr-sw.ok, #s-tabs .sbsite .hub .cr-dots i.ok { background: #34d399; }
+#s-tabs .sbsite .hub .cr-sw.vm, #s-tabs .sbsite .hub .cr-dots i.vm { background: #55555c; }
+#s-tabs .sbsite .hub .cr-sw.no, #s-tabs .sbsite .hub .cr-dots i.no { background: none; box-shadow: inset 0 0 0 1.5px #55555c; }
+#s-tabs .sbsite .hub .cr-strata { margin-top: 14px; box-shadow: inset 0 1px 0 #2a2a2e; }
+#s-tabs .sbsite .hub .cr-row { display: flex; align-items: center; gap: 12px; height: 30px; box-shadow: inset 0 -1px 0 #2a2a2e; }
+#s-tabs .sbsite .hub .cr-name { flex: none; display: flex; align-items: baseline; gap: 6px; width: 140px; white-space: nowrap; }
+#s-tabs .sbsite .hub .cr-name b { font: 600 12px/16px var(--ui); color: #e5e5ea; }
+#s-tabs .sbsite .hub .cr-name small { font: 400 10.5px/16px var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
+/* 35 dots a line, two lines a stratum; on a narrower card (the 9:16 frame) the dots shrink rather than crowd the count */
+#s-tabs .sbsite .hub .cr-dots { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(35, minmax(0, 7px)); gap: 2px; align-content: center; }
+#s-tabs .sbsite .hub .cr-dots i { display: block; width: 100%; aspect-ratio: 1; border-radius: 50%; background: #2a2a30; }
+#s-tabs .sbsite .hub .cr-dots i.live { background: none; box-shadow: inset 0 0 0 1.5px #a1a1a6; }
+#s-tabs .sbsite .hub .cr-n { flex: none; width: 44px; text-align: right; font: 400 11px/16px var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .cr-n b { font-weight: 600; color: #ececf0; }
+/* the live line: the working pill, the voice bars and who is on the line; then the summary in its place */
+#s-tabs .sbsite .hub .cr-live { position: relative; height: 44px; margin: 14px -14px 0; box-shadow: inset 0 1px 0 #2a2a2e; }
+#s-tabs .sbsite .hub .cr-on, #s-tabs .sbsite .hub .cr-off { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; padding: 0 14px 0 8px; }
+#s-tabs .sbsite .hub .cr-off { padding-left: 14px; }
+#s-tabs .sbsite .hub .cr-on .qc-genl { position: static; flex: none; }
+#s-tabs .sbsite .hub .cr-bars { flex: none; display: flex; align-items: center; gap: 2px; height: 16px; }
+#s-tabs .sbsite .hub .cr-bars i { display: block; width: 2px; height: 3px; border-radius: 1px; background: #34d399; }
+#s-tabs .sbsite .hub .cr-who { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .cr-who b { font-weight: 600; color: #ececf0; }
+#s-tabs .sbsite .hub .cr-who em { font-style: normal; }
+#s-tabs .sbsite .hub .cr-cnt { flex: none; margin-left: auto; font: 400 11px/16px var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .cr-cnt b { font-weight: 600; color: #ececf0; }
+#s-tabs .sbsite .hub .cr-ok { flex: none; display: grid; place-items: center; width: 16px; height: 16px; }
+#s-tabs .sbsite .hub .cr-ok .qc-ok { display: block; }
+
+/* 2-3. the deck: the pitch deck card; its head reads the deck's scope and its stage holds the working pill */
+#s-tabs .sbsite .hub :is(.cr-deck, .cr-talk) .pd-head :is(b, span) { white-space: nowrap; }
+#s-tabs .sbsite .hub :is(.cr-deck, .cr-talk) .pd-head b { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+/* the study's slides, in the pitch deck's paper and ink (pitchdeck.fad54971.css .pd-sl) */
+#s-tabs .sbsite .hub .cr-tbl, #s-tabs .sbsite .hub .cr-hb { position: absolute; left: 28px; right: 28px; top: 92px; }
+#s-tabs .sbsite .hub .cr-tr, #s-tabs .sbsite .hub .cr-hr { display: flex; align-items: center; gap: 12px; height: 32px; border-top: 1px solid rgba(22, 24, 29, .14); font: 500 13px/16px var(--ui); }
+#s-tabs .sbsite .hub .cr-hr { height: 36px; }
+#s-tabs .sbsite .hub .cr-tr > span, #s-tabs .sbsite .hub .cr-hr > span { flex: none; width: 92px; }
+#s-tabs .sbsite .hub .cr-tr i, #s-tabs .sbsite .hub .cr-hr i { flex: 1; min-width: 0; height: 10px; }
+#s-tabs .sbsite .hub .cr-hr i { border-radius: 3px; background: rgba(22, 24, 29, .07); }
+#s-tabs .sbsite .hub .cr-tr u, #s-tabs .sbsite .hub .cr-hr u { display: block; height: 100%; border-radius: 3px; background: #1f7a5a; text-decoration: none; transform-origin: 0 50%; }
+#s-tabs .sbsite .hub .cr-hr u { background: rgba(31, 122, 90, .4); }
+#s-tabs .sbsite .hub .cr-hr u.hi { background: #1f7a5a; }
+#s-tabs .sbsite .hub .cr-tr b, #s-tabs .sbsite .hub .cr-hr b { flex: none; width: 34px; text-align: right; font: 700 14px/16px var(--ui); font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .cr-tr small { flex: none; width: 56px; font: 400 11px/14px var(--ui); color: rgba(22, 24, 29, .62); font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .cr-foot { position: absolute; left: 28px; bottom: 16px; margin: 0; font: 400 11px/14px var(--ui); color: rgba(22, 24, 29, .62); }
+#s-tabs .sbsite .hub .cr-big { position: absolute; left: 28px; top: 82px; display: flex; align-items: baseline; gap: 10px; }
+#s-tabs .sbsite .hub .cr-big b { font: 700 44px/48px var(--ui); letter-spacing: -.03em; color: #1f7a5a; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .cr-big span { font: 400 14px/18px var(--ui); color: rgba(22, 24, 29, .62); }
+#s-tabs .sbsite .hub .pd-fund.cr-fund { top: 160px; }
+/* the response slide's legend: a swatch, the outcome and its count, side by side (the segments are too uneven to label) */
+#s-tabs .sbsite .hub .cr-key { display: flex; gap: 20px; margin-top: 12px; font: 500 12px/16px var(--ui); color: rgba(22, 24, 29, .62); }
+#s-tabs .sbsite .hub .cr-key span { display: inline-flex; align-items: center; gap: 6px; }
+#s-tabs .sbsite .hub .cr-key i { width: 10px; height: 10px; border-radius: 3px; }
+#s-tabs .sbsite .hub .cr-key b { font-weight: 700; color: #16181d; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .pd-chart.cr-chart { gap: 24px; }
+#s-tabs .sbsite .hub .pd-bul.cr-bul { top: 100px; width: 440px; }
+#s-tabs .sbsite .hub .pd-bul.cr-bul li { padding-bottom: 16px; font-size: 15px; line-height: 20px; }
+
+/* 3. the talk-through's play strip and caption: the song strip's button, measured waveform and clock, then its sung line */
+#s-tabs .sbsite .hub .cr-pl { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+#s-tabs .sbsite .hub .cr-btn { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #ececf0; }
+#s-tabs .sbsite .hub .cr-btn svg { display: block; width: 13px; height: 13px; fill: #131316; }
+#s-tabs .sbsite .hub .cr-wave { position: relative; flex: 1; min-width: 0; height: 26px; contain: inline-size; }
+#s-tabs .sbsite .hub .cr-wave svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+#s-tabs .sbsite .hub .cr-w0 path { fill: #4a4a52; }
+#s-tabs .sbsite .hub .cr-w1 { clip-path: inset(0 100% 0 0); }
+#s-tabs .sbsite .hub .cr-w1 path { fill: #fff; }
+#s-tabs .sbsite .hub .cr-time { flex: none; font: 500 10.5px/1 var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .cr-cap { min-height: 22px; margin: 10px 2px 2px; font: 600 15px/22px var(--ui); color: #55555c; letter-spacing: -.005em; }
+#s-tabs .sbsite .hub .cr-cap span.on { color: #f5f5f7; }
+
+/* the end card (beats/college.057e3dda.js): the house superbot.gg lockup over the spot's black and above the hub, sized on
+   a 1080-high stage; --k shrinks it only when a narrow ratio would crop it. And the fast-forward badge in the whole
+   frame's bottom right while a wait runs, the working pill's look (chat.css .qc-genl) at the stage's scale, under the card */
+#s-tabs .cr-ff { position: absolute; right: 44px; bottom: 40px; z-index: 30; display: flex; align-items: center; height: 60px; padding: 0 24px; border-radius: 999px; background: rgba(12, 12, 14, .78); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); font: 600 28px/1 var(--ui); color: #ececec; font-variant-numeric: tabular-nums; pointer-events: none; }
+#s-tabs .cr-end { position: absolute; inset: 0; z-index: 40; overflow: hidden; background: #0a0a0b; pointer-events: none; }
+#s-tabs .cr-end-bot { position: absolute; left: 0; top: 0; width: calc(220px * var(--k, 1)); height: calc(220px * var(--k, 1)); opacity: 0; will-change: transform, opacity; }
+#s-tabs .cr-end-face { display: block; width: 100%; height: 100%; overflow: visible; }
+#s-tabs .cr-end-word { position: absolute; left: 0; top: 50%; opacity: 0; color: #fff; white-space: nowrap; font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; will-change: transform, opacity, filter; }
+#s-tabs .cr-end-word b { display: block; font-size: calc(128px * var(--k, 1)); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+/* narrower frames (the Ratio select): the composer reaches the frame's right side, so the badge sits above its top */
+html[data-ar="1x1"] #s-tabs .cr-ff, html[data-ar="4x5"] #s-tabs .cr-ff { bottom: 146px; }
+html[data-ar="9x16"] #s-tabs .cr-ff { bottom: 124px; }

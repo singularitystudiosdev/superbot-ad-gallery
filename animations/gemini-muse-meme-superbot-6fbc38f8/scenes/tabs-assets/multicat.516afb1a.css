@@ -10,10 +10,6 @@
 #s-tabs .sbsite .hub .qc-who .qc-t-elevenlabs img, #s-tabs .sbsite .hub .qc-genl .qc-t-elevenlabs img { width: 10px; height: 10px; }
 #s-tabs .sbsite .hub .qc-pi img[data-app="elevenlabs"] { width: 10px; height: 10px; }
 
-/* every generating card's bottom right while it generates (beats/multicat.516afb1a.js genl): the fast-forward its timer
-   runs at, styled as the generating pill opposite it (chat.css .qc-genl) */
-#s-tabs .sbsite .hub .mc-x { position: absolute; right: 10px; bottom: 10px; display: inline-flex; align-items: center; height: 28px; padding: 0 11px; border-radius: 999px; background: rgba(12, 12, 14, .78); font: 600 11px/1 var(--ui); color: #ececec; font-variant-numeric: tabular-nums; }
-
 /* 1. the photo: 4:3, wider than the meme card */
 #s-tabs .sbsite .hub .mc-img { width: 360px; aspect-ratio: 4 / 3; }
 #s-tabs .sbsite .hub .mc-img img { height: 100%; object-fit: cover; }
@@ -53,7 +49,7 @@
 #s-tabs .sbsite .hub .mc-sg-dl:hover, #s-tabs .sbsite .hub .mc-sg-share:hover { background: #34343a; }
 #s-tabs .sbsite .hub .mc-sg-dl:focus-visible, #s-tabs .sbsite .hub .mc-sg-share:focus-visible { outline: 2px solid #5b8dff; outline-offset: 1px; }
 #s-tabs .sbsite .hub .mc-sg-dl svg, #s-tabs .sbsite .hub .mc-sg-share svg { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-/* the skeleton the strip generates under, above its controls, its pill and badge in the strip's bottom corners */
+/* the skeleton the strip generates under, above its controls, its pill in the strip's bottom left */
 #s-tabs .sbsite .hub .mc-sg-gen { position: absolute; inset: 0; z-index: 3; overflow: hidden; }
 #s-tabs .sbsite .hub .mc-ly { min-height: 22px; margin: 10px 2px 0; font: 600 15px/22px var(--ui); color: #55555c; letter-spacing: -.005em; }
 #s-tabs .sbsite .hub .mc-ly span.on { color: #f5f5f7; }
@@ -61,6 +57,9 @@
 /* the end card (beats/multicat.516afb1a.js): the house superbot.gg lockup (superbot-muse-split.1d16d488/endcard.1d16d488.html),
    the wordmark left and the mascot face right, over the spot's black and above the hub. Sizes are the house card's on a
    1080-high stage; --k shrinks them only when a narrow ratio would crop the lockup */
+/* the fast-forward badge (beats/multicat.516afb1a.js ff): x50 in the whole frame's bottom right while a generation runs,
+   the generating pill's look (chat.css .qc-genl) at the 1080-high stage's scale, under the end card */
+#s-tabs .mc-ff { position: absolute; right: 44px; bottom: 40px; z-index: 30; display: flex; align-items: center; height: 60px; padding: 0 24px; border-radius: 999px; background: rgba(12, 12, 14, .78); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); font: 600 28px/1 var(--ui); color: #ececec; font-variant-numeric: tabular-nums; pointer-events: none; }
 #s-tabs .mc-end { position: absolute; inset: 0; z-index: 40; overflow: hidden; background: #0a0a0b; pointer-events: none; }
 #s-tabs .mc-end-bot { position: absolute; left: 0; top: 0; width: calc(220px * var(--k, 1)); height: calc(220px * var(--k, 1)); opacity: 0; will-change: transform, opacity; }
 #s-tabs .mc-end-face { display: block; width: 100%; height: 100%; overflow: visible; }

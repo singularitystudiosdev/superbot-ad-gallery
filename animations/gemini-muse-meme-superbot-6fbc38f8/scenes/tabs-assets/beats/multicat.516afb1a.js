@@ -12,7 +12,7 @@
 //      kept in step with the spot's clock while it runs; it plays through its second sung line, then fades out as
 //   5. the house superbot.gg end card (the 16:9 cuts' ending: the wordmark, then the mascot) covers the chat.
 // Every generation (the photo, the model, the song) waits under a skeleton whose bottom left pill counts the tool's real
-// elapsed time and whose bottom right badge reads x20: the wait plays fast-forwarded (X, GEN).
+// elapsed time, while an x50 badge sits in the frame's bottom right: the wait plays fast-forwarded (X, GEN).
 // The follow-up messages are built here and moved in after the engine's reply on the first render (they ride in
 // inst.nodes, so the engine's show() hides them under every other variant). The engine reads inst.asks (the composer's
 // typing and send presses) and inst.chips (the platform chip's swaps) for them (chat.9b47fc30.js). A pure function of
@@ -27,7 +27,7 @@ import { shareBtn, shareDisc, SHARE_GLYPH, shareAttrs } from './share.29a362ea.j
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
 
-const CSS = new URL('../multicat.516afb1a.css?v=3', import.meta.url).href;
+const CSS = new URL('../multicat.516afb1a.css?v=4', import.meta.url).href;
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const CAT = asset('img/multicat.516afb1a/cat.jpg');
 const COVER = asset('img/multicat.516afb1a/cover.jpg'); // the song's cover: that same cat, cropped to its face
@@ -42,14 +42,18 @@ export const TYPE_CPS = 55; // every ask types at this rate; the first one throu
 const CHIP_STRIDE = 0.77;  // the engine's routing chip clock (chat.9b47fc30.js chipsAt), so every chip lands alike
 const SAY1 = 'Here’s your realistic cat.';
 const IMAGE_HOLD = 1;       // the landed photo, from its settle to the next ask starting to type
-// the generating cards run fast-forwarded X times (their badge says so): each card's timer counts its tool's real
+// the generating cards run fast-forwarded X times (the frame's badge says so): each card's timer counts its tool's real
 // wall-clock seconds, GEN, at X times the spot's clock, so its skeleton holds GEN / X seconds before the answer lands.
 //   image: GPT Image 2 at medium quality, 40.5 to 52 s measured (ofox.ai 2026-09-07: 41.4 and 40.5 s;
 //          simplemetrics.xyz: 42, 46 and 52 s), 47 s their mean
 //   model: Meshy text to 3D, about 45 s for the preview mesh, then the texture pass (aigamingdev.com Meshy review,
 //          hands-on: each generation under 90 s)
 //   song:  ElevenLabs Music, 13.3 s for a 30 s track (Replicate elevenlabs/music); this one runs 32 s
-const X = 20;
+const X = 50;
+const FF_IN = 0.2; // the frame's badge fades in over this, full as a generation starts
+// a card's rise and the feed's glide to it (enter, chat.9b47fc30.js renderScroll) both take this long: its generation, and
+// its timer, start once it is in view, so a short one (the song's 0.28 s) never runs half under the composer
+const SEEN = 0.45;
 const GEN = { image: 47, model: 105, song: 14 };
 const ORDER_LOAD = 0.58; // the order generates nothing: its confirmation lands this long after its card comes in
 const PLAY_AFTER = 0.2;  // the song's play press, after its card lands
@@ -83,17 +87,17 @@ const STEPS = [
 const chipsAt = (sw, list) => list.map(([app, label, tool], i) => { const at = sw + i * CHIP_STRIDE; return { app, label, tool: !!tool, sw: at, swap: at + 0.22, done: at + 0.65 }; });
 
 // every time in the chain, laid end to end from the first reply r: each answer's card comes in at `card`, generates
-// (its timer running) until `done`, and has landed by `w1`
+// (its timer running) from `gen0` until `done`, and has landed by `w1`
 function plan(r) {
-  const card = r + 0.22, done = card + GEN.image / X;
-  const T = { r, card, done, w1: done + LAND, steps: [] };
+  const card = r + 0.22, gen0 = card + SEEN, done = gen0 + GEN.image / X;
+  const T = { r, card, gen0, done, w1: done + LAND, steps: [] };
   let s = T.w1 + IMAGE_HOLD;
   for (const st of STEPS) {
     const typeEnd = s + st.ask.length / TYPE_CPS, send = typeEnd + 0.15;
     const chips = chipsAt(send + 0.35, st.chips);
-    const rr = chips[chips.length - 1].done + 0.08, at = rr + 0.22;
-    const fin = at + (st.gen ? GEN[st.gen] / X : ORDER_LOAD), w1 = fin + LAND, play = w1 + PLAY_AFTER;
-    T.steps.push({ ...st, s, typeEnd, send, chips, r: rr, card: at, done: fin, w1, play, cut: play + SONG_FOR });
+    const rr = chips[chips.length - 1].done + 0.08, at = rr + 0.22, g0 = at + SEEN;
+    const fin = st.gen ? g0 + GEN[st.gen] / X : at + ORDER_LOAD, w1 = fin + LAND, play = w1 + PLAY_AFTER;
+    T.steps.push({ ...st, s, typeEnd, send, chips, r: rr, card: at, gen0: g0, done: fin, w1, play, cut: play + SONG_FOR });
     s = w1 + st.hold;
   }
   T.end = s;
@@ -109,18 +113,20 @@ const PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.
 const DOWNLOAD = '<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 19.5h14"/></svg>';
 const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
-// a generating card's bottom corners: the pill (the app, what it makes, its timer) left, the x20 badge right
-const genl = (x, app, what) => `<span class="qc-genl">${x.tile(app)}${what}<b class="qc-genn">${clock(0)}</b></span><span class="mc-x">x${X}</span>`;
-// those corners at t: the timer counts the real seconds X times the clock's rate from `card`, rests on the full `real` from
-// `done`, and the pill and the badge fade out together as the answer lands (by w1)
-function corners(box) {
-  const pill = box.querySelector('.qc-genl'), num = pill.querySelector('.qc-genn'), badge = box.querySelector('.mc-x');
+// a generating card's pill in its bottom left: the app, what it makes, and its timer
+const genl = (x, app, what) => `<span class="qc-genl">${x.tile(app)}${what}<b class="qc-genn">${clock(0)}</b></span>`;
+// that pill at t: the timer counts the real seconds X times the clock's rate from `gen0`, rests on the full `real` from
+// `done`, and the pill fades out as the answer lands (by w1). Returns how much the card is generating now, 0..1, which
+// the frame's badge shows by
+function genPill(box) {
+  const pill = box.querySelector('.qc-genl'), num = pill.querySelector('.qc-genn');
   let shown = clock(0), op = '';
-  return (t, card, done, w1, real) => {
-    const s = clock(t >= done ? real : Math.max(0, t - card) * X);
+  return (t, gen0, done, w1, real) => {
+    const s = clock(t >= done ? real : Math.max(0, t - gen0) * X);
     if (s !== shown) { num.textContent = s; shown = s; }
-    const o = (1 - seg(t, w1 - 0.25, w1)).toFixed(3);
-    if (o !== op) { pill.style.opacity = o; badge.style.opacity = o; op = o; }
+    const out = 1 - seg(t, w1 - 0.25, w1), o = out.toFixed(3);
+    if (o !== op) { pill.style.opacity = o; op = o; }
+    return seg(t, gen0 - FF_IN, gen0) * out;
   };
 }
 
@@ -183,7 +189,7 @@ export default {
     const say1 = sayEl(x, SAY1);
     const media1 = x.el(`<div class="qc-media"><div class="qc-img qc-skel mc-img"><img src="${CAT}" width="1536" height="1152" alt="A photorealistic brown tabby cat standing side-on, looking at the camera"/><i class="qc-sk"></i>${genl(x, 'gptimage', 'Creating image')}${shareDisc('Realistic cat', { file: CAT })}${dl(CAT, 'cat.jpg')}</div></div>`);
     const card1 = media1.firstElementChild;
-    const im1 = card1.querySelector('img'), sk1 = card1.querySelector('.qc-sk'), gen1 = corners(card1);
+    const im1 = card1.querySelector('img'), sk1 = card1.querySelector('.qc-sk'), gen1 = genPill(card1);
     const dl1 = card1.querySelector('.qc-dl'), share1 = card1.querySelector('.qc-share');
 
     // 2-4: each ask's user bubble, its chip rows and its reply
@@ -207,7 +213,7 @@ export default {
     // 2. Meshy's model in the 3D variant's artifact frame
     const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Animated · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="Animated 3D cat model walking on a turntable"></canvas><i class="qc-sk"></i>${genl(x, 'meshy', 'Creating 3D model')}</div></div>`);
     mStep.reply.lastElementChild.append(model);
-    const canvas = model.querySelector('canvas'), skM = model.querySelector('.qc-sk'), genM = corners(model);
+    const canvas = model.querySelector('canvas'), skM = model.querySelector('.qc-sk'), genM = genPill(model);
 
     // 3. the DoorDash order, framed as the doordash variant's is
     const order = x.el(`<div class="bk mc-dd"><div class="bk-head"><b class="bk-title">Petco order<small>1 item · $16.49 subtotal</small></b>${shareBtn('Petco order')}<a class="bk-btn bk-publish mc-dd-open" href="${STORE}" target="_blank" rel="noopener noreferrer"><img src="${x.brand('doordash-logo.svg')}" alt="">View in DoorDash</a></div><div class="bk-view"><div class="mc-dd-cam"><div class="mc-dd-zoom"><img class="mc-dd-shot" src="${ORDER}" width="896" height="560" alt="${x.esc(ORDER_ALT)}"></div></div><i class="bk-sh"></i></div></div>`);
@@ -228,7 +234,7 @@ export default {
     sStep.reply.lastElementChild.append(song);
     const $ = (s) => song.querySelector(s);
     const btn = $('.mc-sg-btn'), time = $('.mc-sg-time'), played = $('.mc-w1'), lyric = $('.mc-ly');
-    const skelS = $('.mc-sg-gen'), skS = $('.mc-sg-gen .qc-sk'), genS = corners(skelS);
+    const skelS = $('.mc-sg-gen'), skS = $('.mc-sg-gen .qc-sk'), genS = genPill(skelS);
     const [playIcon, pauseIcon] = btn.querySelectorAll('svg');
     // Space and Enter press the cards' controls, not the spot's clock (timeline.9b47fc30.js), as on the other beats
     for (const n of [media1, model, order, song]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
@@ -237,6 +243,9 @@ export default {
     // rides in nodes (so other variants hide it) and moves to the scene section on the first render, above the hub
     const endCard = x.el(`<div class="mc-end" role="img" aria-label="superbot.gg"><div class="mc-end-word"><b>superbot.gg</b></div><div class="mc-end-bot">${END_FACE}</div></div>`);
     const endWord = endCard.querySelector('.mc-end-word'), endBot = endCard.querySelector('.mc-end-bot');
+    // the fast-forward badge, x50 over the whole frame's bottom right while any generation runs; it rides in nodes and
+    // moves to the scene section as the end card does
+    const ff = x.el(`<div class="mc-ff" aria-hidden="true">x${X}</div>`);
     let endK = 1; // the lockup's scale now applied (--k)
 
     // the song's audio follows the clock: it plays while the clock runs through the play window, at the clock's speed
@@ -274,7 +283,7 @@ export default {
 
     let placed = false, viewer = null, decoding = false, sec = -1, cut = -1, playing = null, line = -1, lit = -1;
     return {
-      nodes: [say1.n, media1, ...follow, endCard],
+      nodes: [say1.n, media1, ...follow, endCard, ff],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
       marks: [[T.r, say1.n], [T.card, media1], ...steps.flatMap((p) => [[p.st.send, p.u], ...p.rows.map((rw) => [rw.c.sw, rw.w]), ...(p.credits ? [[p.creditsAt, p.credits]] : []), [p.st.r, p.who], [p.st.r, p.say.n], [p.st.card, p.reply.lastElementChild.lastElementChild]])],
       // the follow-up asks, typed into the composer and sent by the engine (renderComposer), and their chips, which move
@@ -287,7 +296,7 @@ export default {
           let at = say1.n.closest('.msg');
           for (const m of follow) { at.after(m); at = m; }
           // the end card leaves the hub for the scene section: stage px, unscaled by the hub's camera
-          x.hub.closest('.scene').appendChild(endCard);
+          x.hub.closest('.scene').append(endCard, ff);
           placed = true;
         }
         if (!decoding) {
@@ -305,7 +314,7 @@ export default {
         shimmer(sk1, t, T.card, 0, lp1);
         settle(im1, lp1);
         fade(dl1, lp1); fade(share1, lp1);
-        gen1(t, T.card, T.done, T.w1, GEN.image);
+        const g1 = gen1(t, T.gen0, T.done, T.w1, GEN.image);
 
         // 2-4: bubble, chips, reply header and line, as the engine draws its own
         for (const p of steps) {
@@ -322,7 +331,7 @@ export default {
         const lpm = landing(t, M.done);
         shimmer(skM, t, M.card, 0, lpm);
         settle(canvas, lpm);
-        genM(t, M.card, M.done, M.w1, GEN.model);
+        const gm = genM(t, M.gen0, M.done, M.w1, GEN.model);
 
         // 3. the order: a skeleton until O.done, then the card fades in and settles (doordash.d9bc17e9.js)
         enter(order, t, O.card);
@@ -336,7 +345,9 @@ export default {
         const lps = landing(t, S.done);
         shimmer(skS, t, S.card, 0, lps);
         fade(skelS, 1 - lps);
-        genS(t, S.card, S.done, S.w1, GEN.song);
+        const gs = genS(t, S.gen0, S.done, S.w1, GEN.song);
+        // the frame's x50 badge, while any of the three generates
+        fade(ff, Math.max(g1, gm, gs));
         const el = Math.min(DUR, Math.max(0, t - S.play));
         const s = Math.floor(el);
         if (s !== sec) { time.textContent = `${clock(s)} / ${clock(DUR)}`; sec = s; }

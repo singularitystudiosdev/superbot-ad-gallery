@@ -25,6 +25,9 @@
 // connect frame, no "<model> in superbot" reply headers (the engine routes it with no chips and keeps the composer on
 // Superbot), each reply answering straight after its send; no tool logo on the generating pills, no credits, and a
 // song card with neither its cover nor the sung line under it.
+// The 'multidog-credits' variant (`bareDog`) is that bare chain cut for a dog (PETS.dog): the multidog cut's real
+// generations (beats/multidog.7b007b09.js: the beagle photo, its walking Meshy model, the PetSmart order and "Tails Up")
+// on this chain's clock, x50 badge and end card, its v16 bed a semitone up to land in the song's C major.
 import { clamp, lerp, seg, outCubic, outQuint, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
@@ -33,9 +36,10 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn, shareDisc, SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
+import { DUR as DOG_DUR, PEAKS as DOG_PEAKS } from './multidog-data.7b007b09.js';
 import { music } from '../../../music.47e5d94a.js?v=2';
 // v5 on the Music pill: the broadcast mix, with the song mixed in
-import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js?v=3';
+import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js?v=4';
 // v6-v17 on the Music pill: soundtracks made for the multicat cut alone, each mounted once from build() below
 import { variant } from '../../../variant.9e82faf1.js?v=3';
 import { mountScore as mountV6 } from '../../../score.535ee6dc.js';
@@ -51,13 +55,14 @@ import { makeScore as makeScoreV12 } from './multicat-score.436d3bf2.js';
 import { mountSound as mountV13 } from '../../../sound.f1659cd2.js';
 // v14 runs on its own (music.ff209337.js, index.html); v15's player too (score.83a92e2b.js), on the clocks handed over here
 import { setPlan as setPlanV15 } from '../../../score-cues.83a92e2b.js?v=1';
-import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=2';
+import { makePlayer as makePlayerV16 } from './multicat-player.96834de7.js?v=3';
 import { songLevel as songLevelV16 } from '../../../sound.96834de7.js?v=2';
 import { makeSound as makeSoundV17 } from './multicat-sound.b9427543.js';
 
 const CSS = new URL('../multicat.516afb1a.css?v=9', import.meta.url).href;
-// the two variants this module answers: the base chain and its bare twin (the export `bare`)
-export const ID = 'multicat', BARE_ID = 'multicat-credits';
+// the three variants this module answers: the base chain, its bare twin (the export `bare`) and that twin cut for a dog
+// (the export `bareDog`)
+export const ID = 'multicat', BARE_ID = 'multicat-credits', DOG_BARE_ID = 'multidog-credits';
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const CAT = asset('img/multicat.516afb1a/cat.jpg');
 const COVER = asset('img/multicat.516afb1a/cover.jpg'); // the song's cover: that same cat, cropped to its face
@@ -113,22 +118,60 @@ const STEPS = [
     chips: [['elevenlabs', 'Switching to ElevenLabs']] },
 ];
 
+// the dog's song plays through its second sung line too ("...in the morning sun" ends at 7.64s), its fade (SONG_FADE)
+// over by 8.7s, just before "Muddy paws" (8.66s) would come in
+const DOG_SONG_FOR = 7.8;
+const DOG_STEPS = [
+  { kind: 'model', ask: 'Make me an animated 3d model of a realistic dog', app: 'meshy', say: 'Here’s your dog as an animated 3D model.', gen: 'model', hold: 2.6, credits: 20,
+    chips: [['meshy', 'Switching to Meshy'], ['superbot', 'Rigging and animating the dog', true]] },
+  { kind: 'order', ask: 'Order me dogfood from doordash', app: 'doordash', say: 'Your dog food has been ordered from PetSmart.', hold: 1.6, credits: 0,
+    chips: [['doordash', 'Connecting to DoorDash']] },
+  { kind: 'song', ask: 'Make me a song about dogs', app: 'elevenlabs', say: 'Here’s an upbeat indie pop song about dogs.', gen: 'song', hold: PLAY_AFTER + DOG_SONG_FOR + END_DELAY + END_LEN, credits: 15,
+    chips: [['elevenlabs', 'Switching to ElevenLabs']] },
+];
+
+// everything a chain shows that names its pet. The dog's are the multidog cut's assets (beats/multidog.7b007b09.js,
+// img/dogs.7b007b09/CREDITS.txt, media/dogs.7b007b09/CREDITS.txt); its song runs 54 s, so its ElevenLabs wait is the
+// measured 13.3 s per 30 s scaled to that length (extrapolated). `key`: semitones the v16 bed moves to sit in the song's
+// key (Tiny Chaos is in B major, the bed's own; Tails Up measures C major, 117.5 BPM)
+const PETS = {
+  cat: {
+    say1: SAY1, steps: STEPS, gen: GEN, songFor: SONG_FOR, key: 0,
+    photo: CAT, photoFile: 'cat.jpg', photoName: 'Realistic cat', photoAlt: 'A photorealistic brown tabby cat standing side-on, looking at the camera',
+    model: MODEL, modelFile: 'cat.glb', modelName: 'Cat 3D model', modelAlt: 'Animated 3D cat model walking on a turntable', spinLand: SPIN_LAND, spin: SPIN,
+    order: ORDER, store: STORE, orderAlt: ORDER_ALT, orderName: 'Petco order', orderSub: '1 item · $16.49 subtotal',
+    song: SONG, songFile: 'tiny-chaos.mp3', title: TITLE, about: 'a song about cats', dur: DUR, peaks: PEAKS, cover: COVER, coverAlt: 'Cover art: the cat from the first answer',
+  },
+  dog: {
+    say1: 'Here’s your realistic dog.', steps: DOG_STEPS, gen: { ...GEN, song: 24 }, songFor: DOG_SONG_FOR, key: 1,
+    photo: asset('img/dogs.7b007b09/beagle.jpg'), photoFile: 'dog.jpg', photoName: 'Realistic dog', photoAlt: 'A photorealistic tricolor beagle standing on a sunny lawn, three-quarter view',
+    // the same GLB URL the multidog cut loads, so the two share one download. Its mesh faces the other way round from the
+    // cat's: at -1.0 it lands in a front three-quarter view and turns, at the cat's rate, toward side-on while it shows
+    model: asset('models/dog-meshy.7b007b09.glb?v=2'), modelFile: 'dog.glb', modelName: 'Dog 3D model', modelAlt: 'Animated 3D beagle model walking on a turntable', spinLand: -1.0, spin: SPIN,
+    order: asset('img/dogs.7b007b09/order-placed.jpg'), store: 'https://www.doordash.com/convenience/store/1440871/',
+    orderAlt: 'DoorDash order placed: Confirming your order from PetSmart, one Purina Pro Plan Chicken & Rice Formula Complete Essentials Adult Dry Dog Food Bag (35 lb), $74.99 subtotal',
+    orderName: 'PetSmart order', orderSub: '1 item · $74.99 subtotal',
+    song: asset('media/dogs.7b007b09/tails-up.mp3'), songFile: 'tails-up.mp3', title: 'Tails Up', about: 'a song about dogs', dur: DOG_DUR, peaks: DOG_PEAKS,
+    cover: asset('img/dogs.7b007b09/cover.jpg'), coverAlt: 'Cover art: the beagle from the first answer',
+  },
+};
+
 // a chip list on the engine's clock; `tool` chips (superbot's own rigging) leave the composer's platform chip alone
 const chipsAt = (sw, list) => list.map(([app, label, tool], i) => { const at = sw + i * CHIP_STRIDE; return { app, label, tool: !!tool, sw: at, swap: at + 0.22, done: at + 0.65 }; });
 
 // every time in the chain, laid end to end from the first reply r: each answer's card comes in at `card`, generates
 // (its timer running) from `gen0` until `done`, and has landed by `w1`. `bare` drops the chips, so each reply comes
-// where the first chip would have landed (the engine's own chipless route, chat.9b47fc30.js)
-function plan(r, bare = false) {
-  const card = r + 0.22, gen0 = card + SEEN, done = gen0 + GEN.image / X;
+// where the first chip would have landed (the engine's own chipless route, chat.9b47fc30.js). `P`: the pet (PETS)
+function plan(r, bare = false, P = PETS.cat) {
+  const card = r + 0.22, gen0 = card + SEEN, done = gen0 + P.gen.image / X;
   const T = { r, card, gen0, done, w1: done + LAND, steps: [] };
   let s = T.w1 + IMAGE_HOLD;
-  for (const st of STEPS) {
+  for (const st of P.steps) {
     const typeEnd = s + st.ask.length / TYPE_CPS, send = typeEnd + 0.15;
     const chips = bare ? [] : chipsAt(send + 0.35, st.chips);
     const rr = (chips.length ? chips[chips.length - 1].done : send + 0.35) + 0.08, at = rr + 0.22, g0 = at + SEEN;
-    const fin = st.gen ? g0 + GEN[st.gen] / X : at + ORDER_LOAD, w1 = fin + LAND, play = w1 + PLAY_AFTER;
-    T.steps.push({ ...st, s, typeEnd, send, chips, r: rr, card: at, gen0: g0, done: fin, w1, play, cut: play + SONG_FOR });
+    const fin = st.gen ? g0 + P.gen[st.gen] / X : at + ORDER_LOAD, w1 = fin + LAND, play = w1 + PLAY_AFTER;
+    T.steps.push({ ...st, s, typeEnd, send, chips, r: rr, card: at, gen0: g0, done: fin, w1, play, cut: play + P.songFor });
     s = w1 + st.hold;
   }
   T.end = s;
@@ -137,6 +180,7 @@ function plan(r, bare = false) {
 // the chain's length from its first reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
 export const BARE_LEN = plan(0, true).end;
+export const DOG_BARE_LEN = plan(0, true, PETS.dog).end;
 
 const DL_GLYPH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
 const dl = (href, name) => `<a class="qc-dl" href="${href}" download="${name}" aria-label="Download image" title="Download">${DL_GLYPH}</a>`;
@@ -162,16 +206,20 @@ function genPill(box) {
   };
 }
 
-// the track's measured envelope as one filled shape: the top edge left to right, then the bottom edge back
-const WAVE_D = (() => {
-  const n = PEAKS.top.length;
+// a track's measured envelope as one filled shape: the top edge left to right, then the bottom edge back
+const waveD = (peaks) => {
+  const n = peaks.top.length;
   const y = (v, dir) => (50 + dir * Math.max(1.5, v) * 0.48).toFixed(1);
   let d = 'M0 50';
-  for (let i = 0; i < n; i++) d += `L${i} ${y(PEAKS.top[i], -1)}`;
-  for (let i = n - 1; i >= 0; i--) d += `L${i} ${y(PEAKS.bot[i], 1)}`;
+  for (let i = 0; i < n; i++) d += `L${i} ${y(peaks.top[i], -1)}`;
+  for (let i = n - 1; i >= 0; i--) d += `L${i} ${y(peaks.bot[i], 1)}`;
   return `${d}Z`;
-})();
-const wave = (cls) => `<svg class="${cls}" viewBox="0 0 ${PEAKS.top.length - 1} 100" preserveAspectRatio="none" aria-hidden="true"><path d="${WAVE_D}"/></svg>`;
+};
+const WAVE_D = new Map(); // peaks -> its path, drawn once per track
+const wave = (cls, peaks = PEAKS) => {
+  if (!WAVE_D.has(peaks)) WAVE_D.set(peaks, waveD(peaks));
+  return `<svg class="${cls}" viewBox="0 0 ${peaks.top.length - 1} 100" preserveAspectRatio="none" aria-hidden="true"><path d="${WAVE_D.get(peaks)}"/></svg>`;
+};
 // each sung line's words, and when the line takes the lyric slot (just before its first word)
 const LINE_WORDS = LINES.map((_, i) => WORDS.filter((w) => w[3] === i));
 const LINE_AT = LINE_WORDS.map((ws) => ws[0][1] - 0.35);
@@ -208,17 +256,21 @@ function sayEl(x, text) {
   } };
 }
 
-const make = (bare) => ({
-  // `end` (the base route's end plus `extra`) is LEN (BARE_LEN) past r by construction, so the chain keeps its own clock
-  times(r) { return plan(r, bare); },
+const make = (bare, pet = 'cat') => ({
+  // `end` (the base route's end plus `extra`) is LEN (BARE_LEN, DOG_BARE_LEN) past r by construction, so the chain keeps its own clock
+  times(r) { return plan(r, bare, PETS[pet]); },
   build(k, x) {
     loadSheet();
     loadFrameSheet();
     const T = k.T;
     const [M, O, S] = T.steps;
-    const id = bare ? BARE_ID : ID;
+    const P = PETS[pet];
+    const id = pet === 'dog' ? DOG_BARE_ID : bare ? BARE_ID : ID;
+    // the pet's song, its length and how much of it plays; they shadow the cat's module constants, which the v6-v17
+    // mounts (the cat's base chain alone) read through these same names
+    const { song: SONG, dur: DUR, songFor: SONG_FOR, gen: GEN } = P;
     // v5's soundtrack: its cue sheet is this plan, plus the first ask and its chip as the engine times them (none, bare)
-    mountMix({ id, cues: { T, ask0: { text: k.askBy[id], s: k.s, typeEnd: k.typeEnd, send: k.send }, chips0: k.chips }, song: SONG });
+    mountMix({ id, cues: { T, ask0: { text: k.askBy[id], s: k.s, typeEnd: k.typeEnd, send: k.send }, chips0: k.chips, songFor: SONG_FOR }, song: SONG });
     // v6-v17: mounted on the base chain only (v16 on both, below), each plays only while it is the pick. songRules[pick] says whether that pick
     // plays the song itself (owned: the element below stays silent) or has muted it (muted); packRenders follow the clock
     const songRules = {}, packRenders = [];
@@ -276,10 +328,12 @@ const make = (bare) => ({
       songRules.v17 = { muted: () => v17.muted, trim: (el) => { el.volume *= 0.75; } };
       packRenders.push((t) => { if (music() === 'v17') v17.sync(t); });
     }
-    // v16, on both chains (the bare multicat-credits cut plays it by default, music.47e5d94a.js DEFAULTS): a tight, punchy,
-    // premium score rendered from this chain's cue sheet (the engine's first ask, k, and this plan, T; bare has no chips);
-    // the song plays on its element at 0.9 (its -14.1 LUFS to the score's -15) and follows the sound pill's mute
+    // v16, on every chain (the bare cuts play it by default, music.47e5d94a.js DEFAULTS): a tight, punchy,
+    // premium score rendered from this chain's cue sheet (the engine's first ask, k, and this plan, T; bare has no chips),
+    // moved into the pet's song's key; the song plays on its element at 0.9 (its -14.1 LUFS to the score's -15) and
+    // follows the sound pill's mute
     const v16 = makePlayerV16({
+      transpose: P.key,
       typing: [{ text: k.askBy[id], s: k.s, end: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, end: st.typeEnd }))],
       sends: [k.send, ...T.steps.map((st) => st.send)],
       camera: k.send, // the first send drops the composer and pulls the camera out (tabs.9b47fc30.js)
@@ -294,8 +348,8 @@ const make = (bare) => ({
     addEventListener('variantchange', () => v16.stop());
 
     // 1. GPT Image 2, in the engine's own reply
-    const say1 = sayEl(x, SAY1);
-    const media1 = x.el(`<div class="qc-media"><div class="qc-img qc-skel mc-img"><img src="${CAT}" width="1536" height="1152" alt="A photorealistic brown tabby cat standing side-on, looking at the camera"/><i class="qc-sk"></i>${genl(x, 'gptimage', 'Creating image', bare)}${shareDisc('Realistic cat', { file: CAT })}${dl(CAT, 'cat.jpg')}</div></div>`);
+    const say1 = sayEl(x, P.say1);
+    const media1 = x.el(`<div class="qc-media"><div class="qc-img qc-skel mc-img"><img src="${P.photo}" width="1536" height="1152" alt="${x.esc(P.photoAlt)}"/><i class="qc-sk"></i>${genl(x, 'gptimage', 'Creating image', bare)}${shareDisc(P.photoName, { file: P.photo })}${dl(P.photo, P.photoFile)}</div></div>`);
     const card1 = media1.firstElementChild;
     const im1 = card1.querySelector('img'), sk1 = card1.querySelector('.qc-sk'), gen1 = genPill(card1);
     const dl1 = card1.querySelector('.qc-dl'), share1 = card1.querySelector('.qc-share');
@@ -324,26 +378,26 @@ const make = (bare) => ({
     const [mStep, oStep, sStep] = steps;
 
     // 2. Meshy's model in the 3D variant's artifact frame
-    const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Animated · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="Animated 3D cat model walking on a turntable"></canvas><i class="qc-sk"></i>${genl(x, 'meshy', 'Creating 3D model', bare)}</div></div>`);
+    const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">${P.modelName}<small>Animated · GLB</small></b>${shareBtn(P.modelName, { file: P.model })}${EXPAND}<a class="bk-btn bk-publish" href="${P.model}" download="${P.modelFile}">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="${x.esc(P.modelAlt)}"></canvas><i class="qc-sk"></i>${genl(x, 'meshy', 'Creating 3D model', bare)}</div></div>`);
     mStep.reply.lastElementChild.append(model);
     mStep.out = model;
     const canvas = model.querySelector('canvas'), skM = model.querySelector('.qc-sk'), genM = genPill(model);
 
     // 3. the DoorDash order, framed as the doordash variant's is
-    const order = x.el(`<div class="bk mc-dd"><div class="bk-head"><b class="bk-title">Petco order<small>1 item · $16.49 subtotal</small></b>${shareBtn('Petco order')}<a class="bk-btn bk-publish mc-dd-open" href="${STORE}" target="_blank" rel="noopener noreferrer"><img src="${x.brand('doordash-logo.svg')}" alt="">View in DoorDash</a></div><div class="bk-view"><div class="mc-dd-cam"><div class="mc-dd-zoom"><img class="mc-dd-shot" src="${ORDER}" width="896" height="560" alt="${x.esc(ORDER_ALT)}"></div></div><i class="bk-sh"></i></div></div>`);
+    const order = x.el(`<div class="bk mc-dd"><div class="bk-head"><b class="bk-title">${P.orderName}<small>${P.orderSub}</small></b>${shareBtn(P.orderName)}<a class="bk-btn bk-publish mc-dd-open" href="${P.store}" target="_blank" rel="noopener noreferrer"><img src="${x.brand('doordash-logo.svg')}" alt="">View in DoorDash</a></div><div class="bk-view"><div class="mc-dd-cam"><div class="mc-dd-zoom"><img class="mc-dd-shot" src="${P.order}" width="896" height="560" alt="${x.esc(P.orderAlt)}"></div></div><i class="bk-sh"></i></div></div>`);
     oStep.reply.lastElementChild.append(order);
     oStep.out = order;
     const zoom = order.querySelector('.mc-dd-zoom'), shO = order.querySelector('.bk-sh');
 
     // 4. the ElevenLabs track
     const song = x.el(`<div class="mc-sg${bare ? ' mc-sg-bare' : ''}"><div class="mc-sg-card">
-      ${bare ? '' : `<div class="mc-sg-art"><img src="${COVER}" width="256" height="256" alt="Cover art: the cat from the first answer"/></div>`}
+      ${bare ? '' : `<div class="mc-sg-art"><img src="${P.cover}" width="256" height="256" alt="${x.esc(P.coverAlt)}"/></div>`}
       <div class="mc-sg-side">
-        <div class="mc-sg-t"><b>${TITLE}</b><small>Indie pop · ElevenLabs Music</small></div>
-        <div class="mc-sg-row"><span class="mc-sg-btn">${PLAY}${PAUSE}</span><div class="mc-sg-wave">${wave('mc-w0')}${wave('mc-w1')}</div><span class="mc-sg-time">${clock(0)} / ${clock(DUR)}</span></div>
+        <div class="mc-sg-t"><b>${P.title}</b><small>Indie pop · ElevenLabs Music</small></div>
+        <div class="mc-sg-row"><span class="mc-sg-btn">${PLAY}${PAUSE}</span><div class="mc-sg-wave">${wave('mc-w0', P.peaks)}${wave('mc-w1', P.peaks)}</div><span class="mc-sg-time">${clock(0)} / ${clock(DUR)}</span></div>
       </div>
-      <button type="button" class="mc-sg-share" ${shareAttrs(`${TITLE}, a song about cats`, { file: SONG })}>${SHARE_GLYPH}</button>
-      <a class="mc-sg-dl" href="${SONG}" download="tiny-chaos.mp3" aria-label="Download" title="Download">${DOWNLOAD}</a>
+      <button type="button" class="mc-sg-share" ${shareAttrs(`${P.title}, ${P.about}`, { file: SONG })}>${SHARE_GLYPH}</button>
+      <a class="mc-sg-dl" href="${SONG}" download="${P.songFile}" aria-label="Download" title="Download">${DOWNLOAD}</a>
       <div class="mc-sg-gen qc-skel"><i class="qc-sk"></i>${genl(x, 'elevenlabs', 'Creating song', bare)}</div>
     </div>${bare ? '' : '<div class="mc-ly" aria-live="off"></div>'}</div>`);
     sStep.reply.lastElementChild.append(song);
@@ -358,7 +412,9 @@ const make = (bare) => ({
 
     // the end card: the house superbot.gg lockup, the wordmark left and the mascot face right, over the spot's black. It
     // rides in nodes (so other variants hide it) and moves to the scene section on the first render, above the hub
-    const endCard = x.el(`<div class="mc-end" role="img" aria-label="superbot.gg"><div class="mc-end-word"><b>superbot.gg</b></div><div class="mc-end-bot">${bare ? END_FACE.replaceAll('mcEndFace', 'mcEndFaceBare') : END_FACE}</div></div>`);
+    // each chain's face carries its own mask id, since every chain's end card stays in the page
+    const faceId = { [ID]: 'mcEndFace', [BARE_ID]: 'mcEndFaceBare', [DOG_BARE_ID]: 'mcEndFaceDogBare' }[id];
+    const endCard = x.el(`<div class="mc-end" role="img" aria-label="superbot.gg"><div class="mc-end-word"><b>superbot.gg</b></div><div class="mc-end-bot">${END_FACE.replaceAll('mcEndFace', faceId)}</div></div>`);
     const endWord = endCard.querySelector('.mc-end-word'), endBot = endCard.querySelector('.mc-end-bot');
     // the fast-forward badge, x50 over the whole frame's bottom right while any generation runs; it rides in nodes and
     // moves to the scene section as the end card does
@@ -437,10 +493,10 @@ const make = (bare) => ({
           decoding = true;
           // bare's song card has no cover, so no third picture
           for (const pic of [im1, order.querySelector('img'), song.querySelector('img')].filter(Boolean)) {
-            track(pic.decode().catch((e) => console.error(new Error(`multicat image failed to decode: ${pic.src}`, { cause: e }))));
+            track(pic.decode().catch((e) => console.error(new Error(`${id} image failed to decode: ${pic.src}`, { cause: e }))));
           }
         }
-        if (!viewer) { viewer = makeCatViewer(canvas, MODEL); track(viewer.ready); }
+        if (!viewer) { viewer = makeCatViewer(canvas, P.model); track(viewer.ready); }
 
         // 1. the photo: a skeleton while GPT Image 2 works, then it lands as the 1-image card does
         say1.render(t, T.r);
@@ -462,7 +518,7 @@ const make = (bare) => ({
 
         // 2. the model: builds behind the skeleton, lands like the 3D variant's, walking as the turntable turns
         const cm = enter(model, t, M.card);
-        if (cm > 0) viewer.draw({ spin: SPIN_LAND + SPIN * (t - M.w1), time: t - M.card });
+        if (cm > 0) viewer.draw({ spin: P.spinLand + P.spin * (t - M.w1), time: t - M.card });
         const lpm = landing(t, M.done);
         shimmer(skM, t, M.card, 0, lpm);
         settle(canvas, lpm);
@@ -533,3 +589,4 @@ const make = (bare) => ({
 
 export default make(false);
 export const bare = make(true);
+export const bareDog = make(true, 'dog');

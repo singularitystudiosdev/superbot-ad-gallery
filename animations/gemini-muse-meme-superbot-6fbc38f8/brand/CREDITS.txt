@@ -113,6 +113,15 @@ multicat additions (fetched 2026-10-16):
                             the app superbot routes the song to.
   openai-logo.svg           (already above) also stands for GPT Image 2, OpenAI's image model, in the multicat variant.
 
+AMAZON (amazon-costumes variant: the rebuilt results page's header and the card's "View on Amazon" button; fetched 2026-10-17)
+  amazon-wordmark.svg       the amazon wordmark with its orange smile, from https://commons.wikimedia.org/wiki/File:Amazon_logo.svg
+                            (upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg). Paths verbatim; the Inkscape wrapper
+                            dropped for a viewBox="0 0 603 182", the file's <use> of its second "a" written out as a translated
+                            copy of that path, letters #221f1f and smile #f90 as in the source.
+  amazon-wordmark-white.svg the same paths with the letters white, for Amazon's dark #131921 header (as amazon.com draws it).
+  Usage: Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates; shown nominatively (naming the
+  store superbot searches).
+
 garmin-strava additions (2026-10-17): the Garmin delta and the Strava chevrons are inline SVG paths in
   scenes/tabs-assets/beats/garmin-strava.7a48d642.js, not files here (Simple Icons, CC0 1.0); their source, colours and
   trademark notes are in ../img/garmin-strava.7a48d642/CREDITS.txt.

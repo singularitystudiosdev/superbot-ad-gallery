@@ -26,9 +26,11 @@
 #s-tabs .sbsite .hub .amc-n { font-weight: 700; color: #0f1111; font-variant-numeric: tabular-nums; }
 #s-tabs .sbsite .hub .amc-sort { padding: 5px 8px; border-radius: 7px; background: #f0f2f2; box-shadow: inset 0 0 0 1px #d5d9d9, 0 1px 2px rgba(213,217,217,.5); font-weight: 500; color: #0f1111; }
 
-/* the six picks, three to a row */
+/* the six picks, three to a row, each a link to its listing; the title takes Amazon's hover orange */
 #s-tabs .sbsite .hub .amc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 12px; padding: 12px 12px 14px; }
-#s-tabs .sbsite .hub .amc-tile { position: relative; min-width: 0; }
+#s-tabs .sbsite .hub a.amc-tile { position: relative; display: block; min-width: 0; border-radius: 6px; color: inherit; text-decoration: none; cursor: pointer; }
+#s-tabs .sbsite .hub a.amc-tile:hover .amc-t { color: #c7511f; }
+#s-tabs .sbsite .hub a.amc-tile:focus-visible { outline: 2px solid #007185; outline-offset: 3px; }
 /* the photo on Amazon's grey well; multiply sinks the listing's white backdrop into it, as Amazon's own grid does */
 #s-tabs .sbsite .hub .amc-pic { position: relative; height: 122px; border-radius: 6px; overflow: hidden; background: #f7f7f7; }
 #s-tabs .sbsite .hub .amc-pic img { position: absolute; left: 6px; top: 6px; display: block; width: calc(100% - 12px); height: calc(100% - 12px); object-fit: contain; mix-blend-mode: multiply; opacity: 0; }
@@ -52,14 +54,6 @@
 #s-tabs .sbsite .hub .amc-skl i:nth-child(1) { width: 92%; }
 #s-tabs .sbsite .hub .amc-skl i:nth-child(2) { width: 58%; }
 #s-tabs .sbsite .hub .amc-skl i:nth-child(3) { width: 34%; height: 12px; }
-
-/* superbot's two verdicts: a pill on the photo's top left and a ring round the tile, in the mascot's cyan and magenta */
-#s-tabs .sbsite .hub .amc-badge { position: absolute; left: 7px; top: 7px; z-index: 2; padding: 5px 8px; border-radius: 999px; font: 700 10px/1 var(--ui); letter-spacing: .01em; opacity: 0; transform-origin: 0 50%; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
-#s-tabs .sbsite .hub .amc-b-cheap { background: #00e5c3; color: #04201b; }
-#s-tabs .sbsite .hub .amc-b-fun { background: #c026d3; color: #fff; }
-#s-tabs .sbsite .hub .amc-ring { position: absolute; inset: -5px; border-radius: 10px; opacity: 0; pointer-events: none; }
-#s-tabs .sbsite .hub [data-badge="cheap"] .amc-ring { box-shadow: 0 0 0 2px #00e5c3; }
-#s-tabs .sbsite .hub [data-badge="fun"] .amc-ring { box-shadow: 0 0 0 2px #c026d3; }
 
 /* the search's pill, the generating pill's look (chat.css .qc-genl) with no tool tile, so the text takes its even inset */
 #s-tabs .sbsite .hub .qc-genl.amc-genl { z-index: 3; padding-left: 11px; }

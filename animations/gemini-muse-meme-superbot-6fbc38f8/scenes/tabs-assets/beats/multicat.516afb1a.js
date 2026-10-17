@@ -11,6 +11,9 @@
 //      sung line lighting word by word on its forced-alignment timings (multicat-data.516afb1a.js), and the audio itself
 //      kept in step with the spot's clock while it runs; it plays through its second sung line, then fades out as
 //   5. the house superbot.gg end card (the 16:9 cuts' ending: the wordmark, then the mascot) covers the chat.
+// Under it all runs a music bed in the song's key and tempo (bed.47e5d94a.js, BED): it plays from the top, muffles as
+// the song's card lands, makes way once the song is actually sounding (its bar line falls on the song's first downbeat),
+// and comes back for its final chord on the song's beat as the end card's mascot pops.
 // Every generation (the photo, the model, the song) waits under a skeleton whose bottom left pill counts the tool's real
 // elapsed time, while an x50 badge sits in the frame's bottom right: the wait plays fast-forwarded (X, GEN).
 // The follow-up messages are built here and moved in after the engine's reply on the first render (they ride in
@@ -25,6 +28,7 @@ import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 // the Share control every output card carries (share.29a362ea.js)
 import { shareBtn, shareDisc, SHARE_GLYPH, shareAttrs } from './share.29a362ea.js';
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
+import { makeBed } from './bed.47e5d94a.js?v=1';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
 
 const CSS = new URL('../multicat.516afb1a.css?v=4', import.meta.url).href;
@@ -34,6 +38,7 @@ const COVER = asset('img/multicat.516afb1a/cover.jpg'); // the song's cover: tha
 const ORDER = asset('img/multicat.516afb1a/order-placed.jpg');
 const MODEL = asset('models/cat-walk.516afb1a.glb');
 const SONG = asset('media/multicat.516afb1a/tiny-chaos.mp3');
+const BED = asset('media/multicat.516afb1a/bed.47e5d94a.m4a');
 const STORE = 'https://www.doordash.com/convenience/store/25109364/';
 const ORDER_ALT = 'DoorDash order placed: Confirming your order from Petco, one Purina Fancy Feast Seafood Classic Collection Broths Variety Pack (1.4 oz x 12 ct), $16.49 subtotal, $0.00 delivery fee';
 const TITLE = 'Tiny Chaos';
@@ -65,6 +70,15 @@ const SONG_FOR = 5.6;
 const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 2.5;
 const END_GAP = 44;    // the house card's gap between the wordmark and the 220px face, on a 1080-high stage
 const SONG_FADE = 0.9; // the audio's fade-out as the card covers the chat
+// the music bed (media/multicat.516afb1a/CREDITS.txt): ElevenLabs Music in the song's key and tempo, B major at 120 BPM,
+// in 2 s bars, each beat 0.02 s past its grid line as the song's are. Its body plays BED_BAR as the song starts, so the
+// song's first downbeat lands on the bed's bar line; its final chord, struck BED_HIT into the track, rings out to its end
+const BEAT = 0.5;
+const BED_BAR = 22, BED_HIT = 27.5;
+const BED_FREE = 1.5; // the body runs this long past BED_BAR, silent by then, then stops
+// as the song's card lands (S.done to S.play) the bed muffles to MUFFLE_HZ and dips to MUFFLE_GAIN; it is gone once the
+// song is actually sounding, or GRACE after the play press if the song never starts
+const OPEN_HZ = 20000, MUFFLE_HZ = 700, MUFFLE_GAIN = 0.6, GRACE = 0.6;
 // the card's pop: an outBack with the house card's softer overshoot (1.4)
 const popBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
 // the mascot face, verbatim from the house end card: the superbot cat's mask over its cyan and magenta offsets
@@ -248,25 +262,37 @@ export default {
     const ff = x.el(`<div class="mc-ff" aria-hidden="true">x${X}</div>`);
     let endK = 1; // the lockup's scale now applied (--k)
 
-    // the song's audio follows the clock: it plays while the clock runs through the play window, at the clock's speed
-    const audio = new Audio();
-    audio.preload = 'auto';
-    let blocked = false, lastT = null, movedAt = -1, lastStep = 0;
-    const unblock = () => { blocked = false; };
-    addEventListener('variantchange', () => audio.pause());
-    function syncAudio(t) {
+    // whether the spot's clock runs: the timeline says so (__AD.playing); failing that, it moved lately by about a frame's step
+    let lastT = null, movedAt = -1, lastStep = 0;
+    function clockRuns(t) {
       const now = performance.now();
       if (lastT !== null && t !== lastT) { lastStep = t - lastT; movedAt = now; }
       lastT = t;
-      // running: the timeline says so (__AD.playing); failing that, the clock moved lately by about a frame's step
       const ad = window.__AD;
       const moving = now - movedAt < 400 && lastStep > 0 && lastStep < 0.2;
-      const running = !document.body.classList.contains('freeze') && (ad && typeof ad.playing === 'boolean' ? ad.playing : moving);
+      return !document.body.classList.contains('freeze') && (ad && typeof ad.playing === 'boolean' ? ad.playing : moving);
+    }
+
+    // the song's audio follows the clock: it plays while the clock runs through the play window, at the clock's speed. Its
+    // file loads on the route's first render, so the play press never waits on the network
+    const audio = new Audio();
+    audio.preload = 'auto';
+    let blocked = false;
+    const unblock = () => { blocked = false; };
+    addEventListener('variantchange', () => audio.pause());
+    // the gallery lightbox's nudge (a click in its chrome): the song may try again
+    addEventListener('message', (e) => { if (e.data && e.data.type === 'unmute') unblock(); });
+    // whether the song is actually sounding: the bed makes way on this, not on the clock alone, so a song slow to start
+    // leaves no gap
+    let songOn = false;
+    audio.addEventListener('playing', () => { songOn = true; });
+    for (const ev of ['pause', 'waiting', 'ended', 'error']) audio.addEventListener(ev, () => { songOn = false; });
+    function syncAudio(t, running) {
       const at = t - S.play;
       if (!running || at < 0 || at >= Math.min(DUR, SONG_FOR + SONG_FADE)) { if (!audio.paused) audio.pause(); return; }
-      if (!audio.src) audio.src = SONG;
-      // it fades out as the end card covers the chat, so the cut never lands mid-note
-      audio.volume = Math.max(0, 1 - seg(at, SONG_FOR, SONG_FOR + SONG_FADE));
+      // it fades out as the end card covers the chat, so the cut never lands mid-note: evenly in dB (to -40 dB), so its
+      // tail decays under the bed's closing chord instead of dropping away at the last moment
+      audio.volume = Math.pow(0.01, seg(at, SONG_FOR, SONG_FOR + SONG_FADE));
       const rate = (window.__AD && window.__AD.speed) || 1;
       if (audio.playbackRate !== rate) audio.playbackRate = rate;
       if (Math.abs(audio.currentTime - at) > 0.3) audio.currentTime = at;
@@ -279,6 +305,21 @@ export default {
           addEventListener('keydown', unblock, { once: true });
         });
       }
+    }
+
+    // the bed: its body from the top, placed so its BED_BAR plays as the song starts; its final chord on the first song
+    // beat at or after the end card's mascot pops (S.cut + END_DELAY)
+    const bed = makeBed(BED, [
+      { from: 0, to: BED_BAR + BED_FREE, at: S.play - BED_BAR },
+      { from: BED_HIT, to: Infinity, at: S.play + Math.ceil((SONG_FOR + END_DELAY) / BEAT) * BEAT },
+    ]);
+    function syncBed(t, running) {
+      const muffle = seg(t, S.done, S.play);
+      const gone = songOn || t >= S.play + GRACE;
+      bed.sync(t, running, [
+        { gain: gone ? 0 : 1 - (1 - MUFFLE_GAIN) * muffle, cutoff: OPEN_HZ * Math.pow(MUFFLE_HZ / OPEN_HZ, muffle) },
+        { gain: 1 },
+      ]);
     }
 
     let placed = false, viewer = null, decoding = false, sec = -1, cut = -1, playing = null, line = -1, lit = -1;
@@ -297,8 +338,11 @@ export default {
           for (const m of follow) { at.after(m); at = m; }
           // the end card leaves the hub for the scene section: stage px, unscaled by the hub's camera
           x.hub.closest('.scene').append(endCard, ff);
+          audio.src = SONG;
           placed = true;
         }
+        // QA: the bed and the song against the clock (__AD arrives after the timeline's first frame)
+        if (window.__AD && !window.__AD.sound) window.__AD.sound = () => ({ t: window.__AD.now, bed: bed.state(), song: { on: songOn, paused: audio.paused, at: +audio.currentTime.toFixed(3), volume: +audio.volume.toFixed(3) } });
         if (!decoding) {
           decoding = true;
           for (const pic of [im1, order.querySelector('img'), song.querySelector('img')]) {
@@ -363,7 +407,9 @@ export default {
         const n = on ? LINE_WORDS[li].filter((w) => el >= w[1]).length : 0;
         if (n !== lit) { [...lyric.children].forEach((w, i) => w.classList.toggle('on', i < n)); lit = n; }
         lyric.style.opacity = seg(t, S.play - 0.2, S.play + 0.2).toFixed(3);
-        syncAudio(t);
+        const running = clockRuns(t);
+        syncAudio(t, running);
+        syncBed(t, running);
 
         // the end card: the chat fades to black, then the house card's own run (endcard.1d16d488.html render(t))
         const cover = seg(t, S.cut, S.cut + END_IN);

@@ -1,0 +1,24 @@
+img/studyguide.40e96f96 CREDITS (the 'studyguide' variant, scenes/tabs-assets/beats/studyguide.40e96f96.js)
+
+classroom.svg   The Google Classroom mark, Iconify "thesvg-color:google-classroom" (theSVG, MIT licence;
+                https://github.com/glincker/thesvg). Classroom is not in Google's 2026 Workspace icon refresh, so
+                its classic mark is used. Trademark of Google LLC, shown to name the product.
+docs.svg        The Google Docs mark from Google's 2026 Workspace icon refresh (rolled out from May 2026), Iconify
+slides.svg      "thesvg-color:google-docs-2026" and "thesvg-color:google-slides-2026" (theSVG, MIT). Trademarks of
+                Google LLC, shown to name the products.
+google-sans-flex-latin.woff2
+                Google Sans Flex, the Latin subset of the variable font (weights 400 to 700) as served by Google
+                Fonts (fonts.gstatic.com, googlesansflex v23), unmodified. SIL Open Font License 1.1. The face of
+                the rebuilt Classroom and Docs chrome; the doc's body text is Arial, the Docs default.
+
+Interface icons in the rebuilt pages are Material Symbols paths (Apache 2.0), inlined in the beat.
+
+What is made up: the class (AP Biology, Period 3), its teacher (Ms. Rivera), the other classes and teachers, every
+post, date and due date, the student "sam" and the Quiz 4.1 score (17/20) and missed questions. Nothing was read from
+a real Google Classroom and no document was created. The dates sit on real weekdays of October 2026 (the test on
+Friday, Oct 23).
+
+What is not: the study guide's biology (cellular respiration yields per glucose: glycolysis 2 ATP net, 2 NADH,
+2 pyruvate; pyruvate oxidation 2 NADH, 2 CO2; Krebs cycle 2 ATP, 6 NADH, 2 FADH2, 4 CO2; about 26 to 28 ATP from
+oxidative phosphorylation, O2 the final electron acceptor; photosystem II before photosystem I in the light
+reactions; rubisco fixing CO2 into G3P in the stroma), checked against standard AP Biology content.

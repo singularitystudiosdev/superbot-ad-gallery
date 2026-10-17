@@ -50,6 +50,12 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   walking 3D beagle, PetSmart order and "Tails Up" with no routing chips or model headers, each
   generation fast-forwarded x50, ending on the superbot.gg end card (about 31s, with sound: the
   16 · Punchy premium groove score moved up a semitone into the song's key).
+- **make me a study guide for my test**: the credits-only cut's telling for one student ask
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=studyguide`): superbot opens a rebuilt Google
+  Classroom, finds the Unit 4 test on the class Stream, reads and tags every Unit 4 post on Classwork
+  (skipping Unit 3), then a Google Doc study guide lands under an x50 generation and scrolls to the
+  questions the student missed on Quiz 4.1, ending on the superbot.gg end card (about 22s, with sound:
+  the 16 · Punchy premium groove score re-cued to this cut). The class and grades are made up.
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

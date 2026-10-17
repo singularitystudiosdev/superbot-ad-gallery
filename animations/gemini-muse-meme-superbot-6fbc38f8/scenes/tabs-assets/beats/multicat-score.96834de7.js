@@ -34,6 +34,11 @@ const CHORDS = {
   ii: { bass: hz('C#2'), keys: notes('E4 G#4 B4 D#5') },
   V: { bass: hz('F#1'), keys: notes('C#4 E4 F#4 B4'), then: notes('C#4 E4 F#4 A#4') },
 };
+// a chain whose song sits in another key moves the whole bed there: c.transpose semitones (the dog's Tails Up measures
+// C major, one up), every chord and every note the effects ring
+const keyOf = (c) => 2 ** ((c.transpose || 0) / 12);
+const shift = (fs, k) => fs.map((f) => f * k);
+const chordsIn = (k) => Object.fromEntries(Object.entries(CHORDS).map(([n, ch]) => [n, { bass: ch.bass * k, keys: shift(ch.keys, k), ...(ch.then ? { then: shift(ch.then, k) } : {}) }]));
 const PHRASE = ['I', 'vi', 'IV', 'ii', 'V'];
 const down = (fs) => fs.map((f) => f / 2);
 // 16th steps of a bar: the pluck stabs, section by section
@@ -50,12 +55,13 @@ function bed(m, c, v) {
   const clear = (t, music) => clears.some(([a, z, all]) => t >= a && t < z && (all || !music));
   const genAt = (t) => c.gens.some(([a, z]) => t >= a && t < z);
   const last = G - STEP; // the 16th before the song stays silent
+  const chords = chordsIn(keyOf(c));
 
   // under the empty state: the home chord, airy and closed, swelling with the greeting
-  v.pad(m, 0.1, barAt(1), down(CHORDS.I.keys), 0.07, 1500, 1.6, 0.1);
+  v.pad(m, 0.1, barAt(1), down(chords.I.keys), 0.07, 1500, 1.6, 0.1);
 
   for (let b = 1; b <= nb; b++) {
-    const t0 = barAt(b), name = PHRASE[(((b - (nb - 4)) % 5) + 5) % 5], ch = CHORDS[name];
+    const t0 = barAt(b), name = PHRASE[(((b - (nb - 4)) % 5) + 5) % 5], ch = chords[name];
     const sec = b < drop ? 'A' : b < nb - 1 ? 'B' : b === nb - 1 ? 'break' : 'build';
     const keysAt = (s) => (ch.then && s >= 8 ? ch.then : ch.keys);
     // the pad, split at the half bar when the chord resolves
@@ -99,7 +105,7 @@ function bed(m, c, v) {
 }
 
 function effects(m, c, v) {
-  const r = m.rnd;
+  const r = m.rnd, k = keyOf(c);
   // typing: a tick every other character (every one a blur at 55 a second), the space bar lower and duller
   for (const { text, s, end } of c.typing) {
     for (let i = 1; i <= text.length; i++) {
@@ -127,15 +133,15 @@ function effects(m, c, v) {
   }
   v.impact(m, c.image, 0.38, 0.85);
   v.impact(m, c.model, 0.52, 1.15);
-  v.bell(m, c.order, notes('B5 F#6'), 0.045);
+  v.bell(m, c.order, shift(notes('B5 F#6'), k), 0.045);
   // the song's play press, a hair before its first note
   v.tock(m, c.play - 0.03, 0.05);
   // the end card: air swelling as the chat fades to black, then the pop and the wordmark
   v.riser(m, c.cover, c.pop, 0.035, 1500, 7000);
   v.impact(m, c.pop, 0.48, 1.5);
-  v.bloom(m, c.pop, notes('B2 F#3 A#3 C#4 D#4 F#4'), 0.05);
+  v.bloom(m, c.pop, shift(notes('B2 F#3 A#3 C#4 D#4 F#4'), k), 0.05);
   v.whoosh(m, c.word - 0.05, 1.0, 0.018, 2500, 9000);
-  v.bell(m, c.word + 0.12, notes('F#5 B5'), 0.035, 0.09);
+  v.bell(m, c.word + 0.12, shift(notes('F#5 B5'), k), 0.035, 0.09);
 }
 
 // The render, fast enough for a page's first seconds. The arrangement only records each voice call ([t, name, args]),

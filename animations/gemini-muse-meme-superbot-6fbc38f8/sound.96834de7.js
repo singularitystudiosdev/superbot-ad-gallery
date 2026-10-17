@@ -4,12 +4,13 @@
 // frozen capture (body.freeze) like the other pills. Clicking it or pressing M turns the sound on, and from then on
 // toggles it; the multicat song (an <audio>, beats/multicat.516afb1a.js) follows the same mute through songLevel().
 // On the Music pill it is pick 'v16' (music.47e5d94a.js): it wakes audio, takes M and shows its pill only while the variant
-// is multicat (or multicat-credits) and v16 is the pick.
+// is multicat (or multicat-credits, multidog-credits or amazon-costumes) and v16 is the pick.
 import { variant } from './variant.9e82faf1.js?v=3';
 import { music } from './music.47e5d94a.js?v=2';
 
-// the base chain and its bare twin (its default soundtrack), and the Amazon costumes cut, which plays it re-cued
-const SCORED = new Set(['multicat', 'multicat-credits', 'amazon-costumes']);
+// the base chain and its bare twins, cat and dog (v16 is their default soundtrack), and the Amazon costumes cut, which
+// plays it re-cued (beats/costumes.34c23b1d.js)
+const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes']);
 const on = () => SCORED.has(variant()) && music() === 'v16';
 const LEVEL = 1; // the master gain while unmuted
 export const sound = { ctx: null, out: null, muted: false };

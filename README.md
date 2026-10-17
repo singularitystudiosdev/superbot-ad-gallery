@@ -45,6 +45,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   that beagle as a walking 3D model (Meshy, walk rigged by superbot), a PetSmart dog food order on
   DoorDash and "Tails Up", a song about dogs (ElevenLabs, plays with sound), each answer a real
   generation (about 29s, with sound).
+- **a dog, four tools, no model on show**: the multi-tool cat's credits-only cut made for that dog
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=multidog-credits`): the same beagle photo,
+  walking 3D beagle, PetSmart order and "Tails Up" with no routing chips or model headers, each
+  generation fast-forwarded x50, ending on the superbot.gg end card (about 31s, with sound: the
+  16 · Punchy premium groove score moved up a semitone into the song's key).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

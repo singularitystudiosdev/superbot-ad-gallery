@@ -27,7 +27,7 @@ import multicat, { bare as multicatBare, bareDog as multidogBare, TYPE_CPS as MU
 import multidog, { TYPE_CPS as MULTIDOG_CPS, LEN as MULTIDOG_LEN } from './beats/multidog.7b007b09.js?v=2';
 import college, { TYPE_CPS as COLLEGE_CPS, LEN as COLLEGE_LEN } from './beats/college.057e3dda.js?v=1';
 import costumes, { TYPE_CPS as COSTUMES_CPS, LEN as COSTUMES_LEN } from './beats/costumes.34c23b1d.js?v=1';
-import halloween, { TYPE_CPS as HALLOWEEN_CPS, LEN as HALLOWEEN_LEN } from './beats/halloween.37ff9e93.js?v=1';
+import halloween, { TYPE_CPS as HALLOWEEN_CPS, LEN as HALLOWEEN_LEN } from './beats/halloween.37ff9e93.js?v=2';
 import { variant } from '../../variant.9e82faf1.js?v=3';
 import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';
 

@@ -13,7 +13,9 @@
 //   5. the house superbot.gg end card (the 16:9 cuts' ending: the wordmark, then the mascot) covers the chat.
 // Under it all runs a music bed in the song's key and tempo (bed.47e5d94a.js, BED): it plays from the top, muffles as
 // the song's card lands, makes way once the song is actually sounding (its bar line falls on the song's first downbeat),
-// and comes back for its final chord on the song's beat as the end card's mascot pops.
+// and comes back for its final chord on the song's beat as the end card's mascot pops. The Music pill (music.47e5d94a.js)
+// swaps that bed for one of five other soundtracks made for the spot, or for none: each takes its cues from this plan
+// and plays only while it is the pick (soundV2, scoreV3, trackV4 and mountMix below; v1 runs on its own).
 // Every generation (the photo, the model, the song) waits under a skeleton whose bottom left pill counts the tool's real
 // elapsed time, while an x50 badge sits in the frame's bottom right: the wait plays fast-forwarded (X, GEN).
 // The follow-up messages are built here and moved in after the engine's reply on the first render (they ride in
@@ -30,8 +32,17 @@ import { shareBtn, shareDisc, SHARE_GLYPH, shareAttrs } from './share.29a362ea.j
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
 import { makeBed } from './bed.47e5d94a.js?v=2';
 import { DUR, PEAKS, LINES, WORDS } from './multicat-data.516afb1a.js';
+import { music } from '../../../music.47e5d94a.js';
+// the other soundtracks on the Music pill: v2's band and effects, v3's synthesized score and its sound pill, v4's
+// hit-synced score with the song mixed in, v5's broadcast mix with the song mixed in (v1 is music.942e79ba.js)
+import { makeSound } from './multicat-sound.2e5dba12.js';
+import { makeScore } from './multicat-score.9b4885bb.js';
+import { soundOff } from '../../../sound.9b4885bb.js';
+import { renderScore } from './multicat-score.d9e95fc7.js';
+import { makeSoundtrack } from './soundtrack.d9e95fc7.js';
+import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js';
 
-const CSS = new URL('../multicat.516afb1a.css?v=4', import.meta.url).href;
+const CSS = new URL('../multicat.516afb1a.css?v=5', import.meta.url).href;
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const CAT = asset('img/multicat.516afb1a/cat.jpg');
 const COVER = asset('img/multicat.516afb1a/cover.jpg'); // the song's cover: that same cat, cropped to its face
@@ -120,6 +131,24 @@ function plan(r) {
 // the chain's length from its first reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
 
+// v4's cue sheet (multicat-score.d9e95fc7.js): every moment its music hits, off the clock the frames are drawn by.
+// k is the route's first beat (the engine's ask, send, chips and reply), T the chain's plan
+function cueSheet(k, T) {
+  const [M, O, S] = T.steps;
+  // the composer shows round(len * progress) characters (chat.9b47fc30.js renderComposer): character i lands half a step in
+  const ask = (text, s, typeEnd) => ({ text, s, at: (i) => s + (i + 0.5) * (typeEnd - s) / text.length });
+  return {
+    asks: [ask(k.askBy.multicat, k.s, k.typeEnd), ...T.steps.map((st) => ask(st.ask, st.s, st.typeEnd))],
+    sends: [k.send, ...T.steps.map((st) => st.send)],
+    chips: [...k.chips, ...T.steps.flatMap((st) => st.chips)].map((c) => ({ sw: c.sw, done: c.done })),
+    gens: [T, M, S].map((g) => ({ card: g.card, gen0: g.gen0, done: g.done })),
+    order: { card: O.card, done: O.done },
+    // the song's first downbeat sits 0.205 s into tiny-chaos.mp3 (measured); 0.95 sits it at the score's level
+    song: { play: S.play, for: SONG_FOR, fade: SONG_FADE, gain: 0.95, downbeat: 0.205 },
+    end: { cover: S.cut, pop: S.cut + END_DELAY, word: S.cut + END_DELAY + 0.3 },
+  };
+}
+
 const DL_GLYPH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
 const dl = (href, name) => `<a class="qc-dl" href="${href}" download="${name}" aria-label="Download image" title="Download">${DL_GLYPH}</a>`;
 const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.2v13.6L19 12z"/></svg>';
@@ -198,6 +227,10 @@ export default {
     loadFrameSheet();
     const T = k.T;
     const [M, O, S] = T.steps;
+    // v2's soundtrack, on this chain's clock: it hands over to the song at the play press and stings the end card's mascot
+    const soundV2 = makeSound({ k, T, ends: { ask0: (k.askBy && k.askBy.multicat) || '', play: S.play, pop: S.cut + END_DELAY } });
+    // v5's soundtrack: its cue sheet is this plan, plus the first ask and its chip as the engine times them
+    mountMix({ cues: { T, ask0: { text: k.askBy.multicat, s: k.s, typeEnd: k.typeEnd, send: k.send }, chips0: k.chips }, song: SONG });
 
     // 1. GPT Image 2, in the engine's own reply
     const say1 = sayEl(x, SAY1);
@@ -288,6 +321,12 @@ export default {
     audio.addEventListener('playing', () => { songOn = true; });
     for (const ev of ['pause', 'waiting', 'ended', 'error']) audio.addEventListener(ev, () => { songOn = false; });
     function syncAudio(t, running) {
+      const pick = music();
+      // v5 carries the song in its own mix, so this element stays silent under it
+      if (pick === 'v5' && mixOwnsSong()) { if (!audio.paused) audio.pause(); return; }
+      // the picked soundtrack's own sound pill mutes the song too (v4 reaches here only as its own fallback)
+      const muted = (pick === 'v2' && soundV2.muted) || (pick === 'v3' && soundOff()) || (pick === 'v4' && trackV4.muted);
+      if (audio.muted !== muted) audio.muted = muted;
       const at = t - S.play;
       if (!running || at < 0 || at >= Math.min(DUR, SONG_FOR + SONG_FADE)) { if (!audio.paused) audio.pause(); return; }
       // it fades out as the end card covers the chat, so the cut never lands mid-note: evenly in dB (to -40 dB), so its
@@ -330,6 +369,27 @@ export default {
       ]);
     }
 
+    // v3's score, on this beat's own moments: the four asks typing and sending, the chips resolving, the three generations,
+    // each answer landing, the song's ask and play press, and the end card's mascot popping in
+    const scoreV3 = makeScore({
+      asks: [{ text: k.askBy.multicat, s: k.s, typeEnd: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, typeEnd: st.typeEnd }))],
+      sends: [k.send, ...T.steps.map((st) => st.send)],
+      chips: [...k.chips, ...T.steps.flatMap((st) => st.chips)].map((c) => c.done),
+      gens: [[T.gen0, T.done], [M.gen0, M.done], [S.gen0, S.done]],
+      photo: T.done, model: M.done, order: O.done, songAsk: S.send, play: S.play, logo: S.cut + END_DELAY,
+    });
+    window.__MC_SCORE = scoreV3; // QA: scoreV3.bounce() renders it offline
+    // v4's soundtrack: its score with the song mixed in, rendered once when it is first picked and played on the clock
+    // (soundtrack.d9e95fc7.js); the song's <audio> above is its fallback if the score cannot render
+    const trackV4 = makeSoundtrack({
+      id: 'multicat',
+      async render() {
+        const res = await fetch(SONG);
+        if (!res.ok) throw new Error(`multicat: the song failed to load (${res.status}): ${SONG}`);
+        return renderScore(cueSheet(k, T), window.__AD.CYCLE, await res.arrayBuffer());
+      },
+    });
+
     let placed = false, viewer = null, decoding = false, sec = -1, cut = -1, playing = null, line = -1, lit = -1;
     return {
       nodes: [say1.n, media1, ...follow, endCard, ff],
@@ -350,7 +410,7 @@ export default {
           placed = true;
         }
         // QA: the bed and the song against the clock (__AD arrives after the timeline's first frame)
-        if (window.__AD && !window.__AD.sound) window.__AD.sound = () => ({ t: window.__AD.now, bed: bed.state(), song: { on: songOn, paused: audio.paused, at: +audio.currentTime.toFixed(3), volume: +audio.volume.toFixed(3) } });
+        if (window.__AD && !window.__AD.sound) window.__AD.sound = () => ({ t: window.__AD.now, music: music(), bed: bed.state(), song: { on: songOn, paused: audio.paused, at: +audio.currentTime.toFixed(3), volume: +audio.volume.toFixed(3) } });
         if (!decoding) {
           decoding = true;
           for (const pic of [im1, order.querySelector('img'), song.querySelector('img')]) {
@@ -415,9 +475,14 @@ export default {
         const n = on ? LINE_WORDS[li].filter((w) => el >= w[1]).length : 0;
         if (n !== lit) { [...lyric.children].forEach((w, i) => w.classList.toggle('on', i < n)); lit = n; }
         lyric.style.opacity = seg(t, S.play - 0.2, S.play + 0.2).toFixed(3);
-        const running = clockRuns(t);
-        syncAudio(t, running);
-        syncBed(t, running);
+        // the soundtrack the Music pill picks: each of them follows the clock only while it is the pick
+        const running = clockRuns(t), pick = music();
+        trackV4.sync(t);
+        // v4 plays the song inside its own mix, unless that failed to render
+        if (pick !== 'v4' || trackV4.failed) syncAudio(t, running); else if (!audio.paused) audio.pause();
+        syncBed(t, running && pick === 'bed');
+        soundV2.render(t);
+        scoreV3.render(t);
 
         // the end card: the chat fades to black, then the house card's own run (endcard.1d16d488.html render(t))
         const cover = seg(t, S.cut, S.cut + END_IN);

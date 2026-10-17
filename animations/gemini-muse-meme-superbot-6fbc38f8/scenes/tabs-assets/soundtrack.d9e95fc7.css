@@ -1,0 +1,26 @@
+/* a variant's soundtrack controls (beats/soundtrack.d9e95fc7.js), outside #stage like the variant selector (style.css) */
+
+/* the Sound pill: the Speed pill's chrome, under the Music pick pill (114px top + its 40px height + 8px gap) */
+.st-mute { position: fixed; top: 162px; right: 18px; z-index: 40; display: inline-flex; align-items: center; gap: 2px; padding: 4px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line); font: 600 13px/1 var(--ui); user-select: none; }
+.st-mute .vs-label { padding: 0 8px 0 10px; color: var(--muted); font-weight: 500; }
+.st-mute button { appearance: none; margin: 0; border: 0; height: 30px; padding: 0 12px 0 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: var(--fg); font: inherit; cursor: pointer; transition: background-color .15s; }
+.st-mute button:hover { background: var(--raised); }
+.st-mute button[aria-pressed="true"] { color: var(--muted); }
+
+/* the gate: bottom left, in the frame's empty margin (the composer and its routing chips hold the bottom centre), while the
+   browser holds the audio back for a gesture */
+.st-gate { position: fixed; left: 18px; bottom: 18px; z-index: 41; display: inline-flex; align-items: center; gap: 8px;
+  height: 44px; padding: 0 20px 0 16px; border: 0; border-radius: 999px; background: var(--fg); color: var(--card);
+  font: 600 15px/1 var(--ui); cursor: pointer; box-shadow: 0 10px 30px rgba(0, 0, 0, .5); transition: transform .15s; }
+.st-gate:hover { transform: scale(1.03); }
+.st-gate:active { transform: scale(.97); }
+
+.st-mute svg, .st-gate svg { flex: none; width: 16px; height: 16px; fill: currentColor; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.st-gate svg { width: 18px; height: 18px; }
+.st-mute button:focus-visible, .st-gate:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.st-mute[hidden], .st-gate[hidden] { display: none; }
+@media (pointer: coarse) { .st-mute { top: 204px; } .st-mute button { height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .st-gate { transition: none; } .st-gate:hover, .st-gate:active { transform: none; } }
+body.freeze .st-mute, body.freeze .st-gate { display: none; }

@@ -1,0 +1,19 @@
+/* the music pill (music.942e79ba.js): the speed pill's chrome (style.css .speed-select), under the Music pick pill, shown only on the
+   multicat variant. Locked, it is the start gate, "Play with music", filled as the page's one call to action; after that a
+   "Music" switch reading On or Off. Hidden on a frozen capture like the other pills. */
+.music-select { position: fixed; top: 162px; right: 18px; z-index: 40; display: inline-flex; align-items: center; gap: 2px; padding: 4px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line); font: 600 13px/1 var(--ui); user-select: none; }
+.music-select[hidden] { display: none; }
+.music-select .vs-label { padding: 0 8px 0 10px; color: var(--muted); font-weight: 500; }
+.music-select[data-state="locked"] .vs-label { display: none; }
+.music-select button { display: inline-flex; align-items: center; gap: 8px; appearance: none; margin: 0; border: 0; height: 30px; padding: 0 14px 0 12px; border-radius: 999px;
+  background: transparent; color: var(--fg); font: inherit; cursor: pointer; transition: background-color .15s, color .15s; }
+.music-select button:hover { background: var(--raised); }
+.music-select button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.music-select svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.music-select[data-state="locked"] button,
+.music-select[data-state="locked"] button:hover { background: var(--fg); color: var(--card); }
+.music-select[data-state="off"] button { color: var(--muted); }
+@media (pointer: coarse) { .music-select { top: 204px; } .music-select button { height: 44px; padding: 0 16px 0 14px; } }
+@media (prefers-reduced-motion: reduce) { .music-select button { transition: none; } }
+body.freeze .music-select { display: none; }

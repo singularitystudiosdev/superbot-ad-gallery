@@ -65,3 +65,17 @@
 #s-tabs .mc-end-face { display: block; width: 100%; height: 100%; overflow: visible; }
 #s-tabs .mc-end-word { position: absolute; left: 0; top: 50%; opacity: 0; color: #fff; white-space: nowrap; font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; will-change: transform, opacity, filter; }
 #s-tabs .mc-end-word b { display: block; font-size: calc(128px * var(--k, 1)); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+
+/* the soundtrack's start gate (beats/multicat-mix.08050705.js): browsers start sound only after a press, so the spot holds
+   its first frame under a dim scrim with one pill, the page's pill chrome (style.css .variant-select) inverted. It sits
+   under the top-right pills (z-index 40) so the variant can still be changed, and is never on a frozen capture */
+.mix-gate { position: fixed; inset: 0; z-index: 35; display: grid; place-items: center; background: rgb(0 0 0 / .55); cursor: pointer; }
+.mix-gate[hidden] { display: none; }
+body.freeze .mix-gate { display: none; }
+.mix-gate-btn { display: inline-flex; align-items: center; gap: 12px; height: 48px; padding: 0 24px 0 20px; border: 1px solid var(--line-strong); border-radius: 999px;
+  background: var(--fg); color: var(--card); font: 600 16px/1 var(--ui); cursor: pointer; transition: transform .15s, background-color .15s; }
+.mix-gate-btn svg { width: 18px; height: 18px; fill: currentColor; }
+.mix-gate-btn:hover { transform: scale(1.04); }
+.mix-gate-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mix-gate-btn[aria-busy="true"] { cursor: progress; opacity: .8; }
+@media (prefers-reduced-motion: reduce) { .mix-gate-btn { transition: background-color .15s; } .mix-gate-btn:hover { transform: none; } }

@@ -36,3 +36,69 @@ bed.47e5d94a.m4a (2026-10-17, chat 1345e257)
   the spot's clock (scenes/tabs-assets/beats/bed.47e5d94a.js). Scripts (gen, analysis, mix, page check, preview):
   quick-chats/multicat-music.1345e257/.
   Licence: generated for this project under the fal.ai / ElevenLabs terms of the account that ran it.
+
+MUSIC PILL (2026-10-17, chat 1345e257)
+  The Music pill (top right, ../../music.47e5d94a.js) picks the soundtrack: the ElevenLabs bed above (the default), one of
+  the five below, or None (the song alone). Each of the five was made in its own Cosmos chat from the same silent cut
+  (commit e1c8ebd), given only the ask quoted with it, no style named; merged here gated on the pick, their sound pills
+  moved a row lower. Their source copies stay in quick-chats/multicat-music-variants.1345e257/v1..v5.
+
+v1 (chat 6971768b, asked: "Make music for this ad")
+  score.942e79ba.mp3
+    SYNTHESIZED for this spot, 2026-10-17: no samples, no third-party audio, no model. Every sound (Karplus-Strong strummed
+    guitar, saw bass, detuned-saw pad, glockenspiel partials, drums from noise and oscillators, Freeverb room) is computed by
+    a Node renderer kept outside the served folder (/tmp/multicat-score.942e79ba/render.mjs at the time of rendering), then
+    encoded with ffmpeg (libmp3lame 192 kbps). 31.6 s, 44.1 kHz stereo, -17 LUFS integrated, -1.5 dBFS peak.
+    Timed on the spot's clock (second 0 of the file is the spot's 0 s): 120 bpm in B major, its grid run back from the song's
+    play press (tiny-chaos.mp3 measured at 120.1 bpm, beat phase 0, B major), so the bed resolves into the song's downbeat.
+    Cues: groove on the first send (2.49 s), routing-chip blips, risers under each x50 generation, a glint as the photo
+    lands (5.058 s), an impact as the 3D model lands (11.99 s), a ding as the order lands (17.49 s), a stop on the dominant
+    as the song lands (21.99 s), silence under the song, and the CTA sting on the end card's mascot pop (28.49 s).
+    Licence: original work made for this project.
+
+v2 (chat 56dad2c4, asked: "Add sound effects and music that match the style of this ad")
+  SYNTHESIZED in Web Audio, no samples, no hotlinks: ../../scenes/tabs-assets/beats/multicat-synth.2e5dba12.js (instruments
+  and effects; seeded noise and plucked strings, so every render is sample-identical) and multicat-score.2e5dba12.js (a bed
+  in Tiny Chaos's style, 120 bpm in B major, I-V-vi-IV: kick, claps, shaker, bouncy bass, strummed guitar, a music-box intro,
+  a glockenspiel hook; key clicks, send bubbles, chip blips and dings, fast-forward risers, landing sparkles, kibble and a
+  ding for the order, a sting with a purr-trill for the mascot), rendered offline into one buffer and played on the clock
+  by multicat-sound.2e5dba12.js. Original work for this project.
+
+v3 (chat 4693e1f3, asked: "Add some sound effects and music, don't force any but reference other popular ad campaigns, make sure it's not copyrighted")
+  score (no file: ../../scenes/tabs-assets/beats/multicat-score.9b4885bb.js, played through ../../sound.9b4885bb.js)
+    Sound effects and the 8-bar bed under the chat, and the end card's sonic logo, SYNTHESIZED at run time in WebAudio,
+    2026-10-17: oscillators, seeded white noise through filters, Karplus-Strong plucked strings, additive struck-bar bells,
+    and a reverb whose impulse is generated noise. No samples, recordings or third-party sound files; no melody, jingle or
+    sonic logo of any campaign is quoted. The nods to ad campaigns (Apple's iPhone/iMessage UI sounds, "Shot on iPhone",
+    the iPod silhouette spots, Apple product reveals, Fancy Feast's crystal goblets, the Intel and Netflix sonic logos)
+    are by genre, instrument and gesture only. The chords (I vi IV V in B) and every line were written for this spot;
+    the key of B major was measured from tiny-chaos.mp3 (chroma vs Krumhansl key profiles, r = 0.55) so the bed and the
+    logo sit in tune with the song. Original work for this project.
+
+v4 (chat a4382c84, asked: "This ad has no soundtrack yet. Give it one that makes people want to watch it twice")
+  The spot's score (no file: rendered in the browser when the variant first shows)
+    ORIGINAL, composed for this spot and synthesised from code, no samples: ../../scenes/tabs-assets/beats/multicat-score.d9e95fc7.js
+    (oscillators, filtered noise, Karplus-Strong strings, a generated reverb impulse), played on the spot's clock by
+    ../../scenes/tabs-assets/beats/soundtrack.d9e95fc7.js. B major at 120.25 bpm, both measured off tiny-chaos.mp3 above (key by
+    chroma, tempo and beat phase by onset autocorrelation, first downbeat 0.205 s in), so the track enters as the cue's resolution.
+    tiny-chaos.mp3 is mixed into the same render at its play press, faded as before. 2026-10-17.
+
+v5 (chat a34b5846, asked: "Sound-design this ad like it's about to air on TV: music, effects, mix, whatever it needs, all original")
+  The spot's soundtrack (score, sound effects, mix), 2026-10-17
+    ORIGINAL, made in code: every note and effect is synthesized sample by sample from oscillators and seeded noise
+    (../../scenes/tabs-assets/beats/multicat-dsp.08050705.js); no samples, loops, stock libraries or third-party audio. The
+    cue sheets are multicat-music.08050705.js (score: B major, 120 bpm, on the song's own grid; the song's tempo 120.02 bpm,
+    downbeat at 0.000 s and key B were measured from tiny-chaos.mp3) and multicat-sfx.08050705.js (effects on the beat's frame
+    times). multicat-score.08050705.js mixes them with tiny-chaos.mp3 (above, the one non-synthesized element, played from the
+    song card's play press) and masters with multicat-master.08050705.js (BS.1770-4 meter, 4x true-peak limiter). The page
+    renders the mix live in a worker; the files below are the same render, written from Node.
+  mix-web.08050705.wav
+    The in-page mix: 48 kHz / 24-bit stereo, 31.89 s from the spot's t=0. -16.0 LUFS integrated, -1.3 dBTP, LRA 3.2 LU
+    (ffmpeg ebur128).
+  mix-broadcast.08050705.wav
+    The same mix at the US broadcast spec (ATSC A/85): -24.0 LKFS integrated, -7.6 dBTP. 48 kHz / 24-bit stereo.
+  spot-with-mix.08050705.mp4
+    Review copy: the spot captured frame-exactly at 30 fps (?variant=multicat, __AD.seek per frame, 1920x1080, H.264 CRF 17)
+    with mix-web in AAC 320 kbps; the last frame is held 0.3 s for the tail.
+  (v5's mix-web and mix-broadcast WAVs and its spot-with-mix MP4, 25 MB of deliverables the page never loads, stay in its
+  source copy, multicat-music-variants.1345e257/v5/media/multicat.516afb1a/.)

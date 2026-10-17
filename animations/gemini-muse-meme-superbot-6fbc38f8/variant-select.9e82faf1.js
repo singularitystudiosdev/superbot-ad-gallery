@@ -3,6 +3,7 @@
 // space, the arrows and R go back to the spot's own clock (timeline.9b47fc30.js).
 import { VARIANTS, variant, setVariant } from './variant.9e82faf1.js?v=3';
 import { APPEARS, appear, setAppear } from './appear.9e82faf1.js?v=2';
+import { MUSICS, music, setMusic } from './music.47e5d94a.js';
 // variants left out of the pill: still reachable by ?variant=, just not offered as a button or an arrow-key stop
 const HIDDEN = new Set(['game', 'garden', 'bedtime', 'podcast', 'catgif', 'logo']);
 const SHOWN = VARIANTS.filter((v) => !HIDDEN.has(v.id));
@@ -119,3 +120,55 @@ speedPick.addEventListener('change', () => {
 
 addEventListener('speedchange', syncSpeed);
 syncSpeed();
+
+// The music pill: a fourth pill, under the speed pill, shown only on the multicat variant, that picks its soundtrack
+// (music.47e5d94a.js: the ElevenLabs bed, one of five other soundtracks, or none). A pick holds the spot on its first frame
+// until that soundtrack's audio is in (read off each one's QA hook; WAIT at most), then plays it from the top, so it is
+// heard from its first bar; the pick is a gesture, so the browser lets its sound start. Same native-select pattern as above.
+const musicBar = document.createElement('div');
+musicBar.className = 'music-pick';
+musicBar.innerHTML = '<span class="vs-label" aria-hidden="true">Music</span><span class="as-wrap"><select aria-label="Soundtrack">'
+  + MUSICS.map((m) => `<option value="${m.id}">${m.label}</option>`).join('')
+  + '</select></span>';
+document.body.appendChild(musicBar);
+const musicPick = musicBar.querySelector('select');
+const WAIT = 5000;
+const READY = {
+  bed: () => { const s = window.__AD && window.__AD.sound; return !!(s && s().bed.loaded); },
+  v1: () => !!(window.__MUSIC && window.__MUSIC.ready),
+  v2: () => !!window.__MC_SOUND,
+  v4: () => { const s = window.__SOUNDTRACK && window.__SOUNDTRACK.multicat; return !!(s && (s.buffer || s.failed)); },
+  v5: () => !!(window.__MIX && (window.__MIX.state === 'ready' || window.__MIX.state === 'failed')),
+};
+let pickRun = 0;
+
+function syncMusic() {
+  musicBar.hidden = variant() !== 'multicat';
+  musicPick.value = music();
+}
+
+async function replayWith(id) {
+  const ad = window.__AD, run = ++pickRun;
+  if (!ad || document.body.classList.contains('freeze')) return;
+  ad.seek(0);
+  const ready = READY[id] || (() => true);
+  for (let waited = 0; !ready() && waited < WAIT; waited += 50) {
+    await new Promise((r) => setTimeout(r, 50));
+    if (run !== pickRun) return;
+  }
+  ad.play(0);
+}
+
+musicPick.addEventListener('change', () => {
+  setMusic(musicPick.value);
+  replayWith(musicPick.value);
+});
+musicPick.addEventListener('keydown', (e) => { delete musicPick.dataset.mouse; e.stopPropagation(); });
+musicPick.addEventListener('pointerup', () => { musicPick.dataset.mouse = '1'; });
+musicPick.addEventListener('change', () => {
+  if (musicPick.dataset.mouse) { delete musicPick.dataset.mouse; musicPick.blur(); }
+});
+
+addEventListener('variantchange', syncMusic);
+addEventListener('musicchange', syncMusic);
+syncMusic();

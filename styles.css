@@ -139,6 +139,9 @@ body.lb-open .ar-pick { right: 64px; } /* clear the lightbox close button */
 .lb-dl.no-render { color: var(--dim, #888); border-color: var(--dim, #888); opacity: .6; cursor: not-allowed; }
 .lb-dl.no-render:hover { background: var(--panel); color: var(--dim, #888); }
 @media (max-width: 640px) { .lb-dl { right: 224px; padding: 10px 8px; } }
+/* a spot with an extra ratio (9:16) adds a fifth chip, so the button moves one chip further left */
+body.ar-extra .lb-dl { right: 314px; }
+@media (max-width: 640px) { body.ar-extra .lb-dl { right: 264px; } }
 .ar-pick button {
   font-family: var(--mono); font-size: 12px; line-height: 1;
   background: none; color: var(--dim); border: none; border-radius: 0;

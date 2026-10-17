@@ -52,7 +52,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 - **DEAR API USERS** (`animations/dear-api-users-superbot-417d180e/`): the before/after price spot
   (`dear-cursor-users-superbot-f187dd19`) with no vendor named or shown: a code glyph, $30,000/mo
   before superbot rolling down to $800/mo after, One download and stop paying API pricing, superbot.gg
-  (13s, with sound: an ElevenLabs bed that drops on the chip flip, one effect per beat).
+  (13s, with sound: an ElevenLabs bed that drops on the chip flip, one effect per beat). The one spot with a 9:16
+  cut: its manifest entry's `extraArs: ['9x16']` adds a 9:16 chip to the lightbox picker for it alone, playing
+  `?ar=9x16` and downloading the 1080x1920 render.
 - **If you use Cursor** (`animations/cursor-upcharged-relay-superbot-2727b383/`): three white-on-black
   title cards, each with its mark to the right: "IF YOU USE CURSOR" with the Cursor cube, "YOU ARE BEING
   UPCHARGED" with a money bag, "SAVE THOUSANDS WITH SUPERBOT RELAY" with a siren, then the superbot.gg

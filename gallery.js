@@ -10,9 +10,15 @@ let openIdx = -1; // index into filtered list currently shown in the lightbox
 const $ = (id) => document.getElementById(id);
 
 // ---- aspect ratio (the animations read ?ar= through assets/ar.js) ----
-const RATIOS = [['4x5', '4:5', 4 / 5], ['16x9', '16:9', 16 / 9], ['4x3', '4:3', 4 / 3], ['1x1', '1:1', 1]];
+const RATIOS = [['4x5', '4:5', 4 / 5], ['16x9', '16:9', 16 / 9], ['4x3', '4:3', 4 / 3], ['1x1', '1:1', 1], ['9x16', '9:16', 9 / 16]];
+// every spot plays at the gallery's four; a ratio past them (9:16) is offered in the lightbox only, and only for a spot
+// whose manifest entry lists it in `extraArs`, so the grid and every other spot keep the four
+const GALLERY_ARS = ['4x5', '16x9', '4x3', '1x1'];
 let ar = localStorage.getItem('gallery.ar') || '16x9';
-if (!RATIOS.some(r => r[0] === ar)) ar = '16x9';
+if (!GALLERY_ARS.includes(ar)) ar = '16x9';
+let lbAr = null; // the open spot's extra ratio once picked; dropped on close and on a spot that lacks it
+const curAr = () => lbAr || ar;
+const openItem = () => ($('lb').hidden ? null : filtered()[openIdx]);
 
 // the download link: assets/video/<id>.<ratio>.mp4, rendered offline by .tmp/ar-render (one loop, 1080 high)
 let dlGen = 0; // bumped per renderDl call so a stale existence probe cannot relabel a live button
@@ -29,7 +35,7 @@ function renderDl() {
     a.hidden = false;
     return;
   }
-  const label = RATIOS.find(x => x[0] === ar)[1];
+  const label = RATIOS.find(x => x[0] === curAr())[1];
   if (it.download) { // a file too big for Pages lives on a GitHub release (one ratio); no same-origin probe
     a.href = it.download;
     a.removeAttribute('download');
@@ -39,7 +45,7 @@ function renderDl() {
     a.hidden = false;
     return;
   }
-  const href = `assets/video/${it.id}.${ar}.mp4`;
+  const href = `assets/video/${it.id}.${curAr()}.mp4`;
   a.href = href;
   a.download = `${it.id}-${label.replace(':', 'x')}.mp4`;
   a.textContent = `⤓ download ${label}`;
@@ -79,12 +85,15 @@ function renderAr() {
   const box = $('lbAr');
   box.innerHTML = '';
   document.documentElement.style.setProperty('--tile-ar', RATIOS.find(x => x[0] === ar)[1].replace(':', '/'));
-  for (const [key, label] of RATIOS) {
+  const it = openItem();
+  const keys = [...GALLERY_ARS, ...((it && it.type === 'animation' && it.extraArs) || [])];
+  document.body.classList.toggle('ar-extra', keys.length > GALLERY_ARS.length); // shifts the download button left
+  for (const [key, label] of RATIOS.filter(r => keys.includes(r[0]))) {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = key === ar ? 'on' : '';
+    b.className = key === curAr() ? 'on' : '';
     b.setAttribute('role', 'radio');
-    b.setAttribute('aria-checked', String(key === ar));
+    b.setAttribute('aria-checked', String(key === curAr()));
     b.textContent = label;
     b.onclick = () => setAr(key);
     box.appendChild(b);
@@ -92,18 +101,23 @@ function renderAr() {
 }
 
 function setAr(key) {
-  if (key === ar) return;
-  ar = key;
-  localStorage.setItem('gallery.ar', key);
+  if (key === curAr()) return;
+  if (GALLERY_ARS.includes(key)) {
+    lbAr = null;
+    if (key !== ar) {
+      ar = key;
+      localStorage.setItem('gallery.ar', key);
+      renderGrid(); // the static ads swap to the PNG rendered at this ratio
+    }
+  } else lbAr = key; // an extra ratio shapes the open spot only
   renderAr();
-  renderGrid(); // the static ads swap to the PNG rendered at this ratio
   if (!$('lb').hidden) renderStage(); // reloads the open frame at the new ratio; every spot loops anyway
   renderDl();
 }
 
 // the frame fits the same box the 16:9 frame used (92vw x 82vh, capped at 1280x720) at the chosen ratio
 function frameSize() {
-  const r = RATIOS.find(x => x[0] === ar)[2];
+  const r = RATIOS.find(x => x[0] === curAr())[2];
   const bw = Math.min(innerWidth * 0.92, 1280), bh = Math.min(innerHeight * 0.82, 720);
   const w = Math.min(bw, bh * r);
   return { w: Math.round(w), h: Math.round(w / r) };
@@ -217,6 +231,8 @@ function renderGrid() {
 function renderStage() {
   const list = filtered();
   const it = list[openIdx];
+  if (lbAr && !(it.extraArs || []).includes(lbAr)) lbAr = null;
+  renderAr(); // this spot's extra ratios, if any
   const stage = $('lbStage');
   stage.innerHTML = '';
   if (it.type === 'image') {
@@ -231,7 +247,7 @@ function renderStage() {
     stage.appendChild(img);
   } else {
     const f = document.createElement('iframe');
-    f.src = `${it.src}${it.src.includes('?') ? '&' : '?'}ar=${ar}`;
+    f.src = `${it.src}${it.src.includes('?') ? '&' : '?'}ar=${curAr()}`;
     f.allow = 'autoplay';
     f.title = it.title;
     // refocus the parent so ESC/arrows keep working after the frame grabs focus
@@ -247,7 +263,7 @@ function renderStage() {
   renderDl();
   setHash(it);
   $('lbTitle').textContent = it.title;
-  const arLabel = RATIOS.find(x => x[0] === (it.type === 'image' ? arOf(it) : ar))[1];
+  const arLabel = RATIOS.find(x => x[0] === (it.type === 'image' ? arOf(it) : curAr()))[1];
   $('lbPos').textContent = `${openIdx + 1} / ${list.length} · ${it.group}${it.type === 'animation' || it.ars ? ` · ${arLabel}` : ''}`;
 }
 
@@ -269,6 +285,8 @@ function close() {
   $('lbDl').hidden = true;
   $('lbStage').innerHTML = ''; // kills the iframe rAF + audio
   document.body.style.overflow = '';
+  lbAr = null;
+  renderAr(); // back to the gallery's four
   setHash(null);
 }
 

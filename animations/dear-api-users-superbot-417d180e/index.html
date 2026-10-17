@@ -6,10 +6,11 @@
 <title>superbot: DEAR API USERS</title>
 <link rel="icon" href="data:,">
 <script>
-// The aspect-ratio stage (the gallery's assets/ar.js, cut down): ?ar= picks 16x9 / 4x3 / 1x1 / 4x5, otherwise the ratio
-// nearest the window. Height is always 1080 stage px; the width follows the ratio. Mirrored onto <html> as data-ar.
+// The aspect-ratio stage (the gallery's assets/ar.js, cut down): ?ar= picks 16x9 / 4x3 / 1x1 / 4x5 / 9x16, otherwise the
+// ratio nearest the window. Height is always 1080 stage px; the width follows the ratio, unrounded so 9x16's 607.5 px
+// scales to exactly 1080x1920. Mirrored onto <html> as data-ar.
 (function () {
-  var RATIOS = { '16x9': [16, 9], '4x3': [4, 3], '1x1': [1, 1], '4x5': [4, 5] };
+  var RATIOS = { '16x9': [16, 9], '4x3': [4, 3], '1x1': [1, 1], '4x5': [4, 5], '9x16': [9, 16] };
   var q = (new URLSearchParams(location.search).get('ar') || '').replace(':', 'x').replace('-', 'x');
   var locked = RATIOS[q] ? q : null;
   function nearest() {
@@ -19,7 +20,7 @@
   }
   function apply(key) {
     var prev = window.AR && window.AR.key;
-    window.AR = { key: key, w: Math.round(1080 * RATIOS[key][0] / RATIOS[key][1]), h: 1080 };
+    window.AR = { key: key, w: 1080 * RATIOS[key][0] / RATIOS[key][1], h: 1080 };
     document.documentElement.dataset.ar = key;
     if (prev && prev !== key) dispatchEvent(new CustomEvent('archange', { detail: window.AR }));
   }
@@ -90,16 +91,29 @@ body { font-family: var(--ui); color: var(--fg); -webkit-font-smoothing: antiali
 .end-word { font-size: 128px; font-weight: 800; letter-spacing: -.03em; line-height: 1; white-space: nowrap; will-change: transform, opacity, filter; }
 .end-bot { width: 220px; height: 220px; will-change: transform, opacity; }
 .end-bot svg { display: block; width: 100%; height: 100%; overflow: visible; }
-html[data-ar="1x1"] .lock, html[data-ar="4x5"] .lock { flex-direction: column-reverse; gap: 28px; }
+html[data-ar="1x1"] .lock, html[data-ar="4x5"] .lock, html[data-ar="9x16"] .lock { flex-direction: column-reverse; gap: 28px; }
 
 /* the narrow ratios: DEAR / API / USERS stacked; the price beat is fitted by its number, so its chip, meter and badge
    are drawn larger here to land at a readable size once .fit scales the beat down */
-html[data-ar="1x1"] .dear, html[data-ar="4x5"] .dear { flex-direction: column; align-items: center; gap: 0; font-size: 170px; line-height: 1.02; }
-html[data-ar="1x1"] .chips, html[data-ar="4x5"] .chips { width: 1100px; height: 170px; }
-html[data-ar="1x1"] .chip, html[data-ar="4x5"] .chip { height: 170px; gap: 30px; padding: 0 64px 0 26px; font-size: 86px; }
-html[data-ar="1x1"] .chip .ico, html[data-ar="4x5"] .chip .ico { width: 122px; height: 122px; border-radius: 32px; }
+html[data-ar="1x1"] .dear, html[data-ar="4x5"] .dear, html[data-ar="9x16"] .dear { flex-direction: column; align-items: center; gap: 0; font-size: 170px; line-height: 1.02; }
+html[data-ar="1x1"] .chips, html[data-ar="4x5"] .chips, html[data-ar="9x16"] .chips { width: 1100px; height: 170px; }
+html[data-ar="1x1"] .chip, html[data-ar="4x5"] .chip, html[data-ar="9x16"] .chip { height: 170px; gap: 30px; padding: 0 64px 0 26px; font-size: 86px; }
+html[data-ar="1x1"] .chip .ico, html[data-ar="4x5"] .chip .ico, html[data-ar="9x16"] .chip .ico { width: 122px; height: 122px; border-radius: 32px; }
 html[data-ar="1x1"] .meter, html[data-ar="4x5"] .meter { width: 1460px; height: 40px; margin-top: 80px; }
-html[data-ar="1x1"] .less, html[data-ar="4x5"] .less { margin-top: 60px; padding: 20px 46px; font-size: 80px; }
+html[data-ar="1x1"] .less, html[data-ar="4x5"] .less, html[data-ar="9x16"] .less { margin-top: 60px; padding: 20px 46px; font-size: 80px; }
+
+/* 9:16 (a 607.5 x 1080 stage, rendered 1080x1920): /mo drops under the price so the number alone sets the width, the
+   chip, meter and badge are drawn to that width, and the tall stage's spare height goes to air between them; the line
+   wraps to five rows (One / download / and stop / paying / API pricing), so API pricing sets its width */
+html[data-ar="9x16"] .chips { width: 1240px; height: 220px; }
+html[data-ar="9x16"] .chip { height: 220px; gap: 40px; padding: 0 84px 0 34px; font-size: 116px; }
+html[data-ar="9x16"] .chip .ico { width: 160px; height: 160px; border-radius: 42px; }
+html[data-ar="9x16"] .amount { flex-direction: column; align-items: center; margin-top: 150px; }
+html[data-ar="9x16"] .per { margin: 6px 0 0; font-size: 150px; }
+html[data-ar="9x16"] .meter { width: 1240px; height: 56px; margin-top: 150px; }
+html[data-ar="9x16"] .less { margin-top: 100px; padding: 28px 64px; font-size: 110px; }
+html[data-ar="9x16"] .line .ln { flex-wrap: wrap; row-gap: 0; max-width: 740px; margin: 0 auto; }
+html[data-ar="9x16"] .line .g { white-space: normal; width: min-content; }
 
 /* chrome outside the stage, hidden on a frozen capture */
 .hint { position: fixed; right: 18px; bottom: 14px; font: 11px/1 var(--ui); color: var(--muted); opacity: .6; user-select: none; }
@@ -110,6 +124,8 @@ html[data-ar="1x1"] .less, html[data-ar="4x5"] .less { margin-top: 60px; padding
 .ctrls button:focus-visible { outline: 2px solid var(--storm-1); outline-offset: 2px; }
 .ctrls .sound[aria-pressed="true"] { color: #fff; border-color: rgb(0 229 195 / .6); }
 body.freeze .hint, body.freeze .ctrls { display: none; }
+/* a narrow window (the gallery's 9:16 frame is 405 px) has no room for the key hint beside the sound controls */
+@media (max-width: 720px) { .hint { display: none; } }
 </style>
 </head>
 <body>
@@ -284,8 +300,10 @@ function fit() {
   stage.style.height = H + 'px';
   const k = Math.min(innerWidth / w, innerHeight / H);
   stage.style.transform = `translate(-50%, -50%) scale(${k})`;
+  // 9:16's stage is so narrow that the usual 70 px a side would cost a quarter of its width; it keeps 48 (8%)
+  const pad = window.AR && window.AR.key === '9x16' ? 96 : 140;
   for (const f of stage.querySelectorAll('.fit')) {
-    const s = Math.min(1, (w - 140) / f.offsetWidth, (H - 140) / f.offsetHeight);
+    const s = Math.min(1, (w - pad) / f.offsetWidth, (H - 140) / f.offsetHeight);
     f.style.setProperty('--s', s.toFixed(4));
   }
 }

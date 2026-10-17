@@ -52,8 +52,14 @@ const log = (msg, e) => console.error(new Error(`export: ${msg}`, e ? { cause: e
 // ---------------------------------------------------------------------------------------------------------------
 
 const PAGE = () => location.href.split('#')[0];
-// every url() turned absolute against the sheet it came from (the data: URL the clone is drawn from has no base of its own)
-const absolute = (text, base) => text.replace(/url\((?!\s*["']?\s*data:)\s*["']?([^"')]+)["']?\s*\)/g, (m, u) => {
+// every url() turned absolute against the sheet it came from (the data: URL the clone is drawn from has no base of its own).
+// Each url() is taken whole, quoted or bare, so a url() inside a data: URL is never read as one of its own: the Superbot
+// mark's mask (chat.css --sb-cat) is an SVG data: URL whose own mask="url(%23m)" was rewritten to a page address, which
+// left the mark a blob in every exported frame. A data: URL and a #fragment (an SVG paint server in the page, hub.css
+// stroke: url(#beam-fade)) stay as they are.
+const absolute = (text, base) => text.replace(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^)"'\s]*))\s*\)/g, (m, q2, q1, bare) => {
+  const u = q2 ?? q1 ?? bare ?? '';
+  if (!u || u.startsWith('data:') || u.startsWith('#')) return m;
   try { return `url("${new URL(u, base).href}")`; } catch { return m; }
 });
 const fetchText = (href) => fetch(href).then((r) => { if (!r.ok) throw new Error(`${r.status} ${href}`); return r.text(); });

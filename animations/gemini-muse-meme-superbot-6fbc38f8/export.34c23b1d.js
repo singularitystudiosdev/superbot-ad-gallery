@@ -7,7 +7,7 @@
 // platform size, silent), its label counting the render up, then saves it; only a browser without WebCodecs gets the old
 // quiet 'No render'. Its stylesheet (export.34c23b1d.css) loads with the module.
 import { variant, VARIANTS } from './variant.9e82faf1.js?v=3';
-import { render, download, fileName, outSize, canRender, busy } from './export.64039673.js?v=2';
+import { render, download, fileName, outSize, canRender, busy } from './export.64039673.js?v=3';
 
 const ROOT = new URL('../../', import.meta.url);
 // this spot's folder, as the manifest's srcs name it (animations/<folder>/?variant=...)

@@ -4,10 +4,11 @@
 // (manifest.json at the gallery root) whose src opens this spot on that variant. A render exists only where one was made,
 // so each (variant, ratio) is probed once. A plain link with `download`: the browser saves the file itself. With no render
 // there, the button renders the variant at that ratio here instead (export.64039673.js: frame-exact, at the ratio's
-// platform size, silent), its label counting the render up, then saves it; only a browser without WebCodecs gets the old
-// quiet 'No render'. Its stylesheet (export.34c23b1d.css) loads with the module.
+// platform size, with its sound: the spot plays through once first while audio-tap.057e3dda.js records it, the label
+// counting that pass and then the render up), then saves it; Option-click renders the picture alone, without the pass. Only
+// a browser without WebCodecs gets the old quiet 'No render'. Its stylesheet (export.34c23b1d.css) loads with the module.
 import { variant, VARIANTS } from './variant.9e82faf1.js?v=3';
-import { render, download, fileName, outSize, canRender, busy } from './export.64039673.js?v=2';
+import { render, download, fileName, outSize, canRender, canRecordSound, busy } from './export.64039673.js?v=3';
 
 const ROOT = new URL('../../', import.meta.url);
 // this spot's folder, as the manifest's srcs name it (animations/<folder>/?variant=...)
@@ -79,7 +80,9 @@ export function mountExport(pill) {
       a.removeAttribute('download');
       a.removeAttribute('aria-disabled');
       text.textContent = 'Export';
-      a.title = `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, no sound)`;
+      a.title = canRecordSound()
+        ? `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, with sound: it plays through once first). Option-click: picture only`
+        : `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, no sound)`;
     } else {
       a.removeAttribute('download');
       a.setAttribute('aria-disabled', 'true');
@@ -88,15 +91,21 @@ export function mountExport(pill) {
     }
   }
 
-  // the live render: the label counts it up, then the file is saved and the button goes back to Export
-  async function renderHere() {
+  // the live render: the label counts the sound pass (when asked for) and the render up, then the file is saved and the
+  // button goes back to Export
+  async function renderHere(withSound) {
     a.setAttribute('aria-busy', 'true');
-    text.textContent = 'Rendering…';
+    text.textContent = withSound ? 'Sound…' : 'Rendering…';
     let after = 'Saved';
     try {
-      const res = await render({ onProgress: (p) => { text.textContent = `Rendering ${Math.round(p * 100)}%`; } });
+      const res = await render({
+        withSound,
+        onSound: (now, end) => { text.textContent = `Sound ${Math.floor(now)}/${Math.ceil(end)}s`; },
+        onProgress: (p) => { text.textContent = `Rendering ${Math.round(p * 100)}%`; },
+      });
       download(res.blob, fileName(res));
-      console.info(`export: ${res.variant} ${res.width}x${res.height}, ${res.frames} frames, ${res.seconds.toFixed(1)}s, ${(res.blob.size / 1e6).toFixed(1)} MB, ${res.missing} bitmap(s) missing`);
+      if (withSound && !res.audio) { after = 'Saved, no sound'; console.warn(`export: saved without sound: ${res.soundless}`); }
+      console.info(`export: ${res.variant} ${res.width}x${res.height}, ${res.frames} frames, ${res.seconds.toFixed(1)}s, ${(res.blob.size / 1e6).toFixed(1)} MB, sound ${res.audio || 'none'}, ${res.missing} bitmap(s) missing`);
     } catch (e) {
       after = 'Export failed';
       console.error(new Error('export: the render failed', { cause: e }));
@@ -116,7 +125,7 @@ export function mountExport(pill) {
     if (e.detail > 0) a.blur();
     if (a.href) return; // an offline render: the link saves it
     e.preventDefault();
-    if (live && !busy()) renderHere();
+    if (live && !busy()) renderHere(!e.altKey && canRecordSound());
   });
   addEventListener('variantchange', sync);
   addEventListener('archange', sync);

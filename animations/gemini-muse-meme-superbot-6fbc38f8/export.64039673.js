@@ -25,8 +25,14 @@
 // muxed to MP4 by vendor/mp4-muxer.mjs. The timestamp is the whole design: an encoder writes the time it is given, so the
 // file is exactly the spot's length no matter how long the painting took, at a true 30fps, and a spot renders in well
 // under its own running time. A MediaRecorder would be simpler but unusable here: it stamps every frame by arrival, which
-// would both tie the export to wall clock and leave the webm without a duration in its header. The file is silent: each
-// variant's sound is its own engine (scores, songs, calls), none of it rendered here.
+// would both tie the export to wall clock and leave the webm without a duration in its header.
+//
+// Sound. Each variant's sound is its own engine (scores rendered into buffers, songs and calls on audio elements,
+// synthesised effects, in several AudioContexts), none of which can be rendered offline here, so a render asked for its
+// sound (render({ withSound: true })) first plays the spot through once from 0 at 1x, heard aloud, while audio-tap.057e3dda.js
+// records every sound the page makes from inside it (no tab to share, nothing to allow). The take is decoded, aligned to
+// the spot's t = 0 and encoded as AAC (Opus where the browser has no AAC encoder) beside the frames. A browser the tap
+// cannot record saves the picture alone and the result says why (`soundless`).
 //
 // Every variant at every ratio, wherever the browser has WebCodecs; window.__EXPORT.render() drives the same render from a
 // headless check or the console.
@@ -39,6 +45,10 @@ const FPS = 30;
 // length and frame rate.
 const AVC = 'avc1.640028';
 const BITRATE = 10_000_000;
+// the sound track: 48 kHz stereo, AAC-LC where the browser encodes it, else Opus
+const SR = 48000;
+const AAC = { codec: 'mp4a.40.2', sampleRate: SR, numberOfChannels: 2, bitrate: 192_000 };
+const OPUS = { codec: 'opus', sampleRate: SR, numberOfChannels: 2, bitrate: 160_000 };
 const MUXER = new URL('./vendor/mp4-muxer.mjs', import.meta.url).href;
 let muxerModule = null;
 const loadMuxer = () => (muxerModule ||= import(MUXER));
@@ -52,8 +62,11 @@ const log = (msg, e) => console.error(new Error(`export: ${msg}`, e ? { cause: e
 // ---------------------------------------------------------------------------------------------------------------
 
 const PAGE = () => location.href.split('#')[0];
-// every url() turned absolute against the sheet it came from (the data: URL the clone is drawn from has no base of its own)
-const absolute = (text, base) => text.replace(/url\((?!\s*["']?\s*data:)\s*["']?([^"')]+)["']?\s*\)/g, (m, u) => {
+// every url() turned absolute against the sheet it came from (the data: URL the clone is drawn from has no base of its own).
+// A fragment stays as it is: url(#id) points into the document, and url(%23id) is the same reference written inside a
+// data: URL's own SVG (the superbot mark's --sb-cat mask holds one); made absolute, it broke that SVG's inner mask and the
+// mark rendered as a blank tile.
+const absolute = (text, base) => text.replace(/url\((?!\s*["']?\s*(?:data:|#|%23))\s*["']?([^"')]+)["']?\s*\)/g, (m, u) => {
   try { return `url("${new URL(u, base).href}")`; } catch { return m; }
 });
 const fetchText = (href) => fetch(href).then((r) => { if (!r.ok) throw new Error(`${r.status} ${href}`); return r.text(); });
@@ -148,12 +161,25 @@ function painted(node) {
   return r.width >= 1 && r.height >= 1;
 }
 
-// a live <canvas> or <video> as an <img> of its pixels now, keeping the element's attributes and its laid-out size
-function pixelsAsImg(live, k) {
-  const r = live.getBoundingClientRect();
+// the live element's own box, stacking, fit and backdrop, carried inline by the <img> that replaces it: the rules that
+// placed the element name its tag (`.qc-3d canvas { position: absolute; inset: 0; background: radial-gradient(...) }`), and
+// an <img> in its place matches none of them, so without these the 3D model and the surfing video landed enlarged and off
+// their card, on no backdrop. The size is the computed (layout) one: a rect would carry a settling scale the copied
+// transform then applies a second time.
+const KEEP = ['position', 'top', 'right', 'bottom', 'left', 'width', 'height', 'margin', 'box-sizing', 'vertical-align', 'transform',
+  'transform-origin', 'opacity', 'z-index', 'border-radius', 'object-position', 'filter', 'clip-path', 'mix-blend-mode', 'box-shadow',
+  'background-color', 'background-image', 'background-size', 'background-position', 'background-repeat'];
+
+// a live <canvas> or <video> as an <img> of its pixels now, keeping the element's attributes, box and stacking
+function pixelsAsImg(live) {
+  const cs = getComputedStyle(live);
   const im = document.createElement('img');
   for (const a of live.attributes) if (a.name !== 'width' && a.name !== 'height' && a.name !== 'src') im.setAttribute(a.name, a.value);
-  im.style.width = `${r.width / k}px`; im.style.height = `${r.height / k}px`;
+  for (const p of KEEP) im.style.setProperty(p, cs.getPropertyValue(p));
+  im.style.display = cs.display === 'inline' ? 'inline-block' : cs.display;
+  // a canvas's drawing buffer fills its box; a video frame fits as the video does
+  im.style.objectFit = live.tagName === 'CANVAS' ? 'fill' : cs.objectFit;
+  im.style.maxWidth = 'none'; im.style.maxHeight = 'none'; im.style.padding = '0'; im.style.border = '0';
   let c = live;
   if (live.tagName === 'VIDEO') {
     c = document.createElement('canvas');
@@ -188,6 +214,18 @@ async function prepare() {
   return { css, urlNodes };
 }
 
+// A beat starts some loads only once its card is on screen (the 3D variant's model: the viewer is made on the card's first
+// frame), tracked in loads.9e82faf1.js, which __AD.ready reads. A frame drawn while one is pending would show an empty
+// card, so it waits for them (at most LOAD_WAIT) and draws t again, now with them in.
+const LOAD_WAIT = 20_000;
+async function loadsIn(ad, t) {
+  if (ad.ready) return;
+  const until = performance.now() + LOAD_WAIT;
+  while (!ad.ready && performance.now() < until) await new Promise((r) => setTimeout(r, 50));
+  if (!ad.ready) log(`frame ${t.toFixed(3)}s drawn with a load still pending`);
+  ad.seek(t);
+}
+
 // the frame at t, its W x H stage drawn onto an OW x OH canvas (the vectors are drawn at that scale, not stretched after)
 async function frameCanvas(t, W, H, run, OW = W, OH = H) {
   const stage = document.getElementById('stage');
@@ -195,6 +233,7 @@ async function frameCanvas(t, W, H, run, OW = W, OH = H) {
   if (!ad) return { canvas: null, missing: 0 };
   run ||= await prepare();
   ad.seek(t);
+  await loadsIn(ad, t);
   await Promise.all([...stage.querySelectorAll('video')].map(settled));
 
   // k: the window fit scale fit() gives #stage, which every rect read off the live page carries
@@ -219,7 +258,7 @@ async function frameCanvas(t, W, H, run, OW = W, OH = H) {
       if (d) c.setAttribute('href', d); else { c.removeAttribute('href'); if (on && href) missing++; }
       c.removeAttribute('xlink:href');
     } else if (on) {
-      try { c.replaceWith(pixelsAsImg(n, k)); } catch (e) { log(`a ${n.tagName.toLowerCase()} could not be read back`, e); c.remove(); missing++; }
+      try { c.replaceWith(pixelsAsImg(n)); } catch (e) { log(`a ${n.tagName.toLowerCase()} could not be read back`, e); c.remove(); missing++; }
     } else c.remove();
   }
   for (const n of run.urlNodes) {
@@ -277,6 +316,88 @@ async function frameCanvas(t, W, H, run, OW = W, OH = H) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------
+// the sound: one real-time pass, recorded from inside the page (audio-tap.057e3dda.js)
+// ---------------------------------------------------------------------------------------------------------------
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+export const canRecordSound = () => !!window.__AUDIO_TAP && typeof AudioEncoder === 'function';
+
+// Plays the spot once from 0 at 1x while the tap records every sound it makes, then decodes the take. Resolves
+// { decoded, offset } (offset: seconds of recording before the spot's t = 0) or { why } when there is no sound to be had.
+// `changed` ends the pass early (a variant or ratio picked mid-run).
+async function captureSound({ onTick, changed } = {}) {
+  const tap = window.__AUDIO_TAP;
+  if (!tap) return { why: 'this page has no audio tap (audio-tap.057e3dda.js did not load)' };
+  const ad = window.__AD, speed = ad.speed;
+  let recording = false;
+  try {
+    ad.setSpeed(1);
+    ad.seek(0);
+    await sleep(400); // the soundtracks settle on the held first frame before the take starts
+    const recAt = await tap.start();
+    recording = true;
+    ad.play(0);
+    const playAt = performance.now();
+    // the run is over when the clock stops on its last frame (timeline.9b47fc30.js holds it a frame-quantised hair under
+    // CYCLE, so `now` never reaches CYCLE itself); a wall-clock cap covers a clock that never stops
+    const end = ad.CYCLE, cap = performance.now() + (end + 10) * 1000;
+    while (ad.playing && performance.now() < cap) {
+      if (changed && changed()) return { why: 'the variant or ratio changed mid-take' };
+      if (onTick) onTick(ad.now, end);
+      await sleep(100);
+    }
+    await sleep(300); // the last sounds' tails
+    const blob = await tap.stop();
+    recording = false;
+    const decoded = await new OfflineAudioContext(2, SR, SR).decodeAudioData(await blob.arrayBuffer());
+    return { decoded, offset: (playAt - recAt) / 1000 };
+  } catch (e) {
+    log('the sound pass failed', e);
+    return { why: `the sound pass failed (${e.message})` };
+  } finally {
+    if (recording) await tap.stop().catch((e) => log('the take did not stop cleanly', e));
+    ad.setSpeed(speed);
+    ad.seek(0);
+  }
+}
+
+// the take cut to the spot: its t = 0 at sample 0, `seconds` long, 48 kHz stereo
+async function alignSound({ decoded, offset }, seconds) {
+  const ctx = new OfflineAudioContext(2, Math.ceil(seconds * SR), SR);
+  const src = ctx.createBufferSource();
+  src.buffer = decoded;
+  src.connect(ctx.destination);
+  if (offset >= 0) src.start(0, offset); else src.start(-offset);
+  return ctx.startRendering();
+}
+
+async function audioConfig() {
+  if (typeof AudioEncoder !== 'function') return null;
+  for (const [cfg, codec] of [[AAC, 'aac'], [OPUS, 'opus']]) {
+    try { if ((await AudioEncoder.isConfigSupported(cfg)).supported) return { cfg, codec }; } catch (e) { log(`${cfg.codec} probe failed`, e); }
+  }
+  return null;
+}
+
+async function encodeSound(muxer, buffer, cfg) {
+  const enc = new AudioEncoder({ output: (chunk, meta) => muxer.addAudioChunk(chunk, meta), error: (e) => log('the audio encoder failed', e) });
+  enc.configure(cfg);
+  const L = buffer.length, a = buffer.getChannelData(0), b = buffer.getChannelData(buffer.numberOfChannels > 1 ? 1 : 0);
+  const STEP = 1024;
+  for (let i = 0; i < L; i += STEP) {
+    const n = Math.min(STEP, L - i);
+    const data = new Float32Array(n * 2);
+    data.set(a.subarray(i, i + n), 0);
+    data.set(b.subarray(i, i + n), n);
+    const chunk = new AudioData({ format: 'f32-planar', sampleRate: SR, numberOfFrames: n, numberOfChannels: 2, timestamp: Math.round((i / SR) * 1e6), data });
+    enc.encode(chunk);
+    chunk.close();
+    if (enc.encodeQueueSize > 64) await sleep(0);
+  }
+  await enc.flush();
+  enc.close();
+}
+
+// ---------------------------------------------------------------------------------------------------------------
 // the run: pace the frames, encode them, hand back a blob
 // ---------------------------------------------------------------------------------------------------------------
 // each ratio's platform size; a ratio not listed is scaled so its short side is 1080 (even sides, as H.264 needs). 9:16's
@@ -294,7 +415,8 @@ export const busy = () => running;
 // the last finished run, so a headless check can pull the file back instead of only trusting the button
 let lastRun = null;
 
-async function renderNow({ fps = FPS, onProgress } = {}) {
+// `withSound`: play the spot through once first and record its sound (captureSound); `onSound(now, end)` follows that pass
+async function renderNow({ fps = FPS, onProgress, withSound = false, onSound } = {}) {
   const ad = window.__AD;
   if (!ad) throw new Error('export: the spot has no clock yet (window.__AD)');
   if (typeof VideoEncoder !== 'function') throw new Error('export: this browser has no WebCodecs VideoEncoder');
@@ -303,8 +425,19 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
   const [OW, OH] = outSize(ar, W, H);
   const changed = () => variant() !== v || window.AR.key !== ar;
   const total = Math.max(1, Math.round(ad.CYCLE * fps));
+  let take = null, soundless = withSound ? null : 'not asked for';
+  if (withSound) {
+    const got = await captureSound({ onTick: onSound, changed });
+    if (changed()) throw new Error('export: the variant or ratio changed mid-run, so the render stopped');
+    if (got.decoded) take = got; else soundless = got.why;
+  }
+  const audio = take ? await audioConfig() : null;
+  if (take && !audio) soundless = 'this browser encodes neither AAC nor Opus';
   const { Muxer, ArrayBufferTarget } = await loadMuxer();
-  const muxer = new Muxer({ target: new ArrayBufferTarget(), video: { codec: 'avc', width: OW, height: OH }, fastStart: 'in-memory' });
+  const muxer = new Muxer({
+    target: new ArrayBufferTarget(), video: { codec: 'avc', width: OW, height: OH }, fastStart: 'in-memory',
+    ...(audio ? { audio: { codec: audio.codec, numberOfChannels: 2, sampleRate: SR }, firstTimestampBehavior: 'offset' } : {}),
+  });
   const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => log('the encoder failed', e) });
   const cfg = { codec: AVC, width: OW, height: OH, bitrate: BITRATE, framerate: fps };
   const sup = await VideoEncoder.isConfigSupported(cfg);
@@ -332,6 +465,7 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
       if (enc.encodeQueueSize > 8) await new Promise((r) => setTimeout(r, 0));
     }
     await enc.flush();
+    if (audio) await encodeSound(muxer, await alignSound(take, total / fps), audio.cfg);
   } finally {
     try { enc.close(); } catch (e) { log('the encoder was already closed', e); }
     // the spot is left exactly where it started, whatever happened mid-run
@@ -339,7 +473,10 @@ async function renderNow({ fps = FPS, onProgress } = {}) {
   }
   muxer.finalize();
   const blob = new Blob([muxer.target.buffer], { type: 'video/mp4' });
-  const result = { blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v };
+  const result = {
+    blob, mime: 'video/mp4', codec: AVC, fps, frames: total, missing, seconds: total / fps, width: OW, height: OH, ar, variant: v,
+    audio: audio ? audio.cfg.codec : null, soundless,
+  };
   lastRun = result;
   return result;
 }
@@ -378,6 +515,8 @@ function toBase64(blob) {
 
 window.__EXPORT = {
   render,
+  captureSound,
+  canRecordSound,
   frameCanvas,
   outSize,
   download,

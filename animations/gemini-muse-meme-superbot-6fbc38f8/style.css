@@ -121,19 +121,6 @@ body.freeze .speed-select { display: none; }
 @media (pointer: coarse) { .music-pick { top: 142px; } .music-pick select { height: 44px; } }
 body.freeze .music-pick { display: none; }
 
-/* the Export pill (export.64039673.js): the Music pick's chrome, directly under it, offered only on the multicat-credits
-   cut at 9:16. It saves that cut as a video file; it is a control, never part of the spot, so it hides on a frozen capture. */
-.export-pill { position: fixed; top: 162px; right: 18px; z-index: 40; display: inline-flex; align-items: center; padding: 4px; border-radius: 999px;
-  background: var(--card); border: 1px solid var(--line); font: 600 13px/1 var(--ui); user-select: none; }
-.export-pill[hidden] { display: none; }
-.export-btn { appearance: none; margin: 0; border: 0; height: 30px; padding: 0 14px; border-radius: 999px; background: transparent;
-  color: var(--fg); font: inherit; cursor: pointer; transition: background-color .15s; }
-.export-btn:hover:not(:disabled) { background: var(--raised); }
-.export-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.export-btn:disabled { cursor: progress; color: var(--muted); }
-@media (pointer: coarse) { .export-pill { top: 194px; } .export-btn { height: 44px; } }
-body.freeze .export-pill { display: none; }
-
 
 /* 9:16 (the Ratio select, assets/ar.js): the hub is 560px of CSS there, so a reply's column must not grow to a card's own
    width. Its grid track is an auto column, which sizes to a 560px artifact card (.bk: the 3D model, the order) and lets it

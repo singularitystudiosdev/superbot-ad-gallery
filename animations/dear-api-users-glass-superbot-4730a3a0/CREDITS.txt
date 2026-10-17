@@ -1,0 +1,34 @@
+dear-api-users-glass.4730a3a0: provenance (internal; nothing here is shown on screen)
+
+ORIGIN
+  The DEAR API USERS spot (dear-api-users-superbot-417d180e, chat 417d180e), the silent copy served as
+  quick-chats/dear-api-users-music-variants.c060dffc/v5, scored by chat 4730a3a0 (2026-10-17) on the user's ask "Make this ad
+  sound as good as it looks". Picture, beats, timing and figures are unchanged; the page restores the house sound controls
+  (replay, sound off · click anywhere / sound on; M), answers the lightbox's { type: 'unmute' } message, and exposes
+  __AD.sound() and __AD.score(). Icon, mascot and copy provenance: animations/dear-api-users-superbot-417d180e/CREDITS.txt.
+  Working copy: quick-chats/dear-api-users-music-variants.c060dffc/v5 (the silent original kept as index.silent.4730a3a0.html).
+
+SOUND
+  score.4730a3a0.js: an original score synthesised in the browser with WebAudio (oscillators, FM glass bells, seeded
+  noise, filters, a generated convolution room and an unrolled dotted-eighth ping-pong) and rendered through an
+  OfflineAudioContext into one buffer whose time is the ad's time. No samples, no generated audio, nothing licensed from a
+  third party, no attribution owed.
+  91.8 BPM, a beat being (end card - price in) / 12, so the price, the line and the end card land on bar lines and $800 on
+  beat 6. D minor while the price hurts: a glass tap on the tile and D | F A D for DEAR API USERS over a Dm(add9) pad,
+  hats creeping in two beats out; an impact as the price arrives, a tick per $1,000 the counter passes climbing the
+  D minor scale over a pulsing bass; $30,000 lands as a stamp with a tritone cluster and the band stops dead under a
+  ticking clock and a reversed cymbal; the chip flips with a whoosh and a glass sparkle, A sus4 opens up while the price
+  rolls down, every $1,000 a tick one step higher, into a snare run; the drop on $800 in D major (a hole left in the
+  groove for the 97% less pop and chime); G then A under the line, a pluck per word; the strike is a marker snap, a
+  felt-tip squeak and a swipe left to right, and the band stops again; superbot.gg lands on D add9 with the opening motif
+  in major, its third note sung by the mascot's FM droplet, and a quiet button on the 12.83 s bar line.
+  Master: -14.5 LUFS integrated, -2.1 dBTP (ffmpeg ebur128), 48 kHz stereo, 15 s (13 s spot plus the tail under the held
+  card); the MP4s are 14 s (the end card held 1 s for the button's ring) and fade over their last 0.4 s.
+  Live sync: the page plays the buffer from the clock's offset and the clock follows what is heard
+  (AudioContext.getOutputTimestamp) once it drifts past 15 ms; when autoplay is allowed the first 4 s render alone and the
+  run crosses to the full buffer, sample-identical, when it lands. Checked headless over two runs: heard score within
+  8 ms of the picture, every cue rising 3 dB or more in its own band.
+
+MARKET
+  As the source spot: sell-to-reddit llm_ai usage-limits-pricing ("Usage limits, pricing and token spend", rank 1,
+  10,223 authors in 30 days, data as of 2026-10-17); wants: alternative ai subscription, alternative ai tool.

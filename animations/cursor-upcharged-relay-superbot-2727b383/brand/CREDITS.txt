@@ -1,0 +1,17 @@
+brand/ CREDITS: every third-party mark in this spot, where it came from, and the usage note.
+
+CURSOR (card 1, "IF YOU USE CURSOR")
+  cursor-cube-2d.svg   General Logos/Cube/SVG/CUBE_2D_DARK.svg (the flat cube for dark backgrounds, fill #edecec),
+                       copied unmodified from the official brand kit zip
+                       https://ptht05hbb1ssoooe.public.blob.vercel-storage.com/assets/brand/cursor-brand-assets.zip,
+                       linked from https://cursor.com/brand (fetched 2026-09-24 for never-refused-thread-superbot-7bd94f14).
+                       index.html inlines its one path verbatim. Trademark of Anysphere, Inc., shown nominatively to
+                       name the product the copy refers to.
+
+EMOJI (cards 2 and 3)
+  U+1F4B0 money bag and U+1F6A8 police car light (siren) are drawn by the viewer's system emoji font
+  (Apple Color Emoji on macOS, which is what the offline renders show); no emoji artwork is bundled.
+
+SUPERBOT (end card)
+  The superbot.gg wordmark and mascot face are the house end card's, verbatim
+  (quick-chats/superbot-muse-split.1d16d488/endcard.1d16d488.html).

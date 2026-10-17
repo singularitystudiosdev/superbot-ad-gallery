@@ -624,6 +624,13 @@ const more = [
   // (10,223 authors, 30 days, data as of 2026-10-17); its wants: alternative ai subscription.
   ['dear-cursor-users-superbot-417d180e', 'dear-cursor-users-superbot-417d180e/', 'dear cursor users · white type on black: you are being upcharged and pay api pricing, superbot reroutes to subscription and removes the cursor upcharge, we did this to save people thousands, then superbot.gg with the mascot (17 s)', 'Ad spots', {
     desc: 'Four lines in white on black, each arriving word by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to subscription and removes the cursor upcharge", "we did this to save people thousands". Ends on the superbot.gg end card with the mascot, the same ending as the multi-tool cat cut.' }],
+  // If you use Cursor (2026-10-17, 2727b383): three white-on-black title cards, each a lockup with its mark on the
+  // right (Cursor's official flat cube from its brand kit, brand/CREDITS.txt; the money bag and siren emoji), then the
+  // multicat cut's ending (the house superbot.gg end card). One self-contained page, a pure function of t like the
+  // gemini muse meme spots. Answers sell-to-reddit llm_ai rank 1 usage-limits-pricing (10,223 authors, 30 days, data
+  // as of 2026-10-17); its wants: alternative ai tool (164 authors), alternative ai subscription (106).
+  ['cursor-upcharged-relay-superbot-2727b383', 'cursor-upcharged-relay-superbot-2727b383/', 'IF YOU USE CURSOR · white on black with the Cursor logo, then YOU ARE BEING UPCHARGED with a money bag, SAVE THOUSANDS WITH SUPERBOT RELAY with a siren, then superbot.gg with the mascot (10.7 s)', 'Ad spots', {
+    desc: 'Three title cards in white on black, each a lockup with its mark to the right, the words rising out of a blur and the mark popping in after them: "IF YOU USE CURSOR" with the Cursor cube, "YOU ARE BEING UPCHARGED" with a bobbing money bag, "SAVE THOUSANDS WITH SUPERBOT RELAY" with a siren whose red light pulses. Ends on the superbot.gg end card with the mascot, the same ending as the multi-tool cat cut. 10.7 s, silent; the words re-break for every ratio. The Cursor logo is the official flat cube from cursor.com/brand.' }],
 ];
 // an optional 5th field carries extra item fields, e.g. { download, downloadLabel } for a file too big for Pages
 for (const [name, src, title, group, extra] of more) {

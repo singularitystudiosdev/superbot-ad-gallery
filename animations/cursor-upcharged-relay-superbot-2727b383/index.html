@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>superbot: if you use Cursor, you are being upcharged</title>
+<link rel="icon" href="data:,">
+<style>
+/* Three white-on-black title cards, then the house superbot.gg end card. Every card is one lockup: the words left, the
+   mark right (the Cursor cube, a money bag, a siren), the same geometry the end card closes on (superbot.gg left, the
+   mascot right). The type is the house end card's (SF Pro Rounded / Display 800), the motion the muse meme spot's: words
+   rise out of a blur on outQuint, marks pop on its softer outBack (1.4), a card leaves blurring up. Sizes are on a
+   1080-high stage; the width follows ?ar= (16x9, 4x3, 1x1, 4x5) like the gallery's ar.js, and --s is the one type size
+   every card shares, fitted so the widest lockup fills about 84% of the frame. */
+html, body { margin: 0; height: 100%; background: #0a0a0b; overflow: hidden; }
+#stage { position: absolute; left: 50%; top: 50%; height: 1080px; background: #0a0a0b; overflow: hidden; transform-origin: 50% 50%; }
+.card { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; visibility: hidden; }
+.lock { display: flex; align-items: center; gap: calc(var(--s) * 0.32); will-change: transform, opacity, filter; }
+.txt { color: #fff; font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; font-weight: 800; font-size: var(--s); line-height: 0.98; letter-spacing: -0.025em; white-space: nowrap; }
+.ln { display: block; }
+.w { display: inline-block; will-change: transform, opacity, filter; }
+.ic { position: relative; flex: none; display: grid; place-items: center; width: calc(var(--s) * var(--ic, 1.12)); height: calc(var(--s) * var(--ic, 1.12)); will-change: transform, opacity; }
+.ic svg { display: block; height: 92%; width: auto; }
+.ic .emoji { display: block; font: calc(var(--s) * var(--ic, 1.12) * 0.875) / 1 "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
+/* the siren's light: a red bloom behind the emoji, pulsing (opacity set per frame) */
+.ic .glow { position: absolute; inset: -45%; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 45, 45, 0.55), rgba(255, 45, 45, 0) 70%); opacity: 0; }
+/* the end card, verbatim from the house card (superbot-muse-split.1d16d488/endcard.1d16d488.html) */
+.end { position: absolute; inset: 0; visibility: hidden; }
+.end-bot { position: absolute; left: 0; top: 0; width: calc(220px * var(--k, 1)); height: calc(220px * var(--k, 1)); opacity: 0; will-change: transform, opacity; }
+.end-face { display: block; width: 100%; height: 100%; overflow: visible; }
+.end-word { position: absolute; left: 0; top: 50%; opacity: 0; color: #fff; white-space: nowrap; font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; will-change: transform, opacity, filter; }
+.end-word b { display: block; font-size: calc(128px * var(--k, 1)); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.hint { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); font: 500 12px/1 system-ui, sans-serif; color: #55555c; opacity: 0; transition: opacity .4s; pointer-events: none; }
+body:hover .hint { opacity: 1; }
+body.freeze .hint { display: none; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div class="hint">space pause · ←/→ step · R restart</div>
+<script>
+(function () {
+'use strict';
+// ---------- the copy ----------
+// Cursor's flat cube for dark backgrounds, verbatim from the official brand kit (brand/cursor-cube-2d.svg, CREDITS.txt)
+var CURSOR = '<svg viewBox="0 0 466.73 532.09" role="img" aria-label="Cursor"><path fill="#edecec" d="M457.43,125.94L244.42,2.96c-6.84-3.95-15.28-3.95-22.12,0L9.3,125.94c-5.75,3.32-9.3,9.46-9.3,16.11v247.99c0,6.65,3.55,12.79,9.3,16.11l213.01,122.98c6.84,3.95,15.28,3.95,22.12,0l213.01-122.98c5.75-3.32,9.3-9.46,9.3-16.11v-247.99c0-6.65-3.55-12.79-9.3-16.11h-.01ZM444.05,151.99l-205.63,356.16c-1.39,2.4-5.06,1.42-5.06-1.36v-233.21c0-4.66-2.49-8.97-6.53-11.31L24.87,145.67c-2.4-1.39-1.42-5.06,1.36-5.06h411.26c5.84,0,9.49,6.33,6.57,11.39h-.01Z"/></svg>';
+var emoji = function (ch, label) { return '<span class="emoji" role="img" aria-label="' + label + '">' + ch + '</span>'; };
+// t0..t1 is each card's time on screen; `wide` breaks the words for 16:9 and 4:3, `narrow` for 1:1 and 4:5
+var CARDS = [
+  { t0: 0.15, t1: 2.25, mark: CURSOR, kind: 'logo',
+    wide: ['IF YOU USE CURSOR'], narrow: ['IF YOU', 'USE', 'CURSOR'] },
+  { t0: 2.25, t1: 4.55, mark: emoji('\u{1F4B0}', 'money bag'), kind: 'bag',
+    wide: ['YOU ARE BEING', 'UPCHARGED'], narrow: ['YOU ARE', 'BEING', 'UPCHARGED'] },
+  { t0: 4.55, t1: 7.55, mark: '<span class="glow"></span>' + emoji('\u{1F6A8}', 'siren'), kind: 'siren',
+    wide: ['SAVE THOUSANDS', 'WITH SUPERBOT RELAY'], narrow: ['SAVE', 'THOUSANDS', 'WITH', 'SUPERBOT', 'RELAY'] },
+];
+// the house end card's run: the mascot pops in, superbot.gg fades up beside it, then it holds to the end
+var END_AT = 7.6, END_LEN = 2.5, END_GAP = 44, CYCLE = END_AT + END_LEN + 0.6;
+var END_FACE = '<svg class="end-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="endFace" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#endFace)" transform="translate(-1.2 -1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#endFace)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#endFace)"/></svg>';
+
+// ---------- easing (the spot's lib) ----------
+var clamp = function (v, a, b) { return Math.min(b === undefined ? 1 : b, Math.max(a === undefined ? 0 : a, v)); };
+var outQuint = function (x) { return 1 - Math.pow(1 - x, 5); };
+var inCubic = function (x) { return x * x * x; };
+var popBack = function (p) { var c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+
+// ---------- the frame's ratio (the gallery passes ?ar=, standalone picks the nearest to the window) ----------
+var H = 1080, RATIOS = { '16x9': [16, 9], '4x3': [4, 3], '1x1': [1, 1], '4x5': [4, 5] };
+var q = new URLSearchParams(location.search);
+var asked = (q.get('ar') || '').replace(':', 'x').replace('-', 'x');
+function pickRatio() {
+  if (RATIOS[asked]) return asked;
+  var f = innerWidth / Math.max(1, innerHeight), best = '16x9', d = Infinity;
+  for (var key in RATIOS) { var dd = Math.abs(Math.log(f / (RATIOS[key][0] / RATIOS[key][1]))); if (dd < d) { d = dd; best = key; } }
+  return best;
+}
+var ar = '', W = 1920;
+
+// ---------- mount ----------
+var stage = document.getElementById('stage');
+var cards = CARDS.map(function (c) {
+  var el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML = '<div class="lock"><div class="txt"></div><div class="ic">' + c.mark + '</div></div>';
+  stage.appendChild(el);
+  return { c: c, el: el, lock: el.querySelector('.lock'), txt: el.querySelector('.txt'), ic: el.querySelector('.ic'), glow: el.querySelector('.glow'), words: [] };
+});
+var end = document.createElement('div');
+end.className = 'end';
+end.setAttribute('role', 'img');
+end.setAttribute('aria-label', 'superbot.gg');
+end.innerHTML = '<div class="end-word"><b>superbot.gg</b></div><div class="end-bot">' + END_FACE + '</div>';
+stage.appendChild(end);
+var endWord = end.querySelector('.end-word'), endBot = end.querySelector('.end-bot');
+var S = 100; // the shared type size now applied, in stage px
+
+// lay the words out for the ratio, then fit the one shared size: measure every lockup at 100px, scale to the widest
+// (84% of the frame) and the tallest (62% of it), capped at the house wordmark's 128px
+function layout() {
+  ar = pickRatio();
+  W = Math.round(H * RATIOS[ar][0] / RATIOS[ar][1]);
+  stage.style.width = W + 'px';
+  var wide = RATIOS[ar][0] / RATIOS[ar][1] > 1.2;
+  stage.style.setProperty('--s', '100px');
+  var maxW = 0, maxH = 0;
+  cards.forEach(function (k) {
+    var lines = wide ? k.c.wide : k.c.narrow;
+    k.txt.innerHTML = lines.map(function (ln) {
+      return '<span class="ln">' + ln.split(' ').map(function (w) { return '<span class="w">' + w + '</span>'; }).join(' ') + '</span>';
+    }).join('');
+    k.words = Array.prototype.slice.call(k.txt.querySelectorAll('.w'));
+    // the mark grows with the block it sits beside: one line 1.12x the type, two about 1.7x, never past 1.8x
+    k.el.style.setProperty('--ic', Math.min(1.8, Math.max(1.12, 0.86 * 0.98 * lines.length)).toFixed(3));
+    k.el.style.visibility = 'hidden';
+    k.lock.style.transform = 'none';
+    maxW = Math.max(maxW, k.lock.offsetWidth);
+    maxH = Math.max(maxH, k.lock.offsetHeight);
+  });
+  S = Math.min(128, 100 * W * 0.84 / maxW, 100 * H * 0.62 / maxH);
+  stage.style.setProperty('--s', S.toFixed(2) + 'px');
+  fit();
+}
+function fit() {
+  var k = Math.min(innerWidth / W, innerHeight / H);
+  stage.style.transform = 'translate(-50%, -50%) scale(' + k + ')';
+}
+
+// ---------- one frame: a pure function of t ----------
+function renderCard(k, t) {
+  var c = k.c, u = t - c.t0;
+  var on = t >= c.t0 && t < c.t1;
+  k.el.style.visibility = on ? 'visible' : 'hidden';
+  if (!on) return;
+  var dur = c.t1 - c.t0, n = k.words.length;
+  // words: each rises out of a blur, 70ms after the one before
+  k.words.forEach(function (w, i) {
+    var p = outQuint(clamp((u - 0.07 * i) / 0.6));
+    w.style.opacity = p.toFixed(3);
+    w.style.filter = p < 1 ? 'blur(' + (9 * (1 - p)).toFixed(2) + 'px)' : 'none';
+    w.style.transform = 'translateY(' + (0.3 * S * (1 - p)).toFixed(2) + 'px)';
+  });
+  // the mark pops in once the last word has started, on the end card's pop (0.72 -> 1, outBack), turning upright
+  var tc = u - (0.07 * n + 0.06);
+  var pop = clamp(tc / 0.55), settle = outQuint(clamp(tc / 0.6));
+  var bob = 0, glow = 0, live = clamp((tc - 0.5) / 0.3);
+  if (c.kind === 'bag') bob = -0.035 * S * Math.sin(2 * Math.PI * (tc - 0.5) / 1.1) * live;
+  if (c.kind === 'siren') glow = (0.55 + 0.45 * Math.sin(2 * Math.PI * (tc - 0.5) * 2.4)) * live + 0.35 * clamp(tc / 0.3) * (1 - live);
+  k.ic.style.opacity = outQuint(clamp(tc / 0.3)).toFixed(3);
+  k.ic.style.transform = 'translateY(' + bob.toFixed(2) + 'px) rotate(' + (-14 * (1 - settle)).toFixed(2) + 'deg) scale(' + (0.72 + 0.28 * popBack(pop)).toFixed(4) + ')';
+  if (k.glow) k.glow.style.opacity = glow.toFixed(3);
+  // the whole lockup: a slow push in while it holds, then it leaves blurring up over its last 0.34s
+  var out = inCubic(clamp((t - (c.t1 - 0.34)) / 0.34));
+  k.lock.style.opacity = (1 - out).toFixed(3);
+  k.lock.style.filter = out > 0 ? 'blur(' + (12 * out).toFixed(2) + 'px)' : 'none';
+  k.lock.style.transform = 'translateY(' + (-0.22 * S * out).toFixed(2) + 'px) scale(' + (1 + 0.03 * clamp(u / dur) - 0.02 * out).toFixed(4) + ')';
+}
+
+var endK = 1;
+function renderEnd(t) {
+  var tc = t - END_AT;
+  end.style.visibility = tc >= 0 ? 'visible' : 'hidden';
+  if (tc < 0) return;
+  // the house card's own run (endcard.1d16d488.html render(t)), scaled down only when a narrow ratio would crop it
+  var natW = endWord.offsetWidth / endK;
+  var k = Math.min(1, (W * 0.86) / (natW + END_GAP + 220));
+  if (k !== endK) { end.style.setProperty('--k', k.toFixed(4)); endK = k; }
+  var w = 220 * k, wordW = natW * k, gap = END_GAP * k;
+  var left = (W - (wordW + gap + w)) / 2, midY = H / 2;
+  var pop = clamp(tc / 0.55), shift = outQuint(clamp((tc - 0.3) / 1.0));
+  endBot.style.opacity = outQuint(clamp(tc / 0.3)).toFixed(3);
+  endBot.style.transform = 'translate(' + (left + wordW + gap).toFixed(2) + 'px, ' + (midY - w / 2).toFixed(2) + 'px) scale(' + (0.72 + 0.28 * popBack(pop)).toFixed(4) + ')';
+  endWord.style.opacity = shift.toFixed(3);
+  endWord.style.filter = shift < 1 ? 'blur(' + (6 * k * (1 - shift)).toFixed(2) + 'px)' : 'none';
+  endWord.style.transform = 'translate(' + (left - 20 * k * (1 - shift)).toFixed(2) + 'px, -50%)';
+}
+
+function render(t) {
+  cards.forEach(function (k) { renderCard(k, t); });
+  renderEnd(t);
+}
+
+// ---------- the clock (the muse meme spot's: ?t= freezes a frame, ?t=&play=1 plays on, space pauses, arrows step
+// 0.25s, R restarts; a 60fps quantised clock that runs once and holds its last frame) ----------
+var FPS = 60;
+var hasT = q.has('t'), freeze = hasT && !q.has('play');
+if (freeze) document.body.classList.add('freeze');
+var paused = freeze, base = hasT ? parseFloat(q.get('t')) || 0 : 0, started = performance.now();
+var now = function () { return paused ? base : base + (performance.now() - started) / 1000; };
+var timeNow = function () { var t = clamp(now(), 0, CYCLE); return Math.min(Math.round(t * FPS) / FPS, CYCLE); };
+
+addEventListener('keydown', function (e) {
+  if (e.key === ' ') {
+    e.preventDefault();
+    if (paused) { if (base >= CYCLE) base = 0; paused = false; started = performance.now(); }
+    else { base = now(); paused = true; }
+  } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    base = clamp(timeNow() + (e.key === 'ArrowRight' ? 0.25 : -0.25), 0, CYCLE); paused = true;
+  } else if (e.key === 'r' || e.key === 'R') { base = 0; started = performance.now(); paused = false; }
+});
+addEventListener('resize', function () { if (!RATIOS[asked] && pickRatio() !== ar) layout(); else fit(); render(timeNow()); });
+
+function frame() {
+  if (!paused && now() >= CYCLE) { base = CYCLE; paused = true; }
+  render(timeNow());
+  requestAnimationFrame(frame);
+}
+
+// frame-exact QA and offline renders: pause and draw t; ready once the fonts are in and the cards are measured
+window.__AD = {
+  CYCLE: CYCLE,
+  ART: CARDS[0].t0,
+  ready: false,
+  seek: function (t) { paused = true; base = t; started = performance.now(); render(timeNow()); },
+  play: function (t) { paused = false; base = t || 0; started = performance.now(); render(timeNow()); },
+  get now() { return timeNow(); },
+  get playing() { return !paused; },
+};
+document.fonts.ready.then(function () {
+  layout();
+  // the clock starts once the cards are laid out, so the first word never animates against a wrong measure
+  if (!hasT || !freeze) started = performance.now();
+  render(timeNow());
+  window.__AD.ready = true;
+  requestAnimationFrame(frame);
+});
+})();
+</script>
+</body>
+</html>

@@ -37,7 +37,7 @@ import { music } from '../../../music.47e5d94a.js';
 // v5 on the Music pill: the broadcast mix, with the song mixed in
 import { mountMix, mixOwnsSong } from './multicat-mix.08050705.js?v=2';
 
-const CSS = new URL('../multicat.516afb1a.css?v=7', import.meta.url).href;
+const CSS = new URL('../multicat.516afb1a.css?v=8', import.meta.url).href;
 // the two variants this module answers: the base chain and its bare twin (the export `bare`)
 export const ID = 'multicat', BARE_ID = 'multicat-credits';
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;

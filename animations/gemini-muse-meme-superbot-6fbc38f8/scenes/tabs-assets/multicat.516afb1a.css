@@ -19,6 +19,9 @@
 /* its feed glides to this zero-height anchor under each answer's card, not the card's bottom, so the newest card clears
    the feed's clip (chat.9b47fc30.js renderScroll) with its edge and shadow; relative, so it takes no room in the thread */
 #s-tabs .sbsite .hub .mc-anchor { display: block; height: 0; position: relative; top: 6px; pointer-events: none; }
+/* its composer runs wider than the thread (answer cards reach 370px left of centre, the asks 380px right), so no card
+   hangs past its edges; the hub carries .qc-wide on that route (chat.9b47fc30.js renderChat). Past ask.css's 760px cap too */
+#s-tabs .sbsite .hub.qc-wide .composer, #s-tabs .sbsite.ask .hub.qc-wide .composer { width: min(800px, calc(100% - 48px)); max-width: 800px; }
 /* and its song card has no cover, so the title and the strip get the room the cover's frame gave them */
 #s-tabs .sbsite .hub .mc-sg-bare .mc-sg-card { padding: 14px 16px; }
 #s-tabs .sbsite .hub .mc-sg-bare .mc-sg-side { gap: 8px; }

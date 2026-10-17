@@ -45,6 +45,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   that beagle as a walking 3D model (Meshy, walk rigged by superbot), a PetSmart dog food order on
   DoorDash and "Tails Up", a song about dogs (ElevenLabs, plays with sound), each answer a real
   generation (about 29s, with sound).
+- **a dog, four tools, no model on show**: the multi-tool cat's credits-only cut made for that dog
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=multidog-credits`): the same beagle photo,
+  walking 3D beagle, PetSmart order and "Tails Up" with no routing chips or model headers, each
+  generation fast-forwarded x50, ending on the superbot.gg end card (about 31s, with sound: the
+  16 · Punchy premium groove score moved up a semitone into the song's key).
 - **a college research study, three asks**: the muse meme spot's college cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=college`), made like the credits-only cat cut (no model on
   show): superbot calls a stratified random sample of 250 students, one dot per call in four class-year strata resolving

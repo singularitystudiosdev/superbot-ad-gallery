@@ -17,7 +17,7 @@ import { renderSfx } from './multicat-sfx.08050705.js';
 
 // stem levels (dB) into the mix, before mastering
 const MIX = { pad: 1.5, keys: -3, gtr: 10, bass: -7, drums: -7, verb: -3, post: -4.5, pverb: -5, ui: 0, room: -6, song: -1 };
-const SONG_FOR = 5.6, SONG_FADE = 0.9; // as the beat plays it (multicat.516afb1a.js)
+const SONG_FOR = 5.6, SONG_FADE = 0.9; // as the beat plays the cat's song (multicat.516afb1a.js); a chain may pass its own songFor
 const reverb = (bus, rt60, damp, pre = 0.02) => fdn(bus, { rt60, damp, pre });
 
 // a gain curve over n samples: 1, dipping by `depth` dB at each [t, depth, attack, hold, release]
@@ -60,10 +60,10 @@ function glue(bus, { thr = -16, ratio = 2, atk = 10, rel = 160, knee = 6 } = {})
   return most;
 }
 
-// the song from the play press: SONG_FOR seconds, then low-passed and faded over SONG_FADE as the end card covers the chat
-function placeSong(bus, song, S) {
-  const i0 = Math.round(S.play * SR), n = Math.min(song.L.length, Math.round((SONG_FOR + SONG_FADE) * SR));
-  const fl = new SVF(18000, 0.6), fr = new SVF(18000, 0.6), cut = Math.round(SONG_FOR * SR), fadeN = Math.round(SONG_FADE * SR);
+// the song from the play press: songFor seconds, then low-passed and faded over SONG_FADE as the end card covers the chat
+function placeSong(bus, song, S, songFor) {
+  const i0 = Math.round(S.play * SR), n = Math.min(song.L.length, Math.round((songFor + SONG_FADE) * SR));
+  const fl = new SVF(18000, 0.6), fr = new SVF(18000, 0.6), cut = Math.round(songFor * SR), fadeN = Math.round(SONG_FADE * SR);
   for (let i = 0; i < n && i0 + i < bus.n; i++) {
     let gl = Math.min(1, i / (0.004 * SR)), l = song.L[i], r = song.R[i];
     if (i >= cut) {
@@ -77,8 +77,9 @@ function placeSong(bus, song, S) {
 }
 
 // T: the beat's plan (multicat.516afb1a.js plan); ask0: the first ask { text, s, typeEnd, send }; chips0: its routing
-// chips; song: { L, R } Float32Arrays at 48 kHz (or null); cycle: the spot's length. Returns the mastered stereo mix
-export function renderMix({ T, ask0, chips0, song, cycle, target = -16, ceiling = -1, stems = false }) {
+// chips; song: { L, R } Float32Arrays at 48 kHz (or null); songFor: how long the song plays before its fade; cycle: the
+// spot's length. Returns the mastered stereo mix
+export function renderMix({ T, ask0, chips0, song, songFor = SONG_FOR, cycle, target = -16, ceiling = -1, stems = false }) {
   const S = T.steps[2];
   const G0 = S.play - BAR * Math.floor(S.play / BAR); // the bar line every bar sits on: bar 11 is the song's downbeat
   const end = cycle + 0.3, n = Math.ceil(end * SR);
@@ -110,7 +111,7 @@ export function renderMix({ T, ask0, chips0, song, cycle, target = -16, ceiling 
   fadeBetween(wet, S.play, S.play + 0.35);
 
   const songBus = mk();
-  if (song) placeSong(songBus, song, S);
+  if (song) placeSong(songBus, song, S, songFor);
 
   const mix = mk();
   sum(mix, music);

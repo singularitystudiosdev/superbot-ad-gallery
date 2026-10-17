@@ -126,3 +126,19 @@ body.freeze .music-pick { display: none; }
    width. Its grid track is an auto column, which sizes to a 560px artifact card (.bk: the 3D model, the order) and lets it
    run past the frame's right edge; a minmax(0, 1fr) track is the column's own width, so the card's max-width clamps it */
 html[data-ar="9x16"] #s-tabs .sbsite .hub .qc-r .m-main { grid-template-columns: minmax(0, 1fr); }
+/* ...but a card whose view is drawn at a fixed size (the bakery site, road trip and lawn at 1.4x in .bk-fit, the order and
+   desktop screenshots under a camera) would lose its right side to that clamp, so it is zoomed instead: it keeps its 560px
+   layout and is drawn at the column's width, 502px (471px in the multi-tool chats). Fluid cards still clamp. */
+html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main .bk:has(> .bk-view > .bk-fit),
+html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main > .bk.ddx,
+html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main > .bk.cc3 { zoom: .8964; }
+html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main > .bk.mc-dd,
+html[data-ar="9x16"] #s-tabs .sbsite .hub .m-main > .bk.md-dd { zoom: .8411; }
+/* 4:5: the reply column is 607px, so the 760px grids (10 images, 10 videos) ran past the frame and lost their fifth column
+   and Download All. Their column gets the same minmax(0, 1fr) track and the grid's tiles shrink into it; the other cards
+   (560px, or the multi-tool chats' 471px column) keep the auto track, which fits or overflows visibly as before. */
+html[data-ar="4x5"] #s-tabs .sbsite .hub .qc-r .m-main:has(> .qc-set, > .qc-media > .qc-set) { grid-template-columns: minmax(0, 1fr); }
+/* 1:1: the ask hub is 831px drawn at 1.465x, so only its middle 737px is in the frame; the credits cut's wide composer
+   (multicat.516afb1a.css .qc-wide, the hub less 48px) ran 35px past both edges in the opening. It keeps a 12px margin
+   inside the frame instead. */
+html[data-ar="1x1"] #s-tabs .sbsite.ask .hub.qc-wide .composer { width: min(800px, calc(100% - 118px)); }

@@ -43,12 +43,12 @@ const exists = (href) => {
   return probes.get(href);
 };
 
-// mount the button at the end of the speed pill
+// mount the button at the end of the speed pill. It reads Download, which is all a press does: one click saves the file
 export function mountExport(pill) {
   const a = document.createElement('a');
   a.className = 'vs-export';
   a.setAttribute('role', 'button');
-  a.innerHTML = `${GLYPH}<span>Export</span>`;
+  a.innerHTML = `${GLYPH}<span>Download</span>`;
   pill.appendChild(a);
   const text = a.querySelector('span');
   let run = 0;
@@ -67,7 +67,7 @@ export function mountExport(pill) {
       a.href = href;
       a.download = `${id}-${key}.mp4`;
       a.removeAttribute('aria-disabled');
-      text.textContent = 'Export';
+      text.textContent = 'Download';
       a.title = `Download this variant at ${LABEL[key]} (${SIZE[key]} MP4, with sound)`;
     } else {
       a.removeAttribute('download');

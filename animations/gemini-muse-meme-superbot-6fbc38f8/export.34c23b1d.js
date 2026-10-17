@@ -1,14 +1,12 @@
 // The Export button, the last control in the speed pill (variant-select.9e82faf1.js): it downloads the variant on show at the
 // ratio picked, the same file the gallery lightbox's download serves (gallery.js renderDl): the offline render
-// assets/video/<id>.<ar>.mp4, one loop with its sound at 30 fps, 1080 high (9:16 1080x1920), where <id> is the gallery entry
-// (manifest.json at the gallery root) whose src opens this spot on that variant. A render exists only where one was made,
-// so each (variant, ratio) is probed once. A plain link with `download`: the browser saves the file itself. With no render
-// there, the button renders the variant at that ratio here instead (export.64039673.js: frame-exact, at the ratio's
-// platform size, with its sound: the spot plays through once first while audio-tap.057e3dda.js records it, the label
-// counting that pass and then the render up), then saves it; Option-click renders the picture alone, without the pass. Only
-// a browser without WebCodecs gets the old quiet 'No render'. Its stylesheet (export.34c23b1d.css) loads with the module.
+// assets/video/<id>.<ar>.mp4, one loop with its sound, 1080 high (9:16 1080x1920; some cuts at 60 fps), where <id> is the
+// gallery entry (manifest.json at the gallery root) whose src opens this spot on that variant. A press only ever downloads:
+// nothing is rendered in the page. A render exists only where one was made, so each (variant, ratio) is probed once, past
+// the HTTP cache (a 404 or a manifest cached from before a render shipped would otherwise hide it for the cache's 10
+// minutes): with none the button turns off and says so instead of linking to a 404. A plain link with `download`: the browser saves the file
+// itself. Its stylesheet (export.34c23b1d.css) loads with the module.
 import { variant, VARIANTS } from './variant.9e82faf1.js?v=3';
-import { render, download, fileName, outSize, canRender, canRecordSound, busy } from './export.64039673.js?v=3';
 
 const ROOT = new URL('../../', import.meta.url);
 // this spot's folder, as the manifest's srcs name it (animations/<folder>/?variant=...)
@@ -25,7 +23,7 @@ document.head.appendChild(sheet);
 
 // variant -> gallery entry id, read once from the manifest; the entry with no ?variant= is the spot's first variant
 let ids = null;
-const idsOf = () => ids || (ids = fetch(new URL('manifest.json', ROOT))
+const idsOf = () => ids || (ids = fetch(new URL('manifest.json', ROOT), { cache: 'no-cache' })
   .then((r) => (r.ok ? r.json() : []))
   .then((items) => {
     const map = {};
@@ -41,7 +39,7 @@ const idsOf = () => ids || (ids = fetch(new URL('manifest.json', ROOT))
 // whether a render is there, probed once per file
 const probes = new Map();
 const exists = (href) => {
-  if (!probes.has(href)) probes.set(href, fetch(href, { method: 'HEAD' }).then((r) => r.ok).catch(() => false));
+  if (!probes.has(href)) probes.set(href, fetch(href, { method: 'HEAD', cache: 'no-store' }).then((r) => r.ok).catch(() => false));
   return probes.get(href);
 };
 
@@ -55,64 +53,28 @@ export function mountExport(pill) {
   const text = a.querySelector('span');
   let run = 0;
 
-  // with no offline render here, a press renders one (live); `live` says which the button does now
-  let live = false;
   async function sync() {
-    if (busy()) return; // a render owns the label until it ends (a variant or ratio pick stops it)
     const key = (window.AR && window.AR.key) || '16x9', v = variant(), mine = ++run;
     a.removeAttribute('href');
     a.setAttribute('aria-busy', 'true');
     const id = (await idsOf())[v];
     const href = id ? new URL(`assets/video/${id}.${key}.mp4`, ROOT).href : '';
     const ok = !!href && (await exists(href));
-    if (mine !== run || busy()) return; // a later variant or ratio pick won
+    if (mine !== run) return; // a later variant or ratio pick won
     a.removeAttribute('aria-busy');
-    live = !ok && canRender();
-    a.classList.toggle('off', !ok && !live);
+    a.classList.toggle('off', !ok);
     if (ok) {
       a.href = href;
       a.download = `${id}-${key}.mp4`;
       a.removeAttribute('aria-disabled');
       text.textContent = 'Export';
       a.title = `Download this variant at ${LABEL[key]} (${SIZE[key]} MP4, with sound)`;
-    } else if (live) {
-      const [w, h] = outSize();
-      a.removeAttribute('download');
-      a.removeAttribute('aria-disabled');
-      text.textContent = 'Export';
-      a.title = canRecordSound()
-        ? `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, with sound: it plays through once first). Option-click: picture only`
-        : `Render this variant at ${LABEL[key] || key} here and save it (${w}×${h} MP4, 30 fps, no sound)`;
     } else {
       a.removeAttribute('download');
       a.setAttribute('aria-disabled', 'true');
       text.textContent = 'No render';
-      a.title = `This variant has no ${LABEL[key]} render yet, and this browser cannot render one (no WebCodecs)`;
+      a.title = `This variant has no ${LABEL[key]} render yet`;
     }
-  }
-
-  // the live render: the label counts the sound pass (when asked for) and the render up, then the file is saved and the
-  // button goes back to Export
-  async function renderHere(withSound) {
-    a.setAttribute('aria-busy', 'true');
-    text.textContent = withSound ? 'Sound…' : 'Rendering…';
-    let after = 'Saved';
-    try {
-      const res = await render({
-        withSound,
-        onSound: (now, end) => { text.textContent = `Sound ${Math.floor(now)}/${Math.ceil(end)}s`; },
-        onProgress: (p) => { text.textContent = `Rendering ${Math.round(p * 100)}%`; },
-      });
-      download(res.blob, fileName(res));
-      if (withSound && !res.audio) { after = 'Saved, no sound'; console.warn(`export: saved without sound: ${res.soundless}`); }
-      console.info(`export: ${res.variant} ${res.width}x${res.height}, ${res.frames} frames, ${res.seconds.toFixed(1)}s, ${(res.blob.size / 1e6).toFixed(1)} MB, sound ${res.audio || 'none'}, ${res.missing} bitmap(s) missing`);
-    } catch (e) {
-      after = 'Export failed';
-      console.error(new Error('export: the render failed', { cause: e }));
-    }
-    a.removeAttribute('aria-busy');
-    text.textContent = after;
-    setTimeout(() => { if (!busy()) sync(); }, 2500);
   }
 
   // Space and Enter press the button, not the spot's clock (timeline.9b47fc30.js); a mouse press drops focus after
@@ -123,9 +85,7 @@ export function mountExport(pill) {
   });
   a.addEventListener('click', (e) => {
     if (e.detail > 0) a.blur();
-    if (a.href) return; // an offline render: the link saves it
-    e.preventDefault();
-    if (live && !busy()) renderHere(!e.altKey && canRecordSound());
+    if (!a.href) e.preventDefault(); // no render here (or still probing): a press does nothing
   });
   addEventListener('variantchange', sync);
   addEventListener('archange', sync);

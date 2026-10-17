@@ -17,7 +17,8 @@ import { music } from './music.47e5d94a.js?v=2';
 // (and the refund chain, beats/refund-score.d3537b02.js)
 // (and the bare Discord chain, beats/discord.bccc0fdd.js)
 // (and the study guide, beats/studyguide.40e96f96.js)
-const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes', 'halloween-shopping', 'garmin-strava', 'refund', 'discord-credits', 'studyguide']);
+// (and the koala chain on Discord, beats/koala.7f80a09a.js)
+const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes', 'halloween-shopping', 'garmin-strava', 'refund', 'discord-credits', 'studyguide', 'koala-discord']);
 const OWN = new Set(['hotelcall']);
 const on = () => OWN.has(variant()) || (SCORED.has(variant()) && music() === 'v16');
 const LEVEL = 1; // the master gain while unmuted

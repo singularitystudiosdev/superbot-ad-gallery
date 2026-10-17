@@ -18,7 +18,8 @@
 // multicat-credits: a breakdown of the emojis the user sends most on Discord, then a GIF of a dancing frog made and sent
 // to a friend in a Discord DM (scenes/tabs-assets/beats/discord.bccc0fdd.js), or 'studyguide', one ask told the way the credits cut tells its four:
 // superbot reads the user's Google Classroom, then writes them a study guide as a Google Doc
-// (scenes/tabs-assets/beats/studyguide.40e96f96.js). Read from ?variant= so a frozen
+// (scenes/tabs-assets/beats/studyguide.40e96f96.js), or 'koala-discord', a koala GIF sent to mrmoonshot on Discord,
+// then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -56,6 +57,7 @@ export const VARIANTS = [
   { id: 'refund', label: 'Refund call + 1-star reviews' },
   { id: 'discord-credits', label: 'Discord emojis + frog GIF · credits only' },
   { id: 'studyguide', label: 'Classroom study guide' },
+  { id: 'koala-discord', label: 'Koala GIF + reactions on Discord' }, // a koala GIF sent to mrmoonshot, then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js)
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

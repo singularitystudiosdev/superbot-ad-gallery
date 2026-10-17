@@ -155,10 +155,13 @@ export default {
         set.style.opacity = ci.toFixed(3);
         set.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
 
-        // the clock runs when it moved forward within the last 150 ms (catsurf.e2265c3a.js sync)
+        // the clock runs as the timeline says (__AD.playing), or, before it has one, when it moved forward within the last
+        // 150 ms (catsurf.e2265c3a.js sync). The timeline's word comes first: an offline render (export-render.07e9fa90.mjs)
+        // steps a frozen clock 1/60 s at a time, which the heuristic takes for playing, and every tile would then run free
         const now = performance.now();
         if (t !== lastT) { if (t > lastT && t - lastT < 0.5) moved = now; lastT = t; }
-        const running = now - moved < 150;
+        const ad = window.__AD;
+        const running = ad && typeof ad.playing === 'boolean' ? ad.playing : now - moved < 150;
 
         // generating, as '10' generates: every slot shimmers until its turn, then the ten land in reading order and each
         // plays from its own landing, its length badge giving way to a playhead along its bottom edge

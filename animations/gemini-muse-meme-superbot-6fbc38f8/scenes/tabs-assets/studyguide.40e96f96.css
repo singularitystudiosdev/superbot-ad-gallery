@@ -4,6 +4,10 @@
    x50 badge and the end card are the multicat cut's (multicat.516afb1a.css .mc-ff, .mc-end), restated under sg- so this
    variant stands on its own. Classroom and Docs colours are those products' own. */
 
+/* the Classroom and Docs chrome's face (img/studyguide.40e96f96/CREDITS.txt), as a stylesheet rule so the Export button's
+   renderer (export.64039673.js) can inline it into its frames; the beat waits for it before a frozen frame is ready */
+@font-face { font-family: "Google Sans Flex"; src: url("../../img/studyguide.40e96f96/google-sans-flex-latin.woff2") format("woff2"); font-weight: 400 700; font-style: normal; font-display: block; }
+
 #s-tabs .sbsite .hub .bk.sg-cr, #s-tabs .sbsite .hub .bk.sg-dc { width: 640px; }
 #s-tabs .sbsite .hub .bk.sg-cr .bk-view, #s-tabs .sbsite .hub .bk.sg-dc .bk-view { height: 400px; }
 /* narrower frames (the Ratio select): the reply column is 502px at 9:16 and 607px at 4:5, so the cards are zoomed to it

@@ -122,6 +122,17 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   the log scrolls back to the start of the DM history; ends on the superbot.gg end card (about 19s, with sound:
   v16 re-cued to this chain). The koala is a CC BY-SA 4.0 clip (`media/koala.7f80a09a/CREDITS.txt`); the
   history is made up and nothing was sent.
+- **make a thumbnail from my latest video** (a creator's voiceover cut): the muse meme spot's YouTube cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=yt-thumbnail`), paced for a creator to read a script over
+  it and silent, the voice its soundtrack (about 60s; Mevesa's channel). The pointer opens the model chip on "Your
+  subscriptions" (ChatGPT, Claude, Gemini connecting, then a No API pricing row lighting); "Make a thumbnail from my
+  latest video" switches superbot to the ChatGPT subscription, connects YouTube and reads the latest video (transcript,
+  title, key frames, the channel's thumbnail style), then GPT Image 2 makes three thumbnails in the channel's style (x10);
+  "upload it to youtube a/b tests on my previous vid" uploads them as one Test & compare test, and the screen cuts to a
+  rebuilt YouTube Studio with the test running, then the superbot.gg end card. The script's lines and their times are in
+  the beat (`LINES`); `?cues=1` shows each on screen at its moment for rehearsing. The thumbnails are real GPT Image 2
+  generations from the video's frames (`img/ytthumb.c4e81a27/CREDITS.txt`); nothing was uploaded. Its renders are
+  silent (`export-render.07e9fa90.mjs`, `sound: { silent: true }`).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

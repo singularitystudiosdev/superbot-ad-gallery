@@ -1,12 +1,12 @@
-// YouTube thumbnail beat (the 'yt-thumbnail' variant): a creator's demo paced for a voiceover, read over it by the
-// creator (the line each beat is timed to is in LINES below, and on screen with ?cues=1). The engine holds the empty state
-// WAIT seconds longer (chat.9b47fc30.js routeBy `wait`), types "Make a thumbnail from my latest video" at TYPE_CPS and sends
-// it down a bare route (no engine chips, the composer on Superbot throughout); this beat draws everything else on its own
-// clock, with no model on show (the multidog-credits look: no model chips, no "<model> in superbot" header):
-//   0. The empty state holds under the opening lines.
+// YouTube thumbnail beat (the 'yt-thumbnail' variant): a creator's demo for a voiceover read over it (the line each beat
+// starts is in LINES below, and on screen with ?cues=1), cut tight: short holds between the answers. The engine holds the
+// empty state WAIT seconds longer (chat.9b47fc30.js routeBy `wait`), types "Make a thumbnail from my latest video" at
+// TYPE_CPS and sends it down a bare route (no engine chips, the composer on Superbot throughout); this beat draws
+// everything else on its own clock, with no model on show (the multidog-credits look: no model chips, no "<model> in
+// superbot" header):
 //   1. The answer: superbot connects the user's YouTube channel and reads the latest video (a frame with the channel, the
-//      video, and the context it pulls: the transcript, the title, four key frames, the channel's thumbnail style).
-//   2. Three thumbnails in the channel's style generate under skeletons, the wait fast-forwarded x10 (the frame's badge),
+//      video, and the context it pulls: the transcript, the title, the key frames, the channel's thumbnail style).
+//   2. Three thumbnails in the channel's style generate under skeletons, the wait fast-forwarded x50 (the frame's badge),
 //      then land in reading order.
 //   3. "upload it to youtube a/b tests on my previous vid" is typed and sent; superbot opens YouTube Studio and uploads the
 //      three as one Test & compare test, each upload filling its bar, the test going Live, then a done line.
@@ -22,14 +22,13 @@ import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 
-const CSS = new URL('../ytthumb.c4e81a27.css?v=2', import.meta.url).href;
+const CSS = new URL('../ytthumb.c4e81a27.css?v=3', import.meta.url).href;
 // the end card and the fast-forward badge are multicat's (../multicat.516afb1a.css .mc-end, .mc-ff)
 const MC_CSS = new URL('../multicat.516afb1a.css?v=9', import.meta.url).href;
 export const ID = 'yt-thumbnail';
 const asset = (p) => new URL('../../../img/ytthumb.c4e81a27/' + p, import.meta.url).href;
 const THUMBS = [1, 2, 3].map((i) => asset(`thumb-${i}.jpg`));
 const CURRENT = asset('current.jpg'), AVATAR = asset('avatar.jpg');
-const FRAMES = [1, 2, 3, 4].map((i) => asset(`frame-${i}.jpg`));
 
 // the channel and its latest video, as YouTube listed them on 2026-10-17 (published 2026-09-23: 3 weeks before)
 const CHANNEL = 'Mevesa', HANDLE = '@Mevesa', SUBS = '1.9M subscribers';
@@ -44,69 +43,63 @@ const ALTS = [
   'Thumbnail C: the host, hand on chin, beside "Is Coursiv Legit?" and a checklist of practical projects, daily challenges and built-in AI tools',
 ];
 
-export const TYPE_CPS = 15; // both asks type at a talking pace, so the line can be read along with them
-// the empty state holds this long past the engine's CHAT_T0 (1.6 s), so the first ask starts typing at 12.6 s, after the
-// opening line and "I'll show you a quick example", which starts at QUICK (scene seconds); the empty state holds under both
-export const WAIT = 11;
-const QUICK = 9.5;
+export const TYPE_CPS = 30; // both asks type at this rate: brisk, still readable as they go
+// the empty state holds this long past the engine's CHAT_T0 (1.6 s): the first ask starts typing at 2.6 s
+export const WAIT = 1;
 const ASK2 = 'upload it to youtube a/b tests on my previous vid';
 const SAY_B = 'Here are three thumbnails in your channel’s style.';
 const SAY_C = 'Uploading all three to YouTube as an A/B test.';
 const SAY_DONE = 'Done. The A/B test is live on your latest video.';
 
 // GPT Image 2 makes the three at once: 37 to 62 s each, measured making these (2026-10-17), 47 s their mean (the
-// multicat cut's figure too). The wait plays X times fast, so it holds 4.7 s, under "now we wait for it to generate"
-const X = 10, GEN = 47;
+// multicat cut's figure too). The wait plays X times fast (the house x50), so it holds under a second
+const X = 50, GEN = 47;
 const FF_IN = 0.2;
 const SEEN = 0.45; // a card's rise and the feed's glide to it (multicat.516afb1a.js SEEN)
 // the house end card (multicat.516afb1a.js): the chat fades to black over END_IN, the lockup's run starts END_DELAY in
-const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 3.2, END_GAP = 44;
+const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 2.8, END_GAP = 44;
 const popBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
 const END_FACE = '<svg class="mc-end-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="ytEndFace" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#ytEndFace)" transform="translate(-1.2 -1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#ytEndFace)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#ytEndFace)"/></svg>';
 
 // the routing chips this beat draws, both YouTube's (tools, so the composer's chip stays on Superbot): `hold` is how long
-// each spins before it resolves, held long enough for its line
+// each spins before it resolves
 const chip = (app, label, sw, hold) => ({ app, label, tool: true, sw, swap: sw + 0.22, done: sw + hold });
 
-// every time in the chain from the reply r (the ask's send + 0.43), each held where its line falls: the YouTube chip
-// lands with "and look..." (the 3 s before it are under "there, it has switched to my ChatGPT subscription") and the
-// channel frame comes in (`yt`), its four context rows resolve (`reads`) and it reads Ready; the reply streams at rB
-// (just after "and now it is using GPT Image 2"), the thumbnails' frame comes in at `thumbs`, generates from gen0 to
-// done and has landed by w1; the second ask types from s2 and sends at send2, the Studio chip lands, the upload frame
-// comes in at `up`, its three uploads fill (`ups`), the test starts (`test`), the frame reads Live (`live`) and the done
-// line streams (`said`); Studio covers the chat at st0, its pointer goes to the test (`ring`) and over each thumbnail
-// (`tiles`); the end card covers it all at `cut`
+// every time in the chain from the reply r (the ask's send + 0.43), each answer following the last after a short look:
+// the YouTube chip lands at once and the channel frame comes in (`yt`), its four context rows resolve (`reads`) and it
+// reads Ready; the reply streams at rB, the thumbnails' frame comes in at `thumbs`, generates from gen0 to done and has
+// landed by w1; the second ask types from s2 and sends at send2, the Studio chip lands, the upload frame comes in at
+// `up`, its three uploads fill (`ups`), the test starts (`test`), the frame reads Live (`live`) and the done line streams
+// (`said`); Studio covers the chat at st0, its pointer goes to the test (`ring`) and over each thumbnail (`tiles`); the
+// end card covers it all at `cut`
 function plan(r) {
-  const c2 = chip('youtube', 'Connecting to your YouTube channel', r + 3.0, 1.2);
-  const yt = c2.done + 0.2, yt1 = yt + SEEN;
-  const reads = [yt1 + 0.75, yt1 + 1.5, yt1 + 2.5, yt1 + 3.3];
-  const ready = reads[3] + 0.35;
-  const frames = [0, 1, 2, 3].map((i) => reads[1] + 0.2 + i * 0.16);
-  const rB = r + 15.1, thumbs = rB + 0.25, gen0 = thumbs + SEEN, done = gen0 + GEN / X;
+  const c2 = chip('youtube', 'Connecting to your YouTube channel', r + 0.15, 0.9);
+  const yt = c2.done + 0.15, yt1 = yt + SEEN;
+  const reads = [yt1 + 0.4, yt1 + 0.8, yt1 + 1.2, yt1 + 1.6];
+  const ready = reads[3] + 0.25;
+  const rB = ready + 1.1, thumbs = rB + 0.25, gen0 = thumbs + SEEN, done = gen0 + GEN / X;
   const lands = [done, done + 0.12, done + 0.24], w1 = lands[2] + LAND;
-  const s2 = w1 + 3.2, typeEnd2 = s2 + ASK2.length / TYPE_CPS, send2 = typeEnd2 + 0.15;
-  const c4 = chip('youtube', 'Opening YouTube Studio', send2 + 0.35, 1.0);
+  const s2 = w1 + 1.5, typeEnd2 = s2 + ASK2.length / TYPE_CPS, send2 = typeEnd2 + 0.15;
+  const c4 = chip('youtube', 'Opening YouTube Studio', send2 + 0.35, 0.8);
   const rC = c4.done + 0.1, up = rC + 0.25, up1 = up + SEEN;
-  const ups = [0, 1, 2].map((i) => [up1 + 0.2 + i * 0.4, up1 + 1.15 + i * 0.45]);
-  const test = ups[2][1] + 0.45, live = test + 0.2, said = live + 0.3;
-  const st0 = said + 1.3;
-  const ptrIn = st0 + 0.55, ring = st0 + 2.0, tiles = [st0 + 2.5, st0 + 3.05, st0 + 3.6];
-  const cut = st0 + 6.0;
-  return { r, c2, yt, yt1, reads, ready, frames, rB, thumbs, gen0, done, lands, w1, s2, typeEnd2, send2, c4, rC, up, up1, ups, test, live, said, st0, ptrIn, ring, tiles, cut, end: cut + END_DELAY + END_LEN };
+  const ups = [0, 1, 2].map((i) => [up1 + 0.15 + i * 0.25, up1 + 0.85 + i * 0.25]);
+  const test = ups[2][1] + 0.3, live = test + 0.2, said = live + 0.25;
+  const st0 = said + 0.9;
+  const ptrIn = st0 + 0.4, ring = st0 + 1.1, tiles = [st0 + 1.5, st0 + 1.9, st0 + 2.3];
+  const cut = st0 + 3.7;
+  return { r, c2, yt, yt1, reads, ready, rB, thumbs, gen0, done, lands, w1, s2, typeEnd2, send2, c4, rC, up, up1, ups, test, live, said, st0, ptrIn, ring, tiles, cut, end: cut + END_DELAY + END_LEN };
 }
 // the chain's length from its reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
 
-// the voiceover each beat is timed to (the creator's script, lightly evened out), and when each line starts: shown on
-// screen only with ?cues=1, for rehearsing and recording the read; s is the first ask's typing start (CHAT_T0 + WAIT)
+// the voiceover (the creator's script, lightly evened out) against the beat each line goes with: shown on screen only
+// with ?cues=1, each line from the moment its beat starts. Read at a natural pace the script runs about twice the cut,
+// so it is a guide to what goes where, not a teleprompter; s is the first ask's typing start (CHAT_T0 + WAIT)
 const LINES = (T, s) => [
-  [0.6, 'What’s cool about superbot is, unlike Devin or Perplexity, superbot uses all your existing subscriptions, so you are never upcharged API pricing.'],
-  [QUICK, 'I’ll show you a quick example of what it does.'],
+  [0.3, 'What’s cool about superbot is, unlike Devin or Perplexity, superbot uses all your existing subscriptions, so you are never upcharged API pricing. I’ll show you a quick example.'],
   [s, 'Say I want to make a thumbnail from my latest video…'],
-  [T.r + 0.12, 'There, it has switched to my ChatGPT subscription,'],
-  [T.c2.sw, 'and look, you see how it also connected to my YouTube channel? It can work with your platforms, so you don’t need to give much context at all.'],
-  [T.rB - 1.1, 'And now it is using GPT Image 2.'],
-  [T.gen0 + 0.4, 'Now we wait for it to generate…'],
+  [T.c2.sw, 'There, it’s on my ChatGPT subscription, and it connected to my YouTube channel, so you don’t need to give much context at all.'],
+  [T.rB - 0.3, 'And now it is using GPT Image 2. Now we wait for it to generate…'],
   [T.lands[0], 'Great! And then uploading it is as simple as this:'],
   [T.s2, '“Upload it to YouTube A/B tests on my previous vid.”'],
   [T.c4.sw, '(wait for it to finish)'],
@@ -244,9 +237,9 @@ export default {
       <div class="bk-head"><span class="yt-logo"><img src="${ytLogo}" alt=""/></span><b class="bk-title">YouTube<small>Connected · ${HANDLE}</small></b>${statePill('Reading', 'Ready')}</div>
       <div class="yt-ch"><img class="yt-av" src="${AVATAR}" width="160" height="160" alt="${CHANNEL}’s channel picture"/><span class="yt-txt"><b>${CHANNEL}</b><small>${HANDLE} · ${SUBS}</small></span></div>
       <div class="yt-vid"><span class="yt-vid-th"><img src="${CURRENT}" width="1280" height="720" alt="The video’s current thumbnail: Coursiv Review 2026, Is It Worth It?"/><i>${DUR}</i></span><span class="yt-txt"><small>Latest video</small><b>${x.esc(VIDEO)}</b><small>${VIEWS}</small></span></div>
-      <div class="yt-ctx">${ctx.map(([a, b], i) => `<div class="yt-ctx-r">${STATUS}<span class="yt-ctx-t"><b>${a}</b>${b ? `<small>${b}</small>` : ''}</span>${i === 2 ? `<span class="yt-frames">${FRAMES.map((f, j) => `<img src="${f}" width="384" height="216" alt="Frame ${j + 1} of the video"/>`).join('')}</span>` : ''}</div>`).join('')}</div>
+      <div class="yt-ctx">${ctx.map(([a, b]) => `<div class="yt-ctx-r">${STATUS}<span class="yt-ctx-t"><b>${a}</b>${b ? `<small>${b}</small>` : ''}</span></div>`).join('')}</div>
     </div>`);
-    const ctxRows = [...ytCard.querySelectorAll('.yt-ctx-r')], frameImgs = [...ytCard.querySelectorAll('.yt-frames img')];
+    const ctxRows = [...ytCard.querySelectorAll('.yt-ctx-r')];
     const ytState = ytCard.querySelector('.yt-state');
     const replyA = x.el(`<div class="msg qc-m qc-r">${x.sbAvatar}<div class="m-main"></div></div>`);
     const anchorA = x.el('<i class="mc-anchor" aria-hidden="true"></i>');
@@ -367,7 +360,6 @@ export default {
         enter(ytCard, t, T.yt);
         renderState(ytState, t, T.yt, T.ready);
         ctxRows.forEach((n, i) => renderStatus(n, t, i ? T.reads[i - 1] : T.yt1, T.reads[i]));
-        frameImgs.forEach((im, i) => pop(im, t, T.frames[i]));
 
         // 2. the thumbnails: skeletons while GPT Image 2 works, then each lands as a thumbnail does (thumb-land.309eb9c5.js)
         x.appear(replyB, t, T.rB);

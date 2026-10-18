@@ -39,8 +39,6 @@
 #s-tabs .sbsite .hub .yt-ctx-t { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 400 12.5px/1 var(--ui); color: #ececec; }
 #s-tabs .sbsite .hub .yt-ctx-t b { font-weight: 600; }
 #s-tabs .sbsite .hub .yt-ctx-t small { margin-left: 8px; font-size: 11.5px; color: #a1a1a6; }
-#s-tabs .sbsite .hub .yt-frames { flex: none; display: flex; gap: 4px; }
-#s-tabs .sbsite .hub .yt-frames img { display: block; width: 50px; height: 28px; border-radius: 4px; object-fit: cover; box-shadow: 0 0 0 1px #2a2a2e; opacity: 0; }
 
 /* 2. the thumbnails: three across, past hub.css's reply cap (.msg:has(.avatar.sb) .m-main) to the thread's width */
 #s-tabs .sbsite .hub .msg.yt-wide:has(.avatar.sb) .m-main { flex: 1 1 0; min-width: 0; max-width: none; }

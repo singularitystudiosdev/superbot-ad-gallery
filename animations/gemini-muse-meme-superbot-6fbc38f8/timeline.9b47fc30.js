@@ -3,10 +3,10 @@
 // a 60fps quantised clock. The one scene (scenes/tabs.js) plays once and holds its last frame: no loop. Space after
 // the end replays it from the start.
 import * as lib from './lib.9b47fc30.js';
-import tabs from './scenes/tabs.9b47fc30.js?v=45';
+import tabs from './scenes/tabs.9b47fc30.js?v=46';
 import { settled } from './loads.9e82faf1.js';
 // the same module instance the tabs scene uses (the full URL, query included, keys an instance)
-import { BEATS, typeShift } from './scenes/tabs-assets/chat.9b47fc30.js?v=52';
+import { BEATS, typeShift } from './scenes/tabs-assets/chat.9b47fc30.js?v=53';
 import { variant } from './variant.9e82faf1.js?v=3';
 
 const { seg } = lib;

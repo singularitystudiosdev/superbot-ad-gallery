@@ -9,11 +9,9 @@
 //      ends. Each turn's row comes in as it starts, so the card grows with the call and the feed glides with it;
 //   3. a second line, it's done, and the reservation card: the old dates strike through and the new ones land;
 //   4. the house superbot.gg end card (multicat.516afb1a.js's, restated) covers the chat.
-// From the first frame until the end card, a disclosure (NOTE) sits at the top of the frame: the call is staged, its voices
-// are AI-generated and the hotel, names and number are fictional. X's ads policy bars misleading demonstrations, New York
-// (GBL 396-b) wants a synthetic performer disclosed conspicuously and the EU AI Act (Art. 50(4)) wants AI audio of a
-// plausible event disclosed on first exposure; it rides in the scene, so every render and export carries it.
-// The call is also captioned (CAP_SPLIT): each turn in phrases, large in the empty band between the disclosure and the chat,
+// The call is staged (AI-generated voices; the hotel, names and number fictional) and the frame carries no note saying so
+// (2026-10-17, on request): a post running it has to say so itself.
+// The call is also captioned (CAP_SPLIT): each turn in phrases, large in the empty band above the chat,
 // its words lighting as they are spoken, so the call reads with the sound off (X autoplays ads muted and its specs ask for
 // captions or text overlays; the card's transcript is too small to read on a phone).
 // The call is heard: its track (media/hotelcall.f934b5ee/call.mp3, CREDITS.txt there) plays from the dial inside this
@@ -26,7 +24,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { PICK, HANG, LINES, ENV } from './hotelcall-data.f934b5ee.js';
 import { makeSound } from './hotelcall-score.f934b5ee.js?v=2';
 
-const CSS = new URL('../hotelcall.f934b5ee.css?v=3', import.meta.url).href;
+const CSS = new URL('../hotelcall.f934b5ee.css?v=4', import.meta.url).href;
 export const ID = 'hotelcall';
 const CALL = new URL('../../../media/hotelcall.f934b5ee/call.mp3', import.meta.url).href;
 
@@ -34,7 +32,6 @@ export const TYPE_CPS = 55; // the ask types at the multicat chain's rate, throu
 const SAY1 = 'Found your stay at The Calder in your email. Calling the front desk now.';
 const SAY2 = 'Done. Your stay at The Calder is now Oct 25–30, same room and rate.';
 const HOTEL = 'The Calder', DESK = 'Front desk', PHONE = '+1 (415) 555-0142'; // a fictional hotel on a 555-01xx number
-const NOTE = 'Simulated call with AI-generated voices. The hotel, names and number are fictional.';
 const CARD_AFTER = 0.5;  // the call card rises while the opening line finishes streaming
 const SEEN = 0.45;       // the card's rise and the feed's glide to it: the dial waits for both
 const ROW_LEAD = 0.2;    // a turn's row comes in this long before its first word
@@ -147,11 +144,9 @@ export default {
     // and moves to the scene section on the first render, above the hub
     const endCard = x.el(`<div class="hc-end" role="img" aria-label="superbot.gg"><div class="hc-end-word"><b>superbot.gg</b></div><div class="hc-end-bot">${END_FACE}</div></div>`);
     const endWord = endCard.querySelector('.hc-end-word'), endBot = endCard.querySelector('.hc-end-bot');
-    // the disclosure: in the scene section under the end card, so the card's black covers it as the spot ends
-    const note = x.el(`<p class="hc-note" role="note">${x.esc(NOTE)}</p>`);
     let endK = 1; // the lockup's scale now applied (--k)
 
-    // the captions: in the scene section beside the disclosure, one block per turn (the speaker over that turn's phrases,
+    // the captions: in the scene section under the end card (its black covers them as the spot ends), one block per turn (the speaker over that turn's phrases,
     // all stacked in one cell so the block keeps its height while they swap), one phrase showing at a time
     const caps = x.el('<div class="hc-caps" aria-hidden="true"></div>');
     const phrases = [], turns = LINES.map((l, li) => {
@@ -196,12 +191,12 @@ export default {
     const sound = () => ({ t: window.__AD.now, ready: snd.ready(), sounding: snd.sounding(), render: window.__HC_SOUND || null });
     let placed = false, stShown = '', timeShown = null;
     return {
-      nodes: [say1.n, call, callAnchor, say2.n, res, resAnchor, note, caps, endCard],
+      nodes: [say1.n, call, callAnchor, say2.n, res, resAnchor, caps, endCard],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf); each turn's row anchors
       // the card's new bottom, so the feed follows the call as it grows
       marks: [[T.r, say1.n], [T.card, callAnchor], ...rows.map((rw) => [rw.at, rw.a]), [T.r2, say2.n], [T.res, resAnchor]],
       render(t) {
-        if (!placed) { x.hub.closest('.scene').append(note, caps, endCard); placed = true; }
+        if (!placed) { x.hub.closest('.scene').append(caps, endCard); placed = true; }
         if (!snd) snd = makeSound(cues(), CALL);
         snd.sync(t);
         if (window.__AD && window.__AD.sound !== sound) window.__AD.sound = sound;

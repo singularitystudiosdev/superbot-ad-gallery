@@ -81,9 +81,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   the credits-only cat: asked to move a reservation from the 20-25th to the 25-30th, superbot phones
   the (fictional) hotel itself, the call heard with sound while its transcript fills in word by word
   and large captions carry it with the sound off, then a Reservation updated card strikes Oct 20–25
-  and lands Oct 25–30; a note at the top says the call is simulated, with AI-generated voices (about
-  35s, with sound: the call, two Gemini TTS voices, over a bed synthesized in the multicat score's
-  palette). Its X-ready renders are on `singularitystudiosdev/superbot-ad-gallery-muse`.
+  and lands Oct 25–30 (about 35s, with sound: the call, two Gemini TTS voices, over a bed synthesized
+  in the multicat score's palette). The call is simulated and nothing on screen says so; a post running
+  it has to. Its renders are on `singularitystudiosdev/superbot-ad-gallery-muse`.
 - **Garmin runs to Strava**: the muse meme spot's automation cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=garmin-strava`), in the multicat-credits look (no
   model on show): "Connect to my garmin account, and then after every one of my runs, post it to strava for

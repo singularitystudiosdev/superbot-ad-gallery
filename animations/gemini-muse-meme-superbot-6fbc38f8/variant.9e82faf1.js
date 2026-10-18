@@ -19,7 +19,9 @@
 // to a friend in a Discord DM (scenes/tabs-assets/beats/discord.bccc0fdd.js), or 'studyguide', one ask told the way the credits cut tells its four:
 // superbot reads the user's Google Classroom, then writes them a study guide as a Google Doc
 // (scenes/tabs-assets/beats/studyguide.40e96f96.js), or 'koala-discord', a koala GIF sent to mrmoonshot on Discord,
-// then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js). Read from ?variant= so a frozen
+// then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js), or 'hacker', the hooded-mascot
+// spot's montage: a live call, an image, a 3D model and apps connected with no MCP, each on its voiceover phrase
+// (scenes/tabs-assets/beats/hacker.7dfcf32a.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -58,6 +60,7 @@ export const VARIANTS = [
   { id: 'discord-credits', label: 'Discord emojis + frog GIF · credits only' },
   { id: 'studyguide', label: 'Classroom study guide' },
   { id: 'koala-discord', label: 'Koala GIF + reactions on Discord' }, // a koala GIF sent to mrmoonshot, then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js)
+  { id: 'hacker', label: 'Hacker ad · calls, image, 3D, apps' }, // the hooded-mascot spot's montage: a live call, an image, a 3D model, apps connected with no MCP (scenes/tabs-assets/beats/hacker.7dfcf32a.js)
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

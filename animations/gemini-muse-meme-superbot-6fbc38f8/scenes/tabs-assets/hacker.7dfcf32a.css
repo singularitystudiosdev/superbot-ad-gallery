@@ -1,0 +1,71 @@
+/* The 'hacker' variant's montage (beats/hacker.7dfcf32a.js): the live call card, the photo, the 3D frame and the apps
+   card, all in the bakery artifact frame (bakery.005f5570.css .bk) or the thumbnail card (chat.css .qc-img), then the
+   house end card. Loaded by the beat module itself, so index.html needs no link. Frame palette as the multicat cards':
+   #1c1c20 surface, #2a2a2e hairline, #ececf0 text, #a1a1a6 secondary, #55555c faint; superbot's cyan #00e5c3 the one
+   accent, each app glyph in its own tint. Radii: the frame's 12px, tiles 9px, full pills. The bare route's rules, the
+   call card and the end card are restated from multicat.516afb1a.css and hotelcall.f934b5ee.css so this variant stands
+   on its own. */
+
+/* the bare route: the composer runs wider than the thread, past ask.css's 760px cap (chat.9b47fc30.js .qc-wide) */
+#s-tabs .sbsite .hub.qc-wide .composer, #s-tabs .sbsite.ask .hub.qc-wide .composer { width: min(800px, calc(100% - 48px)); max-width: 800px; }
+/* the feed glides to these zero-height anchors under each card, so the newest card clears the feed's clip with its edge */
+#s-tabs .sbsite .hub .hk-anchor { display: block; height: 0; position: relative; top: 6px; pointer-events: none; }
+#s-tabs .sbsite .hub .hk-anchor-row { top: 18px; }
+
+/* 1. the call: the hotel's tile, its name and number, live with its timer; the waveform; the transcript */
+#s-tabs .sbsite .hub .hk-call .bk-head { gap: 10px; padding: 0 10px 0 9px; }
+#s-tabs .sbsite .hub .hk-av { background: #2a2a30; box-shadow: inset 0 0 0 1px #34343a; color: #ececf0; }
+#s-tabs .sbsite .hub .hk-av svg, #s-tabs .sbsite .hub .hk-st svg { display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .hk-av svg { width: 13px; height: 13px; }
+#s-tabs .sbsite .hub .hk-call .bk-title small, #s-tabs .sbsite .hub .hk-3d .bk-title small, #s-tabs .sbsite .hub .hk-apps .bk-title small { margin-left: 8px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .hk-st { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: #232326; color: #ececf0; font: 600 11px/1 var(--ui); white-space: nowrap; }
+#s-tabs .sbsite .hub .hk-st svg { width: 11px; height: 11px; }
+#s-tabs .sbsite .hub .hk-dot { width: 7px; height: 7px; border-radius: 50%; background: #00e5c3; }
+#s-tabs .sbsite .hub .hk-time { font-weight: 600; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .hk-wave { display: flex; align-items: center; justify-content: space-between; height: 32px; padding: 8px 14px; box-shadow: 0 1px 0 #2a2a2e; }
+#s-tabs .sbsite .hub .hk-wave i { flex: none; width: 3px; height: 100%; border-radius: 999px; background: #8e8e93; transform: scaleY(.08); }
+#s-tabs .sbsite .hub .hk-wave i.hk-sb { background: #00e5c3; }
+#s-tabs .sbsite .hub .hk-tx { padding: 4px 14px 12px; }
+#s-tabs .sbsite .hub .hk-row { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; padding-top: 8px; }
+#s-tabs .sbsite .hub .hk-who { font: 600 11px/18px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .hk-sb .hk-who { color: #00e5c3; }
+#s-tabs .sbsite .hub .hk-line { margin: 0; font: 400 12.5px/18px var(--ui); color: #ececf0; }
+#s-tabs .sbsite .hub .hk-line span { opacity: 0; }
+
+/* 2. the photo: 4:3, as the multi-tool cuts show it; its pill carries no tool tile, so the text takes the even inset */
+#s-tabs .sbsite .hub .hk-img { width: 360px; aspect-ratio: 4 / 3; }
+#s-tabs .sbsite .hub .hk-img img { height: 100%; object-fit: cover; }
+#s-tabs .sbsite .hub .qc-genl.hk-genl { padding-left: 11px; }
+
+/* 4. the apps: a header count, eight tiles in a 4 x 2 grid (glyph, name, spinner then check), then the MCP row */
+#s-tabs .sbsite .hub .hk-apps .bk-head { padding-right: 14px; }
+#s-tabs .sbsite .hub .hk-count { font: 500 11px/1 var(--ui); color: #a1a1a6; white-space: nowrap; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .hk-count b { font-weight: 600; color: #ececf0; }
+#s-tabs .sbsite .hub .hk-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 12px 12px 4px; }
+#s-tabs .sbsite .hub .hk-app { position: relative; display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 30px 0 7px; border-radius: 10px; background: #232326; box-shadow: inset 0 0 0 1px #2e2e33; }
+#s-tabs .sbsite .hub .hk-ic { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: #2c2c31; color: #6e6e75; transition: none; }
+#s-tabs .sbsite .hub .hk-ic.hk-on { background: color-mix(in srgb, var(--c) 18%, #1c1c20); color: var(--c); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 40%, transparent); }
+#s-tabs .sbsite .hub .hk-ic svg { display: block; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .hk-nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 12px/16px var(--ui); color: #ececf0; }
+#s-tabs .sbsite .hub .hk-ast { position: absolute; right: 9px; top: 50%; width: 15px; height: 15px; margin-top: -7.5px; }
+#s-tabs .sbsite .hub .hk-ast .qc-spin { opacity: 0; }
+#s-tabs .sbsite .hub .hk-ast .qc-ok { position: absolute; inset: 0; width: 15px; height: 15px; opacity: 0; }
+#s-tabs .sbsite .hub .hk-mcp { display: flex; align-items: center; gap: 10px; margin: 8px 12px 12px; padding: 10px 12px; border-radius: 10px; background: #18181b; box-shadow: inset 0 0 0 1px #2a2a2e; opacity: 0; }
+#s-tabs .sbsite .hub .hk-chip { position: relative; display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: #2a2a30; font: 600 11.5px/1 var(--ui-mono, var(--ui)); color: #ececf0; white-space: nowrap; }
+#s-tabs .sbsite .hub .hk-strike { position: absolute; left: 6px; right: 6px; top: 50%; height: 2px; margin-top: -1px; border-radius: 999px; background: #ff6b5b; transform: scaleX(0); transform-origin: 0 50%; }
+#s-tabs .sbsite .hub .hk-need { font: 600 13px/18px var(--ui); color: #ececf0; opacity: 0; }
+#s-tabs .sbsite .hub .hk-direct { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(0, 229, 195, .12); box-shadow: inset 0 0 0 1px rgba(0, 229, 195, .35); font: 600 11.5px/1 var(--ui); color: #00e5c3; white-space: nowrap; opacity: 0; }
+#s-tabs .sbsite .hub .hk-direct .qc-ok { width: 13px; height: 13px; stroke: #00e5c3; }
+
+/* the fast-forward badge, in the whole frame's bottom right while a generation runs (multicat.516afb1a.css .mc-ff) */
+#s-tabs .hk-ff { position: absolute; right: 44px; bottom: 40px; z-index: 30; display: flex; align-items: center; height: 60px; padding: 0 24px; border-radius: 999px; background: rgba(12, 12, 14, .78); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); font: 600 28px/1 var(--ui); color: #ececec; font-variant-numeric: tabular-nums; pointer-events: none; }
+html[data-ar="1x1"] #s-tabs .hk-ff, html[data-ar="4x5"] #s-tabs .hk-ff { bottom: 146px; }
+html[data-ar="9x16"] #s-tabs .hk-ff { bottom: 124px; }
+
+/* 5. the end card: the house superbot.gg lockup over the spot's black and above the hub; sizes are the house card's on a
+   1080-high stage, --k shrinking them only when a narrow ratio would crop the lockup */
+#s-tabs .hk-end { position: absolute; inset: 0; z-index: 40; overflow: hidden; background: #0a0a0b; pointer-events: none; }
+#s-tabs .hk-end-bot { position: absolute; left: 0; top: 0; width: calc(220px * var(--k, 1)); height: calc(220px * var(--k, 1)); opacity: 0; will-change: transform, opacity; }
+#s-tabs .hk-end-face { display: block; width: 100%; height: 100%; overflow: visible; }
+#s-tabs .hk-end-word { position: absolute; left: 0; top: 50%; opacity: 0; color: #fff; white-space: nowrap; font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; will-change: transform, opacity, filter; }
+#s-tabs .hk-end-word b { display: block; font-size: calc(128px * var(--k, 1)); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }

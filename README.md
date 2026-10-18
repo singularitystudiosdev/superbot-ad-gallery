@@ -140,6 +140,19 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   title cards, each with its mark to the right: "IF YOU USE CURSOR" with the Cursor cube, "YOU ARE BEING
   UPCHARGED" with a money bag, "SAVE THOUSANDS WITH SUPERBOT RELAY" with a siren, then the superbot.gg
   end card with the mascot from the multi-tool cat cut (10.7s, silent).
+- **the hooded mascot's announcement** (`animations/hacker-announcement-superbot-7dfcf32a/`): the hacker-video meme
+  made for X, its footage original (a GPT Image 2 key frame of the hooded figure in the superbot cat mask, the superbot
+  emblem on the green scanline wall, animated with Gemini Omni; no third-party clip). In the fish.audio HACKER VOICE:
+  "Superbot gives you better output." A VHS tear cuts to the chat, the muse meme spot's montage cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=hacker`, `beats/hacker.7dfcf32a.js`), each phrase landing on
+  its card: a live call to a hotel's front desk (unnamed, a 555 number), the beagle image, the walking 3D beagle, eight
+  generic app tiles connecting, then "MCP server" struck through to Not needed, every wait badged Sped up. Back to the
+  figure pointing at the viewer for "Try it out today. Superbot.", then the superbot.gg end card (17.5s, with sound,
+  burned-in captions, an AI-generated note on the generated shots and a Dramatization note on the chat; 16:9 and 1:1 at
+  about 7.3 Mbps, X's video ad specs). A second tile, `?take=licensed`, is the same cut in a licensed OpenAI voice opening
+  on "Superbot does the work for you.". Renders in `assets/video/hacker-announcement[-licensed]-superbot-7dfcf32a.*.mp4`;
+  sources and the rebuild (`build.sh`: the variant's camera-tracked capture, then the cut and mix) in
+  `ads-src/hacker-announcement-7dfcf32a/`.
 
 Static image ads (`assets/ads/`):
 

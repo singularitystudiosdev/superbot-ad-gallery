@@ -142,6 +142,17 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   word over a scrolling level meter, then stop; the take fills white as the voice clones (Recording, Cloning your voice,
   Voice cloned). Then a player strip plays Closer to Home, sung in your voice, its lyrics lighting word by word (about
   19s, silent). Visual only (`scenes/tabs-assets/beats/voiceclone.986a9320.js`); the line, song and lyrics are made up.
+- **clone my voice and make a call to 30351235**: the muse meme spot's voice clone call cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=voiceclone-call`), cut as the hotel call is (no model on
+  show). superbot asks for one line read out loud; the pointer taps the mic once, the take records with its words
+  lighting as they are said and stops by itself, the voice clones, then superbot calls 30351235 in your voice, opening
+  as the product's calls do ("This is Sam's AI, speaking in Sam's own voice. This call is transcribed."), the call
+  heard with sound under a live transcript, and the person who answers says it sounds exactly like Sam. A disclosure
+  sits at the top of the frame throughout (about 34s, with sound: the take and the call, Gemini TTS and a Chatterbox
+  clone of the take, over a bed synthesized in the multicat score's palette,
+  `scenes/tabs-assets/beats/voiceclone-score.6ba3a0f8.js`). Its Download button saves the renders in
+  `assets/video/gemini-muse-meme-voiceclone-call-superbot-6ba3a0f8.<ar>.mp4` at every ratio (60fps, with sound).
+  Nothing records the viewer's mic and nothing dials (`media/voiceclone.6ba3a0f8/CREDITS.txt`).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

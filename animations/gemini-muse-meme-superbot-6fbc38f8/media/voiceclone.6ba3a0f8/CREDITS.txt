@@ -1,0 +1,36 @@
+media/voiceclone.6ba3a0f8 CREDITS (the 'voiceclone-call' variant, beats/voiceclone.6ba3a0f8.js). Internal provenance only.
+
+Every voice here is GENERATED speech, made 2026-10-17. "Sam", the person at 30351235 and the call are fictional: no
+microphone was recorded and no number was called. The cut says so on screen from its first frame (the beat's NOTE).
+The call opens as superbot's calls do (superbot.gg/features, "calls and texts from your iPhone", read 2026-10-17: "it
+says it is an AI, then asks"; "This call is transcribed."), so the cloned voice names itself as Sam's AI.
+
+Voices, one request per line:
+  Sam (the take)   Gemini TTS gemini-3.8-flash-tts, voice Zubenelgenubi
+                   "Hi, this is Sam. I'm recording a quick sample so superbot can talk just like me."
+  30351235         Gemini TTS, voice Leda                "Hello?"
+  Sam (cloned)     Gemini TTS, voice Zubenelgenubi       "Hi! This is Sam's AI, speaking in Sam's own voice. This call is transcribed."
+  30351235         fal-ai/chatterbox/text-to-speech (Resemble AI Chatterbox), zero-shot from an earlier Leda take,
+                   seed 11, exaggeration 0.5, cfg 0.5, temperature 0.7   "Wow. It sounds exactly like Sam!"
+  Sam (cloned)     fal-ai/chatterbox/text-to-speech, zero-shot from the take above (a real clone of it), seed 11,
+                   exaggeration 0.4, cfg 0.5, temperature 0.7            "Right? Sam says hi. Talk soon!"
+  Gemini TTS was called through the Gemini API (generateContent, responseModalities AUDIO) with plain text and no style
+  direction, since the model speaks a direction aloud. Takes were picked by a listening pass (Gemini 3.5 Flash): the
+  Chatterbox lines rated 9/10 natural and 9/10 like their speaker; a second seed of each was dropped (7 and 5).
+
+rec.mp3
+  The take, 5.89 s, 48 kHz mono, 128 kbps MP3, -16.9 LUFS integrated, -1.5 dBTP. Leading and trailing silence trimmed,
+  0.20 s lead; a laptop mic in a small room: highpass 110 Hz, lowpass 12.5 kHz, 2:1 compression and two short early
+  reflections (ffmpeg aecho 23 and 41 ms), over a quiet room floor (filtered noise at -60 dBFS); one static gain to
+  -16 LUFS, held at the -1.5 dBTP ceiling.
+
+call.mp3
+  The call, 14.71 s, 48 kHz mono, 128 kbps MP3, -16.6 LUFS integrated, -1.5 dBTP. One synthesized US ringback ring
+  (440 + 480 Hz, 1.55 s), a pickup click, the four turns laid end to end with 0.32, 0.30 and 0.26 s gaps, a 300 Hz to
+  2.8 kHz line hiss near -50 dBFS and a hang-up click. The other end band-limited to a phone line (two 12 dB/oct
+  highpasses at 320 Hz, two lowpasses at 3.3 kHz) and compressed 3:1, +0.5 dB; Sam's cloned side full band, compressed
+  2:1, -1.5 dB. One static gain to -16 LUFS, held at the -1.5 dBTP ceiling.
+
+Word timings in ../../scenes/tabs-assets/beats/voiceclone-data.6ba3a0f8.js: whisper.cpp with model ggml-base.en and DTW
+token timestamps, run on each clean line; nine starts re-set by hand off the level envelope where DTW landed late.
+The build scripts live outside the repo (Quick chats .tmp/voiceclone-d4b500ae/tools/tts.mjs, clone.mjs and build.mjs).

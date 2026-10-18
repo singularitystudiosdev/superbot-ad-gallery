@@ -11,7 +11,7 @@ export PY=${PY:-python3} # render-montage.mjs runs camera.py on it too
 V=../../assets/video
 rm -rf work
 # the generated shots motion-interpolated to 60 (work/art60); the end card and the montages captured at 60: the
-# announcement's ('hacker', from its first ask sent), hello's ('hacker-hello') and hello-computer's ('hacker-hello-pc'),
+# announcement's ('hacker-pc', from its first ask sent), hello's ('hacker-hello') and hello-computer's ('hacker-hello-pc'),
 # those two from their empty states to just past their end-card covers
 mkdir -p work/art60
 for c in omni-close omni-wide-point omni-wide-gesture; do
@@ -20,7 +20,7 @@ done
 for ar in 16x9 9x16 4x5 1x1; do
   w=$(echo $ar | sed 's/x.*//')
   node render-montage.mjs $ar 12.02 15.2 work/end$w-60 end 60 | tail -1
-  node render-montage.mjs $ar 2.45 11.6 work/mt$w-60 montage 60 | tail -1
+  VARIANT=hacker-pc node render-montage.mjs $ar 2.484 13.632 work/mt$w-60 montage 60 | tail -1
   VARIANT=hacker-hello node render-montage.mjs $ar 0.6 13.46 work/hello-mt$w-60 montage 60 | tail -1
   VARIANT=hacker-hello-pc node render-montage.mjs $ar 0.6 15.49 work/hellopc-mt$w-60 montage 60 | tail -1
   # the announcement: its montage cut and its talk cut

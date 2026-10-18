@@ -132,6 +132,9 @@ const HELLO_STEPS = [IMAGE, MODEL3D,
 // 'hacker-hello-pc': the same asks, each 2 s later, so the search, the results and the video run before the image's
 const PC_SHIFT = 2.0;
 const HELLO_PC_STEPS = HELLO_STEPS.map((st) => ({ ...st, at: st.at + PC_SHIFT }));
+// 'hacker-pc': the announcement's montage with computer control in the call's place (the user's call, 2026-10-18: no call
+// anywhere in that ad): its image, 3D model and apps cards, each PC_SHIFT later so the search plays out first
+const PC_STEPS = STEPS.map((st) => ({ ...st, at: st.at + PC_SHIFT }));
 // the card the camera frames once each answer is in (render-montage.mjs)
 const SEL = { image: '.hk-img', model: '.hk-3d', apps: '.hk-apps', audio: '.hk-audio', mcp: '.hk-mcpc' };
 const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -592,3 +595,6 @@ export const hello = HELLO.beat;
 const HELLO_PC = makeBeat('hacker-hello-pc', HELLO_PC_STEPS, 'pc');
 export const HELLO_PC_LEN = HELLO_PC.LEN;
 export const helloPc = HELLO_PC.beat;
+const HACKER_PC = makeBeat('hacker-pc', PC_STEPS, 'pc');
+export const COMPUTER_LEN = HACKER_PC.LEN;
+export const computer = HACKER_PC.beat;

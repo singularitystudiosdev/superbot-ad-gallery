@@ -70,6 +70,7 @@ export const VARIANTS = [
   { id: 'hacker', label: 'Hacker ad · calls, image, 3D, apps' }, // the hooded-mascot spot's montage: a live call, an image, a 3D model, apps connected with no MCP (scenes/tabs-assets/beats/hacker.7dfcf32a.js)
   { id: 'hacker-hello', label: 'Hacker ad · hello: calls, image, 3D, audio, no MCP' }, // the hooded mascot's "Hello AI users" spot: the same call, image and 3D model, then a theme song and the MCP row as its own card (scenes/tabs-assets/beats/hacker.7dfcf32a.js hello)
   { id: 'hacker-hello-pc', label: 'Hacker ad · hello: computer control, image, 3D, audio, no MCP' }, // the "Hello AI users" montage with computer control in the call's place: superbot takes over the screen, searches cat videos and plays one (scenes/tabs-assets/beats/hacker.7dfcf32a.js helloPc)
+  { id: 'hacker-pc', label: 'Hacker ad · computer control, image, 3D, apps' }, // the announcement's montage with computer control in the call's place: superbot takes over the screen, searches cat videos and plays one, then the image, 3D model and apps (scenes/tabs-assets/beats/hacker.7dfcf32a.js computer)
   { id: 'voice-clone-song', label: 'Voice clone song' }, // a voice sample recorded and cloned, then a song sung in that voice (scenes/tabs-assets/beats/voiceclone.986a9320.js)
   { id: 'voiceclone-call', label: 'Voice clone call' }, // one tap records the user's voice, superbot clones it and calls 30351235 in that voice, saying it is their AI (scenes/tabs-assets/beats/voiceclone.6ba3a0f8.js)
 ];

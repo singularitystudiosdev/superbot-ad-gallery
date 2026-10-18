@@ -1,7 +1,7 @@
 # the hooded mascot's announcement (hacker-announcement-superbot-7dfcf32a)
 
 The hacker-video meme cut for X: the hooded figure in the superbot cat mask reads a statement, a VHS tear drops into the
-superbot chat for the feature list, then back to the figure and the superbot.gg end card. 17.5 s, at 60 fps in 16:9,
+superbot chat for the feature list, then back to the figure and the superbot.gg end card. 19.5 s, at 60 fps in 16:9,
 9:16, 4:5 and 1:1 (X's sizes, as every spot here), in the fish.audio HACKER VOICE. The renders ship in `assets/video/` as
 `hacker-announcement-superbot-7dfcf32a.{16x9,9x16,4x5,1x1}.mp4`; the page `animations/hacker-announcement-superbot-7dfcf32a/`
 plays them (`?ar=` picks the ratio). Every spot here is
@@ -11,10 +11,12 @@ rendered in the HACKER VOICE only: a licensed-voice take (OpenAI `onyx`) was cut
 The talk cut (`compose.py ... talk`, `hacker-announcement-talk-superbot-7dfcf32a.*.mp4`, the page's
 `?cut=talk`) keeps the mascot on screen the whole way, no chat: the voice runs at its own pace and the shots change on its
 pauses (wide reading, close-up, wide lowering the paper, close-up, wide pointing, close-up on "Superbot."), each easing
-in slowly, then the end card. About 15 s.
+in slowly, then the end card. About 16 s.
 
-Script: "Superbot gives you better output." / "It can make calls,
-generate images, 3D models, connect to your apps directly, so you don't need MCPs." / "Try it out today. Superbot."
+Script: "Superbot gives you better output." / "It can control your computer, generate images, 3D models, connect to
+your apps directly, so you don't need MCPs." / "Try it out today. Superbot." Until 2026-10-18 line 2 opened "It can make
+calls" over a live call; the user asked for no call anywhere in the ad, so computer control took its place, on screen and
+in the voice (`vo/line2.wav` re-recorded).
 
 ## The other spots (spots.json)
 
@@ -61,7 +63,8 @@ held to 0.2 s and joined by 0.38 s so each phrase boundary is the take's longest
 
 On screen for X's policies (no captions: asked off; X recommends them but does not require them): "AI-generated
 footage and voice" over the generated shots;
-"Dramatization · fictional business" over the chat (the call's hotel is unnamed, on a 555 number); "Sped up 150×" on the
+"Dramatization · fictional business" over a chat with a call in it (the call's hotel is unnamed, on a 555 number), plain
+"Dramatization" over the announcement's and hello-computer's (no business in them); "Sped up 150×" on the
 generations (their timers count the tools' real seconds) and "Sped up" while the apps connect.
 
 ## Sources (all made for this ad, 2026-10-17)
@@ -82,9 +85,10 @@ generations (their timers count the tools' real seconds) and "Sped up" while the
   that listeners be told the voice is AI-generated: the "AI-generated footage and voice" note does that.
 - `music/drone.flac`, `music/beat.flac`: Google Lyria 3 (clip preview), instrumental. The end chime and the glitch hits
   are synthesized in `compose.py`.
-- The montage is the muse meme spot's `?variant=hacker` (`beats/hacker.7dfcf32a.js`): the hotel call cut's recorded call
-  timings with the hotel left unnamed ("The Calder", that cut's made-up name, is also a real hotel's), the multidog cut's
-  GPT Image 2 beagle and Meshy model (paid generations, `models/CREDITS.txt`), generic lucide app glyphs.
+- The montage is the muse meme spot's `?variant=hacker-pc` (`beats/hacker.7dfcf32a.js` `computer`): the computer-control
+  card of `hacker-hello-pc` (generated cats, `img/hacker.7dfcf32a/CREDITS.txt`), the multidog cut's GPT Image 2 beagle and
+  Meshy model (paid generations, `models/CREDITS.txt`), generic lucide app glyphs. Its first cut, `?variant=hacker`, opened
+  on the hotel call cut's recorded call timings with the hotel left unnamed; that variant stays in the spot's list.
 
 ## Rebuild
 

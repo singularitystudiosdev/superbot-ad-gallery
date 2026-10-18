@@ -174,13 +174,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   made for X, its footage original (a GPT Image 2 key frame of the hooded figure in the superbot cat mask, the superbot
   emblem on the green scanline wall, animated with Gemini Omni; no third-party clip). In the fish.audio HACKER VOICE:
   "Superbot gives you better output." A VHS tear cuts to the chat, the muse meme spot's montage cut
-  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=hacker`, `beats/hacker.7dfcf32a.js`), each phrase landing on
-  its card: a live call to a hotel's front desk (unnamed, a 555 number), the beagle image, the walking 3D beagle, eight
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=hacker-pc`, `beats/hacker.7dfcf32a.js`), each phrase landing on
+  its card: superbot taking over the shared screen to search cat videos and play one (computer control, made like
+  `computer-control-v3-soft`, in the call's place since 2026-10-18), the beagle image, the walking 3D beagle, eight
   generic app tiles connecting, then "MCP server" struck through to Not needed, every wait badged Sped up. Back to the
-  figure pointing at the viewer for "Try it out today. Superbot.", then the superbot.gg end card (17.5s, with sound,
+  figure pointing at the viewer for "Try it out today. Superbot.", then the superbot.gg end card (19.5s, with sound,
   no captions, an AI-generated note on the generated shots and a Dramatization note on the chat; 60 fps in X's four
   ratios, 16:9, 9:16, 4:5 and 1:1, one click downloading all four). A second tile, `?cut=talk`, is the mascot-only cut: the same lines with no chat
-  on screen, the wide, pointing and close-up shots intercut on the voice's own pauses (about 15 s). Every cut of the
+  on screen, the wide, pointing and close-up shots intercut on the voice's own pauses (about 16 s). Every cut of the
   mascot's is in the fish.audio HACKER VOICE only (the licensed-voice cuts were retired at the user's call, 2026-10-18).
   Renders in `assets/video/hacker-announcement[-talk]-superbot-7dfcf32a.*.mp4`;
   sources and the rebuild (`build.sh`: the variant captured whole each frame and framed by a sub-pixel camera, so the

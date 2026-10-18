@@ -63,9 +63,16 @@ if SPOT == 'announcement':
     # SEGS: (kind, source, edit start, edit end, source start, source speed, push) where push is a slow zoom-in over the shot.
     # MUSIC: (file, edit at, source from, length, gain dB, fade in, fade out). GLITCH: (edit centre, length) tears.
     if CUT == 'montage':
-        A_END, M_END, B1_END, B2_END = 2.70, 11.80, 13.10, 14.50
+        # the montage is the 'hacker-pc' variant (computer control in the call's place, 2026-10-18): its first frame is the
+        # spot at the capture's t0 (render-montage.mjs), the first ask just sent, and it runs to just before the end card
+        # covers the chat (the variant's `cut` cue); the figure's two shots and the end card follow
+        cues = json.load(open(os.path.join(MT, 'cues.json')))
+        meta = json.load(open(os.path.join(MT, 'meta.json')))
+        SPOT0, A_END = meta[0]['t'], 2.70
+        spot = lambda s: A_END + (s - SPOT0)  # spot seconds -> edit seconds, inside the montage
+        M_END = spot(cues['cut'] - 0.17)
+        B1_END, B2_END = M_END + 1.30, M_END + 2.70
         E_END = B2_END + END_LEN
-        SPOT0 = 2.45  # the montage's first frame is the spot at this time (render-montage.mjs t0): the first ask just sent
         # the opening holds to the gesture shot's palm-free first 2.45 s, eased to 0.91x to fill its 2.7 s
         SEGS = [
             ('clip', GESTURE, 0.0, A_END, 0.0, PALM / A_END, 0),
@@ -75,12 +82,10 @@ if SPOT == 'announcement':
             ('frames', END, B2_END, E_END, 0, 1, 0),
         ]
         GLITCH = [(A_END, 0.30), (M_END, 0.30)]
-        cues = json.load(open(os.path.join(MT, 'cues.json')))
-        meta = json.load(open(os.path.join(MT, 'meta.json')))
-        spot = lambda s: A_END + (s - SPOT0)  # spot seconds -> edit seconds, inside the montage
-        # line 1 on the gesture, line 2's five phrases each on its card's cue, line 3 on the point and the close-up
-        L2_AT = [spot(cues[k]) for k in ('calls', 'images', 'models', 'apps', 'mcps')]
-        VO = [(L1, 0.30, S1[0])] + [(L2, at, sp) for at, sp in zip(L2_AT, S2)] + lay3(11.95)
+        # line 1 on the gesture, line 2's five phrases each on its card's cue (computer control first), line 3 on the point
+        # and the close-up
+        L2_AT = [spot(cues[k]) for k in ('pc', 'images', 'models', 'apps', 'mcps')]
+        VO = [(L1, 0.30, S1[0])] + [(L2, at, sp) for at, sp in zip(L2_AT, S2)] + lay3(M_END + 0.15)
         MUSIC = [('drone', 0.0, 0.0, A_END + 0.12, -15, 0.4, 0.15), ('beat', A_END - 0.03, 0.06, M_END - A_END + 0.15, -13, 0.02, 0.18),
                  ('drone', M_END - 0.03, 6.0, B2_END - M_END + 0.1, -15, 0.05, 0.12)]
         STING_AT = B2_END + 0.02
@@ -122,7 +127,7 @@ if SPOT == 'announcement':
         STING_AT = cuts[5] + 0.02
         print('  cuts', ' '.join(f'{c:.2f}' for c in cuts), 'end', f'{E_END:.2f}')
     # where each phrase lands (logged; the cut carries no captions)
-    TEXTS = [TAKES['line1'], 'It can make calls,', 'generate images,', '3D models,', 'connect to your apps directly,',
+    TEXTS = [TAKES['line1'], 'It can control your computer,', 'generate images,', '3D models,', 'connect to your apps directly,',
              "so you don't need MCPs.", 'Try it out today.', 'Superbot.']
     for (_, at, sp), text in zip(VO, TEXTS):
         print(f'  {at:6.2f}-{at + sp[1] - sp[0]:6.2f}  {text}')
@@ -344,7 +349,8 @@ NOTE_FONT = font(round((24 if AR == '16x9' else 22) * U), 'Semibold')
 NOTE = lambda text: pill(text, NOTE_FONT, pad=(round(16 * U), round(9 * U)), r=round(12 * U), bg=(0, 0, 0, 150), fg=(255, 255, 255, 230))
 # a spot's montage with no business in it (the hello computer cut) says only "Dramatization" (spots.json `note`)
 AI_NOTE = NOTE('AI-generated footage and voice')
-DRAMA_NOTE = NOTE(SP['montage'].get('note', 'Dramatization · fictional business') if SPOT != 'announcement' and CUT == 'montage' else 'Dramatization · fictional business')
+# (the announcement's montage has no business in it since computer control replaced its call: "Dramatization" alone)
+DRAMA_NOTE = NOTE(SP['montage'].get('note', 'Dramatization · fictional business') if SPOT != 'announcement' and CUT == 'montage' else 'Dramatization')
 
 def push_in(img, z):
     # a slow centred zoom-in on a shot (z >= 1), so a held talking shot never sits dead still

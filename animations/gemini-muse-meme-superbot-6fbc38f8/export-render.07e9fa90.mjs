@@ -52,6 +52,11 @@ const RENDERS = {
     id: 'gemini-muse-meme-yt-thumbnail-superbot-c4e81a27',
     sound: { silent: true },
   },
+  // the voice clone song cut: visual only (beats/voiceclone.986a9320.js plays no audio), so its track is silence
+  'voice-clone-song': {
+    id: 'gemini-muse-meme-voice-clone-song-superbot-986a9320',
+    sound: { silent: true },
+  },
 };
 // stage width at 1080 high, and the scale it is drawn at (9:16 to 1080x1920)
 const SIZES = { '16x9': [1920, 1], '4x3': [1440, 1], '1x1': [1080, 1], '4x5': [864, 1], '9x16': [608, 1920 / 1080] };

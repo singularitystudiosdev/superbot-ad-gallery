@@ -1,9 +1,10 @@
 # the hooded mascot's announcement (hacker-announcement-superbot-7dfcf32a)
 
 The hacker-video meme cut for X: the hooded figure in the superbot cat mask reads a statement, a VHS tear drops into the
-superbot chat for the feature list, then back to the figure and the superbot.gg end card. 17.5 s, 16:9 and 1:1, in the
-fish.audio HACKER VOICE. The renders ship in `assets/video/` as `hacker-announcement-superbot-7dfcf32a.{16x9,1x1}.mp4`;
-the page `animations/hacker-announcement-superbot-7dfcf32a/` plays them (`?ar=1x1` the square). Every spot here is
+superbot chat for the feature list, then back to the figure and the superbot.gg end card. 17.5 s, at 60 fps in 16:9,
+9:16, 4:5 and 1:1 (X's sizes, as every spot here), in the fish.audio HACKER VOICE. The renders ship in `assets/video/` as
+`hacker-announcement-superbot-7dfcf32a.{16x9,9x16,4x5,1x1}.mp4`; the page `animations/hacker-announcement-superbot-7dfcf32a/`
+plays them (`?ar=` picks the ratio). Every spot here is
 rendered in the HACKER VOICE only: a licensed-voice take (OpenAI `onyx`) was cut too and retired at the user's call
 (2026-10-18); its sources stay in `vo/`, but nothing renders it.
 

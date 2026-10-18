@@ -178,8 +178,8 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   its card: a live call to a hotel's front desk (unnamed, a 555 number), the beagle image, the walking 3D beagle, eight
   generic app tiles connecting, then "MCP server" struck through to Not needed, every wait badged Sped up. Back to the
   figure pointing at the viewer for "Try it out today. Superbot.", then the superbot.gg end card (17.5s, with sound,
-  no captions, an AI-generated note on the generated shots and a Dramatization note on the chat; 16:9 and 1:1 at
-  about 7.3 Mbps, X's video ad specs). A second tile, `?cut=talk`, is the mascot-only cut: the same lines with no chat
+  no captions, an AI-generated note on the generated shots and a Dramatization note on the chat; 60 fps in X's four
+  ratios, 16:9, 9:16, 4:5 and 1:1, one click downloading all four). A second tile, `?cut=talk`, is the mascot-only cut: the same lines with no chat
   on screen, the wide, pointing and close-up shots intercut on the voice's own pauses (about 15 s). Every cut of the
   mascot's is in the fish.audio HACKER VOICE only (the licensed-voice cuts were retired at the user's call, 2026-10-18).
   Renders in `assets/video/hacker-announcement[-talk]-superbot-7dfcf32a.*.mp4`;

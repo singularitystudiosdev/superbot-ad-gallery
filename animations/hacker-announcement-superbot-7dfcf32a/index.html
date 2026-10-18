@@ -13,8 +13,8 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
 <video controls playsinline preload="auto" aria-label="superbot: the hooded mascot's announcement"></video>
 <script>
 // The cut plays from the gallery's renders (assets/video/<id>.<ratio>.mp4): ?spot= picks one of the hooded mascot's spots
-// (the announcement by default; ads-src/hacker-announcement-7dfcf32a/spots.json slugs the rest: hello as a montage and
-// mascot only, hello-computer a montage only, the rest mascot only),
+// (the announcement by default; ads-src/hacker-announcement-7dfcf32a/spots.json slugs the rest: hello as a montage only,
+// hello-computer as a montage and mascot only, the rest mascot only),
 // ?cut=talk the mascot-only cut (no chat), ?ar= (the gallery's ratio picker) the square
 // render at that ratio (16:9 otherwise).
 const q = new URLSearchParams(location.search);

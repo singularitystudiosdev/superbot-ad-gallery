@@ -12,7 +12,6 @@
       {"phrases": ["It can make calls...", "generate images...", "3D models...", "and audio.", "And it doesn't require MCPs."]},
       {"phrases": ["It's simple, and it's what you want.", "Try Superbot."]}
     ],
-    "talk": [["wide", 0], ["stare", 1], ["read", 2], ["tilt", 3], ["wide", 5], ["close", 7], ["point", 8], ["stare", 9]],
     "montage": {"variant": "hacker-hello", "open": [["wide", 0], ["stare", 1]], "over": 2, "list": 1,
                 "cues": ["calls", "images", "models", "audio", "mcps"], "close": [["read", 8], ["point", 9]]}
   },
@@ -23,6 +22,7 @@
       {"phrases": ["It can control your computer...", "generate images...", "3D models...", "and audio.", "And it doesn't require MCPs."]},
       {"phrases": ["It's simple, and it's what you want.", "Try Superbot."]}
     ],
+    "talk": [["wide", 0], ["stare", 1], ["read", 2], ["tilt", 3], ["wide", 5], ["close", 7], ["point", 8], ["stare", 9]],
     "montage": {"variant": "hacker-hello-pc", "open": [["wide", 0], ["stare", 1]], "over": 2, "list": 1,
                 "cues": ["pc", "images", "models", "audio", "mcps"], "close": [["read", 8], ["point", 9]], "note": "Dramatization"}
   },

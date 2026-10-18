@@ -1567,13 +1567,13 @@
     ]
   },
   {
-    "id": "hacker-hello-talk-superbot-7dfcf32a",
+    "id": "hacker-hello-computer-talk-superbot-7dfcf32a",
     "type": "animation",
     "group": "Ad spots",
-    "title": "superbot: the hooded mascot's \"Hello, AI users\" announcement, mascot only",
-    "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=hello&cut=talk",
-    "thumb": "assets/shots/hacker-hello-talk-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Hello, AI users. This is Superbot, with an announcement. We built an agent that actually gets things done. It can make calls, generate images, 3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Hello AI users, this is superbot with a announcement. We have created a model that can actually do almost anything you ask. It can make calls, generate images, 3d models, audio, and doesn't require MCPs. It is simple and what you want. Try superbot.\"; for X's ad policies superbot is an agent, not a model it made, \"almost anything\" became \"actually gets things done\", and the grammar is fixed. No captions; an AI-generated note on the generated shots. About 20 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "title": "superbot: the hooded mascot's \"Hello, AI users\" announcement, computer control, mascot only",
+    "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=hello-computer&cut=talk",
+    "thumb": "assets/shots/hacker-hello-computer-talk-superbot-7dfcf32a.png",
+    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Hello, AI users. This is Superbot, with an announcement. We built an agent that actually gets things done. It can control your computer, generate images, 3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.\" (\"It can control your computer\" in place of the brief's \"It can make calls\", at the user's call, 2026-10-18.) The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Hello AI users, this is superbot with a announcement. We have created a model that can actually do almost anything you ask. It can make calls, generate images, 3d models, audio, and doesn't require MCPs. It is simple and what you want. Try superbot.\"; for X's ad policies superbot is an agent, not a model it made, \"almost anything\" became \"actually gets things done\", and the grammar is fixed. No captions; an AI-generated note on the generated shots. About 21 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
     "extraArs": [
       "9x16"
     ],

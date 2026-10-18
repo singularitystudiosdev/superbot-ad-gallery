@@ -194,7 +194,8 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   Superbot, with an announcement. We built an agent that actually gets things done. It can make calls, generate images,
   3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.") as a montage cut
   on its own variant (`?variant=hacker-hello`: the call, the beagle, the 3D beagle, a theme song in a player, the MCP row
-  as its own card) and mascot only (`&cut=talk`), and five mascot-only spots: `output` ("Superbot simply gives you the
+  as its own card); its mascot-only cut is hello-computer's (`?spot=hello-computer&cut=talk`, "It can control your
+  computer..." in the call's place since 2026-10-18), and five mascot-only spots: `output` ("Superbot simply gives you the
   output you ask for, and it does things your chatbot can't. Try it out!"), `jobs` ("Superbot is the AI for the jobs
   your chatbot can't do. Superbot."), `when-ais-fail` ("Superbot is the AI to try when your other AIs fail you.
   Superbot."), `message` ("Hello. This is a message to anyone who only uses AI in the browser, copies and pastes code,

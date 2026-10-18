@@ -1,9 +1,11 @@
-# compose.py <ar 16x9|1x1> <out.mp4> [take fish|licensed] : the Superbot hacker ad, cut and mixed (README.md).
-# Picture: the three generated hacker shots (the chin under the mask hidden in hood shadow, VHS-matched), the montage and
-# end-card frames rendered from the gallery's 'hacker' variant (render-montage.mjs, into work/), two mild glitch
-# transitions, the disclosure notes and the montage's "Sped up" badge; no captions (asked off). Sound: the take's voice
-# laid phrase by phrase on the montage's cues, the Lyria drone and beat
-# ducked under it, a synthesized end chime and two glitch hits; two-pass loudness normalization toward -14 LUFS / -1.5 dBTP.
+# compose.py <ar 16x9|1x1> <out.mp4> [take fish|licensed] [cut montage|talk] : the Superbot hacker ad, cut and mixed.
+# Cuts: `montage` (README.md) opens and closes on the hooded mascot and drops into the chat for the feature list (the
+# gallery's 'hacker' variant, frames from render-montage.mjs in work/); `talk` keeps the mascot on screen the whole way,
+# the generated shots intercut on the voice's own pauses, no chat. Picture: the generated hacker shots (the chin under the
+# mask hidden in hood shadow, VHS-matched), the end card rendered from the variant, mild glitch transitions and the
+# disclosure notes (the montage cut's "Dramatization" and "Sped up" too); no captions (asked off). Sound: the take's voice,
+# the Lyria drone and beat ducked under it, a synthesized end chime and glitch hits; two-pass loudness normalization
+# toward -14 LUFS / -1.5 dBTP.
 # Takes: `fish` is the fish.audio HACKER VOICE (vo/line*.wav); `licensed` is OpenAI gpt-4o-mini-tts "onyx"
 # (vo/licensed-line*.wav), the cut whose every element is licensed for commercial use, with its own first line.
 # Needs python3 with numpy, opencv-python and pillow, ffmpeg, and macOS's SF Pro (/System/Library/Fonts/SFNS.ttf).
@@ -13,31 +15,16 @@ from PIL import Image, ImageDraw, ImageFont
 
 AR, OUT = sys.argv[1], os.path.abspath(sys.argv[2])
 TAKE = sys.argv[3] if len(sys.argv) > 3 else 'fish'
+CUT = sys.argv[4] if len(sys.argv) > 4 else 'montage'
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 ROOT = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(ROOT, *a)
 FPS, SR = 30, 48000
 W, H = (1920, 1080) if AR == '16x9' else (1080, 1080)
 MT, END = P('work', f'mt{AR[:2].replace("x", "")}'), P('work', f'end{AR[:2].replace("x", "")}')
+GESTURE, POINT, CLOSE = P('art', 'omni-wide-gesture.mp4'), P('art', 'omni-wide-point.mp4'), P('art', 'omni-close.mp4')
+PALM = 2.45  # the gesture shot's figure reads until here; from 2.55 s it raises an open palm, which is never shown
 
-# ---------- the cut (edit seconds) ----------
-A_END, M_END, B1_END, B2_END, E_END = 2.70, 11.80, 13.10, 14.50, 17.50
-SPOT0 = 2.45  # the montage's first frame is the spot at this time (render-montage.mjs t0): the first ask just sent
-# (kind, source, edit start, edit end, source start, source speed). The opening holds to the gesture shot's first 2.45 s,
-# the figure reading, eased to 0.91x to fill its 2.7 s: the open palm it raises from 2.55 s is cut
-SEGS = [
-    ('clip', P('art', 'omni-wide-gesture.mp4'), 0.0, A_END, 0.0, 2.45 / A_END),
-    ('frames', MT, A_END, M_END, 0, 1),
-    ('clip', P('art', 'omni-wide-point.mp4'), M_END, B1_END, 3.95, 1),
-    ('clip', P('art', 'omni-close.mp4'), B1_END, B2_END, 3.85, 1),
-    ('frames', END, B2_END, E_END, 0, 1),
-]
-GLITCH = [(A_END, 0.30), (M_END, 0.30)]
-cues = json.load(open(os.path.join(MT, 'cues.json')))
-meta = json.load(open(os.path.join(MT, 'meta.json')))
-spot = lambda s: A_END + (s - SPOT0)  # spot seconds -> edit seconds, inside the montage
-
-# the voice: line 1 on the gesture, the five phrases of line 2 on the montage's cues, line 3 on the point and close-up
 TAKES = {
     'fish': {'files': ['line1.wav', 'line2.wav', 'line3.wav'], 'line1': 'Superbot gives you better output.'},
     'licensed': {'files': ['licensed-line1.wav', 'licensed-line2.wav', 'licensed-line3.wav'], 'line1': 'Superbot does the work for you.'},
@@ -59,9 +46,71 @@ def spans(path, n):
     return [(bounds[2 * i], bounds[2 * i + 1]) for i in range(n)]
 
 S1, S2, S3 = spans(L1, 1), spans(L2, 5), spans(L3, 2)
-L2_AT = [spot(cues[k]) for k in ('calls', 'images', 'models', 'apps', 'mcps')]
-L3_AT = 11.95
-VO = [(L1, 0.30, S1[0])] + [(L2, at, sp) for at, sp in zip(L2_AT, S2)] + [(L3, L3_AT + (sp[0] - S3[0][0]), sp) for sp in S3]
+lay3 = lambda at: [(L3, at + (sp[0] - S3[0][0]), sp) for sp in S3]  # line 3's two phrases at its own pace from `at`
+END_LEN = 3.0
+
+# ---------- the cut (edit seconds) ----------
+# SEGS: (kind, source, edit start, edit end, source start, source speed, push) where push is a slow zoom-in over the shot.
+# MUSIC: (file, edit at, source from, length, gain dB, fade in, fade out). GLITCH: (edit centre, length) tears.
+if CUT == 'montage':
+    A_END, M_END, B1_END, B2_END = 2.70, 11.80, 13.10, 14.50
+    E_END = B2_END + END_LEN
+    SPOT0 = 2.45  # the montage's first frame is the spot at this time (render-montage.mjs t0): the first ask just sent
+    # the opening holds to the gesture shot's palm-free first 2.45 s, eased to 0.91x to fill its 2.7 s
+    SEGS = [
+        ('clip', GESTURE, 0.0, A_END, 0.0, PALM / A_END, 0),
+        ('frames', MT, A_END, M_END, 0, 1, 0),
+        ('clip', POINT, M_END, B1_END, 3.95, 1, 0),
+        ('clip', CLOSE, B1_END, B2_END, 3.85, 1, 0),
+        ('frames', END, B2_END, E_END, 0, 1, 0),
+    ]
+    GLITCH = [(A_END, 0.30), (M_END, 0.30)]
+    cues = json.load(open(os.path.join(MT, 'cues.json')))
+    meta = json.load(open(os.path.join(MT, 'meta.json')))
+    spot = lambda s: A_END + (s - SPOT0)  # spot seconds -> edit seconds, inside the montage
+    # line 1 on the gesture, line 2's five phrases each on its card's cue, line 3 on the point and the close-up
+    L2_AT = [spot(cues[k]) for k in ('calls', 'images', 'models', 'apps', 'mcps')]
+    VO = [(L1, 0.30, S1[0])] + [(L2, at, sp) for at, sp in zip(L2_AT, S2)] + lay3(11.95)
+    MUSIC = [('drone', 0.0, 0.0, A_END + 0.12, -15, 0.4, 0.15), ('beat', A_END - 0.03, 0.06, M_END - A_END + 0.15, -13, 0.02, 0.18),
+             ('drone', M_END - 0.03, 6.0, B2_END - M_END + 0.1, -15, 0.05, 0.12)]
+    STING_AT = B2_END + 0.02
+else:
+    # the mascot alone: the voice runs at its own pace and the shots change on its pauses, as the old hacker videos cut
+    # between their wide and close shots. Line 1 over the opening; line 2 straight on, a breath after it; line 3 a beat later
+    l1_end = 0.30 + S1[0][1] - S1[0][0]
+    L2_AT = max(2.55, l1_end + 0.6)
+    VO = [(L1, 0.30, S1[0])] + [(L2, L2_AT + (sp[0] - S2[0][0]), sp) for sp in S2]
+    rel = lambda i: L2_AT + (S2[i][0] - S2[0][0])
+    end2 = lambda i: L2_AT + (S2[i][1] - S2[0][0])
+    L3_AT = end2(4) + 0.65
+    VO += lay3(L3_AT)
+    l3a_end = L3_AT + S3[0][1] - S3[0][0]
+    l3b_at = L3_AT + S3[1][0] - S3[0][0]
+    cuts = [L2_AT - 0.1,                       # wide (reading) -> close-up as line 2 starts
+            (end2(1) + rel(2)) / 2,            # -> wide (lowering the paper) after "generate images"
+            (end2(3) + rel(4)) / 2,            # -> close-up for "so you don't need MCPs"
+            L3_AT - 0.12,                      # -> wide, pointing, "Try it out today"
+            (l3a_end + l3b_at) / 2,            # -> close-up on "Superbot."
+            L3_AT + S3[1][1] - S3[0][0] + 0.45]  # -> the end card
+    E_END = cuts[5] + END_LEN
+    # each shot's source window: the close-up's steady stare (1.3 s on), the point shot reading then facing the camera,
+    # the close-up again after its tilt (5.4 s on), the point shot pointing (3.95 s on), the close-up's tilt (3.85 s on)
+    SEGS = [('clip', GESTURE, 0.0, cuts[0], 0.0, min(1.0, PALM / cuts[0]), 0.035),
+            ('clip', CLOSE, cuts[0], cuts[1], 1.3, 1, 0.03),
+            ('clip', POINT, cuts[1], cuts[2], 0.3, 1, 0.035),
+            ('clip', CLOSE, cuts[2], cuts[3], 5.4, 1, 0.03),
+            ('clip', POINT, cuts[3], cuts[4], 3.95, 1, 0.02),
+            ('clip', CLOSE, cuts[4], cuts[5], 3.85, 1, 0.03),
+            ('frames', END, cuts[5], E_END, 0, 1, 0)]
+    for kind, src, a, b, s0, speed, _ in SEGS:
+        if kind == 'clip':
+            assert s0 + (b - a) * speed <= 7.95, (src, s0, b - a)
+            assert src != GESTURE or s0 + (b - a) * speed <= PALM + 1e-6
+    GLITCH = [(cuts[5], 0.30)]
+    MUSIC = [('drone', 0.0, 0.0, cuts[5] + 0.1, -15, 0.4, 0.12),
+             ('beat', L2_AT - 0.1, 0.06, end2(4) - L2_AT + 0.6, -19, 0.35, 0.4)]
+    STING_AT = cuts[5] + 0.02
+    print('  cuts', ' '.join(f'{c:.2f}' for c in cuts), 'end', f'{E_END:.2f}')
 # where each phrase lands (logged; the cut carries no captions)
 TEXTS = [TAKES['line1'], 'It can make calls,', 'generate images,', '3D models,', 'connect to your apps directly,',
          "so you don't need MCPs.", 'Try it out today.', 'Superbot.']
@@ -101,22 +150,28 @@ def vhs(img, n):
     g = np.random.default_rng(1000 + n).normal(0, 3.2, img.shape[:2]).astype(np.float32)[..., None]
     return np.clip(f + g, 0, 255).astype(np.uint8)
 
-def hood_shadow(f, depth=0.42):
+def hood_shadow(f, hold=0.28, depth=0.55):
     # The generated figure shows a human chin in the hood under the mask; it reads as a person in a mask, not the mascot,
     # so the hood's inside below the mask goes to deep shadow. The mask: the topmost sizeable bright region the dark
     # hood-and-body silhouette encloses (the wall lies outside it, the paper runs off the frame or meets the hands). Under
-    # its lower edge a shadow eases in, fades out over `depth` of the mask's height and is feathered at its sides, and it
-    # only takes what is already dark (a chin in shadow, the hood): the mask's grey lower shading and a hand stay as shot.
+    # its lower edge a shadow eases in, holds full through `hold` of the mask's height (where the chin sits: on the wide
+    # shots it reaches about a quarter of the mask's height down), fades out by `depth` and is feathered at its sides, and
+    # it only takes what is already dark (a chin in shadow, the hood): the mask's grey lower shading and a hand stay as shot.
     h, w = f.shape[:2]
-    v = cv2.cvtColor(f, cv2.COLOR_BGR2HSV)[:, :, 2].astype(np.int16)
-    dark = cv2.morphologyEx((v < 85).astype(np.uint8), cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+    hsv = cv2.cvtColor(f, cv2.COLOR_BGR2HSV)
+    v, s, hue = hsv[:, :, 2].astype(np.int16), hsv[:, :, 1].astype(np.int16), hsv[:, :, 0].astype(np.int16)
+    # the silhouette that encloses the mask: the dark hood and body, and a hand raised against them (skin hue; the wall is
+    # green and the mask colourless), so a hand over the hood's edge never opens the ring
+    skin_hue = (s >= 20) & (v > 60) & ((hue <= 30) | (hue >= 160))
+    dark = cv2.morphologyEx(((v < 85) | skin_hue).astype(np.uint8), cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
     n, lab, st, _ = cv2.connectedComponentsWithStats(dark)
     if n < 2: return f
     inv = (lab != 1 + int(np.argmax(st[1:, cv2.CC_STAT_AREA]))).astype(np.uint8)
     seen = np.zeros((h + 2, w + 2), np.uint8)
     for x, y in [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1), (w // 2, 0), (w // 2, h - 1)]:
         if inv[y, x] == 1: cv2.floodFill(inv, seen, (x, y), 2)
-    holes = cv2.morphologyEx(((inv == 1) & (v > 110)).astype(np.uint8), cv2.MORPH_CLOSE, np.ones((21, 21), np.uint8))
+    # the mask is colourless (saturation about 5) where a hand raised beside it is not (about 30), so they never merge
+    holes = cv2.morphologyEx(((inv == 1) & (v > 110) & (s < 18)).astype(np.uint8), cv2.MORPH_CLOSE, np.ones((21, 21), np.uint8))
     n, lab, st, cen = cv2.connectedComponentsWithStats(holes)
     big = [i for i in range(1, n) if st[i, cv2.CC_STAT_AREA] > 0.004 * h * w]
     if not big: return f
@@ -126,13 +181,25 @@ def hood_shadow(f, depth=0.42):
     cols = np.arange(x0, x0 + bw)
     bottom = np.array([np.nonzero(m[:, c])[0].max() if m[:, c].any() else y0 for c in cols], np.float32)
     bottom = cv2.GaussianBlur(bottom.reshape(1, -1), (1, 31), 0).ravel()
-    below = np.arange(h, dtype=np.float32)[:, None] - bottom[None, :] - 0.02 * bh
-    ramp = np.clip(below / (0.05 * bh), 0, 1)
-    vert = ramp * ramp * (3 - 2 * ramp) * np.clip(1 - below / (depth * bh), 0, 1)
+    # from the mask's edge itself (the lips sit right under it): its grey lower shading is spared by the darkness rule below
+    below = np.arange(h, dtype=np.float32)[:, None] - bottom[None, :] + 0.01 * bh
+    ramp = np.clip(below / (0.025 * bh), 0, 1)
+    vert = ramp * ramp * (3 - 2 * ramp) * np.clip(1 - (below - hold * bh) / ((depth - hold) * bh), 0, 1)
     xr = (cols - x0) / max(1, bw - 1)
     a = np.zeros((h, w), np.float32)
-    a[:, x0:x0 + bw] = vert * np.clip(np.minimum(xr, 1 - xr) / 0.12, 0, 1)[None, :]
-    a = np.clip(cv2.GaussianBlur(a, (0, 0), 6) * 1.25, 0, 1) * np.clip((118 - v) / 28.0, 0, 1) * (~m)
+    a[:, x0:x0 + bw] = vert * np.clip((np.minimum(xr, 1 - xr) - 0.06) / 0.14, 0, 1)[None, :]
+    # what it may take: anything under the chin's brightest highlight (value 150), except the mask (its edge feathered, so
+    # the shadow never cuts a step into its shading) and a hand: every skin-hued pixel joined to a large bright skin core,
+    # its shaded thumb and nail included, nothing around it (no halo). The chin is skin too, but the dark hood parts it
+    # from the hand
+    core = ((v > 140) & (s >= 20)).astype(np.uint8)
+    n2, lab2, st2, _ = cv2.connectedComponentsWithStats(core)
+    core = np.isin(lab2, [i for i in range(1, n2) if st2[i, cv2.CC_STAT_AREA] > 0.0015 * h * w])
+    n3, lab3 = cv2.connectedComponents(cv2.morphologyEx(skin_hue.astype(np.uint8), cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8)))
+    hand = np.isin(lab3, np.unique(lab3[core & (lab3 > 0)])) & (lab3 > 0) if core.any() else np.zeros((h, w), bool)
+    hand = cv2.morphologyEx(hand.astype(np.uint8), cv2.MORPH_CLOSE, np.ones((17, 17), np.uint8)).astype(bool)
+    soft_m = cv2.GaussianBlur(cv2.dilate(m.astype(np.uint8), np.ones((3, 3), np.uint8)).astype(np.float32), (0, 0), 3)
+    a = np.clip(cv2.GaussianBlur(a, (0, 0), 6) * 1.25, 0, 1) * np.clip((150 - v) / 30.0, 0, 1) * (1 - soft_m) * (~hand)
     g = cv2.cvtColor(f, cv2.COLOR_BGR2GRAY).astype(np.float32)[..., None]
     out = f.astype(np.float32) * (1 - a[..., None]) + (g * 0.12 + 7) * a[..., None]
     return np.clip(out, 0, 255).astype(np.uint8)
@@ -178,19 +245,29 @@ def pill(text, fnt, pad=(28, 14), r=16, bg=(0, 0, 0, 165), fg=(255, 255, 255, 25
 # the montage's fast-forward, said in words: the generations' real factor, and plain "Sped up" while the apps connect
 BADGE = lambda text: pill(text, FF_FONT, pad=(24, 14), r=30, bg=(12, 12, 14, 199), fg=(236, 236, 236, 255), border=(255, 255, 255, 31))
 FF_IMG, APPS_IMG = BADGE('Sped up 150×'), BADGE('Sped up')
-APPS_FF = (spot(cues['apps']) - 0.1, spot(cues['apps']) + 1.3)  # the eight tiles connecting (beats/hacker.7dfcf32a.js TILE_*)
+# the eight tiles connecting (beats/hacker.7dfcf32a.js TILE_*); the talk cut has no chat
+APPS_FF = (spot(cues['apps']) - 0.1, spot(cues['apps']) + 1.3) if CUT == 'montage' else None
 # disclosures: the generated shots and voice, and the montage as a dramatization with a fictional business on the call
 NOTE_FONT = font(24 if AR == '16x9' else 22, 'Semibold')
 NOTE = lambda text: pill(text, NOTE_FONT, pad=(16, 9), r=12, bg=(0, 0, 0, 150), fg=(255, 255, 255, 230))
 AI_NOTE, DRAMA_NOTE = NOTE('AI-generated footage and voice'), NOTE('Dramatization · fictional business')
 
+def push_in(img, z):
+    # a slow centred zoom-in on a shot (z >= 1), so a held talking shot never sits dead still
+    if z <= 1.0005: return img
+    h, w = img.shape[:2]
+    cw, ch = w / z, h / z
+    m = np.float32([[z, 0, -(w - cw) / 2 * z], [0, z, -(h - ch) / 2 * z]])
+    return cv2.warpAffine(img, m, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+
 def frame(n):
     t = n / FPS
-    for kind, src, a, b, s0, speed in SEGS:
+    for kind, src, a, b, s0, speed, push in SEGS:
         if a - 1e-6 <= t < b - 1e-6 or (b == E_END and t >= a): break
     if kind == 'clip':
         c = clips.setdefault(src, Clip(src))
-        img = vhs(fit(hood_shadow(c.at(s0 + (t - a) * speed))), n)
+        shot = push_in(hood_shadow(c.at(s0 + (t - a) * speed)), 1 + push * (t - a) / (b - a))
+        img = vhs(fit(shot), n)
     else:
         files = LISTS.setdefault(src, sorted(f for f in os.listdir(src) if f.startswith('f_')))
         k = min(len(files) - 1, int(round((t - a) * FPS)))
@@ -259,10 +336,10 @@ def chime():
     st *= np.clip((3.0 - t) / 0.4, 0, 1)[:, None]
     return (st / np.abs(st).max() * db(-3)).astype(np.float32)
 sting = chime()
-lay(mix_mu, 0.0, drone[:int((A_END + 0.12) * SR)], db(-15), 0.4, 0.15)
-lay(mix_mu, A_END - 0.03, beat[int(0.06 * SR):int((0.06 + M_END - A_END + 0.15) * SR)], db(-13), 0.02, 0.18)
-lay(mix_mu, M_END - 0.03, drone[int(6 * SR):int((6 + B2_END - M_END + 0.1) * SR)], db(-15), 0.05, 0.12)
-lay(mix_mu, B2_END + 0.02, sting[:int((E_END - B2_END - 0.02) * SR)], db(-11), 0.005, 0.6)
+beds = {'drone': drone, 'beat': beat}
+for name, at, frm, length, gain, fin, fout in MUSIC:
+    lay(mix_mu, at, beds[name][int(frm * SR):int((frm + length) * SR)], db(gain), fin, fout)
+lay(mix_mu, STING_AT, sting[:int((E_END - STING_AT) * SR)], db(-11), 0.005, 0.6)
 # the glitch hits: crushed noise bursts on each tear
 for c, d in GLITCH:
     n = int(0.32 * SR); r = np.random.default_rng(int(c * 100))

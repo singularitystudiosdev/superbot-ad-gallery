@@ -162,7 +162,9 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   figure pointing at the viewer for "Try it out today. Superbot.", then the superbot.gg end card (17.5s, with sound,
   no captions, an AI-generated note on the generated shots and a Dramatization note on the chat; 16:9 and 1:1 at
   about 7.3 Mbps, X's video ad specs). A second tile, `?take=licensed`, is the same cut in a licensed OpenAI voice opening
-  on "Superbot does the work for you.". Renders in `assets/video/hacker-announcement[-licensed]-superbot-7dfcf32a.*.mp4`;
+  on "Superbot does the work for you.". Two more tiles, `?cut=talk` (and `&take=licensed`), are the mascot-only cut: the
+  same lines with no chat on screen, the wide, pointing and close-up shots intercut on the voice's own pauses (about 15 s).
+  Renders in `assets/video/hacker-announcement[-talk][-licensed]-superbot-7dfcf32a.*.mp4`;
   sources and the rebuild (`build.sh`: the variant's camera-tracked capture, then the cut and mix) in
   `ads-src/hacker-announcement-7dfcf32a/`.
 

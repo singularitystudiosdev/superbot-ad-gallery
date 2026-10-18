@@ -30,7 +30,7 @@ you" (an open-ended outcome) became "Superbot is here.", and "so you don't need 
 contradicts (it ships and manages MCP servers), became "so you don't have to set up MCPs". Line 2 is one grammatical
 sentence (the Quality policy: "Ads must use proper grammar").
 
-On screen: "AI-generated video and voice" over the generated shots, sized to read at about 9 pt in a phone feed (OpenAI's
+On screen: "AI-generated video and voice" over the generated shots, a small quiet label in the top right (OpenAI's
 usage policies ask for a "clear disclosure" of its TTS voice, and §8(v)(a) holds the ad to the advertiser's other
 agreements); superbot's app-icon tile held in the upper left (X's video spec: a logo "should be persistent in the upper
 left hand corner"). No captions burned in; X "strongly recommends" captions, so each take ships an SRT (written by

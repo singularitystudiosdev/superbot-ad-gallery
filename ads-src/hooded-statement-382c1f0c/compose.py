@@ -221,8 +221,9 @@ def pill(text, fnt, pad=(28, 14), r=16, bg=(0, 0, 0, 165), fg=(255, 255, 255, 25
     d.text((pad[0], pad[1]), text, font=fnt, fill=fg)
     return cv2.cvtColor(np.array(im), cv2.COLOR_RGBA2BGRA)
 # the disclosure over the generated shots: the figure and the voice are both synthetic (OpenAI's usage policies ask for a
-# "clear disclosure" of an AI voice). Sized for a phone: in a feed about 320 pt wide it reads at about 9 pt at either ratio
-NOTE_PX = 54 if AR == '16x9' else 32
+# "clear disclosure" of an AI voice). Kept small and quiet in the corner, at 40% of a phone-legible size: the SRT's first
+# cue and the post copy carry the same disclosure at full size
+NOTE_PX = 22 if AR == '16x9' else 13
 AI_NOTE = pill('AI-generated video and voice', font(NOTE_PX, 'Semibold'), pad=(round(NOTE_PX * 0.42), round(NOTE_PX * 0.26)),
                r=round(NOTE_PX * 0.4), bg=(0, 0, 0, 170), fg=(255, 255, 255, 240))
 
@@ -249,7 +250,7 @@ def tile(px):
     for (dx, dy), col in [((-1.2, -1.2), (0, 229, 195)), ((1.2, 1.2), (192, 38, 211)), ((0, 0), (255, 255, 255))]:
         im.paste(Image.new('RGBA', (S, S), col + (255,)), (0, 0), face(dx, dy))
     return cv2.cvtColor(np.array(im.resize((px, px), Image.LANCZOS)), cv2.COLOR_RGBA2BGRA)
-LOGO = tile(AI_NOTE.shape[0])  # the same height as the disclosure, the two framing the top of the shot
+LOGO = tile(93 if AR == '16x9' else 54)  # the app icon held at its size; the disclosure sits level with its middle
 
 def frame(n):
     t = n / FPS
@@ -271,7 +272,7 @@ def frame(n):
             img = glitch(img, n, s * (1 - abs(t - c) / (d / 2)))
     if kind == 'clip':
         over(img, LOGO, 32, 30)
-        over(img, AI_NOTE, W - AI_NOTE.shape[1] - 32, 30)
+        over(img, AI_NOTE, W - AI_NOTE.shape[1] - 32, 30 + (LOGO.shape[0] - AI_NOTE.shape[0]) // 2)
     return img
 
 # ---------- sound ----------

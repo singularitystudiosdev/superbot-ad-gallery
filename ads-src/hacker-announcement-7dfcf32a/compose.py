@@ -1,13 +1,15 @@
-# compose.py <ar 16x9|1x1> <out.mp4> [take fish|licensed] [cut montage|talk] : the Superbot hacker ad, cut and mixed.
+# compose.py <ar 16x9|1x1> <out.mp4> [take fish|licensed] [cut montage|talk] [spot] : a Superbot hacker ad, cut and mixed.
 # Cuts: `montage` (README.md) opens and closes on the hooded mascot and drops into the chat for the feature list (the
-# gallery's 'hacker' variant, frames from render-montage.mjs in work/); `talk` keeps the mascot on screen the whole way,
-# the generated shots intercut on the voice's own pauses, no chat. Picture: the generated hacker shots (the chin under the
-# mask hidden in hood shadow, VHS-matched), the end card rendered from the variant, mild glitch transitions and the
-# disclosure notes (the montage cut's "Dramatization" and "Sped up" too); no captions (asked off). Sound: the take's voice,
-# the Lyria drone and beat ducked under it, a synthesized end chime and glitch hits; two-pass loudness normalization
-# toward -14 LUFS / -1.5 dBTP.
-# Takes: `fish` is the fish.audio HACKER VOICE (vo/line*.wav); `licensed` is OpenAI gpt-4o-mini-tts "onyx"
-# (vo/licensed-line*.wav), the cut whose every element is licensed for commercial use, with its own first line.
+# gallery's 'hacker' variant, or the spot's own, frames from render-montage.mjs in work/); `talk` keeps the mascot on
+# screen the whole way, the generated shots intercut on the voice's own pauses, no chat. Picture: the generated hacker
+# shots (the chin under the mask hidden in hood shadow, VHS-matched), the end card rendered from the variant, mild glitch
+# transitions and the disclosure notes (the montage cut's "Dramatization" and "Sped up" too); no captions (asked off).
+# Sound: the take's voice, the Lyria drone and beat ducked under it, a synthesized end chime and glitch hits; two-pass
+# loudness normalization toward -14 LUFS / -1.5 dBTP.
+# Spots: `announcement` (the default) is the original, its takes `fish`, the fish.audio HACKER VOICE (vo/line*.wav), and
+# `licensed`, OpenAI gpt-4o-mini-tts "onyx" (vo/licensed-line*.wav), the cut whose every element is licensed for
+# commercial use, with its own first line. Any other spot is spots.json's: its lines vo/<spot>/<take>[-n].wav, its shots
+# and (hello) its montage there.
 # Needs python3 with numpy, opencv-python and pillow, ffmpeg, and macOS's SF Pro (/System/Library/Fonts/SFNS.ttf).
 import sys, os, json, subprocess, math, re
 import numpy as np, cv2
@@ -16,6 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 AR, OUT = sys.argv[1], os.path.abspath(sys.argv[2])
 TAKE = sys.argv[3] if len(sys.argv) > 3 else 'fish'
 CUT = sys.argv[4] if len(sys.argv) > 4 else 'montage'
+SPOT = sys.argv[5] if len(sys.argv) > 5 else 'announcement'
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 ROOT = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(ROOT, *a)
@@ -24,12 +27,6 @@ W, H = (1920, 1080) if AR == '16x9' else (1080, 1080)
 MT, END = P('work', f'mt{AR[:2].replace("x", "")}'), P('work', f'end{AR[:2].replace("x", "")}')
 GESTURE, POINT, CLOSE = P('art', 'omni-wide-gesture.mp4'), P('art', 'omni-wide-point.mp4'), P('art', 'omni-close.mp4')
 PALM = 2.45  # the gesture shot's figure reads until here; from 2.55 s it raises an open palm, which is never shown
-
-TAKES = {
-    'fish': {'files': ['line1.wav', 'line2.wav', 'line3.wav'], 'line1': 'Superbot gives you better output.'},
-    'licensed': {'files': ['licensed-line1.wav', 'licensed-line2.wav', 'licensed-line3.wav'], 'line1': 'Superbot does the work for you.'},
-}[TAKE]
-L1, L2, L3 = (P('vo', f) for f in TAKES['files'])
 
 def spans(path, n):
     # the take's spoken stretches (silencedetect at -38 dB, 0.1 s), merged into n phrases across its n-1 longest pauses
@@ -45,77 +42,164 @@ def spans(path, n):
     bounds = [s0] + [x for g in cuts for x in g] + [e1]
     return [(bounds[2 * i], bounds[2 * i + 1]) for i in range(n)]
 
-S1, S2, S3 = spans(L1, 1), spans(L2, 5), spans(L3, 2)
-lay3 = lambda at: [(L3, at + (sp[0] - S3[0][0]), sp) for sp in S3]  # line 3's two phrases at its own pace from `at`
 END_LEN = 3.0
 
-# ---------- the cut (edit seconds) ----------
-# SEGS: (kind, source, edit start, edit end, source start, source speed, push) where push is a slow zoom-in over the shot.
-# MUSIC: (file, edit at, source from, length, gain dB, fade in, fade out). GLITCH: (edit centre, length) tears.
-if CUT == 'montage':
-    A_END, M_END, B1_END, B2_END = 2.70, 11.80, 13.10, 14.50
-    E_END = B2_END + END_LEN
-    SPOT0 = 2.45  # the montage's first frame is the spot at this time (render-montage.mjs t0): the first ask just sent
-    # the opening holds to the gesture shot's palm-free first 2.45 s, eased to 0.91x to fill its 2.7 s
-    SEGS = [
-        ('clip', GESTURE, 0.0, A_END, 0.0, PALM / A_END, 0),
-        ('frames', MT, A_END, M_END, 0, 1, 0),
-        ('clip', POINT, M_END, B1_END, 3.95, 1, 0),
-        ('clip', CLOSE, B1_END, B2_END, 3.85, 1, 0),
-        ('frames', END, B2_END, E_END, 0, 1, 0),
-    ]
-    GLITCH = [(A_END, 0.30), (M_END, 0.30)]
-    cues = json.load(open(os.path.join(MT, 'cues.json')))
-    meta = json.load(open(os.path.join(MT, 'meta.json')))
-    spot = lambda s: A_END + (s - SPOT0)  # spot seconds -> edit seconds, inside the montage
-    # line 1 on the gesture, line 2's five phrases each on its card's cue, line 3 on the point and the close-up
-    L2_AT = [spot(cues[k]) for k in ('calls', 'images', 'models', 'apps', 'mcps')]
-    VO = [(L1, 0.30, S1[0])] + [(L2, at, sp) for at, sp in zip(L2_AT, S2)] + lay3(11.95)
-    MUSIC = [('drone', 0.0, 0.0, A_END + 0.12, -15, 0.4, 0.15), ('beat', A_END - 0.03, 0.06, M_END - A_END + 0.15, -13, 0.02, 0.18),
-             ('drone', M_END - 0.03, 6.0, B2_END - M_END + 0.1, -15, 0.05, 0.12)]
-    STING_AT = B2_END + 0.02
+if SPOT == 'announcement':
+    TAKES = {
+        'fish': {'files': ['line1.wav', 'line2.wav', 'line3.wav'], 'line1': 'Superbot gives you better output.'},
+        'licensed': {'files': ['licensed-line1.wav', 'licensed-line2.wav', 'licensed-line3.wav'], 'line1': 'Superbot does the work for you.'},
+    }[TAKE]
+    L1, L2, L3 = (P('vo', f) for f in TAKES['files'])
+
+    S1, S2, S3 = spans(L1, 1), spans(L2, 5), spans(L3, 2)
+    lay3 = lambda at: [(L3, at + (sp[0] - S3[0][0]), sp) for sp in S3]  # line 3's two phrases at its own pace from `at`
+
+    # ---------- the cut (edit seconds) ----------
+    # SEGS: (kind, source, edit start, edit end, source start, source speed, push) where push is a slow zoom-in over the shot.
+    # MUSIC: (file, edit at, source from, length, gain dB, fade in, fade out). GLITCH: (edit centre, length) tears.
+    if CUT == 'montage':
+        A_END, M_END, B1_END, B2_END = 2.70, 11.80, 13.10, 14.50
+        E_END = B2_END + END_LEN
+        SPOT0 = 2.45  # the montage's first frame is the spot at this time (render-montage.mjs t0): the first ask just sent
+        # the opening holds to the gesture shot's palm-free first 2.45 s, eased to 0.91x to fill its 2.7 s
+        SEGS = [
+            ('clip', GESTURE, 0.0, A_END, 0.0, PALM / A_END, 0),
+            ('frames', MT, A_END, M_END, 0, 1, 0),
+            ('clip', POINT, M_END, B1_END, 3.95, 1, 0),
+            ('clip', CLOSE, B1_END, B2_END, 3.85, 1, 0),
+            ('frames', END, B2_END, E_END, 0, 1, 0),
+        ]
+        GLITCH = [(A_END, 0.30), (M_END, 0.30)]
+        cues = json.load(open(os.path.join(MT, 'cues.json')))
+        meta = json.load(open(os.path.join(MT, 'meta.json')))
+        spot = lambda s: A_END + (s - SPOT0)  # spot seconds -> edit seconds, inside the montage
+        # line 1 on the gesture, line 2's five phrases each on its card's cue, line 3 on the point and the close-up
+        L2_AT = [spot(cues[k]) for k in ('calls', 'images', 'models', 'apps', 'mcps')]
+        VO = [(L1, 0.30, S1[0])] + [(L2, at, sp) for at, sp in zip(L2_AT, S2)] + lay3(11.95)
+        MUSIC = [('drone', 0.0, 0.0, A_END + 0.12, -15, 0.4, 0.15), ('beat', A_END - 0.03, 0.06, M_END - A_END + 0.15, -13, 0.02, 0.18),
+                 ('drone', M_END - 0.03, 6.0, B2_END - M_END + 0.1, -15, 0.05, 0.12)]
+        STING_AT = B2_END + 0.02
+    else:
+        # the mascot alone: the voice runs at its own pace and the shots change on its pauses, as the old hacker videos cut
+        # between their wide and close shots. Line 1 over the opening; line 2 straight on, a breath after it; line 3 a beat later
+        l1_end = 0.30 + S1[0][1] - S1[0][0]
+        L2_AT = max(2.55, l1_end + 0.6)
+        VO = [(L1, 0.30, S1[0])] + [(L2, L2_AT + (sp[0] - S2[0][0]), sp) for sp in S2]
+        rel = lambda i: L2_AT + (S2[i][0] - S2[0][0])
+        end2 = lambda i: L2_AT + (S2[i][1] - S2[0][0])
+        L3_AT = end2(4) + 0.65
+        VO += lay3(L3_AT)
+        l3a_end = L3_AT + S3[0][1] - S3[0][0]
+        l3b_at = L3_AT + S3[1][0] - S3[0][0]
+        cuts = [L2_AT - 0.1,                       # wide (reading) -> close-up as line 2 starts
+                (end2(1) + rel(2)) / 2,            # -> wide (lowering the paper) after "generate images"
+                (end2(3) + rel(4)) / 2,            # -> close-up for "so you don't need MCPs"
+                L3_AT - 0.12,                      # -> wide, pointing, "Try it out today"
+                (l3a_end + l3b_at) / 2,            # -> close-up on "Superbot."
+                L3_AT + S3[1][1] - S3[0][0] + 0.45]  # -> the end card
+        E_END = cuts[5] + END_LEN
+        # each shot's source window: the close-up's steady stare (1.3 s on), the point shot reading then facing the camera,
+        # the close-up again after its tilt (5.4 s on), the point shot pointing (3.95 s on), the close-up's tilt (3.85 s on)
+        SEGS = [('clip', GESTURE, 0.0, cuts[0], 0.0, min(1.0, PALM / cuts[0]), 0.035),
+                ('clip', CLOSE, cuts[0], cuts[1], 1.3, 1, 0.03),
+                ('clip', POINT, cuts[1], cuts[2], 0.3, 1, 0.035),
+                ('clip', CLOSE, cuts[2], cuts[3], 5.4, 1, 0.03),
+                ('clip', POINT, cuts[3], cuts[4], 3.95, 1, 0.02),
+                ('clip', CLOSE, cuts[4], cuts[5], 3.85, 1, 0.03),
+                ('frames', END, cuts[5], E_END, 0, 1, 0)]
+        for kind, src, a, b, s0, speed, _ in SEGS:
+            if kind == 'clip':
+                assert s0 + (b - a) * speed <= 7.95, (src, s0, b - a)
+                assert src != GESTURE or s0 + (b - a) * speed <= PALM + 1e-6
+        GLITCH = [(cuts[5], 0.30)]
+        MUSIC = [('drone', 0.0, 0.0, cuts[5] + 0.1, -15, 0.4, 0.12),
+                 ('beat', L2_AT - 0.1, 0.06, end2(4) - L2_AT + 0.6, -19, 0.35, 0.4)]
+        STING_AT = cuts[5] + 0.02
+        print('  cuts', ' '.join(f'{c:.2f}' for c in cuts), 'end', f'{E_END:.2f}')
+    # where each phrase lands (logged; the cut carries no captions)
+    TEXTS = [TAKES['line1'], 'It can make calls,', 'generate images,', '3D models,', 'connect to your apps directly,',
+             "so you don't need MCPs.", 'Try it out today.', 'Superbot.']
+    for (_, at, sp), text in zip(VO, TEXTS):
+        print(f'  {at:6.2f}-{at + sp[1] - sp[0]:6.2f}  {text}')
+
 else:
-    # the mascot alone: the voice runs at its own pace and the shots change on its pauses, as the old hacker videos cut
-    # between their wide and close shots. Line 1 over the opening; line 2 straight on, a breath after it; line 3 a beat later
-    l1_end = 0.30 + S1[0][1] - S1[0][0]
-    L2_AT = max(2.55, l1_end + 0.6)
-    VO = [(L1, 0.30, S1[0])] + [(L2, L2_AT + (sp[0] - S2[0][0]), sp) for sp in S2]
-    rel = lambda i: L2_AT + (S2[i][0] - S2[0][0])
-    end2 = lambda i: L2_AT + (S2[i][1] - S2[0][0])
-    L3_AT = end2(4) + 0.65
-    VO += lay3(L3_AT)
-    l3a_end = L3_AT + S3[0][1] - S3[0][0]
-    l3b_at = L3_AT + S3[1][0] - S3[0][0]
-    cuts = [L2_AT - 0.1,                       # wide (reading) -> close-up as line 2 starts
-            (end2(1) + rel(2)) / 2,            # -> wide (lowering the paper) after "generate images"
-            (end2(3) + rel(4)) / 2,            # -> close-up for "so you don't need MCPs"
-            L3_AT - 0.12,                      # -> wide, pointing, "Try it out today"
-            (l3a_end + l3b_at) / 2,            # -> close-up on "Superbot."
-            L3_AT + S3[1][1] - S3[0][0] + 0.45]  # -> the end card
-    E_END = cuts[5] + END_LEN
-    # each shot's source window: the close-up's steady stare (1.3 s on), the point shot reading then facing the camera,
-    # the close-up again after its tilt (5.4 s on), the point shot pointing (3.95 s on), the close-up's tilt (3.85 s on)
-    SEGS = [('clip', GESTURE, 0.0, cuts[0], 0.0, min(1.0, PALM / cuts[0]), 0.035),
-            ('clip', CLOSE, cuts[0], cuts[1], 1.3, 1, 0.03),
-            ('clip', POINT, cuts[1], cuts[2], 0.3, 1, 0.035),
-            ('clip', CLOSE, cuts[2], cuts[3], 5.4, 1, 0.03),
-            ('clip', POINT, cuts[3], cuts[4], 3.95, 1, 0.02),
-            ('clip', CLOSE, cuts[4], cuts[5], 3.85, 1, 0.03),
-            ('frames', END, cuts[5], E_END, 0, 1, 0)]
-    for kind, src, a, b, s0, speed, _ in SEGS:
-        if kind == 'clip':
-            assert s0 + (b - a) * speed <= 7.95, (src, s0, b - a)
-            assert src != GESTURE or s0 + (b - a) * speed <= PALM + 1e-6
-    GLITCH = [(cuts[5], 0.30)]
-    MUSIC = [('drone', 0.0, 0.0, cuts[5] + 0.1, -15, 0.4, 0.12),
-             ('beat', L2_AT - 0.1, 0.06, end2(4) - L2_AT + 0.6, -19, 0.35, 0.4)]
-    STING_AT = cuts[5] + 0.02
-    print('  cuts', ' '.join(f'{c:.2f}' for c in cuts), 'end', f'{E_END:.2f}')
-# where each phrase lands (logged; the cut carries no captions)
-TEXTS = [TAKES['line1'], 'It can make calls,', 'generate images,', '3D models,', 'connect to your apps directly,',
-         "so you don't need MCPs.", 'Try it out today.', 'Superbot.']
-for (_, at, sp), text in zip(VO, TEXTS):
-    print(f'  {at:6.2f}-{at + sp[1] - sp[0]:6.2f}  {text}')
+    # the other spots (spots.json): their lines' phrases, numbered across the lines
+    SP = json.load(open(P('spots.json')))[SPOT]
+    many = len(SP['lines']) > 1
+    PH = []  # (take file, line, start, end)
+    for li, ln in enumerate(SP['lines']):
+        path = P('vo', SPOT, f'{TAKE}-{li + 1}.wav' if many else f'{TAKE}.wav')
+        PH += [(path, li, s, e) for s, e in spans(path, len(ln['phrases']))]
+    LINE_GAP = 0.55  # from one line's last phrase to the next line's first
+
+    def place(idx, at):
+        # phrases idx (in order) from `at`: at the take's own pace inside a line, LINE_GAP between lines
+        out = []
+        for i in idx:
+            path, li, s, e = PH[i]
+            if out:
+                q = PH[i - 1]
+                at = out[-1][1] + ((s - q[2]) if q[1] == li else (q[3] - q[2]) + LINE_GAP)
+            out.append((path, at, (s, e)))
+        return out
+    # the shots' windows: (clip, source start, last usable source second, push-in). The gesture shot only up to its palm
+    WIN = {'wide': (GESTURE, 0.0, PALM, 0.035), 'read': (POINT, 0.3, 7.95, 0.035), 'point': (POINT, 3.95, 7.95, 0.02),
+           'stare': (CLOSE, 1.3, 7.95, 0.03), 'tilt': (CLOSE, 3.85, 7.95, 0.03), 'close': (CLOSE, 5.4, 7.95, 0.03)}
+
+    def shots(plan, t0, t1):
+        # each [window, first phrase] from midway between that phrase and the one before (the first from t0) to the next
+        # shot (the last to t1), eased down to no slower than 0.8x when its window runs short
+        bounds = [t0] + [(at_of[p - 1] + dur_of[p - 1] + at_of[p]) / 2 for _, p in plan[1:]] + [t1]
+        segs = []
+        for (win, _), a, b in zip(plan, bounds, bounds[1:]):
+            src, s0, lim, push = WIN[win]
+            speed = min(1.0, (lim - s0) / (b - a))
+            assert speed >= 0.8, (SPOT, win, a, b)
+            segs.append(('clip', src, a, b, s0, speed, push))
+        return segs
+    if CUT == 'talk':
+        VO = place(range(len(PH)), 0.30)
+        at_of, dur_of = [v[1] for v in VO], [v[2][1] - v[2][0] for v in VO]
+        END_AT = at_of[-1] + dur_of[-1] + 0.45
+        SEGS = shots(SP['talk'], 0.0, END_AT)
+        GLITCH = [(END_AT, 0.30)]
+        # the drone throughout; with three shots or more, the beat under the middle ones, out before the last phrase
+        MUSIC = [('drone', 0.0, 0.0, END_AT + 0.1, -15, 0.4, 0.12)]
+        if len(SEGS) > 2:
+            b0, b1 = SEGS[1][2] - 0.1, at_of[-1] - 0.1
+            MUSIC.append(('beat', b0, 0.06, b1 - b0 + 0.4, -19, 0.35, 0.4))
+    else:
+        # the montage: the opening phrases on the mascot, a tear into the chat for phrase `over` on (laid over the empty
+        # state and the ask typing) and the list line's phrases on the variant's cues, then back to the mascot
+        M = SP['montage']
+        MT = P('work', f'{SPOT}-mt{AR[:2].replace("x", "")}')
+        cues = json.load(open(os.path.join(MT, 'cues.json')))
+        meta = json.load(open(os.path.join(MT, 'meta.json')))
+        over = M['over']
+        first = min(i for i, q in enumerate(PH) if q[1] == M['list'])
+        last = max(i for i, q in enumerate(PH) if q[1] == M['list'])
+        VO = place(range(over), 0.30)
+        A_END = VO[-1][1] + VO[-1][2][1] - VO[-1][2][0] + 0.35
+        VO += place(range(over, first), A_END + 0.2)
+        # the capture's second the cut enters on: so the call card comes in a breath after the phrases laid over it
+        SPOT0 = cues['calls'] - (VO[-1][1] + VO[-1][2][1] - VO[-1][2][0] + 0.3 - A_END)
+        assert SPOT0 >= meta[0]['t'] - 1e-6, (SPOT0, meta[0]['t'])
+        spot = lambda s: A_END + (s - SPOT0)  # spot seconds -> edit seconds, inside the montage
+        VO += [(PH[i][0], spot(cues[k]), PH[i][2:]) for i, k in zip(range(first, last + 1), M['cues'])]
+        M_END = spot(cues['cut']) - 0.17
+        VO += place(range(last + 1, len(PH)), M_END + 0.15)
+        at_of, dur_of = [v[1] for v in VO], [v[2][1] - v[2][0] for v in VO]
+        END_AT = at_of[-1] + dur_of[-1] + 0.45
+        SEGS = shots(M['open'], 0.0, A_END) + [('frames', MT, A_END, M_END, SPOT0 - meta[0]['t'], 1, 0)] + shots(M['close'], M_END, END_AT)
+        GLITCH = [(A_END, 0.30), (M_END, 0.30), (END_AT, 0.30)]
+        MUSIC = [('drone', 0.0, 0.0, A_END + 0.12, -15, 0.4, 0.15), ('beat', A_END - 0.03, 0.06, M_END - A_END + 0.15, -13, 0.02, 0.18),
+                 ('drone', M_END - 0.03, 6.0, END_AT - M_END + 0.1, -15, 0.05, 0.12)]
+    E_END = END_AT + END_LEN
+    SEGS.append(('frames', END, END_AT, E_END, 0, 1, 0))
+    STING_AT = END_AT + 0.02
+    print('  cuts', ' '.join(f'{s[2]:.2f}' for s in SEGS[1:]), 'end', f'{E_END:.2f}')
+    for (_, at, sp), text in zip(VO, [t for ln in SP['lines'] for t in ln['phrases']]):
+        print(f'  {at:6.2f}-{at + sp[1] - sp[0]:6.2f}  {text}')
 
 # ---------- picture ----------
 def font(size, weight='Bold'):
@@ -245,8 +329,8 @@ def pill(text, fnt, pad=(28, 14), r=16, bg=(0, 0, 0, 165), fg=(255, 255, 255, 25
 # the montage's fast-forward, said in words: the generations' real factor, and plain "Sped up" while the apps connect
 BADGE = lambda text: pill(text, FF_FONT, pad=(24, 14), r=30, bg=(12, 12, 14, 199), fg=(236, 236, 236, 255), border=(255, 255, 255, 31))
 FF_IMG, APPS_IMG = BADGE('Sped up 150×'), BADGE('Sped up')
-# the eight tiles connecting (beats/hacker.7dfcf32a.js TILE_*); the talk cut has no chat
-APPS_FF = (spot(cues['apps']) - 0.1, spot(cues['apps']) + 1.3) if CUT == 'montage' else None
+# the eight tiles connecting (beats/hacker.7dfcf32a.js TILE_*); the talk cut has no chat, the hello montage no apps card
+APPS_FF = (spot(cues['apps']) - 0.1, spot(cues['apps']) + 1.3) if CUT == 'montage' and 'apps' in cues else None
 # disclosures: the generated shots and voice, and the montage as a dramatization with a fictional business on the call
 NOTE_FONT = font(24 if AR == '16x9' else 22, 'Semibold')
 NOTE = lambda text: pill(text, NOTE_FONT, pad=(16, 9), r=12, bg=(0, 0, 0, 150), fg=(255, 255, 255, 230))
@@ -270,7 +354,7 @@ def frame(n):
         img = vhs(fit(shot), n)
     else:
         files = LISTS.setdefault(src, sorted(f for f in os.listdir(src) if f.startswith('f_')))
-        k = min(len(files) - 1, int(round((t - a) * FPS)))
+        k = min(len(files) - 1, int(round((t - a + s0) * FPS)))
         img = fit(cv2.imread(os.path.join(src, files[k])))
     for c, d in GLITCH:
         if abs(t - c) < d / 2:
@@ -278,10 +362,10 @@ def frame(n):
     # the montage: its disclosure top left, the "Sped up" badge while a generation runs or the apps connect (no corner
     # logo: the scrolling chat would run under it)
     if kind == 'frames' and src == MT:
-        k = min(len(meta) - 1, int(round((t - a) * FPS)))
+        k = min(len(meta) - 1, int(round((t - a + s0) * FPS)))
         over(img, DRAMA_NOTE, 32, 30, min(1, (t - a) / 0.2, (b - t) / 0.1))
         mx, my = (44, 40) if AR == '16x9' else (36, 150)
-        app_on = min(1, max(0, (t - APPS_FF[0]) / 0.15), max(0, (APPS_FF[1] - t) / 0.2))
+        app_on = min(1, max(0, (t - APPS_FF[0]) / 0.15), max(0, (APPS_FF[1] - t) / 0.2)) if APPS_FF else 0
         if meta[k]['ff'] > 0.01:
             over(img, FF_IMG, W - FF_IMG.shape[1] - mx, H - FF_IMG.shape[0] - my, meta[k]['ff'])
         elif app_on > 0:

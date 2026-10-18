@@ -23,7 +23,8 @@
 // creator's demo paced for a voiceover, with no model on show: superbot reads the channel's latest video, makes three
 // thumbnails for it, then uploads them to YouTube as an A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js)., or 'hacker', the hooded-mascot
 // spot's montage: a live call, an image, a 3D model and apps connected with no MCP, each on its voiceover phrase
-// (scenes/tabs-assets/beats/hacker.7dfcf32a.js). Read from ?variant= so a frozen
+// (scenes/tabs-assets/beats/hacker.7dfcf32a.js), or 'hacker-hello', the "Hello AI users" spot's: the same call, image and
+// 3D model, then a theme song and the MCP row as its own card (the same module's `hello`). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -64,6 +65,7 @@ export const VARIANTS = [
   { id: 'koala-discord', label: 'Koala GIF + reactions on Discord' }, // a koala GIF sent to mrmoonshot, then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js)
   { id: 'yt-thumbnail', label: 'YouTube thumbnail + A/B test · voiceover' }, // three thumbnails for the latest video, then uploaded as a YouTube A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js)
   { id: 'hacker', label: 'Hacker ad · calls, image, 3D, apps' }, // the hooded-mascot spot's montage: a live call, an image, a 3D model, apps connected with no MCP (scenes/tabs-assets/beats/hacker.7dfcf32a.js)
+  { id: 'hacker-hello', label: 'Hacker ad · hello: calls, image, 3D, audio, no MCP' }, // the hooded mascot's "Hello AI users" spot: the same call, image and 3D model, then a theme song and the MCP row as its own card (scenes/tabs-assets/beats/hacker.7dfcf32a.js hello)
   { id: 'voice-clone-song', label: 'Voice clone song' }, // a voice sample recorded and cloned, then a song sung in that voice (scenes/tabs-assets/beats/voiceclone.986a9320.js)
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);

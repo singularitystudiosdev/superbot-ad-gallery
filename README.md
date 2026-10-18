@@ -173,6 +173,19 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   Renders in `assets/video/hacker-announcement[-talk][-licensed]-superbot-7dfcf32a.*.mp4`;
   sources and the rebuild (`build.sh`: the variant's camera-tracked capture, then the cut and mix) in
   `ads-src/hacker-announcement-7dfcf32a/`.
+  Seven more spots on the same page (`?spot=<slug>`), each script edited only where X's ad policies required it
+  (`ads-src/hacker-announcement-7dfcf32a/spots.json`), every one in both voices: `hello` ("Hello, AI users. This is
+  Superbot, with an announcement. We built an agent that actually gets things done. It can make calls, generate images,
+  3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.") as a montage cut
+  on its own variant (`?variant=hacker-hello`: the call, the beagle, the 3D beagle, a theme song in a player, the MCP row
+  as its own card) and mascot only (`&cut=talk`), and five mascot-only spots: `output` ("Superbot simply gives you the
+  output you ask for, and it does things your chatbot can't. Try it out!"), `jobs` ("Superbot is the AI for the jobs
+  your chatbot can't do. Superbot."), `when-ais-fail` ("Superbot is the AI to try when your other AIs fail you.
+  Superbot."), `message` ("Hello. This is a message to anyone who only uses AI in the browser, copies and pastes code,
+  pays API pricing, or wants a stronger agent. Try Superbot. It runs on the subscriptions you already have."),
+  `stop-paying-api` ("Try Superbot. Use the AI subscriptions you already pay for, and stop paying per-token API fees.")
+  and `does-things` ("Superbot does things your chatbot can't. Superbot."). Renders in
+  `assets/video/hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a.*.mp4`.
 
 Static image ads (`assets/ads/`):
 

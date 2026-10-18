@@ -14,6 +14,27 @@ in slowly, then the end card. About 15 s with the fish.audio take, 17 s with the
 Script: "Superbot gives you better output." (licensed take: "Superbot does the work for you.") / "It can make calls,
 generate images, 3D models, connect to your apps directly, so you don't need MCPs." / "Try it out today. Superbot."
 
+## The other spots (spots.json)
+
+Seven more scripts from the same brief, each one's lines in `spots.json` with its shots and gallery slug, cut by
+`compose.py <ar> <out> <take> <talk|montage> <spot>` and played by the same page (`?spot=<slug>`): `hello` as a montage
+cut on its own variant (`?variant=hacker-hello`: the same call, image and 3D model, then a theme song in a player and
+the MCP row as its own card; the empty state held longer so "We built an agent that actually gets things done" plays
+over the ask typing) and mascot only; `ask` (slug `output`), `cant` (`jobs`), `fail` (`when-ais-fail`), `message`,
+`stopapi` (`stop-paying-api`) and `agents` (`does-things`) mascot only. Renders:
+`assets/video/hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a.{16x9,1x1}.mp4`.
+
+The scripts were edited from the brief only where X's ad policies (read 2026-10-17: help.x.com quality-policy,
+deceptive-and-fraudulent-content; legal.x.com ads terms) required it: no absolute claims ("anything", "everything",
+"almost anything"); superbot called an agent, not a model of its own; comparisons narrowed to "your chatbot", which
+can't place a call or reach your apps without MCP servers; "stop paying API" and "pays API pricing" saying what the
+viewer still pays (their subscriptions); grammar, which X applies to the audio too ("a announcement", "agent's").
+
+Their voices: `vo/<spot>/fish[-n].wav`, the fish.audio HACKER VOICE as above (two takes a line, the cleaner kept), and
+`vo/<spot>/licensed[-n].wav`, OpenAI `gpt-4o-mini-tts` `onyx` read phrase by phrase, each trimmed with its inner pauses
+held to 0.2 s and joined by 0.38 s so each phrase boundary is the take's longest pause, then deepened 1.5 semitones and
+6% quicker.
+
 On screen for X's policies (no captions: asked off; X recommends them but does not require them): "AI-generated
 footage and voice" over the generated shots;
 "Dramatization · fictional business" over the chat (the call's hotel is unnamed, on a 555 number); "Sped up 150×" on the
@@ -45,7 +66,8 @@ generations (their timers count the tools' real seconds) and "Sped up" while the
 From the repo root, serve it (`npx http-server -p 8737 -c-1 .`), then in this folder, with Playwright installed here
 (`npm i playwright`) and python3 with numpy, opencv-python and pillow: `sh build.sh` (BASE, CHROME and PY pass through).
 It captures the montage and end card at each ratio (`render-montage.mjs`), cuts both takes at both ratios
-(`compose.py <ar> <out> <take>`) and copies the four renders and the thumbnail into place.
+(`compose.py <ar> <out> <take>`) and copies the four renders and the thumbnail into place; then the same for every spot
+of `spots.json` (`VARIANT=hacker-hello` captures the hello montage).
 
 `render-montage.mjs` reads the variant's voiceover cues (`window.__HACKER_CUES`) into `work/*/cues.json`; `compose.py` finds
 each take's phrases from its pauses and lays them on those cues, so a retimed variant or a new take

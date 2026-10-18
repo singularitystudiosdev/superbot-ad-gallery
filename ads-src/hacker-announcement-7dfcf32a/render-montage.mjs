@@ -1,9 +1,10 @@
 // render-montage.mjs <ar> <t0> <t1> <outdir> [mode=montage|end] [fps=30]
-// Frame-exact capture of the 'hacker' variant (a pure function of t: window.__AD.seek). Pass 1 measures, per frame, the
+// Frame-exact capture of a hacker variant (VARIANT: 'hacker' by default, or 'hacker-hello') (a pure function of t: window.__AD.seek). Pass 1 measures, per frame, the
 // newest answer card and its ask bubble; a zero-phase smoothed camera frames them (zoom 1..ZMAX). Pass 2 captures each
 // frame's camera crop at DPR 2, so a zoomed crop is re-rasterized sharp, never upscaled. The x150 badge is hidden and its
 // opacity logged, to be drawn by the edit in the final frame's corner. mode=end hides the chat (the end card over black).
-// BASE: where the repo is served (default http://127.0.0.1:8737); CHROME: an installed Chrome to drive instead of
+// The camera's card at each moment is the variant's own `focus` list (its cues), else the 'hacker' cut's four cards.
+// BASE: where the repo is served (default http://127.0.0.1:8737); VARIANT: the variant to capture; CHROME: an installed Chrome to drive instead of
 // Playwright's own build (the cuts here were drawn by /Applications/Google Chrome.app).
 import { chromium } from 'playwright';
 import fs from 'node:fs';
@@ -13,16 +14,17 @@ const [ar, t0s, t1s, out, mode = 'montage', fpsS = '30'] = process.argv.slice(2)
 const FPS = +fpsS, t0 = +t0s, t1 = +t1s, H = 1080, DPR = 2, ZMAX = 1.7;
 const W = { '16x9': 1920, '1x1': 1080 }[ar];
 const BASE = process.env.BASE || 'http://127.0.0.1:8737';
+const VARIANT = process.env.VARIANT || 'hacker';
 fs.mkdirSync(out, { recursive: true });
 
 const browser = await chromium.launch({ headless: true, ...(process.env.CHROME ? { executablePath: process.env.CHROME } : {}), args: ['--use-angle=metal', '--enable-gpu', '--force-color-profile=srgb'] });
 const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: DPR });
 page.on('pageerror', (e) => console.error('pageerror', e.message));
-await page.goto(`${BASE}/animations/gemini-muse-meme-superbot-6fbc38f8/?variant=hacker&ar=${ar}&t=0`, { waitUntil: 'load' });
+await page.goto(`${BASE}/animations/gemini-muse-meme-superbot-6fbc38f8/?variant=${VARIANT}&ar=${ar}&t=0`, { waitUntil: 'load' });
 await page.waitForFunction(() => window.__AD && window.__AD.ready, null, { timeout: 120000 });
 await page.evaluate(() => document.fonts.ready);
 await page.addStyleTag({ content: `#s-tabs .hk-ff{visibility:hidden!important}${mode === 'end' ? '#s-tabs .sbsite{visibility:hidden!important}' : ''}` });
-const cues = await page.evaluate(() => window.__HACKER_CUES.hacker);
+const cues = await page.evaluate((v) => window.__HACKER_CUES[v], VARIANT);
 fs.writeFileSync(path.join(out, 'cues.json'), JSON.stringify(cues, null, 1));
 
 // warm-up: every bitmap decoded and the 3D viewer drawn before frame 0
@@ -45,7 +47,8 @@ for (let i = 0; i < N; i++) {
   meta.push(await page.evaluate(({ t, cues }) => {
     const box = (n) => { if (!n || !n.offsetParent) return null; const r = n.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; };
     const c0 = cues.calls - 0.05;
-    const sel = t >= cues.apps - 0.1 ? '.hk-apps' : t >= cues.models ? '.hk-3d' : t >= cues.images ? '.hk-img' : t >= c0 ? '.hk-call' : null;
+    let sel = t >= cues.apps - 0.1 ? '.hk-apps' : t >= cues.models ? '.hk-3d' : t >= cues.images ? '.hk-img' : t >= c0 ? '.hk-call' : null;
+    if (cues.focus) { sel = null; for (const [at, s] of cues.focus) if (t >= at) sel = s; }
     const card = sel && document.querySelector(sel);
     let parts = [];
     if (card) {

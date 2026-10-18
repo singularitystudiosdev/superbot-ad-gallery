@@ -1,0 +1,40 @@
+/* The 'voice-clone-song' variant's answer (beats/voiceclone.986a9320.js): the voice sample card in the bakery artifact
+   frame (bakery.005f5570.css .bk), then the dog song's player strip (song.b217c2c1.css .sg) with its lyrics under the row.
+   Loaded by the beat module itself, so index.html needs no link. */
+#s-tabs .sbsite .hub .vc .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+/* the sample card's view takes its content's height instead of the frame's fixed 350px */
+#s-tabs .sbsite .hub .vc-view { height: auto; padding: 16px 16px 14px; }
+#s-tabs .sbsite .hub .vc-cue { font: 500 11px/15px var(--ui); color: #a1a1a6; }
+/* the line to read: unread words dim, each one white once it is read (the multicat lyric's colours, .mc-ly) */
+#s-tabs .sbsite .hub .vc-line { margin-top: 6px; font: 600 19px/26px var(--ui); letter-spacing: -.01em; color: #55555c; }
+#s-tabs .sbsite .hub .vc-line span.on { color: #f5f5f7; }
+#s-tabs .sbsite .hub .vc-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+/* the record button: a red dot that squares into a stop while recording, a red ring pulsing out of it */
+#s-tabs .sbsite .hub .vc-rec { position: relative; flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #2a2a30; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .vc-ring { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 2px #ff453a; opacity: 0; }
+#s-tabs .sbsite .hub .vc-dot { display: block; width: 14px; height: 14px; border-radius: 7px; background: #ff453a; }
+/* the level meter: one bar per sample, grey until it carries the take, scaled by the beat. Inline-size containment keeps
+   the bars out of the card's intrinsic width, as the song strip's waveform does */
+#s-tabs .sbsite .hub .vc-meter { flex: 1; min-width: 0; height: 32px; display: flex; align-items: center; justify-content: space-between; contain: inline-size; }
+#s-tabs .sbsite .hub .vc-meter i { flex: none; width: 3px; height: 32px; border-radius: 999px; background: #4a4a52; transform: scaleY(.09); }
+#s-tabs .sbsite .hub .vc-meter i.vc-on { background: #ececf0; }
+#s-tabs .sbsite .hub .vc-time { flex: none; min-width: 28px; text-align: right; font: 500 10.5px/1 var(--ui); color: #a1a1a6; font-variant-numeric: tabular-nums; }
+/* the status pill: a dot, the routing chip's spinner or its check, then what the card is doing */
+#s-tabs .sbsite .hub .vc-st { background: #232326; font-weight: 600; color: #c7c7cc; }
+#s-tabs .sbsite .hub .vc-st b { font-weight: 600; color: #ececf0; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .vc-st-i { position: relative; flex: none; width: 12px; height: 12px; }
+#s-tabs .sbsite .hub .vc-st-dot { position: absolute; inset: 3px; border-radius: 50%; background: #6e6e73; }
+#s-tabs .sbsite .hub .vc-st-dot.vc-on { background: #ff453a; }
+#s-tabs .sbsite .hub .vc-st .qc-spin { inset: 0; border-width: 1.5px; }
+/* the check keeps the chip's green over the frame's button glyph rule (bakery.005f5570.css .bk-btn svg) */
+#s-tabs .sbsite .hub .vc-st .qc-ok { position: absolute; inset: 0; width: 12px; height: 12px; stroke: #34d399; stroke-width: 2.6; }
+#s-tabs .sbsite .hub .vc-say2 { margin-top: 14px; }
+/* the song: the strip's row, then its lyrics on a second line of the card. The side's zero basis keeps its title from
+   wrapping it under the cover */
+#s-tabs .sbsite .hub .vc-song .sg-card { flex-wrap: wrap; row-gap: 10px; }
+#s-tabs .sbsite .hub .vc-song .sg-side { flex: 1 1 0; }
+#s-tabs .sbsite .hub .vc-cover { width: 56px; height: 56px; border-radius: 8px; }
+/* two lines show: the one being sung and the next, dim; the beat lifts the list a line at a time */
+#s-tabs .sbsite .hub .vc-ly { flex-basis: 100%; height: 44px; margin: 0 2px; overflow: hidden; }
+#s-tabs .sbsite .hub .vc-ly p { margin: 0; font: 600 15px/22px var(--ui); letter-spacing: -.005em; color: #55555c; white-space: nowrap; }
+#s-tabs .sbsite .hub .vc-ly span.on { color: #f5f5f7; }

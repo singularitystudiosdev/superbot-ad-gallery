@@ -1,0 +1,33 @@
+dear-api-users-one-endpoint-superbot-662e0fe9: provenance (internal; nothing here is shown on screen)
+
+ORIGIN
+  The dear-api-users-superbot-417d180e spot remade (chat 662e0fe9, 2026-10-17) so it passes the X ads policy gate
+  (upload-creation-pipeline-reddit-x-ads/bin/xads-policy.mjs: every X ad policy, the X Rules, the ToS, the US Master
+  Services Agreement and the Developer Agreement and Policy, 1,924 rules, judged 1:1). The original failed it with 47
+  flags; this one passes with 0 for a manual upload (report .cosmos/reference/x-ads-policy-reports/dear-api-users-one-endpoint.json
+  in the pipeline). Dropped: the $30,000/mo to $800/mo and 97% less figures (unsubstantiated), "One download" (the site
+  asks for a sign-in first), the struck "API pricing" line.
+
+COPY
+  Every claim is superbot.gg/api's own copy, read on 2026-10-17: "One endpoint for every model on your account",
+  "Your subscriptions, API keys and custom endpoints answer at one URL", "Get an API key", the endpoint
+  https://api.superbot.gg/v1. "DEAR API USERS" is the original spot's line. The Before rows use the reserved .example
+  domain (RFC 2606: provider-a.example to provider-d.example), so no real company is shown or implied.
+
+MARKS
+  The mascot is the house end-card mark (multicat-localhost.516afb1a END_FACE, the superbot.gg mark). Icons are lucide
+  (ISC): code, key-round, credit-card, server.
+
+SOUND
+  assets/dear-api-users.c060dffc.m4a, the original spot's soundtrack, unchanged (generated for it through fal,
+  ElevenLabs music and sound effects; nothing licensed from a third party, no attribution owed). Every state change sits
+  on a hit measured from it with motion-reel scripts/beats.mjs (92.06 BPM; downbeats 0.05, 2.66, 5.26, 7.85, 10.48).
+
+MARKET
+  Same complaint as the original: sell-to-reddit llm_ai usage-limits-pricing ("Usage limits, pricing and token spend",
+  rank 1, 10,223 authors in 30 days, data as of 2026-10-17); wants: alternative ai subscription, alternative ai tool.
+  This cut answers it with the product's own mechanism (your subscriptions and keys at one URL), not a savings figure.
+
+RENDERS
+  assets/video/dear-api-users-one-endpoint-superbot-662e0fe9.<ar>.mp4: the spot's own frame-exact exporter
+  (export.842e056d.js) run in headless Chromium, 60 fps, 13.0 s, H.264 High + AAC 48 kHz, -14.0 LUFS.

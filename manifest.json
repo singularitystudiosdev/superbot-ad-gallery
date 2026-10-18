@@ -1352,6 +1352,18 @@
     ]
   },
   {
+    "id": "dear-api-users-one-endpoint-superbot-662e0fe9",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "DEAR API USERS, one endpoint · the X-policy-checked cut: a base URL per provider becomes api.superbot.gg/v1, subscriptions, API keys and custom endpoints wired into it, superbot.gg/api and Get an API key (13 s, with sound)",
+    "src": "animations/dear-api-users-one-endpoint-superbot-662e0fe9/",
+    "thumb": "assets/shots/dear-api-users-one-endpoint-superbot-662e0fe9.png",
+    "desc": "The superbot mascot over DEAR API USERS, built a word per hit with API in cyan. A Before superbot chip sits over four base URLs, one per provider (provider-a.example to provider-d.example), and a base URL per provider; on the drop they slide away, After superbot springs up and the one endpoint, api.superbot.gg/v1, lands with a one endpoint for every model badge. Then subscriptions, API keys and custom endpoints wire into api.superbot.gg/v1 and the line They all answer at one URL. lands with an underline, packets running down the wires. Ends on superbot.gg/api with the mascot and a Get an API key button. Every claim is superbot.gg/api's own copy: no price, saving, percentage, vendor or pre-launch claim, so it passes the X ads policy gate (1,924 rules of the ads policies, X Rules, ToS and Master Services Agreement, 0 flags) for an upload by hand. Sound: the original Dear API Users soundtrack (ElevenLabs music and effects via fal, -14 LUFS), every state change on a hit measured from it. 13 s, plays once and holds the end card; 16:9, 4:3, 1:1, 4:5 and 9:16 (?ar=); 60 fps renders with sound; the export pill renders them in the browser. No vendor is named or shown.",
+    "extraArs": [
+      "9x16"
+    ]
+  },
+  {
     "id": "thinking-speed-superbot-2347ca2a",
     "type": "animation",
     "group": "Ad spots",

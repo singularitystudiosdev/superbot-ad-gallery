@@ -255,7 +255,7 @@ export default {
     const sayB = sayEl(x, SAY_B);
     const thumbs = x.el(`<div class="bk yt-th">
       <div class="bk-head"><b class="bk-title">Thumbnails<small>3 options · 1280 × 720</small></b><a class="bk-btn bk-publish" href="${THUMBS[0]}" download="thumbnail-a.jpg">${g('download')}Download</a></div>
-      <div class="yt-th-view"><div class="yt-th-grid">${THUMBS.map((src, i) => `<div class="yt-th-t qc-skel"><img src="${src}" width="1280" height="720" alt="${x.esc(ALTS[i])}"/><i class="qc-sk"></i></div>`).join('')}</div>
+      <div class="yt-th-view"><div class="yt-th-grid">${THUMBS.map((src, i) => `<div class="yt-th-t qc-skel"><img src="${src}" width="1280" height="720" alt="${x.esc(ALTS[i]).replaceAll('"', '&quot;')}"/><i class="qc-sk"></i></div>`).join('')}</div>
       <span class="qc-genl mc-genl-bare">Creating thumbnails<b class="qc-genn">0:00</b></span></div>
     </div>`);
     const tiles = [...thumbs.querySelectorAll('.yt-th-t')].map((n) => ({ n, im: n.querySelector('img'), sk: n.querySelector('.qc-sk') }));

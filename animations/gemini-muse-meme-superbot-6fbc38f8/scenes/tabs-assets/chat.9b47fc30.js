@@ -28,13 +28,13 @@ import multidog, { TYPE_CPS as MULTIDOG_CPS, LEN as MULTIDOG_LEN } from './beats
 import college, { TYPE_CPS as COLLEGE_CPS, LEN as COLLEGE_LEN } from './beats/college.057e3dda.js?v=2';
 import costumes, { TYPE_CPS as COSTUMES_CPS, LEN as COSTUMES_LEN } from './beats/costumes.34c23b1d.js?v=3';
 import halloween, { TYPE_CPS as HALLOWEEN_CPS, LEN as HALLOWEEN_LEN } from './beats/halloween.37ff9e93.js?v=3';
-import hotelcall, { TYPE_CPS as HOTELCALL_CPS, LEN as HOTELCALL_LEN } from './beats/hotelcall.f934b5ee.js?v=2';
+import hotelcall, { TYPE_CPS as HOTELCALL_CPS, LEN as HOTELCALL_LEN } from './beats/hotelcall.f934b5ee.js?v=3';
 import garminStrava, { TYPE_CPS as GARMIN_STRAVA_CPS, LEN as GARMIN_STRAVA_LEN } from './beats/garmin-strava.7a48d642.js?v=2';
 import refund, { TYPE_CPS as REFUND_CPS, LEN as REFUND_LEN } from './beats/refund.d3537b02.js?v=3';
 import discord, { TYPE_CPS as DISCORD_CPS, LEN as DISCORD_LEN } from './beats/discord.bccc0fdd.js?v=1';
 import studyguide, { TYPE_CPS as STUDYGUIDE_CPS, LEN as STUDYGUIDE_LEN } from './beats/studyguide.40e96f96.js?v=3';
 import koala, { TYPE_CPS as KOALA_CPS, LEN as KOALA_LEN } from './beats/koala.7f80a09a.js?v=2';
-import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=4';
+import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=5';
 import hacker, { TYPE_CPS as HACKER_CPS, LEN as HACKER_LEN } from './beats/hacker.7dfcf32a.js?v=1';
 import { variant } from '../../variant.9e82faf1.js?v=3';
 import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';

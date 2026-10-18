@@ -1,7 +1,8 @@
-# compose.py <ar 16x9|1x1> <out.mp4> [take fish|licensed] : the Superbot hacker ad, cut, captioned and mixed (README.md).
-# Picture: the three generated hacker shots (VHS-matched), the montage and end-card frames rendered from the gallery's
-# 'hacker' variant (render-montage.mjs, into work/), two mild glitch transitions, captions, the disclosure notes and the
-# montage's "Sped up" badge. Sound: the take's voice laid phrase by phrase on the montage's cues, the Lyria drone and beat
+# compose.py <ar 16x9|1x1> <out.mp4> [take fish|licensed] : the Superbot hacker ad, cut and mixed (README.md).
+# Picture: the three generated hacker shots (the chin under the mask hidden in hood shadow, VHS-matched), the montage and
+# end-card frames rendered from the gallery's 'hacker' variant (render-montage.mjs, into work/), two mild glitch
+# transitions, the disclosure notes and the montage's "Sped up" badge; no captions (asked off). Sound: the take's voice
+# laid phrase by phrase on the montage's cues, the Lyria drone and beat
 # ducked under it, a synthesized end chime and two glitch hits; two-pass loudness normalization toward -14 LUFS / -1.5 dBTP.
 # Takes: `fish` is the fish.audio HACKER VOICE (vo/line*.wav); `licensed` is OpenAI gpt-4o-mini-tts "onyx"
 # (vo/licensed-line*.wav), the cut whose every element is licensed for commercial use, with its own first line.
@@ -22,12 +23,14 @@ MT, END = P('work', f'mt{AR[:2].replace("x", "")}'), P('work', f'end{AR[:2].repl
 # ---------- the cut (edit seconds) ----------
 A_END, M_END, B1_END, B2_END, E_END = 2.70, 11.80, 13.10, 14.50, 17.50
 SPOT0 = 2.45  # the montage's first frame is the spot at this time (render-montage.mjs t0): the first ask just sent
+# (kind, source, edit start, edit end, source start, source speed). The opening holds to the gesture shot's first 2.45 s,
+# the figure reading, eased to 0.91x to fill its 2.7 s: the open palm it raises from 2.55 s is cut
 SEGS = [
-    ('clip', P('art', 'omni-wide-gesture.mp4'), 0.0, A_END, 2.10),
-    ('frames', MT, A_END, M_END, 0),
-    ('clip', P('art', 'omni-wide-point.mp4'), M_END, B1_END, 3.95),
-    ('clip', P('art', 'omni-close.mp4'), B1_END, B2_END, 3.85),
-    ('frames', END, B2_END, E_END, 0),
+    ('clip', P('art', 'omni-wide-gesture.mp4'), 0.0, A_END, 0.0, 2.45 / A_END),
+    ('frames', MT, A_END, M_END, 0, 1),
+    ('clip', P('art', 'omni-wide-point.mp4'), M_END, B1_END, 3.95, 1),
+    ('clip', P('art', 'omni-close.mp4'), B1_END, B2_END, 3.85, 1),
+    ('frames', END, B2_END, E_END, 0, 1),
 ]
 GLITCH = [(A_END, 0.30), (M_END, 0.30)]
 cues = json.load(open(os.path.join(MT, 'cues.json')))
@@ -59,10 +62,9 @@ S1, S2, S3 = spans(L1, 1), spans(L2, 5), spans(L3, 2)
 L2_AT = [spot(cues[k]) for k in ('calls', 'images', 'models', 'apps', 'mcps')]
 L3_AT = 11.95
 VO = [(L1, 0.30, S1[0])] + [(L2, at, sp) for at, sp in zip(L2_AT, S2)] + [(L3, L3_AT + (sp[0] - S3[0][0]), sp) for sp in S3]
-# each caption from its phrase's first word to 0.15 s past its last
+# where each phrase lands (logged; the cut carries no captions)
 TEXTS = [TAKES['line1'], 'It can make calls,', 'generate images,', '3D models,', 'connect to your apps directly,',
          "so you don't need MCPs.", 'Try it out today.', 'Superbot.']
-CAPS = [(at, at + (sp[1] - sp[0]) + 0.15, text) for (_, at, sp), text in zip(VO, TEXTS)]
 for (_, at, sp), text in zip(VO, TEXTS):
     print(f'  {at:6.2f}-{at + sp[1] - sp[0]:6.2f}  {text}')
 
@@ -71,7 +73,6 @@ def font(size, weight='Bold'):
     f = ImageFont.truetype('/System/Library/Fonts/SFNS.ttf', size)
     f.set_variation_by_name(weight)
     return f
-CAP_FONT = font(56 if AR == '16x9' else 50)
 FF_FONT = font(28, 'Semibold')
 
 class Clip:
@@ -99,6 +100,42 @@ def vhs(img, n):
     f *= np.array([0.97, 1.0, 0.965], np.float32)
     g = np.random.default_rng(1000 + n).normal(0, 3.2, img.shape[:2]).astype(np.float32)[..., None]
     return np.clip(f + g, 0, 255).astype(np.uint8)
+
+def hood_shadow(f, depth=0.42):
+    # The generated figure shows a human chin in the hood under the mask; it reads as a person in a mask, not the mascot,
+    # so the hood's inside below the mask goes to deep shadow. The mask: the topmost sizeable bright region the dark
+    # hood-and-body silhouette encloses (the wall lies outside it, the paper runs off the frame or meets the hands). Under
+    # its lower edge a shadow eases in, fades out over `depth` of the mask's height and is feathered at its sides, and it
+    # only takes what is already dark (a chin in shadow, the hood): the mask's grey lower shading and a hand stay as shot.
+    h, w = f.shape[:2]
+    v = cv2.cvtColor(f, cv2.COLOR_BGR2HSV)[:, :, 2].astype(np.int16)
+    dark = cv2.morphologyEx((v < 85).astype(np.uint8), cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(dark)
+    if n < 2: return f
+    inv = (lab != 1 + int(np.argmax(st[1:, cv2.CC_STAT_AREA]))).astype(np.uint8)
+    seen = np.zeros((h + 2, w + 2), np.uint8)
+    for x, y in [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1), (w // 2, 0), (w // 2, h - 1)]:
+        if inv[y, x] == 1: cv2.floodFill(inv, seen, (x, y), 2)
+    holes = cv2.morphologyEx(((inv == 1) & (v > 110)).astype(np.uint8), cv2.MORPH_CLOSE, np.ones((21, 21), np.uint8))
+    n, lab, st, cen = cv2.connectedComponentsWithStats(holes)
+    big = [i for i in range(1, n) if st[i, cv2.CC_STAT_AREA] > 0.004 * h * w]
+    if not big: return f
+    k = min(big, key=lambda i: cen[i][1])
+    x0, y0, bw, bh = st[k, :4]
+    m = lab == k
+    cols = np.arange(x0, x0 + bw)
+    bottom = np.array([np.nonzero(m[:, c])[0].max() if m[:, c].any() else y0 for c in cols], np.float32)
+    bottom = cv2.GaussianBlur(bottom.reshape(1, -1), (1, 31), 0).ravel()
+    below = np.arange(h, dtype=np.float32)[:, None] - bottom[None, :] - 0.02 * bh
+    ramp = np.clip(below / (0.05 * bh), 0, 1)
+    vert = ramp * ramp * (3 - 2 * ramp) * np.clip(1 - below / (depth * bh), 0, 1)
+    xr = (cols - x0) / max(1, bw - 1)
+    a = np.zeros((h, w), np.float32)
+    a[:, x0:x0 + bw] = vert * np.clip(np.minimum(xr, 1 - xr) / 0.12, 0, 1)[None, :]
+    a = np.clip(cv2.GaussianBlur(a, (0, 0), 6) * 1.25, 0, 1) * np.clip((118 - v) / 28.0, 0, 1) * (~m)
+    g = cv2.cvtColor(f, cv2.COLOR_BGR2GRAY).astype(np.float32)[..., None]
+    out = f.astype(np.float32) * (1 - a[..., None]) + (g * 0.12 + 7) * a[..., None]
+    return np.clip(out, 0, 255).astype(np.uint8)
 
 def fit(img):
     h, w = img.shape[:2]
@@ -138,7 +175,6 @@ def pill(text, fnt, pad=(28, 14), r=16, bg=(0, 0, 0, 165), fg=(255, 255, 255, 25
     d.rounded_rectangle([0, 0, im.width - 1, im.height - 1], r, fill=bg, outline=border, width=2 if border else 0)
     d.text((pad[0], pad[1]), text, font=fnt, fill=fg)
     return cv2.cvtColor(np.array(im), cv2.COLOR_RGBA2BGRA)
-CAP_IMG = {c[2]: pill(c[2], CAP_FONT) for c in CAPS}
 # the montage's fast-forward, said in words: the generations' real factor, and plain "Sped up" while the apps connect
 BADGE = lambda text: pill(text, FF_FONT, pad=(24, 14), r=30, bg=(12, 12, 14, 199), fg=(236, 236, 236, 255), border=(255, 255, 255, 31))
 FF_IMG, APPS_IMG = BADGE('Sped up 150×'), BADGE('Sped up')
@@ -150,11 +186,11 @@ AI_NOTE, DRAMA_NOTE = NOTE('AI-generated footage and voice'), NOTE('Dramatizatio
 
 def frame(n):
     t = n / FPS
-    for kind, src, a, b, s0 in SEGS:
+    for kind, src, a, b, s0, speed in SEGS:
         if a - 1e-6 <= t < b - 1e-6 or (b == E_END and t >= a): break
     if kind == 'clip':
         c = clips.setdefault(src, Clip(src))
-        img = vhs(fit(c.at(s0 + (t - a))), n)
+        img = vhs(fit(hood_shadow(c.at(s0 + (t - a) * speed))), n)
     else:
         files = LISTS.setdefault(src, sorted(f for f in os.listdir(src) if f.startswith('f_')))
         k = min(len(files) - 1, int(round((t - a) * FPS)))
@@ -175,11 +211,6 @@ def frame(n):
             over(img, APPS_IMG, W - APPS_IMG.shape[1] - mx, H - APPS_IMG.shape[0] - my, app_on)
     if kind == 'clip':
         over(img, AI_NOTE, W - AI_NOTE.shape[1] - 32, 30)
-    for a0, a1, text in CAPS:
-        if a0 <= t < a1:
-            ci = CAP_IMG[text]
-            al = min(1, (t - a0) / 0.08, (a1 - t) / 0.08)
-            over(img, ci, (W - ci.shape[1]) // 2, H - ci.shape[0] - (64 if AR == '16x9' else 70), al)
     return img
 
 # ---------- sound ----------

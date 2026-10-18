@@ -9,7 +9,8 @@ take) and `hacker-announcement-licensed-superbot-7dfcf32a.{16x9,1x1}.mp4` (the l
 Script: "Superbot gives you better output." (licensed take: "Superbot does the work for you.") / "It can make calls,
 generate images, 3D models, connect to your apps directly, so you don't need MCPs." / "Try it out today. Superbot."
 
-On screen for X's policies: captions on every line; "AI-generated footage and voice" over the generated shots;
+On screen for X's policies (no captions: asked off; X recommends them but does not require them): "AI-generated
+footage and voice" over the generated shots;
 "Dramatization · fictional business" over the chat (the call's hotel is unnamed, on a 555 number); "Sped up 150×" on the
 generations (their timers count the tools' real seconds) and "Sped up" while the apps connect.
 
@@ -42,5 +43,5 @@ It captures the montage and end card at each ratio (`render-montage.mjs`), cuts 
 (`compose.py <ar> <out> <take>`) and copies the four renders and the thumbnail into place.
 
 `render-montage.mjs` reads the variant's voiceover cues (`window.__HACKER_CUES`) into `work/*/cues.json`; `compose.py` finds
-each take's phrases from its pauses and lays them, and their captions, on those cues, so a retimed variant or a new take
+each take's phrases from its pauses and lays them on those cues, so a retimed variant or a new take
 re-cuts itself. The renders are H.264 High 4:2:0, 30 fps, two-pass 8 Mbps, AAC-LC 192 kbps, faststart: X's video ad specs.

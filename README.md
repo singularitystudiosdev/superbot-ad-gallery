@@ -160,7 +160,7 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   its card: a live call to a hotel's front desk (unnamed, a 555 number), the beagle image, the walking 3D beagle, eight
   generic app tiles connecting, then "MCP server" struck through to Not needed, every wait badged Sped up. Back to the
   figure pointing at the viewer for "Try it out today. Superbot.", then the superbot.gg end card (17.5s, with sound,
-  burned-in captions, an AI-generated note on the generated shots and a Dramatization note on the chat; 16:9 and 1:1 at
+  no captions, an AI-generated note on the generated shots and a Dramatization note on the chat; 16:9 and 1:1 at
   about 7.3 Mbps, X's video ad specs). A second tile, `?take=licensed`, is the same cut in a licensed OpenAI voice opening
   on "Superbot does the work for you.". Renders in `assets/video/hacker-announcement[-licensed]-superbot-7dfcf32a.*.mp4`;
   sources and the rebuild (`build.sh`: the variant's camera-tracked capture, then the cut and mix) in

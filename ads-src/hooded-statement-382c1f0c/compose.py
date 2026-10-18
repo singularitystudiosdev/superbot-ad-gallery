@@ -1,11 +1,13 @@
 # compose.py <ar 16x9|1x1> <out.mp4> [take fish|licensed] : the hooded mascot's statement, cut and mixed (README.md).
 # Picture: the two generated shots of the hooded figure (art/, the chin under the mask hidden in hood shadow, VHS-matched to
 # the key frame), a slow push-in on the wide, a short tape tear into the close-up and another into the superbot.gg end card
-# (work/end*, captured from the muse meme spot's multidog-credits cut by endcard.mjs), and the AI disclosure over the
-# generated shots; no captions. Sound: the take's voice, the hacker-announcement spot's Lyria drone and beat ducked under
-# it, a synthesized end chime and two glitch hits; two-pass loudness normalization toward -14 LUFS / -1.5 dBTP.
-# Takes: `fish` is the fish.audio HACKER VOICE (vo/line*.wav); `licensed` is the hacker-announcement spot's OpenAI
-# gpt-4o-mini-tts "onyx" take of the same script, the cut whose every element is cleared for commercial use.
+# (work/end*, captured from the muse meme spot's multidog-credits cut by endcard.mjs), the AI disclosure over the
+# generated shots and the superbot mark held in the upper left (X's video spec: a logo "persistent in the upper left hand
+# corner"); no burned-in captions, an SRT beside the render instead. Sound: the take's voice, the hacker-announcement
+# spot's Lyria drone and beat ducked under it, a synthesized end chime and two glitch hits; two-pass loudness
+# normalization toward -14 LUFS / -1.5 dBTP.
+# Takes: `fish` is the fish.audio HACKER VOICE (vo/line*.wav); `licensed` is OpenAI gpt-4o-mini-tts "onyx", deepened 1.5
+# semitones (vo/licensed-line*.wav), the cut whose every element is cleared for commercial use.
 # Needs python3 with numpy, opencv-python and pillow, ffmpeg, and macOS's SF Pro (/System/Library/Fonts/SFNS.ttf).
 import sys, os, json, subprocess, math, re
 import numpy as np, cv2
@@ -23,7 +25,8 @@ END = P('work', f'end{AR[:2].replace("x", "")}')
 END_F0 = 18  # the capture's first frame with the chat gone (27.6 s into multidog-credits): the card over black
 END_LEN = 3.1  # the card on screen: the mascot pops, the wordmark lands, about two seconds held
 
-def spans(path, n):    # the take's spoken stretches (silencedetect at -38 dB, 0.1 s), merged into n phrases across its n-1 longest pauses
+def spans(path, n):
+    # the take's spoken stretches (silencedetect at -38 dB, 0.1 s), merged into n phrases across its n-1 longest pauses
     log = subprocess.run(['ffmpeg', '-hide_banner', '-i', path, '-af', 'silencedetect=noise=-38dB:d=0.1', '-f', 'null', '-'], capture_output=True, text=True).stderr
     dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', path], capture_output=True, text=True).stdout)
     ss = [float(x) for x in re.findall(r'silence_start: ([\d.]+)', log)]
@@ -41,14 +44,17 @@ def spans(path, n):    # the take's spoken stretches (silencedetect at -38 dB, 0
 # lines are LINE_GAP apart. Lines 1 and 2 play on the wide, which cuts to the close-up just after line 2; line 3 plays on
 # the close-up, which tears into the card just after "Superbot." The licensed take reads slower: it runs at TEMPO (pitch
 # kept, atempo) so both cuts land at about 15 s, X's recommended length.
+# The script is held to what superbot.gg/features shows the product doing (X's ads terms §8(v)(d): not "false, deceptive,
+# misleading", outcomes "representative of outcomes a typical user can expect"), in whole sentences (X's Quality policy:
+# "proper grammar"): line 2's four phrases are its four commas.
 TAKES = {
     'fish': {'files': [P('vo', f'line{i}.wav') for i in (1, 2, 3)], 'tempo': 1.0},
-    'licensed': {'files': [SIB('vo', f'licensed-line{i}.wav') for i in (1, 2, 3)], 'tempo': 1.07},
+    'licensed': {'files': [P('vo', f'licensed-line{i}.wav') for i in (1, 2, 3)], 'tempo': 1.07},
 }[TAKE]
 TEMPO, LEAD, LINE_GAP, MAXGAP = TAKES['tempo'], 0.35, 0.35, 0.30
 L1, L2, L3 = TAKES['files']
 VO, t = [], LEAD
-for path, n, gap in ((L1, 1, LINE_GAP), (L2, 5, 0.0), (L3, 2, 0.0)):
+for path, n, gap in ((L1, 1, LINE_GAP), (L2, 4, 0.0), (L3, 2, 0.0)):
     sps = spans(path, n)
     for i, sp in enumerate(sps):
         VO.append((path, t, sp))
@@ -61,20 +67,22 @@ for path, n, gap in ((L1, 1, LINE_GAP), (L2, 5, 0.0), (L3, 2, 0.0)):
         t += gap
 CLOSE_END = t + 0.40
 E_END = CLOSE_END + min(END_LEN, max(2.6, 15.0 - CLOSE_END))  # the card gives up to half a second to stay within 15 s
-TEXTS = ['Superbot does the work for you.', 'It can make calls,', 'generate images,', '3D models,', 'connect to your apps directly,',
-         "so you don't need MCPs.", 'Try it out today.', 'Superbot.']
+TEXTS = ['Superbot is here.', 'It can make calls,', 'generate images and 3D models,', 'and connect to your apps directly,',
+         "so you don't have to set up MCPs.", 'Try it out today.', 'Superbot.']
 SPANS = [(at, at + (sp[1] - sp[0]) / TEMPO) for _, at, sp in VO]
 for (a, b), text in zip(SPANS, TEXTS):
     print(f'  {a:6.2f}-{b:6.2f}  {text}')
 print(f'  wide to {WIDE_END:.2f}, close-up to {CLOSE_END:.2f}, card to {E_END:.2f}')
 # the closed captions X plays when a viewer turns them on (<out>.srt, uploaded beside the video): one cue per idea, each
-# held 0.3 s past its last word unless the next begins sooner; nothing is burned into the picture
-CUES = [(0, 0), (1, 3), (4, 5), (6, 7)]
+# held 0.3 s past its last word unless the next begins sooner; nothing is burned into the picture. The first cue names the
+# voice as AI-generated, so a captions viewer gets the same disclosure the picture gives
+CUES = [(0, 0), (1, 2), (3, 4), (5, 6)]
 def ts(s): return f'{int(s // 3600):02d}:{int(s % 3600 // 60):02d}:{int(s % 60):02d},{int(round(s % 1 * 1000)) % 1000:03d}'
 with open(OUT.replace('.mp4', '.srt'), 'w') as srt:
     for k, (i, j) in enumerate(CUES):
         end = min(SPANS[j][1] + 0.3, SPANS[CUES[k + 1][0]][0] - 0.05) if k + 1 < len(CUES) else SPANS[j][1] + 0.3
-        srt.write(f"{k + 1}\n{ts(SPANS[i][0])} --> {ts(end)}\n{' '.join(TEXTS[i:j + 1])}\n\n")
+        text = ('[AI-generated voice] ' if k == 0 else '') + ' '.join(TEXTS[i:j + 1])
+        srt.write(f"{k + 1}\n{ts(SPANS[i][0])} --> {ts(end)}\n{text}\n\n")
 
 # (kind, source, edit start, edit end, source start, source speed). The wide reads lines 1 and 2 under a slow push-in,
 # eased below 1x only if the take runs past its 10 s; the close-up, from 1.6 s (after its opening reframe), looks into the
@@ -212,9 +220,36 @@ def pill(text, fnt, pad=(28, 14), r=16, bg=(0, 0, 0, 165), fg=(255, 255, 255, 25
     d.rounded_rectangle([0, 0, im.width - 1, im.height - 1], r, fill=bg)
     d.text((pad[0], pad[1]), text, font=fnt, fill=fg)
     return cv2.cvtColor(np.array(im), cv2.COLOR_RGBA2BGRA)
-# the disclosure over the generated shots: the figure and the voice are both synthetic
-AI_NOTE = pill('AI-generated footage and voice', font(24 if AR == '16x9' else 22, 'Semibold'), pad=(16, 9), r=12,
-               bg=(0, 0, 0, 150), fg=(255, 255, 255, 230))
+# the disclosure over the generated shots: the figure and the voice are both synthetic (OpenAI's usage policies ask for a
+# "clear disclosure" of an AI voice). Sized for a phone: in a feed about 320 pt wide it reads at about 9 pt at either ratio
+NOTE_PX = 54 if AR == '16x9' else 32
+AI_NOTE = pill('AI-generated video and voice', font(NOTE_PX, 'Semibold'), pad=(round(NOTE_PX * 0.42), round(NOTE_PX * 0.26)),
+               r=round(NOTE_PX * 0.4), bg=(0, 0, 0, 170), fg=(255, 255, 255, 240))
+
+def tile(px):
+    # superbot's app icon (superbot.gg/site/assets/brand/tile.svg), drawn from its own geometry at 8x and scaled down: the
+    # cat face (a rounded rect and two ears, the eyes cut out) in white over its teal and magenta ghosts, on a black tile
+    S = px * 8; k = S / 100
+    def face(dx, dy):
+        m = Image.new('L', (S, S), 0); d = ImageDraw.Draw(m)
+        q = lambda x, y: ((x + dx) * k, (y + dy) * k)
+        d.rounded_rectangle([q(14, 32), q(86, 86)], 15 * k, fill=255)
+        for side in (1, -1):
+            X = lambda x: 50 + side * (x - 50)
+            pts = [(X(14), 46), (X(14), 28)]
+            for (x0, y0), (cx, cy), (x1, y1) in [((14, 28), (14, 20), (21, 21)), ((21, 21), (28, 24), (36, 32))]:
+                pts += [(X((1 - u) ** 2 * x0 + 2 * (1 - u) * u * cx + u * u * x1), (1 - u) ** 2 * y0 + 2 * (1 - u) * u * cy + u * u * y1)
+                        for u in np.linspace(0, 1, 24)[1:]]
+            d.polygon([q(x, y) for x, y in pts], fill=255)
+        for cx in (35, 65):
+            d.ellipse([q(cx - 8, 58 - 11), q(cx + 8, 58 + 11)], fill=0)
+        return m
+    im = Image.new('RGBA', (S, S), (0, 0, 0, 0))
+    ImageDraw.Draw(im).rounded_rectangle([0, 0, S - 1, S - 1], 115 / 512 * S, fill=(0, 0, 0, 255))
+    for (dx, dy), col in [((-1.2, -1.2), (0, 229, 195)), ((1.2, 1.2), (192, 38, 211)), ((0, 0), (255, 255, 255))]:
+        im.paste(Image.new('RGBA', (S, S), col + (255,)), (0, 0), face(dx, dy))
+    return cv2.cvtColor(np.array(im.resize((px, px), Image.LANCZOS)), cv2.COLOR_RGBA2BGRA)
+LOGO = tile(AI_NOTE.shape[0])  # the same height as the disclosure, the two framing the top of the shot
 
 def frame(n):
     t = n / FPS
@@ -235,6 +270,7 @@ def frame(n):
         if abs(t - c) < d / 2:
             img = glitch(img, n, s * (1 - abs(t - c) / (d / 2)))
     if kind == 'clip':
+        over(img, LOGO, 32, 30)
         over(img, AI_NOTE, W - AI_NOTE.shape[1] - 32, 30)
     return img
 

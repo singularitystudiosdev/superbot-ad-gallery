@@ -1,16 +1,16 @@
 1
-00:00:00,350 --> 00:00:02,228
-Superbot does the work for you.
+00:00:00,350 --> 00:00:01,841
+[AI-generated voice] Superbot is here.
 
 2
-00:00:02,278 --> 00:00:05,707
-It can make calls, generate images, 3D models,
+00:00:01,891 --> 00:00:05,198
+It can make calls, generate images and 3D models,
 
 3
-00:00:05,757 --> 00:00:09,062
-connect to your apps directly, so you don't need MCPs.
+00:00:05,248 --> 00:00:09,236
+and connect to your apps directly, so you don't have to set up MCPs.
 
 4
-00:00:09,182 --> 00:00:11,202
+00:00:09,356 --> 00:00:11,376
 Try it out today. Superbot.
 

@@ -187,14 +187,15 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   `ads-src/hacker-announcement-7dfcf32a/`.
 - **the hooded mascot's statement** (`animations/hooded-statement-superbot-382c1f0c/`): the same figure reading the whole
   statement straight through, no montage, both hands on the paper (new Gemini Omni shots from the announcement's key
-  frames). In the fish.audio HACKER VOICE: "Superbot does the work for you. It can make calls, generate images, 3D
-  models, connect to your apps directly, so you don't need MCPs." under a slow push-in, a tape tear to a close-up for
-  "Try it out today. Superbot.", then a tear into the superbot.gg end card from the multidog-credits cut (14.4s, with
-  sound, no burned-in captions but an `.srt` beside each render for X's closed captions, an AI-generated note on the generated shots; 16:9 and 1:1 at 8 Mbps). Checked clause by clause
-  against X's ToS, Ads Policies and ad terms: the brief's "better output than any of the competitors" and "any of your
-  apps" were cut as unsubstantiated, and the fish.audio voice (another user's model, not licensed to superbot) waits on
-  its owner's consent, so `?take=licensed` is the cut to run on X. Renders in
-  `assets/video/hooded-statement[-licensed]-superbot-382c1f0c.*.mp4`; sources and the rebuild in
+  frames). In the fish.audio HACKER VOICE: "Superbot is here. It can make calls, generate images and 3D models, and
+  connect to your apps directly, so you don't have to set up MCPs." under a slow push-in, a tape tear to a close-up for
+  "Try it out today. Superbot.", then a tear into the superbot.gg end card from the multidog-credits cut (14.6s, with
+  sound; an "AI-generated video and voice" note and superbot's app icon held top left on the generated shots; no
+  burned-in captions but an `.srt` beside each render for X's closed captions; 16:9 and 1:1 at 8 Mbps). Checked clause by
+  clause against X's ToS, Ads Policies and ad terms, read live: every claim is on superbot.gg/features, and the fish.audio
+  voice (another user's model, not licensed to superbot) waits on its owner's consent, so `?take=licensed` (15.0s) is the
+  cut to run on X, landing on superbot.gg/ rather than /features (which names Grok). Renders in
+  `assets/video/hooded-statement[-licensed]-superbot-382c1f0c.*`; sources, the clause-by-clause notes and the rebuild in
   `ads-src/hooded-statement-382c1f0c/`.
 
 Static image ads (`assets/ads/`):

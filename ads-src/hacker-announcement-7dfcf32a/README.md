@@ -6,6 +6,11 @@ takes. The renders ship in `assets/video/` as `hacker-announcement-superbot-7dfc
 take) and `hacker-announcement-licensed-superbot-7dfcf32a.{16x9,1x1}.mp4` (the licensed take); the page
 `animations/hacker-announcement-superbot-7dfcf32a/` plays either (`?take=licensed`, `?ar=1x1`).
 
+The talk cut (`compose.py ... talk`, `hacker-announcement-talk[-licensed]-superbot-7dfcf32a.*.mp4`, the page's
+`?cut=talk`) keeps the mascot on screen the whole way, no chat: the voice runs at its own pace and the shots change on its
+pauses (wide reading, close-up, wide lowering the paper, close-up, wide pointing, close-up on "Superbot."), each easing
+in slowly, then the end card. About 15 s with the fish.audio take, 17 s with the licensed one.
+
 Script: "Superbot gives you better output." (licensed take: "Superbot does the work for you.") / "It can make calls,
 generate images, 3D models, connect to your apps directly, so you don't need MCPs." / "Try it out today. Superbot."
 

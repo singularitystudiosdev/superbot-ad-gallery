@@ -1483,6 +1483,24 @@
     "desc": "The same cut voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones) instead of the community fish.audio voice, which is not licensed to superbot, and opening on \"Superbot does the work for you.\" in place of \"Superbot gives you better output.\": the cut that clears X's ad terms with nothing left to license or substantiate beyond the features shown. 16:9 and 1:1, H.264 High, about 7.3 Mbps."
   },
   {
+    "id": "hooded-statement-superbot-382c1f0c",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: the hooded mascot's statement, read straight through (calls, images, 3D models, your apps, no MCPs)",
+    "src": "animations/hooded-statement-superbot-382c1f0c/",
+    "thumb": "assets/shots/hooded-statement-superbot-382c1f0c.png",
+    "desc": "The hooded figure in the superbot cat mask sits at the desk in front of the green scanline wall with the superbot emblem and reads the whole statement, both hands on the paper, in the fish.audio HACKER VOICE: \"Superbot does the work for you. It can make calls, generate images, 3D models, connect to your apps directly, so you don't need MCPs.\" under a slow push-in; a tape tear to a close-up looking into the lens for \"Try it out today. Superbot.\", then a tear into the superbot.gg end card with the mascot (the multidog-credits card). Original footage (GPT Image 2 key frame animated with Gemini Omni, the chin under the mask hidden in hood shadow; no third-party clip); every claim on superbot.gg/features. No burned-in captions (an .srt for X's closed captions ships beside the renders, assets/video/<id>.en.srt); an AI-generated note on the generated shots; a Lyria drone and beat ducked under the voice, a synthesized end chime. 14.4 s, 16:9 and 1:1, H.264 High 8 Mbps. The fish.audio voice is another user's community model, not licensed to superbot: run the licensed cut on X until its owner consents."
+  },
+  {
+    "id": "hooded-statement-licensed-superbot-382c1f0c",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: the hooded mascot's statement, licensed-voice cut (every element cleared for commercial use)",
+    "src": "animations/hooded-statement-superbot-382c1f0c/?take=licensed",
+    "thumb": "assets/shots/hooded-statement-licensed-superbot-382c1f0c.png",
+    "desc": "The same cut voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, at 1.07x) instead of the community fish.audio voice: the cut that clears X's ad terms with nothing left to license or substantiate beyond the features on superbot.gg. 15.0 s, 16:9 and 1:1, H.264 High 8 Mbps."
+  },
+  {
     "id": "superbot-karaoke-6052630f",
     "type": "animation",
     "group": "Ad spots",

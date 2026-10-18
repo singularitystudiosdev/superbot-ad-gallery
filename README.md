@@ -165,6 +165,17 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   on "Superbot does the work for you.". Renders in `assets/video/hacker-announcement[-licensed]-superbot-7dfcf32a.*.mp4`;
   sources and the rebuild (`build.sh`: the variant's camera-tracked capture, then the cut and mix) in
   `ads-src/hacker-announcement-7dfcf32a/`.
+- **the hooded mascot's statement** (`animations/hooded-statement-superbot-382c1f0c/`): the same figure reading the whole
+  statement straight through, no montage, both hands on the paper (new Gemini Omni shots from the announcement's key
+  frames). In the fish.audio HACKER VOICE: "Superbot does the work for you. It can make calls, generate images, 3D
+  models, connect to your apps directly, so you don't need MCPs." under a slow push-in, a tape tear to a close-up for
+  "Try it out today. Superbot.", then a tear into the superbot.gg end card from the multidog-credits cut (14.4s, with
+  sound, no burned-in captions but an `.srt` beside each render for X's closed captions, an AI-generated note on the generated shots; 16:9 and 1:1 at 8 Mbps). Checked clause by clause
+  against X's ToS, Ads Policies and ad terms: the brief's "better output than any of the competitors" and "any of your
+  apps" were cut as unsubstantiated, and the fish.audio voice (another user's model, not licensed to superbot) waits on
+  its owner's consent, so `?take=licensed` is the cut to run on X. Renders in
+  `assets/video/hooded-statement[-licensed]-superbot-382c1f0c.*.mp4`; sources and the rebuild in
+  `ads-src/hooded-statement-382c1f0c/`.
 
 Static image ads (`assets/ads/`):
 

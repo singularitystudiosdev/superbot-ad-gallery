@@ -28,7 +28,7 @@ import multidog, { TYPE_CPS as MULTIDOG_CPS, LEN as MULTIDOG_LEN } from './beats
 import college, { TYPE_CPS as COLLEGE_CPS, LEN as COLLEGE_LEN } from './beats/college.057e3dda.js?v=2';
 import costumes, { TYPE_CPS as COSTUMES_CPS, LEN as COSTUMES_LEN } from './beats/costumes.34c23b1d.js?v=3';
 import halloween, { TYPE_CPS as HALLOWEEN_CPS, LEN as HALLOWEEN_LEN } from './beats/halloween.37ff9e93.js?v=3';
-import hotelcall, { TYPE_CPS as HOTELCALL_CPS, LEN as HOTELCALL_LEN } from './beats/hotelcall.f934b5ee.js?v=2';
+import hotelcall, { TYPE_CPS as HOTELCALL_CPS, LEN as HOTELCALL_LEN } from './beats/hotelcall.f934b5ee.js?v=3';
 import garminStrava, { TYPE_CPS as GARMIN_STRAVA_CPS, LEN as GARMIN_STRAVA_LEN } from './beats/garmin-strava.7a48d642.js?v=2';
 import refund, { TYPE_CPS as REFUND_CPS, LEN as REFUND_LEN } from './beats/refund.d3537b02.js?v=3';
 import discord, { TYPE_CPS as DISCORD_CPS, LEN as DISCORD_LEN } from './beats/discord.bccc0fdd.js?v=1';

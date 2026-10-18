@@ -1,13 +1,16 @@
 media/hotelcall.f934b5ee CREDITS (the 'hotelcall' variant, beats/hotelcall.f934b5ee.js). Internal provenance only.
 
 call.mp3
-  The phone call superbot makes to the hotel, 21.79 s, 48 kHz mono, 128 kbps MP3, -16.4 LUFS integrated. Assembled by
+  The phone call superbot makes to the hotel, 23.45 s, 48 kHz mono, 128 kbps MP3, -16.4 LUFS integrated. Assembled by
   script from four GENERATED voice lines, 2026-10-17. The hotel, "The Calder", its front-desk agent "Maya", the guest
-  "Sam Rivera" and the call itself are fictional: no hotel was called and no reservation exists.
+  "Sam Rivera" and the call itself are fictional: no hotel was called and no reservation exists. The spot says so on
+  screen (beats/hotelcall.f934b5ee.js NOTE), as X's ads policy, New York's synthetic-performer law and the EU AI Act ask.
   Voices: Gemini TTS, gemini-3.8-flash-tts (Cosmos media speak, provider google, en-US), one call per line:
     Maya      voice sulafat  "The Calder, this is Maya. How can I help?"
-    Superbot  voice achird   "Hi Maya, I'm Superbot, Sam Rivera's AI assistant. Could we move Sam's stay to the 25th
-                              through the 30th, instead of the 20th to the 25th?"
+    Superbot  voice achird   "Hi Maya, I'm Superbot, an AI assistant calling for Sam Rivera. This call is transcribed.
+                              Could we move Sam's stay to the 25th through the 30th, instead of the 20th to the 25th?"
+                              (the opener superbot.gg/features#calls documents for a real call: it says it is an AI and
+                              that the call is transcribed, then asks; this take replaced one without the notice)
     Maya      voice sulafat  "Sure, one sec. Okay, same king room, same rate. You're all set for the 25th through the 30th."
     Superbot  voice achird   "Perfect, thanks so much!"
   (A set from OpenAI gpt-4o-mini-tts, voices coral and cedar, was made too and dropped: a listening pass by Gemini 3.8

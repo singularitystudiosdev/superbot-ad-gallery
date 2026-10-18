@@ -47,6 +47,11 @@ const RENDERS = {
     id: 'gemini-muse-meme-refund-superbot-d3537b02',
     sound: { registered: true },
   },
+  // the YouTube thumbnail cut: made for a creator to voice over (beats/ytthumb.c4e81a27.js), so its track is silence
+  'yt-thumbnail': {
+    id: 'gemini-muse-meme-yt-thumbnail-superbot-c4e81a27',
+    sound: { silent: true },
+  },
 };
 // stage width at 1080 high, and the scale it is drawn at (9:16 to 1080x1920)
 const SIZES = { '16x9': [1920, 1], '4x3': [1440, 1], '1x1': [1080, 1], '4x5': [864, 1], '9x16': [608, 1920 / 1080] };
@@ -89,6 +94,8 @@ async function renderSound(browser, variant, sound, frames, wav) {
   } else if (sound.registered) {
     // a self-mixing beat registers its soundtrack once it is built
     await page.waitForFunction((v) => window.__EXPORT_AUDIO && window.__EXPORT_AUDIO[v], variant, { timeout: 60000 });
+  } else if (sound.silent) {
+    // a cut made to be voiced over waits on nothing: its track stays empty
   } else {
     // a frame on the cut renders the v16 score (the player prepares it on its first sync)
     await page.evaluate(() => { window.__AD.seek(0); window.__AD.seek(window.__AD.CYCLE / 2); });
@@ -120,6 +127,8 @@ async function renderSound(browser, variant, sound, frames, wav) {
       bed.buffer = await window.__EXPORT_AUDIO[variant]();
       bed.connect(ctx.destination);
       bed.start(0);
+    } else if (sound.silent) {
+      // nothing is laid: the render is the cut's length of silence, a track for the voiceover to replace
     } else {
       const score = window.__MC_SCORE.buffer, play = window.__MC_SCORE.cues.play;
       const { DUR } = await import(at(sound.songData));
@@ -144,7 +153,7 @@ async function renderSound(browser, variant, sound, frames, wav) {
     return { b64: btoa(s), peak };
   }, { sound, seconds: frames / FPS, SR, spot: './', variant });
   await page.close();
-  console.log(`[sound] ${variant}: ${(frames / FPS).toFixed(3)}s, peak ${(20 * Math.log10(peak)).toFixed(2)} dBFS`);
+  console.log(`[sound] ${variant}: ${(frames / FPS).toFixed(3)}s, ${peak > 0 ? `peak ${(20 * Math.log10(peak)).toFixed(2)} dBFS` : 'silent'}`);
   const pcm = Buffer.from(b64, 'base64');
   const head = Buffer.alloc(44);
   head.write('RIFF', 0); head.writeUInt32LE(36 + pcm.length, 4); head.write('WAVE', 8);

@@ -1,0 +1,78 @@
+/* The 'yt-thumbnail' variant (beats/ytthumb.c4e81a27.js). Loaded by the beat module itself, so index.html needs no link.
+   The three answer frames are the bakery artifact frame (bakery.005f5570.css .bk), their rows in the Garmin frame's type
+   (garmin-strava.7a48d642.css), restated here under yt- so this variant stands on its own. No CSS animation or
+   transition: the beat sets every entrance and state from t, so frozen frames (?t=) hold. */
+
+/* shared marks: a spinner, a green check, a row status (a dim ring, then the spinner, then the check), a frame's state pill */
+#s-tabs .sbsite .hub .yt-spin { flex: none; width: 12px; height: 12px; box-sizing: border-box; border-radius: 50%; border: 2px solid #3a3a3f; border-top-color: #ececec; }
+#s-tabs .sbsite .hub .yt-ok { flex: none; width: 14px; height: 14px; fill: none; stroke: #34d399; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .yt-ck { flex: none; position: relative; width: 16px; height: 16px; }
+#s-tabs .sbsite .hub .yt-ck > * { position: absolute; left: 50%; top: 50%; margin: -7px 0 0 -7px; }
+#s-tabs .sbsite .hub .yt-ck .yt-ring { width: 14px; height: 14px; box-sizing: border-box; border-radius: 50%; border: 2px solid #34343a; }
+#s-tabs .sbsite .hub .yt-ck .yt-spin { width: 14px; height: 14px; opacity: 0; }
+#s-tabs .sbsite .hub .yt-ck .yt-ok { opacity: 0; }
+#s-tabs .sbsite .hub .yt-state { display: grid; justify-items: end; margin-right: 4px; }
+#s-tabs .sbsite .hub .yt-state > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; font: 600 11px/1 var(--ui); white-space: nowrap; }
+#s-tabs .sbsite .hub .yt-state-wait { color: #a1a1a6; box-shadow: inset 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .yt-state-wait .yt-spin { width: 10px; height: 10px; }
+#s-tabs .sbsite .hub .yt-state-on { padding-left: 8px; background: rgba(52, 211, 153, .12); color: #34d399; opacity: 0; }
+#s-tabs .sbsite .hub .yt-state-on .yt-ok { width: 11px; height: 11px; }
+#s-tabs .sbsite .hub .yt-g { flex: none; display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .yt-logo { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .yt-logo img { display: block; width: 14px; height: auto; }
+#s-tabs .sbsite .hub .yt-yt .bk-title small, #s-tabs .sbsite .hub .yt-th .bk-title small, #s-tabs .sbsite .hub .yt-up .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .yt-txt { flex: 1; min-width: 0; display: grid; gap: 3px; }
+#s-tabs .sbsite .hub .yt-txt b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 13px/17px var(--ui); color: #ececec; }
+#s-tabs .sbsite .hub .yt-txt small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 11.5px/14px var(--ui); color: #a1a1a6; }
+
+/* 1. the channel frame: the channel, its latest video, what superbot reads from it */
+#s-tabs .sbsite .hub .yt-ch { display: flex; align-items: center; gap: 10px; padding: 12px 14px 0; }
+#s-tabs .sbsite .hub .yt-av { flex: none; display: block; width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+#s-tabs .sbsite .hub .yt-vid { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
+#s-tabs .sbsite .hub .yt-vid-th { flex: none; position: relative; width: 152px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; box-shadow: 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .yt-vid-th img { display: block; width: 100%; height: 100%; object-fit: cover; }
+#s-tabs .sbsite .hub .yt-vid-th i { position: absolute; right: 4px; bottom: 4px; padding: 2px 4px; border-radius: 4px; background: rgba(0, 0, 0, .8); font: 600 9.5px/1 var(--ui); font-style: normal; color: #fff; }
+#s-tabs .sbsite .hub .yt-vid .yt-txt b { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+#s-tabs .sbsite .hub .yt-ctx { display: grid; padding: 4px 14px 8px; border-top: 1px solid #2a2a2e; }
+#s-tabs .sbsite .hub .yt-ctx-r { display: flex; align-items: center; gap: 10px; height: 34px; }
+#s-tabs .sbsite .hub .yt-ctx-t { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 400 12.5px/1 var(--ui); color: #ececec; }
+#s-tabs .sbsite .hub .yt-ctx-t b { font-weight: 600; }
+#s-tabs .sbsite .hub .yt-ctx-t small { margin-left: 8px; font-size: 11.5px; color: #a1a1a6; }
+
+/* 2. the thumbnails: three across, past hub.css's reply cap (.msg:has(.avatar.sb) .m-main) to the thread's width */
+#s-tabs .sbsite .hub .msg.yt-wide:has(.avatar.sb) .m-main { flex: 1 1 0; min-width: 0; max-width: none; }
+/* a percentage width, not 720px: a fixed width is the reply's min-content and widened the feed's grid past a 4:5 frame */
+#s-tabs .sbsite .hub .yt-th { width: 100%; max-width: 720px; }
+#s-tabs .sbsite .hub .yt-th .bk-btn svg { width: 12px; height: 12px; }
+#s-tabs .sbsite .hub a.bk-btn.bk-publish { text-decoration: none; cursor: pointer; }
+#s-tabs .sbsite .hub .yt-th-view { position: relative; padding: 8px; }
+#s-tabs .sbsite .hub .yt-th-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+#s-tabs .sbsite .hub .yt-th-t { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; box-shadow: 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .yt-th-t img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+#s-tabs .sbsite .hub .yt-th-view .qc-genl { left: 18px; bottom: 18px; opacity: 0; }
+
+/* 3. the upload frame: the video, three uploads each filling its bar, the test */
+#s-tabs .sbsite .hub .yt-up-vid, #s-tabs .sbsite .hub .yt-up-r { display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 14px; box-shadow: 0 1px 0 #2a2a2e; }
+#s-tabs .sbsite .hub .yt-up-vid { height: 58px; background: #18181b; }
+#s-tabs .sbsite .hub .yt-up-r:last-child { box-shadow: none; }
+#s-tabs .sbsite .hub .yt-up-th, #s-tabs .sbsite .hub .yt-up-ic { flex: none; display: grid; place-items: center; width: 64px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 5px; box-shadow: 0 0 0 1px #2a2a2e; }
+#s-tabs .sbsite .hub .yt-up-th img { display: block; width: 100%; height: 100%; object-fit: cover; }
+#s-tabs .sbsite .hub .yt-up-ic { background: #1f1f23; color: #ececec; }
+#s-tabs .sbsite .hub .yt-up-ic .yt-g { width: 16px; height: 16px; }
+#s-tabs .sbsite .hub .yt-bar { flex: none; width: 120px; height: 4px; overflow: hidden; border-radius: 2px; background: #2a2a2e; }
+#s-tabs .sbsite .hub .yt-bar i { display: block; width: 100%; height: 100%; background: #3ea6ff; transform: scaleX(0); transform-origin: 0 50%; }
+#s-tabs .sbsite .hub .qc-say.yt-said { margin: 12px 0 0; }
+
+/* 4. the app alone (beats/ytthumb.c4e81a27.js CLEAN, opened straight on this cut): every control the page lays over the
+   spot (the variant, appear, speed and music pills, the sound gates and pills, the record button) and the key hint are
+   hidden, so the frame reads as superbot itself; the keys still work */
+body.yt-clean :is(.hint, .rec-btn, .variant-select, .appear-select, .speed-select, .music-pick, .music-select, .sound-pill, .sound-pill-v17, .sound-select, .sound-select-v13, .sound-toggle, .score-pill, .score-sound, .mc-sound, .mc-sound-v12, .mix-gate, .sound-gate) { display: none !important; }
+
+/* the cue strip (?cues=1): the voiceover's current line over the frame's foot, for rehearsing and recording the read */
+#s-tabs .yt-cue { position: absolute; left: 50%; bottom: 36px; z-index: 60; display: flex; align-items: baseline; gap: 16px; width: max-content; max-width: min(1500px, calc(100% - 80px)); box-sizing: border-box; padding: 16px 24px 18px; border-radius: 16px; background: rgba(10, 10, 12, .88); box-shadow: 0 0 0 1px rgba(255, 255, 255, .14); transform: translateX(-50%); pointer-events: none; opacity: 0; }
+#s-tabs .yt-cue-k { flex: none; font: 700 14px/1 var(--ui); letter-spacing: .08em; text-transform: uppercase; color: #fbbf24; }
+#s-tabs .yt-cue-t { font: 600 30px/1.3 var(--ui); color: #fff; }
+html:is([data-ar="1x1"], [data-ar="4x5"]) #s-tabs .yt-cue { bottom: 150px; }
+html:is([data-ar="1x1"], [data-ar="4x5"]) #s-tabs .yt-cue-t { font-size: 24px; }
+html[data-ar="9x16"] #s-tabs .yt-cue { bottom: 130px; flex-direction: column; gap: 8px; max-width: calc(100% - 32px); padding: 12px 16px 14px; }
+html[data-ar="9x16"] #s-tabs .yt-cue-t { font-size: 19px; }

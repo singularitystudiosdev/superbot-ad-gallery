@@ -650,6 +650,18 @@
     ]
   },
   {
+    "id": "gemini-muse-meme-voice-clone-song-superbot-986a9320",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Clone my voice and make a song in my voice",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=voice-clone-song",
+    "thumb": "assets/shots/gemini-muse-meme-voice-clone-song-superbot-986a9320.png",
+    "desc": "The Gemini muse meme spot, voice clone song cut. \"Clone my voice and make a song in my voice\" is typed; superbot opens the microphone (\"Opening your microphone\"), 20 credits are used until you connect, and Superbot answers \"Read this line out loud and I’ll learn your voice.\" over a Your voice card: the pointer presses record, \"Hey superbot, this is my voice. Sing it back to me.\" lights word by word as it is read while a level meter scrolls in and the clock counts, then the pointer presses stop. The take freezes in the meter and fills white as the status pill goes Recording, Cloning your voice with its percent, then Voice cloned. \"Your voice is cloned. Here’s a pop song sung in it.\" follows with a player strip, Closer to Home, sung in your voice: it plays, the playhead turning the waveform white, the lyrics lighting word by word line by line. About 19 s, silent. A Ratio select beside Speed reframes it at 16:9, 9:16, 4:5 or 1:1. The line, the song and its lyrics are made up; nothing is recorded or cloned.",
+    "extraArs": [
+      "9x16"
+    ]
+  },
+  {
     "id": "gemini-muse-16x9-1",
     "type": "animation",
     "group": "Ad spots",

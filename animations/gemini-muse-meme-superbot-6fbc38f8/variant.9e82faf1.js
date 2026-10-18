@@ -61,6 +61,7 @@ export const VARIANTS = [
   { id: 'studyguide', label: 'Classroom study guide' },
   { id: 'koala-discord', label: 'Koala GIF + reactions on Discord' }, // a koala GIF sent to mrmoonshot, then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js)
   { id: 'yt-thumbnail', label: 'YouTube thumbnail + A/B test · voiceover' }, // three thumbnails for the latest video, then uploaded as a YouTube A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js)
+  { id: 'voice-clone-song', label: 'Voice clone song' }, // a voice sample recorded and cloned, then a song sung in that voice (scenes/tabs-assets/beats/voiceclone.986a9320.js)
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

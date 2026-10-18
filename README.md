@@ -134,6 +134,12 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   its beat starts. The thumbnails are real GPT Image 2
   generations from the video's frames (`img/ytthumb.c4e81a27/CREDITS.txt`); nothing was uploaded. Its renders are
   silent (`export-render.07e9fa90.mjs`, `sound: { silent: true }`).
+- **clone my voice and make a song in my voice**: the muse meme spot's voice clone cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=voice-clone-song`), a sibling of the computer-control cut
+  (one superbot chip, "Opening your microphone"). The pointer records a voice sample: the line to read lights word by
+  word over a scrolling level meter, then stop; the take fills white as the voice clones (Recording, Cloning your voice,
+  Voice cloned). Then a player strip plays Closer to Home, sung in your voice, its lyrics lighting word by word (about
+  19s, silent). Visual only (`scenes/tabs-assets/beats/voiceclone.986a9320.js`); the line, song and lyrics are made up.
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

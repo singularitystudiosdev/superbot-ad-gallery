@@ -1800,6 +1800,61 @@
     "desc": "Three title cards in white on black, each a lockup with its mark to the right, the words rising out of a blur and the mark popping in after them: \"IF YOU USE CURSOR\" with the Cursor cube, \"YOU ARE BEING UPCHARGED\" with a bobbing money bag, \"SAVE THOUSANDS WITH SUPERBOT RELAY\" with a siren whose red light pulses. Ends on the superbot.gg end card with the mascot, the same ending as the multi-tool cat cut. 10.7 s, silent; the words re-break for every ratio. The Cursor logo is the official flat cube from cursor.com/brand."
   },
   {
+    "id": "superbot-other-ais-fail-superbot-47f9f874",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Superbot is the AI to try when your other AIs fail you (4:5 video)",
+    "src": "animations/superbot-other-ais-fail-superbot-47f9f874/",
+    "thumb": "assets/shots/superbot-other-ais-fail-superbot-47f9f874.png",
+    "desc": "A presenter in a black hoodie wearing the Superbot cat-face mascot mask sits at a desk on a pale green set while an AI voiceover reads: \"Superbot is the AI to try when your other AIs fail you\" An \"AI-generated footage and voice\" label sits top right and the film ends on the superbot.gg end card with the mascot. 4:5, 1440x1800, 60 fps, 8.2 s, with sound. Live on X in campaign 42785847.",
+    "download": "animations/superbot-other-ais-fail-superbot-47f9f874/final.mp4",
+    "downloadLabel": "MP4 4:5"
+  },
+  {
+    "id": "superbot-jobs-chatbot-cant-superbot-96a1650f",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Superbot is the AI for the jobs your chatbot can't do (4:5 video)",
+    "src": "animations/superbot-jobs-chatbot-cant-superbot-96a1650f/",
+    "thumb": "assets/shots/superbot-jobs-chatbot-cant-superbot-96a1650f.png",
+    "desc": "A presenter in a black hoodie wearing the Superbot cat-face mascot mask sits at a desk on a pale green set while an AI voiceover reads: \"Superbot is the AI for the jobs your chatbot can't do\" An \"AI-generated footage and voice\" label sits top right and the film ends on the superbot.gg end card with the mascot. 4:5, 1440x1800, 60 fps, 8.0 s, with sound. Live on X in campaign 42785847.",
+    "download": "animations/superbot-jobs-chatbot-cant-superbot-96a1650f/final.mp4",
+    "downloadLabel": "MP4 4:5"
+  },
+  {
+    "id": "superbot-output-you-asked-superbot-1ef11c4d",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Superbot gives you the output you asked for, and it does things your chatbot can't. Try it out (4:5 video)",
+    "src": "animations/superbot-output-you-asked-superbot-1ef11c4d/",
+    "thumb": "assets/shots/superbot-output-you-asked-superbot-1ef11c4d.png",
+    "desc": "A presenter in a black hoodie wearing the Superbot cat-face mascot mask sits at a desk on a pale green set while an AI voiceover reads: \"Superbot gives you the output you asked for, and it does things your chatbot can't. Try it out.\" An \"AI-generated footage and voice\" label sits top right and the film ends on the superbot.gg end card with the mascot. 4:5, 1440x1800, 60 fps, 9.2 s, with sound. Live on X in campaign 42785847.",
+    "download": "animations/superbot-output-you-asked-superbot-1ef11c4d/final.mp4",
+    "downloadLabel": "MP4 4:5"
+  },
+  {
+    "id": "superbot-things-chatbot-cant-1x1-superbot-bf3b6bed",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Superbot does things your chatbot can't (1:1 video)",
+    "src": "animations/superbot-things-chatbot-cant-1x1-superbot-bf3b6bed/",
+    "thumb": "assets/shots/superbot-things-chatbot-cant-1x1-superbot-bf3b6bed.png",
+    "desc": "A presenter in a black hoodie wearing the Superbot cat-face mascot mask sits at a desk on a pale green set while an AI voiceover reads: \"Superbot does things your chatbot can't.\" An \"AI-generated footage and voice\" label sits top right and the film ends on the superbot.gg end card with the mascot. 1:1, 1080x1080, 60 fps, 7.6 s, with sound. Live on X in campaign 42785847.",
+    "download": "animations/superbot-things-chatbot-cant-1x1-superbot-bf3b6bed/final.mp4",
+    "downloadLabel": "MP4 1:1"
+  },
+  {
+    "id": "superbot-things-chatbot-cant-16x9-superbot-c4eb4e38",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Superbot drives your own browser and your screen to finish tasks a chatbot can't (16:9 video)",
+    "src": "animations/superbot-things-chatbot-cant-16x9-superbot-c4eb4e38/",
+    "thumb": "assets/shots/superbot-things-chatbot-cant-16x9-superbot-c4eb4e38.png",
+    "desc": "A presenter in a black hoodie wearing the Superbot cat-face mascot mask sits at a desk on a pale green set while an AI voiceover reads: \"Superbot drives your own browser and your screen to finish tasks a chatbot can't.\" An \"AI-generated footage and voice\" label sits top right and the film ends on the superbot.gg end card with the mascot. 16:9, 1920x1080, 60 fps, 7.6 s, with sound. Live on X in campaign 42785847.",
+    "download": "animations/superbot-things-chatbot-cant-16x9-superbot-c4eb4e38/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
     "id": "negagg-crashes-v2-superbot-e85b3b49",
     "type": "animation",
     "group": "Ad spots",

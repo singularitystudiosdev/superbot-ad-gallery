@@ -268,6 +268,11 @@ async function frameCanvas(t, W, H, run, OW = W, OH = H) {
   svg.setAttribute('width', String(OW)); svg.setAttribute('height', String(OH));
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('preserveAspectRatio', 'none');
   for (const a of document.documentElement.attributes) if (a.name !== 'xmlns' && a.name !== 'style') svg.setAttribute(a.name, a.value);
+  // of <html>'s inline style only its custom properties come along (assets/ar.js --ar-w and its kin, which the ratio rules
+  // size the frame by): without them every var(--ar-w, 1920px) drew at its 16:9 fallback in a 9:16, 4:5 or 1:1 render
+  const root = document.documentElement.style;
+  const vars = [...root].filter((p) => p.startsWith('--')).map((p) => `${p}:${root.getPropertyValue(p)}`).join(';');
+  if (vars) svg.setAttribute('style', vars);
   const fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
   fo.setAttribute('width', String(W)); fo.setAttribute('height', String(H));
   fo.appendChild(div); svg.appendChild(fo);

@@ -79,9 +79,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
 - **call my hotel**: the muse meme spot's hotel call cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=hotelcall`), with no model on show as in
   the credits-only cat: asked to move a reservation from the 20-25th to the 25-30th, superbot phones
-  the (fictional) hotel itself, the call heard with sound while its transcript fills in word by word,
-  then a Reservation updated card strikes Oct 20–25 and lands Oct 25–30 (about 33s, with sound: the
-  call, two Gemini TTS voices, over a bed synthesized in the multicat score's palette).
+  the (fictional) hotel itself, the call heard with sound while its transcript fills in word by word
+  and large captions carry it with the sound off, then a Reservation updated card strikes Oct 20–25
+  and lands Oct 25–30 (about 35s, with sound: the call, two Gemini TTS voices, over a bed synthesized
+  in the multicat score's palette). The call is simulated and nothing on screen says so; a post running
+  it has to. Its renders are on `singularitystudiosdev/superbot-ad-gallery-muse`.
 - **Garmin runs to Strava**: the muse meme spot's automation cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=garmin-strava`), in the multicat-credits look (no
   model on show): "Connect to my garmin account, and then after every one of my runs, post it to strava for
@@ -140,6 +142,17 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   word over a scrolling level meter, then stop; the take fills white as the voice clones (Recording, Cloning your voice,
   Voice cloned). Then a player strip plays Closer to Home, sung in your voice, its lyrics lighting word by word (about
   19s, silent). Visual only (`scenes/tabs-assets/beats/voiceclone.986a9320.js`); the line, song and lyrics are made up.
+- **clone my voice and make a call to 30351235**: the muse meme spot's voice clone call cut
+  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=voiceclone-call`), cut as the hotel call is (no model on
+  show). superbot asks for one line read out loud; the pointer taps the mic once, the take records with its words
+  lighting as they are said and stops by itself, the voice clones, then superbot calls 30351235 in your voice, opening
+  as the product's calls do ("This is Sam's AI, speaking in Sam's own voice. This call is transcribed."), the call
+  heard with sound under a live transcript, and the person who answers says it sounds exactly like Sam. A disclosure
+  sits at the top of the frame throughout (about 34s, with sound: the take and the call, Gemini TTS and a Chatterbox
+  clone of the take, over a bed synthesized in the multicat score's palette,
+  `scenes/tabs-assets/beats/voiceclone-score.6ba3a0f8.js`). Its Download button saves the renders in
+  `assets/video/gemini-muse-meme-voiceclone-call-superbot-6ba3a0f8.<ar>.mp4` at every ratio (60fps, with sound).
+  Nothing records the viewer's mic and nothing dials (`media/voiceclone.6ba3a0f8/CREDITS.txt`).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word
   by word: "dear cursor users", "you are being upcharged and pay api pricing", "superbot reroutes to
   subscription and removes the cursor upcharge", "we did this to save people thousands", then the

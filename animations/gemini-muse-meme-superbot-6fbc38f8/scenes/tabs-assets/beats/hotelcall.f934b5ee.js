@@ -11,9 +11,6 @@
 //   4. the house superbot.gg end card (multicat.516afb1a.js's, restated) covers the chat.
 // The call is staged (AI-generated voices; the hotel, names and number fictional) and the frame carries no note saying so
 // (2026-10-17, on request): a post running it has to say so itself.
-// The call is also captioned (CAP_SPLIT): each turn in phrases, large in the empty band above the chat,
-// its words lighting as they are spoken, so the call reads with the sound off (X autoplays ads muted and its specs ask for
-// captions or text overlays; the card's transcript is too small to read on a phone).
 // The call is heard: its track (media/hotelcall.f934b5ee/call.mp3, CREDITS.txt there) plays from the dial inside this
 // cut's own score (hotelcall-score.f934b5ee.js) through the sound gate (sound.96834de7.js, whose pill this variant shows).
 // A pure function of t, except the audio, which follows the clock and never drives it. Its stylesheet
@@ -24,7 +21,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { PICK, HANG, LINES, ENV } from './hotelcall-data.f934b5ee.js';
 import { makeSound } from './hotelcall-score.f934b5ee.js?v=2';
 
-const CSS = new URL('../hotelcall.f934b5ee.css?v=4', import.meta.url).href;
+const CSS = new URL('../hotelcall.f934b5ee.css?v=5', import.meta.url).href;
 export const ID = 'hotelcall';
 const CALL = new URL('../../../media/hotelcall.f934b5ee/call.mp3', import.meta.url).href;
 
@@ -36,11 +33,6 @@ const CARD_AFTER = 0.5;  // the call card rises while the opening line finishes 
 const SEEN = 0.45;       // the card's rise and the feed's glide to it: the dial waits for both
 const ROW_LEAD = 0.2;    // a turn's row comes in this long before its first word
 const WORD_IN = 0.1;     // a spoken word fades in over this
-// the captions: each turn's phrases in words (LINES' order), each at most 42 characters, split at sentences, then clauses,
-// then evenly. A phrase comes in CAP_LEAD before its first word and holds until the next one, or CAP_HOLD past its turn's
-// last word when a pause follows; it fades over CAP_FADE. Words still to be spoken show at CAP_DIM
-const CAP_SPLIT = [[9], [4, 7, 4, 5, 6, 7], [3, 6, 6, 3], [4]];
-const CAP_LEAD = 0.15, CAP_HOLD = 0.5, CAP_FADE = 0.12, CAP_DIM = 0.38;
 const SAY2_AFTER = 0.45, RES_AFTER = 0.35; // after the hang-up: the second line, then the reservation card
 const STRIKE_AFTER = 0.6, SWAP_AFTER = 0.3; // after the card comes in: the old dates strike through, then the new ones land
 const HOLD = 2.4;        // the reservation card, from its rise to the end card's cover (1.5 s on the new dates)
@@ -146,37 +138,6 @@ export default {
     const endWord = endCard.querySelector('.hc-end-word'), endBot = endCard.querySelector('.hc-end-bot');
     let endK = 1; // the lockup's scale now applied (--k)
 
-    // the captions: in the scene section under the end card (its black covers them as the spot ends), one block per turn (the speaker over that turn's phrases,
-    // all stacked in one cell so the block keeps its height while they swap), one phrase showing at a time
-    const caps = x.el('<div class="hc-caps" aria-hidden="true"></div>');
-    const phrases = [], turns = LINES.map((l, li) => {
-      const split = CAP_SPLIT[li];
-      if (!split || split.reduce((a, b) => a + b, 0) !== l.words.length) {
-        console.error(new Error(`hotelcall captions: CAP_SPLIT[${li}] does not cover the turn's ${l.words.length} words`));
-      }
-      const n = x.el(`<div class="hc-cap hc-cap-${l.who}"><span class="hc-cap-who">${l.who === 'sb' ? 'Superbot' : 'Maya'}</span><div class="hc-cap-lines"></div></div>`);
-      const box = n.lastElementChild, mine = [];
-      let i = 0;
-      for (const count of split || [l.words.length]) {
-        const ws = l.words.slice(i, i + count);
-        i += count;
-        if (!ws.length) continue;
-        const p = x.el(`<p class="hc-cap-line">${ws.map(([w]) => `<span>${x.esc(w)}</span>`).join(' ')}</p>`);
-        box.append(p);
-        const ph = { n: p, start: T.dial + ws[0][1] - CAP_LEAD, end: 0, words: [...p.children].map((w, k2) => ({ w, at: T.dial + ws[k2][1], op: '' })), on: null };
-        mine.push(ph);
-        phrases.push(ph);
-      }
-      caps.append(n);
-      return { n, phrases: mine, end: T.dial + l.e + CAP_HOLD, on: null, op: '' };
-    });
-    // each phrase holds until the next one comes in, and a turn's last one until CAP_HOLD past the turn (or the next turn)
-    for (const tu of turns) for (const ph of tu.phrases) {
-      const next = phrases[phrases.indexOf(ph) + 1];
-      ph.end = tu.phrases.at(-1) === ph ? Math.min(tu.end, next ? next.start : Infinity) : next.start;
-    }
-    for (const tu of turns) { tu.start = tu.phrases[0].start; tu.end = tu.phrases.at(-1).end; }
-
     // the sound: made on this route's first frame (every route is built at mount, so other variants never pay for it)
     let snd = null;
     addEventListener('variantchange', () => { if (snd) snd.stop(); });
@@ -191,12 +152,12 @@ export default {
     const sound = () => ({ t: window.__AD.now, ready: snd.ready(), sounding: snd.sounding(), render: window.__HC_SOUND || null });
     let placed = false, stShown = '', timeShown = null;
     return {
-      nodes: [say1.n, call, callAnchor, say2.n, res, resAnchor, caps, endCard],
+      nodes: [say1.n, call, callAnchor, say2.n, res, resAnchor, endCard],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf); each turn's row anchors
       // the card's new bottom, so the feed follows the call as it grows
       marks: [[T.r, say1.n], [T.card, callAnchor], ...rows.map((rw) => [rw.at, rw.a]), [T.r2, say2.n], [T.res, resAnchor]],
       render(t) {
-        if (!placed) { x.hub.closest('.scene').append(caps, endCard); placed = true; }
+        if (!placed) { x.hub.closest('.scene').append(endCard); placed = true; }
         if (!snd) snd = makeSound(cues(), CALL);
         snd.sync(t);
         if (window.__AD && window.__AD.sound !== sound) window.__AD.sound = sound;
@@ -232,23 +193,6 @@ export default {
           for (const w of rw.words) {
             const p = seg(t, w.at - 0.02, w.at - 0.02 + WORD_IN), o = p.toFixed(3);
             if (o !== w.op) { w.w.style.opacity = o; w.op = o; }
-          }
-        }
-
-        // the captions: the turn's speaker for its length, its phrases one at a time, each word lighting as it is said
-        for (const tu of turns) {
-          const o = (seg(t, tu.start, tu.start + CAP_FADE) * (1 - seg(t, tu.end - CAP_FADE, tu.end))).toFixed(3), on = +o > 0;
-          if (on !== tu.on) { tu.n.style.display = on ? 'flex' : 'none'; tu.on = on; }
-          if (!on) continue;
-          if (o !== tu.op) { tu.n.style.opacity = o; tu.op = o; }
-          for (const ph of tu.phrases) {
-            const shown = t >= ph.start && t < ph.end;
-            if (shown !== ph.on) { ph.n.style.visibility = shown ? 'visible' : 'hidden'; ph.on = shown; }
-            if (!shown) continue;
-            for (const w of ph.words) {
-              const v = lerp(CAP_DIM, 1, seg(t, w.at - 0.02, w.at - 0.02 + WORD_IN)).toFixed(3);
-              if (v !== w.op) { w.w.style.opacity = v; w.op = v; }
-            }
           }
         }
 

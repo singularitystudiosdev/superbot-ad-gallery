@@ -58,18 +58,3 @@
 #s-tabs .hc-end-face { display: block; width: 100%; height: 100%; overflow: visible; }
 #s-tabs .hc-end-word { position: absolute; left: 0; top: 50%; opacity: 0; color: #fff; white-space: nowrap; font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; will-change: transform, opacity, filter; }
 #s-tabs .hc-end-word b { display: block; font-size: calc(128px * var(--k, 1)); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
-
-/* the captions (beats/hotelcall.f934b5ee.js CAP_SPLIT): the speaker over one phrase at a time, in the band the chat leaves
-   empty above it for the whole call (their middle at 340px of the 1080 stage; 396px at 9:16, clear of the controls X's
-   full-screen vertical viewer lays over the top of the frame). The phrase's type is 5% of the stage's width, so it reads at about 18pt on a phone (30px at
-   9:16, 43px at 4:5, 54px at 1:1), held between 28px and 60px; words still to be said dimmed, the said ones white.
-   A turn's phrases share one grid cell, so its block keeps one height while they swap */
-#s-tabs .hc-caps { position: absolute; left: 50%; top: 340px; z-index: 35; width: calc(100% - 64px); height: 0; transform: translateX(-50%); pointer-events: none; }
-html[data-ar="9x16"] #s-tabs .hc-caps { top: 396px; }
-#s-tabs .hc-cap { position: absolute; left: 0; right: 0; top: 0; display: none; flex-direction: column; align-items: center; transform: translateY(-50%);
-  text-align: center; font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; }
-#s-tabs .hc-cap-who { margin-bottom: 0.35em; font-size: clamp(16px, calc(var(--ar-w, 1920px) * 0.028), 32px); font-weight: 600; line-height: 1.2; color: #a1a1a6; }
-#s-tabs .hc-cap-sb .hc-cap-who { color: #00e5c3; }
-#s-tabs .hc-cap-lines { display: grid; width: 100%; }
-#s-tabs .hc-cap-line { grid-area: 1 / 1; margin: 0; font-size: clamp(28px, calc(var(--ar-w, 1920px) * 0.05), 60px); font-weight: 600; line-height: 1.22;
-  letter-spacing: -0.01em; color: #fff; text-wrap: balance; visibility: hidden; }

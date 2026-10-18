@@ -67,7 +67,6 @@ export const VARIANTS = [
   { id: 'studyguide', label: 'Classroom study guide' },
   { id: 'koala-discord', label: 'Koala GIF + reactions on Discord' }, // a koala GIF sent to mrmoonshot, then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js)
   { id: 'yt-thumbnail', label: 'YouTube thumbnail + A/B test · voiceover' }, // three thumbnails for the latest video, then uploaded as a YouTube A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js)
-  { id: 'hacker', label: 'Hacker ad · calls, image, 3D, apps' }, // the hooded-mascot spot's montage: a live call, an image, a 3D model, apps connected with no MCP (scenes/tabs-assets/beats/hacker.7dfcf32a.js)
   { id: 'hacker-hello', label: 'Hacker ad · hello: calls, image, 3D, audio, no MCP' }, // the hooded mascot's "Hello AI users" spot: the same call, image and 3D model, then a theme song and the MCP row as its own card (scenes/tabs-assets/beats/hacker.7dfcf32a.js hello)
   { id: 'hacker-hello-pc', label: 'Hacker ad · hello: computer control, image, 3D, audio, no MCP' }, // the "Hello AI users" montage with computer control in the call's place: superbot takes over the screen, searches cat videos and plays one (scenes/tabs-assets/beats/hacker.7dfcf32a.js helloPc)
   { id: 'hacker-pc', label: 'Hacker ad · computer control, image, 3D, apps' }, // the announcement's montage with computer control in the call's place: superbot takes over the screen, searches cat videos and plays one, then the image, 3D model and apps (scenes/tabs-assets/beats/hacker.7dfcf32a.js computer)

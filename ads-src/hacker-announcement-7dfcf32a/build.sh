@@ -19,7 +19,7 @@ for c in omni-close omni-wide-point omni-wide-gesture; do
 done
 for ar in 16x9 9x16 4x5 1x1; do
   w=$(echo $ar | sed 's/x.*//')
-  node render-montage.mjs $ar 12.02 15.2 work/end$w-60 end 60 | tail -1
+  VARIANT=hacker-pc node render-montage.mjs $ar 14.052 17.232 work/end$w-60 end 60 | tail -1
   VARIANT=hacker-pc node render-montage.mjs $ar 2.484 13.632 work/mt$w-60 montage 60 | tail -1
   VARIANT=hacker-hello node render-montage.mjs $ar 0.6 13.46 work/hello-mt$w-60 montage 60 | tail -1
   VARIANT=hacker-hello-pc node render-montage.mjs $ar 0.6 15.49 work/hellopc-mt$w-60 montage 60 | tail -1

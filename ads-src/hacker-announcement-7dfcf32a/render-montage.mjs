@@ -1,5 +1,5 @@
 // render-montage.mjs <ar> <t0> <t1> <outdir> [mode=montage|end] [fps=30]
-// Frame-exact capture of a hacker variant (VARIANT: 'hacker' by default, or 'hacker-hello') (a pure function of t: window.__AD.seek). Pass 1 measures, per frame, the
+// Frame-exact capture of a hacker variant (VARIANT: 'hacker-pc', the announcement's, by default, or 'hacker-hello', 'hacker-hello-pc') (a pure function of t: window.__AD.seek). Pass 1 measures, per frame, the
 // newest answer card and its ask bubble; a zero-phase smoothed camera frames them (zoom 1..ZMAX). Pass 2 captures each
 // frame whole at one fixed scale, ZMAX x the output's px per stage px (m_*.png), so the closest crop is still drawn at
 // full resolution; camera.py then cuts each frame's crop out with sub-pixel precision (f_*.png). (Capturing each crop at
@@ -23,7 +23,7 @@ const W = { '16x9': 1920, '1x1': 1080, '4x5': 864, '9x16': 608 }[ar];
 const OUT = { '16x9': 1, '1x1': 1, '4x5': 1800 / 1080, '9x16': 1920 / 1080 }[ar]; // 4:5 at X's 1440x1800
 const FPS = +fpsS, t0 = +t0s, t1 = +t1s, H = 1080, DPR = 2 * OUT, ZMAX = 1.7, MASTER = ZMAX * OUT;
 const BASE = process.env.BASE || 'http://127.0.0.1:8737';
-const VARIANT = process.env.VARIANT || 'hacker';
+const VARIANT = process.env.VARIANT || 'hacker-pc';
 fs.mkdirSync(out, { recursive: true });
 
 const browser = await chromium.launch({ headless: true, ...(process.env.CHROME ? { executablePath: process.env.CHROME } : {}), args: ['--use-angle=metal', '--enable-gpu', '--force-color-profile=srgb'] });

@@ -87,8 +87,9 @@ generations (their timers count the tools' real seconds) and "Sped up" while the
   are synthesized in `compose.py`.
 - The montage is the muse meme spot's `?variant=hacker-pc` (`beats/hacker.7dfcf32a.js` `computer`): the computer-control
   card of `hacker-hello-pc` (generated cats, `img/hacker.7dfcf32a/CREDITS.txt`), the multidog cut's GPT Image 2 beagle and
-  Meshy model (paid generations, `models/CREDITS.txt`), generic lucide app glyphs. Its first cut, `?variant=hacker`, opened
-  on the hotel call cut's recorded call timings with the hotel left unnamed; that variant stays in the spot's list.
+  Meshy model (paid generations, `models/CREDITS.txt`), generic lucide app glyphs. Its first cut opened on a hotel call;
+  at the user's call (2026-10-18) that version is gone from the gallery: its `hacker` variant is off the spot's list and its
+  renders are replaced.
 
 ## Rebuild
 

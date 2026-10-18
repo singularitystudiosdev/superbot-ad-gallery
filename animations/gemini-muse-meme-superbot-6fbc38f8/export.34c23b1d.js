@@ -13,6 +13,8 @@ const ROOT = new URL('../../', import.meta.url);
 const FOLDER = new URL('./', import.meta.url).pathname.split('/').filter(Boolean).pop();
 const LABEL = { '16x9': '16:9', '4x3': '4:3', '1x1': '1:1', '4x5': '4:5', '9x16': '9:16' };
 const SIZE = { '16x9': '1920×1080', '4x3': '1440×1080', '1x1': '1080×1080', '4x5': '864×1080', '9x16': '1080×1920' };
+// a variant whose renders are at other sizes than SIZE (the hotel call's 4:5 and 1:1 are at X's listed ad sizes)
+const SIZE_OF = { hotelcall: { '4x5': '1440×1800', '1x1': '1200×1200' } };
 const GLYPH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 19.5h14"/></svg>';
 
 const sheet = document.createElement('link');
@@ -68,7 +70,7 @@ export function mountExport(pill) {
       a.download = `${id}-${key}.mp4`;
       a.removeAttribute('aria-disabled');
       text.textContent = 'Download';
-      a.title = `Download this variant at ${LABEL[key]} (${SIZE[key]} MP4, with sound)`;
+      a.title = `Download this variant at ${LABEL[key]} (${(SIZE_OF[v] || {})[key] || SIZE[key]} MP4, with sound)`;
     } else {
       a.removeAttribute('download');
       a.setAttribute('aria-disabled', 'true');

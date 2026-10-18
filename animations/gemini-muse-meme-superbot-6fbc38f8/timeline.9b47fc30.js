@@ -94,22 +94,32 @@ addEventListener('keydown', (e) => {
   else if (e.key === 'r' || e.key === 'R') { base = 0; started = performance.now(); paused = false; }
 });
 
+// a frame that throws is reported (once per message) and skipped: no error can stop the spot on a frame
+const thrown = new Set();
+function draw(t) {
+  try { render(t); } catch (e) {
+    const k = String(e && e.message);
+    if (!thrown.has(k)) { thrown.add(k); console.error(new Error(`the frame at ${t.toFixed(2)} s threw; the spot plays on`, { cause: e })); }
+  }
+}
+
 function frame() {
+  // the next frame is asked for first, so the loop outlives anything this one does
+  requestAnimationFrame(frame);
   // the run is over: stop the clock on its last frame
   if (!paused && now() >= cycle()) { base = cycle(); paused = true; }
-  render(timeNow());
-  requestAnimationFrame(frame);
+  draw(timeNow());
 }
-render(timeNow());
+draw(timeNow());
 requestAnimationFrame(frame);
 
 // frame-exact QA: pause the clock and draw t now; ready once every tracked asset (loads.9e82faf1.js) is in
 window.__AD = {
   get CYCLE() { return cycle(); },
   get ready() { return settled(); },
-  seek(t) { paused = true; base = t; started = performance.now(); render(timeNow()); },
+  seek(t) { paused = true; base = t; started = performance.now(); draw(timeNow()); },
   // play on from t (a variant or appear pick skips the wait and shows its animation)
-  play(t) { paused = false; base = t; started = performance.now(); render(timeNow()); },
+  play(t) { paused = false; base = t; started = performance.now(); draw(timeNow()); },
   // the moment the reply to the ask starts streaming: every variant's art begins here or just after
   // (a variant that types its ask longer starts it that much later: chat.9b47fc30.js typing)
   get ART() { return BEATS[0].k.T.r + typeShift(variant()); },

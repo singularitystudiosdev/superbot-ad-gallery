@@ -35,14 +35,32 @@
 
 <script src="assets/sb-mark-live.js"></script>
 <script>
+// The record-ready cut: opened straight on yt-thumbnail (and not ?controls=1, beats/ytthumb.c4e81a27.js CLEAN) the page
+// is the app alone, and its one run must never be cut short: no key hint even while it loads, and neither guard below
+// reloads it once it plays (a reload mid-run held its last frame on screen while the files came back)
+var HOLD = /[?&]variant=yt-thumbnail(&|$)/.test(location.search) && !/[?&]controls=1(&|$)/.test(location.search);
+if (HOLD) document.getElementById('hint').style.display = 'none';
 // Boot guard. The spot is ~230 files, and an ES module graph runs only if every one of them downloads: when GitHub
 // Pages refuses some of a cold load's requests (it does, for an address that loads the page over and over), nothing
 // runs and the page stays black. A failed graph fires `error` on its module script, so bootFailed() reloads instead,
 // waiting longer each time; the HTTP cache keeps every file that did arrive, so each try refetches only what failed.
 // The count of tries clears once both entry modules have loaded. After the last try the page says so, with a Retry
-// button: never a silent black page.
+// button: never a silent black page. On the record-ready cut (HOLD) only the spot's own graph (the timeline) counts:
+// the controls' graph (pills, music, export) shows nothing there, so its failure is reported and the run goes on.
 (function () {
   var KEY = 'boot-tries:' + location.pathname, WAIT = [1500, 4000, 10000], ENTRIES = 2, loaded = 0, failed = false;
+  var spotLoaded = false, controlsFailed = false;
+  window.bootSpotLoaded = function () {
+    spotLoaded = true;
+    if (controlsFailed) { sessionStorage.removeItem(KEY); return; }
+    window.bootLoaded();
+  };
+  window.bootControlsFailed = function () {
+    if (!HOLD) return window.bootFailed();
+    controlsFailed = true;
+    console.error(new Error('the spot\'s controls failed to download; the record-ready cut plays on without them'));
+    if (spotLoaded) sessionStorage.removeItem(KEY);
+  };
   function note(text, retry) {
     var el = document.getElementById('boot') || document.body.appendChild(Object.assign(document.createElement('div'), { id: 'boot', className: 'boot' }));
     el.textContent = text;
@@ -78,7 +96,7 @@
 // a stale CDN edge can never make it loop. Never on a frozen capture (?t=), which must not move.
 (function () {
   var url = location.href; // as loaded: the variant and ratio pickers rewrite the address later
-  if (/[?&]t=/.test(location.search) || !window.fetch || !/^https?:$/.test(location.protocol)) return;
+  if (/[?&]t=/.test(location.search) || !window.fetch || !/^https?:$/.test(location.protocol) || HOLD) return;
   var text = function (r) { return r.ok ? r.text() : null; };
   addEventListener('load', function () {
     fetch(url, { cache: 'force-cache' }).then(text).then(function (booted) {
@@ -93,8 +111,8 @@
   });
 })();
 </script>
-<script type="module" src="timeline.9b47fc30.js?v=49" onload="bootLoaded()" onerror="bootFailed()"></script>
-<script type="module" src="variant-select.9e82faf1.js?v=27" onload="bootLoaded()" onerror="bootFailed()"></script>
+<script type="module" src="timeline.9b47fc30.js?v=50" onload="bootSpotLoaded()" onerror="bootFailed()"></script>
+<script type="module" src="variant-select.9e82faf1.js?v=28" onload="bootLoaded()" onerror="bootControlsFailed()"></script>
 <!-- v14 on the Music pill: its score and its music pill; outside the boot count, so a failed score never holds the spot -->
 <script type="module" src="music.ff209337.js?v=2"></script>
 <!-- v15 on the Music pill: its score and its sound pill (it loads its own stylesheet) -->

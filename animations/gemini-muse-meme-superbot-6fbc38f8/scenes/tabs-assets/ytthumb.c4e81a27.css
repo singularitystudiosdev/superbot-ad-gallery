@@ -18,8 +18,11 @@
 #s-tabs .sbsite .hub .yt-state-on { padding-left: 8px; background: rgba(52, 211, 153, .12); color: #34d399; opacity: 0; }
 #s-tabs .sbsite .hub .yt-state-on .yt-ok { width: 11px; height: 11px; }
 #s-tabs .sbsite .hub .yt-g { flex: none; display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-#s-tabs .sbsite .hub .yt-logo { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
-#s-tabs .sbsite .hub .yt-logo img { display: block; width: 14px; height: auto; }
+/* a frame's head mark and the chips' tile: a plain globe (the user's browser), never a platform's logo (X's ads policies) */
+#s-tabs .sbsite .hub .yt-logo { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; color: #ececec; }
+#s-tabs .sbsite .hub .yt-logo .yt-g { width: 13px; height: 13px; }
+#s-tabs .sbsite .hub .qc-t-web { background: #1f1f22; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .qc-t-web img { width: 13px; height: 13px; }
 #s-tabs .sbsite .hub .yt-yt .bk-title small, #s-tabs .sbsite .hub .yt-th .bk-title small, #s-tabs .sbsite .hub .yt-up .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
 #s-tabs .sbsite .hub .yt-txt { flex: 1; min-width: 0; display: grid; gap: 3px; }
 #s-tabs .sbsite .hub .yt-txt b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 13px/17px var(--ui); color: #ececec; }

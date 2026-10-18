@@ -123,18 +123,21 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   the log scrolls back to the start of the DM history; ends on the superbot.gg end card (about 19s, with sound:
   v16 re-cued to this chain). The koala is a CC BY-SA 4.0 clip (`media/koala.7f80a09a/CREDITS.txt`); the
   history is made up and nothing was sent.
-- **make a thumbnail from my latest video** (a creator's voiceover cut): the muse meme spot's YouTube cut
-  (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=yt-thumbnail`), made for a creator to read a script over,
-  cut tight and silent, the voice its soundtrack (about 25s; Mevesa's channel), with no model on show (the
-  multicat-credits look). "Make a thumbnail from my latest video" connects YouTube and reads the latest video
-  (transcript, title, key frames, the channel's thumbnail style), then three thumbnails in the channel's style generate
-  (x50); "upload it to youtube a/b tests on my previous vid" uploads them as one Test & compare test, then the
-  superbot.gg end card. Both asks are typed by hand, unevenly (a keystroke schedule per ask, the engine's `keys`).
-  Opened on this cut the page is the app alone: no control pills or key hint, the tab titled superbot (`?controls=1`
-  brings them back). Which script line goes with which beat is in the beat (`LINES`); `?cues=1` shows each on screen as
-  its beat starts. The thumbnails are real GPT Image 2
-  generations from the video's frames (`img/ytthumb.c4e81a27/CREDITS.txt`); nothing was uploaded. Its renders are
-  silent (`export-render.07e9fa90.mjs`, `sound: { silent: true }`).
+- **make a thumbnail for my AI agents video** (a creator's voiceover cut, made to pass X's ads policies): the muse meme
+  spot's thumbnail cut (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=yt-thumbnail`), made for a creator to
+  read a script over, cut tight and silent, the voice its soundtrack (about 25s; Mevesa's channel), with no model on
+  show (the multicat-credits look). "Make a thumbnail for my AI agents video." opens the channel in the creator's own
+  signed-in browser and reads the video (transcript, title, key frames, the channel's thumbnail style), then three
+  thumbnails in the channel's style generate; "Upload them to that video as an A/B test." uploads them as one A/B test,
+  then the superbot.gg end card. Checked against X's live ads policies on 2026-10-17: no third party's logo, product or
+  feature name on screen (the chips and frames wear a plain globe), a video of the creator's with no other brand in it,
+  grammatical asks, and every compressed wait wears the fast-forward badge (x10 read, x50 generation, x20 upload). Both
+  asks are typed by hand, unevenly (a keystroke schedule per ask, the engine's `keys`). Opened on this cut the page is
+  the app alone: no control pills or key hint, the tab titled superbot (`?controls=1` brings them back). Which script
+  line goes with which beat is in the beat (`LINES`, the script reworded for X: no other company's product named);
+  `?cues=1` shows each on screen as its beat starts. The thumbnails are real GPT Image 2 generations from the video's
+  thumbnail and frames (`img/ytthumb.c4e81a27/CREDITS.txt`); nothing was uploaded. Its renders are silent
+  (`export-render.07e9fa90.mjs`, `sound: { silent: true }`).
 - **clone my voice and make a song in my voice**: the muse meme spot's voice clone cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=voice-clone-song`), a sibling of the computer-control cut
   (one superbot chip, "Opening your microphone"). The pointer records a voice sample: the line to read lights word by

@@ -4,11 +4,6 @@
    out at a desktop width and scaled to the frame by the beat. No CSS animation or transition: the beat sets every
    entrance and state from t, so frozen frames (?t=) hold. */
 
-/* the two apps this cut adds to the chat: ChatGPT (OpenAI's round mark fills its black tile) and the YouTube frame mark */
-#s-tabs .sbsite .hub .qc-t-chatgpt { background: #000; box-shadow: inset 0 0 0 1px #34343a; }
-#s-tabs .sbsite .hub .qc-t-chatgpt img, #s-tabs .sbsite .hub .qc-who .qc-t-chatgpt img { width: 100%; height: 100%; }
-#s-tabs .sbsite .hub .qc-pi img[data-app="chatgpt"], #s-tabs .sbsite .hub .qc-pi img[data-app="gptimage"] { border-radius: 50%; }
-
 /* shared marks: a spinner, a green check, a row status (a dim ring, then the spinner, then the check), a frame's state pill */
 #s-tabs .sbsite .hub .yt-spin { flex: none; width: 12px; height: 12px; box-sizing: border-box; border-radius: 50%; border: 2px solid #3a3a3f; border-top-color: #ececec; }
 #s-tabs .sbsite .hub .yt-ok { flex: none; width: 14px; height: 14px; fill: none; stroke: #34d399; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
@@ -30,31 +25,6 @@
 #s-tabs .sbsite .hub .yt-txt { flex: 1; min-width: 0; display: grid; gap: 3px; }
 #s-tabs .sbsite .hub .yt-txt b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 13px/17px var(--ui); color: #ececec; }
 #s-tabs .sbsite .hub .yt-txt small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 11.5px/14px var(--ui); color: #a1a1a6; }
-
-/* 0. the model chip pressed, and its menu: the plans superbot runs on, under the chip over the empty state */
-#s-tabs .sbsite .hub .rc-plat.yt-open { border-radius: 7px; background: #26262a; box-shadow: 0 0 0 5px #26262a; color: #ececec !important; }
-#s-tabs .sbsite .hub .yt-plans { position: absolute; top: calc(100% + 10px); left: 0; z-index: 6; width: 330px; box-sizing: border-box; padding: 6px; border-radius: 14px; background: #141416; box-shadow: 0 0 0 1px #2a2a2e, 0 18px 44px rgba(0, 0, 0, .6); transform-origin: 85% 0; opacity: 0; }
-#s-tabs .sbsite .hub .yt-plans-h { display: grid; gap: 3px; padding: 8px 10px 10px; margin-bottom: 4px; border-bottom: 1px solid #232327; }
-#s-tabs .sbsite .hub .yt-plans-h b { font: 600 13px/16px var(--ui); color: #ececec; }
-#s-tabs .sbsite .hub .yt-plans-h small { font: 400 11px/14px var(--ui); color: #8e8e93; }
-#s-tabs .sbsite .hub .yt-plan, #s-tabs .sbsite .hub .yt-plans-f { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 10px; border-radius: 9px; opacity: 0; }
-#s-tabs .sbsite .hub .yt-plan.hover { background: #1f1f23; }
-#s-tabs .sbsite .hub .yt-plan .qc-tile { width: 28px; height: 28px; border-radius: 8px; }
-#s-tabs .sbsite .hub .yt-plan .qc-tile img { width: 17px; height: 17px; }
-#s-tabs .sbsite .hub .yt-plan .qc-t-chatgpt img { width: 100%; height: 100%; }
-#s-tabs .sbsite .hub .yt-plan-t { flex: 1; min-width: 0; display: grid; gap: 2px; }
-#s-tabs .sbsite .hub .yt-plan-t b { font: 600 12.5px/15px var(--ui); color: #ececec; }
-#s-tabs .sbsite .hub .yt-plan-t small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 11px/14px var(--ui); color: #8e8e93; }
-#s-tabs .sbsite .hub .yt-plan-st { flex: none; display: grid; justify-items: end; font: 600 11px/1 var(--ui); }
-#s-tabs .sbsite .hub .yt-plan-st > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-#s-tabs .sbsite .hub .yt-plan-wait { color: #8e8e93; }
-#s-tabs .sbsite .hub .yt-plan-wait .yt-spin { width: 10px; height: 10px; }
-#s-tabs .sbsite .hub .yt-plan-ok { color: #34d399; opacity: 0; }
-#s-tabs .sbsite .hub .yt-plan-ok .yt-ok { width: 12px; height: 12px; }
-/* the API row lights green as --lit runs 0 to 1 */
-#s-tabs .sbsite .hub .yt-plans-f { height: auto; min-height: 52px; padding-top: 9px; padding-bottom: 9px; box-sizing: border-box; margin-top: 6px; background: color-mix(in srgb, #34d399 calc(var(--lit, 0) * 12%), #18181b); box-shadow: inset 0 0 0 1px color-mix(in srgb, #34d399 calc(var(--lit, 0) * 55%), #232327); }
-#s-tabs .sbsite .hub .yt-plans-f .yt-g { width: 22px; height: 22px; margin: 0 3px; color: color-mix(in srgb, #34d399 calc(var(--lit, 0) * 100%), #8e8e93); }
-#s-tabs .sbsite .hub .yt-plans-f .yt-plan-t small { white-space: normal; }
 
 /* 1. the channel frame: the channel, its latest video, what superbot reads from it */
 #s-tabs .sbsite .hub .yt-ch { display: flex; align-items: center; gap: 10px; padding: 12px 14px 0; }
@@ -84,7 +54,6 @@
 #s-tabs .sbsite .hub .yt-th-t img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
 #s-tabs .sbsite .hub .yt-th-l { position: absolute; left: 6px; top: 6px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; background: rgba(12, 12, 14, .82); font: 700 11px/1 var(--ui); color: #fff; opacity: 0; }
 #s-tabs .sbsite .hub .yt-th-view .qc-genl { left: 18px; bottom: 18px; opacity: 0; }
-#s-tabs .sbsite .hub .yt-th-view .qc-t-gptimage img { width: 100%; height: 100%; }
 
 /* 3. the upload frame: the video, three uploads each filling its bar, the test */
 #s-tabs .sbsite .hub .yt-up-vid, #s-tabs .sbsite .hub .yt-up-r { display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 14px; box-shadow: 0 1px 0 #2a2a2e; }

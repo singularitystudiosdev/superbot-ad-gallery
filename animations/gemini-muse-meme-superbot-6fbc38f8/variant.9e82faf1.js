@@ -20,9 +20,8 @@
 // superbot reads the user's Google Classroom, then writes them a study guide as a Google Doc
 // (scenes/tabs-assets/beats/studyguide.40e96f96.js), or 'koala-discord', a koala GIF sent to mrmoonshot on Discord,
 // then a koala reaction on every message of his (scenes/tabs-assets/beats/koala.7f80a09a.js), or 'yt-thumbnail', a
-// creator's demo paced for a voiceover: superbot shows the subscriptions it runs on, makes three thumbnails for the
-// channel's latest video on GPT Image 2 through ChatGPT, then uploads them to YouTube as an A/B test
-// (scenes/tabs-assets/beats/ytthumb.c4e81a27.js). Read from ?variant= so a frozen
+// creator's demo paced for a voiceover, with no model on show: superbot reads the channel's latest video, makes three
+// thumbnails for it, then uploads them to YouTube as an A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';

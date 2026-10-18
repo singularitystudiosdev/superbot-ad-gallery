@@ -124,10 +124,10 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   history is made up and nothing was sent.
 - **make a thumbnail from my latest video** (a creator's voiceover cut): the muse meme spot's YouTube cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=yt-thumbnail`), paced for a creator to read a script over
-  it and silent, the voice its soundtrack (about 60s; Mevesa's channel). The pointer opens the model chip on "Your
-  subscriptions" (ChatGPT, Claude, Gemini connecting, then a No API pricing row lighting); "Make a thumbnail from my
-  latest video" switches superbot to the ChatGPT subscription, connects YouTube and reads the latest video (transcript,
-  title, key frames, the channel's thumbnail style), then GPT Image 2 makes three thumbnails in the channel's style (x10);
+  it and silent, the voice its soundtrack (about 60s; Mevesa's channel), with no model on show (the multicat-credits
+  look). The empty state holds under the opening lines; "Make a thumbnail from my latest video" connects YouTube and
+  reads the latest video (transcript, title, key frames, the channel's thumbnail style), then three thumbnails in the
+  channel's style generate (x10);
   "upload it to youtube a/b tests on my previous vid" uploads them as one Test & compare test, and the screen cuts to a
   rebuilt YouTube Studio with the test running, then the superbot.gg end card. The script's lines and their times are in
   the beat (`LINES`); `?cues=1` shows each on screen at its moment for rehearsing. The thumbnails are real GPT Image 2

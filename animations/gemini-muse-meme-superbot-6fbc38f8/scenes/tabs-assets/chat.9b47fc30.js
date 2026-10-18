@@ -34,7 +34,7 @@ import refund, { TYPE_CPS as REFUND_CPS, LEN as REFUND_LEN } from './beats/refun
 import discord, { TYPE_CPS as DISCORD_CPS, LEN as DISCORD_LEN } from './beats/discord.bccc0fdd.js?v=1';
 import studyguide, { TYPE_CPS as STUDYGUIDE_CPS, LEN as STUDYGUIDE_LEN } from './beats/studyguide.40e96f96.js?v=3';
 import koala, { TYPE_CPS as KOALA_CPS, LEN as KOALA_LEN } from './beats/koala.7f80a09a.js?v=2';
-import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=1';
+import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=2';
 import { variant } from '../../variant.9e82faf1.js?v=3';
 import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';
 

@@ -1,14 +1,13 @@
 // YouTube thumbnail beat (the 'yt-thumbnail' variant): a creator's demo paced for a voiceover, read over it by the
 // creator (the line each beat is timed to is in LINES below, and on screen with ?cues=1). The engine holds the empty state
 // WAIT seconds longer (chat.9b47fc30.js routeBy `wait`), types "Make a thumbnail from my latest video" at TYPE_CPS and sends
-// it down a bare route (no engine chips, the composer on Superbot); this beat draws everything else on its own clock:
-//   0. Over the empty state the pointer opens the composer's model chip: "Your subscriptions", ChatGPT, Claude and Gemini
-//      connecting in turn, and a No API pricing row that lights as the line says "never upcharged API pricing".
-//   1. The answer: superbot switches to the user's ChatGPT subscription (the composer's chip follows), connects their
-//      YouTube channel and reads the latest video (a frame with the channel, the video, and the context it pulls: the
-//      transcript, the title, four key frames, the channel's thumbnail style), then switches to GPT Image 2.
-//   2. GPT Image 2's answer: three thumbnails in the channel's style generate under skeletons, the wait fast-forwarded x10
-//      (the frame's badge), then land in reading order.
+// it down a bare route (no engine chips, the composer on Superbot throughout); this beat draws everything else on its own
+// clock, with no model on show (the multidog-credits look: no model chips, no "<model> in superbot" header):
+//   0. The empty state holds under the opening lines.
+//   1. The answer: superbot connects the user's YouTube channel and reads the latest video (a frame with the channel, the
+//      video, and the context it pulls: the transcript, the title, four key frames, the channel's thumbnail style).
+//   2. Three thumbnails in the channel's style generate under skeletons, the wait fast-forwarded x10 (the frame's badge),
+//      then land in reading order.
 //   3. "upload it to youtube a/b tests on my previous vid" is typed and sent; superbot opens YouTube Studio and uploads the
 //      three as one Test & compare test, each upload filling its bar, the test going Live, then a done line.
 //   4. The screen cuts to YouTube Studio, rebuilt in its dark theme: the video's details page with the test running on
@@ -23,7 +22,7 @@ import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 
-const CSS = new URL('../ytthumb.c4e81a27.css?v=1', import.meta.url).href;
+const CSS = new URL('../ytthumb.c4e81a27.css?v=2', import.meta.url).href;
 // the end card and the fast-forward badge are multicat's (../multicat.516afb1a.css .mc-end, .mc-ff)
 const MC_CSS = new URL('../multicat.516afb1a.css?v=9', import.meta.url).href;
 export const ID = 'yt-thumbnail';
@@ -47,8 +46,9 @@ const ALTS = [
 
 export const TYPE_CPS = 15; // both asks type at a talking pace, so the line can be read along with them
 // the empty state holds this long past the engine's CHAT_T0 (1.6 s), so the first ask starts typing at 12.6 s, after the
-// opening line and "I'll show you a quick example"
+// opening line and "I'll show you a quick example", which starts at QUICK (scene seconds); the empty state holds under both
 export const WAIT = 11;
+const QUICK = 9.5;
 const ASK2 = 'upload it to youtube a/b tests on my previous vid';
 const SAY_B = 'Here are three thumbnails in your channel’s style.';
 const SAY_C = 'Uploading all three to YouTube as an A/B test.';
@@ -64,47 +64,35 @@ const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 3.2, END_GAP = 44;
 const popBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
 const END_FACE = '<svg class="mc-end-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="ytEndFace" maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160"><g fill="#fff"><rect x="14" y="32" width="72" height="54" rx="15"/><path d="M14 46V28Q14 20 21 21Q28 24 36 32Z"/><path d="M86 46V28Q86 20 79 21Q72 24 64 32Z"/></g><g fill="#000"><ellipse cx="35" cy="58" rx="8" ry="11"/><ellipse cx="65" cy="58" rx="8" ry="11"/></g></mask></defs><rect x="-30" y="-30" width="160" height="160" fill="#00e5c3" mask="url(#ytEndFace)" transform="translate(-1.2 -1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#c026d3" mask="url(#ytEndFace)" transform="translate(1.2 1.2)"/><rect x="-30" y="-30" width="160" height="160" fill="#fff" mask="url(#ytEndFace)"/></svg>';
 
-// 0. the subscriptions menu over the empty state, in scene seconds (the typing starts at CHAT_T0 + WAIT = 12.6): the
-// pointer comes in and presses the model chip, the menu opens, each plan connects, the pointer runs down the rows, the
-// No API pricing row lights under "never upcharged API pricing", then the pointer clicks into the composer and the menu
-// closes under "I'll show you a quick example"
-const IN = {
-  ptr: 1.9, atChip: 2.62, press: 2.8,
-  rows: [3.05, 3.25, 3.45], ok: [3.8, 4.1, 4.4],
-  hover: [[4.75, 5.15], [5.55, 5.95], [6.35, 6.75]],
-  api: 7.15, toFoot: [6.95, 7.35],
-  leave: 9.5, press2: 10.25,
-};
+// the routing chips this beat draws, both YouTube's (tools, so the composer's chip stays on Superbot): `hold` is how long
+// each spins before it resolves, held long enough for its line
+const chip = (app, label, sw, hold) => ({ app, label, tool: true, sw, swap: sw + 0.22, done: sw + hold });
 
-// the routing chips this beat draws: `hold` is how long each spins before it resolves, held long enough for its line
-const chip = (app, label, sw, hold, tool = false) => ({ app, label, tool, sw, swap: sw + 0.22, done: sw + hold });
-
-// every time in the chain from the reply r (the ask's send + 0.43): chip1 (ChatGPT) resolves, chip2 (YouTube) lands
-// with "and look..." and the channel frame comes in (`yt`), its four context rows resolve (`reads`) and it reads Ready;
-// chip3 (GPT Image 2) lands with "and now it is using GPT Image 2", the reply streams at rB, the thumbnails' frame comes
-// in at `thumbs`, generates from gen0 to done and has landed by w1; the second ask types from s2 and sends at send2,
-// chip4 (YouTube Studio) lands, the upload frame comes in at `up`, its three uploads fill (`ups`), the test starts
-// (`test`), the frame reads Live (`live`) and the done line streams (`said`); Studio covers the chat at st0, its pointer
-// goes to the test (`ring`) and over each thumbnail (`tiles`); the end card covers it all at `cut`
+// every time in the chain from the reply r (the ask's send + 0.43), each held where its line falls: the YouTube chip
+// lands with "and look..." (the 3 s before it are under "there, it has switched to my ChatGPT subscription") and the
+// channel frame comes in (`yt`), its four context rows resolve (`reads`) and it reads Ready; the reply streams at rB
+// (just after "and now it is using GPT Image 2"), the thumbnails' frame comes in at `thumbs`, generates from gen0 to
+// done and has landed by w1; the second ask types from s2 and sends at send2, the Studio chip lands, the upload frame
+// comes in at `up`, its three uploads fill (`ups`), the test starts (`test`), the frame reads Live (`live`) and the done
+// line streams (`said`); Studio covers the chat at st0, its pointer goes to the test (`ring`) and over each thumbnail
+// (`tiles`); the end card covers it all at `cut`
 function plan(r) {
-  const c1 = chip('chatgpt', 'Switching to your ChatGPT subscription', r + 0.12, 1.3);
-  const c2 = chip('youtube', 'Connecting to your YouTube channel', r + 3.0, 1.2, true);
+  const c2 = chip('youtube', 'Connecting to your YouTube channel', r + 3.0, 1.2);
   const yt = c2.done + 0.2, yt1 = yt + SEEN;
   const reads = [yt1 + 0.75, yt1 + 1.5, yt1 + 2.5, yt1 + 3.3];
   const ready = reads[3] + 0.35;
   const frames = [0, 1, 2, 3].map((i) => reads[1] + 0.2 + i * 0.16);
-  const c3 = chip('gptimage', 'Switching to GPT Image 2', r + 14.0, 1.0);
-  const rB = c3.done + 0.1, thumbs = rB + 0.25, gen0 = thumbs + SEEN, done = gen0 + GEN / X;
+  const rB = r + 15.1, thumbs = rB + 0.25, gen0 = thumbs + SEEN, done = gen0 + GEN / X;
   const lands = [done, done + 0.12, done + 0.24], w1 = lands[2] + LAND;
   const s2 = w1 + 3.2, typeEnd2 = s2 + ASK2.length / TYPE_CPS, send2 = typeEnd2 + 0.15;
-  const c4 = chip('youtube', 'Opening YouTube Studio', send2 + 0.35, 1.0, true);
+  const c4 = chip('youtube', 'Opening YouTube Studio', send2 + 0.35, 1.0);
   const rC = c4.done + 0.1, up = rC + 0.25, up1 = up + SEEN;
   const ups = [0, 1, 2].map((i) => [up1 + 0.2 + i * 0.4, up1 + 1.15 + i * 0.45]);
   const test = ups[2][1] + 0.45, live = test + 0.2, said = live + 0.3;
   const st0 = said + 1.3;
   const ptrIn = st0 + 0.55, ring = st0 + 2.0, tiles = [st0 + 2.5, st0 + 3.05, st0 + 3.6];
   const cut = st0 + 6.0;
-  return { r, c1, c2, yt, yt1, reads, ready, frames, c3, rB, thumbs, gen0, done, lands, w1, s2, typeEnd2, send2, c4, rC, up, up1, ups, test, live, said, st0, ptrIn, ring, tiles, cut, end: cut + END_DELAY + END_LEN };
+  return { r, c2, yt, yt1, reads, ready, frames, rB, thumbs, gen0, done, lands, w1, s2, typeEnd2, send2, c4, rC, up, up1, ups, test, live, said, st0, ptrIn, ring, tiles, cut, end: cut + END_DELAY + END_LEN };
 }
 // the chain's length from its reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
@@ -113,11 +101,11 @@ export const LEN = plan(0).end;
 // screen only with ?cues=1, for rehearsing and recording the read; s is the first ask's typing start (CHAT_T0 + WAIT)
 const LINES = (T, s) => [
   [0.6, 'What’s cool about superbot is, unlike Devin or Perplexity, superbot uses all your existing subscriptions, so you are never upcharged API pricing.'],
-  [IN.leave, 'I’ll show you a quick example of what it does.'],
+  [QUICK, 'I’ll show you a quick example of what it does.'],
   [s, 'Say I want to make a thumbnail from my latest video…'],
-  [T.c1.sw, 'There, it has switched to my ChatGPT subscription,'],
+  [T.r + 0.12, 'There, it has switched to my ChatGPT subscription,'],
   [T.c2.sw, 'and look, you see how it also connected to my YouTube channel? It can work with your platforms, so you don’t need to give much context at all.'],
-  [T.c3.sw, 'And now it is using GPT Image 2.'],
+  [T.rB - 1.1, 'And now it is using GPT Image 2.'],
   [T.gen0 + 0.4, 'Now we wait for it to generate…'],
   [T.lands[0], 'Great! And then uploading it is as simple as this:'],
   [T.s2, '“Upload it to YouTube A/B tests on my previous vid.”'],
@@ -158,8 +146,6 @@ function pop(n, t, at) {
   n.style.opacity = p.toFixed(3);
   n.style.transform = p >= 1 ? 'none' : `scale(${lerp(0.3, 1, outBack(p)).toFixed(4)})`;
 }
-// a press: 0 to 1 and back around `at`
-const press = (t, at) => seg(t, at - 0.1, at) * (1 - seg(t, at, at + 0.14));
 
 // the streamed line a reply opens with: the visible prefix, the rest held in place transparent
 function sayEl(x, text) {
@@ -209,7 +195,6 @@ function renderState(n, t, from, at) {
 
 // glyphs: Lucide (ISC) strokes, drawn in currentColor
 const G = {
-  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
   menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
   create: '<path d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.4L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M9 9.5v5M6.5 12h5"/>',
@@ -244,22 +229,14 @@ export default {
     const cueLines = LINES(T, k.s);
     const ytLogo = x.img('climb.080da517/youtube.svg');
 
-    // 0. the subscriptions menu, under the composer's model chip; it moves into the composer on the first render
-    const plans = [['chatgpt', 'ChatGPT', 'Plus'], ['opus', 'Claude', 'Pro'], ['gemini', 'Gemini', 'Google AI Pro']];
-    const menu = x.el(`<div class="yt-plans" role="menu" aria-label="Your subscriptions">
-      <div class="yt-plans-h"><b>Your subscriptions</b><small>superbot runs on the plans you already pay for</small></div>
-      ${plans.map(([app, name, tier]) => `<div class="yt-plan" role="menuitem">${x.tile(app)}<span class="yt-plan-t"><b>${name}</b><small>${tier}</small></span><span class="yt-plan-st"><span class="yt-plan-wait"><i class="yt-spin"></i>Connecting</span><span class="yt-plan-ok"><svg class="yt-ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Connected</span></span></div>`).join('')}
-      <div class="yt-plans-f">${g('shield')}<span class="yt-plan-t"><b>No API pricing</b><small>Every model runs on your own plans, never upcharged</small></span></div>
-    </div>`);
-    const planRows = [...menu.querySelectorAll('.yt-plan')], foot = menu.querySelector('.yt-plans-f');
-
-    // 1. chip1 rides in the engine's own reply (a bare route's reply comes in at r with nothing above it); the rest of the
-    // chain is built here and moved in after that reply on the first render, in order
+    // 1. the YouTube chip rides in the engine's own reply (a bare route's reply comes in at r with nothing above it, and
+    // shows nothing until the chip lands); the rest of the chain is built here and moved in after that reply on the first
+    // render, in order
     const chipEl = (c) => x.el(`<span class="qc-sw">${x.tile(c.app)}<span class="qc-swl">${x.esc(c.label)}</span><span class="qc-st"><i class="qc-spin"></i>${x.OK}</span></span>`);
     const sw = (c, sp) => ({ c, sw: sp, spin: sp.querySelector('.qc-spin'), ok: sp.querySelector('.qc-st .qc-ok') });
     const row = (c) => { const w = x.el(`<div class="msg qc-m">${x.sbAvatar}<div class="m-main"></div></div>`); const sp = chipEl(c); w.lastElementChild.append(sp); return { w, ...sw(c, sp) }; };
-    const sw1 = sw(T.c1, chipEl(T.c1));
-    const row2 = row(T.c2), row3 = row(T.c3), row4 = row(T.c4);
+    const sw2 = sw(T.c2, chipEl(T.c2));
+    const row4 = row(T.c4);
 
     // the channel frame: the channel, its latest video, and what superbot reads from it
     const ctx = [['Transcript', `${DUR} · auto-captions`], ['Title and description', ''], ['Key frames', ''], ['Your thumbnail style', 'from your last 12 videos']];
@@ -275,13 +252,13 @@ export default {
     const anchorA = x.el('<i class="mc-anchor" aria-hidden="true"></i>');
     replyA.lastElementChild.append(ytCard, anchorA);
 
-    // 2. GPT Image 2's answer: three thumbnails, generating, then landing in reading order
-    const replyB = x.el(`<div class="msg qc-m qc-r yt-wide">${x.sbAvatar}<div class="m-main"><div class="qc-who">${x.who('gptimage')}</div></div></div>`);
+    // 2. the thumbnails: three, generating, then landing in reading order (no model header, no tool tile on the pill)
+    const replyB = x.el(`<div class="msg qc-m qc-r yt-wide">${x.sbAvatar}<div class="m-main"></div></div>`);
     const sayB = sayEl(x, SAY_B);
     const thumbs = x.el(`<div class="bk yt-th">
       <div class="bk-head"><b class="bk-title">Thumbnails<small>3 options · 1280 × 720</small></b><a class="bk-btn bk-publish" href="${THUMBS[0]}" download="thumbnail-a.jpg">${g('download')}Download</a></div>
       <div class="yt-th-view"><div class="yt-th-grid">${THUMBS.map((src, i) => `<div class="yt-th-t qc-skel"><img src="${src}" width="1280" height="720" alt="${x.esc(ALTS[i])}"/><i class="qc-sk"></i><span class="yt-th-l">${'ABC'[i]}</span></div>`).join('')}</div>
-      <span class="qc-genl">${x.tile('gptimage')}Creating thumbnails<b class="qc-genn">0:00</b></span></div>
+      <span class="qc-genl mc-genl-bare">Creating thumbnails<b class="qc-genn">0:00</b></span></div>
     </div>`);
     const tiles = [...thumbs.querySelectorAll('.yt-th-t')].map((n) => ({ n, im: n.querySelector('img'), sk: n.querySelector('.qc-sk'), l: n.querySelector('.yt-th-l') }));
     const gen = genPill(thumbs.querySelector('.qc-genl'));
@@ -357,50 +334,23 @@ export default {
 
     // Space and Enter press the cards' controls, not the spot's clock (timeline.9b47fc30.js), as on the other beats
     thumbs.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
-    // the model chip is the engine's, shared by every variant: it never stays pressed into another one
-    addEventListener('variantchange', () => { if (plat) plat.classList.remove('yt-open'); });
 
-    const follow = [row2.w, replyA, row3.w, replyB, u2, row4.w, replyC];
+    const follow = [replyA, replyB, u2, row4.w, replyC];
     const pics = [...ytCard.querySelectorAll('img'), ...thumbs.querySelectorAll('img'), ...upCard.querySelectorAll('img'), ...studio.querySelectorAll('img')];
-    let placed = false, plat = null, composer = null, ph = null;
-    // where the menu's pointer goes, in the section's px (x.box): the model chip, each plan row, the API row, the composer
-    const ptrAt = (t) => {
-      // each row is pointed at right of its name, clear of the words the line is about; the API row at its shield
-      const pb = x.box(plat), at = (n, f) => { const b = x.box(n); return { x: b.x + b.w * f, y: b.cy + 4 }; };
-      const p0 = { x: pb.cx + 300, y: pb.cy + 300 }, p1 = { x: pb.cx, y: pb.cy };
-      const hs = planRows.map((n) => at(n, 0.58)), pf = at(foot, 0.06), pc = { x: x.box(ph).x + 160, y: x.box(ph).cy };
-      let p = { ...p0 };
-      const go = (q, a, b) => { const m = inOutCubic(seg(t, a, b)); p = { x: lerp(p.x, q.x, m), y: lerp(p.y, q.y, m) }; };
-      go(p1, IN.ptr, IN.atChip);
-      IN.hover.forEach(([a, b], i) => go(hs[i], a, b));
-      go(pf, IN.toFoot[0], IN.toFoot[1]);
-      go(pc, IN.leave, IN.press2 - 0.12);
-      go({ x: pc.x + 120, y: pc.y + 160 }, IN.press2 + 0.25, IN.press2 + 0.9);
-      return p;
-    };
+    let placed = false;
 
     return {
-      nodes: [sw1.sw, menu, ...follow, studio, endCard, ff, cue],
+      nodes: [sw2.sw, ...follow, studio, endCard, ff, cue],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
-      marks: [[T.c1.sw, sw1.sw], [T.c2.sw, row2.w], [T.yt, anchorA], [T.c3.sw, row3.w], [T.rB, sayB.n], [T.thumbs, anchorB], [T.send2, u2], [T.c4.sw, row4.w], [T.rC, sayC.n], [T.up, anchorC], [T.said, sayDone.n]],
-      // the second ask, typed into the composer and sent by the engine (renderComposer), and the chips, which move the
-      // composer's platform chip (renderRouting): ChatGPT, then GPT Image 2; the YouTube chips are tools and leave it be
+      marks: [[T.c2.sw, sw2.sw], [T.yt, anchorA], [T.rB, sayB.n], [T.thumbs, anchorB], [T.send2, u2], [T.c4.sw, row4.w], [T.rC, sayC.n], [T.up, anchorC], [T.said, sayDone.n]],
+      // the second ask, typed into the composer and sent by the engine (renderComposer), and the chips, both tools, so
+      // the composer's platform chip (renderRouting) stays on Superbot
       asks: [{ text: ASK2, s: T.s2, typeEnd: T.typeEnd2, send: T.send2 }],
-      chips: [T.c1, T.c2, T.c3, T.c4],
-      pointer(t) {
-        if (!plat || t < IN.ptr - 0.2 || t > IN.press2 + 1) return null;
-        const p = ptrAt(t);
-        const v = seg(t, IN.ptr - 0.1, IN.ptr + 0.2) * (1 - seg(t, IN.press2 + 0.45, IN.press2 + 0.85));
-        return { x: p.x, y: p.y, p: Math.max(press(t, IN.press), press(t, IN.press2)), v };
-      },
+      chips: [T.c2, T.c4],
       render(t) {
         if (!placed) {
-          let at = sw1.sw.closest('.msg');
+          let at = sw2.sw.closest('.msg');
           for (const m of follow) { at.after(m); at = m; }
-          composer = x.hub.querySelector('.composer');
-          plat = x.hub.querySelector('.rc-plat');
-          ph = x.hub.querySelector('.rc-ph');
-          composer.append(menu);
           const scene = x.hub.closest('.scene');
           scene.append(studio, endCard, ff);
           if (cues) scene.append(cue); else cue.remove();
@@ -408,33 +358,11 @@ export default {
           placed = true;
         }
 
-        // 0. the menu: it opens on the press under the model chip (lit while open) and closes on the composer click
-        const open = outCubic(seg(t, IN.press, IN.press + 0.22)) * (1 - seg(t, IN.press2, IN.press2 + 0.18));
-        fade(menu, open);
-        if (open > 0) {
-          // right-aligned under the chip: its box in the composer's own px (no camera scale), read while it shows
-          const pb = boxIn(plat, composer);
-          menu.style.left = `${(pb.x + pb.w + 10 - menu.offsetWidth).toFixed(1)}px`;
-          menu.style.transform = open >= 1 ? 'none' : `translateY(${((1 - open) * -6).toFixed(2)}px) scale(${lerp(0.97, 1, open).toFixed(4)})`;
-        }
-        // the chip reads pressed while its menu is open
-        plat.classList.toggle('yt-open', t >= IN.press && t < IN.press2 + 0.1);
-        planRows.forEach((n, i) => {
-          enter(n, t, IN.rows[i]);
-          const st = n.querySelector('.yt-plan-st');
-          const w = st.firstElementChild, ok = st.lastElementChild;
-          w.querySelector('.yt-spin').style.transform = `rotate(${((t - IN.rows[i]) * 420).toFixed(1)}deg)`;
-          fade(w, 1 - seg(t, IN.ok[i] - 0.05, IN.ok[i] + 0.1));
-          pop(ok, t, IN.ok[i]);
-          // lit from the pointer's arrival until it moves on to the next row
-          n.classList.toggle('hover', t >= IN.hover[i][1] - 0.05 && t < (IN.hover[i + 1] ? IN.hover[i + 1][0] + 0.15 : IN.toFoot[0] + 0.15));
-        });
-        enter(foot, t, IN.rows[2] + 0.25);
-        foot.style.setProperty('--lit', outCubic(seg(t, IN.api, IN.api + 0.4)).toFixed(3));
-
-        // 1. the chips, the channel frame and its reads
-        x.renderSwitch(sw1, t);
-        for (const rw of [row2, row3, row4]) { x.appear(rw.w, t, rw.c.sw); x.renderSwitch(rw, t); }
+        // 1. the chips, the channel frame and its reads; the first chip comes in on its own, inside the engine's reply
+        x.appear(sw2.sw, t, T.c2.sw);
+        x.renderSwitch(sw2, t);
+        x.appear(row4.w, t, T.c4.sw);
+        x.renderSwitch(row4, t);
         x.appear(replyA, t, T.yt);
         enter(ytCard, t, T.yt);
         renderState(ytState, t, T.yt, T.ready);

@@ -1621,6 +1621,42 @@
     ]
   },
   {
+    "id": "hacker-hello-computer-superbot-7dfcf32a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: the hooded mascot's \"Hello, AI users\" announcement, computer-control cut (cat videos, images, 3D models, audio, no MCPs)",
+    "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=hello-computer",
+    "thumb": "assets/shots/hacker-hello-computer-superbot-7dfcf32a.png",
+    "desc": "The \"Hello, AI users\" montage with computer control in the call's place, on the fish.audio HACKER VOICE: \"Hello, AI users. This is Superbot, with an announcement. We built an agent that actually gets things done. It can control your computer, generate images, 3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.\" Asked to take control of the computer and find cat videos, superbot takes over the shared screen as the computer-control-v3-soft cut shows it (the pink and purple vignette, the \"superbot is controlling your computer\" pill) on a plain, unbranded browser: it types \"funny cat videos\", the results come in and it opens \"Kitten vs. the laser dot\", which plays (generated thumbnails and clip, made-up titles; img/hacker.7dfcf32a/CREDITS.txt); then the beagle, the 3D beagle, a theme song and the MCP row as before. No captions; an AI-generated note on the generated shots, a Dramatization note on the chat and Sped up on superbot's moves. About 24 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
+  },
+  {
+    "id": "hacker-hello-computer-licensed-superbot-7dfcf32a",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: the hooded mascot's \"Hello, AI users\" announcement, computer-control cut, licensed-voice cut",
+    "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=hello-computer&take=licensed",
+    "thumb": "assets/shots/hacker-hello-computer-licensed-superbot-7dfcf32a.png",
+    "desc": "The same cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 27 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
+  },
+  {
     "id": "hacker-output-talk-superbot-7dfcf32a",
     "type": "animation",
     "group": "Ad spots",

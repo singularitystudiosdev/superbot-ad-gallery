@@ -24,7 +24,8 @@
 // thumbnails for it, then uploads them to YouTube as an A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js)., or 'hacker', the hooded-mascot
 // spot's montage: a live call, an image, a 3D model and apps connected with no MCP, each on its voiceover phrase
 // (scenes/tabs-assets/beats/hacker.7dfcf32a.js), or 'hacker-hello', the "Hello AI users" spot's: the same call, image and
-// 3D model, then a theme song and the MCP row as its own card (the same module's `hello`), or 'voiceclone-call', cut as
+// 3D model, then a theme song and the MCP row as its own card (the same module's `hello`; 'hacker-hello-pc' with computer
+// control in the call's place, `helloPc`), or 'voiceclone-call', cut as
 // the hotel call is: superbot asks for one short take of the user's voice, clones it, then calls 30351235 in that voice
 // (scenes/tabs-assets/beats/voiceclone.6ba3a0f8.js). Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
@@ -68,6 +69,7 @@ export const VARIANTS = [
   { id: 'yt-thumbnail', label: 'YouTube thumbnail + A/B test · voiceover' }, // three thumbnails for the latest video, then uploaded as a YouTube A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js)
   { id: 'hacker', label: 'Hacker ad · calls, image, 3D, apps' }, // the hooded-mascot spot's montage: a live call, an image, a 3D model, apps connected with no MCP (scenes/tabs-assets/beats/hacker.7dfcf32a.js)
   { id: 'hacker-hello', label: 'Hacker ad · hello: calls, image, 3D, audio, no MCP' }, // the hooded mascot's "Hello AI users" spot: the same call, image and 3D model, then a theme song and the MCP row as its own card (scenes/tabs-assets/beats/hacker.7dfcf32a.js hello)
+  { id: 'hacker-hello-pc', label: 'Hacker ad · hello: computer control, image, 3D, audio, no MCP' }, // the "Hello AI users" montage with computer control in the call's place: superbot takes over the screen, searches cat videos and plays one (scenes/tabs-assets/beats/hacker.7dfcf32a.js helloPc)
   { id: 'voice-clone-song', label: 'Voice clone song' }, // a voice sample recorded and cloned, then a song sung in that voice (scenes/tabs-assets/beats/voiceclone.986a9320.js)
   { id: 'voiceclone-call', label: 'Voice clone call' }, // one tap records the user's voice, superbot clones it and calls 30351235 in that voice, saying it is their AI (scenes/tabs-assets/beats/voiceclone.6ba3a0f8.js)
 ];

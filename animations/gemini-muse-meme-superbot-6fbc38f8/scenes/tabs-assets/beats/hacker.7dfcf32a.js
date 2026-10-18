@@ -4,7 +4,12 @@
 //   don't need MCPs";
 //   'hacker-hello' (`hello`): "It can make calls, generate images, 3D models, audio, and it doesn't require MCPs", the
 //   apps card swapped for an audio card and a card of its own for the MCP row, its empty state held longer
-//   (HELLO_WAIT) so the spot's "We have built an agent that can actually do what you ask" plays over the ask typing.
+//   (HELLO_WAIT) so the spot's "We have built an agent that can actually do what you ask" plays over the ask typing;
+//   'hacker-hello-pc' (`helloPc`): the same with the call swapped for computer control, as the computer-control-v3-soft
+//   cut shows it (computer.ba3976b6.js): asked to find cat videos, superbot takes over the screen (the pink and purple
+//   vignette, the "superbot is controlling your computer" pill), types the search into a plain browser, opens the
+//   results and plays a kitten chasing a laser dot. The browser and the search page are generic, no company's marks;
+//   the cats are generated (img/hacker.7dfcf32a/CREDITS.txt).
 // Cut as the multicat-credits chain is (the engine routes it bare: no routing chips, no "<model> in superbot" header,
 // the composer on Superbot throughout), but paced as a montage:
 //   1. calls: asked to move a hotel stay, superbot is already on the line with the hotel's front desk (the hotelcall cut's
@@ -21,14 +26,14 @@
 // says so). The voiceover is laid in by the spot's own cut (the hacker shots before and after this montage); its phrase
 // cues are this plan's moments, published as window.__HACKER_CUES[<variant>] for that edit, with the card the camera
 // frames from each moment (`focus`). A pure function of t. Its stylesheet (../hacker.7dfcf32a.css) loads with the module.
-import { clamp, lerp, seg, outCubic, outQuint, outBack, streamCount } from '../../../lib.9b47fc30.js';
+import { clamp, lerp, seg, outCubic, outQuint, outBack, streamCount, path, press, blink } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
 import { PICK, LINES, ENV } from './hotelcall-data.f934b5ee.js';
 
-const CSS = new URL('../hacker.7dfcf32a.css?v=2', import.meta.url).href;
+const CSS = new URL('../hacker.7dfcf32a.css?v=3', import.meta.url).href;
 export const ID = 'hacker';
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const PHOTO = asset('img/dogs.7b007b09/beagle.jpg');
@@ -69,6 +74,34 @@ const PHONE_GLYPH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.83
 // the player's play and pause (bedtime.b60749a3.js's play triangle)
 const PLAY = '<svg class="hk-i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>';
 const PAUSE = '<svg class="hk-i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5.5" width="4" height="13" rx="1"/><rect x="13.5" y="5.5" width="4" height="13" rx="1"/></svg>';
+// the computer card ('hacker-hello-pc'): a plain browser on the shared screen. Its moments from the card coming in (c0):
+// the takeover overlay, the cursor gliding to the search box and clicking, the query typing, Enter, the results, the
+// cursor onto the first video and its click, the video playing. All in the screen's own px (hacker.7dfcf32a.css .hk-scr)
+const SAY_PC = 'Taking control of your computer now.';
+const PC = { take: 0.15, ptr: 0.35, box: 0.75, click: 0.8, type0: 0.86, type1: 1.42, enter: 1.5, ptr2: 1.8, hov2: 2.15, click2: 2.22, play: 2.36 };
+const QUERY = 'funny cat videos';
+const CUR = { rest: { x: 430, y: 300 }, box: { x: 280, y: 191 }, thumb: { x: 128, y: 152 }, away: { x: 486, y: 318 } };
+const SPRITE = { src: 'img/hacker.7dfcf32a/cat-laser-sprite.jpg', cols: 10, n: 105, fps: 30 }; // the played clip, 480x270 a frame
+const VIDEO_LEN = 42; // the played video's length on its clock (its result tile's 0:42)
+// the results: generated photographs, made-up titles; the first is the one superbot opens
+const CATS = [
+  { img: 'cat-laser.jpg', title: 'Kitten vs. the laser dot', meta: '1.2M views · 3 days ago', dur: '0:42', alt: 'A grey-and-white kitten pouncing at a red laser dot' },
+  { img: 'cat-mug.jpg', title: 'This cat knocks everything off the table', meta: '860K views · 1 week ago', dur: '1:08', alt: 'A tuxedo cat pushing a mug off a table' },
+  { img: 'cat-box.jpg', title: 'If it fits, he sits', meta: '2.4M views · 2 weeks ago', dur: '0:57', alt: 'An orange cat squeezed into a small box' },
+  { img: 'cat-sun.jpg', title: 'Sleepiest cat ever', meta: '540K views · 5 days ago', dur: '2:14', alt: 'A calico cat asleep in a sunbeam' },
+  { img: 'cat-bubbles.jpg', title: 'Cat discovers bubbles', meta: '3.1M views · 1 month ago', dur: '0:36', alt: 'A tabby batting at soap bubbles' },
+  { img: 'cat-kittens.jpg', title: 'Two kittens, one blanket', meta: '970K views · 4 days ago', dur: '1:21', alt: 'Two kittens play-wrestling on a blanket' },
+];
+const ARROW = 'M4 2.5 4 19.5 8.6 15.3 11.5 21.8 14.4 20.5 11.6 14.2 17.8 14.2Z'; // computer.ba3976b6.js's macOS-style arrow
+// lucide monitor, and the browser's chrome glyphs (computer.ba3976b6.js's)
+const MONITOR = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8M12 17v4"/></svg>';
+const BROWSER = {
+  x: '<svg viewBox="0 0 16 16"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg>',
+  back: '<svg viewBox="0 0 16 16"><path d="M13 8H3M7 4L3 8l4 4"/></svg>',
+  fwd: '<svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>',
+  reload: '<svg viewBox="0 0 16 16"><path d="M13 8a5 5 0 1 1-1.5-3.5M13 3v3h-3"/></svg>',
+  search: '<svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4"/><path d="M10 10l3 3"/></svg>',
+};
 // the apps: everyday kinds, each a lucide glyph (ISC) in its own tint; generic on purpose, no company's mark
 const G = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const APPS = [
@@ -94,6 +127,9 @@ const HELLO_STEPS = [IMAGE, MODEL3D,
   { kind: 'audio', ask: 'Make a theme song for my dog', say: 'Here’s your dog’s theme song.', gen: 'audio', at: 4.2 },
   { kind: 'mcp', ask: 'Do I need to set up MCP servers?', say: 'No. I connect to your apps directly.', at: 5.35 },
 ];
+// 'hacker-hello-pc': the same asks, each 2 s later, so the search, the results and the video run before the image's
+const PC_SHIFT = 2.0;
+const HELLO_PC_STEPS = HELLO_STEPS.map((st) => ({ ...st, at: st.at + PC_SHIFT }));
 // the card the camera frames once each answer is in (render-montage.mjs)
 const SEL = { image: '.hk-img', model: '.hk-3d', apps: '.hk-apps', audio: '.hk-audio', mcp: '.hk-mcpc' };
 const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -101,9 +137,10 @@ const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStar
 // every time in the beat, from the first reply r: the call card comes in at c0; each follow-up types from c0 + its `at`,
 // its card comes in at `card` and (when it generates) waits from gen0 until done, landed by w1; the MCP row strikes at
 // `strike`; then the end card covers the chat at `cut`
-function plan(r, steps) {
+function plan(r, steps, lead = 'call') {
   const c0 = r + 0.2;
   const T = { r, c0, steps: [] };
+  if (lead === 'pc') T.pc = Object.fromEntries(Object.entries(PC).map(([k, v]) => [k, c0 + v]));
   for (const st of steps) {
     const s = c0 + st.at, typeEnd = s + st.ask.length / FOLLOW_CPS, send = typeEnd + SEND_AFTER;
     const rr = send + REPLY_AFTER, card = rr + CARD_AFTER, gen0 = card + SEEN;
@@ -120,11 +157,13 @@ function plan(r, steps) {
   // card comes in, images, 3D models and audio as their cards come in and generate, apps as the tiles start connecting,
   // and the MCP phrase so its last word lands on the strike (the apps card's) or as its own card comes in
   const by = Object.fromEntries(T.steps.map((st) => [st.kind, st]));
-  T.cues = { calls: c0 + 0.05, images: by.image.card, models: by.model.card };
+  T.cues = { [lead === 'pc' ? 'pc' : 'calls']: c0 + 0.05, images: by.image.card, models: by.model.card };
   if (by.apps) Object.assign(T.cues, { apps: by.apps.card + 0.1, mcps: T.strike - 1.0 });
   if (by.audio) Object.assign(T.cues, { audio: by.audio.card, mcps: by.mcp.card + 0.05 });
   T.cues.cut = T.cut;
-  T.focus = [[c0, '.hk-call'], ...T.steps.map((st) => [st.card, SEL[st.kind]])];
+  // superbot's moves on the screen run quicker than an agent's really do: the edit badges them "Sped up"
+  if (lead === 'pc') T.cues.sped = [[T.pc.ptr - 0.05, T.pc.play]];
+  T.focus = [[c0, lead === 'pc' ? '.hk-pc' : '.hk-call'], ...T.steps.map((st) => [st.card, SEL[st.kind]])];
   return T;
 }
 
@@ -302,12 +341,150 @@ const CARDS = {
   },
 };
 
+// the lead card of 'hacker' and 'hacker-hello': the call, live: header (the hotel, its number, the call's state and
+// timer), the waveform, the transcript
+function callCard(x, T) {
+    const call = x.el(`<div class="bk hk-call">
+      <div class="bk-head"><span class="qc-tile hk-av">${BED}</span><b class="bk-title">${HOTEL}<small>${DESK}, ${PHONE}</small></b><span class="hk-st"><i class="hk-dot"></i>${PHONE_GLYPH}<span>Live</span><b class="hk-time"></b></span></div>
+      <div class="hk-wave" aria-hidden="true">${'<i></i>'.repeat(BARS)}</div>
+      <div class="hk-tx" aria-live="off"></div>
+    </div>`);
+    const time = call.querySelector('.hk-time');
+    const bars = [...call.querySelector('.hk-wave').children].map((n) => ({ n, lv: -1, sb: null }));
+    const tx = call.querySelector('.hk-tx');
+    // the call's own clock: its second CALL_FROM is the card's arrival
+    const callT = (t) => CALL_FROM + (t - T.c0);
+    // the first two turns: the desk's greeting (already said, shown whole) and superbot's reply, word by word
+    const rows = LINES.slice(0, 2).map((l, li) => {
+      const said = li === 0 ? GREETING : l.words.map(([w]) => w);
+      const n = x.el(`<div class="hk-row hk-${l.who}"><span class="hk-who">${l.who === 'sb' ? 'Superbot' : 'Maya'}</span><p class="hk-line">${said.map((w) => `<span>${x.esc(w)}</span>`).join(' ')}</p></div>`);
+      const a = anchor(x, ' hk-anchor-row');
+      n.append(a);
+      tx.append(n);
+      return { n, a, at: T.c0 + (l.s - ROW_LEAD - CALL_FROM), words: [...n.querySelectorAll('.hk-line span')].map((w, i) => ({ w, at: T.c0 + (l.words[i][1] - CALL_FROM), op: '' })), on: null };
+    });
+    const callAnchor = anchor(x);
+  let timeShown = null;
+  return { el: call, anchor: callAnchor, marks: rows.map((rw) => [rw.at, rw.a]), render(t) {
+    // live from the call's CALL_FROM
+      enter(call, t, T.c0);
+      const ct = callT(t);
+      const tm = clock(Math.max(0, ct - PICK));
+      if (tm !== timeShown) { time.textContent = tm; timeShown = tm; }
+      const f = Math.floor(ct * ENV.fps);
+      for (let i = 0; i < BARS; i++) {
+        const j = f - (BARS - 1 - i) * BAR_STEP, b = bars[i];
+        const h = j >= 0 && j < ENV.sb.length ? ENV.hotel[j] : 0, s = j >= 0 && j < ENV.sb.length ? ENV.sb[j] : 0;
+        const lv = Math.max(h, s), sb = s > h;
+        if (lv !== b.lv) { b.n.style.transform = `scaleY(${Math.max(0.08, lv / 99).toFixed(3)})`; b.lv = lv; }
+        if (sb !== b.sb) { b.n.classList.toggle('hk-sb', sb); b.sb = sb; }
+      }
+      for (const rw of rows) {
+        const on = t >= rw.at;
+        if (on !== rw.on) { rw.n.style.display = on ? '' : 'none'; rw.on = on; }
+        if (!on) continue;
+        rw.n.style.opacity = outCubic(seg(t, rw.at, rw.at + 0.25)).toFixed(3);
+        for (const w of rw.words) {
+          const o = seg(t, w.at - 0.02, w.at - 0.02 + WORD_IN).toFixed(3);
+          if (o !== w.op) { w.w.style.opacity = o; w.op = o; }
+        }
+      }
+  } };
+}
+
+// the lead card of 'hacker-hello-pc': the user's screen, shared live, a plain browser on it. Superbot takes over (the
+// pink and purple vignette turning round the screen's edge and the pill rising, as computer.ba3976b6.js draws them),
+// glides the cursor to the search box and clicks, types the query, presses Enter, the video results come in, the
+// cursor opens the first and it plays (frames from a sprite, so a frozen frame is exact)
+function pcCard(x, T) {
+  const P = T.pc;
+  const el = x.el(`<div class="bk hk-pc">
+    <div class="bk-head"><span class="qc-tile hk-av">${MONITOR}</span><b class="bk-title">Your computer<small>Screen shared</small></b><span class="hk-st"><i class="hk-dot"></i><span>Live</span></span></div>
+    <div class="hk-scr">
+      <div class="hk-win">
+        <div class="hk-tabs"><span class="hk-tab"><i class="hk-fav"></i><span class="hk-tt">New tab</span><span class="hk-tcl">${BROWSER.x}</span></span><span class="hk-tplus">+</span></div>
+        <div class="hk-bar"><span class="hk-nav">${BROWSER.back}${BROWSER.fwd}${BROWSER.reload}</span><span class="hk-url">${BROWSER.search}<span class="hk-ut">Search or type a URL</span></span></div>
+        <div class="hk-pg">
+          <div class="hk-home"><b class="hk-logo">Search</b><span class="hk-box">${BROWSER.search}<span class="hk-q"></span><i class="hk-caret"></i></span></div>
+          <div class="hk-res"><div class="hk-rh"><span class="hk-fc">All</span><span class="hk-fc on">Videos</span><span class="hk-fc">Images</span><span class="hk-rq"></span></div>
+            <div class="hk-rg">${CATS.map((c) => `<div class="hk-th"><span class="hk-ti"><img src="${asset('img/hacker.7dfcf32a/' + c.img)}" width="480" height="270" alt="${x.esc(c.alt)}"/><b class="hk-dur">${c.dur}</b></span><span class="hk-tn">${x.esc(c.title)}</span><span class="hk-tm">${c.meta}</span></div>`).join('')}</div></div>
+          <div class="hk-vp"><span class="hk-vid"><i class="hk-spr" role="img" aria-label="${x.esc(CATS[0].alt)}" style="background-image:url('${asset(SPRITE.src)}')"></i></span>
+            <div class="hk-ctrl"><span class="hk-pp">${PAUSE}</span><span class="hk-prog"><i></i></span><b class="hk-vt">0:00 / ${CATS[0].dur}</b></div></div>
+        </div>
+      </div>
+      <i class="hk-edge"><i class="hk-soft"><i class="hk-band"></i></i></i>
+      <span class="hk-pill">${x.tile('superbot', 'hk-sbt')}<span>superbot is controlling your computer</span></span>
+      <svg class="hk-cur" viewBox="0 0 24 24" aria-hidden="true"><path d="${ARROW}"/></svg>
+    </div>
+  </div>`);
+  const $ = (q) => el.querySelector(q);
+  const v = { tt: $('.hk-tt'), ut: $('.hk-ut'), url: $('.hk-url'), q: $('.hk-q'), caret: $('.hk-caret'), box: $('.hk-box'), home: $('.hk-home'),
+    res: $('.hk-res'), rq: $('.hk-rq'), ths: [...el.querySelectorAll('.hk-th')], play: $('.hk-vp'), spr: $('.hk-spr'), prog: $('.hk-prog i'),
+    vt: $('.hk-vt'), edge: $('.hk-edge'), soft: $('.hk-soft'), pill: $('.hk-pill'), cur: $('.hk-cur') };
+  const shown = { tt: '', ut: '', q: -1, f: -1, vt: '' };
+  const set = (k, n, text) => { if (shown[k] !== text) { n.textContent = text; shown[k] = text; } };
+  const pcAnchor = anchor(x);
+  return { el, anchor: pcAnchor, marks: [], render(t) {
+    enter(el, t, T.c0);
+    // the takeover: the vignette fades in, its gradient turning and gently breathing, and the pill rises
+    const g = outCubic(seg(t, P.take, P.take + 0.55));
+    v.edge.style.opacity = g.toFixed(3);
+    v.edge.style.setProperty('--hk-a', `${((t * 60) % 360).toFixed(1)}deg`);
+    v.soft.style.opacity = (0.9 + 0.08 * Math.sin(t * 2.6)).toFixed(3);
+    const pi = outCubic(seg(t, P.take + 0.12, P.take + 0.57));
+    v.pill.style.opacity = pi.toFixed(3);
+    v.pill.style.transform = `translate(-50%, ${((1 - pi) * 8).toFixed(2)}px)`;
+    // the cursor: to the search box and a click, to the first video and a click, then out of the way
+    const at = t < P.ptr ? CUR.rest
+      : t < P.ptr2 ? path(t, [{ t: P.ptr, ...CUR.rest }, { t: P.box, ...CUR.box }])
+      : t < P.play + 0.15 ? path(t, [{ t: P.ptr2, ...CUR.box }, { t: P.hov2, ...CUR.thumb }])
+      : path(t, [{ t: P.play + 0.15, ...CUR.thumb }, { t: P.play + 0.55, ...CUR.away }]);
+    const k = 1 - 0.12 * Math.max(press(t, P.click), press(t, P.click2));
+    // the arrow's tip is at (4, 2.5) of its 24-unit box, drawn 18px: (3, 1.9) px
+    v.cur.style.transform = `translate(${(at.x - 3).toFixed(2)}px, ${(at.y - 1.9).toFixed(2)}px) scale(${k.toFixed(3)})`;
+    // the search box: focused on the click, the query typing in, then Enter
+    v.box.classList.toggle('hk-on', t >= P.click);
+    const n = Math.round(QUERY.length * seg(t, P.type0, P.type1));
+    if (n !== shown.q) { v.q.textContent = QUERY.slice(0, n); shown.q = n; }
+    v.caret.style.opacity = t >= P.click && t < P.enter ? String(blink(t - P.click) ? 1 : 0) : '0';
+    // the results replace the home page: the address bar and the tab take the search, each video lands in turn
+    const r = outCubic(seg(t, P.enter, P.enter + 0.2));
+    v.home.style.opacity = (1 - r).toFixed(3);
+    v.res.style.opacity = r.toFixed(3);
+    set('ut', v.ut, t >= P.enter ? QUERY : 'Search or type a URL');
+    v.url.classList.toggle('hk-typed', t >= P.enter);
+    set('tt', v.tt, t >= P.click2 + 0.1 ? CATS[0].title : t >= P.enter ? `${QUERY} - Search` : 'New tab');
+    if (shown.rq !== 1) { v.rq.textContent = QUERY; shown.rq = 1; }
+    v.ths.forEach((th, i) => {
+      const c = outCubic(seg(t, P.enter + 0.08 + i * 0.05, P.enter + 0.3 + i * 0.05));
+      th.style.opacity = c.toFixed(3);
+      th.style.transform = c >= 1 ? 'none' : `translateY(${((1 - c) * 6).toFixed(2)}px)`;
+    });
+    // the first video under the cursor: its hover ring, the press, then the player opens over the page and plays
+    const hv = seg(t, P.hov2 - 0.1, P.hov2) * (1 - seg(t, P.click2 + 0.1, P.click2 + 0.2));
+    v.ths[0].style.boxShadow = hv > 0 ? `0 0 0 ${(2 * hv).toFixed(2)}px rgba(26,115,232,${(0.9 * hv).toFixed(3)})` : 'none';
+    const o = outCubic(seg(t, P.click2 + 0.04, P.click2 + 0.28));
+    v.play.style.opacity = o.toFixed(3);
+    v.play.style.transform = o >= 1 ? 'none' : `scale(${lerp(0.94, 1, o).toFixed(4)})`;
+    const f = Math.max(0, Math.min(SPRITE.n - 1, Math.floor((t - P.play) * SPRITE.fps)));
+    if (f !== shown.f) {
+      // the sheet is SPRITE.cols frames across and ROWS down, sized to cols x rows of the view: frame f's cell
+      const rows = Math.ceil(SPRITE.n / SPRITE.cols), c = f % SPRITE.cols, r = Math.floor(f / SPRITE.cols);
+      v.spr.style.backgroundPosition = `${(100 * c / (SPRITE.cols - 1)).toFixed(4)}% ${(100 * r / (rows - 1)).toFixed(4)}%`;
+      shown.f = f;
+    }
+    const pt = Math.max(0, t - P.play);
+    v.prog.style.transform = `scaleX(${Math.min(1, pt / VIDEO_LEN).toFixed(4)})`;
+    set('vt', v.vt, `${clock(pt)} / ${CATS[0].dur}`);
+  } };
+}
+
 // one beat per step list: its loop length past the first reply, and the beat the engine runs
-function makeBeat(id, list) {
-  const LEN = plan(0, list).end;
+function makeBeat(id, list, lead = 'call') {
+  const LEN = plan(0, list, lead).end;
   const beat = {
     // `end` (the base route's end plus `extra`) is LEN past r by construction, so the beat keeps its own clock
-    times(r) { return plan(r, list); },
+    times(r) { return plan(r, list, lead); },
     build(k, x) {
       loadSheet();
       loadFrameSheet();
@@ -315,28 +492,9 @@ function makeBeat(id, list) {
       // the spot's edit reads the voiceover's cues off the page (absolute spot seconds)
       (window.__HACKER_CUES ||= {})[id] = { ...T.cues, end: T.end, focus: T.focus };
 
-      // 1. the call, live: header (the hotel, its number, the call's state and timer), the waveform, the transcript
-      const say0 = sayEl(x, SAY0);
-      const call = x.el(`<div class="bk hk-call">
-        <div class="bk-head"><span class="qc-tile hk-av">${BED}</span><b class="bk-title">${HOTEL}<small>${DESK}, ${PHONE}</small></b><span class="hk-st"><i class="hk-dot"></i>${PHONE_GLYPH}<span>Live</span><b class="hk-time"></b></span></div>
-        <div class="hk-wave" aria-hidden="true">${'<i></i>'.repeat(BARS)}</div>
-        <div class="hk-tx" aria-live="off"></div>
-      </div>`);
-      const time = call.querySelector('.hk-time');
-      const bars = [...call.querySelector('.hk-wave').children].map((n) => ({ n, lv: -1, sb: null }));
-      const tx = call.querySelector('.hk-tx');
-      // the call's own clock: its second CALL_FROM is the card's arrival
-      const callT = (t) => CALL_FROM + (t - T.c0);
-      // the first two turns: the desk's greeting (already said, shown whole) and superbot's reply, word by word
-      const rows = LINES.slice(0, 2).map((l, li) => {
-        const said = li === 0 ? GREETING : l.words.map(([w]) => w);
-        const n = x.el(`<div class="hk-row hk-${l.who}"><span class="hk-who">${l.who === 'sb' ? 'Superbot' : 'Maya'}</span><p class="hk-line">${said.map((w) => `<span>${x.esc(w)}</span>`).join(' ')}</p></div>`);
-        const a = anchor(x, ' hk-anchor-row');
-        n.append(a);
-        tx.append(n);
-        return { n, a, at: T.c0 + (l.s - ROW_LEAD - CALL_FROM), words: [...n.querySelectorAll('.hk-line span')].map((w, i) => ({ w, at: T.c0 + (l.words[i][1] - CALL_FROM), op: '' })), on: null };
-      });
-      const callAnchor = anchor(x);
+      // 1. superbot's first answer: its line, then the lead card (the live call, or the shared screen)
+      const say0 = sayEl(x, lead === 'pc' ? SAY_PC : SAY0);
+      const lc = (lead === 'pc' ? pcCard : callCard)(x, T);
 
       // 2 on: each follow-up's bubble and its reply (the line it streams, then its card)
       const follow = [];
@@ -360,13 +518,13 @@ function makeBeat(id, list) {
       const endCard = x.el(`<div class="hk-end" role="img" aria-label="superbot.gg"><div class="hk-end-word"><b>superbot.gg</b></div><div class="hk-end-bot">${END_FACE(id)}</div></div>`);
       const endWord = endCard.querySelector('.hk-end-word'), endBot = endCard.querySelector('.hk-end-bot');
       const ff = x.el(`<div class="hk-ff" aria-hidden="true">x${X}</div>`);
-      let endK = 1, placed = false, inited = false, timeShown = null;
+      let endK = 1, placed = false, inited = false;
       const last = steps[steps.length - 1];
 
       return {
-        nodes: [say0.n, call, callAnchor, ...follow, endCard, ff],
+        nodes: [say0.n, lc.el, lc.anchor, ...follow, endCard, ff],
         // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
-        marks: [[T.r, say0.n], [T.c0, callAnchor], ...rows.map((rw) => [rw.at, rw.a]),
+        marks: [[T.r, say0.n], [T.c0, lc.anchor], ...lc.marks,
           ...steps.flatMap((p) => [[p.st.send, p.u], [p.st.r, p.say.n], [p.st.card, p.anchor]]),
           [T.mcp, last.anchor]],
         asks: T.steps.map((st) => ({ text: st.ask, s: st.s, typeEnd: st.typeEnd, send: st.send })),
@@ -380,30 +538,9 @@ function makeBeat(id, list) {
           }
           if (!inited) { inited = true; for (const c of cards) c.init(); }
 
-          // 1. the call: the line, then the card, live from the call's CALL_FROM
+          // 1. the line, then the lead card
           say0.render(t, T.r);
-          enter(call, t, T.c0);
-          const ct = callT(t);
-          const tm = clock(Math.max(0, ct - PICK));
-          if (tm !== timeShown) { time.textContent = tm; timeShown = tm; }
-          const f = Math.floor(ct * ENV.fps);
-          for (let i = 0; i < BARS; i++) {
-            const j = f - (BARS - 1 - i) * BAR_STEP, b = bars[i];
-            const h = j >= 0 && j < ENV.sb.length ? ENV.hotel[j] : 0, s = j >= 0 && j < ENV.sb.length ? ENV.sb[j] : 0;
-            const lv = Math.max(h, s), sb = s > h;
-            if (lv !== b.lv) { b.n.style.transform = `scaleY(${Math.max(0.08, lv / 99).toFixed(3)})`; b.lv = lv; }
-            if (sb !== b.sb) { b.n.classList.toggle('hk-sb', sb); b.sb = sb; }
-          }
-          for (const rw of rows) {
-            const on = t >= rw.at;
-            if (on !== rw.on) { rw.n.style.display = on ? '' : 'none'; rw.on = on; }
-            if (!on) continue;
-            rw.n.style.opacity = outCubic(seg(t, rw.at, rw.at + 0.25)).toFixed(3);
-            for (const w of rw.words) {
-              const o = seg(t, w.at - 0.02, w.at - 0.02 + WORD_IN).toFixed(3);
-              if (o !== w.op) { w.w.style.opacity = o; w.op = o; }
-            }
-          }
+          lc.render(t);
 
           // 2 on: bubble and reply line, as the engine draws its own, then each answer card
           for (const p of steps) {
@@ -447,3 +584,6 @@ export default HACKER.beat;
 const HELLO = makeBeat('hacker-hello', HELLO_STEPS);
 export const HELLO_LEN = HELLO.LEN;
 export const hello = HELLO.beat;
+const HELLO_PC = makeBeat('hacker-hello-pc', HELLO_PC_STEPS, 'pc');
+export const HELLO_PC_LEN = HELLO_PC.LEN;
+export const helloPc = HELLO_PC.beat;

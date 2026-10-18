@@ -200,6 +200,11 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   `assets/video/hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a.{16x9,9x16,4x5,1x1}.mp4` (1920x1080, 1080x1920,
   1440x1800, 1080x1080), each under 30 MB; the lightbox's "download all 4 ratios" (a tile's `downloadAll`) takes them in
   one click.
+  `hello-computer` is the hello montage with computer control in the call's place ("It can control your computer..."):
+  on its own variant (`?variant=hacker-hello-pc`, made like `computer-control-v3-soft` but on a plain unbranded browser)
+  superbot takes over the shared screen, searches "funny cat videos", opens the results and plays a kitten chasing a laser
+  dot (generated thumbnails and clip, `img/hacker.7dfcf32a/CREDITS.txt`), its moves badged Sped up and the chat noted
+  Dramatization; the same 60 fps renders in four ratios.
 - **the hooded mascot's statement** (`animations/hooded-statement-superbot-382c1f0c/`): the same figure reading the whole
   statement straight through, no montage, both hands on the paper (new Gemini Omni shots from the announcement's key
   frames). In the fish.audio HACKER VOICE: "Superbot is here. It can make calls, generate images and 3D models, and

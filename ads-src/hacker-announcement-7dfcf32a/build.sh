@@ -43,19 +43,22 @@ for ar in 16x9 9x16 4x5 1x1; do
   w=$(echo $ar | sed 's/x.*//')
   node render-montage.mjs $ar 12.02 15.2 work/end$w-60 end 60 | tail -1
   VARIANT=hacker-hello node render-montage.mjs $ar 0.6 13.46 work/hello-mt$w-60 montage 60 | tail -1
+  VARIANT=hacker-hello-pc node render-montage.mjs $ar 0.6 15.49 work/hellopc-mt$w-60 montage 60 | tail -1
 done
-$PY -I -c "import json; [print(k, v['slug'], 'montage' in v) for k, v in json.load(open('spots.json')).items() if k != '_']" | while read spot slug montage; do
+$PY -I -c "import json; [print(k, v['slug'], 'montage' in v, 'talk' in v) for k, v in json.load(open('spots.json')).items() if k != '_']" | while read spot slug montage talk; do
   for take in fish licensed; do
     t=$([ $take = licensed ] && echo -licensed || true)
     for ar in 16x9 9x16 4x5 1x1; do
-      FPS=60 $PY -I compose.py $ar out/$spot-talk-$take.$ar.mp4 $take talk $spot
-      cp out/$spot-talk-$take.$ar.mp4 $V/hacker-$slug-talk$t-superbot-7dfcf32a.$ar.mp4
+      if [ $talk = True ]; then
+        FPS=60 $PY -I compose.py $ar out/$spot-talk-$take.$ar.mp4 $take talk $spot
+        cp out/$spot-talk-$take.$ar.mp4 $V/hacker-$slug-talk$t-superbot-7dfcf32a.$ar.mp4
+      fi
       if [ $montage = True ]; then
         FPS=60 $PY -I compose.py $ar out/$spot-$take.$ar.mp4 $take montage $spot
         cp out/$spot-$take.$ar.mp4 $V/hacker-$slug$t-superbot-7dfcf32a.$ar.mp4
       fi
     done
-    ffmpeg -v error -y -ss 1.2 -i $V/hacker-$slug-talk$t-superbot-7dfcf32a.16x9.mp4 -frames:v 1 -vf scale=1280:720:flags=lanczos ../../assets/shots/hacker-$slug-talk$t-superbot-7dfcf32a.png
+    [ $talk = True ] && ffmpeg -v error -y -ss 1.2 -i $V/hacker-$slug-talk$t-superbot-7dfcf32a.16x9.mp4 -frames:v 1 -vf scale=1280:720:flags=lanczos ../../assets/shots/hacker-$slug-talk$t-superbot-7dfcf32a.png || true
     [ $montage = True ] && ffmpeg -v error -y -ss 0.15 -i $V/hacker-$slug$t-superbot-7dfcf32a.16x9.mp4 -frames:v 1 -vf scale=1280:720:flags=lanczos ../../assets/shots/hacker-$slug$t-superbot-7dfcf32a.png || true
   done
 done

@@ -187,7 +187,7 @@ else:
         A_END = VO[-1][1] + VO[-1][2][1] - VO[-1][2][0] + 0.35
         VO += place(range(over, first), A_END + 0.2)
         # the capture's second the cut enters on: so the call card comes in a breath after the phrases laid over it
-        SPOT0 = cues['calls'] - (VO[-1][1] + VO[-1][2][1] - VO[-1][2][0] + 0.3 - A_END)
+        SPOT0 = cues[M['cues'][0]] - (VO[-1][1] + VO[-1][2][1] - VO[-1][2][0] + 0.3 - A_END)
         assert SPOT0 >= meta[0]['t'] - 1e-6, (SPOT0, meta[0]['t'])
         spot = lambda s: A_END + (s - SPOT0)  # spot seconds -> edit seconds, inside the montage
         VO += [(PH[i][0], spot(cues[k]), PH[i][2:]) for i, k in zip(range(first, last + 1), M['cues'])]
@@ -336,11 +336,15 @@ def pill(text, fnt, pad=(28, 14), r=16, bg=(0, 0, 0, 165), fg=(255, 255, 255, 25
 BADGE = lambda text: pill(text, FF_FONT, pad=(round(24 * U), round(14 * U)), r=round(30 * U), bg=(12, 12, 14, 199), fg=(236, 236, 236, 255), border=(255, 255, 255, 31))
 FF_IMG, APPS_IMG = BADGE('Sped up 150×'), BADGE('Sped up')
 # the eight tiles connecting (beats/hacker.7dfcf32a.js TILE_*); the talk cut has no chat, the hello montage no apps card
-APPS_FF = (spot(cues['apps']) - 0.1, spot(cues['apps']) + 1.3) if CUT == 'montage' and 'apps' in cues else None
+APPS_FF = [(spot(cues['apps']) - 0.1, spot(cues['apps']) + 1.3)] if CUT == 'montage' and 'apps' in cues else []
+# and superbot's moves on a shared screen, quicker than an agent's really are (the variant's `sped` spans)
+APPS_FF += [(spot(a), spot(b)) for a, b in cues.get('sped', [])] if CUT == 'montage' else []
 # disclosures: the generated shots and voice, and the montage as a dramatization with a fictional business on the call
 NOTE_FONT = font(round((24 if AR == '16x9' else 22) * U), 'Semibold')
 NOTE = lambda text: pill(text, NOTE_FONT, pad=(round(16 * U), round(9 * U)), r=round(12 * U), bg=(0, 0, 0, 150), fg=(255, 255, 255, 230))
-AI_NOTE, DRAMA_NOTE = NOTE('AI-generated footage and voice'), NOTE('Dramatization · fictional business')
+# a spot's montage with no business in it (the hello computer cut) says only "Dramatization" (spots.json `note`)
+AI_NOTE = NOTE('AI-generated footage and voice')
+DRAMA_NOTE = NOTE(SP['montage'].get('note', 'Dramatization · fictional business') if SPOT != 'announcement' and CUT == 'montage' else 'Dramatization · fictional business')
 
 def push_in(img, z):
     # a slow centred zoom-in on a shot (z >= 1), so a held talking shot never sits dead still
@@ -372,7 +376,7 @@ def frame(n):
         over(img, DRAMA_NOTE, round(32 * U), round(30 * U), min(1, (t - a) / 0.2, (b - t) / 0.1))
         # clear of the chat's composer, as the spot's own badge sits (hacker.7dfcf32a.css .hk-ff), in output px
         mx, my = {'16x9': (44, 40), '1x1': (36, 150), '4x5': (60, 243), '9x16': (64, 220)}[AR]
-        app_on = min(1, max(0, (t - APPS_FF[0]) / 0.15), max(0, (APPS_FF[1] - t) / 0.2)) if APPS_FF else 0
+        app_on = max([min(1, max(0, (t - f0) / 0.15), max(0, (f1 - t) / 0.2)) for f0, f1 in APPS_FF] or [0])
         if meta[k]['ff'] > 0.01:
             over(img, FF_IMG, W - FF_IMG.shape[1] - mx, H - FF_IMG.shape[0] - my, meta[k]['ff'])
         elif app_on > 0:

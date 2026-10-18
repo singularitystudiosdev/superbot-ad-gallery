@@ -28,6 +28,14 @@ over the ask typing) and mascot only; `ask` (slug `output`), `cant` (`jobs`), `f
 each file stays under X's recommended 30 MB. X's specs ask not to upsample lower-frame-rate footage: the 60 fps cuts were
 asked for; the 24 fps shots are the one part that is interpolated. A narrow ratio centre-crops the 16:9 shots on the figure.
 
+`hellopc` (slug `hello-computer`, montage only) is hello with computer control in the call's place, on the
+`hacker-hello-pc` variant: superbot takes over the shared screen (the computer-control-v3-soft cut's vignette and pill on
+a plain, unbranded browser), searches "funny cat videos", opens the results and plays a kitten chasing a laser dot; the
+list line opens "It can control your computer..." instead of "It can make calls...", its other lines are hello's. Its
+chat is noted only "Dramatization" (no business in it) and superbot's on-screen moves are badged Sped up (the variant's
+`sped` cue). The cats are generated: `art/cats/` (GPT Image thumbnails, a Gemini Omni clip of the first), staged into the
+spot as `img/hacker.7dfcf32a/` (CREDITS.txt there).
+
 The scripts were edited from the brief only where X's ad policies (read 2026-10-17: help.x.com quality-policy,
 deceptive-and-fraudulent-content; legal.x.com ads terms) required it: no absolute claims ("anything", "everything",
 "almost anything"); superbot called an agent, not a model of its own; comparisons narrowed to "your chatbot", which

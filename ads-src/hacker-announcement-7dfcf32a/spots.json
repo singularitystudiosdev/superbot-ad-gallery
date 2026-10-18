@@ -1,5 +1,5 @@
 {
-  "_": "The hooded mascot's other spots (compose.py's 5th argument; 'announcement' is the original, built from vo/line*.wav). Each spot's lines are vo/<spot>/fish[-n].wav and vo/<spot>/licensed[-n].wav, cut into `phrases` on their pauses (the n-1 longest). `talk` is the mascot-only cut's shots: [window, first phrase], a window naming a stretch of a generated shot (compose.py WIN). `montage` (hello only) opens on its `open` shots, drops into the chat for phrase `over` on (laid over the empty state and the ask typing) and line `list`'s phrases on the variant's `cues`, then back to the mascot on its `close` shots. `slug` names the gallery ids (hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a).",
+  "_": "The hooded mascot's other spots (compose.py's 5th argument; 'announcement' is the original, built from vo/line*.wav). Each spot's lines are vo/<spot>/fish[-n].wav and vo/<spot>/licensed[-n].wav, cut into `phrases` on their pauses (the n-1 longest). `talk` is the mascot-only cut's shots: [window, first phrase], a window naming a stretch of a generated shot (compose.py WIN). `montage` (hello and hellopc, montage only) opens on its `open` shots, drops into the chat for phrase `over` on (laid over the empty state and the ask typing) and line `list`'s phrases on the variant's `cues`, then back to the mascot on its `close` shots. `slug` names the gallery ids (hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a).",
   "ask": {
     "slug": "output",
     "lines": [{"phrases": ["Superbot simply gives you the output you ask for,", "and it does things your chatbot can't.", "Try it out!"]}],
@@ -15,6 +15,16 @@
     "talk": [["wide", 0], ["stare", 1], ["read", 2], ["tilt", 3], ["wide", 5], ["close", 7], ["point", 8], ["stare", 9]],
     "montage": {"variant": "hacker-hello", "open": [["wide", 0], ["stare", 1]], "over": 2, "list": 1,
                 "cues": ["calls", "images", "models", "audio", "mcps"], "close": [["read", 8], ["point", 9]]}
+  },
+  "hellopc": {
+    "slug": "hello-computer",
+    "lines": [
+      {"phrases": ["Hello, AI users.", "This is Superbot, with an announcement.", "We built an agent that actually gets things done."]},
+      {"phrases": ["It can control your computer...", "generate images...", "3D models...", "and audio.", "And it doesn't require MCPs."]},
+      {"phrases": ["It's simple, and it's what you want.", "Try Superbot."]}
+    ],
+    "montage": {"variant": "hacker-hello-pc", "open": [["wide", 0], ["stare", 1]], "over": 2, "list": 1,
+                "cues": ["pc", "images", "models", "audio", "mcps"], "close": [["read", 8], ["point", 9]], "note": "Dramatization"}
   },
   "cant": {
     "slug": "jobs",

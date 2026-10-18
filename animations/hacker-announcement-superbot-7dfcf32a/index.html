@@ -13,11 +13,12 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
 <video controls playsinline preload="auto" aria-label="superbot: the hooded mascot's announcement"></video>
 <script>
 // The cut plays from the gallery's renders (assets/video/<id>.<ratio>.mp4): ?spot= picks one of the hooded mascot's spots
-// (the announcement by default; ads-src/hacker-announcement-7dfcf32a/spots.json slugs the rest, all but hello mascot only),
+// (the announcement by default; ads-src/hacker-announcement-7dfcf32a/spots.json slugs the rest: hello as a montage and
+// mascot only, hello-computer a montage only, the rest mascot only),
 // ?cut=talk the mascot-only cut (no chat), ?take=licensed the licensed voice, ?ar= (the gallery's ratio picker) the square
 // render for 1:1, 4:5 and 9:16 and the wide one otherwise.
 const q = new URLSearchParams(location.search);
-const SPOTS = ['announcement', 'hello'], TALK_ONLY = ['output', 'jobs', 'when-ais-fail', 'message', 'stop-paying-api', 'does-things'];
+const SPOTS = ['announcement', 'hello', 'hello-computer'], TALK_ONLY = ['output', 'jobs', 'when-ais-fail', 'message', 'stop-paying-api', 'does-things'];
 const spot = [...SPOTS, ...TALK_ONLY].includes(q.get('spot')) ? q.get('spot') : 'announcement';
 const talk = q.get('cut') === 'talk' || TALK_ONLY.includes(spot);
 const id = `hacker-${spot}${talk ? '-talk' : ''}${q.get('take') === 'licensed' ? '-licensed' : ''}-superbot-7dfcf32a`;

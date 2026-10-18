@@ -84,3 +84,57 @@ html[data-ar="9x16"] #s-tabs .hk-ff { bottom: 124px; }
 #s-tabs .hk-end-face { display: block; width: 100%; height: 100%; overflow: visible; }
 #s-tabs .hk-end-word { position: absolute; left: 0; top: 50%; opacity: 0; color: #fff; white-space: nowrap; font-family: "SF Pro Rounded", "SF Pro Display", -apple-system, system-ui, "Segoe UI", sans-serif; will-change: transform, opacity, filter; }
 #s-tabs .hk-end-word b { display: block; font-size: calc(128px * var(--k, 1)); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+
+/* 'hacker-hello-pc' 1. the shared screen: a plain light browser on a dark desktop (no company's chrome or marks), the
+   takeover vignette and pill as computer.ba3976b6.css draws them, and the cursor; laid out in the screen's own px so the
+   beat's cursor targets (CUR) land on the search box and the first video */
+#s-tabs .sbsite .hub .hk-pc .bk-title small { margin-left: 8px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .hk-scr { position: relative; height: 350px; overflow: hidden; background: radial-gradient(120% 100% at 30% 20%, #3a3f55 0%, #1e2130 60%, #15171f 100%); }
+#s-tabs .sbsite .hub .hk-win { position: absolute; left: 14px; top: 12px; width: 532px; height: 326px; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 10px 30px rgba(0, 0, 0, .45); color: #202124; }
+#s-tabs .sbsite .hub .hk-tabs { display: flex; align-items: flex-end; gap: 6px; height: 30px; padding: 0 8px; box-sizing: border-box; background: #e8eaed; }
+#s-tabs .sbsite .hub .hk-tab { display: flex; align-items: center; gap: 6px; width: 190px; height: 24px; padding: 0 8px; box-sizing: border-box; border-radius: 8px 8px 0 0; background: #fff; font: 500 10.5px/1 var(--ui); color: #202124; }
+#s-tabs .sbsite .hub .hk-fav { flex: none; width: 10px; height: 10px; border-radius: 3px; background: #9aa0a6; }
+#s-tabs .sbsite .hub .hk-tt { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#s-tabs .sbsite .hub .hk-tcl svg, #s-tabs .sbsite .hub .hk-nav svg, #s-tabs .sbsite .hub .hk-url svg, #s-tabs .sbsite .hub .hk-box svg { display: block; width: 10px; height: 10px; fill: none; stroke: #5f6368; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .hk-tplus { padding-bottom: 6px; font: 400 14px/1 var(--ui); color: #5f6368; }
+#s-tabs .sbsite .hub .hk-bar { display: flex; align-items: center; gap: 10px; height: 30px; padding: 0 10px; box-sizing: border-box; background: #fff; box-shadow: 0 1px 0 #e3e3e3; }
+#s-tabs .sbsite .hub .hk-nav { display: flex; gap: 10px; }
+#s-tabs .sbsite .hub .hk-url { flex: 1; display: flex; align-items: center; gap: 7px; height: 22px; padding: 0 10px; border-radius: 11px; background: #f1f3f4; font: 400 10.5px/1 var(--ui); color: #80868b; }
+#s-tabs .sbsite .hub .hk-url.hk-typed { color: #202124; }
+#s-tabs .sbsite .hub .hk-pg { position: absolute; left: 0; right: 0; top: 60px; bottom: 0; background: #fff; }
+/* the search page: its name and the box, centred */
+#s-tabs .sbsite .hub .hk-home { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; gap: 18px; padding-top: 56px; }
+#s-tabs .sbsite .hub .hk-logo { font: 700 28px/1 var(--ui); letter-spacing: -0.02em; color: #3c4043; }
+#s-tabs .sbsite .hub .hk-box { display: flex; align-items: center; gap: 8px; width: 300px; height: 34px; padding: 0 14px; box-sizing: border-box; border-radius: 17px; box-shadow: 0 0 0 1px #dadce0; font: 400 12px/1 var(--ui); color: #202124; }
+#s-tabs .sbsite .hub .hk-box.hk-on { box-shadow: 0 0 0 1px #dadce0, 0 2px 8px rgba(32, 33, 36, .18); }
+#s-tabs .sbsite .hub .hk-caret { width: 1px; height: 14px; margin-left: -6px; background: #202124; opacity: 0; }
+/* the results: filter chips and two rows of three videos */
+#s-tabs .sbsite .hub .hk-res { position: absolute; inset: 0; padding: 10px 44px 0; opacity: 0; }
+#s-tabs .sbsite .hub .hk-rh { display: flex; align-items: center; gap: 6px; height: 22px; }
+#s-tabs .sbsite .hub .hk-fc { padding: 4px 9px; border-radius: 11px; box-shadow: inset 0 0 0 1px #dadce0; font: 500 9.5px/1 var(--ui); color: #5f6368; }
+#s-tabs .sbsite .hub .hk-fc.on { background: #e8f0fe; box-shadow: none; color: #1a73e8; }
+#s-tabs .sbsite .hub .hk-rq { margin-left: auto; font: 400 9.5px/1 var(--ui); color: #80868b; }
+#s-tabs .sbsite .hub .hk-rg { display: grid; grid-template-columns: repeat(3, 140px); gap: 8px 12px; margin-top: 8px; }
+#s-tabs .sbsite .hub .hk-th { display: flex; flex-direction: column; gap: 3px; border-radius: 6px; opacity: 0; }
+#s-tabs .sbsite .hub .hk-ti { position: relative; display: block; width: 140px; height: 79px; overflow: hidden; border-radius: 6px; background: #dadce0; }
+#s-tabs .sbsite .hub .hk-ti img { display: block; width: 100%; height: 100%; object-fit: cover; }
+#s-tabs .sbsite .hub .hk-dur { position: absolute; right: 4px; bottom: 4px; padding: 2px 4px; border-radius: 3px; background: rgba(0, 0, 0, .78); font: 600 8.5px/1 var(--ui); color: #fff; }
+#s-tabs .sbsite .hub .hk-tn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 9.5px/12px var(--ui); color: #202124; }
+#s-tabs .sbsite .hub .hk-tm { font: 400 8.5px/10px var(--ui); color: #5f6368; }
+/* the player: over the page, the clip cropped to fill it (a sprite of 10 x 11 frames), a pause glyph, the progress */
+#s-tabs .sbsite .hub .hk-vp { position: absolute; inset: 0; background: #000; opacity: 0; }
+#s-tabs .sbsite .hub .hk-vid { position: absolute; inset: 0; overflow: hidden; }
+#s-tabs .sbsite .hub .hk-spr { position: absolute; left: 0; top: 50%; width: 100%; aspect-ratio: 16 / 9; transform: translateY(-50%); background-repeat: no-repeat; background-size: 1000% 1100%; }
+#s-tabs .sbsite .hub .hk-ctrl { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px; box-sizing: border-box; background: linear-gradient(transparent, rgba(0, 0, 0, .6)); }
+#s-tabs .sbsite .hub .hk-ctrl svg { display: block; width: 12px; height: 12px; fill: #fff; }
+#s-tabs .sbsite .hub .hk-prog { flex: 1; height: 3px; overflow: hidden; border-radius: 2px; background: rgba(255, 255, 255, .35); }
+#s-tabs .sbsite .hub .hk-prog i { display: block; height: 100%; background: #fff; transform: scaleX(0); transform-origin: 0 50%; }
+#s-tabs .sbsite .hub .hk-vt { font: 600 9px/1 var(--ui); color: #fff; font-variant-numeric: tabular-nums; }
+/* the takeover: a conic band turning round the screen's edge, blurred soft, and the pill (computer.ba3976b6.css) */
+#s-tabs .sbsite .hub .hk-edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; opacity: 0; pointer-events: none; }
+#s-tabs .sbsite .hub .hk-soft { position: absolute; inset: -5px; filter: blur(4px); }
+#s-tabs .sbsite .hub .hk-band { position: absolute; inset: 0; padding: 13px; background: conic-gradient(from var(--hk-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+#s-tabs .sbsite .hub .hk-pill { position: absolute; left: 50%; bottom: 14px; z-index: 5; display: flex; align-items: center; gap: 7px; height: 26px; padding: 0 12px 0 5px; box-sizing: border-box; border-radius: 13px; white-space: nowrap; opacity: 0; transform: translate(-50%, 8px); background: rgba(22, 22, 26, .9); box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 8px 24px rgba(0, 0, 0, .35); font: 500 10.5px/1 var(--ui); color: #f2f2f5; }
+#s-tabs .sbsite .hub .hk-pill .qc-tile { width: 18px; height: 18px; border-radius: 9px; }
+#s-tabs .sbsite .hub .hk-cur { position: absolute; left: 0; top: 0; z-index: 6; width: 18px; height: 18px; fill: #111; stroke: #fff; stroke-width: 1.4; stroke-linejoin: round; transform-origin: 3px 1.9px; }
+

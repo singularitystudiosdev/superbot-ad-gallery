@@ -35,7 +35,7 @@ import discord, { TYPE_CPS as DISCORD_CPS, LEN as DISCORD_LEN } from './beats/di
 import studyguide, { TYPE_CPS as STUDYGUIDE_CPS, LEN as STUDYGUIDE_LEN } from './beats/studyguide.40e96f96.js?v=3';
 import koala, { TYPE_CPS as KOALA_CPS, LEN as KOALA_LEN } from './beats/koala.7f80a09a.js?v=2';
 import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=5';
-import hacker, { TYPE_CPS as HACKER_CPS, LEN as HACKER_LEN, hello as hackerHello, HELLO_LEN as HACKER_HELLO_LEN, HELLO_WAIT as HACKER_HELLO_WAIT, helloPc as hackerHelloPc, HELLO_PC_LEN as HACKER_HELLO_PC_LEN } from './beats/hacker.7dfcf32a.js?v=3';
+import hacker, { TYPE_CPS as HACKER_CPS, LEN as HACKER_LEN, hello as hackerHello, HELLO_LEN as HACKER_HELLO_LEN, HELLO_WAIT as HACKER_HELLO_WAIT, helloPc as hackerHelloPc, HELLO_PC_LEN as HACKER_HELLO_PC_LEN } from './beats/hacker.7dfcf32a.js?v=4';
 import voiceclone, { LEN as VOICECLONE_LEN } from './beats/voiceclone.986a9320.js?v=1';
 import voicecall, { TYPE_CPS as VOICECALL_CPS, LEN as VOICECALL_LEN } from './beats/voiceclone.6ba3a0f8.js?v=2';
 import { variant } from '../../variant.9e82faf1.js?v=3';

@@ -1,27 +1,33 @@
 // render-montage.mjs <ar> <t0> <t1> <outdir> [mode=montage|end] [fps=30]
 // Frame-exact capture of a hacker variant (VARIANT: 'hacker' by default, or 'hacker-hello') (a pure function of t: window.__AD.seek). Pass 1 measures, per frame, the
 // newest answer card and its ask bubble; a zero-phase smoothed camera frames them (zoom 1..ZMAX). Pass 2 captures each
-// frame's camera crop at DPR 2, so a zoomed crop is re-rasterized sharp, never upscaled. The x150 badge is hidden and its
-// opacity logged, to be drawn by the edit in the final frame's corner. mode=end hides the chat (the end card over black).
+// frame whole at one fixed scale, ZMAX x the output's px per stage px (m_*.png), so the closest crop is still drawn at
+// full resolution; camera.py then cuts each frame's crop out with sub-pixel precision (f_*.png). (Capturing each crop at
+// its own zoom let Chrome round its origin and size to whole pixels and snap images apart from text: a still camera
+// shook.) The x150 badge is hidden and its opacity logged, to be drawn by the edit in the final frame's corner. mode=end
+// hides the chat (the end card over black) and, its camera still, captures its one crop directly.
 // The camera's card at each moment is the variant's own `focus` list (its cues), else the 'hacker' cut's four cards.
 // BASE: where the repo is served (default http://127.0.0.1:8737); VARIANT: the variant to capture; CHROME: an installed Chrome to drive instead of
-// Playwright's own build (the cuts here were drawn by /Applications/Google Chrome.app).
+// Playwright's own build (the cuts here were drawn by /Applications/Google Chrome.app); PY: the python3 camera.py runs on
+// (numpy and opencv-python).
 import { chromium } from 'playwright';
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const [ar, t0s, t1s, out, mode = 'montage', fpsS = '30'] = process.argv.slice(2);
 // the stage is ar.js's (1080 high, the ratio's width); a narrow ratio's frames come out at X's size for it (OUT output
 // px per stage px: 9:16 1080x1920, 4:5 1440x1800), rasterized at DPR 2 x OUT so the scale-up stays sharp
 const W = { '16x9': 1920, '1x1': 1080, '4x5': 864, '9x16': 608 }[ar];
 const OUT = { '16x9': 1, '1x1': 1, '4x5': 1800 / 1080, '9x16': 1920 / 1080 }[ar]; // 4:5 at X's 1440x1800
-const FPS = +fpsS, t0 = +t0s, t1 = +t1s, H = 1080, DPR = 2 * OUT, ZMAX = 1.7;
+const FPS = +fpsS, t0 = +t0s, t1 = +t1s, H = 1080, DPR = 2 * OUT, ZMAX = 1.7, MASTER = ZMAX * OUT;
 const BASE = process.env.BASE || 'http://127.0.0.1:8737';
 const VARIANT = process.env.VARIANT || 'hacker';
 fs.mkdirSync(out, { recursive: true });
 
 const browser = await chromium.launch({ headless: true, ...(process.env.CHROME ? { executablePath: process.env.CHROME } : {}), args: ['--use-angle=metal', '--enable-gpu', '--force-color-profile=srgb'] });
-const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: DPR });
+const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: mode === 'end' ? DPR : MASTER });
 page.on('pageerror', (e) => console.error('pageerror', e.message));
 await page.goto(`${BASE}/animations/gemini-muse-meme-superbot-6fbc38f8/?variant=${VARIANT}&ar=${ar}&t=0`, { waitUntil: 'load' });
 await page.waitForFunction(() => window.__AD && window.__AD.ready, null, { timeout: 120000 });
@@ -103,15 +109,22 @@ const crops = cam.map(({ cx, cy, z }) => {
 });
 fs.writeFileSync(path.join(out, 'meta.json'), JSON.stringify(meta.map((m, i) => ({ ...m, crop: crops[i] }))));
 
-// pass 2: each frame's crop, re-rasterized at the crop's zoom
+// pass 2: the end card's one still crop, or every montage frame whole at the master scale for camera.py
 const cdp = await page.context().newCDPSession(page);
 const t00 = Date.now();
 for (let i = 0; i < N; i++) {
   await seek(t0 + i / FPS);
   const c = crops[i];
-  const { data } = await cdp.send('Page.captureScreenshot', { format: 'png', clip: { x: c.x, y: c.y, width: c.w, height: c.h, scale: c.z * OUT }, optimizeForSpeed: true });
-  fs.writeFileSync(path.join(out, `f_${String(i).padStart(4, '0')}.png`), Buffer.from(data, 'base64'));
+  const shot = mode === 'end'
+    ? { format: 'png', clip: { x: c.x, y: c.y, width: c.w, height: c.h, scale: c.z * OUT }, optimizeForSpeed: true }
+    : { format: 'png', optimizeForSpeed: true };
+  const { data } = await cdp.send('Page.captureScreenshot', shot);
+  fs.writeFileSync(path.join(out, `${mode === 'end' ? 'f' : 'm'}_${String(i).padStart(4, '0')}.png`), Buffer.from(data, 'base64'));
   if (i % 60 === 0) console.log(`${i}/${N} ${((Date.now() - t00) / 1000).toFixed(0)}s`);
 }
 await browser.close();
+if (mode !== 'end') {
+  const cam = spawnSync(process.env.PY || 'python3', ['-I', path.join(path.dirname(fileURLToPath(import.meta.url)), 'camera.py'), out, ar, String(W), String(H)], { stdio: 'inherit' });
+  if (cam.status !== 0) throw new Error(`camera.py failed (${cam.status})`);
+}
 console.log(`done ${N} frames`);

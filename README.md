@@ -179,14 +179,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   generic app tiles connecting, then "MCP server" struck through to Not needed, every wait badged Sped up. Back to the
   figure pointing at the viewer for "Try it out today. Superbot.", then the superbot.gg end card (17.5s, with sound,
   no captions, an AI-generated note on the generated shots and a Dramatization note on the chat; 16:9 and 1:1 at
-  about 7.3 Mbps, X's video ad specs). A second tile, `?take=licensed`, is the same cut in a licensed OpenAI voice opening
-  on "Superbot does the work for you.". Two more tiles, `?cut=talk` (and `&take=licensed`), are the mascot-only cut: the
-  same lines with no chat on screen, the wide, pointing and close-up shots intercut on the voice's own pauses (about 15 s).
-  Renders in `assets/video/hacker-announcement[-talk][-licensed]-superbot-7dfcf32a.*.mp4`;
-  sources and the rebuild (`build.sh`: the variant's camera-tracked capture, then the cut and mix) in
-  `ads-src/hacker-announcement-7dfcf32a/`.
+  about 7.3 Mbps, X's video ad specs). A second tile, `?cut=talk`, is the mascot-only cut: the same lines with no chat
+  on screen, the wide, pointing and close-up shots intercut on the voice's own pauses (about 15 s). Every cut of the
+  mascot's is in the fish.audio HACKER VOICE only (the licensed-voice cuts were retired at the user's call, 2026-10-18).
+  Renders in `assets/video/hacker-announcement[-talk]-superbot-7dfcf32a.*.mp4`;
+  sources and the rebuild (`build.sh`: the variant captured whole each frame and framed by a sub-pixel camera, so the
+  picture holds still, then the cut and mix) in `ads-src/hacker-announcement-7dfcf32a/`.
   Seven more spots on the same page (`?spot=<slug>`), each script edited only where X's ad policies required it
-  (`ads-src/hacker-announcement-7dfcf32a/spots.json`), every one in both voices: `hello` ("Hello, AI users. This is
+  (`ads-src/hacker-announcement-7dfcf32a/spots.json`), every one in the HACKER VOICE: `hello` ("Hello, AI users. This is
   Superbot, with an announcement. We built an agent that actually gets things done. It can make calls, generate images,
   3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.") as a montage cut
   on its own variant (`?variant=hacker-hello`: the call, the beagle, the 3D beagle, a theme song in a player, the MCP row
@@ -197,13 +197,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   pays API pricing, or wants a stronger agent. Try Superbot. It runs on the subscriptions you already have."),
   `stop-paying-api` ("Try Superbot. Use the AI subscriptions you already pay for, and stop paying per-token API fees.")
   and `does-things` ("Superbot does things your chatbot can't. Superbot."). Renders at 60 fps in X's sizes,
-  `assets/video/hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a.{16x9,9x16,4x5,1x1}.mp4` (1920x1080, 1080x1920,
+  `assets/video/hacker-<slug>[-talk]-superbot-7dfcf32a.{16x9,9x16,4x5,1x1}.mp4` (1920x1080, 1080x1920,
   1440x1800, 1080x1080), each under 30 MB; the lightbox's "download all 4 ratios" (a tile's `downloadAll`) takes them in
   one click.
   `hello-computer` is the hello montage with computer control in the call's place ("It can control your computer..."):
   on its own variant (`?variant=hacker-hello-pc`, made like `computer-control-v3-soft` but on a plain unbranded browser)
   superbot takes over the shared screen, searches "funny cat videos", opens the results and plays a kitten chasing a laser
-  dot (generated thumbnails and clip, `img/hacker.7dfcf32a/CREDITS.txt`), its moves badged Sped up and the chat noted
+  dot (generated thumbnails and clip, the clip locked off and played at its own 24 fps,
+  `img/hacker.7dfcf32a/CREDITS.txt`), its moves badged Sped up and the chat noted
   Dramatization; the same 60 fps renders in four ratios.
 - **the hooded mascot's statement** (`animations/hooded-statement-superbot-382c1f0c/`): the same figure reading the whole
   statement straight through, no montage, both hands on the paper (new Gemini Omni shots from the announcement's key

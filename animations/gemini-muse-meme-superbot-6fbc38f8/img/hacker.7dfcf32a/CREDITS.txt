@@ -18,5 +18,7 @@ cat-laser.jpg, cat-mug.jpg, cat-box.jpg, cat-sun.jpg, cat-bubbles.jpg, cat-kitte
 cat-laser-sprite.jpg
   The played video: Google Gemini Omni 1.1 Flash, image to video from art/cats/t1-laser.jpg (the laser kitten above),
   6 s, 1280x720, 24 fps ("the kitten pounces at the red laser dot... the dot darts left and the kitten scrambles after
-  it... pounces again and misses"). Its first 3.5 s at 30 fps, 480x270 a frame, tiled 10 across and 11 down (105 frames,
-  4800x2970, ffmpeg tile). Licence: generated for this project under Google's Gemini API terms.
+  it... pounces again and misses"). Locked off (its camera drifts and swings about 35 px, which read as shaking in the
+  player): each frame's shift read off the room's background and taken out with a sub-pixel warp under a 3% zoom, then
+  its first 105 frames at its own 24 fps (4.4 s), 640x360 a frame, tiled 10 across and 11 down (6400x3960;
+  ads-src/hacker-announcement-7dfcf32a/sprite.py). Licence: generated for this project under Google's Gemini API terms.

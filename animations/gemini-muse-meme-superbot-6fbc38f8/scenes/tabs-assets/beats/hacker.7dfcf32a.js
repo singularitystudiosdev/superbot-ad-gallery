@@ -33,7 +33,7 @@ import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { makeCatViewer } from './cat3d.516afb1a.js?v=1';
 import { PICK, LINES, ENV } from './hotelcall-data.f934b5ee.js';
 
-const CSS = new URL('../hacker.7dfcf32a.css?v=3', import.meta.url).href;
+const CSS = new URL('../hacker.7dfcf32a.css?v=4', import.meta.url).href;
 export const ID = 'hacker';
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const PHOTO = asset('img/dogs.7b007b09/beagle.jpg');
@@ -81,7 +81,9 @@ const SAY_PC = 'Taking control of your computer now.';
 const PC = { take: 0.15, ptr: 0.35, box: 0.75, click: 0.8, type0: 0.86, type1: 1.42, enter: 1.5, ptr2: 1.8, hov2: 2.15, click2: 2.22, play: 2.36 };
 const QUERY = 'funny cat videos';
 const CUR = { rest: { x: 430, y: 300 }, box: { x: 280, y: 191 }, thumb: { x: 128, y: 152 }, away: { x: 486, y: 318 } };
-const SPRITE = { src: 'img/hacker.7dfcf32a/cat-laser-sprite.jpg', cols: 10, n: 105, fps: 30 }; // the played clip, 480x270 a frame
+// the played clip: the generated kitten clip locked off, its first 105 frames at its own 24 fps, 640x360 a frame tiled 10
+// across (ads-src/hacker-announcement-7dfcf32a/sprite.py), drawn onto a canvas cell by exact cell so no frame lands off by a pixel
+const SPRITE = { src: 'img/hacker.7dfcf32a/cat-laser-sprite.jpg?v=2', cols: 10, n: 105, fps: 24, w: 640, h: 360 };
 const VIDEO_LEN = 42; // the played video's length on its clock (its result tile's 0:42)
 // the results: generated photographs, made-up titles; the first is the one superbot opens
 const CATS = [
@@ -408,7 +410,7 @@ function pcCard(x, T) {
           <div class="hk-home"><b class="hk-logo">Search</b><span class="hk-box">${BROWSER.search}<span class="hk-q"></span><i class="hk-caret"></i></span></div>
           <div class="hk-res"><div class="hk-rh"><span class="hk-fc">All</span><span class="hk-fc on">Videos</span><span class="hk-fc">Images</span><span class="hk-rq"></span></div>
             <div class="hk-rg">${CATS.map((c) => `<div class="hk-th"><span class="hk-ti"><img src="${asset('img/hacker.7dfcf32a/' + c.img)}" width="480" height="270" alt="${x.esc(c.alt)}"/><b class="hk-dur">${c.dur}</b></span><span class="hk-tn">${x.esc(c.title)}</span><span class="hk-tm">${c.meta}</span></div>`).join('')}</div></div>
-          <div class="hk-vp"><span class="hk-vid"><i class="hk-spr" role="img" aria-label="${x.esc(CATS[0].alt)}" style="background-image:url('${asset(SPRITE.src)}')"></i></span>
+          <div class="hk-vp"><span class="hk-vid"><canvas class="hk-spr" width="${SPRITE.w}" height="${SPRITE.h}" role="img" aria-label="${x.esc(CATS[0].alt)}"></canvas></span>
             <div class="hk-ctrl"><span class="hk-pp">${PAUSE}</span><span class="hk-prog"><i></i></span><b class="hk-vt">0:00 / ${CATS[0].dur}</b></div></div>
         </div>
       </div>
@@ -422,6 +424,10 @@ function pcCard(x, T) {
     res: $('.hk-res'), rq: $('.hk-rq'), ths: [...el.querySelectorAll('.hk-th')], play: $('.hk-vp'), spr: $('.hk-spr'), prog: $('.hk-prog i'),
     vt: $('.hk-vt'), edge: $('.hk-edge'), soft: $('.hk-soft'), pill: $('.hk-pill'), cur: $('.hk-cur') };
   const shown = { tt: '', ut: '', q: -1, f: -1, vt: '' };
+  const sheet = new Image();
+  sheet.src = asset(SPRITE.src);
+  track(sheet.decode().catch((e) => console.error(new Error(`hacker video sheet failed to decode: ${sheet.src}`, { cause: e }))));
+  const ctx = v.spr.getContext('2d');
   const set = (k, n, text) => { if (shown[k] !== text) { n.textContent = text; shown[k] = text; } };
   const pcAnchor = anchor(x);
   return { el, anchor: pcAnchor, marks: [], render(t) {
@@ -467,10 +473,9 @@ function pcCard(x, T) {
     v.play.style.opacity = o.toFixed(3);
     v.play.style.transform = o >= 1 ? 'none' : `scale(${lerp(0.94, 1, o).toFixed(4)})`;
     const f = Math.max(0, Math.min(SPRITE.n - 1, Math.floor((t - P.play) * SPRITE.fps)));
-    if (f !== shown.f) {
-      // the sheet is SPRITE.cols frames across and ROWS down, sized to cols x rows of the view: frame f's cell
-      const rows = Math.ceil(SPRITE.n / SPRITE.cols), c = f % SPRITE.cols, r = Math.floor(f / SPRITE.cols);
-      v.spr.style.backgroundPosition = `${(100 * c / (SPRITE.cols - 1)).toFixed(4)}% ${(100 * r / (rows - 1)).toFixed(4)}%`;
+    if (f !== shown.f && sheet.complete && sheet.naturalWidth) {
+      // frame f's cell of the sheet, SPRITE.cols across, copied whole onto the canvas
+      ctx.drawImage(sheet, (f % SPRITE.cols) * SPRITE.w, Math.floor(f / SPRITE.cols) * SPRITE.h, SPRITE.w, SPRITE.h, 0, 0, SPRITE.w, SPRITE.h);
       shown.f = f;
     }
     const pt = Math.max(0, t - P.play);

@@ -23,7 +23,9 @@
 // creator's demo paced for a voiceover, with no model on show: superbot reads the channel's latest video, makes three
 // thumbnails for it, then uploads them to YouTube as an A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js)., or 'hacker', the hooded-mascot
 // spot's montage: a live call, an image, a 3D model and apps connected with no MCP, each on its voiceover phrase
-// (scenes/tabs-assets/beats/hacker.7dfcf32a.js). Read from ?variant= so a frozen
+// (scenes/tabs-assets/beats/hacker.7dfcf32a.js), or 'voiceclone-call', cut as the hotel call is: superbot asks for one
+// short take of the user's voice, clones it, then calls 30351235 in that voice (scenes/tabs-assets/beats/voiceclone.6ba3a0f8.js).
+// Read from ?variant= so a frozen
 // frame (?t=) keeps it; the top-right selector (variant-select.9e82faf1.js) changes it live, without a reload, and the
 // beats read it every frame.
 const KEY = 'variant';
@@ -65,6 +67,7 @@ export const VARIANTS = [
   { id: 'yt-thumbnail', label: 'YouTube thumbnail + A/B test · voiceover' }, // three thumbnails for the latest video, then uploaded as a YouTube A/B test (scenes/tabs-assets/beats/ytthumb.c4e81a27.js)
   { id: 'hacker', label: 'Hacker ad · calls, image, 3D, apps' }, // the hooded-mascot spot's montage: a live call, an image, a 3D model, apps connected with no MCP (scenes/tabs-assets/beats/hacker.7dfcf32a.js)
   { id: 'voice-clone-song', label: 'Voice clone song' }, // a voice sample recorded and cloned, then a song sung in that voice (scenes/tabs-assets/beats/voiceclone.986a9320.js)
+  { id: 'voiceclone-call', label: 'Voice clone call' }, // one tap records the user's voice, superbot clones it and calls 30351235 in that voice, saying it is their AI (scenes/tabs-assets/beats/voiceclone.6ba3a0f8.js)
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

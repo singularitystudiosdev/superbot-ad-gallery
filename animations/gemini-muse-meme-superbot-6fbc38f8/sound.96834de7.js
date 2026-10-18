@@ -7,7 +7,8 @@
 // is multicat (or multicat-credits, multidog-credits, amazon-costumes, halloween-shopping, discord-credits or studyguide) and v16 is
 // the
 // pick. A variant in OWN plays its own score through this gate whatever the Music pick (hotelcall: its call and score,
-// beats/hotelcall-score.f934b5ee.js); it has no Music pill, so its Sound pill takes that pill's place
+// beats/hotelcall-score.f934b5ee.js, and voiceclone-call: the take, the call and their score,
+// beats/voiceclone-score.6ba3a0f8.js); it has no Music pill, so its Sound pill takes that pill's place
 // (sound.96834de7.css .sound-own).
 import { variant } from './variant.9e82faf1.js?v=3';
 import { music } from './music.47e5d94a.js?v=2';
@@ -19,7 +20,7 @@ import { music } from './music.47e5d94a.js?v=2';
 // (and the study guide, beats/studyguide.40e96f96.js)
 // (and the koala chain on Discord, beats/koala.7f80a09a.js)
 const SCORED = new Set(['multicat', 'multicat-credits', 'multidog-credits', 'amazon-costumes', 'halloween-shopping', 'garmin-strava', 'refund', 'discord-credits', 'studyguide', 'koala-discord']);
-const OWN = new Set(['hotelcall']);
+const OWN = new Set(['hotelcall', 'voiceclone-call']);
 const on = () => OWN.has(variant()) || (SCORED.has(variant()) && music() === 'v16');
 const LEVEL = 1; // the master gain while unmuted
 export const sound = { ctx: null, out: null, muted: false };

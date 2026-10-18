@@ -46,8 +46,6 @@
 #s-tabs .sbsite .hub .msg.yt-wide:has(.avatar.sb) .m-main { flex: 1 1 0; min-width: 0; max-width: none; }
 /* a percentage width, not 720px: a fixed width is the reply's min-content and widened the feed's grid past a 4:5 frame */
 #s-tabs .sbsite .hub .yt-th { width: 100%; max-width: 720px; }
-#s-tabs .sbsite .hub .yt-th .bk-btn svg { width: 12px; height: 12px; }
-#s-tabs .sbsite .hub a.bk-btn.bk-publish { text-decoration: none; cursor: pointer; }
 #s-tabs .sbsite .hub .yt-th-view { position: relative; padding: 8px; }
 #s-tabs .sbsite .hub .yt-th-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 #s-tabs .sbsite .hub .yt-th-t { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; box-shadow: 0 0 0 1px #2a2a2e; }

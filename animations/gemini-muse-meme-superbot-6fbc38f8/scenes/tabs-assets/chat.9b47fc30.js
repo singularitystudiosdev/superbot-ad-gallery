@@ -34,7 +34,7 @@ import refund, { TYPE_CPS as REFUND_CPS, LEN as REFUND_LEN } from './beats/refun
 import discord, { TYPE_CPS as DISCORD_CPS, LEN as DISCORD_LEN } from './beats/discord.bccc0fdd.js?v=1';
 import studyguide, { TYPE_CPS as STUDYGUIDE_CPS, LEN as STUDYGUIDE_LEN } from './beats/studyguide.40e96f96.js?v=3';
 import koala, { TYPE_CPS as KOALA_CPS, LEN as KOALA_LEN } from './beats/koala.7f80a09a.js?v=2';
-import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=6';
+import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=7';
 import hacker, { TYPE_CPS as HACKER_CPS, LEN as HACKER_LEN } from './beats/hacker.7dfcf32a.js?v=1';
 import voiceclone, { LEN as VOICECLONE_LEN } from './beats/voiceclone.986a9320.js?v=1';
 import voicecall, { TYPE_CPS as VOICECALL_CPS, LEN as VOICECALL_LEN } from './beats/voiceclone.6ba3a0f8.js?v=2';

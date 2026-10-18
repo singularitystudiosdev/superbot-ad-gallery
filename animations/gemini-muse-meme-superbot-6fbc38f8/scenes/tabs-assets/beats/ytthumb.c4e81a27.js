@@ -16,6 +16,9 @@
 // the chips wear a plain globe, not a platform's mark), the video is one of the creator's with no other brand in it, the
 // asks are written grammatically (Quality, "Editorial"), and every wait the cut compresses wears the house fast-forward
 // badge, x10 on the read, x50 on the generation, x20 on the upload (Deceptive Content, "misleading tactics or claims").
+// No frame carries a button that names an action a viewer could mistake for the ad's own (the thumbnails frame's
+// Download button is gone, 2026-10-18): a video can't be clicked, and X bars "non-functional features or calls-to-action
+// in the ad creative" (Deceptive Content, "Non-existent Features or Functionality").
 // Both asks are typed by hand, not swept: each key lands on its own schedule (keystrokes() below, through the engine's
 // `keys`), uneven and a little slower than the other cuts. Opened straight on this variant (?variant=yt-thumbnail), the
 // page shows the app alone: no pills, no key hint, the tab titled superbot (?controls=1 brings the pills back).
@@ -28,7 +31,7 @@ import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 
-const CSS = new URL('../ytthumb.c4e81a27.css?v=5', import.meta.url).href;
+const CSS = new URL('../ytthumb.c4e81a27.css?v=6', import.meta.url).href;
 // the end card and the fast-forward badge are multicat's (../multicat.516afb1a.css .mc-end, .mc-ff)
 const MC_CSS = new URL('../multicat.516afb1a.css?v=9', import.meta.url).href;
 export const ID = 'yt-thumbnail';
@@ -223,7 +226,6 @@ function renderState(n, t, from, at) {
 // glyphs: Lucide (ISC) strokes, drawn in currentColor
 const G = {
   flask: '<path d="M9 3h6M10 3v6.5L4.6 18.4A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.4-2.6L14 9.5V3"/><path d="M7.5 15h9"/>',
-  download: '<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',
   // the browser the channel is opened in: a plain globe, no platform's mark
   globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
 };
@@ -267,11 +269,12 @@ export default {
     const anchorA = x.el('<i class="mc-anchor" aria-hidden="true"></i>');
     replyA.lastElementChild.append(ytCard, anchorA);
 
-    // 2. the thumbnails: three, generating, then landing in reading order (no model header, no tool tile on the pill)
+    // 2. the thumbnails: three, generating, then landing in reading order (no model header, no tool tile on the pill, and
+    // no Download button in the head: a button in a video is a call to action no viewer can press)
     const replyB = x.el(`<div class="msg qc-m qc-r yt-wide">${x.sbAvatar}<div class="m-main"></div></div>`);
     const sayB = sayEl(x, SAY_B);
     const thumbs = x.el(`<div class="bk yt-th">
-      <div class="bk-head"><b class="bk-title">Thumbnails<small>3 options · 1280 × 720</small></b><a class="bk-btn bk-publish" href="${THUMBS[0]}" download="thumbnail-a.jpg">${g('download')}Download</a></div>
+      <div class="bk-head"><b class="bk-title">Thumbnails<small>3 options · 1280 × 720</small></b></div>
       <div class="yt-th-view"><div class="yt-th-grid">${THUMBS.map((src, i) => `<div class="yt-th-t qc-skel"><img src="${src}" width="1280" height="720" alt="${x.esc(ALTS[i]).replaceAll('"', '&quot;')}"/><i class="qc-sk"></i></div>`).join('')}</div>
       <span class="qc-genl mc-genl-bare">Creating thumbnails<b class="qc-genn">0:00</b></span></div>
     </div>`);
@@ -308,9 +311,6 @@ export default {
     const cue = x.el('<div class="yt-cue" aria-live="off"><span class="yt-cue-k">Voiceover</span><span class="yt-cue-t"></span></div>');
     const cueT = cue.lastElementChild;
     let cueAt = -1;
-
-    // Space and Enter press the cards' controls, not the spot's clock (timeline.9b47fc30.js), as on the other beats
-    thumbs.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
 
     const follow = [replyA, replyB, u2, row4.w, replyC];
     const pics = [...ytCard.querySelectorAll('img'), ...thumbs.querySelectorAll('img'), ...upCard.querySelectorAll('img')];

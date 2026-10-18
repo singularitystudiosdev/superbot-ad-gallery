@@ -124,12 +124,14 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   history is made up and nothing was sent.
 - **make a thumbnail from my latest video** (a creator's voiceover cut): the muse meme spot's YouTube cut
   (`animations/gemini-muse-meme-superbot-6fbc38f8/?variant=yt-thumbnail`), made for a creator to read a script over,
-  cut tight and silent, the voice its soundtrack (about 27s; Mevesa's channel), with no model on show (the
+  cut tight and silent, the voice its soundtrack (about 25s; Mevesa's channel), with no model on show (the
   multicat-credits look). "Make a thumbnail from my latest video" connects YouTube and reads the latest video
   (transcript, title, key frames, the channel's thumbnail style), then three thumbnails in the channel's style generate
-  (x50); "upload it to youtube a/b tests on my previous vid" uploads them as one Test & compare test, and the screen cuts
-  to a rebuilt YouTube Studio with the test running, then the superbot.gg end card. Which script line goes with which beat
-  is in the beat (`LINES`); `?cues=1` shows each on screen as its beat starts. The thumbnails are real GPT Image 2
+  (x50); "upload it to youtube a/b tests on my previous vid" uploads them as one Test & compare test, then the
+  superbot.gg end card. Both asks are typed by hand, unevenly (a keystroke schedule per ask, the engine's `keys`).
+  Opened on this cut the page is the app alone: no control pills or key hint, the tab titled superbot (`?controls=1`
+  brings them back). Which script line goes with which beat is in the beat (`LINES`); `?cues=1` shows each on screen as
+  its beat starts. The thumbnails are real GPT Image 2
   generations from the video's frames (`img/ytthumb.c4e81a27/CREDITS.txt`); nothing was uploaded. Its renders are
   silent (`export-render.07e9fa90.mjs`, `sound: { silent: true }`).
 - **dear cursor users** (`animations/dear-cursor-users-superbot-417d180e/`): white type on black, word

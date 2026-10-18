@@ -1,8 +1,7 @@
 /* The 'yt-thumbnail' variant (beats/ytthumb.c4e81a27.js). Loaded by the beat module itself, so index.html needs no link.
    The three answer frames are the bakery artifact frame (bakery.005f5570.css .bk), their rows in the Garmin frame's type
-   (garmin-strava.7a48d642.css), restated here under yt- so this variant stands on its own. YouTube Studio (.ys) is laid
-   out at a desktop width and scaled to the frame by the beat. No CSS animation or transition: the beat sets every
-   entrance and state from t, so frozen frames (?t=) hold. */
+   (garmin-strava.7a48d642.css), restated here under yt- so this variant stands on its own. No CSS animation or
+   transition: the beat sets every entrance and state from t, so frozen frames (?t=) hold. */
 
 /* shared marks: a spinner, a green check, a row status (a dim ring, then the spinner, then the check), a frame's state pill */
 #s-tabs .sbsite .hub .yt-spin { flex: none; width: 12px; height: 12px; box-sizing: border-box; border-radius: 50%; border: 2px solid #3a3a3f; border-top-color: #ececec; }
@@ -50,7 +49,6 @@
 #s-tabs .sbsite .hub .yt-th-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 #s-tabs .sbsite .hub .yt-th-t { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; box-shadow: 0 0 0 1px #2a2a2e; }
 #s-tabs .sbsite .hub .yt-th-t img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-#s-tabs .sbsite .hub .yt-th-l { position: absolute; left: 6px; top: 6px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; background: rgba(12, 12, 14, .82); font: 700 11px/1 var(--ui); color: #fff; opacity: 0; }
 #s-tabs .sbsite .hub .yt-th-view .qc-genl { left: 18px; bottom: 18px; opacity: 0; }
 
 /* 3. the upload frame: the video, three uploads each filling its bar, the test */
@@ -65,96 +63,10 @@
 #s-tabs .sbsite .hub .yt-bar i { display: block; width: 100%; height: 100%; background: #3ea6ff; transform: scaleX(0); transform-origin: 0 50%; }
 #s-tabs .sbsite .hub .qc-say.yt-said { margin: 12px 0 0; }
 
-/* 4. YouTube Studio, dark theme, over the whole frame; .ys-fit is the desktop page the beat scales (data-lay: wide at
-   16:9, mid at 4:3, narrow below) */
-#s-tabs .ys { position: absolute; inset: 0; z-index: 35; overflow: hidden; background: #282828; opacity: 0; pointer-events: none;
-  --ys-font: Roboto, "YouTube Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; font-family: var(--ys-font); color: #f1f1f1; -webkit-font-smoothing: antialiased; }
-#s-tabs .ys-fit { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; transform-origin: 0 0; background: #282828; }
-#s-tabs .ys .yt-g { flex: none; display: block; width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-#s-tabs .ys-top { flex: none; display: flex; align-items: center; gap: 16px; height: 64px; padding: 0 24px 0 16px; box-shadow: 0 1px 0 #3d3d3d; }
-#s-tabs .ys-ic { display: grid; place-items: center; width: 40px; height: 40px; color: #f1f1f1; }
-#s-tabs .ys-logo { display: flex; align-items: center; gap: 5px; }
-#s-tabs .ys-play { display: block; width: 30px; height: 21px; }
-#s-tabs .ys-logo b { font: 600 20px/1 var(--ys-font); letter-spacing: -.04em; }
-#s-tabs .ys-search { display: flex; align-items: center; gap: 14px; width: 560px; height: 40px; margin: 0 auto; padding: 0 14px; box-sizing: border-box; border-radius: 8px; background: #1f1f1f; box-shadow: inset 0 0 0 1px #3d3d3d; font: 400 15px/1 var(--ys-font); color: #909090; }
-#s-tabs .ys-search .yt-g { width: 20px; height: 20px; }
-#s-tabs .ys-create { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 16px 0 12px; border-radius: 18px; box-shadow: inset 0 0 0 1px #3d3d3d; font: 500 14px/1 var(--ys-font); }
-#s-tabs .ys-create .yt-g { width: 20px; height: 20px; color: #ff4e45; }
-#s-tabs .ys-me { flex: none; display: block; width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
-#s-tabs .ys-body { flex: 1; min-height: 0; display: flex; }
-#s-tabs .ys-side { flex: none; width: 256px; padding: 4px 0; box-shadow: 1px 0 0 #3d3d3d; }
-#s-tabs .ys-back { display: flex; align-items: center; gap: 16px; height: 48px; padding: 0 24px; font: 500 14px/1 var(--ys-font); color: #aaa; }
-#s-tabs .ys-back .yt-g { width: 20px; height: 20px; }
-#s-tabs .ys-sv { display: grid; gap: 4px; padding: 4px 24px 16px; }
-#s-tabs .ys-sv img { display: block; width: 100%; aspect-ratio: 16 / 9; margin-bottom: 8px; border-radius: 8px; object-fit: cover; }
-#s-tabs .ys-sv b { font: 500 15px/20px var(--ys-font); }
-#s-tabs .ys-sv small { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font: 400 12px/17px var(--ys-font); color: #aaa; }
-#s-tabs .ys-nav { position: relative; display: flex; align-items: center; gap: 24px; height: 48px; padding: 0 24px; font: 500 15px/1 var(--ys-font); color: #f1f1f1; }
-#s-tabs .ys-nav .yt-g { color: #aaa; }
-#s-tabs .ys-nav.on { background: #1f1f1f; }
-#s-tabs .ys-nav.on::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #ff4e45; }
-#s-tabs .ys-nav.on .yt-g { color: #ff4e45; }
-#s-tabs .ys-main { flex: 1; min-width: 0; padding: 0 32px; }
-#s-tabs .ys-h { display: flex; align-items: center; gap: 8px; height: 76px; }
-#s-tabs .ys-h h1 { margin: 0 auto 0 0; font: 500 24px/1 var(--ys-font); }
-#s-tabs .ys-btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 18px; font: 500 14px/1 var(--ys-font); white-space: nowrap; }
-#s-tabs .ys-ghost { color: #717171; }
-#s-tabs .ys-save { background: #3f3f3f; color: #909090; }
-#s-tabs .ys-cols { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; align-items: start; }
-#s-tabs .ys-field { position: relative; margin-bottom: 18px; padding: 9px 14px 12px; border-radius: 8px; box-shadow: inset 0 0 0 1px #3d3d3d; }
-#s-tabs .ys-field label { display: block; margin-bottom: 5px; font: 400 12px/1.2 var(--ys-font); color: #aaa; }
-#s-tabs .ys-val { font: 400 15px/22px var(--ys-font); color: #f1f1f1; }
-#s-tabs .ys-desc .ys-val { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-#s-tabs .ys-field small { position: absolute; right: 12px; bottom: 6px; font: 400 12px/1 var(--ys-font); color: #717171; }
-#s-tabs .ys-form h2 { margin: 6px 0 4px; font: 500 16px/1.3 var(--ys-font); }
-#s-tabs .ys-help { margin: 0 0 12px; font: 400 13px/1.4 var(--ys-font); color: #aaa; }
-/* the test: a blue ring grows round it as the pointer arrives (--ring 0 to 1) */
-#s-tabs .ys-ab { padding: 14px 16px 14px; border-radius: 12px; background: #1f1f1f; box-shadow: inset 0 0 0 1px color-mix(in srgb, #3ea6ff calc(var(--ring, 0) * 100%), #3d3d3d), 0 0 0 calc(var(--ring, 0) * 4px) rgba(62, 166, 255, .25); }
-#s-tabs .ys-ab-h { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-#s-tabs .ys-ab-h .yt-g { width: 20px; height: 20px; }
-#s-tabs .ys-ab-h b { font: 500 15px/1 var(--ys-font); }
-#s-tabs .ys-live { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 12px; background: rgba(62, 166, 255, .16); font: 500 12px/1 var(--ys-font); color: #3ea6ff; }
-#s-tabs .ys-live i { width: 7px; height: 7px; border-radius: 50%; background: #3ea6ff; }
-#s-tabs .ys-ab-h small { margin-left: auto; font: 400 12.5px/1 var(--ys-font); color: #aaa; white-space: nowrap; }
-#s-tabs .ys-ab-g { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-#s-tabs .ys-ab-t { display: grid; gap: 7px; justify-items: start; }
-#s-tabs .ys-ab-im { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; box-shadow: 0 0 0 1px #3d3d3d; }
-#s-tabs .ys-ab-t.hover .ys-ab-im { box-shadow: 0 0 0 2px #f1f1f1; transform: translateY(-3px); }
-#s-tabs .ys-ab-im img { display: block; width: 100%; height: 100%; object-fit: cover; }
-#s-tabs .ys-ab-l { position: absolute; left: 6px; top: 6px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(0, 0, 0, .78); font: 700 12px/1 var(--ys-font); color: #fff; }
-#s-tabs .ys-ab-ok { display: inline-flex; align-items: center; gap: 5px; font: 500 12.5px/1 var(--ys-font); color: #aaa; opacity: 0; }
-#s-tabs .ys-ab-ok .yt-g { width: 16px; height: 16px; stroke: #2ba640; stroke-width: 2.6; }
-#s-tabs .ys-ab-f { margin-top: 12px; font: 400 12.5px/1.45 var(--ys-font); color: #aaa; }
-#s-tabs .ys-aside { overflow: hidden; border-radius: 10px; background: #1f1f1f; }
-#s-tabs .ys-player { position: relative; aspect-ratio: 16 / 9; background: #000; }
-#s-tabs .ys-player img { display: block; width: 100%; height: 100%; object-fit: cover; }
-#s-tabs .ys-player i { position: absolute; right: 8px; bottom: 8px; padding: 3px 5px; border-radius: 4px; background: rgba(0, 0, 0, .8); font: 500 12px/1 var(--ys-font); font-style: normal; color: #fff; }
-#s-tabs .ys-aside dl { margin: 0; padding: 14px 16px 4px; }
-#s-tabs .ys-aside dt { font: 400 12px/1.3 var(--ys-font); color: #aaa; }
-#s-tabs .ys-aside dd { margin: 3px 0 14px; font: 400 14px/1.3 var(--ys-font); }
-#s-tabs .ys-link { color: #3ea6ff; }
-#s-tabs .ys-q { display: inline-flex; align-items: center; height: 20px; margin-right: 6px; padding: 0 6px; border-radius: 4px; box-shadow: inset 0 0 0 1px #717171; font: 500 11px/1 var(--ys-font); color: #f1f1f1; }
-#s-tabs .ys-vis { position: relative; display: grid; gap: 4px; margin: 0 16px 16px; padding: 9px 14px 11px; border-radius: 8px; box-shadow: inset 0 0 0 1px #3d3d3d; }
-#s-tabs .ys-vis small { font: 400 12px/1 var(--ys-font); color: #aaa; }
-#s-tabs .ys-vis b { font: 400 15px/1.2 var(--ys-font); }
-#s-tabs .ys-vis .yt-g { position: absolute; right: 12px; top: 50%; margin-top: -12px; color: #aaa; }
-/* 4:3: the sidebar stays, the preview column goes */
-#s-tabs .ys-fit[data-lay="mid"] .ys-cols { grid-template-columns: minmax(0, 1fr); }
-#s-tabs .ys-fit[data-lay="mid"] .ys-aside, #s-tabs .ys-fit[data-lay="mid"] .ys-create { display: none; }
-#s-tabs .ys-fit[data-lay="mid"] .ys-search { width: 420px; }
-/* square, 4:5 (compact) and 9:16 (narrow): the page alone, the title and the test; the three stay side by side but at
-   9:16, where they stack, each with its Uploaded beside it */
-#s-tabs .ys-fit:is([data-lay="compact"], [data-lay="narrow"]) :is(.ys-side, .ys-search, .ys-create, .ys-aside, .ys-desc, .ys-ghost, .ys-ab-h small) { display: none; }
-#s-tabs .ys-fit:is([data-lay="compact"], [data-lay="narrow"]) .ys-top { justify-content: space-between; padding: 0 12px 0 8px; }
-#s-tabs .ys-fit:is([data-lay="compact"], [data-lay="narrow"]) .ys-main { padding: 0 16px; }
-#s-tabs .ys-fit:is([data-lay="compact"], [data-lay="narrow"]) .ys-h { height: 64px; }
-#s-tabs .ys-fit:is([data-lay="compact"], [data-lay="narrow"]) .ys-h h1 { font-size: 20px; }
-#s-tabs .ys-fit:is([data-lay="compact"], [data-lay="narrow"]) .ys-cols { grid-template-columns: minmax(0, 1fr); }
-#s-tabs .ys-fit:is([data-lay="compact"], [data-lay="narrow"]) .ys-ab { padding: 12px; }
-#s-tabs .ys-fit[data-lay="compact"] .ys-ab-g { gap: 8px; }
-#s-tabs .ys-fit[data-lay="narrow"] .ys-ab-g { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-#s-tabs .ys-fit[data-lay="narrow"] .ys-ab-t { grid-template-columns: 46% 1fr; align-items: center; column-gap: 12px; }
-#s-tabs .ys-ptr { z-index: 5; }
+/* 4. the app alone (beats/ytthumb.c4e81a27.js CLEAN, opened straight on this cut): every control the page lays over the
+   spot (the variant, appear, speed and music pills, the sound gates and pills, the record button) and the key hint are
+   hidden, so the frame reads as superbot itself; the keys still work */
+body.yt-clean :is(.hint, .rec-btn, .variant-select, .appear-select, .speed-select, .music-pick, .music-select, .sound-pill, .sound-pill-v17, .sound-select, .sound-select-v13, .sound-toggle, .score-pill, .score-sound, .mc-sound, .mc-sound-v12, .mix-gate, .sound-gate) { display: none !important; }
 
 /* the cue strip (?cues=1): the voiceover's current line over the frame's foot, for rehearsing and recording the read */
 #s-tabs .yt-cue { position: absolute; left: 50%; bottom: 36px; z-index: 60; display: flex; align-items: baseline; gap: 16px; width: max-content; max-width: min(1500px, calc(100% - 80px)); box-sizing: border-box; padding: 16px 24px 18px; border-radius: 16px; background: rgba(10, 10, 12, .88); box-shadow: 0 0 0 1px rgba(255, 255, 255, .14); transform: translateX(-50%); pointer-events: none; opacity: 0; }

@@ -34,7 +34,7 @@ import refund, { TYPE_CPS as REFUND_CPS, LEN as REFUND_LEN } from './beats/refun
 import discord, { TYPE_CPS as DISCORD_CPS, LEN as DISCORD_LEN } from './beats/discord.bccc0fdd.js?v=1';
 import studyguide, { TYPE_CPS as STUDYGUIDE_CPS, LEN as STUDYGUIDE_LEN } from './beats/studyguide.40e96f96.js?v=3';
 import koala, { TYPE_CPS as KOALA_CPS, LEN as KOALA_LEN } from './beats/koala.7f80a09a.js?v=2';
-import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=3';
+import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_WAIT } from './beats/ytthumb.c4e81a27.js?v=4';
 import { variant } from '../../variant.9e82faf1.js?v=3';
 import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';
 
@@ -251,19 +251,30 @@ function appear(n, t, a, dy = 10) {
   n.style.transform = p >= 1 ? 'none' : `translateY(${((1 - p) * dy).toFixed(2)}px)`;
 }
 
+// characters typed by `at` seconds into an ask: linear over its window, or, where the beat gives one, its keystroke
+// schedule (`keys`: each character's time from the ask's start, rising, the last one its typeEnd), so a hand can type
+// unevenly
+const typedBy = (len, at, dur, keys) => {
+  if (!keys) return Math.round(len * clamp(at / dur));
+  let n = 0;
+  while (n < keys.length && keys[n] <= at) n++;
+  return n;
+};
+
 function renderComposer(c, t) {
   const b = c.beats.find(({ k, route }) => k.ask && t >= route.s && t < route.send);
-  // a chained route types its own follow-up asks here too: its beat's inst.asks, [{ text, s, typeEnd, send }]
+  // a chained route types its own follow-up asks here too: its beat's inst.asks, [{ text, s, typeEnd, send, keys? }]
   const more = c.beats.flatMap(({ route }) => route.inst.asks || []);
   const f = b ? null : more.find((a) => t >= a.s && t < a.send);
   let ph;
   if (b) {
     const ask = askOf(b.k);
-    const n = Math.round(ask.length * seg(t, b.route.s, b.route.typeEnd));
+    // the first ask's own keystroke schedule, when its beat gives one (inst.keys)
+    const n = typedBy(ask.length, t - b.route.s, b.route.typeEnd - b.route.s, b.route.inst.keys);
     const att = attachOf(b.k);
     ph = `${att ? `<img class="qc-pchip" alt="" width="28" height="21" src="${att}"/>` : ''}<span class="qc-typed">${esc(ask.slice(0, n))}</span><i class="qc-caret"></i>`;
   } else if (f) {
-    ph = `<span class="qc-typed">${esc(f.text.slice(0, Math.round(f.text.length * seg(t, f.s, f.typeEnd))))}</span><i class="qc-caret"></i>`;
+    ph = `<span class="qc-typed">${esc(f.text.slice(0, typedBy(f.text.length, t - f.s, f.typeEnd - f.s, f.keys)))}</span><i class="qc-caret"></i>`;
   } else ph = esc(c.phText);
   if (ph !== c.lastPh) { c.ph.innerHTML = ph; c.lastPh = ph; }
   c.send.classList.toggle('qc-on', !!(b || f));

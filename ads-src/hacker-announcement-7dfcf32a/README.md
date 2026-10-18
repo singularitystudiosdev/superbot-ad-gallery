@@ -21,8 +21,12 @@ Seven more scripts from the same brief, each one's lines in `spots.json` with it
 cut on its own variant (`?variant=hacker-hello`: the same call, image and 3D model, then a theme song in a player and
 the MCP row as its own card; the empty state held longer so "We built an agent that actually gets things done" plays
 over the ask typing) and mascot only; `ask` (slug `output`), `cant` (`jobs`), `fail` (`when-ais-fail`), `message`,
-`stopapi` (`stop-paying-api`) and `agents` (`does-things`) mascot only. Renders:
-`assets/video/hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a.{16x9,1x1}.mp4`.
+`stopapi` (`stop-paying-api`) and `agents` (`does-things`) mascot only. Renders, at 60 fps in every ratio X lists:
+`assets/video/hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a.{16x9,9x16,4x5,1x1}.mp4` at 1920x1080, 1080x1920,
+1440x1800 and 1080x1080 (`FPS=60 compose.py`). At 60 the generated shots are motion-interpolated from their 24 fps
+(ffmpeg minterpolate, `work/art60`), the chat and the end card captured at 60, and the bitrate eased under 10 Mbps so
+each file stays under X's recommended 30 MB. X's specs ask not to upsample lower-frame-rate footage: the 60 fps cuts were
+asked for; the 24 fps shots are the one part that is interpolated. A narrow ratio centre-crops the 16:9 shots on the figure.
 
 The scripts were edited from the brief only where X's ad policies (read 2026-10-17: help.x.com quality-policy,
 deceptive-and-fraudulent-content; legal.x.com ads terms) required it: no absolute claims ("anything", "everything",

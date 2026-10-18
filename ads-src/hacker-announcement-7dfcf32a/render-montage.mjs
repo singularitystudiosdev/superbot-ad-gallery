@@ -11,8 +11,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const [ar, t0s, t1s, out, mode = 'montage', fpsS = '30'] = process.argv.slice(2);
-const FPS = +fpsS, t0 = +t0s, t1 = +t1s, H = 1080, DPR = 2, ZMAX = 1.7;
-const W = { '16x9': 1920, '1x1': 1080 }[ar];
+// the stage is ar.js's (1080 high, the ratio's width); a narrow ratio's frames come out at X's size for it (OUT output
+// px per stage px: 9:16 1080x1920, 4:5 1440x1800), rasterized at DPR 2 x OUT so the scale-up stays sharp
+const W = { '16x9': 1920, '1x1': 1080, '4x5': 864, '9x16': 608 }[ar];
+const OUT = { '16x9': 1, '1x1': 1, '4x5': 1800 / 1080, '9x16': 1920 / 1080 }[ar]; // 4:5 at X's 1440x1800
+const FPS = +fpsS, t0 = +t0s, t1 = +t1s, H = 1080, DPR = 2 * OUT, ZMAX = 1.7;
 const BASE = process.env.BASE || 'http://127.0.0.1:8737';
 const VARIANT = process.env.VARIANT || 'hacker';
 fs.mkdirSync(out, { recursive: true });
@@ -106,7 +109,7 @@ const t00 = Date.now();
 for (let i = 0; i < N; i++) {
   await seek(t0 + i / FPS);
   const c = crops[i];
-  const { data } = await cdp.send('Page.captureScreenshot', { format: 'png', clip: { x: c.x, y: c.y, width: c.w, height: c.h, scale: c.z }, optimizeForSpeed: true });
+  const { data } = await cdp.send('Page.captureScreenshot', { format: 'png', clip: { x: c.x, y: c.y, width: c.w, height: c.h, scale: c.z * OUT }, optimizeForSpeed: true });
   fs.writeFileSync(path.join(out, `f_${String(i).padStart(4, '0')}.png`), Buffer.from(data, 'base64'));
   if (i % 60 === 0) console.log(`${i}/${N} ${((Date.now() - t00) / 1000).toFixed(0)}s`);
 }

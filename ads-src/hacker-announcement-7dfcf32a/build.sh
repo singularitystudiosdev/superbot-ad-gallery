@@ -31,20 +31,27 @@ done
 for id in hacker-announcement-talk-superbot-7dfcf32a hacker-announcement-talk-licensed-superbot-7dfcf32a; do
   ffmpeg -v error -y -ss 3.6 -i $V/$id.16x9.mp4 -frames:v 1 -vf scale=1280:720:flags=lanczos ../../assets/shots/$id.png
 done
-# the other spots (spots.json): every one's talk cut, and the hello spot's montage (the 'hacker-hello' variant, captured
-# from its empty state to just past its end-card cover), in both takes at both ratios; thumbnails from the first shot
-for ar in 16x9 1x1; do
+# the other spots (spots.json), at 60 fps in every ratio X lists (16:9, 9:16, 4:5 at 1440x1800, 1:1): the generated shots
+# motion-interpolated to 60 (work/art60), the end card (the 'hacker' variant) and the hello montage (the 'hacker-hello'
+# variant, from its empty state to just past its end-card cover) captured at 60; then every spot's talk cut, and hello's
+# montage, in both takes; thumbnails from the first shot
+mkdir -p work/art60
+for c in omni-close omni-wide-point omni-wide-gesture; do
+  ffmpeg -v error -y -i art/$c.mp4 -vf "minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1" -c:v libx264 -preset slow -crf 10 -pix_fmt yuv420p -an work/art60/$c.mp4
+done
+for ar in 16x9 9x16 4x5 1x1; do
   w=$(echo $ar | sed 's/x.*//')
-  VARIANT=hacker-hello node render-montage.mjs $ar 0.6 13.46 work/hello-mt$w montage | tail -1
+  node render-montage.mjs $ar 12.02 15.2 work/end$w-60 end 60 | tail -1
+  VARIANT=hacker-hello node render-montage.mjs $ar 0.6 13.46 work/hello-mt$w-60 montage 60 | tail -1
 done
 $PY -I -c "import json; [print(k, v['slug'], 'montage' in v) for k, v in json.load(open('spots.json')).items() if k != '_']" | while read spot slug montage; do
   for take in fish licensed; do
     t=$([ $take = licensed ] && echo -licensed || true)
-    for ar in 16x9 1x1; do
-      $PY -I compose.py $ar out/$spot-talk-$take.$ar.mp4 $take talk $spot
+    for ar in 16x9 9x16 4x5 1x1; do
+      FPS=60 $PY -I compose.py $ar out/$spot-talk-$take.$ar.mp4 $take talk $spot
       cp out/$spot-talk-$take.$ar.mp4 $V/hacker-$slug-talk$t-superbot-7dfcf32a.$ar.mp4
       if [ $montage = True ]; then
-        $PY -I compose.py $ar out/$spot-$take.$ar.mp4 $take montage $spot
+        FPS=60 $PY -I compose.py $ar out/$spot-$take.$ar.mp4 $take montage $spot
         cp out/$spot-$take.$ar.mp4 $V/hacker-$slug$t-superbot-7dfcf32a.$ar.mp4
       fi
     done

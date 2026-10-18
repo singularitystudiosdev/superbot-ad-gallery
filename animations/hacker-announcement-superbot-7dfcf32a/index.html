@@ -21,7 +21,10 @@ const SPOTS = ['announcement', 'hello'], TALK_ONLY = ['output', 'jobs', 'when-ai
 const spot = [...SPOTS, ...TALK_ONLY].includes(q.get('spot')) ? q.get('spot') : 'announcement';
 const talk = q.get('cut') === 'talk' || TALK_ONLY.includes(spot);
 const id = `hacker-${spot}${talk ? '-talk' : ''}${q.get('take') === 'licensed' ? '-licensed' : ''}-superbot-7dfcf32a`;
-const ar = ['1x1', '4x5', '9x16'].includes(q.get('ar')) ? '1x1' : '16x9';
+// the seven later spots ship every ratio but 4:3 (at 60 fps); the announcement ships 16:9 and 1:1
+const ar = spot === 'announcement'
+  ? (['1x1', '4x5', '9x16'].includes(q.get('ar')) ? '1x1' : '16x9')
+  : (['16x9', '9x16', '4x5', '1x1'].includes(q.get('ar')) ? q.get('ar') : '16x9');
 const v = document.querySelector('video');
 v.src = `../../assets/video/${id}.${ar}.mp4`;
 // Play with sound when the browser allows it; otherwise start muted and let the controls unmute.

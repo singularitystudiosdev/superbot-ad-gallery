@@ -60,6 +60,29 @@ function renderDl() {
     .then((r) => { if (gen === dlGen && !r.ok) markNoRender(a, label); })
     .catch(() => { if (gen === dlGen) markNoRender(a, label); });
 }
+// one click for every ratio a spot was rendered at (its manifest `downloadAll`, ratio keys): each mp4 downloads in
+// turn, named as the single button names it (the browser asks once to allow several downloads from the page)
+function renderDlAll() {
+  const a = $('lbDlAll');
+  const it = openItem();
+  const keys = (it && it.type === 'animation' && it.downloadAll) || [];
+  if (!keys.length) { a.hidden = true; a.onclick = null; return; }
+  const labels = keys.map((k) => RATIOS.find(x => x[0] === k)[1]);
+  a.textContent = `⤓ download all ${keys.length} ratios`;
+  a.title = labels.join(' · ');
+  a.hidden = false;
+  a.onclick = (e) => {
+    e.preventDefault();
+    keys.forEach((k, i) => setTimeout(() => {
+      const d = document.createElement('a');
+      d.href = `assets/video/${it.id}.${k}.mp4`;
+      d.download = `${it.id}-${k}.mp4`;
+      document.body.appendChild(d);
+      d.click();
+      d.remove();
+    }, i * 400));
+  };
+}
 function markNoRender(a, label) {
   a.removeAttribute('href'); // no href: nothing to navigate to, so nothing to 404
   a.classList.add('no-render');
@@ -113,6 +136,7 @@ function setAr(key) {
   renderAr();
   if (!$('lb').hidden) renderStage(); // reloads the open frame at the new ratio; every spot loops anyway
   renderDl();
+  renderDlAll();
 }
 
 // the frame fits the same box the 16:9 frame used (92vw x 82vh, capped at 1280x720) at the chosen ratio
@@ -261,6 +285,7 @@ function renderStage() {
     sizeFrame();
   }
   renderDl();
+  renderDlAll();
   setHash(it);
   $('lbTitle').textContent = it.title;
   const arLabel = RATIOS.find(x => x[0] === (it.type === 'image' ? arOf(it) : curAr()))[1];
@@ -283,6 +308,7 @@ function close() {
   $('lb').hidden = true;
   document.body.classList.remove('lb-open');
   $('lbDl').hidden = true;
+  $('lbDlAll').hidden = true;
   $('lbStage').innerHTML = ''; // kills the iframe rAF + audio
   document.body.style.overflow = '';
   lbAr = null;

@@ -1555,7 +1555,16 @@
     "title": "superbot: the hooded mascot's \"Hello, AI users\" announcement (calls, images, 3D models, audio, no MCPs)",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=hello",
     "thumb": "assets/shots/hacker-hello-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask on the fish.audio HACKER VOICE: \"Hello, AI users. This is Superbot, with an announcement. We built an agent that actually gets things done. It can make calls, generate images, 3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.\" The opening on the mascot, a VHS tear into the chat (the muse meme spot's ?variant=hacker-hello, beats/hacker.7dfcf32a.js) as \"We built an agent that actually gets things done.\" plays over the ask typing; each feature on its card: a live call to an unnamed hotel's front desk, the beagle image, the walking 3D beagle, a dog theme song landing in a player and playing, then the MCP server chip striking through to Not needed; back to the mascot reading, then pointing on \"Try Superbot.\", and the superbot.gg end card. Written as \"Hello AI users, this is superbot with a announcement. We have created a model that can actually do almost anything you ask. It can make calls, generate images, 3d models, audio, and doesn't require MCPs. It is simple and what you want. Try superbot.\"; for X's ad policies superbot is an agent, not a model it made, \"almost anything\" became \"actually gets things done\", and the grammar is fixed. No captions; an AI-generated note on the generated shots, a Dramatization note on the chat and Sped up badges. About 22 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The hooded figure in the superbot cat mask on the fish.audio HACKER VOICE: \"Hello, AI users. This is Superbot, with an announcement. We built an agent that actually gets things done. It can make calls, generate images, 3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.\" The opening on the mascot, a VHS tear into the chat (the muse meme spot's ?variant=hacker-hello, beats/hacker.7dfcf32a.js) as \"We built an agent that actually gets things done.\" plays over the ask typing; each feature on its card: a live call to an unnamed hotel's front desk, the beagle image, the walking 3D beagle, a dog theme song landing in a player and playing, then the MCP server chip striking through to Not needed; back to the mascot reading, then pointing on \"Try Superbot.\", and the superbot.gg end card. Written as \"Hello AI users, this is superbot with a announcement. We have created a model that can actually do almost anything you ask. It can make calls, generate images, 3d models, audio, and doesn't require MCPs. It is simple and what you want. Try superbot.\"; for X's ad policies superbot is an agent, not a model it made, \"almost anything\" became \"actually gets things done\", and the grammar is fixed. No captions; an AI-generated note on the generated shots, a Dramatization note on the chat and Sped up badges. About 22 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-hello-licensed-superbot-7dfcf32a",
@@ -1564,7 +1573,16 @@
     "title": "superbot: the hooded mascot's \"Hello, AI users\" announcement, licensed-voice cut",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=hello&take=licensed",
     "thumb": "assets/shots/hacker-hello-licensed-superbot-7dfcf32a.png",
-    "desc": "The same cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 25 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The same cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 25 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-hello-talk-superbot-7dfcf32a",
@@ -1573,7 +1591,16 @@
     "title": "superbot: the hooded mascot's \"Hello, AI users\" announcement, mascot only",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=hello&cut=talk",
     "thumb": "assets/shots/hacker-hello-talk-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Hello, AI users. This is Superbot, with an announcement. We built an agent that actually gets things done. It can make calls, generate images, 3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Hello AI users, this is superbot with a announcement. We have created a model that can actually do almost anything you ask. It can make calls, generate images, 3d models, audio, and doesn't require MCPs. It is simple and what you want. Try superbot.\"; for X's ad policies superbot is an agent, not a model it made, \"almost anything\" became \"actually gets things done\", and the grammar is fixed. No captions; an AI-generated note on the generated shots. About 20 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Hello, AI users. This is Superbot, with an announcement. We built an agent that actually gets things done. It can make calls, generate images, 3D models and audio. And it doesn't require MCPs. It's simple, and it's what you want. Try Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Hello AI users, this is superbot with a announcement. We have created a model that can actually do almost anything you ask. It can make calls, generate images, 3d models, audio, and doesn't require MCPs. It is simple and what you want. Try superbot.\"; for X's ad policies superbot is an agent, not a model it made, \"almost anything\" became \"actually gets things done\", and the grammar is fixed. No captions; an AI-generated note on the generated shots. About 20 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-hello-talk-licensed-superbot-7dfcf32a",
@@ -1582,7 +1609,16 @@
     "title": "superbot: the hooded mascot's \"Hello, AI users\" announcement, mascot only, licensed-voice cut",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=hello&cut=talk&take=licensed",
     "thumb": "assets/shots/hacker-hello-talk-licensed-superbot-7dfcf32a.png",
-    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 26 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 26 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-output-talk-superbot-7dfcf32a",
@@ -1591,7 +1627,16 @@
     "title": "superbot: the hooded mascot's \"the output you ask for\" (mascot only)",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=output",
     "thumb": "assets/shots/hacker-output-talk-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Superbot simply gives you the output you ask for, and it does things your chatbot can't. Try it out!\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Superbot simply gives the output that you ask for, anything that your other agent's can't do, superbot can. Try it out!\"; for X's ad policies the absolute \"anything\" became \"it does things your chatbot can't\" (a claim the calls, 3D and direct app connections bear out against a browser chatbot), the grammar fixed. No captions; an AI-generated note on the generated shots. About 9 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Superbot simply gives you the output you ask for, and it does things your chatbot can't. Try it out!\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Superbot simply gives the output that you ask for, anything that your other agent's can't do, superbot can. Try it out!\"; for X's ad policies the absolute \"anything\" became \"it does things your chatbot can't\" (a claim the calls, 3D and direct app connections bear out against a browser chatbot), the grammar fixed. No captions; an AI-generated note on the generated shots. About 9 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-output-talk-licensed-superbot-7dfcf32a",
@@ -1600,7 +1645,16 @@
     "title": "superbot: the hooded mascot's \"the output you ask for\", mascot only, licensed-voice cut",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=output&take=licensed",
     "thumb": "assets/shots/hacker-output-talk-licensed-superbot-7dfcf32a.png",
-    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 11 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 11 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-jobs-talk-superbot-7dfcf32a",
@@ -1609,7 +1663,16 @@
     "title": "superbot: the hooded mascot's \"the jobs your chatbot can't do\" (mascot only)",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=jobs",
     "thumb": "assets/shots/hacker-jobs-talk-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Superbot is the AI for the jobs your chatbot can't do. Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Superbot is the AI for everything your other AIs can't do. Superbot.\"; for X's ad policies the absolute \"everything\" became \"the jobs your chatbot can't do\". No captions; an AI-generated note on the generated shots. About 8 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Superbot is the AI for the jobs your chatbot can't do. Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Superbot is the AI for everything your other AIs can't do. Superbot.\"; for X's ad policies the absolute \"everything\" became \"the jobs your chatbot can't do\". No captions; an AI-generated note on the generated shots. About 8 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-jobs-talk-licensed-superbot-7dfcf32a",
@@ -1618,7 +1681,16 @@
     "title": "superbot: the hooded mascot's \"the jobs your chatbot can't do\", mascot only, licensed-voice cut",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=jobs&take=licensed",
     "thumb": "assets/shots/hacker-jobs-talk-licensed-superbot-7dfcf32a.png",
-    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 8 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 8 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-when-ais-fail-talk-superbot-7dfcf32a",
@@ -1627,7 +1699,16 @@
     "title": "superbot: the hooded mascot's \"when your other AIs fail you\" (mascot only)",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=when-ais-fail",
     "thumb": "assets/shots/hacker-when-ais-fail-talk-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Superbot is the AI to try when your other AIs fail you. Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Superbot is the AI when your other AIs fail you. Superbot.\"; for X's ad policies \"to try\" makes it an invitation rather than a promise that superbot never fails, the grammar fixed. No captions; an AI-generated note on the generated shots. About 8 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Superbot is the AI to try when your other AIs fail you. Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Superbot is the AI when your other AIs fail you. Superbot.\"; for X's ad policies \"to try\" makes it an invitation rather than a promise that superbot never fails, the grammar fixed. No captions; an AI-generated note on the generated shots. About 8 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-when-ais-fail-talk-licensed-superbot-7dfcf32a",
@@ -1636,7 +1717,16 @@
     "title": "superbot: the hooded mascot's \"when your other AIs fail you\", mascot only, licensed-voice cut",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=when-ais-fail&take=licensed",
     "thumb": "assets/shots/hacker-when-ais-fail-talk-licensed-superbot-7dfcf32a.png",
-    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 9 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 9 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-message-talk-superbot-7dfcf32a",
@@ -1645,7 +1735,16 @@
     "title": "superbot: the hooded mascot's \"a message to anyone who\" (mascot only)",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=message",
     "thumb": "assets/shots/hacker-message-talk-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Hello. This is a message to anyone who only uses AI in the browser, copies and pastes code, pays API pricing, or wants a stronger agent. Try Superbot. It runs on the subscriptions you already have.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Hello, this is a message to anyone that uses just AI in your browser, copy and pastes code, gets charged API pricing, or wants a stronger agent. Try superbot.\"; for X's ad policies it now says what the viewer still pays (\"It runs on the subscriptions you already have\"), the grammar fixed. No captions; an AI-generated note on the generated shots. About 16 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Hello. This is a message to anyone who only uses AI in the browser, copies and pastes code, pays API pricing, or wants a stronger agent. Try Superbot. It runs on the subscriptions you already have.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Hello, this is a message to anyone that uses just AI in your browser, copy and pastes code, gets charged API pricing, or wants a stronger agent. Try superbot.\"; for X's ad policies it now says what the viewer still pays (\"It runs on the subscriptions you already have\"), the grammar fixed. No captions; an AI-generated note on the generated shots. About 16 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-message-talk-licensed-superbot-7dfcf32a",
@@ -1654,7 +1753,16 @@
     "title": "superbot: the hooded mascot's \"a message to anyone who\", mascot only, licensed-voice cut",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=message&take=licensed",
     "thumb": "assets/shots/hacker-message-talk-licensed-superbot-7dfcf32a.png",
-    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 19 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 19 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-stop-paying-api-talk-superbot-7dfcf32a",
@@ -1663,7 +1771,16 @@
     "title": "superbot: the hooded mascot's \"stop paying per-token API fees\" (mascot only)",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=stop-paying-api",
     "thumb": "assets/shots/hacker-stop-paying-api-talk-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Try Superbot. Use the AI subscriptions you already pay for, and stop paying per-token API fees.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Try superbot, stop paying API\"; for X's ad policies it now says what the viewer still pays (\"Use the AI subscriptions you already pay for\"), the grammar fixed. No captions; an AI-generated note on the generated shots. About 10 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Try Superbot. Use the AI subscriptions you already pay for, and stop paying per-token API fees.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Try superbot, stop paying API\"; for X's ad policies it now says what the viewer still pays (\"Use the AI subscriptions you already pay for\"), the grammar fixed. No captions; an AI-generated note on the generated shots. About 10 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-stop-paying-api-talk-licensed-superbot-7dfcf32a",
@@ -1672,7 +1789,16 @@
     "title": "superbot: the hooded mascot's \"stop paying per-token API fees\", mascot only, licensed-voice cut",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=stop-paying-api&take=licensed",
     "thumb": "assets/shots/hacker-stop-paying-api-talk-licensed-superbot-7dfcf32a.png",
-    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 11 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 11 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-does-things-talk-superbot-7dfcf32a",
@@ -1681,7 +1807,16 @@
     "title": "superbot: the hooded mascot's \"does things your chatbot can't\" (mascot only)",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=does-things",
     "thumb": "assets/shots/hacker-does-things-talk-superbot-7dfcf32a.png",
-    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Superbot does things your chatbot can't. Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Superbot does everything your other agent's can't. Superbot\"; for X's ad policies the absolute \"everything\" became \"does things your chatbot can't\", the grammar fixed. No captions; an AI-generated note on the generated shots. About 7 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The hooded figure in the superbot cat mask says it on camera in the fish.audio HACKER VOICE, no app on screen: \"Superbot does things your chatbot can't. Superbot.\" The generated wide, close-up and pointing shots cut on the voice's own pauses, each easing in, then a VHS tear into the superbot.gg end card. Written as \"Superbot does everything your other agent's can't. Superbot\"; for X's ad policies the absolute \"everything\" became \"does things your chatbot can't\", the grammar fixed. No captions; an AI-generated note on the generated shots. About 7 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hacker-does-things-talk-licensed-superbot-7dfcf32a",
@@ -1690,7 +1825,16 @@
     "title": "superbot: the hooded mascot's \"does things your chatbot can't\", mascot only, licensed-voice cut",
     "src": "animations/hacker-announcement-superbot-7dfcf32a/?spot=does-things&take=licensed",
     "thumb": "assets/shots/hacker-does-things-talk-licensed-superbot-7dfcf32a.png",
-    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 8 s; 16:9 and 1:1, H.264 High, about 8 Mbps."
+    "desc": "The same mascot-only cut. Voiced by OpenAI gpt-4o-mini-tts (onyx, deepened 1.5 semitones, read phrase by phrase) instead of the community fish.audio voice, which is not licensed to superbot: every element cleared for commercial use. About 8 s; 60 fps in 16:9 (1920x1080), 9:16 (1080x1920), 4:5 (1440x1800) and 1:1 (1080x1080), X's sizes; H.264 High, up to 10 Mbps, each under 30 MB; one click downloads all four.",
+    "extraArs": [
+      "9x16"
+    ],
+    "downloadAll": [
+      "16x9",
+      "9x16",
+      "4x5",
+      "1x1"
+    ]
   },
   {
     "id": "hooded-statement-superbot-382c1f0c",

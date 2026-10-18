@@ -22,10 +22,15 @@ SPOT = sys.argv[5] if len(sys.argv) > 5 else 'announcement'
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 ROOT = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(ROOT, *a)
-FPS, SR = 30, 48000
-W, H = (1920, 1080) if AR == '16x9' else (1080, 1080)
-MT, END = P('work', f'mt{AR[:2].replace("x", "")}'), P('work', f'end{AR[:2].replace("x", "")}')
-GESTURE, POINT, CLOSE = P('art', 'omni-wide-gesture.mp4'), P('art', 'omni-wide-point.mp4'), P('art', 'omni-close.mp4')
+# FPS (environment, 30 by default): a cut at 60 reads its captures from work/*-60 and the generated shots motion-
+# interpolated to 60 (work/art60, build.sh makes them); every ratio of the spot's stage (ar.js), 1080 wide or 1080 high
+FPS, SR = int(os.environ.get('FPS', 30)), 48000
+W, H = {'16x9': (1920, 1080), '1x1': (1080, 1080), '4x5': (1440, 1800), '9x16': (1080, 1920)}[AR]  # X's sizes
+U = W / 1080 if AR == '4x5' else 1  # the overlays' scale: 4:5 is 1440 wide
+RUN = '' if FPS == 30 else f'-{FPS}'  # the captures' folder suffix at this frame rate
+MT, END = P('work', f'mt{AR[:2].replace("x", "")}{RUN}'), P('work', f'end{AR[:2].replace("x", "")}{RUN}')
+ART = P('art') if FPS == 30 else P('work', f'art{FPS}')
+GESTURE, POINT, CLOSE = (os.path.join(ART, f) for f in ('omni-wide-gesture.mp4', 'omni-wide-point.mp4', 'omni-close.mp4'))
 PALM = 2.45  # the gesture shot's figure reads until here; from 2.55 s it raises an open palm, which is never shown
 
 def spans(path, n):
@@ -172,7 +177,7 @@ else:
         # the montage: the opening phrases on the mascot, a tear into the chat for phrase `over` on (laid over the empty
         # state and the ask typing) and the list line's phrases on the variant's cues, then back to the mascot
         M = SP['montage']
-        MT = P('work', f'{SPOT}-mt{AR[:2].replace("x", "")}')
+        MT = P('work', f'{SPOT}-mt{AR[:2].replace("x", "")}{RUN}')
         cues = json.load(open(os.path.join(MT, 'cues.json')))
         meta = json.load(open(os.path.join(MT, 'meta.json')))
         over = M['over']
@@ -206,7 +211,7 @@ def font(size, weight='Bold'):
     f = ImageFont.truetype('/System/Library/Fonts/SFNS.ttf', size)
     f.set_variation_by_name(weight)
     return f
-FF_FONT = font(28, 'Semibold')
+FF_FONT = font(round(28 * U), 'Semibold')
 
 class Clip:
     def __init__(self, path):
@@ -291,9 +296,10 @@ def hood_shadow(f, hold=0.28, depth=0.55):
 def fit(img):
     h, w = img.shape[:2]
     if (w, h) == (W, H): return img
-    if AR == '1x1' and w > h:  # a 16:9 shot into the square: centre crop on the figure
-        x0 = (w - h) // 2
-        img = img[:, x0:x0 + h]
+    cw = round(h * W / H)
+    if cw < w:  # a 16:9 shot into a narrower ratio: centre crop on the figure
+        x0 = (w - cw) // 2
+        img = img[:, x0:x0 + cw]
     return cv2.resize(img, (W, H), interpolation=cv2.INTER_AREA if img.shape[1] > W else cv2.INTER_CUBIC)
 
 def glitch(img, n, p):
@@ -327,13 +333,13 @@ def pill(text, fnt, pad=(28, 14), r=16, bg=(0, 0, 0, 165), fg=(255, 255, 255, 25
     d.text((pad[0], pad[1]), text, font=fnt, fill=fg)
     return cv2.cvtColor(np.array(im), cv2.COLOR_RGBA2BGRA)
 # the montage's fast-forward, said in words: the generations' real factor, and plain "Sped up" while the apps connect
-BADGE = lambda text: pill(text, FF_FONT, pad=(24, 14), r=30, bg=(12, 12, 14, 199), fg=(236, 236, 236, 255), border=(255, 255, 255, 31))
+BADGE = lambda text: pill(text, FF_FONT, pad=(round(24 * U), round(14 * U)), r=round(30 * U), bg=(12, 12, 14, 199), fg=(236, 236, 236, 255), border=(255, 255, 255, 31))
 FF_IMG, APPS_IMG = BADGE('Sped up 150×'), BADGE('Sped up')
 # the eight tiles connecting (beats/hacker.7dfcf32a.js TILE_*); the talk cut has no chat, the hello montage no apps card
 APPS_FF = (spot(cues['apps']) - 0.1, spot(cues['apps']) + 1.3) if CUT == 'montage' and 'apps' in cues else None
 # disclosures: the generated shots and voice, and the montage as a dramatization with a fictional business on the call
-NOTE_FONT = font(24 if AR == '16x9' else 22, 'Semibold')
-NOTE = lambda text: pill(text, NOTE_FONT, pad=(16, 9), r=12, bg=(0, 0, 0, 150), fg=(255, 255, 255, 230))
+NOTE_FONT = font(round((24 if AR == '16x9' else 22) * U), 'Semibold')
+NOTE = lambda text: pill(text, NOTE_FONT, pad=(round(16 * U), round(9 * U)), r=round(12 * U), bg=(0, 0, 0, 150), fg=(255, 255, 255, 230))
 AI_NOTE, DRAMA_NOTE = NOTE('AI-generated footage and voice'), NOTE('Dramatization · fictional business')
 
 def push_in(img, z):
@@ -363,15 +369,16 @@ def frame(n):
     # logo: the scrolling chat would run under it)
     if kind == 'frames' and src == MT:
         k = min(len(meta) - 1, int(round((t - a + s0) * FPS)))
-        over(img, DRAMA_NOTE, 32, 30, min(1, (t - a) / 0.2, (b - t) / 0.1))
-        mx, my = (44, 40) if AR == '16x9' else (36, 150)
+        over(img, DRAMA_NOTE, round(32 * U), round(30 * U), min(1, (t - a) / 0.2, (b - t) / 0.1))
+        # clear of the chat's composer, as the spot's own badge sits (hacker.7dfcf32a.css .hk-ff), in output px
+        mx, my = {'16x9': (44, 40), '1x1': (36, 150), '4x5': (60, 243), '9x16': (64, 220)}[AR]
         app_on = min(1, max(0, (t - APPS_FF[0]) / 0.15), max(0, (APPS_FF[1] - t) / 0.2)) if APPS_FF else 0
         if meta[k]['ff'] > 0.01:
             over(img, FF_IMG, W - FF_IMG.shape[1] - mx, H - FF_IMG.shape[0] - my, meta[k]['ff'])
         elif app_on > 0:
             over(img, APPS_IMG, W - APPS_IMG.shape[1] - mx, H - APPS_IMG.shape[0] - my, app_on)
     if kind == 'clip':
-        over(img, AI_NOTE, W - AI_NOTE.shape[1] - 32, 30)
+        over(img, AI_NOTE, W - AI_NOTE.shape[1] - round(32 * U), round(30 * U))
     return img
 
 # ---------- sound ----------
@@ -451,7 +458,7 @@ st = json.loads(m[m.rindex('{'):m.rindex('}') + 1])
 norm = (f"loudnorm=I=-14:TP=-1.5:LRA=11:measured_I={st['input_i']}:measured_TP={st['input_tp']}:measured_LRA={st['input_lra']}"
         f":measured_thresh={st['input_thresh']}:offset={st['target_offset']}:linear=true,aresample={SR}")
 
-# ---------- encode: H.264 High 4:2:0 at 30 fps, 8 Mbps two-pass (X: 6-10 Mbps at 1080p), AAC LC, faststart ----------
+# ---------- encode: H.264 High 4:2:0, two-pass 8 Mbps at 30 fps or 10 Mbps at 60 (X: 6-10 Mbps at 1080p), AAC LC, faststart ----------
 mezz = OUT.replace('.mp4', '.mezz.mkv')
 enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
     '-c:v', 'libx264', '-preset', 'ultrafast', '-qp', '0', '-pix_fmt', 'yuv444p', mezz], stdin=subprocess.PIPE)
@@ -459,7 +466,11 @@ for n in range(int(round(E_END * FPS))):
     enc.stdin.write(frame(n).tobytes())
 enc.stdin.close(); enc.wait()
 log = OUT.replace('.mp4', '.x264')
-vopts = ['-c:v', 'libx264', '-preset', 'slow', '-profile:v', 'high', '-level:v', '4.1', '-b:v', '8M', '-maxrate', '10M', '-bufsize', '16M',
+# at 60 fps: up to 10 Mbps, eased down so the file stays under X's recommended 30 MB (28 MB with the audio)
+MB = min(10.0, 28 * 8 / E_END - 0.25)
+RATE = ['-level:v', '4.1', '-b:v', '8M', '-maxrate', '10M', '-bufsize', '16M'] if FPS <= 30 else \
+    ['-level:v', '5.1' if W * H > 2_100_000 else '4.2', '-b:v', f'{MB:.2f}M', '-maxrate', f'{MB * 1.2:.2f}M', '-bufsize', f'{MB * 2:.2f}M']
+vopts = ['-c:v', 'libx264', '-preset', 'slow', '-profile:v', 'high', *RATE,
     '-g', str(FPS), '-vf', 'scale=out_color_matrix=bt709:out_range=tv,format=yuv420p',
     '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv', '-passlogfile', log]
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', mezz, *vopts, '-pass', '1', '-an', '-f', 'null', '-'], check=True)

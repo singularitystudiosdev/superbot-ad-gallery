@@ -196,8 +196,10 @@ zoom the full-size image or watch the animation play live. Static — no build, 
   Superbot."), `message` ("Hello. This is a message to anyone who only uses AI in the browser, copies and pastes code,
   pays API pricing, or wants a stronger agent. Try Superbot. It runs on the subscriptions you already have."),
   `stop-paying-api` ("Try Superbot. Use the AI subscriptions you already pay for, and stop paying per-token API fees.")
-  and `does-things` ("Superbot does things your chatbot can't. Superbot."). Renders in
-  `assets/video/hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a.*.mp4`.
+  and `does-things` ("Superbot does things your chatbot can't. Superbot."). Renders at 60 fps in X's sizes,
+  `assets/video/hacker-<slug>[-talk][-licensed]-superbot-7dfcf32a.{16x9,9x16,4x5,1x1}.mp4` (1920x1080, 1080x1920,
+  1440x1800, 1080x1080), each under 30 MB; the lightbox's "download all 4 ratios" (a tile's `downloadAll`) takes them in
+  one click.
 - **the hooded mascot's statement** (`animations/hooded-statement-superbot-382c1f0c/`): the same figure reading the whole
   statement straight through, no montage, both hands on the paper (new Gemini Omni shots from the announcement's key
   frames). In the fish.audio HACKER VOICE: "Superbot is here. It can make calls, generate images and 3D models, and

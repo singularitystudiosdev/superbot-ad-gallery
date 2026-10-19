@@ -100,10 +100,11 @@ const GEN = { model: 105, song: 64 };
 const HOLD_2 = 2.4;
 const ORDER_LOAD = 0.58, HOLD_3 = 1.6;
 const PLAY_AFTER = 0.2;
-const SONG_HOLD = 4.3;   // the song's play press to the last ask starting to type: its first sung line and into the second
+const SONG_HOLD = 1.0;   // the song's play press to the last ask starting to type; it plays on under that ask, its first line whole
 const SONG_UNDER = 0.75; // the song's level under the last ask and its card (-2.5 dB), so the keys and the cancels read over it
 const SONG_FADE = 0.9;   // its fade-out as the end card covers the chat
-const CANCEL = 0.5, STRIDE = 0.44, HOLD_5 = 1.9; // one plan's cancel, the next one's start, the last to the end card's cover
+// one plan's cancel, the next one's start, the last to the end card's cover (room for the film's laugh, ads-src/superbot-cats-16x9-70783379)
+const CANCEL = 0.5, STRIDE = 0.44, HOLD_5 = 2.4;
 // the house end card (multicat.516afb1a.js): the chat fades to its black over END_IN, the card's own 2.5s run starts
 // END_DELAY in (mascot pops in, superbot.gg fades up beside it, hold)
 const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 2.5, END_GAP = 44;
@@ -370,9 +371,9 @@ export default {
     };
     const v16 = makePlayerV16(cues, ID);
     addEventListener('variantchange', () => v16.stop());
-    // the song's level against the clock: whole from its press, eased down under the last ask and its card, faded evenly
+    // the song's level against the clock: whole from its press through the last ask's typing, eased down under its card, faded evenly
     // in dB to -40 dB as the end card covers the chat (syncAudio below, and the export's mixdown)
-    const songGain = (t) => lerp(1, SONG_UNDER, inOutCubic(seg(t, U.s - 0.3, U.s + 0.5))) * Math.pow(0.01, seg(t, T.cut, T.cut + SONG_FADE));
+    const songGain = (t) => lerp(1, SONG_UNDER, inOutCubic(seg(t, U.send - 0.2, U.send + 0.5))) * Math.pow(0.01, seg(t, T.cut, T.cut + SONG_FADE));
     const songStop = Math.min(S.play + DUR, T.cut + SONG_FADE);
     // the cut's whole soundtrack for offline renders (window.__EXPORT_AUDIO, read by export-render.07e9fa90.mjs and the
     // film's capture): this cue sheet's score with the song laid in at its press under songGain, at 0.9 as the page plays
@@ -390,7 +391,7 @@ export default {
       return buffer;
     }));
     // the capture's cues (the film's compose script reads them): when each card is the one in focus, and the cut
-    window.__CATS_CUES = { r: T.r, cut: T.cut, end: T.end, play: S.play, send0: k.send,
+    window.__CATS_CUES = { r: T.r, cut: T.cut, end: T.end, play: S.play, send0: k.send, cancelled: U.done,
       focus: [[A.card - 0.3, '.ct-dm'], [M.send - 0.2, '.mc-3d'], [O.send - 0.2, '.mc-dd'], [S.send - 0.2, '.mc-sg'], [U.send - 0.2, '.ct-subs']] };
 
     // 1. the DM, in the engine's own reply

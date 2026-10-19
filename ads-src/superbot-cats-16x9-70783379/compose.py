@@ -9,7 +9,7 @@
 # it runs on through the variant's own superbot.gg end card. The spot's closing "Superbot." is not used.
 # Disclosures as the hacker montage carries them: "AI-generated footage and voice" over the generated shots, "Dramatization
 # · AI voice" over the chat (nothing in it was sent, ordered or cancelled; the narration goes on over it), and the variant's
-# own x50 badge while a generation runs.
+# own x50 badge while a generation runs. After the last plan cancels, the mascot's voice laughs (vo/laugh.wav).
 # Sound: the voice, the hacker spots' Lyria drone under the mascot easing out through the dive with a soft rising whoosh, the
 # variant's own soundtrack (its v16 score with the song laid in and its end card's sounds, capture.mjs audio) easing in; the
 # music ducked under the voice (the chat's soundtrack too, under the narration); the mascot's bus through the spot's own
@@ -80,6 +80,12 @@ NARR = [(P('vo', 'discord.wav'), cues['r'] + 0.15), (P('vo', 'model.wav'), SEND[
 NARR = [(f, edit(at), spans(f, 1)[0]) for f, at in NARR]
 _, song_at, (song_s, song_e) = NARR[3]
 assert song_at + song_e - song_s < edit(cues['play']) - 0.1, 'the song line runs into the sung track'
+# and the laugh: the same voice laughing manically just after the last plan cancels (cues.json `cancelled`), done before
+# the variant's end card starts to cover the chat (vo/laugh.wav: fish.audio s2.1-pro, the same voice, the best of 18 takes)
+LAUGH = P('vo', 'laugh.wav')
+NARR.append((LAUGH, edit(cues['cancelled']) + 0.15, spans(LAUGH, 1)[0]))
+_, laugh_at, (laugh_s, laugh_e) = NARR[-1]
+assert laugh_at + laugh_e - laugh_s < edit(cues['cut']) + 0.1, 'the laugh runs into the end card'
 for f, at, (s, e) in NARR: print(f'  narration {os.path.basename(f)} {at:.2f}-{at + e - s:.2f}')
 
 # ---------- picture ----------

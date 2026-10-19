@@ -20,7 +20,10 @@
 //      pointer taps the four cats and Verify, and the page reads Verified.
 //   8. The feedback: the ask goes in with an email draft attached (a chip in the composer, a file card in the bubble);
 //      superbot reads it and marks it up, six harsh notes landing one by one, each lighting its phrase in the draft, and
-//      a 2/10 verdict, with nothing nice said; then the end card covers the chat.
+//      a 2/10 verdict, with nothing nice said.
+//   9. The Claude plan: superbot answers "Connect my claude subscription" with its connect prompt (superbot's mark and
+//      Claude's icon over a dotted link, the plan, what connecting allows, Cancel and Connect); the user's pointer clicks
+//      Connect, it spins, the link fills and the button reads Connected; then the end card covers the chat.
 // Under it plays 16 · Punchy premium groove (multicat-player.96834de7.js), re-cued to this chain: the cat landing takes the
 // photo's hit, the 3D cat the model's (the fuller section follows it), the order its bell, the song's play press ends the
 // bed (it is moved to the song's G major), every cancel a resolve tick. The follow-up messages are built here and moved in
@@ -42,7 +45,7 @@ import { renderScore } from './multicat-score.96834de7.js?v=3';
 import { DUR, PEAKS, LINES, WORDS } from './cats-data.70783379.js';
 
 export const ID = 'cats-chatbot';
-const CSS = new URL('../cats.70783379.css?v=3', import.meta.url).href;
+const CSS = new URL('../cats.70783379.css?v=4', import.meta.url).href;
 // the DM frame is the koala cut's (../koala.7f80a09a.css .kd-*), the 3D, order and song cards and the end card multicat's
 const SHEETS = [new URL('../multicat.516afb1a.css?v=9', import.meta.url).href, new URL('../koala.7f80a09a.css?v=1', import.meta.url).href, CSS];
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
@@ -64,7 +67,7 @@ const TITLE = 'Nine Lives';
 export const TYPE_CPS = 55; // every ask types at this rate; the first one through its route's typeCps (chat.9b47fc30.js)
 const ASK1 = `Connect to my discord and send a cat gif to ${FRIEND}`;
 const ASKS = ['Make me a 3d hyperrealistic model of a cat', 'Order me catfood on doordash', 'Now make me a song about cats', 'Unsubscribe from all my other AI subscriptions',
-  'Build me a website for my cat café', 'Get past this captcha', 'Give me feedback on this'];
+  'Build me a website for my cat café', 'Get past this captcha', 'Give me feedback on this', 'Connect my claude subscription'];
 
 // the DM's recent history, oldest first: a day's divider or one author's run of messages. The last run is his answer to
 // the GIF, which lands live
@@ -97,6 +100,7 @@ const SAY = [
   'Here are three styles for your cat café’s site. Pick one.',
   'Done. You’re past the captcha.',
   'Honestly? This email doesn’t work. Here’s why.',
+  'Connect it, and Claude runs on your plan instead of API credits.',
 ];
 // 6. the café's site in three styles (made up; its photos are the hacker cut's generated cats and this cut's cover), and
 // the one the user picks
@@ -127,6 +131,8 @@ const NOTES = [
   `${MAIL_BANGS} exclamation points in ${MAIL_WORDS + 2} words. This reads as panic, not enthusiasm.`,
 ];
 const VERDICT = 'As written, this gets deleted unread. Start over.';
+// 9. the plan the prompt connects: the user's Claude plan, as the subscriptions card lists it
+const CLAUDE = SUBS.find((x) => x.icon === 'claude');
 
 // a card's rise and the feed's glide to it (chat.9b47fc30.js renderScroll) both take this long: its work starts once in view
 const SEEN = 0.45;
@@ -154,11 +160,14 @@ const DESIGN = 0.85, DESIGN_STAGGER = 0.14, PICK_AFTER = 0.9, PICK_MOVE = 0.55, 
 // Verify, Verify to Verified, Verified to the end card's cover
 const CAP_IN = 0.3, CAP_FIRST = 0.45, TILE = 0.34, VERIFY = 0.5, CHECKING = 0.6, HOLD_C = 1.4;
 // 8. the draft in view to the first note (superbot reading it), one note to the next, the last note to the verdict, the
-// verdict to the end card's cover (the film's line runs through it)
-const READ = 0.5, NOTE = 0.42, VERDICT_AFTER = 0.4, HOLD_F = 3.2;
-// the house end card (multicat.516afb1a.js): the chat fades to its black over END_IN, the card's own 2.5s run starts
-// END_DELAY in (mascot pops in, superbot.gg fades up beside it, hold)
-const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 2.5, END_GAP = 44;
+// verdict to the Claude ask typing (the film's line runs through it)
+const READ = 0.5, NOTE = 0.42, VERDICT_AFTER = 0.4, HOLD_F = 2.45;
+// 9. the prompt in view to the user's pointer setting off, its travel to Connect, Connect to Connected, Connected to the end
+// card's cover (the film's line on it runs through to there)
+const PROMPT = 0.85, CL_MOVE = 0.55, CONNECTING = 0.7, HOLD_K = 1.85;
+// the house end card (multicat.516afb1a.js): the chat fades to its black over END_IN, the card's own run starts END_DELAY
+// in (mascot pops in, superbot.gg fades up beside it, hold), held 3.3s here, not 2.5s, for the film's closing line
+const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 3.3, END_GAP = 44;
 // the GIF's clock: 46 frames at 8 cs (12.5 fps), the first 24 of the clip forward and back again (media/cats.70783379/cat-squint.gif)
 const FPS = 12.5, FRAMES = 46, COLS = 8, ROWS = 6;
 const popBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
@@ -175,7 +184,7 @@ const DOWNLOAD = '<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 19.5
 const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
 // every time in the chain, from the first reply r. A: the DM (connects, the GIF found and landed, sent, his answer);
-// M, O, S, U, D, C, F: the seven asks the beat types itself, each { s, typeEnd, send, r, card } and its own work after the card
+// M, O, S, U, D, C, F, K: the eight asks the beat types itself, each { s, typeEnd, send, r, card } and its own work after the card
 function plan(r) {
   const A = { r, card: r + 0.22 };
   A.c0 = A.card + SEEN; A.conn = A.c0 + CONNECT; A.gen0 = A.conn + CONN_OUT + 0.1; A.done = A.gen0 + FIND;
@@ -214,8 +223,13 @@ function plan(r) {
   F.f0 = F.gen0 + READ;
   F.notes = NOTES.map((_, i) => F.f0 + i * NOTE);
   F.verdict = F.notes[F.notes.length - 1] + VERDICT_AFTER;
-  const cut = F.verdict + HOLD_F;
-  return { r, A, M, O, S, U, D, C, F, steps: [M, O, S, U, D, C, F], cut, end: cut + END_DELAY + END_LEN };
+  s = F.verdict + HOLD_F;
+  const K = step(ASKS[7]);
+  K.ptr = K.gen0 + PROMPT;
+  K.click = K.ptr + CL_MOVE;
+  K.done = K.click + CONNECTING;
+  const cut = K.done + HOLD_K;
+  return { r, A, M, O, S, U, D, C, F, K, steps: [M, O, S, U, D, C, F, K], cut, end: cut + END_DELAY + END_LEN };
 }
 // the chain's length from its first reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
@@ -556,23 +570,63 @@ function fbCard(x) {
   } };
 }
 
+// 9. the Claude plan: superbot's connect prompt, its card in the house greys. superbot's mark and Claude's icon over a
+// dotted link, the plan (Claude's icon, signed in as the user), what connecting allows, Cancel and Connect in Claude's
+// orange. On the click the button dips and spins, the link fills, a check pops on Claude's icon and the button turns to
+// Connected in the house green, the heading with it. goEl is where the user's pointer clicks
+function clCard(x) {
+  const node = x.el(`<div class="bk ct-cl">
+    <div class="bk-head"><b class="bk-title">Claude subscription<small class="kd-st"><span class="kd-st-a">Waiting for you</span><span class="kd-st-a">${SPIN}Connecting</span><span class="kd-st-b">${CHECK}Connected</span></small></b></div>
+    <div class="bk-view ct-clview">
+      <div class="ct-cl-pair"><span class="ct-cl-sb"><img src="${x.sbSrc}" alt="superbot"/></span><span class="ct-cl-link"><i></i><i></i><i></i><i></i><i></i><b class="ct-cl-fill"></b></span><span class="ct-cl-app"><img src="${icon('claude')}" width="52" height="52" alt="Claude"/><i class="ct-cl-ok">${CHECK}</i></span></div>
+      <b class="ct-cl-h"><span>Connect your Claude subscription</span><span>Your Claude plan is connected</span></b>
+      <p class="ct-cl-p">Claude chats in superbot run on your plan instead of API billing.</p>
+      <div class="ct-cl-acct"><img src="${icon('claude')}" width="30" height="30" alt=""/><span><b>${x.esc(CLAUDE.name)}</b><small>Signed in as sam</small></span></div>
+      <ul class="ct-cl-perm"><li>${CHECK}Uses your plan’s Claude models</li><li>${CHECK}Counts toward your plan’s usage limits</li><li>${CHECK}No API key, no per-token charges</li></ul>
+      <div class="ct-cl-btns"><span class="ct-cl-no">Cancel</span><span class="ct-cl-go"><i class="ct-cl-gbg"></i><b class="ct-cl-ga">Connect</b><i class="ct-vspin"></i><b class="ct-cl-gb">${CHECK}Connected</b></span></div>
+    </div>
+  </div>`);
+  const $ = (q) => node.querySelector(q);
+  const go = $('.ct-cl-go'), ga = $('.ct-cl-ga'), gb = $('.ct-cl-gb'), gbg = $('.ct-cl-gbg'), vspin = $('.ct-cl-go .ct-vspin'), no = $('.ct-cl-no');
+  const fill = $('.ct-cl-fill'), ok = $('.ct-cl-ok'), [askH, doneH] = $('.ct-cl-h').children;
+  const [waiting, connecting, connected] = node.querySelectorAll('.kd-st > span');
+  const spin = connecting.querySelector('.ct-spin');
+  return { node, goEl: go, render(t, K) {
+    // the click: Connect dips, then spins in place of its label
+    const press = seg(t, K.click - 0.08, K.click) * (1 - seg(t, K.click, K.click + 0.16));
+    put(go, 'transform', `scale(${(1 - 0.05 * press).toFixed(4)})`);
+    const ing = seg(t, K.click, K.click + 0.08), d = outCubic(seg(t, K.done - 0.04, K.done + 0.16));
+    fade(ga, 1 - ing); fade(vspin, ing * (1 - d)); fade(gbg, d); fade(gb, d);
+    put(vspin, 'transform', `rotate(${(Math.max(0, t - K.click) * 540).toFixed(1)}deg)`);
+    put(spin, 'transform', `rotate(${(Math.max(0, t - K.click) * 540).toFixed(1)}deg)`);
+    put(no, 'opacity', lerp(1, 0.4, ing).toFixed(3));
+    // the link fills from superbot to Claude while it connects; the check pops on Claude's icon as it lands
+    put(fill, 'transform', `scaleX(${inOutCubic(seg(t, K.click + 0.05, K.done)).toFixed(4)})`);
+    fade(ok, seg(t, K.done - 0.04, K.done + 0.08));
+    put(ok, 'transform', `scale(${lerp(0.3, 1, outBack(seg(t, K.done - 0.04, K.done + 0.28))).toFixed(4)})`);
+    fade(waiting, 1 - ing); fade(connecting, ing * (1 - d)); fade(connected, d);
+    fade(askH, 1 - d); fade(doneH, d);
+  } };
+}
+
 export default {
   // `end` (the base route's end plus `extra`) is LEN past r by construction, so the chain keeps its own clock
   times(r) { return plan(r); },
   build(k, x) {
     loadSheets();
     loadFrameSheet();
-    const T = k.T, { A, M, O, S, U, D, C, F } = T;
+    const T = k.T, { A, M, O, S, U, D, C, F, K } = T;
     // the v16 cue sheet: the first ask as the engine types it, the four this beat types; the cat landing takes the photo's
     // hit, the 3D cat the model's, the order its bell, the song's press ends the bed (moved to the song's G major, -4), the
     // cards rise, the generations tick, and Discord connecting, the GIF sent, his answer, every cancel, each style landing
-    // and the pick, each captcha tap, Verify and Verified, each feedback note and the verdict resolve
+    // and the pick, each captcha tap, Verify and Verified, each feedback note and the verdict, the Connect click and
+    // Connected resolve
     const cues = {
       transpose: -4,
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, end: st.typeEnd }))],
       sends: [k.send, ...T.steps.map((st) => st.send)],
       camera: k.send, // the first send drops the composer and pulls the camera out (tabs.9b47fc30.js)
-      resolved: [A.conn, A.sent, A.reply, ...U.dones, ...D.lands, D.pick, ...C.taps, C.verify, C.done, ...F.notes, F.verdict],
+      resolved: [A.conn, A.sent, A.reply, ...U.dones, ...D.lands, D.pick, ...C.taps, C.verify, C.done, ...F.notes, F.verdict, K.click, K.done],
       cards: [A.card, ...T.steps.map((st) => st.card)],
       gens: [[M.gen0, M.done], [S.gen0, S.done]],
       image: A.done, model: M.done, order: O.done, play: S.play,
@@ -600,9 +654,9 @@ export default {
       return buffer;
     }));
     // the capture's cues (the film's compose script reads them): when each card is the one in focus, and the cut
-    window.__CATS_CUES = { r: T.r, cut: T.cut, end: T.end, play: S.play, send0: k.send, cancelled: U.done, pick: D.pick, verified: C.done, verdict: F.verdict,
+    window.__CATS_CUES = { r: T.r, cut: T.cut, end: T.end, play: S.play, send0: k.send, cancelled: U.done, pick: D.pick, verified: C.done, verdict: F.verdict, click: K.click, connected: K.done,
       steps: T.steps.map((st) => ({ ask: st.ask, s: st.s, send: st.send, r: st.r, card: st.card })),
-      focus: [[A.card - 0.3, '.ct-dm'], [M.send - 0.2, '.mc-3d'], [O.send - 0.2, '.mc-dd'], [S.send - 0.2, '.mc-sg'], [U.send - 0.2, '.ct-subs'], [D.send - 0.2, '.ct-web'], [C.send - 0.2, '.ct-cap'], [F.send - 0.2, '.ct-fb']] };
+      focus: [[A.card - 0.3, '.ct-dm'], [M.send - 0.2, '.mc-3d'], [O.send - 0.2, '.mc-dd'], [S.send - 0.2, '.mc-sg'], [U.send - 0.2, '.ct-subs'], [D.send - 0.2, '.ct-web'], [C.send - 0.2, '.ct-cap'], [F.send - 0.2, '.ct-fb'], [K.send - 0.2, '.ct-cl']] };
 
     // 1. the DM, in the engine's own reply
     const say1 = sayEl(x, SAY[0]);
@@ -620,7 +674,7 @@ export default {
       follow.push(u, reply);
       return { st, u, reply, say };
     });
-    const [mStep, oStep, sStep, uStep, dStep, cStep, fStep] = steps;
+    const [mStep, oStep, sStep, uStep, dStep, cStep, fStep, kStep] = steps;
 
     // 2. the 3D cat in the artifact frame
     const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Rigged · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="A hyperrealistic 3D tabby cat model walking on a turntable"></canvas><i class="qc-sk"></i>${genl('Creating 3D model')}</div></div>`);
@@ -668,9 +722,13 @@ export default {
     const fb = fbCard(x);
     fStep.reply.lastElementChild.append(fb.node);
     fStep.out = fb.node;
+    // 9. the Claude plan
+    const cl = clCard(x);
+    kStep.reply.lastElementChild.append(cl.node);
+    kStep.out = cl.node;
     for (const p of steps) { p.anchor = anchor(); p.reply.lastElementChild.append(p.anchor); }
     // Space and Enter press the cards' controls, not the spot's clock (timeline.9b47fc30.js), as on the other beats
-    for (const n of [dm.node, model, order, song, subs.node, web.node, cap.node, fb.node]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
+    for (const n of [dm.node, model, order, song, subs.node, web.node, cap.node, fb.node, cl.node]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
 
     // the end card and the x50 badge ride in nodes (so other variants hide them) and move to the scene section on the
     // first render, above the hub
@@ -712,12 +770,13 @@ export default {
       nodes: [say1.n, dm.node, anchor1, ...follow, endCard, ff],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
       marks: [[A.r, say1.n], [A.card, anchor1], ...steps.flatMap((p) => [[p.st.send, p.u], [p.st.r, p.say.n], [p.st.card, p.anchor]])],
-      // the seven follow-up asks, typed into the composer and sent by the engine (the feedback ask with its email's chip);
+      // the eight follow-up asks, typed into the composer and sent by the engine (the feedback ask with its email's chip);
       // no routing chips, so the composer stays on Superbot
       asks: T.steps.map((st) => ({ text: st.ask, s: st.s, typeEnd: st.typeEnd, send: st.send, ...(st.att ? { att: MAIL_CHIP } : {}) })),
       chips: [],
       // the pointer, in the section's px (chat.9b47fc30.js placeCursor): the user's, in from below right to the picked
-      // style and a click; then superbot's, across the cat tiles in turn, a tap on each, and Verify
+      // style and a click; then superbot's, across the cat tiles in turn, a tap on each, and Verify; then the user's again,
+      // up to Connect on the Claude prompt and a click
       pointer(t, toScr) {
         if (t >= D.ptr - 0.05 && t < D.pick + 0.9) {
           const b = x.box(web.pickEl);
@@ -735,6 +794,14 @@ export default {
           const p = Math.max(0, ...times.map((tt) => seg(t, tt - 0.06, tt) * (1 - seg(t, tt + 0.02, tt + 0.14))));
           return { x: at.x, y: at.y, p, v: seg(t, C.go - 0.05, C.go + 0.12) * (1 - seg(t, C.done + 0.35, C.done + 0.7)) };
         }
+        if (t >= K.ptr - 0.05 && t < K.done + 1.0) {
+          const b = x.box(cl.goEl);
+          // in from below right, a click, then off the button to its lower right so its spinner and Connected show
+          const tip = toScr({ x: b.cx + 6, y: b.cy + 4 });
+          const at = path(t, [{ t: K.ptr, ...toScr({ x: b.cx + 150, y: b.cy + 130 }) }, { t: K.click - 0.08, ...tip }, { t: K.click + 0.1, ...tip }, { t: K.click + 0.55, ...toScr({ x: b.cx + 112, y: b.cy + 40 }) }]);
+          const p = seg(t, K.click - 0.08, K.click) * (1 - seg(t, K.click + 0.02, K.click + 0.16));
+          return { x: at.x, y: at.y, p, v: seg(t, K.ptr - 0.05, K.ptr + 0.12) * (1 - seg(t, K.done + 0.5, K.done + 0.9)) };
+        }
         return null;
       },
       render(t) {
@@ -747,7 +814,7 @@ export default {
         }
         if (!decoding) {
           decoding = true;
-          for (const pic of [...dm.node.querySelectorAll('img'), order.querySelector('img'), song.querySelector('img'), ...subs.node.querySelectorAll('img'), ...web.node.querySelectorAll('img'), ...cap.node.querySelectorAll('img')]) {
+          for (const pic of [...dm.node.querySelectorAll('img'), order.querySelector('img'), song.querySelector('img'), ...subs.node.querySelectorAll('img'), ...web.node.querySelectorAll('img'), ...cap.node.querySelectorAll('img'), ...cl.node.querySelectorAll('img')]) {
             track(pic.decode().catch((e) => console.error(new Error(`${ID} image failed to decode: ${pic.src}`, { cause: e }))));
           }
           const sprite = new Image();
@@ -814,6 +881,9 @@ export default {
         cap.render(t, C);
         enter(fb.node, t, F.card);
         fb.render(t, F);
+        // 9. the Claude plan
+        enter(cl.node, t, K.card);
+        cl.render(t, K);
 
         // the end card: the chat fades to black, then the house card's own run (multicat.516afb1a.js)
         const cover = seg(t, T.cut, T.cut + END_IN);

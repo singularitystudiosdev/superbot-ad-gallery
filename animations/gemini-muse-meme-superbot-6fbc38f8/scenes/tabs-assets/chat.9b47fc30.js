@@ -38,7 +38,7 @@ import ytthumb, { TYPE_CPS as YTTHUMB_CPS, LEN as YTTHUMB_LEN, WAIT as YTTHUMB_W
 import hacker, { TYPE_CPS as HACKER_CPS, LEN as HACKER_LEN, hello as hackerHello, HELLO_LEN as HACKER_HELLO_LEN, HELLO_WAIT as HACKER_HELLO_WAIT, helloPc as hackerHelloPc, HELLO_PC_LEN as HACKER_HELLO_PC_LEN, computer as hackerPc, COMPUTER_LEN as HACKER_PC_LEN } from './beats/hacker.7dfcf32a.js?v=5';
 import voiceclone, { LEN as VOICECLONE_LEN } from './beats/voiceclone.986a9320.js?v=1';
 import voicecall, { TYPE_CPS as VOICECALL_CPS, LEN as VOICECALL_LEN } from './beats/voiceclone.6ba3a0f8.js?v=2';
-import cats, { TYPE_CPS as CATS_CPS, LEN as CATS_LEN } from './beats/cats.70783379.js?v=4';
+import cats, { TYPE_CPS as CATS_CPS, LEN as CATS_LEN } from './beats/cats.70783379.js?v=5';
 import { variant } from '../../variant.9e82faf1.js?v=3';
 import { LOGO as TRADERJOES_LOGO } from './beats/traderjoes-data.4aaedb8c.js';
 

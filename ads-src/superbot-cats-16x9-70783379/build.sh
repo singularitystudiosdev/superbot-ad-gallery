@@ -1,8 +1,9 @@
 #!/bin/sh
 # The superbot cats film (16:9, 1920x1080, 60 fps, with sound): the X spot "Superbot does things your chatbot can't." opening,
-# then the muse meme spot's 'cats-chatbot' variant (five asks: a cat GIF sent to MrCatMan131 on Discord, a hyperrealistic 3D
-# cat, cat food on DoorDash, a cat song, the user's other AI subscriptions cancelled) through its own superbot.gg end card,
-# the hooded mascot's fish.audio voice narrating throughout. compose.py has the cut; capture.mjs the frame-exact captures;
+# then the muse meme spot's 'cats-chatbot' variant (nine asks: a cat GIF sent to MrCatMan131 on Discord, a hyperrealistic 3D
+# cat, cat food on DoorDash, a cat song, the user's other AI subscriptions cancelled, a website style picked, a captcha
+# solved, an email draft torn apart, the user's Claude plan connected) through its own superbot.gg end card, the hooded
+# mascot's fish.audio voice narrating throughout and closing on it. compose.py has the cut; capture.mjs the frame-exact captures;
 # the variant's img/cats.70783379/CREDITS.txt every source.
 # Run from this folder with the gallery repo served (BASE, default http://127.0.0.1:8795: `npx http-server -p 8795 -c-1 .`
 # at the repo root), Playwright importable here (a node_modules beside this file) and PY a python with numpy, opencv-python

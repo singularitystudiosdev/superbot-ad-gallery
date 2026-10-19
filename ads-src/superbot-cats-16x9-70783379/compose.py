@@ -6,11 +6,12 @@
 # The close-up holds a beat, then a dive carries it into superbot's chat: the mask pushes in, softens and dims as the chat
 # settles in out of a slight zoom (no tape tear). The chat is the muse meme spot's 'cats-chatbot' variant (beats/cats.70783379.js,
 # captured by capture.mjs with the hacker montage's camera): five asks answered, the same voice narrating each (vo/*.wav), and
-# it runs on through the variant's own superbot.gg end card. The spot's closing "Superbot." is not used.
+# it runs on through the variant's own superbot.gg end card. The spot's closing "Superbot." is not used: the end card's line
+# is "Superbot, try it out and see if you like it." (vo/try.wav).
 # On screen besides the chat: "AI-generated footage and voice" over the generated shots, and the variant's own x50 badge
 # while a generation runs (the chat carries no label: the user asked it off, 2026-10-19). After the last plan cancels, the
-# mascot's voice laughs (vo/laugh.wav); then three more asks, three website styles to pick from, a captcha solved and an
-# email draft torn apart, each with its own line in the same voice.
+# mascot's voice laughs (vo/laugh.wav); then four more asks, three website styles to pick from, a captcha solved, an
+# email draft torn apart and the user's Claude plan connected, each with its own line in the same voice.
 # Sound: the voice, the hacker spots' Lyria drone under the mascot easing out through the dive with a soft rising whoosh, the
 # variant's own soundtrack (its v16 score with the song laid in and its end card's sounds, capture.mjs audio) easing in; the
 # music ducked under the voice (the chat's soundtrack too, under the narration); the mascot's bus through the spot's own
@@ -101,7 +102,21 @@ assert NARR[-1][1] + NARR[-1][2][1] - NARR[-1][2][0] < edit(FB['s']), 'the agent
 # answers the feedback ask (the best of six takes: the one that spells out L-O-L, deadpan), done before the end card
 HONEST = P('vo', 'honest.wav')
 NARR.append((HONEST, edit(FB['r'] + 0.2), spans(HONEST, 1)[0]))
-assert NARR[-1][1] + NARR[-1][2][1] - NARR[-1][2][0] < edit(cues['cut']), 'the honest line runs into the end card'
+KS = cues['steps'][7]  # the Claude ask (step K)
+assert NARR[-1][1] + NARR[-1][2][1] - NARR[-1][2][0] < edit(KS['s']) - 0.2, 'the honest line runs into the Claude ask'
+# then "And if you do want to keep your other subscriptions, you can hook them in, so you aren't charged API." from the
+# Claude ask's first key (the best of five takes), so "hook them in" lands on the Connect click (cues.json `click`) and the
+# line is done before the end card covers the chat
+KEEP = P('vo', 'keep.wav')
+NARR.append((KEEP, edit(KS['s'] + 0.05), spans(KEEP, 1)[0]))
+keep_at, (keep_s, keep_e) = NARR[-1][1], NARR[-1][2]
+assert keep_at < edit(cues['click']) < keep_at + keep_e - keep_s, 'the Connect click falls outside the keep line'
+assert keep_at + keep_e - keep_s < edit(cues['cut']) - 0.3, 'the keep line runs into the end card'
+# and on the end card, "Superbot, try it out and see if you like it." as superbot.gg fades up beside the mascot (the best
+# of six takes), done before the card's hold runs out
+TRY = P('vo', 'try.wav')
+NARR.append((TRY, CUT + 0.55, spans(TRY, 1)[0]))
+assert NARR[-1][1] + NARR[-1][2][1] - NARR[-1][2][0] < E_END - 0.4, 'the closing line runs past the end card'
 for f, at, (s, e) in NARR: print(f'  narration {os.path.basename(f)} {at:.2f}-{at + e - s:.2f}')
 
 # ---------- picture ----------

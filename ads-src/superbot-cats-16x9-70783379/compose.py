@@ -9,7 +9,8 @@
 # it runs on through the variant's own superbot.gg end card. The spot's closing "Superbot." is not used.
 # Disclosures as the hacker montage carries them: "AI-generated footage and voice" over the generated shots, "Dramatization
 # · AI voice" over the chat (nothing in it was sent, ordered or cancelled; the narration goes on over it), and the variant's
-# own x50 badge while a generation runs. After the last plan cancels, the mascot's voice laughs (vo/laugh.wav).
+# own x50 badge while a generation runs. After the last plan cancels, the mascot's voice laughs (vo/laugh.wav); then
+# two more asks, three website styles to pick from and a captcha solved, each with its own line in the same voice.
 # Sound: the voice, the hacker spots' Lyria drone under the mascot easing out through the dive with a soft rising whoosh, the
 # variant's own soundtrack (its v16 score with the song laid in and its end card's sounds, capture.mjs audio) easing in; the
 # music ducked under the voice (the chat's soundtrack too, under the narration); the mascot's bus through the spot's own
@@ -85,7 +86,16 @@ assert song_at + song_e - song_s < edit(cues['play']) - 0.1, 'the song line runs
 LAUGH = P('vo', 'laugh.wav')
 NARR.append((LAUGH, edit(cues['cancelled']) + 0.15, spans(LAUGH, 1)[0]))
 _, laugh_at, (laugh_s, laugh_e) = NARR[-1]
-assert laugh_at + laugh_e - laugh_s < edit(cues['cut']) + 0.1, 'the laugh runs into the end card'
+WEB, CAP = cues['steps'][4], cues['steps'][5]  # the website ask and the captcha ask (beats/cats.70783379.js steps D, C)
+assert laugh_at + laugh_e - laugh_s < edit(WEB['s']) + 0.05, 'the laugh runs into the website ask'
+# then two more lines in the same voice (the best of three each): "Its output is more interactive as well. You get to pick
+# your style." from the website ask's first key, so "pick your style" lands on the pick (cues.json `pick`); and "It also
+# does what your other agents won't." as superbot answers the captcha ask, over its taps
+for f, at in ((P('vo', 'style.wav'), WEB['s'] + 0.05), (P('vo', 'agents.wav'), CAP['r'] + 0.15)):
+    NARR.append((f, edit(at), spans(f, 1)[0]))
+_, style_at, (style_s, style_e) = NARR[-2]
+assert abs(style_at + style_e - style_s - edit(cues['pick'])) < 0.6, 'the style line drifts off the pick'
+assert NARR[-1][1] + NARR[-1][2][1] - NARR[-1][2][0] < edit(cues['cut']), 'the agents line runs into the end card'
 for f, at, (s, e) in NARR: print(f'  narration {os.path.basename(f)} {at:.2f}-{at + e - s:.2f}')
 
 # ---------- picture ----------

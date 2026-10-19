@@ -40,6 +40,19 @@ Midjourney Standard Plan $30 monthly (docs.midjourney.com/hc/en-us/articles/2787
 (suno.com/pricing, its plan data: monthly_price_usd 10). Each maker says paid access runs to the end of the billing period
 after a cancel; the renewal dates are made up. Nothing was cancelled.
 
+captcha/*.jpg (the image challenge, step 7)
+  Nine tiles GENERATED for this cut by OpenAI GPT Image (requested via the media tool, served gpt-image-2.5-flare, quality
+  medium, 1024x1024, 2026-10-19), scaled to 256x256 (ffmpeg lanczos, JPEG q3). Each prompt asked for a slightly grainy
+  amateur street photo "like a CAPTCHA image tile", "No text, no logos, no watermark": cat-wall (a grey tabby on a brick
+  garden wall), hydrant, cat-porch (a black cat on a porch step), bicycle, cat-window (a ginger cat behind a window),
+  traffic-light, dog (a brown mutt on a lawn, "no cats"), cat-street (a white and grey cat on a crosswalk), car (a silver
+  hatchback, no plate text). Licence: generated for this project; OpenAI's terms assign the output to the requester. The
+  challenge itself is a generic rebuild, no vendor's name or mark; the sign-in page behind it is blank placeholder blocks.
+
+The website styles (step 6) are HTML in the beat, the café "Whisker & Bean" made up; their photos are the hacker cut's
+generated cats (../hacker.7dfcf32a/cat-sun.jpg, cat-box.jpg, cat-kittens.jpg, cat-mug.jpg; that folder's CREDITS.txt) and
+this cut's cover.jpg.
+
 Reused from other cuts of this spot: the 3D cat (../../models/cat-walk.516afb1a.glb, models/CREDITS.txt), the Petco order
 card (../multicat.516afb1a/order-placed.jpg, that folder's CREDITS.txt), the Discord DM frame and its Discord mark
 (Simple Icons, CC0; ../koala.7f80a09a/CREDITS.txt). The DM history, its dates and MrCatMan131's answer are made up;

@@ -13,7 +13,11 @@
 //      fills in and its sung line lights word by word. It plays on under the fifth ask, a little lower, as the cut's bed.
 //   5. The subscriptions: the user's five other AI plans, each with its app's own icon, cancelled one after another
 //      (Active, Canceling, Canceled with the date its paid access ends), the frame counting them and the monthly spend
-//      on them running down to $0.00; then the end card covers the chat.
+//      on them running down to $0.00, then a held beat (the film's laugh plays in it).
+//   6. The website: three styles of a cat café's site land side by side out of their skeletons, and the user's pointer
+//      picks one (it takes a ring and a check, the other two recede).
+//   7. The captcha: a generic image challenge ("Select all images with cats") over a dimmed sign-in page; superbot's
+//      pointer taps the four cats and Verify, and the page reads Verified; then the end card covers the chat.
 // Under it plays 16 · Punchy premium groove (multicat-player.96834de7.js), re-cued to this chain: the cat landing takes the
 // photo's hit, the 3D cat the model's (the fuller section follows it), the order its bell, the song's play press ends the
 // bed (it is moved to the song's G major), every cancel a resolve tick. The follow-up messages are built here and moved in
@@ -21,7 +25,7 @@
 // other variant); the engine reads inst.asks for their typing and sends (chat.9b47fc30.js). A pure function of t, except
 // the audio, which follows the clock and never drives it. Its stylesheet (../cats.70783379.css) loads with the module.
 // Everything on screen is made up and nothing was sent, ordered or cancelled; sources in img/cats.70783379/CREDITS.txt.
-import { clamp, lerp, seg, outCubic, outQuint, outBack, inOutCubic, streamCount } from '../../../lib.9b47fc30.js';
+import { clamp, lerp, seg, outCubic, outQuint, outBack, inOutCubic, streamCount, path } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { LAND, landing, shimmer, settle } from './thumb-land.309eb9c5.js';
 import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
@@ -35,11 +39,13 @@ import { renderScore } from './multicat-score.96834de7.js?v=3';
 import { DUR, PEAKS, LINES, WORDS } from './cats-data.70783379.js';
 
 export const ID = 'cats-chatbot';
-const CSS = new URL('../cats.70783379.css?v=1', import.meta.url).href;
+const CSS = new URL('../cats.70783379.css?v=2', import.meta.url).href;
 // the DM frame is the koala cut's (../koala.7f80a09a.css .kd-*), the 3D, order and song cards and the end card multicat's
 const SHEETS = [new URL('../multicat.516afb1a.css?v=9', import.meta.url).href, new URL('../koala.7f80a09a.css?v=1', import.meta.url).href, CSS];
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
 const icon = (n) => asset(`img/cats.70783379/icons/${n}.png`);
+const cafePic = (n) => asset(`img/hacker.7dfcf32a/${n}.jpg`); // the hacker cut's generated cat photos (that folder's CREDITS.txt)
+const capPic = (n) => asset(`img/cats.70783379/captcha/${n}.jpg`);
 const SPRITE = asset('img/cats.70783379/cat-gif-frames.jpg'); // the GIF's 46 frames, 360 x 270 each, 8 across and 6 down
 const GIF = asset('media/cats.70783379/cat-squint.gif');
 const COVER = asset('img/cats.70783379/cover.jpg');
@@ -54,7 +60,8 @@ const TITLE = 'Nine Lives';
 
 export const TYPE_CPS = 55; // every ask types at this rate; the first one through its route's typeCps (chat.9b47fc30.js)
 const ASK1 = `Connect to my discord and send a cat gif to ${FRIEND}`;
-const ASKS = ['Make me a 3d hyperrealistic model of a cat', 'Order me catfood on doordash', 'Now make me a song about cats', 'Unsubscribe from all my other AI subscriptions'];
+const ASKS = ['Make me a 3d hyperrealistic model of a cat', 'Order me catfood on doordash', 'Now make me a song about cats', 'Unsubscribe from all my other AI subscriptions',
+  'Build me a website for my cat café', 'Get past this captcha'];
 
 // the DM's recent history, oldest first: a day's divider or one author's run of messages. The last run is his answer to
 // the GIF, which lands live
@@ -84,7 +91,22 @@ const SAY = [
   'Your cat food has been ordered from Petco.',
   'Here’s an upbeat indie pop song about cats.',
   `Canceled all ${SUBS.length} of your other AI subscriptions.`,
+  'Here are three styles for your cat café’s site. Pick one.',
+  'Done. You’re past the captcha.',
 ];
+// 6. the café's site in three styles (made up; its photos are the hacker cut's generated cats and this cut's cover), and
+// the one the user picks
+const CAFE = 'Whisker &amp; Bean';
+const DESIGNS = [
+  { name: 'Cozy', note: 'Warm serif', html: () => `<div class="ct-site ct-s-cozy"><div class="ct-nav"><b>${CAFE}</b><span>Menu</span><span>Cats</span><span>Visit</span></div><div class="ct-hero"><h4>Coffee with a side of purrs.</h4><p>Lattes, pastries and twelve resident cats.</p><i class="ct-btn">Book a visit</i></div><img src="${cafePic('cat-sun')}" alt=""/></div>` },
+  { name: 'Bold', note: 'Big type', html: () => `<div class="ct-site ct-s-bold"><div class="ct-nav"><b>WHISKER &amp; BEAN</b><i>OPEN 7AM</i></div><h4>CATS +<br/>COFFEE.</h4><img src="${cafePic('cat-box')}" alt=""/><i class="ct-btn">GRAB A SEAT →</i></div>` },
+  { name: 'Minimal', note: 'Clean grid', html: () => `<div class="ct-site ct-s-min"><b class="ct-logo">${CAFE}</b><p>A quiet café with resident cats.</p><div class="ct-row3"><img src="${cafePic('cat-kittens')}" alt=""/><img src="${cafePic('cat-mug')}" alt=""/><img src="${COVER}" alt=""/></div><i class="ct-btn">Reserve a table</i></div>` },
+];
+const PICK = 1;
+// 7. the challenge's nine tiles (generated for this cut, img/cats.70783379/CREDITS.txt), and the four with cats in them,
+// in the order superbot taps them
+const TILES = ['cat-wall', 'hydrant', 'cat-porch', 'bicycle', 'cat-window', 'traffic-light', 'dog', 'cat-street', 'car'];
+const CATS = [0, 2, 4, 7];
 
 // a card's rise and the feed's glide to it (chat.9b47fc30.js renderScroll) both take this long: its work starts once in view
 const SEEN = 0.45;
@@ -105,6 +127,12 @@ const SONG_UNDER = 0.75; // the song's level under the last ask and its card (-2
 const SONG_FADE = 0.9;   // its fade-out as the end card covers the chat
 // one plan's cancel, the next one's start, the last to the end card's cover (room for the film's laugh, ads-src/superbot-cats-16x9-70783379)
 const CANCEL = 0.5, STRIDE = 0.44, HOLD_5 = 2.4;
+// 6. the styles: their skeletons to the first landing, the next two after it, the last landing to the pointer arriving on
+// the pick (its travel PICK_MOVE), the pick to the captcha ask typing
+const DESIGN = 0.85, DESIGN_STAGGER = 0.14, PICK_AFTER = 0.9, PICK_MOVE = 0.55, HOLD_D = 1.5;
+// 7. the captcha in view to superbot's pointer setting off, its first tap after that, one tap to the next, the last tap to
+// Verify, Verify to Verified, Verified to the end card's cover
+const CAP_IN = 0.3, CAP_FIRST = 0.45, TILE = 0.34, VERIFY = 0.5, CHECKING = 0.6, HOLD_C = 1.9;
 // the house end card (multicat.516afb1a.js): the chat fades to its black over END_IN, the card's own 2.5s run starts
 // END_DELAY in (mascot pops in, superbot.gg fades up beside it, hold)
 const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 2.5, END_GAP = 44;
@@ -124,7 +152,7 @@ const DOWNLOAD = '<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 19.5
 const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
 // every time in the chain, from the first reply r. A: the DM (connects, the GIF found and landed, sent, his answer);
-// M, O, S, U: the four asks the beat types itself, each { s, typeEnd, send, r, card } and its own work after the card
+// M, O, S, U, D, C: the six asks the beat types itself, each { s, typeEnd, send, r, card } and its own work after the card
 function plan(r) {
   const A = { r, card: r + 0.22 };
   A.c0 = A.card + SEEN; A.conn = A.c0 + CONNECT; A.gen0 = A.conn + CONN_OUT + 0.1; A.done = A.gen0 + FIND;
@@ -145,8 +173,20 @@ function plan(r) {
   U.starts = SUBS.map((_, i) => U.go + i * STRIDE);
   U.dones = U.starts.map((a) => a + CANCEL);
   U.done = U.dones[U.dones.length - 1] + 0.15;
-  const cut = U.done + HOLD_5;
-  return { r, A, M, O, S, U, steps: [M, O, S, U], cut, end: cut + END_DELAY + END_LEN };
+  s = U.done + HOLD_5;
+  const D = step(ASKS[4]);
+  D.d0 = D.gen0;
+  D.lands = DESIGNS.map((_, i) => D.d0 + DESIGN + i * DESIGN_STAGGER);
+  D.pick = D.lands[D.lands.length - 1] + LAND + PICK_AFTER;
+  D.ptr = D.pick - PICK_MOVE;
+  s = D.pick + HOLD_D;
+  const C = step(ASKS[5]);
+  C.go = C.gen0 + CAP_IN;
+  C.taps = CATS.map((_, i) => C.go + CAP_FIRST + i * TILE);
+  C.verify = C.taps[C.taps.length - 1] + VERIFY;
+  C.done = C.verify + CHECKING;
+  const cut = C.done + HOLD_C;
+  return { r, A, M, O, S, U, D, C, steps: [M, O, S, U, D, C], cut, end: cut + END_DELAY + END_LEN };
 }
 // the chain's length from its first reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
@@ -348,22 +388,108 @@ function subsCard(x) {
   } };
 }
 
+// 6. the styles: three previews (each site laid out at 344 x 215 and drawn at half size), landing one after another out of
+// their skeletons; the pick takes a ring and a check while the others recede. pickEl is where the pointer clicks
+const REFRESH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
+const PHONES = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>';
+const INFO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>';
+function webCard(x) {
+  const opts = DESIGNS.map((d) => `<div class="ct-opt"><div class="ct-prev qc-skel"><div class="ct-fit">${d.html()}</div><i class="qc-sk"></i><span class="ct-badge">${CHECK}</span></div><div class="ct-opt-l"><b>${d.name}</b><small>${d.note}</small></div></div>`).join('');
+  const node = x.el(`<div class="bk ct-web">
+    <div class="bk-head"><b class="bk-title">Cat café website<small class="kd-st"><span class="kd-st-a">Designing 3 styles</span><span class="kd-st-a">Pick a style</span><span class="kd-st-b">${CHECK}${DESIGNS[PICK].name} picked</span></small></b>${EXPAND}</div>
+    <div class="bk-view ct-wview"><div class="ct-opts">${opts}</div></div>
+  </div>`);
+  const parts = [...node.querySelectorAll('.ct-opt')].map((o) => ({ o, prev: o.querySelector('.ct-prev'), fit: o.querySelector('.ct-fit'), sk: o.querySelector('.qc-sk'), badge: o.querySelector('.ct-badge') }));
+  const [designing, picking, picked] = node.querySelectorAll('.kd-st > span');
+  return { node, pickEl: parts[PICK].prev, render(t, D) {
+    parts.forEach((q, i) => {
+      const lp = landing(t, D.lands[i]);
+      shimmer(q.sk, t, D.d0, i, lp);
+      settle(q.fit, lp);
+      // the pick: a ring and a check pop on it, a small press; the other two recede
+      const k = outCubic(seg(t, D.pick, D.pick + 0.25));
+      if (i === PICK) {
+        put(q.prev, 'boxShadow', k > 0 ? `0 0 0 ${(2.5 * k).toFixed(2)}px #f2f2f5, 0 10px 28px rgba(0,0,0,${(0.45 * k).toFixed(3)})` : '');
+        const press = seg(t, D.pick - 0.08, D.pick) * (1 - seg(t, D.pick, D.pick + 0.18));
+        put(q.o, 'transform', `scale(${(1 - 0.03 * press + 0.025 * k).toFixed(4)})`);
+        fade(q.badge, seg(t, D.pick, D.pick + 0.08));
+        put(q.badge, 'transform', `scale(${lerp(0.3, 1, outBack(seg(t, D.pick, D.pick + 0.3))).toFixed(4)})`);
+      } else {
+        put(q.o, 'opacity', lerp(1, 0.42, k).toFixed(3));
+      }
+    });
+    const ready = outCubic(seg(t, D.lands[D.lands.length - 1] + LAND - 0.1, D.lands[D.lands.length - 1] + LAND + 0.1));
+    const done = outCubic(seg(t, D.pick, D.pick + 0.2));
+    fade(designing, 1 - ready); fade(picking, ready * (1 - done)); fade(picked, done);
+  } };
+}
+
+// 7. the captcha: a generic image challenge (no vendor's marks) over a dimmed sign-in page. Each cat tile shrinks and takes a
+// blue check as superbot taps it; Verify dips, spins, and the challenge gives way to Verified. targets() is where its
+// pointer goes, in tap order, then Verify
+function capCard(x) {
+  const tiles = TILES.map((f) => `<div class="ct-tile"><img src="${capPic(f)}" width="256" height="256" alt=""/><span class="ct-tick">${CHECK}</span></div>`).join('');
+  const node = x.el(`<div class="bk ct-cap">
+    <div class="bk-head"><b class="bk-title">Captcha<small class="kd-st"><span class="kd-st-a">${SPIN}Solving</span><span class="kd-st-b">${CHECK}Solved</span></small></b></div>
+    <div class="bk-view ct-cview">
+      <div class="ct-page"><div class="ct-pbar"><i></i><span></span></div><div class="ct-pform"><b>Sign in</b><i></i><i></i><span>Continue</span></div></div>
+      <div class="ct-scrim"></div>
+      <div class="ct-modal" role="img" aria-label="An image challenge: select all images with cats">
+        <div class="ct-mhead"><small>Select all images with</small><b>cats</b><small>Click verify once there are none left.</small></div>
+        <div class="ct-grid">${tiles}</div>
+        <div class="ct-mfoot"><span class="ct-icons">${REFRESH}${PHONES}${INFO}</span><span class="ct-verify"><i class="ct-vspin"></i><b>VERIFY</b></span></div>
+      </div>
+      <div class="ct-ok"><span>${CHECK}</span><b>Verified</b></div>
+    </div>
+  </div>`);
+  const tileEls = [...node.querySelectorAll('.ct-tile')];
+  const $ = (q) => node.querySelector(q);
+  const modal = $('.ct-modal'), scrim = $('.ct-scrim'), ok = $('.ct-ok'), verify = $('.ct-verify'), vspin = $('.ct-vspin'), vtext = $('.ct-verify b');
+  const [solving, solved] = node.querySelectorAll('.kd-st > span');
+  const spin = solving.querySelector('.ct-spin');
+  return { node, targets: () => [...CATS.map((i) => tileEls[i]), verify], render(t, C) {
+    CATS.forEach((ti, i) => {
+      const at = C.taps[i], el = tileEls[ti];
+      put(el.firstElementChild, 'transform', `scale(${lerp(1, 0.84, outCubic(seg(t, at, at + 0.16))).toFixed(4)})`);
+      const tick = el.lastElementChild;
+      fade(tick, seg(t, at, at + 0.06));
+      put(tick, 'transform', `scale(${lerp(0.3, 1, outBack(seg(t, at, at + 0.26))).toFixed(4)})`);
+    });
+    const press = seg(t, C.verify - 0.08, C.verify) * (1 - seg(t, C.verify, C.verify + 0.14));
+    put(verify, 'transform', `scale(${(1 - 0.06 * press).toFixed(4)})`);
+    const checking = seg(t, C.verify, C.verify + 0.08);
+    fade(vspin, checking); fade(vtext, 1 - checking);
+    put(vspin, 'transform', `rotate(${(Math.max(0, t - C.verify) * 540).toFixed(1)}deg)`);
+    put(spin, 'transform', `rotate(${(Math.max(0, t - C.go) * 540).toFixed(1)}deg)`);
+    // Verified: the challenge lifts away, the page clears and the check pops
+    const out = outCubic(seg(t, C.done - 0.05, C.done + 0.25));
+    fade(modal, 1 - out);
+    put(modal, 'transform', `translate(-50%, -50%) scale(${lerp(1, 0.94, out).toFixed(4)})`);
+    put(scrim, 'opacity', lerp(1, 0.25, out).toFixed(3));
+    fade(ok, seg(t, C.done + 0.05, C.done + 0.2));
+    put(ok, 'transform', `translate(-50%, -50%) scale(${lerp(0.6, 1, outBack(seg(t, C.done + 0.05, C.done + 0.4))).toFixed(4)})`);
+    const d = outCubic(seg(t, C.done, C.done + 0.2));
+    fade(solving, 1 - d); fade(solved, d);
+  } };
+}
+
 export default {
   // `end` (the base route's end plus `extra`) is LEN past r by construction, so the chain keeps its own clock
   times(r) { return plan(r); },
   build(k, x) {
     loadSheets();
     loadFrameSheet();
-    const T = k.T, { A, M, O, S, U } = T;
+    const T = k.T, { A, M, O, S, U, D, C } = T;
     // the v16 cue sheet: the first ask as the engine types it, the four this beat types; the cat landing takes the photo's
     // hit, the 3D cat the model's, the order its bell, the song's press ends the bed (moved to the song's G major, -4), the
-    // cards rise, the generations tick, and Discord connecting, the GIF sent, his answer and every cancel resolve
+    // cards rise, the generations tick, and Discord connecting, the GIF sent, his answer, every cancel, each style landing
+    // and the pick, each captcha tap, Verify and Verified resolve
     const cues = {
       transpose: -4,
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, end: st.typeEnd }))],
       sends: [k.send, ...T.steps.map((st) => st.send)],
       camera: k.send, // the first send drops the composer and pulls the camera out (tabs.9b47fc30.js)
-      resolved: [A.conn, A.sent, A.reply, ...U.dones],
+      resolved: [A.conn, A.sent, A.reply, ...U.dones, ...D.lands, D.pick, ...C.taps, C.verify, C.done],
       cards: [A.card, ...T.steps.map((st) => st.card)],
       gens: [[M.gen0, M.done], [S.gen0, S.done]],
       image: A.done, model: M.done, order: O.done, play: S.play,
@@ -372,8 +498,8 @@ export default {
     const v16 = makePlayerV16(cues, ID);
     addEventListener('variantchange', () => v16.stop());
     // the song's level against the clock: whole from its press through the last ask's typing, eased down under its card, faded evenly
-    // in dB to -40 dB as the end card covers the chat (syncAudio below, and the export's mixdown)
-    const songGain = (t) => lerp(1, SONG_UNDER, inOutCubic(seg(t, U.send - 0.2, U.send + 0.5))) * Math.pow(0.01, seg(t, T.cut, T.cut + SONG_FADE));
+    // in dB to -40 dB as the end card covers the chat; lower again (0.6) from the website ask on (syncAudio below, and the export's mixdown)
+    const songGain = (t) => lerp(1, SONG_UNDER, inOutCubic(seg(t, U.send - 0.2, U.send + 0.5))) * lerp(1, 0.6, seg(t, D.s, D.s + 0.6)) * Math.pow(0.01, seg(t, T.cut, T.cut + SONG_FADE));
     const songStop = Math.min(S.play + DUR, T.cut + SONG_FADE);
     // the cut's whole soundtrack for offline renders (window.__EXPORT_AUDIO, read by export-render.07e9fa90.mjs and the
     // film's capture): this cue sheet's score with the song laid in at its press under songGain, at 0.9 as the page plays
@@ -391,8 +517,9 @@ export default {
       return buffer;
     }));
     // the capture's cues (the film's compose script reads them): when each card is the one in focus, and the cut
-    window.__CATS_CUES = { r: T.r, cut: T.cut, end: T.end, play: S.play, send0: k.send, cancelled: U.done,
-      focus: [[A.card - 0.3, '.ct-dm'], [M.send - 0.2, '.mc-3d'], [O.send - 0.2, '.mc-dd'], [S.send - 0.2, '.mc-sg'], [U.send - 0.2, '.ct-subs']] };
+    window.__CATS_CUES = { r: T.r, cut: T.cut, end: T.end, play: S.play, send0: k.send, cancelled: U.done, pick: D.pick, verified: C.done,
+      steps: T.steps.map((st) => ({ ask: st.ask, s: st.s, send: st.send, r: st.r, card: st.card })),
+      focus: [[A.card - 0.3, '.ct-dm'], [M.send - 0.2, '.mc-3d'], [O.send - 0.2, '.mc-dd'], [S.send - 0.2, '.mc-sg'], [U.send - 0.2, '.ct-subs'], [D.send - 0.2, '.ct-web'], [C.send - 0.2, '.ct-cap']] };
 
     // 1. the DM, in the engine's own reply
     const say1 = sayEl(x, SAY[0]);
@@ -410,7 +537,7 @@ export default {
       follow.push(u, reply);
       return { st, u, reply, say };
     });
-    const [mStep, oStep, sStep, uStep] = steps;
+    const [mStep, oStep, sStep, uStep, dStep, cStep] = steps;
 
     // 2. the 3D cat in the artifact frame
     const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Rigged · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="A hyperrealistic 3D tabby cat model walking on a turntable"></canvas><i class="qc-sk"></i>${genl('Creating 3D model')}</div></div>`);
@@ -446,9 +573,17 @@ export default {
     const subs = subsCard(x);
     uStep.reply.lastElementChild.append(subs.node);
     uStep.out = subs.node;
+
+    // 6. the styles, 7. the captcha
+    const web = webCard(x);
+    dStep.reply.lastElementChild.append(web.node);
+    dStep.out = web.node;
+    const cap = capCard(x);
+    cStep.reply.lastElementChild.append(cap.node);
+    cStep.out = cap.node;
     for (const p of steps) { p.anchor = anchor(); p.reply.lastElementChild.append(p.anchor); }
     // Space and Enter press the cards' controls, not the spot's clock (timeline.9b47fc30.js), as on the other beats
-    for (const n of [dm.node, model, order, song, subs.node]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
+    for (const n of [dm.node, model, order, song, subs.node, web.node, cap.node]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
 
     // the end card and the x50 badge ride in nodes (so other variants hide them) and move to the scene section on the
     // first render, above the hub
@@ -490,9 +625,30 @@ export default {
       nodes: [say1.n, dm.node, anchor1, ...follow, endCard, ff],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
       marks: [[A.r, say1.n], [A.card, anchor1], ...steps.flatMap((p) => [[p.st.send, p.u], [p.st.r, p.say.n], [p.st.card, p.anchor]])],
-      // the four follow-up asks, typed into the composer and sent by the engine; no chips, so the composer stays on Superbot
+      // the six follow-up asks, typed into the composer and sent by the engine; no chips, so the composer stays on Superbot
       asks: T.steps.map((st) => ({ text: st.ask, s: st.s, typeEnd: st.typeEnd, send: st.send })),
       chips: [],
+      // the pointer, in the section's px (chat.9b47fc30.js placeCursor): the user's, in from below right to the picked
+      // style and a click; then superbot's, across the cat tiles in turn, a tap on each, and Verify
+      pointer(t, toScr) {
+        if (t >= D.ptr - 0.05 && t < D.pick + 0.9) {
+          const b = x.box(web.pickEl);
+          const at = path(t, [{ t: D.ptr, ...toScr({ x: b.cx + 170, y: b.cy + 150 }) }, { t: D.pick - 0.08, ...toScr({ x: b.cx + 10, y: b.cy + 8 }) }]);
+          const p = seg(t, D.pick - 0.08, D.pick) * (1 - seg(t, D.pick + 0.02, D.pick + 0.16));
+          return { x: at.x, y: at.y, p, v: seg(t, D.ptr - 0.05, D.ptr + 0.12) * (1 - seg(t, D.pick + 0.55, D.pick + 0.9)) };
+        }
+        if (t >= C.go - 0.05 && t < C.done + 0.7) {
+          const els = cap.targets(), times = [...C.taps, C.verify];
+          const pts = els.map((el, i) => { const b = x.box(el); return { t: times[i] - 0.08, ...toScr({ x: b.cx + 4, y: b.cy + 6 }) }; });
+          const start = { t: C.go, x: pts[0].x + 120, y: pts[0].y + 170 };
+          // it rests on each target from its arrival to its tap, then moves on
+          const keys = [start, ...pts.flatMap((q, i) => [q, { t: times[i] + 0.04, x: q.x, y: q.y }])];
+          const at = path(t, keys);
+          const p = Math.max(0, ...times.map((tt) => seg(t, tt - 0.06, tt) * (1 - seg(t, tt + 0.02, tt + 0.14))));
+          return { x: at.x, y: at.y, p, v: seg(t, C.go - 0.05, C.go + 0.12) * (1 - seg(t, C.done + 0.35, C.done + 0.7)) };
+        }
+        return null;
+      },
       render(t) {
         if (!placed) {
           let at = say1.n.closest('.msg');
@@ -503,7 +659,7 @@ export default {
         }
         if (!decoding) {
           decoding = true;
-          for (const pic of [...dm.node.querySelectorAll('img'), order.querySelector('img'), song.querySelector('img'), ...subs.node.querySelectorAll('img')]) {
+          for (const pic of [...dm.node.querySelectorAll('img'), order.querySelector('img'), song.querySelector('img'), ...subs.node.querySelectorAll('img'), ...web.node.querySelectorAll('img'), ...cap.node.querySelectorAll('img')]) {
             track(pic.decode().catch((e) => console.error(new Error(`${ID} image failed to decode: ${pic.src}`, { cause: e }))));
           }
           const sprite = new Image();
@@ -562,6 +718,12 @@ export default {
         // 5. the subscriptions
         enter(subs.node, t, U.card);
         subs.render(t, U);
+
+        // 6. the styles, 7. the captcha
+        enter(web.node, t, D.card);
+        web.render(t, D);
+        enter(cap.node, t, C.card);
+        cap.render(t, C);
 
         // the end card: the chat fades to black, then the house card's own run (multicat.516afb1a.js)
         const cover = seg(t, T.cut, T.cut + END_IN);

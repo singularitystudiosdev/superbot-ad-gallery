@@ -1,4 +1,5 @@
 // capture.mjs <mode montage|end|audio> <t0> <t1> <outdir> [fps=60]
+// (the film takes its chat through the variant's own end card: montage from 0.6 s to the run's end)
 // Frame-exact capture of the 'cats-chatbot' variant of the muse meme spot (a pure function of t: window.__AD.seek), for the
 // film compose.py cuts. montage: pass 1 measures, per frame, the card in focus (window.__CATS_CUES.focus, set by
 // beats/cats.70783379.js), its ask bubble, the next ask once sent and the composer; a zero-phase smoothed camera frames
@@ -106,8 +107,9 @@ try {
     }
     // the camera: fit the focus box with a margin, zoom 1..ZMAX, then a zero-phase smoothing pass so it eases between cards;
     // horizontally it holds the thread's centre, only its push and its height follow the cards
+    // from just before the variant's end card starts to cover the chat, the whole frame, so the card lands unzoomed
     const cam = meta.map((m) => {
-      if (mode === 'end') return { cx: W / 2, cy: H / 2, z: 1 };
+      if (mode === 'end' || m.t >= cues.cut - 0.2) return { cx: W / 2, cy: H / 2, z: 1 };
       const bw = m.x1 - m.x0 + 120, bh = m.y1 - m.y0 + 110;
       return { cx: W / 2, cy: (m.y0 + m.y1) / 2, z: Math.max(1, Math.min(ZMAX, (W * 0.94) / bw, (H * 0.92) / bh)) };
     });

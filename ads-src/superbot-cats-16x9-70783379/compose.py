@@ -2,18 +2,19 @@
 # It opens as the X spot "Superbot does things your chatbot can't." does (gallery superbot-things-chatbot-cant-1x1-superbot-
 # bf3b6bed, built by ../hacker-announcement-7dfcf32a/compose.py as its talk cut of spot `agents`): the same two generated
 # shots of the hooded mascot at 16:9 (the chin under the mask hidden in hood shadow, VHS-matched), the line laid at the same
-# second, the same cut to the close-up, in the fish.audio HACKER VOICE take the hacker spots ship (vo/agents/fish.wav), and that
-# voice carries on through the chat: a line on each ask (vo/*.wav). Where that spot says "Superbot." and tears into the end card,
-# this one holds the close-up a beat and tears into superbot's chat, the muse meme spot's 'cats-chatbot' variant
-# (beats/cats.70783379.js, captured by capture.mjs with the hacker montage's camera): five asks answered. Then a tear back to
-# the close-up for the spot's "Superbot.", and a tear into the house superbot.gg end card (captured from the same variant).
+# second and the same cut to the close-up, the line read in the fish.audio HACKER VOICE that narrates the rest (vo/intro.wav).
+# The close-up holds a beat, then a dive carries it into superbot's chat: the mask pushes in, softens and dims as the chat
+# settles in out of a slight zoom (no tape tear). The chat is the muse meme spot's 'cats-chatbot' variant (beats/cats.70783379.js,
+# captured by capture.mjs with the hacker montage's camera): five asks answered, the same voice narrating each (vo/*.wav), and
+# it runs on through the variant's own superbot.gg end card. The spot's closing "Superbot." is not used.
 # Disclosures as the hacker montage carries them: "AI-generated footage and voice" over the generated shots, "Dramatization
-# · AI voice" over the chat (nothing in it was sent, ordered or cancelled; the narration goes on over it), and the variant's own x50 badge while a generation runs.
-# Sound: the voice, the hacker spots' Lyria drone under the mascot, the variant's own soundtrack under the chat (its
-# v16 score with the song laid in, capture.mjs audio), glitch hits on each tear and the house end chime; the music ducked
-# under the voice (the chat's soundtrack too, under the narration); the mascot's bus through the spot's own loudness pass, the chat's levelled a decibel under it. Encoded to X's
-# video ad specs: H.264 High
-# 4:2:0, BT.709, two-pass 10 Mbps, AAC-LC 192 kbps, faststart.
+# · AI voice" over the chat (nothing in it was sent, ordered or cancelled; the narration goes on over it), and the variant's
+# own x50 badge while a generation runs.
+# Sound: the voice, the hacker spots' Lyria drone under the mascot easing out through the dive with a soft rising whoosh, the
+# variant's own soundtrack (its v16 score with the song laid in and its end card's sounds, capture.mjs audio) easing in; the
+# music ducked under the voice (the chat's soundtrack too, under the narration); the mascot's bus through the spot's own
+# loudness pass, the chat's levelled a decibel under it. Encoded to X's video ad specs: H.264 High 4:2:0, BT.709, two-pass
+# 10 Mbps, AAC-LC 192 kbps, faststart.
 # Needs numpy, opencv-python and pillow (the poetry env build.sh names), ffmpeg, and macOS's SF Pro.
 import sys, os, json, subprocess, math, re, traceback
 import numpy as np, cv2
@@ -27,10 +28,10 @@ HACK = lambda *a: os.path.join(ROOT, '..', 'hacker-announcement-7dfcf32a', *a)
 FPS, SR, W, H = 60, 48000, 1920, 1080
 GESTURE, CLOSE = P('work', 'art60', 'omni-wide-gesture.mp4'), P('work', 'art60', 'omni-close.mp4')
 PALM = 2.45  # the gesture shot's figure reads until here; from 2.55 s it raises an open palm, which is never shown
-MT, END = P('work', 'mt'), P('work', 'end')
-# the spot's line in the fish.audio HACKER VOICE (the take the hacker spots ship since 2026-10-18; the X post itself ran the
-# licensed take, vo/agents/licensed.wav), asked for over the whole film
-VO_FILE = HACK('vo', 'agents', 'fish.wav')
+MT = P('work', 'mt')
+# the spot's line, read in the same fish.audio HACKER VOICE take settings as the narration (the best of four), so the film
+# has one voice throughout
+VO_FILE = P('vo', 'intro.wav')
 
 def spans(path, n):
     # the take's spoken stretches (silencedetect at -38 dB, 0.1 s), merged into n phrases across its n-1 longest pauses
@@ -48,37 +49,26 @@ def spans(path, n):
     return [(bounds[2 * i], bounds[2 * i + 1]) for i in range(n)]
 
 # ---------- the cut (edit seconds) ----------
-# The X spot's talk cut, as its compose.py lays it: phrase 1 at 0.30 s, phrase 2 at the take's own pace after it, the wide
-# cutting to the close-up midway between them (3.05 s). Here the close-up holds HOLD_A, then the chat; "Superbot." comes
-# back on the same close-up after it, and the end card follows it by END_GAP as the spot's does
-S1, S2 = spans(VO_FILE, 2)
+# The X spot's talk cut, as its compose.py lays it: the line at 0.30 s on the wide, the cut to the close-up just after it (the
+# spot cuts 0.21 s after its line's last word; here 0.25). The close-up holds, then the dive (XF seconds, its middle at A_END)
+# carries it into the chat, which runs from the variant's empty state through its own end card
+S1 = spans(VO_FILE, 1)[0]
 V1 = 0.30
-C1 = (V1 + (S1[1] - S1[0]) + V1 + (S2[0] - S1[0])) / 2
+C1 = V1 + (S1[1] - S1[0]) + 0.25
 HOLD_A = 0.85
-A_END = C1 + HOLD_A
+A_END = C1 + HOLD_A  # the dive's middle
+XF = 0.8             # the dive's length
 cues = json.load(open(os.path.join(MT, 'cues.json')))
 meta = json.load(open(os.path.join(MT, 'meta.json')))
-P0 = meta[0]['t']             # the page second the chat enters on (the empty state, just before the first ask types)
-M_END = A_END + (cues['cut'] - P0)  # out of the chat as its end card would start to cover it
-V2 = M_END + 0.25
-B_END = V2 + (S2[1] - S2[0]) + 0.45
-END_LEN = 3.0
-E_END = B_END + END_LEN
-CLOSE0 = 5.4  # the close-up's window in the spot (CLOSE from 5.4 s); the closing shot carries on where the opening one left it
-SEGS = [
-    ('clip', GESTURE, 0.0, C1, 0.0, min(1.0, PALM / C1), 0.035),
-    ('clip', CLOSE, C1, A_END, CLOSE0, 1, 0.02),
-    ('frames', MT, A_END, M_END, 0, 1, 0),
-    ('clip', CLOSE, M_END, B_END, CLOSE0 + HOLD_A, 1, 0.03),
-    ('frames', END, B_END, E_END, 0, 1, 0),
-]
-for kind, src, a, b, s0, speed, _ in SEGS:
-    if kind == 'clip':
-        assert s0 + (b - a) * speed <= 7.95, (src, s0, b - a)
-        assert src != GESTURE or s0 + (b - a) * speed <= PALM + 1e-6
-GLITCH = [(A_END, 0.30), (M_END, 0.30), (B_END, 0.30)]
-print(f'  VO "Superbot does things your chatbot can\'t." {V1:.2f}-{V1 + S1[1] - S1[0]:.2f}, "Superbot." {V2:.2f}-{V2 + S2[1] - S2[0]:.2f}')
-print(f'  wide to {C1:.2f}, close-up to {A_END:.2f}, chat to {M_END:.2f} (page {P0:.2f}-{cues["cut"]:.2f}), close-up to {B_END:.2f}, card to {E_END:.2f}')
+P_T0 = meta[0]['t']  # the capture's first page second: the empty state, under the dive's first half
+P0 = 1.0             # the page second at the dive's middle, just before the first ask types
+E_END = A_END + (cues['end'] - P0)  # the variant's end card run out
+CUT = A_END + (cues['cut'] - P0)    # its end card starts to cover the chat
+CLOSE0 = 5.4         # the close-up's window in the spot (CLOSE from 5.4 s)
+assert P_T0 <= P0 - XF / 2 + 1e-6, (P_T0, P0)
+assert CLOSE0 + (A_END + XF / 2 - C1) <= 7.95
+print(f'  VO "Superbot does things your chatbot can\'t." {V1:.2f}-{V1 + S1[1] - S1[0]:.2f}')
+print(f'  wide to {C1:.2f}, close-up, the dive {A_END - XF / 2:.2f}-{A_END + XF / 2:.2f}, chat (page {P0:.2f}-{cues["end"]:.2f}) to {E_END:.2f}, its end card from {CUT:.2f}')
 # the narration over the chat: the same voice, a line on each ask as superbot answers it (vo/*.wav: fish.audio /v1/tts, model
 # drama-3, voice 12d45eb3f90e4b8a9fb448a26c71367f HACKER VOICE, the best of three takes each), each laid at a second of the
 # variant's own clock (cues.json: its first reply r, each later ask's send). The song's line ends before the track's first
@@ -104,8 +94,6 @@ class Clip:
         self.fps = self.cap.get(cv2.CAP_PROP_FPS)
     def at(self, s):
         j = max(0, int(round(s * self.fps)))
-        if j < self.i:  # the closing close-up seeks back into a clip read past
-            self.cap.set(cv2.CAP_PROP_POS_FRAMES, j); self.i = j - 1
         while self.i < j:
             ok, f = self.cap.read()
             if not ok: break
@@ -167,21 +155,13 @@ def hood_shadow(f, hold=0.28, depth=0.55):
     out = f.astype(np.float32) * (1 - a[..., None]) + (g * 0.12 + 7) * a[..., None]
     return np.clip(out, 0, 255).astype(np.uint8)
 
-def glitch(img, n, p):
-    # a short analog tear: displaced bands, a red/blue split and a few noise lines; never a full-frame flash
-    if p <= 0: return img
-    r = np.random.default_rng(n * 7 + 3)
+def rgb_split(img, px):
+    # the dive's one trace of the tape look: a soft red/blue split, a few px at its middle, no torn bands
+    s = int(round(px))
+    if s <= 0: return img
     out = img.copy()
-    for _ in range(int(3 + 7 * p)):
-        y0 = int(r.integers(0, H - 8)); hh = int(r.integers(6, 70)); dx = int(r.normal(0, 70 * p))
-        out[y0:y0 + hh] = np.roll(out[y0:y0 + hh], dx, axis=1)
-    s = int(round(12 * p))
-    if s:
-        out[:, :, 2] = np.roll(out[:, :, 2], s, axis=1)
-        out[:, :, 0] = np.roll(out[:, :, 0], -s, axis=1)
-    for _ in range(int(6 * p)):
-        y = int(r.integers(0, H - 2))
-        out[y:y + 2] = np.clip(out[y:y + 2].astype(np.int16) + int(r.integers(30, 90)), 0, 255).astype(np.uint8)
+    out[:, :, 2] = np.roll(out[:, :, 2], s, axis=1)
+    out[:, :, 0] = np.roll(out[:, :, 0], -s, axis=1)
     return out
 
 def over(dst, rgba, x, y, a=1.0):
@@ -211,29 +191,53 @@ def push_in(img, z):
     m = np.float32([[z, 0, -(w - cw) / 2 * z], [0, z, -(h - ch) / 2 * z]])
     return cv2.warpAffine(img, m, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
 
-clips, LISTS = {}, {}
+clips, FILES = {}, sorted(f for f in os.listdir(MT) if f.startswith('f_'))
+clamp = lambda x: min(1.0, max(0.0, x))
+smooth = lambda u: u * u * (3 - 2 * u)
+blur = lambda img, sigma: img if sigma < 0.3 else cv2.GaussianBlur(img, (0, 0), sigma)
+
+def mascot(t, n, u):
+    # the wide, then the close-up from CLOSE0 pushing in slowly; through the dive (u 0..1) it pushes on into the mask,
+    # softens and dims
+    if t < C1:
+        c, s0, a, speed, z = clips.setdefault('g', Clip(GESTURE)), 0.0, 0.0, min(1.0, PALM / C1), 1 + 0.035 * t / C1
+    else:
+        c, s0, a, speed, z = clips.setdefault('c', Clip(CLOSE)), CLOSE0, C1, 1, 1 + 0.02 * (t - C1) / HOLD_A
+    shot = push_in(hood_shadow(c.at(s0 + (t - a) * speed)), z * (1 + 0.32 * u ** 1.7))
+    img = vhs(cv2.resize(shot, (W, H), interpolation=cv2.INTER_AREA) if shot.shape[1] != W else shot, n)
+    img = blur(img, 7 * u ** 1.5)
+    return (img.astype(np.float32) * (1 - 0.55 * smooth(u))).astype(np.uint8)
+
+def chat(t, u):
+    # the captured chat at its page second (held on the capture's first frame before it), settling in out of a 7% zoom and
+    # a soft blur through the dive
+    page = P0 + (t - A_END)
+    k = min(len(FILES) - 1, max(0, int(round((page - P_T0) * FPS))))
+    img = cv2.imread(os.path.join(MT, FILES[k]))
+    if u < 1:
+        img = blur(push_in(img, 1 + 0.07 * (1 - smooth(u)) ** 2), 5 * (1 - u) ** 1.5)
+    return img, min(len(meta) - 1, k)
+
 def frame(n):
     t = n / FPS
-    for kind, src, a, b, s0, speed, push in SEGS:
-        if a - 1e-6 <= t < b - 1e-6 or (b == E_END and t >= a): break
-    if kind == 'clip':
-        c = clips.setdefault((src, a), Clip(src))
-        shot = push_in(hood_shadow(c.at(s0 + (t - a) * speed)), 1 + push * (t - a) / (b - a))
-        img = vhs(cv2.resize(shot, (W, H), interpolation=cv2.INTER_AREA) if shot.shape[1] != W else shot, n)
+    u = clamp((t - (A_END - XF / 2)) / XF)  # the dive's progress
+    a = smooth(clamp((u - 0.1) / 0.8))      # how much of the chat shows
+    if a <= 0:
+        img = mascot(t, n, u)
+    elif a >= 1:
+        img, k = chat(t, u)
     else:
-        files = LISTS.setdefault(src, sorted(f for f in os.listdir(src) if f.startswith('f_')))
-        k = min(len(files) - 1, int(round((t - a + s0) * FPS)))
-        img = cv2.imread(os.path.join(src, files[k]))
-    for c, d in GLITCH:
-        if abs(t - c) < d / 2:
-            img = glitch(img, n, 1 - abs(t - c) / (d / 2))
-    if kind == 'frames' and src == MT:
-        k = min(len(meta) - 1, int(round((t - a) * FPS)))
-        over(img, DRAMA_NOTE, 32, 30, min(1, (t - a) / 0.2, (b - t) / 0.1))
+        m = mascot(t, n, u).astype(np.float32)
+        c, k = chat(t, u)
+        img = rgb_split((m * (1 - a) + c.astype(np.float32) * a).astype(np.uint8), 3 * math.sin(math.pi * u))
+    if a < 1:
+        over(img, AI_NOTE, W - AI_NOTE.shape[1] - 32, 30, 1 - a)
+    if a > 0:
+        # the chat's notes: Dramatization in with the chat and out as its end card covers it; the x50 badge with the page's
+        k = min(len(meta) - 1, max(0, int(round((P0 + (t - A_END) - P_T0) * FPS))))
+        over(img, DRAMA_NOTE, 32, 30, a * (1 - clamp((t - CUT) / 0.3)))
         if meta[k]['ff'] > 0.01:
-            over(img, FF_IMG, W - FF_IMG.shape[1] - 44, H - FF_IMG.shape[0] - 40, meta[k]['ff'])
-    if kind == 'clip':
-        over(img, AI_NOTE, W - AI_NOTE.shape[1] - 32, 30)
+            over(img, FF_IMG, W - FF_IMG.shape[1] - 44, H - FF_IMG.shape[0] - 40, meta[k]['ff'] * a)
     return img
 
 # ---------- sound ----------
@@ -257,48 +261,30 @@ def lufs(path):
 # its rumble cut and its consonants lifted
 VO_EQ = 'highpass=f=90,equalizer=f=3200:t=q:w=1.1:g=3.5,equalizer=f=250:t=q:w=1:g=-2'
 # (every narration line brought to the same -17 LUFS on its own)
-for path, lines in ((VO_FILE, ((V1, S1), (V2, S2))), *((f, ((at, sp),)) for f, at, sp in NARR)):
+for path, lines in ((VO_FILE, ((V1, S1),)), *((f, ((at, sp),)) for f, at, sp in NARR)):
     vo, vo_gain = load(path, VO_EQ), db(-17 - lufs(path))
     for at, (s, e) in lines:
         a0 = max(0.0, s - 0.04)
         lay(mix_vo, at - (s - a0), vo[int(a0 * SR):int((e + 0.12) * SR)], vo_gain)
 drone = load(HACK('music', 'drone.flac'))
-lay(mix_mu, 0.0, drone[:int((A_END + 0.12) * SR)], db(-15), 0.4, 0.15)
-lay(mix_mu, M_END - 0.03, drone[int(6.0 * SR):int((6.0 + B_END - M_END + 0.13) * SR)], db(-15), 0.05, 0.12)
-# the chat's own soundtrack (the page's v16 score and song), from the page second the chat enters on to its tear out; its own
-# bus, levelled on its own below
-chat = load(os.path.join(P('work', 'audio'), 'chat.wav'))
-lay(mix_chat, A_END, chat[int(P0 * SR):int((P0 + M_END - A_END + 0.12) * SR)], 1.0, 0.03, 0.2)
+# the drone under the mascot, easing out across the dive
+lay(mix_mu, 0.0, drone[:int((A_END + XF / 2) * SR)], db(-15), 0.4, XF)
+# the chat's own soundtrack (the page's v16 score, the song and its end card's sounds), easing in across the dive from the
+# page second under its start, to the end of the film; its own bus, levelled on its own below
+chat_wav = load(os.path.join(P('work', 'audio'), 'chat.wav'))
+lay(mix_chat, A_END - XF / 2, chat_wav[int((P0 - XF / 2) * SR):int((P0 - XF / 2 + E_END - (A_END - XF / 2)) * SR)], 1.0, XF * 0.75, 0.05)
 
-def chime():
-    # the end card's sting, the spot's own (../hacker-announcement-7dfcf32a/compose.py chime, verbatim): three glass notes of
-    # C major and its octave rolled in as the mascot pops, over a soft sub thump and a short room tail
-    n = int(3.0 * SR); t = np.arange(n) / SR
-    out = np.zeros(n)
-    for k, f in enumerate([261.63, 329.63, 392.0, 523.25]):
-        at = k * 0.07; tt = np.clip(t - at, 0, None); on = (t >= at)
-        atk = np.clip(tt / 0.006, 0, 1)
-        for m, a, tau in [(1, 1.0, 1.3), (2.0, 0.22, 0.55), (3.01, 0.06, 0.3), (4.2, 0.02, 0.18)]:
-            out += on * atk * a * np.exp(-tt / tau) * np.sin(2 * np.pi * f * m * tt) * (0.8 if k == 3 else 1)
-    ph = 2 * np.pi * np.cumsum(48 + 32 * np.exp(-t / 0.05)) / SR
-    out += 1.6 * np.exp(-t / 0.22) * np.clip(t / 0.003, 0, 1) * np.sin(ph)
-    out /= np.abs(out).max()
-    r = np.random.default_rng(7)
-    ir = [r.normal(0, 1, int(1.1 * SR)) * np.exp(-np.arange(int(1.1 * SR)) / (0.35 * SR)) for _ in range(2)]
-    wet = [np.convolve(out, i)[:n] for i in ir]
-    st = np.stack([out + 0.18 * wet[0] / np.abs(wet[0]).max(), out + 0.18 * wet[1] / np.abs(wet[1]).max()], 1)
-    st *= np.clip((3.0 - t) / 0.4, 0, 1)[:, None]
-    return (st / np.abs(st).max() * db(-3)).astype(np.float32)
-STING_AT = B_END + 0.02
-lay(mix_mu, STING_AT, chime()[:int((E_END - STING_AT) * SR)], db(-11), 0.005, 0.6)
-# the glitch hits: crushed noise bursts on each tear
-for c, d in GLITCH:
-    n = int(0.32 * SR); r = np.random.default_rng(int(c * 100))
-    env = np.exp(-np.linspace(0, 6, n)) * (0.6 + 0.4 * (r.random(n) > 0.5))
-    z = r.normal(0, 1, n)
-    z = np.repeat(z[::12], 12)[:n]
-    z = np.round(z * 4) / 4
-    lay(mix_mu, c - 0.12, np.stack([z * env, np.roll(z, 37) * env], 1).astype(np.float32), db(-20), 0.003, 0.05)
+def whoosh(length):
+    # the dive's sound: soft noise swelling through a low-pass that opens from 300 Hz to about 4 kHz, then easing off
+    n = int(length * SR); u = np.arange(n) / n
+    z = np.random.default_rng(11).normal(0, 1, (n, 2))
+    a = 1 - np.exp(-2 * np.pi * 300 * 14 ** u / SR)
+    y = np.empty_like(z); s = np.zeros(2)
+    for i in range(n):
+        s += a[i] * (z[i] - s); y[i] = s
+    y *= (np.sin(np.pi * u) ** 1.5)[:, None]
+    return (y / np.abs(y).max()).astype(np.float32)
+lay(mix_mu, A_END - XF / 2, whoosh(XF + 0.2), db(-24), 0.01, 0.1)
 # duck the music under the voice: the voice's envelope (fast attack, slow release) pulls it down up to 9 dB
 env = np.abs(mix_vo).max(1)
 k = int(0.02 * SR)
@@ -313,13 +299,13 @@ mix_chat *= db(-8 * np.clip(g / 0.05, 0, 1))[:, None]
 # the level, per bus. The mascot's (voice, drone, tears, chime) goes through the X spot's own two-pass loudnorm (I -14, TP
 # -1.5, LRA 11, linear where it can), so its voice comes out with the spot's dynamics: the spot's first 3.2 s measure -13.5
 # LUFS with -1.3 dBFS peaks, and the chat's long stretch is silence on this bus, which the gate leaves out. The chat's bus
-# takes one gain to CHAT_LUFS, a decibel under the spot's opening; the two are summed under a -1.0 dBFS limiter
+# takes one gain to CHAT_LUFS, a decibel under the spot's opening; the two are summed under a -1.5 dBFS limiter (AAC adds about a decibel of overshoot)
 CHAT_LUFS = -14.5
-mascot = mix_vo + mix_mu * duck[:, None]
+mascot_bus = mix_vo + mix_mu * duck[:, None]
 tail = int(0.03 * SR)
-for b in (mascot, mix_chat): b[-tail:] *= np.linspace(1, 0, tail)[:, None]
+for b in (mascot_bus, mix_chat): b[-tail:] *= np.linspace(1, 0, tail)[:, None]
 wav_m, wav_c = OUT.replace('.mp4', '.mascot.wav'), OUT.replace('.mp4', '.chat.wav')
-for path, buf in ((wav_m, mascot), (wav_c, mix_chat)):
+for path, buf in ((wav_m, mascot_bus), (wav_c, mix_chat)):
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'f32le', '-ar', str(SR), '-ac', '2', '-i', '-', path], input=buf.astype(np.float32).tobytes(), check=True)
 m = subprocess.run(['ffmpeg', '-hide_banner', '-i', wav_m, '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
 st = json.loads(m[m.rindex('{'):m.rindex('}') + 1])
@@ -328,7 +314,7 @@ norm_m = (f"loudnorm=I=-14:TP=-1.5:LRA=11:measured_I={st['input_i']}:measured_TP
 chat_in = lufs(wav_c)
 gain_c = CHAT_LUFS - chat_in
 AUDIO = (f'[1:a]{norm_m}[m];[2:a]volume={gain_c:.2f}dB[c];[m][c]amix=inputs=2:normalize=0:duration=longest,'
-         f'alimiter=limit={db(-1.0):.4f}:attack=5:release=60:level=disabled,aresample={SR}[a]')
+         f'alimiter=limit={db(-1.5):.4f}:attack=5:release=60:level=disabled,aresample={SR}[a]')
 print(f'  mascot bus {st["input_i"]} LUFS in (loudnorm to -14), chat bus {chat_in:.1f} LUFS in, gain {gain_c:+.2f} dB')
 
 # ---------- encode ----------
@@ -353,6 +339,6 @@ subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', mezz, '-i', wav_m, '-i', wa
     '-c:a', 'aac', '-profile:a', 'aac_low', '-b:a', '192k', '-ar', str(SR), '-shortest', '-movflags', '+faststart', OUT], check=True)
 for f in os.listdir(os.path.dirname(OUT)):
     if f.startswith(os.path.basename(log)): os.remove(os.path.join(os.path.dirname(OUT), f))
-json.dump({'V1': V1, 'C1': C1, 'A_END': A_END, 'M_END': M_END, 'V2': V2, 'B_END': B_END, 'E_END': E_END, 'P0': P0, 'cut': cues['cut']},
+json.dump({'V1': V1, 'C1': C1, 'A_END': A_END, 'XF': XF, 'CUT': CUT, 'E_END': E_END, 'P0': P0, 'P_T0': P_T0, 'page_cut': cues['cut']},
           open(OUT.replace('.mp4', '.cuts.json'), 'w'), indent=1)
 print(OUT, 'done')

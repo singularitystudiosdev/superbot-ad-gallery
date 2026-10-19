@@ -130,3 +130,36 @@
 #s-tabs .sbsite .hub .ct-ok span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #16a34a; }
 #s-tabs .sbsite .hub .ct-ok svg { width: 15px; height: 15px; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
 #s-tabs .sbsite .hub .ct-ok b { font: 700 15px/1 var(--ui); color: #14532d; }
+
+/* 8. the feedback. The email rides in as a chip in the composer while its ask types, and a file card in the user's bubble */
+#s-tabs .sbsite .hub .ct-achip { display: inline-flex; align-items: center; gap: 6px; height: 24px; margin-right: 8px; padding: 0 9px 0 7px; border-radius: 7px; background: #2a2a30; box-shadow: inset 0 0 0 1px #3a3a40; font: 600 12px/1 var(--ui); color: #e5e5ea; vertical-align: -6px; }
+#s-tabs .sbsite .hub .ct-achip svg, #s-tabs .sbsite .hub .ct-att-ic svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .ct-att { display: flex; align-items: center; gap: 10px; margin: 2px 0 6px; padding: 8px 12px 8px 8px; border-radius: 10px; background: #2a2a30; box-shadow: inset 0 0 0 1px #3a3a40; }
+#s-tabs .sbsite .hub .ct-att-ic { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; background: #0a84ff; color: #fff; }
+#s-tabs .sbsite .hub .ct-att-t { display: flex; flex-direction: column; gap: 1px; }
+#s-tabs .sbsite .hub .ct-att-t b { font: 600 12.5px/16px var(--ui); color: #f2f2f7; }
+#s-tabs .sbsite .hub .ct-att-t small { font: 400 11px/14px var(--ui); color: #a1a1a6; }
+/* the card: the draft as a light email with its phrases marked, the notes, the verdict and the score */
+#s-tabs .sbsite .hub .ct-fb .bk-title { display: inline-flex; align-items: center; gap: 8px; }
+#s-tabs .sbsite .hub .ct-fb .bk-title small { display: inline-grid; margin-left: 0; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .ct-fb .kd-st-b { opacity: 0; }
+#s-tabs .sbsite .hub .ct-fb .ct-bad { color: #ff6961; }
+#s-tabs .sbsite .hub .ct-fb .ct-bad svg { stroke: #ff6961; }
+#s-tabs .sbsite .hub .ct-score { display: grid; place-items: center; height: 26px; padding: 0 10px; border-radius: 8px; background: rgba(255, 69, 58, .16); box-shadow: inset 0 0 0 1px rgba(255, 69, 58, .55); font: 800 13px/1 var(--ui); color: #ff6961; font-variant-numeric: tabular-nums; opacity: 0; }
+#s-tabs .sbsite .hub .ct-fview { height: auto; padding: 12px 14px 14px; background: #1c1c20; }
+#s-tabs .sbsite .hub .ct-mail { overflow: hidden; border-radius: 8px; background: #f5f5f7; color: #1d1d1f; }
+#s-tabs .sbsite .hub .ct-mail-h { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #e3e3e8; font: 400 11.5px/16px var(--ui); color: #6e6e73; }
+#s-tabs .sbsite .hub .ct-mail-h .ct-att-ic { width: 20px; height: 20px; border-radius: 5px; }
+#s-tabs .sbsite .hub .ct-mail-h .ct-att-ic svg { width: 11px; height: 11px; }
+#s-tabs .sbsite .hub .ct-mail-h b { font-weight: 600; color: #1d1d1f; }
+#s-tabs .sbsite .hub .ct-mail-b { padding: 12px 12px 10px; font: 400 11.5px/24px var(--ui); }
+#s-tabs .sbsite .hub .ct-mail-b p { margin: 0 0 2px; }
+#s-tabs .sbsite .hub .ct-mail-b p:last-child { margin: 0; }
+#s-tabs .sbsite .hub .ct-mk { position: relative; padding: 0 1px; border-radius: 2px; background: transparent; color: inherit; transition: none; }
+#s-tabs .sbsite .hub .ct-mk.on { background: rgba(255, 69, 58, .18); box-shadow: inset 0 -2px 0 #ff453a; }
+#s-tabs .sbsite .hub .ct-mn { position: absolute; left: 50%; top: -12px; margin-left: -6px; z-index: 1; display: grid; place-items: center; width: 12px; height: 12px; border-radius: 50%; background: #ff453a; box-shadow: 0 0 0 1.5px #f5f5f7; font: 700 8px/1 var(--ui); color: #fff; opacity: 0; }
+#s-tabs .sbsite .hub .ct-notes { display: flex; flex-direction: column; gap: 7px; margin: 12px 0 0; padding: 0; list-style: none; }
+#s-tabs .sbsite .hub .ct-notes li { display: flex; align-items: flex-start; gap: 9px; font: 400 12.5px/17px var(--ui); color: #e5e5ea; opacity: 0; }
+#s-tabs .sbsite .hub .ct-notes li i { flex: none; display: grid; place-items: center; width: 17px; height: 17px; margin-top: 0; border-radius: 50%; background: #ff453a; font: 700 10px/1 var(--ui); font-style: normal; color: #fff; }
+#s-tabs .sbsite .hub .ct-verdict { margin-top: 11px; padding: 9px 12px; border-radius: 8px; background: rgba(255, 69, 58, .12); box-shadow: inset 0 0 0 1px rgba(255, 69, 58, .35); font: 400 12.5px/17px var(--ui); color: #ffd1ce; opacity: 0; }
+#s-tabs .sbsite .hub .ct-verdict b { font-weight: 700; color: #ff6961; }

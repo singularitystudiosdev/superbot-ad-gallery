@@ -7,10 +7,10 @@
 # settles in out of a slight zoom (no tape tear). The chat is the muse meme spot's 'cats-chatbot' variant (beats/cats.70783379.js,
 # captured by capture.mjs with the hacker montage's camera): five asks answered, the same voice narrating each (vo/*.wav), and
 # it runs on through the variant's own superbot.gg end card. The spot's closing "Superbot." is not used.
-# Disclosures as the hacker montage carries them: "AI-generated footage and voice" over the generated shots, "Dramatization
-# · AI voice" over the chat (nothing in it was sent, ordered or cancelled; the narration goes on over it), and the variant's
-# own x50 badge while a generation runs. After the last plan cancels, the mascot's voice laughs (vo/laugh.wav); then
-# two more asks, three website styles to pick from and a captcha solved, each with its own line in the same voice.
+# On screen besides the chat: "AI-generated footage and voice" over the generated shots, and the variant's own x50 badge
+# while a generation runs (the chat carries no label: the user asked it off, 2026-10-19). After the last plan cancels, the
+# mascot's voice laughs (vo/laugh.wav); then three more asks, three website styles to pick from, a captcha solved and an
+# email draft torn apart, each with its own line in the same voice.
 # Sound: the voice, the hacker spots' Lyria drone under the mascot easing out through the dive with a soft rising whoosh, the
 # variant's own soundtrack (its v16 score with the song laid in and its end card's sounds, capture.mjs audio) easing in; the
 # music ducked under the voice (the chat's soundtrack too, under the narration); the mascot's bus through the spot's own
@@ -95,7 +95,13 @@ for f, at in ((P('vo', 'style.wav'), WEB['s'] + 0.05), (P('vo', 'agents.wav'), C
     NARR.append((f, edit(at), spans(f, 1)[0]))
 _, style_at, (style_s, style_e) = NARR[-2]
 assert abs(style_at + style_e - style_s - edit(cues['pick'])) < 0.6, 'the style line drifts off the pick'
-assert NARR[-1][1] + NARR[-1][2][1] - NARR[-1][2][0] < edit(cues['cut']), 'the agents line runs into the end card'
+FB = cues['steps'][6]  # the feedback ask (step F)
+assert NARR[-1][1] + NARR[-1][2][1] - NARR[-1][2][0] < edit(FB['s']), 'the agents line runs into the feedback ask'
+# and "It will also give you extremely honest feedback. It does not care about hurting your feelings, L-O-L." as superbot
+# answers the feedback ask (the best of six takes: the one that spells out L-O-L, deadpan), done before the end card
+HONEST = P('vo', 'honest.wav')
+NARR.append((HONEST, edit(FB['r'] + 0.2), spans(HONEST, 1)[0]))
+assert NARR[-1][1] + NARR[-1][2][1] - NARR[-1][2][0] < edit(cues['cut']), 'the honest line runs into the end card'
 for f, at, (s, e) in NARR: print(f'  narration {os.path.basename(f)} {at:.2f}-{at + e - s:.2f}')
 
 # ---------- picture ----------
@@ -195,7 +201,7 @@ def pill(text, fnt, pad=(28, 14), r=16, bg=(0, 0, 0, 165), fg=(255, 255, 255, 25
     d.text((pad[0], ph / 2), text, font=fnt, fill=fg, anchor='lm')
     return cv2.cvtColor(np.array(im), cv2.COLOR_RGBA2BGRA)
 NOTE = lambda text: pill(text, font(24, 'Semibold'), pad=(16, 9), r=12, bg=(0, 0, 0, 150), fg=(255, 255, 255, 230))
-AI_NOTE, DRAMA_NOTE = NOTE('AI-generated footage and voice'), NOTE('Dramatization · AI voice')
+AI_NOTE = NOTE('AI-generated footage and voice')
 # the variant's x50 badge (multicat.516afb1a.css .mc-ff: 60px high, 24px in, pill, 28px semibold, at 44 / 40 from the
 # corner), drawn here at the output's own corner since the camera would crop and scale the page's
 FF_IMG = pill('x50', font(28, 'Semibold'), pad=(24, 0), r=30, bg=(12, 12, 14, 199), fg=(236, 236, 236, 255), border=(255, 255, 255, 31), h=60)
@@ -249,9 +255,8 @@ def frame(n):
     if a < 1:
         over(img, AI_NOTE, W - AI_NOTE.shape[1] - 32, 30, 1 - a)
     if a > 0:
-        # the chat's notes: Dramatization in with the chat and out as its end card covers it; the x50 badge with the page's
+        # the x50 badge, with the page's
         k = min(len(meta) - 1, max(0, int(round((P0 + (t - A_END) - P_T0) * FPS))))
-        over(img, DRAMA_NOTE, 32, 30, a * (1 - clamp((t - CUT) / 0.3)))
         if meta[k]['ff'] > 0.01:
             over(img, FF_IMG, W - FF_IMG.shape[1] - 44, H - FF_IMG.shape[0] - 40, meta[k]['ff'] * a)
     return img

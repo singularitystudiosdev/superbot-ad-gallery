@@ -17,7 +17,10 @@
 //   6. The website: three styles of a cat café's site land side by side out of their skeletons, and the user's pointer
 //      picks one (it takes a ring and a check, the other two recede).
 //   7. The captcha: a generic image challenge ("Select all images with cats") over a dimmed sign-in page; superbot's
-//      pointer taps the four cats and Verify, and the page reads Verified; then the end card covers the chat.
+//      pointer taps the four cats and Verify, and the page reads Verified.
+//   8. The feedback: the ask goes in with an email draft attached (a chip in the composer, a file card in the bubble);
+//      superbot reads it and marks it up, six harsh notes landing one by one, each lighting its phrase in the draft, and
+//      a 2/10 verdict, with nothing nice said; then the end card covers the chat.
 // Under it plays 16 · Punchy premium groove (multicat-player.96834de7.js), re-cued to this chain: the cat landing takes the
 // photo's hit, the 3D cat the model's (the fuller section follows it), the order its bell, the song's play press ends the
 // bed (it is moved to the song's G major), every cancel a resolve tick. The follow-up messages are built here and moved in
@@ -39,7 +42,7 @@ import { renderScore } from './multicat-score.96834de7.js?v=3';
 import { DUR, PEAKS, LINES, WORDS } from './cats-data.70783379.js';
 
 export const ID = 'cats-chatbot';
-const CSS = new URL('../cats.70783379.css?v=2', import.meta.url).href;
+const CSS = new URL('../cats.70783379.css?v=3', import.meta.url).href;
 // the DM frame is the koala cut's (../koala.7f80a09a.css .kd-*), the 3D, order and song cards and the end card multicat's
 const SHEETS = [new URL('../multicat.516afb1a.css?v=9', import.meta.url).href, new URL('../koala.7f80a09a.css?v=1', import.meta.url).href, CSS];
 const asset = (p) => new URL('../../../' + p, import.meta.url).href;
@@ -61,7 +64,7 @@ const TITLE = 'Nine Lives';
 export const TYPE_CPS = 55; // every ask types at this rate; the first one through its route's typeCps (chat.9b47fc30.js)
 const ASK1 = `Connect to my discord and send a cat gif to ${FRIEND}`;
 const ASKS = ['Make me a 3d hyperrealistic model of a cat', 'Order me catfood on doordash', 'Now make me a song about cats', 'Unsubscribe from all my other AI subscriptions',
-  'Build me a website for my cat café', 'Get past this captcha'];
+  'Build me a website for my cat café', 'Get past this captcha', 'Give me feedback on this'];
 
 // the DM's recent history, oldest first: a day's divider or one author's run of messages. The last run is his answer to
 // the GIF, which lands live
@@ -93,6 +96,7 @@ const SAY = [
   `Canceled all ${SUBS.length} of your other AI subscriptions.`,
   'Here are three styles for your cat café’s site. Pick one.',
   'Done. You’re past the captcha.',
+  'Honestly? This email doesn’t work. Here’s why.',
 ];
 // 6. the café's site in three styles (made up; its photos are the hacker cut's generated cats and this cut's cover), and
 // the one the user picks
@@ -107,6 +111,22 @@ const PICK = 1;
 // in the order superbot taps them
 const TILES = ['cat-wall', 'hydrant', 'cat-porch', 'bicycle', 'cat-window', 'traffic-light', 'dog', 'cat-street', 'car'];
 const CATS = [0, 2, 4, 7];
+// 8. the attached draft (made up), its phrases marked by number (6: every run of exclamation points), the notes on them
+// and the verdict: harsh, and nothing kind
+const MAIL_SUBJECT = 'Quick question!!';
+const MAIL_BODY = ['Hi there!!', 'Hope this email finds you well!! I wanted to reach out about a super exciting opportunity that could be a total game changer for you and your team!!! Let me know if you have 5 mins to hop on a quick call this week!!', 'Thanks so much!!', 'Sam'];
+const MAIL_WORDS = MAIL_BODY.join(' ').split(/\s+/).filter(Boolean).length;
+const MAIL_BANGS = [MAIL_SUBJECT, ...MAIL_BODY].join(' ').split('!').length - 1;
+const MARKS = [[1, 'Quick question'], [2, 'Hope this email finds you well'], [3, 'super exciting opportunity'], [4, 'total game changer'], [5, 'hop on a quick call this week']];
+const NOTES = [
+  '“Quick question” is what spam says, and there is no question anywhere in this email.',
+  'Filler. Nobody has ever kept reading because of this line.',
+  'Vague hype. You never say what the opportunity actually is.',
+  'A claim with zero proof behind it. It reads like a scam.',
+  'You ask a stranger for their time before giving them one reason to care.',
+  `${MAIL_BANGS} exclamation points in ${MAIL_WORDS + 2} words. This reads as panic, not enthusiasm.`,
+];
+const VERDICT = 'As written, this gets deleted unread. Start over.';
 
 // a card's rise and the feed's glide to it (chat.9b47fc30.js renderScroll) both take this long: its work starts once in view
 const SEEN = 0.45;
@@ -132,7 +152,10 @@ const CANCEL = 0.5, STRIDE = 0.44, HOLD_5 = 2.4;
 const DESIGN = 0.85, DESIGN_STAGGER = 0.14, PICK_AFTER = 0.9, PICK_MOVE = 0.55, HOLD_D = 1.5;
 // 7. the captcha in view to superbot's pointer setting off, its first tap after that, one tap to the next, the last tap to
 // Verify, Verify to Verified, Verified to the end card's cover
-const CAP_IN = 0.3, CAP_FIRST = 0.45, TILE = 0.34, VERIFY = 0.5, CHECKING = 0.6, HOLD_C = 1.9;
+const CAP_IN = 0.3, CAP_FIRST = 0.45, TILE = 0.34, VERIFY = 0.5, CHECKING = 0.6, HOLD_C = 1.4;
+// 8. the draft in view to the first note (superbot reading it), one note to the next, the last note to the verdict, the
+// verdict to the end card's cover (the film's line runs through it)
+const READ = 0.5, NOTE = 0.42, VERDICT_AFTER = 0.4, HOLD_F = 3.2;
 // the house end card (multicat.516afb1a.js): the chat fades to its black over END_IN, the card's own 2.5s run starts
 // END_DELAY in (mascot pops in, superbot.gg fades up beside it, hold)
 const END_IN = 0.45, END_DELAY = 0.3, END_LEN = 2.5, END_GAP = 44;
@@ -152,7 +175,7 @@ const DOWNLOAD = '<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 19.5
 const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
 // every time in the chain, from the first reply r. A: the DM (connects, the GIF found and landed, sent, his answer);
-// M, O, S, U, D, C: the six asks the beat types itself, each { s, typeEnd, send, r, card } and its own work after the card
+// M, O, S, U, D, C, F: the seven asks the beat types itself, each { s, typeEnd, send, r, card } and its own work after the card
 function plan(r) {
   const A = { r, card: r + 0.22 };
   A.c0 = A.card + SEEN; A.conn = A.c0 + CONNECT; A.gen0 = A.conn + CONN_OUT + 0.1; A.done = A.gen0 + FIND;
@@ -185,8 +208,14 @@ function plan(r) {
   C.taps = CATS.map((_, i) => C.go + CAP_FIRST + i * TILE);
   C.verify = C.taps[C.taps.length - 1] + VERIFY;
   C.done = C.verify + CHECKING;
-  const cut = C.done + HOLD_C;
-  return { r, A, M, O, S, U, D, C, steps: [M, O, S, U, D, C], cut, end: cut + END_DELAY + END_LEN };
+  s = C.done + HOLD_C;
+  const F = step(ASKS[6]);
+  F.att = true;
+  F.f0 = F.gen0 + READ;
+  F.notes = NOTES.map((_, i) => F.f0 + i * NOTE);
+  F.verdict = F.notes[F.notes.length - 1] + VERDICT_AFTER;
+  const cut = F.verdict + HOLD_F;
+  return { r, A, M, O, S, U, D, C, F, steps: [M, O, S, U, D, C, F], cut, end: cut + END_DELAY + END_LEN };
 }
 // the chain's length from its first reply: the route's `extra` stretches the loop by what this runs past the base beat
 export const LEN = plan(0).end;
@@ -473,23 +502,77 @@ function capCard(x) {
   } };
 }
 
+// 8. the feedback: the draft as a light email (subject and body, its marked phrases numbered), the six notes under it
+// and the verdict. A note lands, its phrase in the draft lights; the verdict and the 2/10 score close it. MAIL_ICON is
+// lucide's mail; X_ICON lucide's x
+const MAIL_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
+const X_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+// the chip in the composer while the ask types, and the file card in the user's bubble
+export const MAIL_CHIP = `<span class="ct-achip">${MAIL_ICON}${MAIL_SUBJECT}</span>`;
+const mailAtt = () => `<div class="ct-att"><span class="ct-att-ic">${MAIL_ICON}</span><span class="ct-att-t"><b>${MAIL_SUBJECT}</b><small>Email draft · ${MAIL_WORDS} words</small></span></div>`;
+function markUp(x, text) {
+  // the draft's text with its numbered phrases and every run of exclamation points wrapped as marks; a mark's number rides
+  // on it, out of the text's flow, so the line never shifts as the numbers pop in
+  let h = x.esc(text);
+  for (const [n, phrase] of MARKS) h = h.replace(x.esc(phrase), `<mark class="ct-mk" data-n="${n}">${x.esc(phrase)}<sup class="ct-mn" data-n="${n}">${n}</sup></mark>`);
+  return h.replace(/!+/g, (m) => `<mark class="ct-mk ct-mk6" data-n="6">${m}</mark>`);
+}
+function fbCard(x) {
+  const body = MAIL_BODY.map((l) => `<p>${markUp(x, l)}</p>`).join('').replace('team<mark class="ct-mk ct-mk6" data-n="6">!!!</mark>', 'team<mark class="ct-mk ct-mk6" data-n="6">!!!<sup class="ct-mn" data-n="6">6</sup></mark>');
+  const notes = NOTES.map((n, i) => `<li><i>${i + 1}</i><span>${x.esc(n)}</span></li>`).join('');
+  const node = x.el(`<div class="bk ct-fb">
+    <div class="bk-head"><b class="bk-title">Feedback<small class="kd-st"><span class="kd-st-a">${SPIN}Reading your draft</span><span class="kd-st-b ct-bad">${X_ICON}${NOTES.length} problems</span></small></b><span class="ct-score">2/10</span></div>
+    <div class="bk-view ct-fview">
+      <div class="ct-mail"><div class="ct-mail-h"><span class="ct-att-ic">${MAIL_ICON}</span><span>Subject: <b>${markUp(x, MAIL_SUBJECT)}</b></span></div><div class="ct-mail-b">${body}</div></div>
+      <ol class="ct-notes">${notes}</ol>
+      <div class="ct-verdict"><b>Verdict:</b> ${x.esc(VERDICT)}</div>
+    </div>
+  </div>`);
+  const lis = [...node.querySelectorAll('.ct-notes li')], verdict = node.querySelector('.ct-verdict'), score = node.querySelector('.ct-score');
+  const marks = [...node.querySelectorAll('.ct-mk')], nums = [...node.querySelectorAll('.ct-mn')];
+  const [reading, bad] = node.querySelectorAll('.kd-st > span');
+  const spin = reading.querySelector('.ct-spin');
+  return { node, render(t, F) {
+    put(spin, 'transform', `rotate(${(Math.max(0, t - F.card) * 540).toFixed(1)}deg)`);
+    lis.forEach((li, i) => {
+      const k = outCubic(seg(t, F.notes[i], F.notes[i] + 0.3));
+      put(li, 'opacity', k.toFixed(3));
+      put(li, 'transform', k >= 1 ? 'none' : `translateY(${((1 - k) * 8).toFixed(2)}px)`);
+    });
+    // each phrase lights as its note lands, its number popping beside it
+    for (const m of marks) m.classList.toggle('on', t >= F.notes[+m.dataset.n - 1]);
+    for (const nm of nums) {
+      const at = F.notes[+nm.dataset.n - 1];
+      fade(nm, seg(t, at, at + 0.08));
+      put(nm, 'transform', `scale(${lerp(0.3, 1, outBack(seg(t, at, at + 0.3))).toFixed(4)})`);
+    }
+    const v = outCubic(seg(t, F.verdict, F.verdict + 0.3));
+    fade(verdict, v);
+    put(verdict, 'transform', v >= 1 ? 'none' : `translateY(${((1 - v) * 8).toFixed(2)}px)`);
+    fade(score, seg(t, F.verdict, F.verdict + 0.1));
+    put(score, 'transform', `scale(${lerp(0.4, 1, outBack(seg(t, F.verdict, F.verdict + 0.35))).toFixed(4)})`);
+    const d = outCubic(seg(t, F.notes[0] - 0.15, F.notes[0] + 0.05));
+    fade(reading, 1 - d); fade(bad, d);
+  } };
+}
+
 export default {
   // `end` (the base route's end plus `extra`) is LEN past r by construction, so the chain keeps its own clock
   times(r) { return plan(r); },
   build(k, x) {
     loadSheets();
     loadFrameSheet();
-    const T = k.T, { A, M, O, S, U, D, C } = T;
+    const T = k.T, { A, M, O, S, U, D, C, F } = T;
     // the v16 cue sheet: the first ask as the engine types it, the four this beat types; the cat landing takes the photo's
     // hit, the 3D cat the model's, the order its bell, the song's press ends the bed (moved to the song's G major, -4), the
     // cards rise, the generations tick, and Discord connecting, the GIF sent, his answer, every cancel, each style landing
-    // and the pick, each captcha tap, Verify and Verified resolve
+    // and the pick, each captcha tap, Verify and Verified, each feedback note and the verdict resolve
     const cues = {
       transpose: -4,
       typing: [{ text: k.askBy[ID], s: k.s, end: k.typeEnd }, ...T.steps.map((st) => ({ text: st.ask, s: st.s, end: st.typeEnd }))],
       sends: [k.send, ...T.steps.map((st) => st.send)],
       camera: k.send, // the first send drops the composer and pulls the camera out (tabs.9b47fc30.js)
-      resolved: [A.conn, A.sent, A.reply, ...U.dones, ...D.lands, D.pick, ...C.taps, C.verify, C.done],
+      resolved: [A.conn, A.sent, A.reply, ...U.dones, ...D.lands, D.pick, ...C.taps, C.verify, C.done, ...F.notes, F.verdict],
       cards: [A.card, ...T.steps.map((st) => st.card)],
       gens: [[M.gen0, M.done], [S.gen0, S.done]],
       image: A.done, model: M.done, order: O.done, play: S.play,
@@ -517,9 +600,9 @@ export default {
       return buffer;
     }));
     // the capture's cues (the film's compose script reads them): when each card is the one in focus, and the cut
-    window.__CATS_CUES = { r: T.r, cut: T.cut, end: T.end, play: S.play, send0: k.send, cancelled: U.done, pick: D.pick, verified: C.done,
+    window.__CATS_CUES = { r: T.r, cut: T.cut, end: T.end, play: S.play, send0: k.send, cancelled: U.done, pick: D.pick, verified: C.done, verdict: F.verdict,
       steps: T.steps.map((st) => ({ ask: st.ask, s: st.s, send: st.send, r: st.r, card: st.card })),
-      focus: [[A.card - 0.3, '.ct-dm'], [M.send - 0.2, '.mc-3d'], [O.send - 0.2, '.mc-dd'], [S.send - 0.2, '.mc-sg'], [U.send - 0.2, '.ct-subs'], [D.send - 0.2, '.ct-web'], [C.send - 0.2, '.ct-cap']] };
+      focus: [[A.card - 0.3, '.ct-dm'], [M.send - 0.2, '.mc-3d'], [O.send - 0.2, '.mc-dd'], [S.send - 0.2, '.mc-sg'], [U.send - 0.2, '.ct-subs'], [D.send - 0.2, '.ct-web'], [C.send - 0.2, '.ct-cap'], [F.send - 0.2, '.ct-fb']] };
 
     // 1. the DM, in the engine's own reply
     const say1 = sayEl(x, SAY[0]);
@@ -530,14 +613,14 @@ export default {
     // 2-5: each ask's user bubble and its reply
     const follow = [];
     const steps = T.steps.map((st, i) => {
-      const u = x.el(`<div class="msg qc-u"><span class="avatar">S</span><div class="m-main"><div class="m-head"><span class="m-name">sam</span></div><div class="m-text">${x.esc(st.ask)}</div></div></div>`);
+      const u = x.el(`<div class="msg qc-u"><span class="avatar">S</span><div class="m-main"><div class="m-head"><span class="m-name">sam</span></div>${st.att ? mailAtt() : ''}<div class="m-text">${x.esc(st.ask)}</div></div></div>`);
       const reply = x.el(`<div class="msg qc-m qc-r">${x.sbAvatar}<div class="m-main"></div></div>`);
       const say = sayEl(x, SAY[i + 1]);
       reply.lastElementChild.append(say.n);
       follow.push(u, reply);
       return { st, u, reply, say };
     });
-    const [mStep, oStep, sStep, uStep, dStep, cStep] = steps;
+    const [mStep, oStep, sStep, uStep, dStep, cStep, fStep] = steps;
 
     // 2. the 3D cat in the artifact frame
     const model = x.el(`<div class="bk mc-3d"><div class="bk-head"><b class="bk-title">Cat 3D model<small>Rigged · GLB</small></b>${shareBtn('Cat 3D model', { file: MODEL })}${EXPAND}<a class="bk-btn bk-publish" href="${MODEL}" download="cat.glb">${DL_GLYPH}Download</a></div><div class="bk-view qc-3d qc-skel"><canvas width="1400" height="875" role="img" aria-label="A hyperrealistic 3D tabby cat model walking on a turntable"></canvas><i class="qc-sk"></i>${genl('Creating 3D model')}</div></div>`);
@@ -581,9 +664,13 @@ export default {
     const cap = capCard(x);
     cStep.reply.lastElementChild.append(cap.node);
     cStep.out = cap.node;
+    // 8. the feedback
+    const fb = fbCard(x);
+    fStep.reply.lastElementChild.append(fb.node);
+    fStep.out = fb.node;
     for (const p of steps) { p.anchor = anchor(); p.reply.lastElementChild.append(p.anchor); }
     // Space and Enter press the cards' controls, not the spot's clock (timeline.9b47fc30.js), as on the other beats
-    for (const n of [dm.node, model, order, song, subs.node, web.node, cap.node]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
+    for (const n of [dm.node, model, order, song, subs.node, web.node, cap.node, fb.node]) n.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.closest('a, button')) e.stopPropagation(); });
 
     // the end card and the x50 badge ride in nodes (so other variants hide them) and move to the scene section on the
     // first render, above the hub
@@ -625,8 +712,9 @@ export default {
       nodes: [say1.n, dm.node, anchor1, ...follow, endCard, ff],
       // the feed's fold glides to each element's bottom as it lands (chat.9b47fc30.js scrollOf)
       marks: [[A.r, say1.n], [A.card, anchor1], ...steps.flatMap((p) => [[p.st.send, p.u], [p.st.r, p.say.n], [p.st.card, p.anchor]])],
-      // the six follow-up asks, typed into the composer and sent by the engine; no chips, so the composer stays on Superbot
-      asks: T.steps.map((st) => ({ text: st.ask, s: st.s, typeEnd: st.typeEnd, send: st.send })),
+      // the seven follow-up asks, typed into the composer and sent by the engine (the feedback ask with its email's chip);
+      // no routing chips, so the composer stays on Superbot
+      asks: T.steps.map((st) => ({ text: st.ask, s: st.s, typeEnd: st.typeEnd, send: st.send, ...(st.att ? { att: MAIL_CHIP } : {}) })),
       chips: [],
       // the pointer, in the section's px (chat.9b47fc30.js placeCursor): the user's, in from below right to the picked
       // style and a click; then superbot's, across the cat tiles in turn, a tap on each, and Verify
@@ -724,6 +812,8 @@ export default {
         web.render(t, D);
         enter(cap.node, t, C.card);
         cap.render(t, C);
+        enter(fb.node, t, F.card);
+        fb.render(t, F);
 
         // the end card: the chat fades to black, then the house card's own run (multicat.516afb1a.js)
         const cover = seg(t, T.cut, T.cut + END_IN);

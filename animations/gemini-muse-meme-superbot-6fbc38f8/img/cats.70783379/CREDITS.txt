@@ -53,6 +53,9 @@ The website styles (step 6) are HTML in the beat, the café "Whisker & Bean" mad
 generated cats (../hacker.7dfcf32a/cat-sun.jpg, cat-box.jpg, cat-kittens.jpg, cat-mug.jpg; that folder's CREDITS.txt) and
 this cut's cover.jpg.
 
+The feedback step (step 8): the email draft ("Quick question!!", from "Sam") and every note on it are made up for the
+cut; nothing was sent or read. Its mail glyph and the x are lucide icons (ISC licence), inlined.
+
 Reused from other cuts of this spot: the 3D cat (../../models/cat-walk.516afb1a.glb, models/CREDITS.txt), the Petco order
 card (../multicat.516afb1a/order-placed.jpg, that folder's CREDITS.txt), the Discord DM frame and its Discord mark
 (Simple Icons, CC0; ../koala.7f80a09a/CREDITS.txt). The DM history, its dates and MrCatMan131's answer are made up;

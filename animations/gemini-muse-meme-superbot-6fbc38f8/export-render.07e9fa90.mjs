@@ -63,6 +63,11 @@ const RENDERS = {
     id: 'gemini-muse-meme-voiceclone-call-superbot-6ba3a0f8',
     sound: { registered: true },
   },
+  // the cats chain: its beat's own mixdown (beats/cats.70783379.js: its v16 re-cue with the song laid in under its level curve)
+  'cats-chatbot': {
+    id: 'gemini-muse-meme-cats-chatbot-superbot-70783379',
+    sound: { registered: true },
+  },
 };
 // stage width at 1080 high, and the scale it is drawn at (9:16 to 1080x1920)
 const SIZES = { '16x9': [1920, 1], '4x3': [1440, 1], '1x1': [1080, 1], '4x5': [864, 1], '9x16': [608, 1920 / 1080] };

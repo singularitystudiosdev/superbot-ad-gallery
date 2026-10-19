@@ -1,0 +1,56 @@
+/* The 'cats-chatbot' variant's answers (beats/cats.70783379.js). Loaded by the beat module itself, so index.html needs no
+   link. The DM is the koala cut's Discord frame (koala.7f80a09a.css .kd-*), the 3D, order and song cards and the end card
+   multicat's (multicat.516afb1a.css .mc-*); this adds what they lack: MrCatMan131's default avatar (Discord's green), the
+   GIF's 8 x 6 sprite, the panel Discord connects under, and the subscriptions card. That card is the bakery artifact frame
+   (bakery.005f5570.css .bk: 560px, a 40px header over a 350px view) in the house dark greys (#1c1c20 card, #2a2a30 chips,
+   #ececf0 and #a1a1a6 text); each plan wears its app's own icon at iOS's corner radius (22.5%). */
+
+/* 1. the DM */
+#s-tabs .sbsite .hub .kd-av.ct-av-c { background: #23a55a; }
+#s-tabs .sbsite .hub .ct-gif .kd-gif-f { background-size: 800% 600%; }
+#s-tabs .sbsite .hub .ct-emo { display: inline-block; margin: 0 1px; font: 400 16px/18px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; vertical-align: -2px; }
+#s-tabs .sbsite .hub .ct-dm .kd-st > span { opacity: 0; }
+#s-tabs .sbsite .hub .ct-dm .kd-st > .ct-st-c { opacity: 1; }
+
+/* Discord connecting over the DM: its app icon (a check pops onto it), the line under it, the bar running */
+#s-tabs .sbsite .hub .ct-conn { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: #313338; }
+#s-tabs .sbsite .hub .ct-conn-app { position: relative; width: 64px; height: 64px; margin-bottom: 4px; }
+#s-tabs .sbsite .hub .ct-conn-app img { display: block; width: 100%; height: 100%; border-radius: 22.5%; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
+#s-tabs .sbsite .hub .ct-conn-ok { position: absolute; right: -7px; bottom: -7px; display: grid; place-items: center; width: 26px; height: 26px; box-sizing: border-box; border: 3px solid #313338; border-radius: 50%; background: #23a55a; opacity: 0; }
+#s-tabs .sbsite .hub .ct-conn-ok svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .ct-conn-t { display: grid; justify-items: center; }
+#s-tabs .sbsite .hub .ct-conn-t b { grid-area: 1 / 1; font: 600 15px/20px var(--ui); color: #f2f3f5; white-space: nowrap; }
+#s-tabs .sbsite .hub .ct-conn-b { opacity: 0; }
+#s-tabs .sbsite .hub .ct-conn small { margin-top: -6px; font: 400 12px/16px var(--ui); color: #949ba4; }
+#s-tabs .sbsite .hub .ct-conn-bar { display: block; width: 168px; height: 4px; margin-top: 4px; overflow: hidden; border-radius: 2px; background: #4e5058; }
+#s-tabs .sbsite .hub .ct-conn-bar i { display: block; height: 100%; background: #5865f2; transform: scaleX(0); transform-origin: 0 50%; }
+
+/* 5. the subscriptions: the title's status counts the cancels; five plan rows over the monthly spend */
+#s-tabs .sbsite .hub .ct-subs .bk-title { display: inline-flex; align-items: center; gap: 8px; }
+#s-tabs .sbsite .hub .ct-subs .bk-title small { display: inline-grid; margin-left: 0; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .ct-subs .kd-st-b { opacity: 0; }
+#s-tabs .sbsite .hub .ct-view { display: flex; flex-direction: column; background: #1c1c20; }
+#s-tabs .sbsite .hub .ct-rows { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 6px 8px; }
+#s-tabs .sbsite .hub .ct-row { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 10px; border-radius: 10px; }
+#s-tabs .sbsite .hub .ct-ic { flex: none; display: block; width: 36px; height: 36px; border-radius: 22.5%; box-shadow: 0 0 0 1px rgba(255, 255, 255, .08); }
+#s-tabs .sbsite .hub .ct-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+#s-tabs .sbsite .hub .ct-txt b { font: 600 13.5px/18px var(--ui); color: #ececf0; white-space: nowrap; }
+#s-tabs .sbsite .hub .ct-txt small { display: grid; font: 400 11.5px/15px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .ct-txt small > span { grid-area: 1 / 1; white-space: nowrap; }
+#s-tabs .sbsite .hub .ct-txt s { text-decoration: none; color: #d1d1d6; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .ct-b { opacity: 0; }
+#s-tabs .sbsite .hub .ct-pill { flex: none; display: grid; justify-items: end; }
+#s-tabs .sbsite .hub .ct-pill > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 11px; border-radius: 999px; font: 600 11.5px/1 var(--ui); white-space: nowrap; }
+#s-tabs .sbsite .hub .ct-on { background: rgba(48, 209, 88, .12); color: #30d158; }
+#s-tabs .sbsite .hub .ct-dot { width: 6px; height: 6px; border-radius: 50%; background: #30d158; }
+#s-tabs .sbsite .hub .ct-ing { background: #2a2a30; color: #e5e5ea; opacity: 0; }
+#s-tabs .sbsite .hub .ct-spin { display: block; width: 12px; height: 12px; box-sizing: border-box; border: 2px solid rgba(255, 255, 255, .22); border-top-color: #fff; border-radius: 50%; }
+#s-tabs .sbsite .hub .ct-off { background: #2a2a30; color: #c7c7cc; box-shadow: inset 0 0 0 1px #34343a; opacity: 0; }
+#s-tabs .sbsite .hub .ct-off svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .ct-foot { flex: none; display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 18px; box-shadow: 0 -1px 0 #2a2a2e; font: 500 12px/16px var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .ct-total { display: inline-flex; align-items: baseline; gap: 10px; }
+#s-tabs .sbsite .hub .ct-was { font: 500 12px/1 var(--ui); color: #6e6e76; text-decoration: line-through; font-variant-numeric: tabular-nums; opacity: 0; }
+#s-tabs .sbsite .hub .ct-now { min-width: 72px; text-align: right; font: 700 19px/1 var(--ui); letter-spacing: -.01em; color: #f5f5f7; font-variant-numeric: tabular-nums; }
+
+/* reduced motion: the skeletons hold still, their sweep off */
+@media (prefers-reduced-motion: reduce) { #s-tabs .sbsite .hub .ct-gif .qc-sk { background: none; } }

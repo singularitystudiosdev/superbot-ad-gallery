@@ -34,8 +34,10 @@ export const VISITS = ORDER.map((i, n) => {
 });
 export const L = 36.5;
 
-// the news: only what matters. StubHub flagging demand, and every new lowest price on the first pass
+// the news: only what matters. StubHub flagging demand, and every new lowest price on the first pass; each new lowest
+// is a hit, which superbot also posts in the chat as a price card
 export const NEWS = [];
+const HITS = [];
 let low = Infinity;
 for (const V of VISITS.filter((v) => v.first)) {
   const { site } = V;
@@ -44,6 +46,8 @@ for (const V of VISITS.filter((v) => v.first)) {
     const saved = low === Infinity ? null : (low - site.cost) * 2;
     NEWS.push({ at: V.read, icon: 'down', tone: 'good', title: saved ? `New lowest: $${site.cost} on ${site.name}` : `Lowest so far: $${site.cost} on ${site.name}`,
       sub: saved ? `${site.seat}, $${saved} less for the pair` : `${site.seat}, fees included` });
+    HITS.push({ at: V.read + 0.15, kind: 'bot', text: saved ? `New lowest, $${saved} less for the pair:` : 'Lowest so far:',
+      card: { site, seat: site.seat.replace('Sec', 'Section'), price: site.cost } });
     low = site.cost;
   }
 }
@@ -64,9 +68,8 @@ const scanned = VISITS[SITES.length - 1].read;
 say(0.5, 'Find me the cheapest 2 tickets for Gracie Abrams at Ball Arena on Dec 3');
 CHAT.push({ at: 2.7, kind: 'chip', text: 'Taking control of your computer', done: 3.4 });
 CHAT.push({ at: 3.6, kind: 'bot', text: "On it. I'm checking StubHub, SeatGeek, Vivid Seats and TickPick for 2 seats together. Anything important goes in News." });
-CHAT.push({ at: scanned + 1.4, kind: 'bot', text: 'Checked all 4 sites. Cheapest right now, fees included:',
-  card: { site: best, seat: best.seat.replace('Sec', 'Section'), price: best.cost },
-  after: `That's $${(first.cost - best.cost) * 2} less for the pair than ${first.name}. I'll keep rechecking every site for drops.` });
+CHAT.push(...HITS);
+CHAT.push({ at: scanned + 1.4, kind: 'bot', text: `Checked all 4 sites. ${best.name} is the cheapest at $${best.cost} each, fees included, $${(first.cost - best.cost) * 2} less for the pair than ${first.name}. I'll keep rechecking every site for drops.` });
 say(scanned + 4.2, 'Buy them if they drop under $35 each');
 CHAT.push({ at: scanned + 6.4, kind: 'bot', text: "Deal. If 2 seats together drop under $35 each, I'll buy them and let you know." });
 export const TITLE = { before: 'New chat', after: 'Gracie Abrams tickets' };

@@ -89,9 +89,6 @@ svg { flex: none; }
 .bk-title { min-width: 0; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 12px/16px var(--ui); color: var(--ink); }
 .bk-title small, .nw-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
 .bk-btn { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; white-space: nowrap; font: 500 11px/1 var(--ui); }
-.bk-btn svg { display: block; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.bk-share { justify-content: center; width: 26px; padding: 0; color: var(--ink); box-shadow: inset 0 0 0 1px #3a3a3e; }
-.bk-expand { color: var(--ink); box-shadow: inset 0 0 0 1px #3a3a3e; }
 .bk-stop { gap: 7px; background: var(--ink); font-weight: 600; color: #111113; }
 .bk-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
 /* the screen share: the desktop's shape at the card's width (height set by the script) */
@@ -159,5 +156,3 @@ svg { flex: none; }
 .cc-edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; border-radius: 0 0 12px 12px; opacity: 0; pointer-events: none; }
 .cc-soft { position: absolute; inset: -5px; filter: blur(4px); }
 .cc-band { position: absolute; inset: 0; padding: 13px; border-radius: 0 0 25px 25px; background: conic-gradient(from var(--cc-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
-.cc-pill { position: absolute; left: 50%; bottom: 16px; z-index: 5; display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px 0 6px; border-radius: 15px; white-space: nowrap; opacity: 0; transform: translate(-50%, 8px); background: rgba(22,22,26,.9); box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 8px 24px rgba(0,0,0,.35); font: 500 11.5px/1 var(--ui); color: #f2f2f5; }
-.cc-pill .sb-tile { width: 20px; height: 20px; border-radius: 10px; }

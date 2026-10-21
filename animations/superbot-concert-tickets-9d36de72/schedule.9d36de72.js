@@ -1,7 +1,7 @@
 // The spot's script as data: what the user types and sends, what superbot answers, what it does on the screen and the
 // one-line activity it logs for each step. One pass is L seconds; the clock (main.9d36de72.js) loops it. The agent keeps
 // going round the four sites: a first pass that opens each one, then rechecks that reload them and read the new prices.
-import { SITES, cheapest } from './sites.9d36de72.js?v=5';
+import { SITES, cheapest } from './sites.9d36de72.js?v=6';
 
 const ASK = 'Find me the cheapest 2 tickets for Velvet Static at Ball Arena on Nov 14';
 const TYPE_CPS = 40; // the user's typing in the composer

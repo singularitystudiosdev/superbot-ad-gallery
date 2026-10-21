@@ -56,9 +56,8 @@ svg { flex: none; }
 .rc-plus { margin-left: 3.5px; color: #c4c5ca !important; }
 .rc-plus svg { width: 14px; height: 14px; }
 .rc-chev { width: 14px; height: 14px; margin-left: 3px; color: #c0c1c6; }
-/* the effort picker, in the model picker's place: a three-bar meter, all lit at High, the level and a chevron */
+/* the effort picker, in the model picker's place: the level and a chevron */
 .rc-effort { gap: 6px; margin: 0 5px 0 auto; font: 500 12px/1 var(--ui); color: #c4c5ca !important; }
-.rc-effort .rc-meter { width: 12px; height: 12px; fill: #c4c5ca; stroke: none; }
 .rc-effort .rc-chev { width: 12px; height: 12px; margin-left: -1px; color: #8e8f95; }
 .rc-computer, .rc-mic, .rc-send { width: 26px; height: 26px; border-radius: 50%; }
 .rc-computer { background: #e8e8e8; color: #161618 !important; }

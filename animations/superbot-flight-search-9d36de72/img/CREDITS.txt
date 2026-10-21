@@ -1,0 +1,24 @@
+Sources for the flight search loop (9d36de72). Never shown on screen.
+
+The four flight search sites' results pages are rebuilt in HTML (sites.9d36de72.js / .css), not captured: the
+flights, departure times, durations and every fare are invented for the spot, so no fare claims to be live. The
+fare-by-date chart is drawn in HTML from the same invented numbers.
+
+Wordmarks, fetched 2026-10-21 from Wikimedia Commons (all marked Public domain there):
+  google-logo.svg      https://commons.wikimedia.org/wiki/File:Google_2015_logo.svg
+  kayak-logo.svg       https://commons.wikimedia.org/wiki/File:Kayak_Logo.svg
+  expedia-logo.svg     https://commons.wikimedia.org/wiki/File:Expedia_Logo_2023.svg
+  skyscanner-logo.svg  https://commons.wikimedia.org/wiki/File:Skyscanner_Logo_LockupHorizontal_SkyBlue_RGB.svg (drawn white by CSS)
+
+Favicons, each site's and airline's own, fetched 2026-10-21 from https://www.google.com/s2/favicons?domain=<domain>&sz=128:
+  googleflights-fav.png flights.google.com    kayak-fav.png kayak.com    expedia-fav.png expedia.com
+  skyscanner-fav.png skyscanner.com          air-united.png united.com   air-frontier.png flyfrontier.com
+  air-delta.png delta.com                    air-jetblue.png jetblue.com air-american.png aa.com
+The company and airline names and marks belong to their owners and are shown as the sites a browser displays.
+
+new-tab.png: Google Chrome's New Tab page, the real capture from
+gemini-muse-meme-superbot-6fbc38f8/img/computer.ba3976b6/new-tab.png (captured 2026-10-16, headless, fresh profile).
+Google's logo and page are Google's.
+
+Icons in the activity log: lucide (ISC license), from https://api.iconify.design/lucide/<name>.svg, 2026-10-21.
+Chrome's tab strip, toolbar and cursor follow gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/computer.ba3976b6.css.

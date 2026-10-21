@@ -62,8 +62,9 @@ function loadSheet() {
   document.head.appendChild(sheet);
 }
 
-// one screen share's insides, at a scale: the desktop (Chrome and the screen's cursor), then the takeover overlay
-function screen(x, sb, fit) {
+// one screen share's insides, at a scale: the desktop (Chrome and the screen's cursor), then the takeover overlay and,
+// for a cut that draws one (computer-progress.a05be571.js), its heads-up layer over both
+function screen(x, sb, fit, hud) {
   return `<div class="cc3-desk" style="transform: scale(${fit.toFixed(5)})">
           <div class="cc3-win">
             <div class="cc3-strip">
@@ -86,17 +87,17 @@ function screen(x, sb, fit) {
           <svg class="cc3-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="${ARROW}"/></svg>
         </div>
         <i class="cc3-edge"><i class="cc3-soft"><i class="cc3-band"></i></i></i>
-        <span class="cc3-pill">${sb}<span>superbot is controlling your computer</span></span>`;
+        <span class="cc3-pill">${sb}<span>superbot is controlling your computer</span></span>${hud ? hud.html(x, sb) : ''}`;
 }
 
-// the nodes one view paints, looked up once
-function bind(root) {
+// the nodes one view paints, looked up once; a heads-up layer binds its own and hands back its painter
+function bind(root, hud) {
   const $ = (s) => root.querySelector(s);
   const t1 = $('.cc3-t1');
   return {
     t1, t2: $('.cc3-t2'), plus: $('.cc3-plus'), cursor: $('.cc3-cursor'), bg1: t1.querySelector('.cc3-bg'), omni: $('.cc3-omni'),
     u1: $('.cc3-u1'), u2: $('.cc3-u2'), caret: $('.cc3-caret'), p1: $('.cc3-p1'), p2: $('.cc3-p2'), edge: $('.cc3-edge'),
-    soft: $('.cc3-soft'), pill: $('.cc3-pill'),
+    soft: $('.cc3-soft'), pill: $('.cc3-pill'), hud: hud ? hud.bind(root) : null,
   };
 }
 
@@ -137,102 +138,110 @@ function paint(v, T, t) {
   v.omni.style.background = f > 0 ? `rgb(${Math.round(lerp(241, 255, f))},${Math.round(lerp(243, 255, f))},${Math.round(lerp(244, 255, f))})` : '';
   v.omni.style.boxShadow = f > 0 ? `inset 0 0 0 2px rgba(26,115,232,${(0.9 * f).toFixed(3)})` : '';
   v.caret.style.opacity = f >= 1 && !blink(t - T.open) ? '0' : '1';
+  if (v.hud) v.hud(T, t);
 }
 
-export default {
-  // `end` is the route's end (chat.9b47fc30.js routeBy, base end plus extra), so the run length is the router's call
-  times(r, end = r + 3.75) {
-    const T = { r };
-    T.card = r + 0.22;
-    T.take = r + 0.62; // the vignette and the pill fade in: superbot has control
-    T.ptr = r + 1.0; // the cursor leaves its rest and glides to the new-tab button
-    T.hov = r + 1.75;
-    T.click = r + 1.9;
-    T.open = r + 1.98; // the new tab slides in and the page switches
-    T.end = end;
-    return T;
-  },
-  build(k, x) {
-    loadFrameSheet();
-    loadSheet();
-    const T = k.T;
-    const sb = x.tile('superbot', 'cc3-sb');
-    const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY)}</span></div>`);
-    const block = x.el(`<div class="bk cc3">
-      <div class="bk-head">
-        <b class="bk-title">Your computer<small>Live view</small></b>
-        ${shareBtn('Computer control')}
-        ${EXPAND}
-        <span class="bk-btn bk-publish cc3-stop"><i></i>Stop</span>
-      </div>
-      <div class="bk-view cc3-screen">${screen(x, sb, FIT)}</div>
-    </div>`);
-    const card = bind(block);
-    const vis = say.firstElementChild, hid = say.lastElementChild;
-    let shown = -1, decoding = false;
+// `end` is the route's end (chat.9b47fc30.js routeBy, base end plus extra), so the run length is the router's call
+function baseTimes(r, end = r + 3.75) {
+  const T = { r };
+  T.card = r + 0.22;
+  T.take = r + 0.62; // the vignette and the pill fade in: superbot has control
+  T.ptr = r + 1.0; // the cursor leaves its rest and glides to the new-tab button
+  T.hov = r + 1.75;
+  T.click = r + 1.9;
+  T.open = r + 1.98; // the new tab slides in and the page switches
+  T.end = end;
+  return T;
+}
 
-    // Expand: a side panel on the right of the app (the hub) with the same screen share, larger. Built the first time
-    // it opens; while open it is painted with the card, from the same t
-    const expand = block.querySelector('.bk-expand');
-    expand.setAttribute('role', 'button');
-    expand.setAttribute('tabindex', '0');
-    expand.setAttribute('aria-expanded', 'false');
-    let side = null, big = null, open = false;
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
-    function setOpen(on) {
-      if (on === open) return;
-      if (on && !side) {
-        side = x.el(`<aside class="cc3-side" aria-label="Your computer, live view">
-          <div class="bk-head">
-            <b class="bk-title">Your computer<small>Live view</small></b>
-            <span class="bk-btn bk-publish cc3-stop"><i></i>Stop</span>
-            <button class="cc3-side-x" type="button" aria-label="Close">${ICON.close}</button>
-          </div>
-          <div class="cc3-screen cc3-big">${screen(x, sb, FIT_BIG)}</div>
-        </aside>`);
-        block.closest('.hub').appendChild(side);
-        big = bind(side);
-        side.querySelector('.cc3-side-x').addEventListener('click', () => setOpen(false));
-        // keys on the panel's buttons are theirs, not the spot clock's (space would pause it)
-        side.addEventListener('keydown', (e) => { if (e.target.closest('button')) e.stopPropagation(); });
-        side.getBoundingClientRect(); // lay it out closed first, so the first open slides in
-      }
-      open = on;
-      side.classList.toggle('is-open', on);
-      expand.setAttribute('aria-expanded', String(on));
-      if (on) addEventListener('keydown', onKey); else removeEventListener('keydown', onKey);
+// the beat, with this cut's line, clock and heads-up layer by default; a sibling cut (computer-progress.a05be571.js)
+// swaps in its own: `say` the reply line, `times` its moments (every one baseTimes sets), `hud` { html(x, sb),
+// bind(root) -> paint(T, t) } drawn over the takeover overlay in both the card and the side panel
+export function make({ say: SAY_LINE = SAY, times = baseTimes, hud = null } = {}) {
+  return { times, build: (k, x) => build(k, x, SAY_LINE, hud) };
+}
+export default make();
+
+function build(k, x, SAY_LINE, hud) {
+  loadFrameSheet();
+  loadSheet();
+  const T = k.T;
+  const sb = x.tile('superbot', 'cc3-sb');
+  const say = x.el(`<div class="qc-say"><span class="qc-vis"></span><span class="qc-hid">${x.esc(SAY_LINE)}</span></div>`);
+  const block = x.el(`<div class="bk cc3">
+    <div class="bk-head">
+      <b class="bk-title">Your computer<small>Live view</small></b>
+      ${shareBtn('Computer control')}
+      ${EXPAND}
+      <span class="bk-btn bk-publish cc3-stop"><i></i>Stop</span>
+    </div>
+    <div class="bk-view cc3-screen">${screen(x, sb, FIT, hud)}</div>
+  </div>`);
+  const card = bind(block, hud);
+  const vis = say.firstElementChild, hid = say.lastElementChild;
+  let shown = -1, decoding = false;
+
+  // Expand: a side panel on the right of the app (the hub) with the same screen share, larger. Built the first time
+  // it opens; while open it is painted with the card, from the same t
+  const expand = block.querySelector('.bk-expand');
+  expand.setAttribute('role', 'button');
+  expand.setAttribute('tabindex', '0');
+  expand.setAttribute('aria-expanded', 'false');
+  let side = null, big = null, open = false;
+  const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+  function setOpen(on) {
+    if (on === open) return;
+    if (on && !side) {
+      side = x.el(`<aside class="cc3-side" aria-label="Your computer, live view">
+        <div class="bk-head">
+          <b class="bk-title">Your computer<small>Live view</small></b>
+          <span class="bk-btn bk-publish cc3-stop"><i></i>Stop</span>
+          <button class="cc3-side-x" type="button" aria-label="Close">${ICON.close}</button>
+        </div>
+        <div class="cc3-screen cc3-big">${screen(x, sb, FIT_BIG, hud)}</div>
+      </aside>`);
+      block.closest('.hub').appendChild(side);
+      big = bind(side, hud);
+      side.querySelector('.cc3-side-x').addEventListener('click', () => setOpen(false));
+      // keys on the panel's buttons are theirs, not the spot clock's (space would pause it)
+      side.addEventListener('keydown', (e) => { if (e.target.closest('button')) e.stopPropagation(); });
+      side.getBoundingClientRect(); // lay it out closed first, so the first open slides in
     }
-    expand.addEventListener('click', () => setOpen(!open));
-    expand.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      e.preventDefault();
-      e.stopPropagation();
-      setOpen(!open);
-    });
-    addEventListener('variantchange', () => setOpen(false));
+    open = on;
+    side.classList.toggle('is-open', on);
+    expand.setAttribute('aria-expanded', String(on));
+    if (on) addEventListener('keydown', onKey); else removeEventListener('keydown', onKey);
+  }
+  expand.addEventListener('click', () => setOpen(!open));
+  expand.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(!open);
+  });
+  addEventListener('variantchange', () => setOpen(false));
 
-    return {
-      nodes: [say, block],
-      marks: [[T.r, say], [T.card, block]],
-      render(t) {
-        // a frozen frame waits on both captures; decode() only works once the nodes have left the template's inert
-        // document, which they have by the first render
-        if (!decoding) {
-          decoding = true;
-          for (const pic of [card.p1, card.p2]) {
-            track(pic.decode().catch((e) => console.error(new Error(`computer-control capture failed to decode: ${pic.src}`, { cause: e }))));
-          }
+  return {
+    nodes: [say, block],
+    marks: [[T.r, say], [T.card, block]],
+    render(t) {
+      // a frozen frame waits on both captures; decode() only works once the nodes have left the template's inert
+      // document, which they have by the first render
+      if (!decoding) {
+        decoding = true;
+        for (const pic of [card.p1, card.p2]) {
+          track(pic.decode().catch((e) => console.error(new Error(`computer-control capture failed to decode: ${pic.src}`, { cause: e }))));
         }
-        const n = streamCount(SAY, T.r + 0.06, 70, t);
-        if (n !== shown) { vis.textContent = SAY.slice(0, n); hid.textContent = SAY.slice(n); shown = n; }
-        const ci = outCubic(seg(t, T.card, T.card + 0.45));
-        block.style.opacity = ci.toFixed(3);
-        block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
-        paint(card, T, t);
-        // the panel belongs to the card: a restart that takes the card away closes it
-        if (open && t < T.card) setOpen(false);
-        if (open) paint(big, T, t);
-      },
-    };
-  },
-};
+      }
+      const n = streamCount(SAY_LINE, T.r + 0.06, 70, t);
+      if (n !== shown) { vis.textContent = SAY_LINE.slice(0, n); hid.textContent = SAY_LINE.slice(n); shown = n; }
+      const ci = outCubic(seg(t, T.card, T.card + 0.45));
+      block.style.opacity = ci.toFixed(3);
+      block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${lerp(0.96, 1, ci).toFixed(4)})`;
+      paint(card, T, t);
+      // the panel belongs to the card: a restart that takes the card away closes it
+      if (open && t < T.card) setOpen(false);
+      if (open) paint(big, T, t);
+    },
+  };
+}

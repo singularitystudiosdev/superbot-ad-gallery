@@ -51,6 +51,10 @@ export const VARIANTS = [
   { id: 'bakery', label: 'Bakery website' },
   { id: 'reminder', label: 'Phone notification' },
   { id: 'computer-control-v3-soft', label: 'Computer Control V3 · Soft Vignette' },
+  // v3-soft with superbot's progress on the overlay: the running task top right of the screen, a bar inside the frame (scenes/tabs-assets/beats/computer-progress.a05be571.js)
+  { id: 'computer-control-progress-edge', label: 'Computer Control V3 · Progress: edge bar + task chip' },
+  { id: 'computer-control-progress-pill', label: 'Computer Control V3 · Progress: bar in the pill + task card' },
+  { id: 'computer-control-progress-steps', label: 'Computer Control V3 · Progress: step bar in the task card' },
   { id: 'photoedit', label: 'Photo edit' },
   { id: 'lawn', label: 'Front lawn garden' },
   { id: 'multicat', label: 'Multi-tool cat' },

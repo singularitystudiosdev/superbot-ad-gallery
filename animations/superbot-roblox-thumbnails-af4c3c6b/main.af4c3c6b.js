@@ -16,12 +16,33 @@ const feed = buildFeed(document.querySelector('.ch'), document.querySelector('.a
 // (with reduced motion it fades in instead)
 const chat = document.querySelector('.ch'), side = document.querySelector('.cc');
 const APP_W = 1200, CHAT_W = 476, SIDE_W = 724, SIDE_IN = 0.5;
+
+// the viewer's own control over it: the sidebar's close button slides it away and the chat takes the window, the chat's
+// panel button brings it back. It eases in real time, over whatever the spot's own clock is doing
+const SIDE_TOGGLE = 420; // ms
+const closeBtn = document.querySelector('.ac-close'), openBtn = document.querySelector('.ch-open');
+let userSide = { from: 1, to: 1, at: 0 };
+const userOpen = () => lerp(userSide.from, userSide.to, REDUCED ? 1 : outCubic(seg(performance.now(), userSide.at, userSide.at + SIDE_TOGGLE)));
+function setSide(open) {
+  userSide = { from: userOpen(), to: open ? 1 : 0, at: performance.now() };
+  // a frozen frame has no loop of its own: run one until the slide has played
+  if (frozen !== null) { const until = userSide.at + SIDE_TOGGLE + 30; const step = () => { frame(frozen); if (performance.now() < until) requestAnimationFrame(step); }; step(); }
+}
+closeBtn.addEventListener('click', () => setSide(false));
+openBtn.addEventListener('click', () => setSide(true));
+
 function dock(t) {
-  const k = outCubic(seg(t, S.panel, S.panel + SIDE_IN));
+  const docked = outCubic(seg(t, S.panel, S.panel + SIDE_IN));
+  const k = docked * userOpen();
   chat.style.width = `${lerp(APP_W, CHAT_W, REDUCED ? (k > 0 ? 1 : 0) : k).toFixed(2)}px`;
   side.style.transform = REDUCED || k >= 1 ? 'none' : `translateX(${((1 - k) * SIDE_W).toFixed(2)}px)`;
   side.style.opacity = REDUCED ? k.toFixed(3) : '1';
   side.style.visibility = k > 0 ? 'visible' : 'hidden';
+  // the way back in shows only once there is a sidebar to bring back
+  const back = docked * (1 - userOpen());
+  openBtn.style.opacity = back.toFixed(3);
+  openBtn.style.pointerEvents = back > 0.5 ? 'auto' : 'none';
+  return k;
 }
 // the opening layout from the first instant, before the pages have loaded and the clock has started
 dock(-1);
@@ -43,9 +64,9 @@ function frame(t) {
   const lt = ((t % S.L) + S.L) % S.L;
   // a short dip to white where the loop comes round
   dip.style.opacity = Math.max(seg(lt, S.L - 0.45, S.L), 1 - seg(lt, 0, 0.35)).toFixed(3);
-  dock(lt);
+  const docked = dock(lt);
   if (liveView) paint(view, S, lt);
-  paintFeed(feed, S, lt);
+  paintFeed(feed, S, lt, 1 - docked);
 }
 
 // false when the live view's pages never loaded: the chat and the Activity tab still play
@@ -71,9 +92,11 @@ async function start() {
     fit(view);
     measure(view);
   }
-  // heights are measured at the chat's docked width, the one its messages are read at
+  // the chat's heights at both of its widths: docked beside the sidebar, and the whole window once the sidebar is away
   chat.style.width = `${CHAT_W}px`;
   measureFeed(feed);
+  chat.style.width = `${APP_W}px`;
+  measureFeed(feed, true);
   if (frozen !== null) {
     frame(frozen);
     // the table's thumbnails are CSS backgrounds in the Creator Hub frame: give them a beat to paint before a capture

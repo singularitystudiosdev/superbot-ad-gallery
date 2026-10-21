@@ -89,7 +89,15 @@ svg { flex: none; }
 
 /* the activity tab, with no header row: one plain line per step, text only, newest at the foot; a breakthrough's line
    bold in the ink */
-.ac { flex: 1; min-height: 0; display: flex; flex-direction: column; box-shadow: 0 -1px 0 var(--line); }
+.ac { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; box-shadow: 0 -1px 0 var(--line); }
+/* the sidebar's close button, in its own top-right corner under the live view, and the chat's button that brings the
+   sidebar back once it is closed (main.af4c3c6b.js setSide) */
+.ac-close, .ch-open { position: absolute; z-index: 3; display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: #3a3a3c; cursor: pointer; }
+.ac-close { top: 8px; right: 10px; }
+.ch-open { top: 12px; right: 16px; opacity: 0; pointer-events: none; }
+.ac-close:hover, .ch-open:hover { background: rgba(0,0,0,.06); }
+.ac-close:focus-visible, .ch-open:focus-visible { outline: 2px solid #0a66d8; outline-offset: 1px; }
+.ac-close svg, .ch-open svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 /* a row scrolling off under the live view fades out over 14px, as the chat's do */
 .ac-list { position: relative; flex: 1; min-height: 0; overflow: hidden; -webkit-mask: linear-gradient(transparent, #000 14px); mask: linear-gradient(transparent, #000 14px); }
 .ac-in { position: absolute; left: 0; right: 0; top: 0; padding: 6px 0; }

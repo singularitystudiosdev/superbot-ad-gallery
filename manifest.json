@@ -1912,6 +1912,17 @@
     "downloadLabel": "MP4 16:9"
   },
   {
+    "id": "train-your-own-superbot-93d8bde0",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "Train your own Superbot: a creator records his ROB IT thumbnail task once, Superbot learns it, checks it in a headless browser and keeps raising the click rate round after round (16:9, with sound)",
+    "src": "animations/train-your-own-superbot-93d8bde0/",
+    "thumb": "assets/shots/train-your-own-superbot-93d8bde0.png",
+    "desc": "A creator in a facecam bottom left (an AI-generated presenter, lip-synced to his voice) says \"This is how you create your own Superbot.\" over the Superbot desktop app, rebuilt from superbot-desktop's renderer (the HUD with the head mark, wordmark and account discs; his other Superbots in the sidebar, Discord mod queue, Weekly Robux report, DevForum replies, Group wall cleanup and Inbox triage, each working or idle; the new-chat hero and the composer). He clicks New Superbot, types \"ROB-IT Thumbnails\" and clicks Start recording (\"Teach it by showing it\"). His screen takes the computer-control spot's soft purple and pink vignette, breathing, and a recording pill at the top (red dot, timer, the listening mascot, a live word-by-word caption of what he says, Done). On real captures of his own Roblox session in Chrome he types roblox.com, opens ROB IT, its ⋯ menu and Configure this Experience (\"go here to my edit\"), the thumbnail's Edit Thumbnails (\"my thumbnail tab\"), Edit active thumbnails, circles Upload thumbnails (\"where you can upload stuff\"), scrolls to Thumbnail performance and points at the lowest performer (\"right here\"), asks it to wait for statistically significant data, keep optimizing for click rate and use state of the art thumbnail design, and clicks Done. The recording flies into the new chat at the top of the sidebar; Superbot lists the six steps it learned, verifies them in a headless browser, then works in a live view of the same page: four new ROB IT thumbnails generate, each live thumbnail wears its click rate, the lowest is swapped for the best new one, a meter waits for significance as impressions count up, and Round 2 and Round 3 follow, closing on Worked for 3d 4h. Ends on \"Create your own Superbot for any repeatable task. Superbot, the agent for automation.\" and superbot.gg. Plays live on the gallery's player (space pause, arrows step, , and . speed, R restart, Play with sound). The click-rate figures are illustrative and nothing was changed on the live game. 16:9, 1920x1080, 60 fps, 73.9 s, with sound.",
+    "download": "animations/train-your-own-superbot-93d8bde0/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
     "id": "negagg-crashes-v2-superbot-e85b3b49",
     "type": "animation",
     "group": "Ad spots",

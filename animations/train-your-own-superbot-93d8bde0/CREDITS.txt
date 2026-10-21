@@ -1,0 +1,36 @@
+Train your own Superbot (16:9 ad, chat 93d8bde0, 2026-10-20). Provenance of everything on screen and in the mix.
+
+ROBLOX PAGES (img/rbx/)
+Real captures of the account owner's own signed-in Chrome session, taken read-only on 2026-10-20 through Cosmos
+browser-control at a 1536x782 CSS viewport, 2x:
+  game-*.webp      https://www.roblox.com/games/96168869671905/ROB-IT (the ROB IT game page) and its ⋯ menu, opened
+                   and closed without choosing anything. game-base is the menu capture with the closed right panel
+                   pasted back (the carousel image stays the same). The Robux balance is blurred.
+  details.webp     https://create.roblox.com/dashboard/creations/experiences/9472441390/game-details (reached from the
+                   menu's "Configure this Experience").
+  thumbs-*.webp    https://create.roblox.com/dashboard/creations/experiences/9472441390/places/96168869671905/thumbnails
+                   (reached from the thumbnail's "Edit Thumbnails" control), plain and after "Edit active thumbnails";
+                   thumbs-edit-content is the page's scrolling column stitched from two scroll positions.
+Nothing was uploaded, saved, reordered or deleted. Before capturing, the Thumbnail performance table's numbers were
+replaced in that tab's DOM only with illustrative values (no request sent), so no real analytics are published; the
+table's layout, labels and thumbnails are the page's own. The edit view's local preference was set back afterwards.
+chrome-new-tab.webp: Google Chrome's New Tab page, the reference spot's capture (gemini-muse-meme-superbot-6fbc38f8
+img/computer.ba3976b6/new-tab.png), scaled to this desktop.
+Roblox mark in the tab favicon: Wikimedia Commons, Roblox_player_icon_black.svg (simple geometric logo).
+fonts/builder-*.woff2: Builder Sans, the face Creator Hub serves, used only for the agent's figures drawn on the
+captured page.
+
+GENERATED (image, voice, video, music, sound effects)
+  img/thumbs/*.webp     nine ROB IT thumbnails, fal-ai/nano-banana-pro/edit, 2026-10-20, with the game's four public
+                        thumbnails as style references (prompts: tools input gen/in/thumbs-fal/*.json).
+  presenter             the man in the facecam is AI-generated: portrait by Nano Banana Pro (first attempt,
+                        quick-chats/superbot-create-ad.e63fb022), voice ElevenLabs v3 "Liam" through fal
+                        (fal-ai/elevenlabs/tts/eleven-v3, the script's exact words), talking video
+                        fal-ai/bytedance/omnihuman/v1.5 (720p) driven by that voice track; cropped to head and shoulders.
+  music and UI sounds   ElevenLabs music and sound effects through fal, generated for this ad in its first attempt.
+The click-rate figures and round results in the film are illustrative; the film is an animation, not a recorded run.
+
+REUSED FROM THE GALLERY
+The player clock, the soft vignette, the pointer arrow, Chrome's frame and the live-view card are the reference spot's
+(animations/gemini-muse-meme-superbot-6fbc38f8, ?variant=computer-control-v3-soft). The Superbot app is a static rebuild
+of superbot-desktop's renderer source (kit/, HEAD 147654ce4).

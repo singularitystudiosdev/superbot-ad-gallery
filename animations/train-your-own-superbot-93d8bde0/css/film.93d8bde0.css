@@ -1,0 +1,208 @@
+/* "Train your own Superbot": the 1920x1080 stage and everything the director draws over the kit (kit/kit.93d8bde0.css).
+   No CSS animation or transition in the film: the director sets every opacity and transform from t, so ?t= frames hold.
+   Chrome's frame (.tc-*) is the reference spot's (computer.ba3976b6.css .cc3-*), at this desktop's 1536px width. */
+:root { --ui: -apple-system, "SF Pro Text", system-ui, "Segoe UI", Roboto, sans-serif; --round: "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #000; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden; background: #0d0d0d; transform-origin: 50% 50%; }
+.layer { position: absolute; inset: 0; pointer-events: none; }
+.scale125 { position: absolute; left: 0; top: 0; width: 1536px; height: 864px; transform: scale(1.25); transform-origin: 0 0; }
+
+/* ---------- the app and the create panel ---------- */
+.app-layer .sbk { position: absolute; inset: 0; }
+.app-layer .sbk-scrim { z-index: 20; }
+/* the new bot's chat: the kit's thread replaces the hero in the feed, scrolled by the director */
+.app-layer .sbk-feed-inner { will-change: transform; }
+
+/* ---------- Chrome on the desktop ---------- */
+.tc-desk { position: absolute; left: 0; top: 0; width: 1536px; height: 864px; overflow: hidden; transform-origin: 0 0; background: #fff; }
+.tc-win { position: absolute; inset: 0; overflow: hidden; background: #fff; }
+.tc-win svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tc-ic { flex: none; display: grid; place-items: center; width: 28px; height: 28px; box-sizing: border-box; padding: 5px; border-radius: 50%; color: #474747; }
+.tc-dim { opacity: .38; }
+.tc-strip { display: flex; align-items: flex-end; height: 42px; box-sizing: border-box; padding: 0 8px 0 14px; background: #dee1e6; }
+.tc-lights { display: flex; gap: 8px; align-self: center; margin-right: 22px; }
+.tc-lights i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.12); }
+.tc-lights i:nth-child(2) { background: #febc2e; }
+.tc-lights i:nth-child(3) { background: #28c840; }
+.tc-tab { position: relative; flex: none; display: flex; align-items: center; gap: 8px; width: 240px; height: 34px; box-sizing: border-box; padding: 0 8px 0 12px; overflow: hidden; white-space: nowrap; font: 400 12px/1 var(--ui); color: #1f1f1f; }
+.tc-tbg { position: absolute; inset: 0; border-radius: 10px 10px 0 0; background: #fff; }
+.tc-tab > span { position: relative; }
+.tc-fav { flex: none; position: relative; width: 16px; height: 16px; }
+.tc-fav > span { position: absolute; inset: 0; }
+.tc-fav-rbx svg { stroke: none; }
+.tc-fav-spin { color: #1a73e8; opacity: 0; }
+.tc-fav-spin svg { stroke-width: 2; }
+.tc-tt { flex: 1; min-width: 0; overflow: hidden; -webkit-mask: linear-gradient(90deg, #000 82%, transparent); mask: linear-gradient(90deg, #000 82%, transparent); }
+.tc-x { flex: none; width: 16px; height: 16px; box-sizing: border-box; padding: 3px; color: #474747; }
+.tc-plus { flex: none; display: grid; place-items: center; align-self: center; width: 28px; height: 28px; margin: 8px 0 0 8px; box-sizing: border-box; padding: 6px; border-radius: 50%; color: #474747; }
+.tc-bar { position: relative; z-index: 3; display: flex; align-items: center; gap: 4px; height: 40px; box-sizing: border-box; padding: 0 8px; border-bottom: 1px solid #e3e3e3; background: #fff; }
+.tc-omni { position: relative; flex: 1; display: flex; align-items: center; gap: 4px; height: 34px; margin: 0 6px; padding: 0 14px 0 5px; border-radius: 17px; background: #f1f3f4; font: 400 14px/1 var(--ui); color: #1f1f1f; }
+.tc-omni-ic { flex: none; width: 24px; height: 24px; box-sizing: border-box; padding: 4px; color: #474747; }
+.tc-url { position: relative; display: flex; align-items: center; height: 100%; white-space: nowrap; }
+.tc-url-sel { background: #c2dbff; }
+.tc-caret { flex: none; width: 1px; height: 18px; margin: 0 0 0 1px; background: #1f1f1f; opacity: 0; }
+.tc-url-sel:empty + .tc-caret { margin-left: 1px; }
+.tc-ph { position: absolute; left: 0; top: 50%; transform: translateY(-50%); color: #5f6368; }
+.tc-me { flex: none; width: 24px; height: 24px; margin: 0 4px; border-radius: 50%; background: #c2e7ff; }
+/* Chrome's omnibox dropdown: it grows out of the focused box, white, a soft shadow, one row per suggestion */
+.tc-suggest { position: absolute; z-index: 4; left: 110px; top: 44px; width: 1316px; box-sizing: border-box; padding: 40px 0 8px; border-radius: 17px; background: #fff; box-shadow: 0 2px 6px rgba(60,64,67,.3), 0 4px 12px rgba(60,64,67,.15); opacity: 0; visibility: hidden; font: 400 14px/1 var(--ui); }
+.tc-sg { display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 18px; white-space: nowrap; color: #1f1f1f; }
+.tc-sg-ic { flex: none; width: 16px; height: 16px; color: #5f6368; }
+.tc-sg-ic svg path[fill] { fill: #5f6368; }
+.tc-sg-t { color: #5f6368; }
+.tc-view { position: absolute; left: 0; top: 82px; width: 1536px; height: 782px; overflow: hidden; background: #fff; }
+.tc-page { position: absolute; left: 0; top: 0; display: block; width: 1536px; height: 782px; opacity: 0; }
+.tc-col { position: absolute; left: 403px; top: 72px; width: 1115px; height: 710px; overflow: hidden; opacity: 0; }
+.tc-col-img { display: block; width: 1115px; height: 1270px; }
+.tc-content { position: absolute; left: 0; top: 0; width: 1115px; height: 1270px; }
+.tc-hovers, .tc-annot { position: absolute; inset: 0; }
+.tc-hover { position: absolute; left: 0; top: 0; opacity: 0; }
+
+/* ---------- the pointer ---------- */
+.tc-ptr { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 60; }
+.tc-ptr svg { position: absolute; left: 0; top: 0; width: 24px; height: 24px; overflow: visible; transform-origin: 0 0; filter: drop-shadow(0 1px 1.4px rgba(0,0,0,.4)); }
+.tc-arrow path { fill: #000; stroke: #fff; stroke-width: 1.5px; stroke-linejoin: round; paint-order: stroke; }
+.tc-hand path { fill: #fff; stroke: #000; stroke-width: 1.1px; stroke-linejoin: round; stroke-linecap: round; }
+.tc-hand .tc-hand-l { fill: none; }
+.tc-ripple { position: absolute; left: 0; top: 0; border-radius: 50%; border: 2px solid rgba(255,255,255,.95); box-shadow: 0 0 0 1.5px rgba(0,0,0,.28), inset 0 0 0 1px rgba(0,0,0,.18); background: rgba(255,255,255,.18); opacity: 0; box-sizing: border-box; }
+
+/* ---------- the recording overlay: the reference's soft vignette (computer.ba3976b6.css .cc3-edge), full screen ----------
+   A turning conic band from 12px outside the screen's edge to 26px inside it, blurred so it is brightest on the edge and
+   fades smoothly to nothing inward; its outer half is clipped away by the screen. */
+.rv-edge { position: absolute; inset: 0; z-index: 30; overflow: hidden; opacity: 0; pointer-events: none; }
+.rv-soft { position: absolute; inset: -12px; filter: blur(10px); }
+.rv-band { position: absolute; inset: 0; padding: 32px; border-radius: 26px; background: conic-gradient(from var(--rv-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+/* the pill is the kit's (.sbk scoped), at the app's 1.25 scale, hung from the top centre */
+.rv-pill { position: absolute; z-index: 40; left: 50%; top: 22px; transform: translate(-50%, 0) scale(1.25); transform-origin: 50% 0; }
+.sbk.sbk-bare { width: auto; height: auto; overflow: visible; display: block; background: none; }
+.rv-pill .sbk-pill { transform-origin: 50% 0; }
+
+/* ---------- the recording flying back into the app ---------- */
+.fly { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; opacity: 0; border-radius: 0; box-shadow: 0 30px 80px rgba(0,0,0,.55); will-change: transform; }
+.fly img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- the presenter's facecam ---------- */
+.pip { position: absolute; z-index: 80; left: 36px; bottom: 36px; width: 372px; height: 372px; border-radius: 40px; overflow: hidden; background: #15151a; box-shadow: 0 0 0 3px rgba(255,255,255,.92), 0 18px 48px rgba(0,0,0,.55); }
+/* the facecam is cropped to head and shoulders when it is encoded (tools/presenter.93d8bde0.mjs): it fills the bubble */
+.pip video, .pip img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.pip-cap { position: absolute; z-index: 81; left: calc(50% + 142px); bottom: 372px; transform: translateX(-50%); max-width: 1100px; padding: 12px 22px; border-radius: 14px; background: rgba(12,12,14,.82); box-shadow: 0 0 0 1px rgba(255,255,255,.08); font: 600 34px/1.25 var(--round); color: #fff; text-align: center; white-space: nowrap; opacity: 0; }
+.pip-cap span { opacity: .28; }
+.pip-cap span.on { opacity: 1; }
+
+/* ---------- the end card: the house superbot.gg lockup (multicat.516afb1a.css .mc-end) under the spoken line ---------- */
+.end { position: absolute; inset: 0; z-index: 70; background: #0a0a0b; opacity: 0; display: grid; place-items: center; }
+.end-glow { position: absolute; inset: 0; background: radial-gradient(60% 55% at 50% 58%, rgba(168,85,247,.22), rgba(236,72,153,.08) 45%, transparent 70%); }
+.end-in { position: relative; display: flex; flex-direction: column; align-items: center; gap: 64px; transform: translateY(-20px); }
+.end-line { font: 700 58px/1.18 var(--round); color: #fff; text-align: center; letter-spacing: -0.01em; }
+.end-line > span > span { opacity: 0; display: inline-block; }
+.end-line .end-l2 { display: block; margin-top: 10px; color: #c9b8ff; }
+.end-lock { display: flex; align-items: center; gap: 36px; }
+.end-face { width: 150px; height: 150px; }
+.end-face svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.end-word { font: 800 104px/1 var(--round); letter-spacing: -0.03em; color: #fff; }
+
+/* ---------- the viewer's controls (outside the stage) ---------- */
+.ctl { position: fixed; z-index: 100; right: 14px; top: 14px; display: flex; align-items: center; gap: 6px; padding: 5px; border-radius: 22px; background: rgba(28,28,32,.86); box-shadow: 0 0 0 1px rgba(255,255,255,.1); font: 500 13px/1 var(--ui); color: #e5e5ea; }
+.ctl button { display: grid; place-items: center; width: 32px; height: 32px; padding: 7px; border: 0; border-radius: 16px; background: transparent; color: inherit; cursor: pointer; }
+.ctl button:hover { background: rgba(255,255,255,.12); }
+.ctl button:focus-visible, .ctl select:focus-visible { outline: 2px solid #8b8bf5; outline-offset: 1px; }
+.ctl svg { width: 18px; height: 18px; fill: currentColor; stroke: none; }
+.ctl-restart svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ctl-speed { display: flex; align-items: center; gap: 6px; padding: 0 6px 0 8px; color: #a1a1a6; }
+.ctl-speed select { height: 28px; border: 0; border-radius: 14px; padding: 0 8px; background: rgba(255,255,255,.1); color: #fff; font: inherit; }
+.snd { position: fixed; z-index: 100; right: 14px; top: 62px; display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px 0 10px; border: 0; border-radius: 18px; background: #f2f2f5; color: #111113; font: 600 13px/1 var(--ui); cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+.snd svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.snd.is-on { background: rgba(28,28,32,.86); color: #e5e5ea; box-shadow: 0 0 0 1px rgba(255,255,255,.1); }
+.hint { position: fixed; z-index: 100; left: 50%; bottom: 10px; transform: translateX(-50%); font: 500 12px/1 var(--ui); color: rgba(255,255,255,.45); white-space: nowrap; }
+body.freeze .ctl, body.freeze .snd, body.freeze .hint, body.clean .ctl, body.clean .snd, body.clean .hint { display: none; }
+.tc-ibeam path { fill: none; stroke-linecap: round; }
+.tc-ibeam .tc-ib-o { stroke: #fff; stroke-width: 3.4px; }
+.tc-ibeam .tc-ib-i { stroke: #000; stroke-width: 1.4px; }
+
+/* ---------- the new bot's chat: the thread in its own layer over the feed, scrolled by the director ---------- */
+.app-layer .sbk-feed { position: relative; }
+.tf { position: absolute; inset: 0; overflow: hidden; opacity: 0; }
+.tf-in { position: absolute; left: 0; right: 0; top: 0; padding: 0 24px; will-change: transform; }
+.tf .sbk-thread { display: flex; flex-direction: column; justify-content: flex-start; gap: 14px; max-width: 1180px; margin: 0 auto; }
+.tf .sbk-thread > * { visibility: hidden; opacity: 0; }
+.tf .sbk-reply { max-width: none; }
+.tf .sbk-reply-body { flex: 1; min-width: 0; }
+.tf .sbk-reply-text { max-width: 640px; }
+.say-h { visibility: hidden; }
+.tf .sbk-rec-thumb { position: relative; width: 96px; height: 54px; }
+.tf .sbk-rec-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 0; }
+.rec-play { position: absolute; left: 50%; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: rgba(0,0,0,.55); box-shadow: 0 0 0 1px rgba(255,255,255,.35); }
+.rec-play::after { content: ""; position: absolute; left: 8px; top: 6px; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent #fff; }
+.th-ic { flex: none; display: block; width: 16px; height: 16px; color: #aeb1bc; }
+.th-ic svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.app-layer .sbk-row { overflow: hidden; }
+
+/* ---------- the live view card: the reference's bakery frame (bakery.005f5570.css .bk) with the job's panel beside ---------- */
+.lv { margin-top: 6px; width: 1120px; border-radius: 12px; overflow: hidden; background: #16161a; box-shadow: 0 0 0 1px #2a2a2e; font-family: var(--round); }
+.lv-head { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px 0 14px; border-bottom: 1px solid #2a2a2e; }
+.lv-title { flex: 1; font: 600 13px/1 var(--round); color: #e6e8ee; }
+.lv-title small { margin-left: 6px; font-weight: 400; font-size: 12px; color: #a1a1a6; }
+.lv-btn { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; box-shadow: inset 0 0 0 1px #2e2e33; font: 500 12px/1 var(--round); color: #e5e5ea; }
+.lv-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.lv-icon { padding: 0 7px; }
+.lv-stop { background: #e6e8ee; color: #111113; box-shadow: none; }
+.lv-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
+.lv-body { display: flex; }
+.lv-view { position: relative; flex: none; overflow: hidden; background: #131215; }
+.lv-desk { position: absolute; left: 0; top: 0; }
+.lv-desk .tc-desk { background: #131215; }
+.lv-edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; opacity: 0; pointer-events: none; }
+.lv-soft { position: absolute; inset: -5px; filter: blur(4px); }
+.lv-band { position: absolute; inset: 0; padding: 11px; border-radius: 5px; background: conic-gradient(from var(--lv-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.lv-pill { position: absolute; z-index: 5; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 13px 0 6px; border-radius: 14px; white-space: nowrap; opacity: 0; background: rgba(22,22,26,.9); box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 8px 24px rgba(0,0,0,.35); font: 500 11.5px/1 var(--round); color: #f2f2f5; }
+.lv-pill-mark { display: grid; place-items: center; width: 18px; height: 18px; }
+.lv-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 14px; border-left: 1px solid #2a2a2e; }
+.lv-rounds { display: flex; gap: 6px; }
+.lv-round { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px 0 7px; border-radius: 12px; font: 600 11.5px/1 var(--round); color: #6c6f7a; box-shadow: inset 0 0 0 1px #2a2a2e; }
+.lv-r-ic { width: 8px; height: 8px; border-radius: 50%; background: #3a3b42; }
+.lv-round[data-state="on"] { color: #fff; box-shadow: inset 0 0 0 1px #8b5cf6; background: rgba(139,92,246,.14); }
+.lv-round[data-state="on"] .lv-r-ic { background: #c084fc; box-shadow: 0 0 0 3px rgba(192,132,252,.25); }
+.lv-round[data-state="done"] { color: #aeb1bc; }
+.lv-round[data-state="done"] .lv-r-ic { background: #34d399; }
+.lv-stage { display: flex; align-items: center; gap: 7px; font: 500 12.5px/1.2 var(--round); color: #e6e8ee; }
+.lv-st-ic { flex: none; width: 14px; height: 14px; color: #aeb1bc; }
+.lv-st-ic[data-k="check"] { color: #34d399; }
+.lv-st-ic svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.lv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.lv-tile { position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: #1d1d22; box-shadow: inset 0 0 0 1px #2a2a2e; opacity: 0; }
+.lv-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.lv-shim { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,.09) 45%, transparent 70%) 0 0 / 220% 100% no-repeat, #1d1d22; }
+.lv-tag { position: absolute; left: 6px; top: 6px; height: 18px; padding: 0 7px; border-radius: 9px; background: rgba(12,12,14,.82); font: 600 10.5px/18px var(--round); color: #e6e8ee; opacity: 0; }
+.lv-tag[data-k="live"] { background: #34d399; color: #062b1f; }
+.lv-meter { display: flex; flex-direction: column; gap: 7px; padding: 11px 12px; border-radius: 10px; background: #101013; box-shadow: inset 0 0 0 1px #24242a; }
+.lv-m-top { display: flex; justify-content: space-between; align-items: baseline; font: 600 12px/1 var(--round); color: #e6e8ee; }
+.lv-m-p { font: 500 11px/1 ui-monospace, Menlo, monospace; color: #aeb1bc; }
+.lv-bar { height: 6px; border-radius: 3px; background: #24242a; overflow: hidden; }
+.lv-bar i { display: block; height: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+.lv-bar i.is-done { background: #34d399; }
+.lv-m-row { display: flex; justify-content: space-between; font: 400 11.5px/1.2 var(--round); color: #aeb1bc; }
+.lv-m-row b { font: 600 11.5px/1.2 ui-monospace, Menlo, monospace; color: #e6e8ee; }
+.lv-note { font: 400 11.5px/1.45 var(--round); color: #c9b8ff; opacity: 0; }
+
+/* the agent's marks on the Roblox page (content px, they scroll with the table): Builder Sans, the page's own face */
+@font-face { font-family: "Builder Sans"; src: url(../fonts/builder-400.woff2) format("woff2"); font-weight: 400; }
+@font-face { font-family: "Builder Sans"; src: url(../fonts/builder-500.woff2) format("woff2"); font-weight: 500; }
+@font-face { font-family: "Builder Sans"; src: url(../fonts/builder-600.woff2) format("woff2"); font-weight: 600; }
+.am { position: absolute; box-sizing: border-box; opacity: 0; pointer-events: none; }
+.am-ctr { border-radius: 6px; box-shadow: inset 0 0 0 2px rgba(168,85,247,.85); background: rgba(168,85,247,.10); }
+.am-ctr-head { display: grid; place-items: center; border-radius: 14px; background: linear-gradient(90deg, #8b5cf6, #ec4899); font: 600 15px/1 "Builder Sans", var(--round); color: #fff; }
+.am-row { border-radius: 8px; box-shadow: inset 0 0 0 3px #f43f5e; background: rgba(244,63,94,.08); }
+.am-row::before { content: ""; position: absolute; inset: 0; background: rgba(19,18,21,.6); opacity: var(--dim, 0); }
+.am-row.is-new { box-shadow: inset 0 0 0 3px #34d399; background: rgba(52,211,153,.07); }
+.am-tag { position: absolute; right: 92px; top: 50%; transform: translateY(-50%); height: 28px; padding: 0 12px; border-radius: 14px; background: #f43f5e; font: 600 15px/28px "Builder Sans", var(--round); color: #fff; white-space: nowrap; }
+.am-row.is-new .am-tag { background: #34d399; color: #062b1f; }
+.am-swap { border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 2px #34d399, 0 6px 18px rgba(0,0,0,.5); }
+.am-swap img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.am-box { display: grid; place-items: center; color: #fff; background: #131215; }
+.am-box svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.am-cell { display: flex; align-items: center; justify-content: flex-end; padding-right: 14px; background: #131215; font: 400 16px/1 "Builder Sans", var(--round); color: #fff; }
+.am-cell.is-win { color: #34d399; font-weight: 600; }
+.desk-wrap { overflow: hidden; transform-origin: 0 0; }
+.am-badge { display: grid; place-items: center; border-radius: 6px; background: rgba(12,12,14,.86); box-shadow: 0 0 0 1.5px rgba(168,85,247,.9); font: 600 13px/1 "Builder Sans", var(--round); color: #fff; }
+.am-badge.is-low { box-shadow: 0 0 0 1.5px #f43f5e; color: #ffd0d8; }
+.am-badge.is-win { box-shadow: 0 0 0 1.5px #34d399; color: #b6f5dc; }

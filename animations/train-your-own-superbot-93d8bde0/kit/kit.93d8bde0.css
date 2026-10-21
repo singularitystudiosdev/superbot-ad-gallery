@@ -1,0 +1,900 @@
+/* kit.93d8bde0.css: the Superbot desktop UI kit for the "Train your own
+   Superbot" ad. Every value below is a packages/tokens token from the real
+   app (superbot-desktop, packages/tokens/dist/tokens.css) or a number read off
+   the app's own sheet: sidebar-hud.css, hub.css, sidebar.css, chat-row,
+   new-chat.css, agent-status.css, thinking-panel.css.
+
+   Everything is scoped under .sbk so the ad's own CSS can never collide.
+   NOTHING here animates: there is no @keyframes and no transition in this
+   file. Every moving thing (storm spin, working rail, thinking sheen, mascot
+   bob, dot pulse, caret) is written by kit.93d8bde0.js's paint(t), so any
+   frame is reproducible from t alone. */
+
+@font-face {
+  font-family: 'InterK91';
+  src: url('./assets/Inter-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'InterK91';
+  src: url('./assets/Inter-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'InterK91';
+  src: url('./assets/Inter-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'InterK91';
+  src: url('./assets/Inter-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
+.sbk {
+  /* the tokens this kit reads, verbatim from the app's dark scheme */
+  --color-bg: #0d0d0d;
+  --color-card: #0a0a0a;
+  --color-raised: #1a1a1c;
+  --color-fg: #e6e8ee;
+  --color-fg-secondary: #c9ccd4;
+  --color-muted: #aeb1bc;
+  --color-line: #1e1e21;
+  --color-line-strong: #3a3b40;
+  --color-accent: #2b6bff;
+  --overlay-row-active: #1a1a1c;
+  --overlay-row-hover: #141416;
+  --color-brand-superbot: #000000;
+  --color-brand-superbot-ink: #ffffff;
+  --color-brand-superbot-duo-a: #00e5c3;
+  --color-brand-superbot-duo-b: #c026d3;
+  --color-brand-storm-0: #00e5c3;
+  --color-brand-storm-1: #2b6bff;
+  --color-brand-storm-2: #6a1fd8;
+  --color-brand-storm-3: #c026d3;
+  --color-brand-storm-4: #ff3d9a;
+  --color-warn: #f5b544;
+
+  --font-ui: 'SF Pro Rounded', ui-rounded, 'InterK91', Inter, system-ui, sans-serif;
+  --font-serif: ui-serif, 'New York', 'Iowan Old Style', Charter, Georgia, serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+
+  --text-display: 32px;
+  --text-headline: 22px;
+  --text-title: 15px;
+  --text-body: 13px;
+  --text-caption: 11px;
+  --text-micro: 10px;
+
+  --radius-8: 8px;
+  --radius-16: 16px;
+  --radius-pill: 9999px;
+
+  --size-sidebar: 240px;
+  --size-titlebar: 40px;
+  --size-side-hud-row: 56px;
+  --size-side-hud: 144px;
+  --size-side-row-h: 32px;
+  --size-avatar-sm: 24px;
+  --size-chip-h: 22px;
+
+  width: 1536px;
+  height: 864px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  line-height: 19px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.sbk *,
+.sbk *::before,
+.sbk *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* determinism: the kit ships no transition or animation at all */
+  animation: none !important;
+  transition: none !important;
+}
+
+/* :where() keeps this reset at zero specificity, so a control's own fill and
+   ink (the primary button, Done, the new-row) always win over it */
+.sbk :where(button) {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* every icon is a 16px box unless a slot sizes it (the app sizes each icon in
+   its own rule; without a default an inline svg fills its container) */
+.sbk svg {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* =====================================================================
+   A. the window
+   ===================================================================== */
+
+.sbk-sidebar {
+  flex: none;
+  width: var(--size-sidebar);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--color-line);
+  background: var(--color-card);
+}
+
+/* the macOS band: the traffic lights sit in it, the Hide sidebar control at
+   its inline end (sidebar-hud.css .hud-band) */
+.sbk-hud-band {
+  flex: none;
+  height: var(--size-titlebar);
+  display: flex;
+  align-items: center;
+  padding: 0 4px 0 16px;
+}
+.sbk-lights {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.sbk-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: none;
+}
+.sbk-light-close { background: #ff5f57; }
+.sbk-light-min { background: #febc2e; }
+.sbk-light-zoom { background: #28c840; }
+.sbk-hud-hide {
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  color: var(--color-muted);
+}
+.sbk-hud-hide svg { width: 14px; height: 14px; }
+
+/* the HUD content row: 48 mark, then the title column (wordmark over the
+   disc stack), --spacing-4 apart (sidebar-hud.css .hud-row) */
+.sbk-hud {
+  flex: none;
+  padding: 0 16px 24px;
+}
+.sbk-hud-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: var(--size-side-hud-row);
+}
+.sbk-hud-mark {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: block;
+}
+.sbk-hud-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.sbk-wordmark {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+  letter-spacing: -0.44px;
+  color: var(--color-fg);
+}
+.sbk-discs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.sbk-disc {
+  width: var(--size-avatar-sm);
+  height: var(--size-avatar-sm);
+  border-radius: var(--radius-pill);
+  display: grid;
+  place-items: center;
+  font-size: var(--text-micro);
+  font-weight: 600;
+  color: var(--color-fg);
+  background: var(--color-raised);
+  box-shadow: 0 0 0 2px var(--color-card);
+  margin-left: -5px;
+  flex: none;
+}
+.sbk-disc:first-child { margin-left: 0; }
+.sbk-disc-add {
+  color: var(--color-muted);
+  background: var(--color-raised);
+}
+.sbk-disc-add svg { width: 12px; height: 12px; }
+
+/* =====================================================================
+   the "New Superbot" control (NEW): the app's own new-chat row anatomy
+   (hub.css .hub-side-new-chat-item: a dashed first row, --radius-8, the
+   list's own inset), carrying the mascot mark instead of a plus
+   ===================================================================== */
+
+.sbk-newbot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 8px 4px;
+  padding: 0 8px;
+  height: 34px;
+  border-radius: var(--radius-8);
+  border: 1px dashed var(--color-line-strong);
+  color: var(--color-fg-secondary);
+  font-size: var(--text-body);
+  font-weight: 500;
+}
+.sbk-newbot-mark { flex: none; width: 18px; height: 18px; display: block; }
+.sbk-newbot-plus {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  color: var(--color-muted);
+}
+.sbk-newbot-plus svg { width: 12px; height: 12px; }
+
+/* =====================================================================
+   the chat list: one row per Superbot (chat-row.tsx + hub.css)
+   ===================================================================== */
+
+.sbk-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 8px;
+  overflow: hidden;
+}
+.sbk-list-head {
+  display: flex;
+  align-items: center;
+  padding: 12px 8px 4px;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--color-muted);
+  letter-spacing: 0.2px;
+}
+.sbk-list-head span:last-child { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+.sbk-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  flex: none;
+  padding: 0 8px;
+  border-radius: var(--radius-8);
+  color: var(--color-fg-secondary);
+  overflow: hidden;
+}
+.sbk-row[data-active='true'] {
+  background: var(--overlay-row-active);
+  color: var(--color-fg);
+}
+.sbk-row-glyph {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--color-muted);
+}
+.sbk-row[data-active='true'] .sbk-row-glyph { color: var(--color-fg); }
+.sbk-row-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.sbk-row-title {
+  font-size: var(--text-body);
+  line-height: 17px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sbk-row-sub {
+  font-size: var(--text-micro);
+  line-height: 13px;
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sbk-row-meta {
+  margin-left: auto;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+/* working: the accent dot then the mono clock (chat-row.tsx live slot) */
+.sbk-row-live { display: flex; align-items: center; gap: 5px; }
+.sbk-row-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex: none;
+}
+/* the 2px indeterminate rail along the row's bottom inner edge */
+.sbk-row[data-status='working']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--color-line);
+  opacity: 0;
+}
+.sbk-row-rail {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1.5px;
+  width: 34%;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  opacity: 0;
+}
+.sbk-row[data-status='working'] .sbk-row-rail { opacity: 0.9; }
+/* needs you: the static warn glyph, never the running dot */
+.sbk-row-help { color: var(--color-warn); display: none; }
+.sbk-row[data-status='needs'] .sbk-row-help { display: block; }
+.sbk-row[data-status='needs'] .sbk-row-live { display: none; }
+.sbk-row[data-status='idle'] .sbk-row-live { display: none; }
+
+/* the storm tile: the 24px ring around the working row's glyph */
+.sbk-tile {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: var(--color-brand-superbot);
+  display: grid;
+  place-items: center;
+}
+.sbk-tile-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 7px;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    var(--color-brand-storm-0),
+    var(--color-brand-storm-1),
+    var(--color-brand-storm-2),
+    var(--color-brand-storm-3),
+    var(--color-brand-storm-4),
+    var(--color-brand-storm-0)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+}
+.sbk-row[data-status='working'] .sbk-tile-ring { opacity: 1; }
+.sbk-tile-face { width: 12px; height: 12px; display: block; }
+
+.sbk-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px;
+  padding: 8px;
+  border-radius: var(--radius-8);
+  background: var(--color-raised);
+}
+.sbk-foot-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #2f2f34;
+  display: grid;
+  place-items: center;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-fg);
+}
+.sbk-foot-text { display: flex; flex-direction: column; }
+.sbk-foot-name { font-size: var(--text-caption); font-weight: 500; color: var(--color-fg); }
+.sbk-foot-sub { font-size: var(--text-micro); color: var(--color-muted); }
+
+/* =====================================================================
+   the main pane
+   ===================================================================== */
+
+.sbk-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.sbk-head {
+  flex: none;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--color-line);
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--color-fg);
+}
+.sbk-head-title { display: flex; align-items: center; gap: 8px; }
+.sbk-head-mark { width: 16px; height: 16px; display: block; }
+.sbk-search {
+  margin-left: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 9px;
+  min-width: 240px;
+  border-radius: var(--radius-8);
+  background: var(--color-raised);
+  color: var(--color-muted);
+  font-size: var(--text-caption);
+  font-weight: 400;
+}
+.sbk-search svg { width: 11px; height: 11px; flex: none; }
+.sbk-search kbd {
+  margin-left: auto;
+  font: inherit;
+  font-size: var(--text-micro);
+  color: var(--color-muted);
+  opacity: 0.7;
+}
+
+.sbk-feed {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.sbk-feed-inner {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 24px 8px;
+  overflow: hidden;
+}
+
+/* the new-chat hero: the living mark inline with the serif greeting, at the
+   feed's foot (new-chat.css .new-chat-hero) */
+.sbk-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-bottom: 24px;
+}
+.sbk-hero-mark { flex: none; width: 48px; height: 48px; display: block; }
+.sbk-hero-greeting {
+  font-family: var(--font-serif);
+  font-size: var(--text-display);
+  line-height: 36px;
+  letter-spacing: -0.85px;
+  font-weight: 400;
+  color: var(--color-fg);
+}
+
+/* =====================================================================
+   the composer (Thread.tsx .hub-composer + packages/ui composer)
+   ===================================================================== */
+
+.sbk-composer-row {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  padding: 0 24px 20px;
+}
+.sbk-composer {
+  width: 100%;
+  max-width: 590px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sbk-composer-input {
+  display: flex;
+  flex-direction: column;
+  min-height: 84px;
+  padding: 12px 10px 8px 12px;
+  border-radius: var(--radius-16);
+  background: #101013;
+  box-shadow: inset 0 0 0 1px var(--color-line-strong);
+}
+.sbk-composer-ph {
+  flex: 1 1 auto;
+  min-height: 40px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #7c7f88;
+}
+.sbk-composer-row2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #9499a8;
+}
+.sbk-c-plus { display: grid; place-items: center; width: 22px; height: 22px; color: var(--color-fg-secondary); }
+.sbk-c-plus svg { width: 14px; height: 14px; }
+/* the model chip: a Superbot pill (spark glyph, label, mode, chevron) */
+.sbk-c-pill {
+  display: flex;
+  align-items: stretch;
+  height: 24px;
+  border-radius: var(--radius-pill);
+  background: #161619;
+  box-shadow: inset 0 0 0 1px #2a2a2e;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ececec;
+}
+.sbk-c-pill-cap {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  background: #212124;
+  color: #85868a;
+}
+.sbk-c-pill-cap svg { width: 12px; height: 12px; }
+.sbk-c-pill-tag { display: flex; align-items: center; padding: 0 7px 0 9px; }
+.sbk-c-pill-mode {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 6px 0 8px;
+  color: #b9bac0;
+}
+.sbk-c-pill-mode::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: #2b2b2f;
+}
+.sbk-c-pill svg.sbk-chev { width: 13px; height: 13px; margin: 0 6px 0 2px; color: #c0c1c6; align-self: center; }
+.sbk-c-pill svg.sbk-park { width: 12px; height: 12px; color: #8f9096; align-self: center; }
+
+.sbk-c-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.sbk-c-target {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #a2a2a8;
+}
+.sbk-c-target svg { width: 11.5px; height: 11.5px; }
+.sbk-c-round {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #1d1d20;
+  box-shadow: inset 0 0 0 1px #2b2b2e;
+  color: #b4b5bb;
+}
+.sbk-c-round svg { width: 13px; height: 13px; }
+.sbk-c-computer { background: #e8e8e8; color: #161618; box-shadow: none; }
+.sbk-c-computer svg { width: 12px; height: 12px; }
+.sbk-c-send { background: #222225; color: #6b6f77; }
+.sbk-c-send svg { width: 12px; height: 12px; }
+
+/* =====================================================================
+   the thread (D)
+   ===================================================================== */
+
+.sbk-thread {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 8px 24px 12px;
+  overflow: hidden;
+}
+.sbk-user-turn {
+  display: flex;
+  justify-content: flex-end;
+}
+/* the recording attachment card: the user's turn as a card, --radius-16 */
+.sbk-rec-card {
+  width: 300px;
+  border-radius: var(--radius-16);
+  background: var(--color-raised);
+  padding: 8px 10px 8px 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sbk-rec-thumb {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-8);
+  overflow: hidden;
+  background: #101013;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 1px var(--color-line);
+}
+.sbk-rec-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sbk-rec-body { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.sbk-rec-label { font-size: var(--text-body); font-weight: 500; color: var(--color-fg); }
+.sbk-rec-meta { font-size: var(--text-caption); color: var(--color-muted); font-variant-numeric: tabular-nums; }
+.sbk-rec-wave { display: flex; align-items: center; gap: 2px; height: 12px; }
+.sbk-rec-wave i { display: block; width: 2px; border-radius: 1px; background: var(--color-muted); opacity: 0.55; }
+
+/* the assistant's name row + body (Thread.tsx .m-head) */
+.sbk-reply { display: flex; gap: 10px; max-width: 640px; }
+.sbk-reply-mark { flex: none; width: 24px; height: 24px; display: block; }
+.sbk-reply-body { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.sbk-reply-name { font-size: var(--text-caption); font-weight: 600; color: var(--color-fg); }
+.sbk-reply-name span + span { color: var(--color-muted); font-weight: 400; margin-left: 6px; }
+.sbk-reply-text { font-size: 14px; line-height: 21px; color: var(--color-fg); }
+.sbk-reply-slot { min-height: 0; }
+
+/* the thinking panel (ThinkingPanel.tsx + thinking-panel.css): one row with
+   the ring glyph and the thought, then the steps under it */
+.sbk-think {
+  border-radius: var(--radius-16);
+  background: #101013;
+  box-shadow: inset 0 0 0 1px var(--color-line);
+  padding: 12px 14px;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sbk-think-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-caption);
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--color-fg-secondary);
+}
+.sbk-think-ic { flex: none; width: 16px; height: 16px; display: block; }
+.sbk-think-label {
+  background: linear-gradient(90deg, #8d9099 0%, #f2f4f8 45%, #8d9099 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 220% 100%;
+}
+.sbk-think-steps { display: flex; flex-direction: column; gap: 1px; }
+.sbk-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  font-size: 12.5px;
+  color: var(--color-muted);
+}
+.sbk-step-ic {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--color-line-strong);
+}
+.sbk-step-ic svg { width: 14px; height: 14px; }
+.sbk-step[data-state='running'] { color: var(--color-fg); }
+.sbk-step[data-state='running'] .sbk-step-ic { color: var(--color-accent); }
+.sbk-step[data-state='done'] { color: var(--color-fg-secondary); }
+.sbk-step[data-state='done'] .sbk-step-ic { color: #3ddc97; }
+.sbk-step-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* the outcome chip (OutcomeChip.tsx + agent-status.css .sb-outcome-trigger) */
+.sbk-outcome {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-caption);
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--color-muted);
+  min-height: 24px;
+}
+.sbk-outcome svg { width: 12px; height: 12px; }
+.sbk-outcome b { font-weight: 500; color: var(--color-fg-secondary); }
+
+/* =====================================================================
+   B. the create panel (NEW): the app's dialog anatomy, --radius-16 card on a
+   scrim, one field, one primary action with its subtitle
+   ===================================================================== */
+
+.sbk-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 4, 6, 0.62);
+  display: grid;
+  place-items: center;
+  z-index: 40;
+}
+.sbk-panel {
+  width: 420px;
+  border-radius: var(--radius-16);
+  background: #0f0f11;
+  box-shadow: inset 0 0 0 1px var(--color-line), 0 24px 64px rgba(0, 0, 0, 0.55);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sbk-panel-title { font-size: var(--text-headline); line-height: 28px; font-weight: 500; letter-spacing: -0.4px; }
+.sbk-panel-sub { font-size: var(--text-body); color: var(--color-muted); margin-top: -10px; }
+.sbk-field { display: flex; flex-direction: column; gap: 6px; }
+.sbk-field-label { font-size: var(--text-caption); font-weight: 500; color: var(--color-muted); }
+.sbk-field-box {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: var(--radius-8);
+  background: #17171a;
+  box-shadow: inset 0 0 0 1px var(--color-line-strong);
+  font-size: 14px;
+  color: var(--color-fg);
+}
+.sbk-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 16px;
+  margin-left: 1px;
+  background: var(--color-accent);
+  vertical-align: -3px;
+}
+.sbk-actions { display: flex; flex-direction: column; gap: 8px; }
+.sbk-primary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 14px;
+  border-radius: var(--radius-8);
+  background: var(--color-fg);
+  color: #0a0a0a;
+  font-size: var(--text-body);
+  font-weight: 600;
+}
+.sbk-primary-glyph {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #d92020;
+  color: #fff;
+}
+.sbk-primary-glyph svg { width: 13px; height: 13px; }
+.sbk-primary-text { display: flex; flex-direction: column; align-items: flex-start; }
+.sbk-primary-text small { font-size: var(--text-caption); font-weight: 400; color: #4c4c50; line-height: 14px; }
+.sbk-secondary {
+  height: 36px;
+  border-radius: var(--radius-8);
+  color: var(--color-muted);
+  font-size: var(--text-body);
+  text-align: center;
+}
+
+/* =====================================================================
+   C. the recording pill (NEW): dark glass, red dot, timer, listening
+   mascot, live caption, Done
+   ===================================================================== */
+
+.sbk-pill {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 56px;
+  padding: 0 12px 0 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(16, 16, 19, 0.86);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 18px 48px rgba(0, 0, 0, 0.55);
+  color: var(--color-fg);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+}
+.sbk-pill-dot { position: relative; flex: none; width: 10px; height: 10px; }
+.sbk-pill-dot i {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #ff3b30;
+}
+.sbk-pill-dot b {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #ff3b30;
+}
+.sbk-pill-timer {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-fg);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+}
+.sbk-pill-mark { flex: none; width: 34px; height: 34px; display: block; }
+.sbk-pill-caption {
+  justify-content: flex-end;
+  min-width: 340px;
+  max-width: 520px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+  color: var(--color-fg);
+}
+.sbk-pill-word { display: inline-block; }
+.sbk-pill-word + .sbk-pill-word { margin-left: 4px; }
+.sbk-pill-done {
+  flex: none;
+  height: 34px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-fg);
+  color: #0a0a0a;
+  font-size: var(--text-body);
+  font-weight: 600;
+}

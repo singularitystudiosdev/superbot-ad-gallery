@@ -1027,6 +1027,26 @@ const more = [
     `superbot: Keep making iterations on my Roblox thumbnails, with the chat list on the left (${name})`, 'Ad spots', {
       desc: `The Roblox thumbnails breakthroughs loop (af4c3c6b) with the account's chats down the app's left edge, shown as: ${name}. ${note} Every chat is marked with a Fluent 3D emoji like the Activity tab's steps. The open chat reads New chat until the prompt is sent, then ROB IT thumbnails, its icon turning from a speech balloon to a framed picture, and to a trophy for a beat on each new best. The other chats (a Halloween event, a game pass price, a guard bug, badge ideas) are fixtures. The app is laid out wider and drawn smaller, so the chat and the live view keep the original's sizes. 57 s loop; ?t= freezes a frame. 16:9, 1920x1080 stage. All ten side by side: chats-sheet.5a028abd.html in the same folder.` }]),
   // <<< superbot-roblox-thumbnails-chats-5a028abd
+  // >>> superbot-roblox-thumbnails-sidebars-22c1941e (2026-10-21): the af4c3c6b Roblox thumbnails loop with a chat list on
+  // the app's left in Manus's icon style (line icons for places, a filled glyph for a chat's kind, a dashed orange ring
+  // on the running chat), ten ways: one bundle, ?sidebar=1..10 picks the variant (sidebars/variants-*.22c1941e.js). The
+  // list takes 240px of the app and the live view narrows to 560px. All ten side by side:
+  // animations/superbot-roblox-thumbnails-sidebars-22c1941e/sidebars/
+  ...[
+    ['manus', 'Manus layout', 'Places (New chat, Computer, Scheduled, Library, Apps), Projects, the chat list, an invite card and the account, laid out as Manus does.'],
+    ['days', 'Grouped by day', 'One New chat button, then the chats under Today, Yesterday, Previous 7 days and Previous 30 days.'],
+    ['previews', 'Two-line previews', "Each chat's kind in a tile, its title and age, then a one-line preview; the running chat's line is superbot's current step."],
+    ['rail', 'Labelled rail', 'A labelled rail for the places, and the chat list in a white pane beside it.'],
+    ['folders', 'Project folders', 'Chats filed under ROB IT, Marketing and Studio, open folders showing their chats on a guide line.'],
+    ['status', 'By status', 'Running, Scheduled and Done with counts; Running reads Nothing running yet until the prompt is sent.'],
+    ['outputs', 'Latest output', "Each chat led by what it last made; the running chat's picture turns into each new winning iteration."],
+    ['pinned', 'Search and pins', 'Search first, a status filter under it, pinned chats above the rest.'],
+    ['compact', 'Compact', 'Short rows, an age on every chat, accelerators beside the places.'],
+    ['inset', 'Inset panel', "The list on an inset white panel; the running chat raised to two lines with superbot's current step."],
+  ].map(([v, name, note], i) => [`superbot-roblox-thumbnails-sidebars-${v}-22c1941e`, `superbot-roblox-thumbnails-sidebars-22c1941e/?sidebar=${i + 1}`,
+    `superbot: Keep making iterations on my Roblox thumbnails, with a Manus-style chat list (${name})`, 'Ad spots', {
+      desc: `The Roblox thumbnails breakthroughs loop (af4c3c6b) with the account's chats on the app's left, in Manus's icon style: line icons for places, a filled grey glyph for each chat's kind, a dashed orange ring on the chat that is running. ${name}: ${note} New chat is current until the prompt is sent, then Improve my ROB IT thumbnails grows into the list as the current chat and its ring turns while superbot works. The other chats are fixtures. The list takes 240px of the 1200px app and the live view narrows to 560px. 57 s loop; ?t= freezes a frame. 16:9, 1920x1080 stage. All ten side by side: sidebars/ in the same folder.` }]),
+  // <<< superbot-roblox-thumbnails-sidebars-22c1941e
 ];
 // an optional 5th field carries extra item fields, e.g. { download, downloadLabel } for a file too big for Pages
 for (const [name, src, title, group, extra] of more) {

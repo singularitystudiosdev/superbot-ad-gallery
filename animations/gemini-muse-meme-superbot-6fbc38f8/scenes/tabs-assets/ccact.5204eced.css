@@ -1,0 +1,105 @@
+/* The activity-rail loop cuts (beats/ccact.5204eced.js, ccact-screen.5204eced.js, ccact-hud.5204eced.js), over v3-soft's
+   live view (computer.ba3976b6.css, cc3-*), the flight cuts' tabs and pages (flights.92b9b0b0.css, fl-*) and the progress
+   cuts' chip pieces (computer-progress.a05be571.css, ccp-*): the thread with the docked frame, the rail beside it, the
+   task chip and card, the bar in its three places and the topline. Flat: no glow, no shimmer, nothing over the screen but
+   the chip, the pill and the news-left card. No CSS animation or transition: the beats set every opacity, width, height
+   and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself. */
+
+/* the thread after the reply: the follow-up rows and the docked frame in one feed item, which chat.css would otherwise
+   hide (.feed-in > :not(.qc-u):not(.qc-m)); inside it each row sizes as the feed's own and opens from nothing above the
+   frame (the beat sets its height and the gap after it), clipping while it does */
+#s-tabs .sbsite .hub .feed-in > .cxa-thread.cxa-thread.cxa-thread { display: grid; align-content: start; }
+#s-tabs .sbsite .hub .cxa-thread > * { box-sizing: border-box; width: 100%; max-width: none; margin-inline: 0; }
+#s-tabs .sbsite .hub .cxa-row { overflow: hidden; }
+#s-tabs .sbsite .hub .cxa-say { margin-bottom: 0; }
+
+/* the frame and its rail side by side; the rail takes the frame's height and never sets it */
+#s-tabs .sbsite .hub .cxa-dock .m-main { max-width: none; }
+#s-tabs .sbsite .hub .cxa-pair { display: flex; align-items: stretch; gap: 12px; max-width: none; }
+#s-tabs .sbsite .hub .cxa-pair > .bk { flex: none; }
+#s-tabs .sbsite .hub .cxa-pair-tab { gap: 0; }
+#s-tabs .sbsite .hub .cxa-pair-tab > .bk { border-bottom-right-radius: 0; }
+
+/* the reload button: Chrome's reload glyph, or its stop glyph while the page loads */
+#s-tabs .sbsite .hub .cxa-reload { position: relative; }
+#s-tabs .sbsite .hub .cxa-reload > span { position: absolute; inset: 5px; display: block; }
+#s-tabs .sbsite .hub .cxa-reload > span + span { opacity: 0; }
+
+/* the bar: a track and a flat pink-to-purple fill */
+#s-tabs .sbsite .hub .cxa-bar { position: relative; display: block; height: 3px; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,.14); }
+#s-tabs .sbsite .hub .cxa-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: inherit; background: linear-gradient(90deg, #f472b6, #a855f7); }
+/* edge: along the top of the screen, over Chrome's tab strip, on a dark track */
+#s-tabs .sbsite .hub .cxa-edge { position: absolute; left: 0; right: 0; top: 0; z-index: 6; height: 3px; opacity: 0; pointer-events: none; }
+#s-tabs .sbsite .hub .cxa-edge .cxa-bar { height: 3px; border-radius: 0; background: rgba(22,22,26,.4); }
+/* header: the header's foot, the loop and percent after Live view */
+#s-tabs .sbsite .hub .cxa .bk-head.cxa-hd { position: relative; z-index: 7; }
+#s-tabs .sbsite .hub .cxa-hdbar { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 0; opacity: 0; background: #2a2a2e; }
+#s-tabs .sbsite .hub .cxa-hdmeta { display: inline-flex; align-items: baseline; gap: 5px; margin-left: 8px; opacity: 0; font: 600 11px/16px var(--ui); font-variant-numeric: tabular-nums; color: #f9a8d4; }
+#s-tabs .sbsite .hub .cxa-hdmeta .ccp-lbl { display: inline-grid; }
+#s-tabs .sbsite .hub .cxa-hdmeta > i { font-style: normal; color: #5a5a60; }
+/* footer: a strip under the screen, inside the frame */
+#s-tabs .sbsite .hub .cxa-foot { display: flex; align-items: center; gap: 10px; height: 38px; box-sizing: border-box; padding: 0 14px; opacity: 0; box-shadow: 0 -1px 0 #2a2a2e; white-space: nowrap; font: 500 11px/1 var(--ui); color: #c7c7cc; }
+#s-tabs .sbsite .hub .cxa-foot > .cxa-bar { flex: 1; min-width: 60px; }
+#s-tabs .sbsite .hub .cxa-fl { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #e5e5ea; }
+#s-tabs .sbsite .hub .cxa-fl svg, #s-tabs .sbsite .hub .cxa-rt svg { flex: none; width: 13px; height: 13px; fill: none; stroke: #c4b5fd; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .cxa-fn { display: flex; gap: 4px; font: 600 11px/1 var(--ui); font-variant-numeric: tabular-nums; color: #f9a8d4; }
+#s-tabs .sbsite .hub .cxa-fn > i, #s-tabs .sbsite .hub .cxa-tag > i { font-style: normal; color: #5a5a60; }
+#s-tabs .sbsite .hub .cxa-foot-news .cxa-fn { padding-right: 12px; box-shadow: 1px 0 0 #2a2a2e; }
+
+/* the task: a chip or a two-line card, top right of the screen under Chrome's toolbar, clear of the tabs */
+#s-tabs .sbsite .hub .cxa .ccp-hud.cxa-chip { top: 38px; display: flex; align-items: center; gap: 7px; height: 26px; padding: 0 10px 0 7px; border-radius: 13px; }
+#s-tabs .sbsite .hub .cxa-tag { display: flex; align-items: center; gap: 4px; margin-left: 1px; white-space: nowrap; font: 600 10px/1 var(--ui); font-variant-numeric: tabular-nums; color: #a1a1a6; }
+#s-tabs .sbsite .hub .cxa .ccp-hud.cxa-task { top: 38px; display: grid; grid-template-columns: auto auto; align-items: center; justify-content: start; gap: 7px 6px; padding: 8px 11px 9px; border-radius: 10px; }
+#s-tabs .sbsite .hub .cxa-task > .ccp-eye { grid-column: 1 / -1; }
+#s-tabs .sbsite .hub .cxa-task .cxa-tag { margin-left: 6px; font-size: 8.5px; letter-spacing: .04em; }
+#s-tabs .sbsite .hub .cxa-tl { font: 500 11.5px/1.15 var(--ui); }
+
+/* the topline: a small label with a plane, the fare, what and where under it */
+#s-tabs .sbsite .hub .cxa-news { display: grid; justify-items: start; gap: 4px; white-space: nowrap; }
+#s-tabs .sbsite .hub .cxa-nl { display: flex; align-items: center; gap: 5px; font: 650 8.5px/1 var(--ui); letter-spacing: .07em; text-transform: uppercase; color: #a1a1a6; }
+#s-tabs .sbsite .hub .cxa-nl svg { flex: none; width: 10px; height: 10px; fill: none; stroke: #f472b6; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .cxa-np { display: flex; align-items: center; gap: 7px; }
+#s-tabs .sbsite .hub .cxa-price { font: 700 18px/1.1 var(--ui); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: #fff; }
+#s-tabs .sbsite .hub .cxa-drop { padding: 3px 6px; border-radius: 6px; opacity: 0; background: rgba(52,211,153,.15); font: 650 9.5px/1 var(--ui); font-variant-numeric: tabular-nums; color: #6ee7b7; }
+#s-tabs .sbsite .hub .cxa-sub { font: 500 9.5px/1.25 var(--ui); color: #c7c7cc; }
+/* news-left: a card top left of the screen, opposite the task */
+#s-tabs .sbsite .hub .cxa .ccp-hud.cxa-left { top: 38px; right: auto; left: 12px; padding: 9px 12px 10px 10px; border-radius: 11px; }
+/* news-footer: at the strip's right end, the label over the fare and where it is from */
+#s-tabs .sbsite .hub .cxa-in-foot { display: grid; grid-template-columns: auto auto; align-items: baseline; justify-content: start; justify-items: start; gap: 3px 6px; opacity: 0; }
+#s-tabs .sbsite .hub .cxa-in-foot .cxa-nl { grid-column: 1 / -1; font-size: 8px; }
+#s-tabs .sbsite .hub .cxa-in-foot .cxa-price { font-size: 13px; }
+#s-tabs .sbsite .hub .cxa-in-foot .cxa-np { gap: 5px; }
+#s-tabs .sbsite .hub .cxa-in-foot .cxa-drop { padding: 2px 5px; font-size: 9px; }
+
+/* the activity rail: the frame's own card colours; a header, then the rows, newest on top, the oldest fading out at the
+   foot as they leave */
+#s-tabs .sbsite .hub .cxa-rail { position: relative; flex: none; display: flex; flex-direction: column; width: 176px; overflow: hidden; contain: size; border-radius: 12px; opacity: 0; background: #1c1c20; box-shadow: 0 0 0 1px #2a2a2e, 0 12px 30px rgba(0,0,0,.4); }
+#s-tabs .sbsite .hub .cxa-rh { flex: none; display: flex; align-items: center; gap: 6px; height: 40px; box-sizing: border-box; padding: 0 10px 0 12px; box-shadow: 0 1px 0 #2a2a2e; }
+#s-tabs .sbsite .hub .cxa-rt { display: flex; align-items: center; gap: 6px; margin-right: auto; font: 600 12px/16px var(--ui); color: #e5e5ea; }
+#s-tabs .sbsite .hub .cxa-rl { display: flex; height: 20px; white-space: nowrap; align-items: center; padding: 0 7px; border-radius: 6px; background: #26262b; font: 600 10px/1 var(--ui); font-variant-numeric: tabular-nums; color: #c4b5fd; }
+#s-tabs .sbsite .hub .cxa-rnews { flex: none; overflow: hidden; opacity: 0; box-shadow: 0 1px 0 #2a2a2e; }
+#s-tabs .sbsite .hub .cxa-in-rail { padding: 11px 12px 12px; }
+#s-tabs .sbsite .hub .cxa-in-rail .cxa-sub { white-space: normal; }
+#s-tabs .sbsite .hub .cxa-acts { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 6px; overflow: hidden; -webkit-mask: linear-gradient(#000 72%, transparent); mask: linear-gradient(#000 72%, transparent); }
+#s-tabs .sbsite .hub .cxa-act { flex: none; display: flex; align-items: center; gap: 8px; box-sizing: border-box; padding: 0 6px; overflow: hidden; border-radius: 8px; }
+#s-tabs .sbsite .hub .cxa-act > * { margin: 5px 0; }
+#s-tabs .sbsite .hub .cxa-act.is-new { background: #26262b; }
+#s-tabs .sbsite .hub .cxa-ic { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: #26262b; }
+#s-tabs .sbsite .hub .cxa-act.is-new .cxa-ic { background: #323238; }
+#s-tabs .sbsite .hub .cxa-ic svg { display: block; width: 12px; height: 12px; fill: none; stroke: #c7c7cc; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .cxa-ic-tag svg { stroke: #f9a8d4; }
+#s-tabs .sbsite .hub .cxa-ic-chat svg { stroke: #93c5fd; }
+#s-tabs .sbsite .hub .cxa-ic-loop svg, #s-tabs .sbsite .hub .cxa-ic-reload svg { stroke: #c4b5fd; }
+#s-tabs .sbsite .hub .cxa-ic-check, #s-tabs .sbsite .hub .cxa-act.is-new .cxa-ic-check { background: linear-gradient(135deg, #f472b6, #a855f7); }
+#s-tabs .sbsite .hub .cxa-ic-check svg { stroke: #fff; stroke-width: 2; }
+#s-tabs .sbsite .hub .cxa-at { display: grid; gap: 2px; min-width: 0; }
+#s-tabs .sbsite .hub .cxa-at b { display: flex; align-items: center; gap: 5px; overflow: hidden; white-space: nowrap; font: 600 11px/1.2 var(--ui); font-variant-numeric: tabular-nums; color: #f2f2f5; }
+#s-tabs .sbsite .hub .cxa-at em { padding: 2px 4px; border-radius: 4px; background: rgba(52,211,153,.15); font: 650 8.5px/1 var(--ui); font-style: normal; color: #6ee7b7; }
+#s-tabs .sbsite .hub .cxa-at small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 9.5px/1.25 var(--ui); color: #8e8e93; }
+
+/* tab: the rail hangs off the frame's right edge beside the screen, under the header, narrower, its outer corners
+   rounded; the frame's corner beside it is squared to meet it */
+#s-tabs .sbsite .hub .cxa-rail-tab { width: 158px; margin-top: 40px; border-radius: 0 12px 12px 0; background: #18181b; }
+#s-tabs .sbsite .hub .cxa-rail-tab .cxa-rh { height: 32px; padding: 0 8px 0 10px; }
+#s-tabs .sbsite .hub .cxa-rail-tab .cxa-rt { font-size: 11px; }
+#s-tabs .sbsite .hub .cxa-rail-tab .cxa-rl { height: 18px; padding: 0 6px; font-size: 9.5px; }

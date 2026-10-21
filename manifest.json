@@ -551,6 +551,33 @@
     "desc": "The computer-control-v3-soft live view on a longer job. \"Take control of my computer and find me the cheapest flight from Denver to Tokyo, Dec 18 to Jan 2\" is typed; superbot answers \"On it. I’ll loop through the booking sites and keep the cheapest fare.\" over the Your computer frame (Share, Expand, Stop), the vignette and the \"superbot is controlling your computer\" pill. On the shared screen it opens Google Flights, Kayak, Skyscanner and Expedia in new Chrome tabs, sorts each by price and rings the cheapest fare, then loops back through the tabs. While it works the user types \"how's it going?\" (2 of 4 sites done, $1,092 on Kayak), \"skip basic economy, I need a carry on\" (the $1,064 basic fare drops out, Skyscanner and Expedia are rechecked, the checks grow from 4 to 6) and \"also try Dec 19, I can leave a day later\" (6 to 8); each message and answer grows into the thread above the live view, which stays docked at the bottom over the composer. It ends on $1,027 round trip on Kayak, ANA, Dec 19. The pages are drawn as plain text in each site's colours, no logos; the fares are illustrative. Topline: a chip in the header beside the title, Cheapest, the fare and its site rolling to each new low with its tag; the task chip top right and the bar along the screen's bottom edge. The Expand panel shows the same. About 26 s loop; the top-right selector switches variants live."
   },
   {
+    "id": "gemini-muse-meme-cc-loop-thumbs-superbot-0c0f5071",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Keep optimizing my video thumbnails (computer control loop)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=cc-loop-thumbs",
+    "thumb": "assets/shots/gemini-muse-meme-cc-loop-thumbs-superbot-0c0f5071.png",
+    "desc": "Computer Control V3 · Soft Vignette as a loop. \"Keep optimizing my video thumbnails. Research what works, make a new one, replace the weaker one, repeat.\" superbot takes the screen and runs rounds: it reads which of the channel's thumbnails get clicked most, sorts the table and marks the weakest, makes a new thumbnail, sets it against the live one and replaces the weaker. A progress row in the frame fills one segment per step (Round 1, 2, 3) and the live view's top right names the current task. The user asks \"How's it going?\", \"Make the text bigger on the next one.\" (round 2 applies it as a note step) and \"Any update?\"; each lands above the live view, which stays at the bottom of the chat. Mevesa's real thumbnails; rates and results are made up for the demo."
+  },
+  {
+    "id": "gemini-muse-meme-cc-loop-comments-superbot-0c0f5071",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Keep replying to new comments on my latest video (computer control loop)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=cc-loop-comments",
+    "thumb": "assets/shots/gemini-muse-meme-cc-loop-comments-superbot-0c0f5071.png",
+    "desc": "Computer Control V3 · Soft Vignette as a loop. \"Keep replying to new comments on my latest video. Answer questions, heart the good ones, remove spam.\" Each round superbot refreshes for new comments, answers the question as the creator, hearts the best ones and removes the spam, while a counter card keeps the day's totals. Progress row in the frame, current task in the live view's top right. The user asks \"How many have you answered so far?\", then \"Pin the one asking for a part 2.\" (round 2 pins it and it rises to the top) and \"Skip the trolls, don't reply to them.\" (round 3 marks the troll Skipped); the messages stack above the live view, which stays at the bottom. Commenters and counts are made up for the demo."
+  },
+  {
+    "id": "gemini-muse-meme-cc-loop-sponsors-superbot-0c0f5071",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Find sponsors for my channel and follow up (computer control loop)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=cc-loop-sponsors",
+    "thumb": "assets/shots/gemini-muse-meme-cc-loop-sponsors-superbot-0c0f5071.png",
+    "desc": "Computer Control V3 · Soft Vignette as a loop. \"Find sponsors for my channel. Pitch brands that fit, log every reply in my sheet, and follow up until they answer.\" Round 1 finds three brands that fit, writes and sends the pitch and logs them in the sponsor sheet; round 2 reads an offer of $1,500, counters at $2,000 after the user says \"Don't go under $2,000 per video.\", logs it and follows up an older pitch; round 3 logs the deal at $2,000. Progress row in the frame, current task in the live view's top right, the user's questions stacking above the live view, which stays at the bottom. Brands, messages and amounts are made up for the demo."
+  },
+  {
     "id": "gemini-muse-meme-traderjoes-superbot-4aaedb8c",
     "type": "animation",
     "group": "Ad spots",

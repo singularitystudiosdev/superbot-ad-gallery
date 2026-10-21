@@ -1,0 +1,68 @@
+/* The 'cc-loop-comments' variant's page (beats/ccloop-comments.0c0f5071.js), drawn at the live view's desk px (1470 x
+   837 under Chrome's toolbar): the video and the day's counts on the left, the comments on the right. Comments are laid
+   out by the beat (absolute, translateY from their heights); it also sets --cm-f (flagged as spam), --cm-s (skipped),
+   the reply box's height and every opacity. */
+#s-tabs .sbsite .hub .cm-page { background: #f7f7f9; }
+#s-tabs .sbsite .hub .cm-top { display: flex; align-items: center; gap: 14px; height: 72px; box-sizing: border-box; padding: 0 36px; border-bottom: 1px solid #e6e6ea; background: #fff; }
+#s-tabs .sbsite .hub .cm-avt { width: 40px; height: 40px; border-radius: 50%; }
+#s-tabs .sbsite .hub .cm-top b { font: 700 24px/1 var(--ui); }
+#s-tabs .sbsite .hub .cm-top span { padding-left: 14px; border-left: 2px solid #e6e6ea; font: 500 22px/1 var(--ui); color: #6b6b76; }
+#s-tabs .sbsite .hub .cm-main { display: grid; grid-template-columns: 380px 1fr; gap: 28px; height: 765px; box-sizing: border-box; padding: 24px 36px; }
+
+/* the video and the counter card */
+#s-tabs .sbsite .hub .cm-side { display: grid; align-content: start; gap: 22px; }
+#s-tabs .sbsite .hub .cm-video, #s-tabs .sbsite .hub .cm-stats, #s-tabs .sbsite .hub .cm-list { box-sizing: border-box; border-radius: 16px; background: #fff; box-shadow: 0 0 0 1px #e6e6ea; }
+#s-tabs .sbsite .hub .cm-video { padding: 14px 14px 18px; }
+#s-tabs .sbsite .hub .cm-video img { display: block; width: 100%; height: auto; margin-bottom: 14px; border-radius: 12px; }
+#s-tabs .sbsite .hub .cm-video b { display: block; font: 700 22px/1.25 var(--ui); }
+#s-tabs .sbsite .hub .cm-video small { display: block; margin-top: 8px; font: 500 18px/1 var(--ui); color: #8a8a94; }
+#s-tabs .sbsite .hub .cm-stats { padding: 20px 22px 8px; }
+#s-tabs .sbsite .hub .cm-stats h2 { margin: 0 0 6px; font: 700 22px/1 var(--ui); }
+#s-tabs .sbsite .hub .cm-stats div { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-top: 1px solid #f0f0f3; }
+#s-tabs .sbsite .hub .cm-stats div:first-of-type { border-top: 0; }
+#s-tabs .sbsite .hub .cm-stats span { font: 500 20px/1 var(--ui); color: #6b6b76; }
+#s-tabs .sbsite .hub .cm-stats b { font: 700 34px/1 var(--ui); font-variant-numeric: tabular-nums; color: #1f1f1f; }
+
+/* the comments */
+#s-tabs .sbsite .hub .cm-list { position: relative; overflow: hidden; padding: 16px 22px; }
+#s-tabs .sbsite .hub .cm-bar { display: flex; justify-content: space-between; align-items: center; height: 40px; }
+#s-tabs .sbsite .hub .cm-bar b { font: 700 22px/1 var(--ui); }
+#s-tabs .sbsite .hub .cm-refresh { display: flex; align-items: center; gap: 10px; font: 700 19px/1 var(--ui); color: #6d28d9; }
+#s-tabs .sbsite .hub .cm-refresh svg { width: 28px; height: 28px; fill: none; stroke: #6d28d9; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .cm-items { position: relative; margin-top: 12px; }
+#s-tabs .sbsite .hub .cm { position: absolute; top: 0; left: 0; right: 0; }
+#s-tabs .sbsite .hub .cm-in { padding: 14px 16px; border-radius: 14px; background: rgba(254,226,226, calc(.8 * var(--cm-f, 0))); box-shadow: inset 0 0 0 calc(2px * var(--cm-f, 0)) rgba(220,38,38, var(--cm-f, 0)); opacity: calc(1 - .5 * var(--cm-s, 0)); }
+#s-tabs .sbsite .hub .cm-pin { display: flex; align-items: center; gap: 6px; margin: 0 0 8px 66px; font: 600 17px/1 var(--ui); color: #6b6b76; }
+#s-tabs .sbsite .hub .cm-pin svg, #s-tabs .sbsite .hub .cm-pinb svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .cm-row { display: flex; align-items: flex-start; gap: 16px; }
+#s-tabs .sbsite .hub .cm-av { flex: none; display: grid; place-items: center; width: 50px; height: 50px; border-radius: 50%; font: 700 22px/1 var(--ui); color: #fff; }
+#s-tabs .sbsite .hub .cm-body { flex: 1; min-width: 0; }
+#s-tabs .sbsite .hub .cm-who { display: flex; align-items: center; gap: 10px; }
+#s-tabs .sbsite .hub .cm-who b { font: 700 19px/1 var(--ui); }
+#s-tabs .sbsite .hub .cm-who small { font: 400 17px/1 var(--ui); color: #8a8a94; }
+#s-tabs .sbsite .hub .cm-who em { padding: 5px 9px; border-radius: 999px; font: 800 13px/1 var(--ui); font-style: normal; letter-spacing: .05em; text-transform: uppercase; }
+#s-tabs .sbsite .hub .cm-new { background: #ede4ff; color: #6d28d9; }
+#s-tabs .sbsite .hub .cm-flag { background: #dc2626; color: #fff; }
+#s-tabs .sbsite .hub .cm-skip { background: #e5e7eb; color: #4b5563; }
+#s-tabs .sbsite .hub .cm-body p { margin: 7px 0 9px; font: 400 21px/1.35 var(--ui); }
+#s-tabs .sbsite .hub .cm-acts { display: flex; align-items: center; gap: 20px; font: 600 17px/1 var(--ui); color: #4b4b55; }
+#s-tabs .sbsite .hub .cm-heart, #s-tabs .sbsite .hub .cm-by, #s-tabs .sbsite .hub .cm-pinb { display: inline-flex; align-items: center; gap: 6px; }
+#s-tabs .sbsite .hub .cm-heart svg { width: 22px; height: 22px; fill: none; stroke: #4b4b55; stroke-width: 2; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .cm-heart.on svg { fill: #ec4899; stroke: #ec4899; }
+#s-tabs .sbsite .hub .cm-heart i { font-style: normal; font-variant-numeric: tabular-nums; }
+#s-tabs .sbsite .hub .cm-rb, #s-tabs .sbsite .hub .cm-pinb { padding: 6px 12px; border-radius: 999px; }
+#s-tabs .sbsite .hub .cm-by { font-size: 15px; color: #ec4899; }
+#s-tabs .sbsite .hub .cm-by svg { width: 16px; height: 16px; fill: #ec4899; }
+#s-tabs .sbsite .hub .cm-remove { flex: none; align-self: center; padding: 11px 18px; border-radius: 10px; background: #dc2626; opacity: 0; font: 700 18px/1 var(--ui); color: #fff; }
+
+/* the answer under a comment: a box the text types into and Reply, which turn into the creator's posted reply */
+#s-tabs .sbsite .hub .cm-rep { height: 0; margin-left: 66px; overflow: hidden; }
+#s-tabs .sbsite .hub .cm-rin { position: relative; display: grid; grid-template-columns: 40px 1fr auto; align-items: start; gap: 12px; padding-top: 12px; }
+#s-tabs .sbsite .hub .cm-me { width: 40px; height: 40px; border-radius: 50%; }
+#s-tabs .sbsite .hub .cm-box { min-height: 27px; padding: 10px 14px; border-radius: 10px; background: #fff; box-shadow: inset 0 0 0 2px #a855f7; font: 400 20px/1.35 var(--ui); }
+#s-tabs .sbsite .hub .cm-rest { color: transparent; }
+#s-tabs .sbsite .hub .cm-send { padding: 12px 18px; border-radius: 10px; background: #6d28d9; font: 700 18px/1 var(--ui); color: #fff; }
+#s-tabs .sbsite .hub .cm-posted { position: absolute; top: 12px; left: 52px; right: 0; opacity: 0; }
+#s-tabs .sbsite .hub .cm-posted b { font: 700 18px/1 var(--ui); }
+#s-tabs .sbsite .hub .cm-posted em { margin-left: 8px; padding: 4px 8px; border-radius: 999px; background: #1f1f1f; font: 700 13px/1 var(--ui); font-style: normal; color: #fff; }
+#s-tabs .sbsite .hub .cm-posted p { margin: 6px 0 0; font: 400 20px/1.35 var(--ui); }

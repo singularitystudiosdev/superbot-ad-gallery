@@ -92,6 +92,11 @@ export const VARIANTS = [
   { id: 'voiceclone-call', label: 'Voice clone call' }, // one tap records the user's voice, superbot clones it and calls 30351235 in that voice, saying it is their AI (scenes/tabs-assets/beats/voiceclone.6ba3a0f8.js)
   { id: 'cats-chatbot', label: 'Cats: Discord GIF, 3D cat, DoorDash, song, unsubscribe' }, // five asks: a cat GIF sent to MrCatMan131 on Discord, a 3D cat, cat food on DoorDash, a cat song, then the user's other AI plans cancelled (scenes/tabs-assets/beats/cats.70783379.js)
   { id: 'gym-site', label: 'Gym website · voiceover' }, // a gym bro site built in the chat, previewed, then taking the whole frame and scrolling, with no model on show (scenes/tabs-assets/beats/gymsite.6e110402.js)
+  // computer-control loops: v3-soft's live view running a job in rounds, a progress row and task HUD on the card, the
+  // user's follow-ups landing above it (scenes/tabs-assets/beats/ccloop.0c0f5071.js)
+  { id: 'cc-loop-thumbs', label: 'Computer control loop · thumbnail optimizer' },
+  { id: 'cc-loop-comments', label: 'Computer control loop · comment replies' },
+  { id: 'cc-loop-sponsors', label: 'Computer control loop · sponsor outreach' },
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

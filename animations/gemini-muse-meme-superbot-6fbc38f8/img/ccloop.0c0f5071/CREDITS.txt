@@ -1,0 +1,18 @@
+img/ccloop.0c0f5071 CREDITS: the computer-control loop cuts (?variant=cc-loop-thumbs, cc-loop-comments, cc-loop-sponsors;
+scenes/tabs-assets/beats/ccloop.0c0f5071.js and its three variant modules). The channel is Mevesa
+(https://www.youtube.com/@Mevesa), the creator the yt-thumbnail cut is made for (img/ytthumb.c4e81a27/CREDITS.txt, whose
+avatar, video thumbnail and three GPT Image 2 thumbnails these cuts reuse). The three thumbnails below were picked from the
+channel's video list as listed on 2026-10-21 for carrying no other company's name or mark.
+
+already-here.jpg   "We're Entering the Age of AI" (https://www.youtube.com/watch?v=xmoCRrW0HPo), its own thumbnail
+                   (https://i.ytimg.com/vi/xmoCRrW0HPo/maxresdefault.jpg), 1280 x 720 scaled to 640 x 360 (JPEG).
+not-proof.jpg      "Soon, Video Will No Longer Be Proof" (https://www.youtube.com/watch?v=ciH9iMaicTw), its own thumbnail
+                   (https://i.ytimg.com/vi/ciH9iMaicTw/maxresdefault.jpg), 1280 x 720 scaled to 640 x 360 (JPEG).
+changes-world.jpg  "How AI Is Changing the World" (https://www.youtube.com/watch?v=hrfAStzE6w4), its own thumbnail
+                   (https://i.ytimg.com/vi/hrfAStzE6w4/maxresdefault.jpg), 1280 x 720 scaled to 640 x 360 (JPEG).
+
+Everything else on these cuts' screens is drawn in the page (HTML and CSS at the live view's desk px): the analytics table,
+the thumbnail lab, the video details, the comments page, the sponsor sheet and the mail. The impressions, click-through
+rates, A/B results, commenters, comments, counts, brands (Orbitdesk, Codelane, Packwise, Nimbleleaf, Lumacast), messages
+and amounts are made up for the demo; the .channel hosts in the address bar are not a real domain. Nothing was changed,
+posted, sent or replaced on any account.

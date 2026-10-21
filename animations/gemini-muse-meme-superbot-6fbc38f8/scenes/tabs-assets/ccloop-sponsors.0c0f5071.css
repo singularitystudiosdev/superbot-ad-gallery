@@ -1,0 +1,79 @@
+/* The 'cc-loop-sponsors' variant's pages (beats/ccloop-sponsors.0c0f5071.js), drawn at the live view's desk px (1470 x
+   837 under Chrome's toolbar): the sponsor sheet, the compose window, the inbox. The beat sets --sp-in (a row or message
+   arriving), --sp-flash (a cell just written), the active-cell outline's box, every pill's data-s and every opacity. */
+#s-tabs .sbsite .hub .sp-page { background: #fff; }
+#s-tabs .sbsite .hub .sp-top { display: flex; align-items: center; gap: 14px; height: 72px; box-sizing: border-box; padding: 0 30px; border-bottom: 1px solid #e5e7eb; }
+#s-tabs .sbsite .hub .sp-top b { font: 700 24px/1 var(--ui); }
+#s-tabs .sbsite .hub .sp-top span { padding-left: 14px; border-left: 2px solid #e5e7eb; font: 500 21px/1 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-ico { width: 36px; height: 36px; border-radius: 9px; }
+#s-tabs .sbsite .hub .sp-ico-sheet { background: linear-gradient(#fff, #fff) 50% 50% / 2px 22px no-repeat, linear-gradient(#fff, #fff) 50% 50% / 22px 2px no-repeat, #16a34a; }
+#s-tabs .sbsite .hub .sp-ico-mail { background: #2563eb; box-shadow: inset 0 0 0 8px #2563eb, inset 0 0 0 11px #fff; }
+
+/* the sheet */
+#s-tabs .sbsite .hub .sp-fx { display: flex; align-items: center; gap: 16px; height: 52px; box-sizing: border-box; padding: 0 24px; border-bottom: 1px solid #e5e7eb; }
+#s-tabs .sbsite .hub .sp-fx i { font: italic 600 20px/1 var(--ui); color: #9ca3af; }
+#s-tabs .sbsite .hub .sp-fxv { flex: 1; align-self: stretch; display: flex; align-items: center; padding-left: 16px; border-left: 1px solid #e5e7eb; font: 400 21px/1 var(--ui); }
+#s-tabs .sbsite .hub .sp-grid { position: relative; }
+#s-tabs .sbsite .hub .sp-row { display: grid; grid-template-columns: 64px 420px 140px 270px 290px 1fr; height: 66px; border-bottom: 1px solid #e5e7eb; }
+#s-tabs .sbsite .hub .sp-row > span { display: flex; align-items: center; min-width: 0; padding: 0 18px; overflow: hidden; border-right: 1px solid #e5e7eb; white-space: nowrap; font: 400 21px/1 var(--ui); }
+#s-tabs .sbsite .hub .sp-row > span:not(.sp-n) { opacity: var(--sp-in, 1); }
+#s-tabs .sbsite .hub .sp-row > .sp-n { justify-content: center; padding: 0; background: #f3f4f6; font: 500 16px/1 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-letters { height: 34px; background: #f3f4f6; }
+#s-tabs .sbsite .hub .sp-letters > span { justify-content: center; font: 600 16px/1 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-hrow { background: #f9fafb; }
+#s-tabs .sbsite .hub .sp-hrow > span:not(.sp-n) { font-weight: 700; }
+#s-tabs .sbsite .hub .sp-brand i { flex: none; display: grid; place-items: center; width: 34px; height: 34px; margin-right: 14px; border-radius: 8px; font: 700 18px/1 var(--ui); font-style: normal; color: #fff; }
+#s-tabs .sbsite .hub .sp-brand small { margin-left: 10px; font: 400 17px/1 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-row > .sp-fit { font-weight: 700; color: #16a34a; }
+#s-tabs .sbsite .hub .sp-hrow > .sp-fit { color: inherit; }
+#s-tabs .sbsite .hub .sp-st em, #s-tabs .sbsite .hub .sp-offer em, #s-tabs .sbsite .hub .sp-touch em { font-style: normal; }
+#s-tabs .sbsite .hub .sp-st em { padding: 8px 14px; border-radius: 999px; background: #f3f4f6; font: 600 18px/1 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-st em[data-s=""] { display: none; }
+#s-tabs .sbsite .hub .sp-st em[data-s="Pitched"] { background: #dbeafe; color: #1d4ed8; }
+#s-tabs .sbsite .hub .sp-st em[data-s="Followed up"] { background: #fef3c7; color: #b45309; }
+#s-tabs .sbsite .hub .sp-st em[data-s="Negotiating"] { background: #ede9fe; color: #6d28d9; }
+#s-tabs .sbsite .hub .sp-st em[data-s="Deal"] { background: #dcfce7; color: #15803d; }
+#s-tabs .sbsite .hub .sp-st em[data-s="Declined"] { background: #fee2e2; color: #b91c1c; }
+#s-tabs .sbsite .hub .sp-offer em { font-weight: 600; }
+#s-tabs .sbsite .hub .sp-touch em { color: #6b7280; }
+#s-tabs .sbsite .hub .sp-sel { position: absolute; left: 0; top: 0; box-sizing: border-box; border: 3px solid #1a73e8; border-radius: 2px; background: rgba(26,115,232, calc(.14 * var(--sp-flash, 0))); opacity: 0; pointer-events: none; }
+
+/* the mail: the folders, then compose, or the inbox list and the open message */
+#s-tabs .sbsite .hub .sp-mail { display: grid; grid-template-columns: 240px 1fr; height: 765px; }
+#s-tabs .sbsite .hub .sp-mail:has(.sp-read) { grid-template-columns: 240px 500px 1fr; }
+#s-tabs .sbsite .hub .sp-nav { display: flex; flex-direction: column; align-items: stretch; gap: 6px; padding: 22px 16px; }
+#s-tabs .sbsite .hub .sp-nav span { display: flex; justify-content: space-between; padding: 14px 18px; border-radius: 12px; font: 500 21px/1 var(--ui); color: #374151; }
+#s-tabs .sbsite .hub .sp-nav .sp-cbtn { margin-bottom: 12px; background: #e0e7ff; font-weight: 700; color: #3730a3; }
+#s-tabs .sbsite .hub .sp-nav .sp-inav { background: #eef2ff; font-weight: 700; }
+#s-tabs .sbsite .hub .sp-inav i { font: 700 19px/1 var(--ui); font-style: normal; color: #2563eb; }
+#s-tabs .sbsite .hub .sp-compose { display: flex; flex-direction: column; margin: 22px 28px; padding-bottom: 22px; border-radius: 16px; box-shadow: 0 0 0 1px #e5e7eb, 0 8px 30px rgba(0,0,0,.06); }
+#s-tabs .sbsite .hub .sp-f { display: flex; align-items: center; gap: 14px; min-height: 66px; box-sizing: border-box; padding: 0 26px; border-bottom: 1px solid #f0f0f3; }
+#s-tabs .sbsite .hub .sp-f label { width: 92px; font: 600 19px/1 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-chip { padding: 9px 16px; border-radius: 999px; background: #e0e7ff; font: 600 20px/1 var(--ui); color: #3730a3; }
+#s-tabs .sbsite .hub .sp-more { font: 400 19px/1 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-subj { font: 600 22px/1 var(--ui); }
+#s-tabs .sbsite .hub .sp-body { margin: 0; padding: 22px 26px; font: 400 22px/1.5 var(--ui); }
+#s-tabs .sbsite .hub .sp-rest, #s-tabs .sbsite .hub .sp-rrest { color: transparent; }
+#s-tabs .sbsite .hub .sp-cfoot { display: flex; align-items: center; gap: 20px; padding: 0 26px; }
+#s-tabs .sbsite .hub .sp-send, #s-tabs .sbsite .hub .sp-rsend { display: inline-flex; padding: 15px 34px; border-radius: 999px; background: #2563eb; font: 700 21px/1 var(--ui); color: #fff; }
+#s-tabs .sbsite .hub .sp-sent, #s-tabs .sbsite .hub .sp-rsent { opacity: 0; font: 700 21px/1 var(--ui); color: #16a34a; }
+#s-tabs .sbsite .hub .sp-ilist { overflow: hidden; border-right: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; }
+#s-tabs .sbsite .hub .sp-msg { display: grid; grid-template-columns: 1fr auto; align-content: start; height: calc(var(--sp-in, 1) * 132px); box-sizing: border-box; padding: 18px 22px 0; overflow: hidden; border-bottom: 1px solid rgba(229,231,235, var(--sp-in, 1)); opacity: var(--sp-in, 1); }
+#s-tabs .sbsite .hub .sp-msg b { font: 600 20px/1 var(--ui); color: #374151; }
+#s-tabs .sbsite .hub .sp-msg small { font: 400 17px/1 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-msg span { grid-column: 1 / -1; margin-top: 8px; font: 500 18px/1.2 var(--ui); color: #374151; }
+#s-tabs .sbsite .hub .sp-msg p { grid-column: 1 / -1; margin: 6px 0 0; font: 400 18px/1.35 var(--ui); color: #6b7280; }
+#s-tabs .sbsite .hub .sp-msg.is-unread { background: #eff6ff; box-shadow: inset 5px 0 0 #2563eb; }
+#s-tabs .sbsite .hub .sp-msg.is-unread b, #s-tabs .sbsite .hub .sp-msg.is-unread span { font-weight: 800; color: #111827; }
+#s-tabs .sbsite .hub .sp-msg.is-open { background: #e0e7ff; }
+#s-tabs .sbsite .hub .sp-read { position: relative; }
+#s-tabs .sbsite .hub .sp-m { position: absolute; inset: 28px 34px; opacity: 0; }
+#s-tabs .sbsite .hub .sp-m h2 { margin: 0 0 14px; font: 700 28px/1.2 var(--ui); }
+#s-tabs .sbsite .hub .sp-m > b { font: 600 20px/1 var(--ui); color: #374151; }
+#s-tabs .sbsite .hub .sp-m > p { margin: 20px 0; font: 400 23px/1.5 var(--ui); }
+#s-tabs .sbsite .hub .sp-m mark { padding: 0 5px; border-radius: 5px; background: #fef08a; color: inherit; font-weight: 700; }
+#s-tabs .sbsite .hub .sp-m2 mark { background: #bbf7d0; }
+#s-tabs .sbsite .hub .sp-reply { margin-top: 26px; padding: 18px 20px; border-radius: 14px; box-shadow: inset 0 0 0 2px #a855f7; }
+#s-tabs .sbsite .hub .sp-reply p { min-height: 64px; margin: 0 0 16px; font: 400 21px/1.45 var(--ui); }
+#s-tabs .sbsite .hub .sp-rsend { padding: 12px 28px; font-size: 19px; }
+#s-tabs .sbsite .hub .sp-rsent { margin-left: 16px; font-size: 19px; }

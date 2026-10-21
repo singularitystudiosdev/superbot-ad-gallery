@@ -251,14 +251,17 @@ async function main() {
   const v = build(stage.querySelector('.cmp'));
   fit(stage);
   addEventListener('resize', () => fit(stage));
-  // a frozen frame waits on every capture; the tab's favicon gets its src at the first paint
-  await Promise.all([document.fonts.ready, ...Object.values(v.pages).map((img) => img.decode().catch((e) => console.error(new Error(`capture failed to decode: ${img.src}`, { cause: e }))))]);
+  // a frozen frame waits on every capture and every site's favicon (the tab's img gets its src at the first paint, so
+  // each favicon is decoded ahead into the cache)
+  const favs = SITES.map((s) => Object.assign(new Image(), { src: `img/${s.fav}` }));
+  await Promise.all([document.fonts.ready, ...[...Object.values(v.pages), ...favs].map((img) => img.decode().catch((e) => console.error(new Error(`image failed to decode: ${img.src}`, { cause: e }))))]);
   measure(v);
 
   const q = new URLSearchParams(location.search);
   const still = q.has('t') ? Number(q.get('t')) : matchMedia('(prefers-reduced-motion: reduce)').matches && !q.has('play') ? STILL_AT : null;
   if (still !== null) {
     paint(v, still);
+    await v.fav.decode().catch((e) => console.error(new Error(`tab favicon failed to decode: ${v.fav.src}`, { cause: e })));
     document.documentElement.dataset.ready = '1';
     return;
   }

@@ -68,7 +68,7 @@ function hintAt(t, from) {
 }
 
 // a card: one thumbnail with its rate (a finding or a breakthrough), or a strip of the iterations superbot made; a
-// breakthrough's title carries the party popper, firing as the card comes in
+// breakthrough's rate carries the party popper beside it, firing as the card comes in
 function cardHTML(card, bits) {
   if (!card) return '';
   if (card.strip) {
@@ -76,8 +76,8 @@ function cardHTML(card, bits) {
   }
   return `<div class="cm-card">
       <span class="cm-thumb"><img src="${card.img}" alt="" width="768" height="432"></span>
-      <span class="cm-card-t"><b>${esc(card.title)}${bits ? popHTML(bits) : ''}</b><small>${esc(card.sub)}</small><small>${esc(card.line)}</small></span>
-      <span class="cm-card-p"><b>${esc(card.value)}</b><small>${esc(card.unit)}</small></span>
+      <span class="cm-card-t"><b>${esc(card.title)}</b><small>${esc(card.sub)}</small><small>${esc(card.line)}</small></span>
+      <span class="cm-card-p"><b>${bits ? popHTML(bits) : ''}${esc(card.value)}</b><small>${esc(card.unit)}</small></span>
     </div>`;
 }
 

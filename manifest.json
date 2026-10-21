@@ -674,6 +674,18 @@
     ]
   },
   {
+    "id": "gemini-muse-meme-gym-site-superbot-6e110402",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "superbot: Build a website for my gym (a gym bro site, voiceover cut, no model on show; the site is built for the ad, and the frame says so)",
+    "src": "animations/gemini-muse-meme-superbot-6fbc38f8/?variant=gym-site",
+    "thumb": "assets/shots/gemini-muse-meme-gym-site-superbot-6e110402.png",
+    "desc": "The bikeride spot's arc (one ask, superbot works, the result takes the whole frame, then the end card) cut in the thumbnail cut's look, with no model on show: no model chips, no \"in superbot\" header, the composer reads Superbot throughout. \"Build a website for my gym, Plate Math Barbell Club.\" is typed by hand; superbot answers with one chip, Building your site (a plain globe), and a build frame whose four parts resolve one by one (hero and headline, training, the floor and its rules, hours), fast-forwarded x30, then reads Ready. \"Your site is ready.\" and a live preview of the site follow; the site grows out of the preview to the whole frame, holds on its hero (\"Add a plate.\", the headline rising line by line over a greyed plate rack), then scrolls: a ticker of floor rules, numbers that count up, the plate math calculator loading 315 lb as three plates a side, the training list, the floor, the rules, the hours and the closing call to visit. Then the superbot.gg end card with the mascot. The site is real and works on its own (img/gymsite.6e110402/site/), but it was built by hand for this ad, not by a superbot run, so the frame says \"Simulated demo. Site built for this ad.\" from the first chip until the end card. Checked 1:1 against all 1,924 items of X's ad policies, X Rules, ToS, Ads MSA and Developer terms on 2026-10-20 (report gym-site-6e110402 in the upload pipeline): every item is clear but one root cause, that no superbot run has yet shown a typical user gets a site like this (Deceptive Content #10/#11, MSA representations (v)(d)), so it is not cleared for upload until a real run of the ask is checked. Clear on: no other company's logo, product or name on screen, a made-up gym with no address, phone, domain or price (nothing reads as an offer), CC0 equipment photos with no people, no body or weight-loss claims, a grammatical ask, and every compressed wait on the fast-forward badge. Silent on purpose, paced for a creator to read a script over it (?cues=1 shows the lines). Opened on this cut the page is the app alone (?controls=1 brings the pills back); ?ar= reframes it at 16:9, 9:16, 4:5 or 1:1. About 24 s.",
+    "extraArs": [
+      "9x16"
+    ]
+  },
+  {
     "id": "gemini-muse-meme-voice-clone-song-superbot-986a9320",
     "type": "animation",
     "group": "Ad spots",

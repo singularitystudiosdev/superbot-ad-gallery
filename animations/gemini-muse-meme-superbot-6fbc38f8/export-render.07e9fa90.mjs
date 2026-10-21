@@ -52,6 +52,11 @@ const RENDERS = {
     id: 'gemini-muse-meme-yt-thumbnail-superbot-c4e81a27',
     sound: { silent: true },
   },
+  // the gym site cut: made for a creator to voice over (beats/gymsite.6e110402.js), so its track is silence
+  'gym-site': {
+    id: 'gemini-muse-meme-gym-site-superbot-6e110402',
+    sound: { silent: true },
+  },
   // the voice clone song cut: visual only (beats/voiceclone.986a9320.js plays no audio), so its track is silence
   'voice-clone-song': {
     id: 'gemini-muse-meme-voice-clone-song-superbot-986a9320',

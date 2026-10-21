@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plate Math Barbell Club</title>
+<meta name="description" content="A barbell club for lifters who count in plates: power racks, deadlift platforms, coached strength cycles and open gym.">
+<link rel="preload" href="fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/barlow-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+<script src="site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="mark" href="#main" aria-label="Plate Math Barbell Club, home">
+    <svg class="mark-plate" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13"/><circle cx="16" cy="16" r="4"/><path d="M16 3v6M16 23v6"/></svg>
+    <span class="mark-word">Plate Math</span>
+    <span class="mark-sub">Barbell Club</span>
+  </a>
+  <nav class="nav" aria-label="Sections">
+    <a href="#math">Plate math</a>
+    <a href="#training">Training</a>
+    <a href="#floor">The floor</a>
+    <a href="#hours">Hours</a>
+  </nav>
+  <a class="btn btn-solid btn-small" href="#visit"><span>Plan a visit</span></a>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-media"><img class="hero-img" src="img/plate-rack.jpg" width="1800" height="1618" alt="Bumper plates, kettlebells and medicine balls stacked on a rack against a red wall"></div>
+    <div class="hero-body">
+      <p class="status"><span class="dot" aria-hidden="true"></span>Open now until 11 PM</p>
+      <h1 id="hero-title"><span class="line"><span>Add a</span></span><span class="line"><span>plate.</span></span></h1>
+      <p class="lede">A barbell club for lifters who count in plates. Twelve power racks, six deadlift platforms, and coaches who will tell you the truth about your depth.</p>
+      <div class="actions">
+        <a class="btn btn-solid" href="#visit"><span>Plan a visit</span></a>
+        <a class="btn btn-line" href="#math"><span>Do the plate math</span></a>
+      </div>
+    </div>
+    <span class="scroll-cue" aria-hidden="true"><i></i></span>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Rerack your plates</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Brace before you pull</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Chalk is welcome</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Depth is not a suggestion</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Spot the lifter next to you</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Rerack your plates</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Brace before you pull</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Chalk is welcome</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Depth is not a suggestion</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+      <span>Spot the lifter next to you</span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/></svg>
+    </div>
+  </div>
+
+  <section class="numbers" aria-label="The club in numbers">
+    <p class="reveal"><b class="count" style="--to: 12"><span class="sr">12</span></b><span>power racks</span></p>
+    <p class="reveal"><b class="count" style="--to: 6"><span class="sr">6</span></b><span>deadlift platforms</span></p>
+    <p class="reveal"><b class="count" style="--to: 2"><span class="sr">2</span></b><span>calibrated plate sets</span></p>
+    <p class="reveal"><b><span class="count" style="--to: 5"><span class="sr">5</span></span> AM</b><span>doors open</span></p>
+  </section>
+
+  <section class="math" id="math" aria-labelledby="math-title">
+    <div class="math-copy reveal">
+      <h2 id="math-title">Do the plate math.</h2>
+      <p>Pick the weight. We load the bar. A 45 lb bar and standard plates, counted per side, heaviest on first.</p>
+    </div>
+    <div class="calc reveal" data-calc>
+      <div class="calc-top">
+        <label class="calc-label" for="target">Target weight</label>
+        <div class="calc-input">
+          <button type="button" class="step" data-step="-10" aria-label="Take off 10 pounds">−</button>
+          <input id="target" type="number" inputmode="numeric" min="45" max="995" step="5" value="315" aria-describedby="calc-out">
+          <span class="unit">lb</span>
+          <button type="button" class="step" data-step="10" aria-label="Add 10 pounds">+</button>
+        </div>
+      </div>
+      <div class="bar" aria-hidden="true">
+        <i class="bar-shaft"></i>
+        <div class="side side-l" data-side></div>
+        <i class="collar collar-l"></i>
+        <i class="collar collar-r"></i>
+        <div class="side side-r" data-side></div>
+      </div>
+      <p class="calc-out" id="calc-out" aria-live="polite"><b data-per-side>45, 45, 45</b> per side. <span data-verdict>Three plates. Respect.</span></p>
+    </div>
+  </section>
+
+  <section class="training" id="training" aria-labelledby="training-title">
+    <h2 id="training-title" class="reveal">Training</h2>
+    <ul class="programs">
+      <li class="reveal">
+        <h3>Strength cycle</h3>
+        <p>Twelve weeks of squat, bench and deadlift, written around your numbers and checked by a coach every week.</p>
+        <span class="meta">Three sessions a week</span>
+      </li>
+      <li class="reveal">
+        <h3>Powerlifting team</h3>
+        <p>Meet prep, commands, attempt selection, and a crew that is louder than your headphones.</p>
+        <span class="meta">A meet every season</span>
+      </li>
+      <li class="reveal">
+        <h3>Open gym</h3>
+        <p>Your program, our iron. Bring a plan and leave every plate where you found it.</p>
+        <span class="meta">Every hour we are open</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="floor" id="floor" aria-labelledby="floor-title">
+    <div class="floor-media"><img class="floor-img" src="img/trap-bar.jpg" width="1800" height="2400" alt="A trap bar loaded with plates on a gym floor"></div>
+    <div class="floor-body">
+      <h2 id="floor-title" class="reveal">Built for heavy days.</h2>
+      <p class="reveal">No machines blinking at you. Just steel, rubber and enough room to set up without asking anyone to move.</p>
+      <ul class="kit">
+        <li class="reveal">Competition squat racks with safeties at every height</li>
+        <li class="reveal">Deadlift platforms with rubber tops</li>
+        <li class="reveal">Trap bars, safety squat bars and a stiff deadlift bar</li>
+        <li class="reveal">Chalk at every station</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="rules" id="rules" aria-labelledby="rules-title">
+    <div class="rules-head">
+      <h2 id="rules-title" class="reveal">Rules of the floor</h2>
+      <div class="rules-media"><img class="rules-img" src="img/rack-dumbbells.jpg" width="1800" height="1350" alt="Dumbbells on a rack with kettlebells on the shelf below"></div>
+    </div>
+    <dl class="rule-list">
+      <div class="reveal"><dt>Rerack your plates.</dt><dd>Every plate goes back on its peg. Plate math works both ways.</dd></div>
+      <div class="reveal"><dt>Curls stay out of the squat rack.</dt><dd>There is a whole dumbbell wall for that.</dd></div>
+      <div class="reveal"><dt>Spot the lifter next to you.</dt><dd>Ask first, then stay ready until the bar is racked.</dd></div>
+      <div class="reveal"><dt>Chalk is welcome.</dt><dd>Use it, then sweep it.</dd></div>
+    </dl>
+  </section>
+
+  <section class="hours" id="hours" aria-labelledby="hours-title">
+    <h2 id="hours-title" class="reveal">Hours</h2>
+    <table class="hours-table">
+      <tbody>
+        <tr class="reveal"><th scope="row">Monday to Friday</th><td>5 AM to 11 PM</td></tr>
+        <tr class="reveal"><th scope="row">Saturday and Sunday</th><td>7 AM to 9 PM</td></tr>
+        <tr class="reveal"><th scope="row">Coaches on the floor</th><td>6 AM to 8 PM</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="visit" id="visit" aria-labelledby="visit-title">
+    <h2 id="visit-title" class="reveal">Your first plate is waiting.</h2>
+    <p class="reveal">Come in for a session, meet a coach, and we will set your starting numbers together.</p>
+    <a class="btn btn-solid reveal" href="#main"><span>Plan a visit</span></a>
+  </section>
+</main>
+
+<footer class="foot">
+  <span class="mark-word">Plate Math</span>
+  <p>Barbell Club. Built for heavy days.</p>
+</footer>
+</body>
+</html>

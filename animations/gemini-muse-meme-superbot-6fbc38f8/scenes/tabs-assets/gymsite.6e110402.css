@@ -1,0 +1,25 @@
+/* The 'gym-site' variant (beats/gymsite.6e110402.js). Loaded by the beat module itself, beside ../ytthumb.c4e81a27.css
+   (the frames, status rings, state pills and the clean-page rule) and ../multicat.516afb1a.css (the end card and the
+   fast-forward badge). Only what this cut adds lives here: the build frame's code mark, the live preview, the site
+   taking the whole frame, and the demo note. No CSS animation or transition: the beat sets every state from t. */
+
+/* 1. the build frame's head mark: the yt- frame mark with a code glyph in place of the globe */
+#s-tabs .sbsite .hub .gs-build .bk-title small, #s-tabs .sbsite .hub .gs-prev .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+
+/* 2. the preview: the site itself, live in a 1280 x 800 frame scaled to the reply's width (the beat sets the scale) */
+#s-tabs .sbsite .hub .msg.gs-wide:has(.avatar.sb) .m-main { flex: 1 1 0; min-width: 0; max-width: none; }
+#s-tabs .sbsite .hub .gs-prev { width: 100%; max-width: 720px; }
+#s-tabs .sbsite .hub .gs-prev-view { position: relative; margin: 8px; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 8px; box-shadow: 0 0 0 1px #2a2a2e; background: #1b1c1e; }
+#s-tabs .sbsite .hub .gs-prev-view iframe { position: absolute; left: 0; top: 0; width: 1280px; height: 800px; border: 0; transform-origin: 0 0; pointer-events: none; }
+
+/* 3. the site over the whole frame: it grows out of the preview, then scrolls from the hero to the last section */
+#s-tabs .gs-full { position: absolute; left: 0; top: 0; z-index: 35; overflow: hidden; transform-origin: 0 0; background: #1b1c1e; pointer-events: none; opacity: 0; will-change: transform, clip-path, opacity; }
+#s-tabs .gs-full iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+/* 4. the demo note: says the site on screen was built for the ad, not by a superbot run. On the 16:9 frame it sits bottom
+   left, mirroring the fast-forward badge (multicat.516afb1a.css .mc-ff, bottom right), clear of the centred composer; on
+   the narrow frames, where the composer spans the width, it sits top centre. Over the site (z 38: above .gs-full 35 and
+   .mc-ff 30), under the end card (.mc-end 40) */
+#s-tabs .gs-note { position: absolute; left: 44px; bottom: 50px; z-index: 38; display: flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; background: rgba(12, 12, 14, .82); box-shadow: 0 0 0 1px rgba(255, 255, 255, .14); font: 600 18px/1 var(--ui); color: #ececec; white-space: nowrap; pointer-events: none; opacity: 0; }
+html:is([data-ar="1x1"], [data-ar="4x5"], [data-ar="9x16"]) #s-tabs .gs-note { left: 50%; bottom: auto; top: 36px; transform: translateX(-50%); font-size: 17px; }
+html[data-ar="9x16"] #s-tabs .gs-note { font-size: 15px; height: 34px; padding: 0 14px; }

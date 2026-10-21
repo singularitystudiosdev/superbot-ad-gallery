@@ -73,6 +73,7 @@ export const VARIANTS = [
   { id: 'voice-clone-song', label: 'Voice clone song' }, // a voice sample recorded and cloned, then a song sung in that voice (scenes/tabs-assets/beats/voiceclone.986a9320.js)
   { id: 'voiceclone-call', label: 'Voice clone call' }, // one tap records the user's voice, superbot clones it and calls 30351235 in that voice, saying it is their AI (scenes/tabs-assets/beats/voiceclone.6ba3a0f8.js)
   { id: 'cats-chatbot', label: 'Cats: Discord GIF, 3D cat, DoorDash, song, unsubscribe' }, // five asks: a cat GIF sent to MrCatMan131 on Discord, a 3D cat, cat food on DoorDash, a cat song, then the user's other AI plans cancelled (scenes/tabs-assets/beats/cats.70783379.js)
+  { id: 'gym-site', label: 'Gym website · voiceover' }, // a gym bro site built in the chat, previewed, then taking the whole frame and scrolling, with no model on show (scenes/tabs-assets/beats/gymsite.6e110402.js)
 ];
 const valid = (v) => VARIANTS.some((x) => x.id === v);
 const asked = new URLSearchParams(location.search).get(KEY);

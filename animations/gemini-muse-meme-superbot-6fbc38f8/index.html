@@ -35,10 +35,10 @@
 
 <script src="assets/sb-mark-live.js"></script>
 <script>
-// The record-ready cut: opened straight on yt-thumbnail (and not ?controls=1, beats/ytthumb.c4e81a27.js CLEAN) the page
+// The record-ready cuts: opened straight on yt-thumbnail or gym-site (and not ?controls=1, their beats' CLEAN) the page
 // is the app alone, and its one run must never be cut short: no key hint even while it loads, and neither guard below
 // reloads it once it plays (a reload mid-run held its last frame on screen while the files came back)
-var HOLD = /[?&]variant=yt-thumbnail(&|$)/.test(location.search) && !/[?&]controls=1(&|$)/.test(location.search);
+var HOLD = /[?&]variant=(yt-thumbnail|gym-site)(&|$)/.test(location.search) && !/[?&]controls=1(&|$)/.test(location.search);
 if (HOLD) document.getElementById('hint').style.display = 'none';
 // Boot guard. The spot is ~230 files, and an ES module graph runs only if every one of them downloads: when GitHub
 // Pages refuses some of a cold load's requests (it does, for an address that loads the page over and over), nothing

@@ -1,0 +1,116 @@
+// The left pane (the chat with its composer) and the activity tab under the live view, both painted from t. Items are
+// laid out once, at their final size (streamed text keeps its unrevealed rest as transparent text), so a pane scrolls by
+// summing the heights of what has arrived, each weighted by its entrance: the newest line slides up into view. The
+// activity tab is text only: one plain line per step, no icon, a breakthrough's line in the price's green.
+import { seg, outCubic, caretOn, countAt, lastAt, el, esc, REDUCED, STREAM_CPS } from './lib.af4c3c6b.js';
+import { SITES, fav } from './sites.af4c3c6b.js';
+
+const TYPE_CPS = 40;
+const GAP = 14; // between chat items (.cm margin-bottom)
+const ENTER = 0.32; // an item's fade and rise
+export const SB_MARK = '<span class="sb-tile"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>';
+const OK = '<svg class="cm-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+// a run of superbot's messages carries its name once, on the first
+function chatItem(c, who) {
+  if (c.kind === 'user') return `<div class="cm cm-u"><span>${esc(c.text)}</span></div>`;
+  if (c.kind === 'chip') return `<div class="cm cm-c"><span class="cm-chip">${SB_MARK}<span>${esc(c.text)}</span><span class="cm-st"><i class="cm-spin"></i>${OK}</span></span></div>`;
+  const card = c.card ? `<div class="cm-card">
+      <span class="cm-fav"><img src="${fav(SITES[c.card.site].id)}" alt="" width="18" height="18"></span>
+      <span class="cm-card-t"><b>${esc(SITES[c.card.site].name)}</b><small>${esc(c.card.seat)}</small><small>2 seats together, fees included</small></span>
+      <span class="cm-card-p"><b>$${c.card.price}</b><small>each</small></span>
+    </div>` : '';
+  const after = c.after ? `<p class="cm-say cm-after"><span class="cm-v"></span><span class="cm-h">${esc(c.after)}</span></p>` : '';
+  const name = who ? `<div class="cm-who">${SB_MARK}Superbot</div>` : '';
+  return `<div class="cm cm-b">${name}<p class="cm-say"><span class="cm-v"></span><span class="cm-h">${esc(c.text)}</span></p>${card}${after}</div>`;
+}
+
+export function buildFeed(left, act, S) {
+  const feedIn = left.querySelector('.ch-in');
+  const items = S.chat.map((c, k) => {
+    const node = el(chatItem(c, k === 0 || S.chat[k - 1].kind !== 'bot'));
+    feedIn.appendChild(node);
+    const say = [...node.querySelectorAll('.cm-say')].map((p) => ({ v: p.firstElementChild, h: p.lastElementChild, text: p.lastElementChild.textContent, shown: -1 }));
+    const textEnd = c.at + 0.08 + (c.text.length / STREAM_CPS);
+    const cardAt = textEnd + 0.15;
+    return { c, node, say, card: node.querySelector('.cm-card'), spin: node.querySelector('.cm-spin'), ok: node.querySelector('.cm-ok'), textEnd, cardAt, h: 0 };
+  });
+  const actIn = act.querySelector('.ac-in');
+  const rows = S.acts.map((a) => {
+    const node = el(`<div class="ac-row${a.win ? ' ac-win' : ''}">${esc(a.text)}</div>`);
+    actIn.appendChild(node);
+    return { a, node, h: 0 };
+  });
+  return {
+    feed: left.querySelector('.ch-feed'), feedIn, items, title: left.querySelector('.ch-title'),
+    typed: left.querySelector('.rc-typed'), ph: left.querySelector('.rc-hint'), caret: left.querySelector('.rc-caret'), send: left.querySelector('.rc-send'),
+    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), live: act.querySelector('.ac-live'), shownTyped: null,
+  };
+}
+
+// heights once laid out (fonts loaded)
+export function measureFeed(f) {
+  for (const it of f.items) it.h = it.node.offsetHeight + GAP;
+  for (const r of f.rows) r.h = r.node.offsetHeight;
+}
+
+const enter = (t, at) => outCubic(seg(t, at, at + ENTER));
+// an arrival fades in and rises 6px; with reduced motion it only fades
+function reveal(node, k) {
+  node.style.opacity = k.toFixed(3);
+  node.style.transform = k >= 1 || REDUCED ? 'none' : `translateY(${((1 - k) * 6).toFixed(2)}px)`;
+}
+function stream(line, start, t) {
+  const n = countAt(line.text, start, STREAM_CPS, t);
+  if (n === line.shown) return;
+  line.shown = n;
+  line.v.textContent = line.text.slice(0, n);
+  line.h.textContent = line.text.slice(n);
+}
+// how far a pane has scrolled: what has arrived, less the room it has
+function scrolled(list, t, room) {
+  let used = 0;
+  for (const it of list) used += it.h * enter(t, it.c ? it.c.at : it.a.at);
+  return Math.max(0, used - room);
+}
+
+export function paintFeed(f, S, t) {
+  // chat
+  const firstSend = S.chat.find((c) => c.kind === 'user').at;
+  const title = t >= firstSend ? 'Velvet Static tickets' : 'New chat';
+  if (f.title.textContent !== title) f.title.textContent = title;
+  for (const it of f.items) {
+    const k = enter(t, it.c.at);
+    reveal(it.node, k);
+    if (k <= 0) continue;
+    if (it.c.kind === 'chip') {
+      const done = t >= it.c.done;
+      it.spin.style.display = done ? 'none' : '';
+      it.spin.style.transform = `rotate(${((t * 400) % 360).toFixed(1)}deg)`;
+      it.ok.style.opacity = done ? outCubic(seg(t, it.c.done, it.c.done + 0.2)).toFixed(3) : '0';
+    } else if (it.c.kind === 'bot') {
+      stream(it.say[0], it.c.at + 0.08, t);
+      if (it.card) reveal(it.card, enter(t, it.cardAt));
+      if (it.say[1]) stream(it.say[1], it.cardAt + 0.35, t);
+    }
+  }
+  const room = f.feed.clientHeight - 28; // the feed's top and bottom padding (.ch-in)
+  f.feedIn.style.transform = `translateY(${(-scrolled(f.items, t, room)).toFixed(2)}px)`;
+
+  // composer: the user's draft types in, the send button lights while there is text
+  const draft = S.typing.find((d) => t >= d.start && t < d.send);
+  const text = draft ? draft.text.slice(0, countAt(draft.text, draft.start, TYPE_CPS, t)) : '';
+  if (text !== f.shownTyped) { f.typed.textContent = text; f.shownTyped = text; }
+  f.ph.style.display = text ? 'none' : '';
+  f.caret.style.display = draft ? '' : 'none';
+  f.caret.style.opacity = !draft || t < draft.start + draft.text.length / TYPE_CPS || caretOn(t) ? '1' : '0';
+  f.send.classList.toggle('is-on', !!text);
+
+  // activity
+  const last = lastAt(S.acts, t);
+  f.empty.style.opacity = last ? '0' : '1';
+  f.live.classList.toggle('is-on', t >= S.control);
+  for (const r of f.rows) reveal(r.node, enter(t, r.a.at));
+  const actRoom = f.list.clientHeight - 12; // .ac-in padding
+  f.actIn.style.transform = `translateY(${(-scrolled(f.rows, t, actRoom)).toFixed(2)}px)`;
+}

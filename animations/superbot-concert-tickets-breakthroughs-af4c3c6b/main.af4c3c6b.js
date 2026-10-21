@@ -3,13 +3,12 @@
 // (for thumbnails and captures); space pauses, R restarts, the arrow keys step a second.
 import { buildSchedule } from './schedule.af4c3c6b.js';
 import { buildScreen, fit, measure, paint, primeLists } from './screen.af4c3c6b.js';
-import { buildFeed, measureFeed, paintFeed, SB_MARK } from './feed.af4c3c6b.js';
+import { buildFeed, measureFeed, paintFeed } from './feed.af4c3c6b.js';
 import { seg } from './lib.af4c3c6b.js';
 
 const S = buildSchedule();
 const stage = document.getElementById('stage');
 const dip = document.getElementById('dip');
-document.querySelectorAll('[data-sb]').forEach((n) => { n.outerHTML = SB_MARK; });
 const view = buildScreen(document.querySelector('.cc-view'));
 const feed = buildFeed(document.querySelector('.ch'), document.querySelector('.ac'), S);
 

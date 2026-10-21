@@ -1,12 +1,11 @@
-/* superbot finds the cheapest concert tickets: the hub's chat on the left, the computer-control live view docked on the
-   right with the activity tab attached under it. Card, bubble and composer values are the hub's own
+/* superbot finds the cheapest concert tickets: the hub's chat on the left with no header bar, the computer-control live
+   view in a flush sidebar on the right with the activity tab under it. Card, bubble and composer values are the hub's own
    (gemini-muse-meme-superbot-6fbc38f8: bakery.005f5570.css .bk, chat.css, assets/hub-real.css); the live view and its
    vignette are computer.ba3976b6.css's, redrawn here in a light theme (white ground, near-black ink) with an orange
    vignette. No CSS animation or transition: every moving value is written from t. */
 :root {
   --ui: "SF Pro Rounded", ui-rounded, Inter, system-ui, sans-serif;
-  --bg: #fff; --card: #fff; --line: #e5e5ea; --ink: #1c1c1e; --muted: #6e6e73;
-  --sb-cat: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2212%2018%2076%2070%22%3E%3Cmask%20id%3D%22m%22%3E%3Cg%20fill%3D%22white%22%3E%3Crect%20x%3D%2214%22%20y%3D%2232%22%20width%3D%2272%22%20height%3D%2254%22%20rx%3D%2215%22%2F%3E%3Cpath%20d%3D%22M14%2046V28Q14%2020%2021%2021Q28%2024%2036%2032Z%22%2F%3E%3Cpath%20d%3D%22M86%2046V28Q86%2020%2079%2021Q72%2024%2064%2032Z%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22black%22%3E%3Cellipse%20cx%3D%2235%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3Cellipse%20cx%3D%2265%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3C%2Fg%3E%3C%2Fmask%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20mask%3D%22url(%23m)%22%2F%3E%3C%2Fsvg%3E");
+  --bg: #fff; --side: #fafafa; --line: #e5e5ea; --ink: #1c1c1e; --muted: #6e6e73;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: #fff; overflow: hidden; }
@@ -21,19 +20,9 @@ body.freeze .hint { display: none; }
 .app { position: absolute; left: 0; top: 0; display: grid; grid-template-columns: 476px minmax(0, 1fr); width: 1200px; height: 675px; transform: scale(1.6); transform-origin: 0 0; background: var(--bg); }
 svg { flex: none; }
 
-/* superbot's mark, static: the live mark's silhouette as a mask, three layers deep (chat.css .qc-t-superbot) */
-.sb-tile { position: relative; flex: none; display: inline-block; overflow: hidden; background: #0b0b0c; box-shadow: inset 0 0 0 1px var(--line); }
-.sbm { position: absolute; inset: 16%; -webkit-mask: var(--sb-cat) center / contain no-repeat; mask: var(--sb-cat) center / contain no-repeat; }
-.sbm-c { background: #00e5c3; transform: translate(-0.6px, -0.6px); }
-.sbm-m { background: #c026d3; transform: translate(0.6px, 0.6px); }
-.sbm-w { background: #ececec; }
-
-/* ---------- the chat ---------- */
+/* ---------- the chat: no header bar; what scrolls off the top fades out over its last 32px ---------- */
 .ch { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-.ch-head { flex: none; display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; box-shadow: 0 1px 0 #ececf0; }
-.ch-head .sb-tile { width: 20px; height: 20px; border-radius: 6px; }
-.ch-title { font: 600 12.5px/1 var(--ui); color: var(--ink); }
-.ch-feed { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.ch-feed { position: relative; flex: 1; min-height: 0; overflow: hidden; -webkit-mask: linear-gradient(transparent, #000 32px); mask: linear-gradient(transparent, #000 32px); }
 .ch-in { position: absolute; left: 0; right: 0; top: 0; padding: 16px 18px 12px; }
 .cm { margin-bottom: 14px; opacity: 0; }
 .cm-u { display: flex; justify-content: flex-end; }
@@ -74,9 +63,10 @@ svg { flex: none; }
 .rc-send svg { width: 12px; height: 12px; stroke-width: 2.2; }
 .rc-send.is-on { background: var(--ink); color: #fff !important; }
 
-/* ---------- the right side: the live view, the activity tab attached under it ---------- */
-.cc { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 12px 12px 12px 0; }
-.cc-stack { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; border-radius: 12px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 12px 30px rgba(0,0,0,.08); }
+/* ---------- the right side: a sidebar cut flush to the top, right and bottom edges, a hairline on its left, a faint
+   grey ground; the live view, the activity tab under it ---------- */
+.cc { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.cc-stack { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; border-left: 1px solid var(--line); background: var(--side); }
 .bk-head { flex: none; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 8px 0 14px; box-shadow: 0 1px 0 var(--line); }
 .bk-title { min-width: 0; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 12px/16px var(--ui); color: var(--ink); }
 .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: var(--muted); }
@@ -85,11 +75,11 @@ svg { flex: none; }
 .bk-stop { gap: 7px; background: var(--ink); font-weight: 600; color: #fff; }
 .bk-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #fff; }
 
-/* the screen share: its view is the desktop's shape at the stack's width (700 x 919/1470) */
-.cc-view { position: relative; flex: none; height: 437.6px; overflow: hidden; background: #fff; }
+/* the screen share: its view is the desktop's shape at the sidebar's width */
+.cc-view { position: relative; flex: none; aspect-ratio: 1470 / 919; overflow: hidden; background: #fff; }
 
 /* the activity tab: one plain line per step, text only, newest at the foot; a breakthrough's line bold in the ink */
-.ac { flex: 1; min-height: 0; display: flex; flex-direction: column; background: #f9f9fb; box-shadow: 0 -1px 0 var(--line); }
+.ac { flex: 1; min-height: 0; display: flex; flex-direction: column; box-shadow: 0 -1px 0 var(--line); }
 .ac-head { flex: none; display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 14px; box-shadow: 0 1px 0 #ececf0; }
 .ac-tab { font: 600 12px/1 var(--ui); color: var(--ink); }
 .ac-live { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font: 500 11px/1 var(--ui); color: var(--muted); }
@@ -97,7 +87,8 @@ svg { flex: none; }
 .ac-live.is-on i { background: #34d399; }
 .ac-live .ac-on, .ac-live.is-on .ac-off { display: none; }
 .ac-live.is-on .ac-on { display: inline; }
-.ac-list { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+/* a row scrolling off under the tab's header fades out over 14px, as the chat's do */
+.ac-list { position: relative; flex: 1; min-height: 0; overflow: hidden; -webkit-mask: linear-gradient(transparent, #000 14px); mask: linear-gradient(transparent, #000 14px); }
 .ac-in { position: absolute; left: 0; right: 0; top: 0; padding: 6px 0; }
 .ac-row { display: flex; align-items: center; height: 27px; padding: 0 14px; white-space: nowrap; font: 12px/1 var(--ui); color: #3a3a3c; opacity: 0; }
 .ac-win { font-weight: 700; color: var(--ink); }

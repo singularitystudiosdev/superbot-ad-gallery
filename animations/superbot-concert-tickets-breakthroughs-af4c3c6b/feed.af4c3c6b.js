@@ -8,7 +8,6 @@ import { SITES, fav } from './sites.af4c3c6b.js';
 const TYPE_CPS = 40;
 const GAP = 14; // between chat items (.cm margin-bottom)
 const ENTER = 0.32; // an item's fade and rise
-export const SB_MARK = '<span class="sb-tile"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>';
 
 // superbot's messages are bare text and cards, no name line over them
 function chatItem(c) {
@@ -39,7 +38,7 @@ export function buildFeed(left, act, S) {
     return { a, node, h: 0 };
   });
   return {
-    feed: left.querySelector('.ch-feed'), feedIn, items, title: left.querySelector('.ch-title'),
+    feed: left.querySelector('.ch-feed'), feedIn, items,
     typed: left.querySelector('.rc-typed'), ph: left.querySelector('.rc-hint'), caret: left.querySelector('.rc-caret'), send: left.querySelector('.rc-send'),
     list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), live: act.querySelector('.ac-live'), shownTyped: null,
   };
@@ -73,9 +72,6 @@ function scrolled(list, t, room) {
 
 export function paintFeed(f, S, t) {
   // chat
-  const firstSend = S.chat.find((c) => c.kind === 'user').at;
-  const title = t >= firstSend ? 'Velvet Static tickets' : 'New chat';
-  if (f.title.textContent !== title) f.title.textContent = title;
   for (const it of f.items) {
     const k = enter(t, it.c.at);
     reveal(it.node, k);

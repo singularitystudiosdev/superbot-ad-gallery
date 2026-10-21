@@ -1,0 +1,148 @@
+/* ROB IT thumbnails (main.d35be136.js): the concert tickets news spot's layout with a new task. The chat on the left
+   (no top bar, no name or mark over superbot's replies, the effort picker reading High), and a side panel docked to the
+   right edge that opens on the first send: the computer-control live view (computer.ba3976b6.css at 1x) on real
+   captures of ROB IT's game page and Creator Hub, then the news rows. The app is laid out at 1200x675 and drawn at
+   1.6x, as the hub spots are. No CSS animation or transition: every moving value is written from t, so ?t= frames
+   hold. */
+:root {
+  --ui: "SF Pro Rounded", "SF Pro Display", ui-rounded, -apple-system, system-ui, sans-serif;
+  --bg: #0b0b0c; --panel: #141416; --line: #2a2a2e; --ink: #e5e5ea; --muted: #8e8e93; --good: #34d399;
+  --sb-cat: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2212%2018%2076%2070%22%3E%3Cmask%20id%3D%22m%22%3E%3Cg%20fill%3D%22white%22%3E%3Crect%20x%3D%2214%22%20y%3D%2232%22%20width%3D%2272%22%20height%3D%2254%22%20rx%3D%2215%22%2F%3E%3Cpath%20d%3D%22M14%2046V28Q14%2020%2021%2021Q28%2024%2036%2032Z%22%2F%3E%3Cpath%20d%3D%22M86%2046V28Q86%2020%2079%2021Q72%2024%2064%2032Z%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22black%22%3E%3Cellipse%20cx%3D%2235%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3Cellipse%20cx%3D%2265%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3C%2Fg%3E%3C%2Fmask%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20mask%3D%22url(%23m)%22%2F%3E%3C%2Fsvg%3E");
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+body { font-family: var(--ui); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); transform-origin: 50% 50%; }
+#dip { position: absolute; inset: 0; z-index: 10; background: #000; opacity: 0; pointer-events: none; }
+.app { position: absolute; left: 0; top: 0; display: grid; grid-template-columns: 600px minmax(0, 1fr); width: 1200px; height: 675px; transform: scale(1.6); transform-origin: 0 0; background: var(--bg); }
+svg { flex: none; }
+
+/* superbot's mark (chat.css .qc-t-superbot): the cat mask in three offset layers on a black tile */
+.sb-tile { position: relative; flex: none; display: inline-block; overflow: hidden; background: #0b0b0c; box-shadow: inset 0 0 0 1px var(--line); }
+.sbm { position: absolute; inset: 16%; -webkit-mask: var(--sb-cat) center / contain no-repeat; mask: var(--sb-cat) center / contain no-repeat; }
+.sbm-c { background: #00e5c3; transform: translate(-0.6px, -0.6px); }
+.sbm-m { background: #c026d3; transform: translate(0.6px, 0.6px); }
+.sbm-w { background: #ececec; }
+
+/* ---------- the chat ---------- */
+.ch { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+/* with no bar above it, the feed fades out at its top edge once older messages scroll off */
+.ch-feed { position: relative; flex: 1; min-height: 0; overflow: hidden; -webkit-mask: linear-gradient(transparent, #000 24px); mask: linear-gradient(transparent, #000 24px); }
+.ch-in { position: absolute; left: 0; right: 0; top: 0; padding: 18px 18px 12px; }
+.cm { margin-bottom: 14px; opacity: 0; }
+.cm-u { display: flex; justify-content: flex-end; }
+.cm-u span { max-width: 82%; padding: 8px 14px; border-radius: 16px; background: #1f1f22; font: 12.5px/17px var(--ui); color: #f2f2f7; }
+.cm-say { margin: 0; font: 12.5px/18px var(--ui); color: var(--ink); }
+.cm-h { color: transparent; }
+/* a card: its wrapper's height eases open (a block formatting context, so the card's margins count in it); the card is
+   a skeleton with a sweep until it has loaded, then its content comes in (chat.d35be136.js paintCard) */
+.cm-cardwrap { overflow: hidden; }
+.cm-card { position: relative; margin: 10px 0; overflow: hidden; border-radius: 12px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); opacity: 0; transform-origin: 0 50%; }
+.cm-card-in { display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; opacity: 0; }
+.cm-sk { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.07) 50%, transparent 70%); pointer-events: none; }
+/* a thumbnail at Roblox's 16:9, cornered as Creator Hub corners it */
+.cm-thumb { flex: none; width: 88px; height: 49.5px; overflow: hidden; border-radius: 6px; background: #1f1f22; }
+.cm-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cm-card-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.cm-card-t b { font: 600 12.5px/16px var(--ui); color: #f2f2f7; }
+.cm-card-t small { font: 11px/14px var(--ui); color: var(--muted); }
+.cm-card-p { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.cm-card-p b { font: 700 20px/22px var(--ui); color: var(--good); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.cm-card-p.is-low b { color: #f87171; }
+.cm-card-p small { font: 11px/14px var(--ui); color: var(--muted); }
+/* the three new takes side by side, each its own skeleton until it lands */
+.cm-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 8px; }
+.cm-take { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #1f1f22; }
+.cm-take img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+
+/* composer (assets/hub-real.css .rc): +, then the effort picker, the mic and send on the right */
+.composer { flex: none; padding: 4px 16px 16px; }
+.rc { display: flex; flex-direction: column; min-height: 83px; padding: 11px 8.5px 7px 10px; border-radius: 14px; background: #101013; box-shadow: inset 0 0 0 1px #4a4a4d; color: #a4a4aa; font: 12px/1.4 var(--ui); }
+.rc-ph { flex: 1; min-height: 39px; padding: 0 1.5px; overflow: hidden; }
+.rc-hint { color: var(--muted); }
+.rc-typed { color: #f2f2f7; white-space: pre-wrap; }
+.rc-caret { display: inline-block; width: 1.5px; height: 13px; margin-left: 1px; vertical-align: -2px; background: #e8e8e8; }
+.rc-row { display: flex; align-items: center; gap: 9px; }
+.rc-row > span { flex: none; display: inline-flex; align-items: center; justify-content: center; color: #9499a8; }
+.rc-row svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.rc-plus { margin-left: 3.5px; color: #c4c5ca !important; }
+.rc-plus svg { width: 14px; height: 14px; }
+.rc-effort { gap: 6.5px; margin: 0 5px 0 auto; font-size: 12px; color: #a2a2a8 !important; }
+.rc-effort-ic { display: block; width: 12.5px; height: 12.5px; }
+.rc-effort-ic svg { display: block; width: 100%; height: 100%; }
+.rc-chev { width: 12px; height: 12px; margin-left: -2px; color: #8e8f95; }
+.rc-mic, .rc-send { width: 26px; height: 26px; border-radius: 50%; }
+.rc-mic { background: #1d1d20; box-shadow: inset 0 0 0 1px #2b2b2e; color: #a9aab0 !important; }
+.rc-mic svg { width: 12.5px; height: 12.5px; }
+.rc-send { background: #222225; color: #6b6f77 !important; }
+.rc-send svg { width: 12px; height: 12px; stroke-width: 2.2; }
+.rc-send.is-on { background: #e8e8e8; color: #161618 !important; }
+
+/* ---------- the side panel, docked to the right edge, full height: the live view, then the news. It is hidden until
+   the user's first message is sent, then slides in from the right as the chat glides from centre to left (the script
+   sets both transforms from t) ---------- */
+.side { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; border-left: 1px solid var(--line); background: var(--panel); }
+.cc { flex: none; display: flex; flex-direction: column; }
+/* the screen share: the desktop's shape at the panel's width (height set by the script) */
+.cc-view { position: relative; flex: none; overflow: hidden; background: #fff; }
+/* the user's controls while superbot drives, inside the view's bottom right corner, clear of the vignette's glow */
+.cc-ctl { position: absolute; right: 16px; bottom: 16px; z-index: 5; display: flex; gap: 6px; opacity: 0; }
+.cc-btn { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; white-space: nowrap; font: 600 11px/1 var(--ui); box-shadow: 0 6px 16px rgba(0,0,0,.28); }
+.cc-btn svg { display: block; width: 12px; height: 12px; }
+.cc-take { background: rgba(22,22,26,.9); color: #f2f2f5; box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 6px 16px rgba(0,0,0,.28); }
+.cc-stop { gap: 7px; background: var(--ink); color: #111113; }
+.cc-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
+
+.nw { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+/* the list fades out at its foot, where older items slide off; one line per item */
+.nw-list { position: relative; flex: 1; min-height: 0; margin-top: 6px; overflow: hidden; -webkit-mask: linear-gradient(#000 calc(100% - 22px), transparent); mask: linear-gradient(#000 calc(100% - 22px), transparent); }
+.nw-row { position: absolute; left: 0; right: 0; top: 0; padding: 9px 16px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 12.5px/17px var(--ui); color: var(--ink); opacity: 0; visibility: hidden; }
+/* a hit's confetti, clipped to the news area so nothing crosses the live view (side.d35be136.js) */
+.nw-fx { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.nw-cf { position: absolute; left: 0; top: 0; border-radius: 1px; visibility: hidden; }
+
+/* ---------- Chrome on the shared desktop, in the desktop's own px (computer.ba3976b6.css) ---------- */
+.cc-desk { position: absolute; left: 0; top: 0; width: 1470px; height: 919px; overflow: hidden; transform-origin: 0 0; background: #fff; }
+.cc-win { position: absolute; inset: 0; overflow: hidden; background: #fff; }
+.cc-win svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.cc-ic { flex: none; display: grid; place-items: center; width: 28px; height: 28px; padding: 5px; border-radius: 50%; color: #474747; }
+.cc-dim { opacity: .38; }
+.cc-strip { display: flex; align-items: flex-end; height: 42px; padding: 0 8px 0 14px; background: #dee1e6; }
+.cc-lights { display: flex; gap: 8px; align-self: center; margin-right: 22px; }
+.cc-lights i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.12); }
+.cc-lights i:nth-child(2) { background: #febc2e; }
+.cc-lights i:nth-child(3) { background: #28c840; }
+.cc-tab { position: relative; flex: none; display: flex; align-items: center; gap: 8px; width: 240px; height: 34px; padding: 0 8px 0 12px; overflow: hidden; white-space: nowrap; font: 400 12px/1 var(--ui); color: #1f1f1f; }
+.cc-tab.is-on { border-radius: 10px 10px 0 0; background: #fff; }
+.cc-tab > span { position: relative; }
+.cc-fav { flex: none; width: 16px; height: 16px; }
+.cc-fav img { display: block; width: 16px; height: 16px; object-fit: contain; }
+.cc-fav .sb-tile { width: 16px; height: 16px; border-radius: 4px; }
+.cc-fav .sbm-c { transform: translate(-.5px, -.5px); }
+.cc-fav .sbm-m { transform: translate(.5px, .5px); }
+/* Chrome fades a long title out rather than ending it in an ellipsis */
+.cc-tt { flex: 1; min-width: 0; overflow: hidden; -webkit-mask: linear-gradient(90deg, #000 82%, transparent); mask: linear-gradient(90deg, #000 82%, transparent); }
+.cc-x { flex: none; width: 16px; height: 16px; padding: 3px; color: #474747; }
+.cc-plus { flex: none; display: grid; place-items: center; align-self: center; width: 28px; height: 28px; margin: 8px 0 0 8px; padding: 6px; border-radius: 50%; color: #474747; }
+.cc-bar { display: flex; align-items: center; gap: 4px; height: 40px; padding: 0 8px; border-bottom: 1px solid #e3e3e3; background: #fff; }
+.cc-omni { position: relative; flex: 1; display: flex; align-items: center; gap: 4px; height: 34px; margin: 0 6px; padding: 0 14px 0 5px; border-radius: 17px; background: #f1f3f4; font: 400 14px/1 var(--ui); color: #1f1f1f; white-space: nowrap; }
+.cc-omni.is-focus { background: #fff; box-shadow: inset 0 0 0 2px #1a73e8; }
+.cc-omni .cc-ic { width: 24px; height: 24px; padding: 4px; }
+.cc-omni .cc-i-search, .cc-omni.is-focus .cc-i-tune { display: none; }
+.cc-omni.is-focus .cc-i-search { display: grid; }
+.cc-url { min-width: 0; overflow: hidden; }
+.cc-url.is-sel { background: #b3d7ff; }
+.cc-caret { flex: none; width: 1px; height: 18px; margin-left: 1px; background: #1f1f1f; }
+.cc-me { flex: none; width: 24px; height: 24px; margin: 0 4px; border-radius: 50%; background: #c2e7ff; }
+/* the pages: real captures, below the 82px of tab strip and toolbar; the script shows one at a time */
+.cc-page { position: absolute; top: 82px; left: 0; display: block; width: 1470px; height: 839px; visibility: hidden; }
+/* the agent's changes on the edit view: real pixels laid over the table (timeline.d35be136.js MARKS) */
+.cc-mark { position: absolute; display: block; opacity: 0; }
+/* the screen's own cursor: a macOS arrow at its real size on this desktop, placed from its hotspot */
+.cc-cursor { position: absolute; left: 0; top: 0; z-index: 2; width: 24px; height: 24px; overflow: visible; fill: #000; stroke: #fff; stroke-width: 1.5px; stroke-linejoin: round; paint-order: stroke; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.35)); }
+
+/* the takeover's edge, the one thing drawn over the screen: a turning conic band from 5px outside the view's edge to
+   8px inside it, blurred so it fades to nothing about 14px in; the view sits square in the panel */
+.cc-edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; opacity: 0; pointer-events: none; }
+.cc-soft { position: absolute; inset: -5px; filter: blur(4px); }
+.cc-band { position: absolute; inset: 0; padding: 13px; background: conic-gradient(from var(--cc-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }

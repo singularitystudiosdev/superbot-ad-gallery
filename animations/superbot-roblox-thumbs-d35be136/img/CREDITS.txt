@@ -1,0 +1,36 @@
+Sources for the ROB IT thumbnail spot (screen.d35be136.js, chat.d35be136.js). Never shown on screen.
+
+All page captures are new, taken 2026-10-21 for this spot: 1470x839 CSS (the page area of full-screen Chrome on a
+1470px-wide desktop) at 2x, so each file is 2940x1678. Nothing on any page was changed before capture.
+
+game.webp: https://www.roblox.com/games/96168869671905/ROB-IT, the public game page, captured logged out in a
+  headless Chromium with a throwaway profile (no account, no personal details). Its carousel was playing the game's
+  own trailer video at the moment of capture.
+
+thumbs-top.webp, thumbs-table.webp, thumbs-rate.webp, edit-top.webp, edit-table.webp:
+  https://create.roblox.com/dashboard/creations/experiences/9472441390/places/96168869671905/thumbnails, ROB IT's
+  Creator Hub Thumbnails page, captured in the owner's own signed-in Chrome through Cosmos browser-control, read only.
+  thumbs-top: the page as it opens. thumbs-table: the page's content column scrolled to the Thumbnail performance
+  table. thumbs-rate: the same, with the table scrolled right to the Qualified Play Through Rate column. edit-top and
+  edit-table: the same two views after "Edit active thumbnails". Nothing was uploaded, checked, unchecked or saved;
+  the edit view's local preference (ThumbnailTableMode) was set back to "view" afterwards. Every figure is the one
+  Creator Hub showed for Oct 14 to Oct 21 (data updated Oct 21, 2:00 AM), published as captured at the owner's choice.
+
+cb-on.png, cb-off.png, row-lowest.webp: crops of edit-table at 2x: row 1's checked box, row 6's unchecked box, and
+  row 1's thumbnail (the lowest performer, 0.63% play-through). The agent's uncheck and check are these real pixels
+  laid over the edit view.
+
+it1.webp, it2.webp, it3.webp: the agent's "new takes", composed for this spot from ROB IT's own public thumbnails
+  (https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=9472441390, 768x432): each re-cropped and
+  re-graded, with a headline set in Luckiest Guy (Google Fonts, SIL Open Font License,
+  https://fonts.gstatic.com/s/luckiestguy/). Nothing is drawn or generated: the art is the game's own.
+  it1 from the diamond thumbnail ("STEAL THE DIAMOND!"), it2 from the museum one ("ROB THE MUSEUM"), it3 from the
+  sleeping-owner one ("DON'T WAKE HIM!"). In the animation it1 is shown landing in row 6 of the edit view; that row's
+  slot is where a new upload is pictured, not a real upload.
+
+logo-roblox.svg: the Roblox mark, https://commons.wikimedia.org/wiki/File:Roblox_player_icon_black.svg (public
+  domain), used as the Chrome tab icon.
+
+The Roblox name, mark and pages belong to Roblox Corporation; ROB IT and its art belong to SHHH SNEAKY STUDIOS, the
+owner's studio. Icons: lucide (ISC license), path data from https://api.iconify.design/lucide.json. superbot's mark:
+the house CSS mask from gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/chat.css (.sbm).

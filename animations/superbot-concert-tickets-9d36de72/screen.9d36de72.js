@@ -2,8 +2,8 @@
 // 6fbc38f8/scenes/tabs-assets/beats/computer.ba3976b6.js). A 1470x919 desktop with Chrome full screen on it at Chrome's
 // own sizes, scaled whole into the view, so tab strip, pages and cursor keep their real proportions. Over it, only the
 // takeover's vignette. Everything is painted from t by paint(), so a frozen frame holds.
-import { seg, lerp, outCubic, inOutCubic, caretOn, countAt, lastAt, REDUCED } from './lib.9d36de72.js?v=4';
-import { SITES, fav, pageHTML, rowsHTML, cheapest } from './sites.9d36de72.js?v=4';
+import { seg, lerp, outCubic, inOutCubic, caretOn, countAt, lastAt, REDUCED } from './lib.9d36de72.js?v=5';
+import { SITES, fav, pageHTML, rowsHTML, cheapest } from './sites.9d36de72.js?v=5';
 
 export const DESK = { w: 1470, h: 919 };
 const TAB_W = 240, PLUS_GAP = 8, PLUS = 28;
@@ -51,7 +51,8 @@ export function buildScreen(root) {
       </div>
       <svg class="cc-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="${ARROW}"/></svg>
     </div>
-    <i class="cc-edge"><i class="cc-soft"><i class="cc-band"></i></i></i>`;
+    <i class="cc-edge"><i class="cc-soft"><i class="cc-band"></i></i></i>
+    <span class="cc-stop"><i></i>Stop</span>`;
   const $ = (s) => root.querySelector(s);
   const $$ = (s) => [...root.querySelectorAll(s)];
   const sites = $$('.cc-site').map((wrap) => ({
@@ -61,7 +62,7 @@ export function buildScreen(root) {
   return {
     root, desk: $('.cc-desk'), tabs: $$('.cc-tab'), plus: $('.cc-plus'), reload: $('.cc-reload'), omni: $('.cc-omni'),
     uPh: $('.cc-u-ph'), uType: $('.cc-u-type'), uUrl: $('.cc-u-url'), typed: $('.cc-typed'), host: $('.cc-host'), path: $('.cc-path'),
-    carets: $$('.cc-caret'), ntp: $('.cc-ntp'), blank: $('.cc-blank'), sites, cursor: $('.cc-cursor'), edge: $('.cc-edge'), soft: $('.cc-soft'),
+    carets: $$('.cc-caret'), ntp: $('.cc-ntp'), blank: $('.cc-blank'), sites, cursor: $('.cc-cursor'), edge: $('.cc-edge'), soft: $('.cc-soft'), stop: $('.cc-stop'),
     targets: null, shownTyped: null,
   };
 }
@@ -112,6 +113,10 @@ export function paint(v, S, t) {
   v.edge.style.opacity = outCubic(seg(t, S.control, S.control + 0.55)).toFixed(3);
   v.edge.style.setProperty('--cc-a', `${REDUCED ? 0 : ((t * 60) % 360).toFixed(1)}deg`);
   v.soft.style.opacity = REDUCED ? '0.9' : (0.9 + 0.08 * Math.sin(t * 2.6)).toFixed(3);
+  // the overlay's Stop button rises in with it, bottom centre over the screen
+  const st = outCubic(seg(t, S.control + 0.12, S.control + 0.57));
+  v.stop.style.opacity = st.toFixed(3);
+  v.stop.style.transform = `translate(-50%, ${REDUCED ? 0 : ((1 - st) * 8).toFixed(2)}px)`;
 
   const active = lastAt(S.active, t).tab;
   const viewOf = (i) => lastAt(S.views[i], t);

@@ -1,10 +1,10 @@
 // The spot's clock: builds the schedule, the chat and the live view, waits for fonts and images so every measured
 // position is final, then paints one frame per animation frame from t, looping every L seconds. ?t=12.5 freezes a frame
 // (for thumbnails and captures); space pauses, R restarts, the arrow keys step a second.
-import { buildSchedule } from './schedule.9d36de72.js?v=4';
-import { buildScreen, fit, measure, paint, primeLists } from './screen.9d36de72.js?v=4';
-import { buildFeed, measureFeed, paintFeed } from './feed.9d36de72.js?v=4';
-import { seg, lerp, outCubic, REDUCED } from './lib.9d36de72.js?v=4';
+import { buildSchedule } from './schedule.9d36de72.js?v=5';
+import { buildScreen, fit, measure, paint, primeLists } from './screen.9d36de72.js?v=5';
+import { buildFeed, measureFeed, paintFeed } from './feed.9d36de72.js?v=5';
+import { seg, lerp, outCubic, REDUCED } from './lib.9d36de72.js?v=5';
 
 const S = buildSchedule();
 const stage = document.getElementById('stage');

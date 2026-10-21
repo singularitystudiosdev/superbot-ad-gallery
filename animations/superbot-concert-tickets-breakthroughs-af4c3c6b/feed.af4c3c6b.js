@@ -1,7 +1,7 @@
 // The left pane (the chat with its composer) and the activity tab under the live view, both painted from t. Items are
 // laid out once, at their final size (streamed text keeps its unrevealed rest as transparent text), so a pane scrolls by
 // summing the heights of what has arrived, each weighted by its entrance: the newest line slides up into view. The
-// activity tab is text only: one plain line per step, a breakthrough's line bold and white with a 🎉 after it.
+// activity tab is text only: one plain line per step, a breakthrough's line bold in the ink with a 🎉 after it.
 import { seg, outCubic, caretOn, countAt, lastAt, el, esc, REDUCED, STREAM_CPS } from './lib.af4c3c6b.js';
 import { SITES, fav } from './sites.af4c3c6b.js';
 

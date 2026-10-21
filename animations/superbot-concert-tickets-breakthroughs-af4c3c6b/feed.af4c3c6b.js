@@ -40,7 +40,7 @@ export function buildFeed(left, act, S) {
   return {
     feed: left.querySelector('.ch-feed'), feedIn, items,
     typed: left.querySelector('.rc-typed'), ph: left.querySelector('.rc-hint'), caret: left.querySelector('.rc-caret'), send: left.querySelector('.rc-send'),
-    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), live: act.querySelector('.ac-live'), shownTyped: null,
+    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), shownTyped: null,
   };
 }
 
@@ -97,7 +97,6 @@ export function paintFeed(f, S, t) {
   // activity
   const last = lastAt(S.acts, t);
   f.empty.style.opacity = last ? '0' : '1';
-  f.live.classList.toggle('is-on', t >= S.control);
   for (const r of f.rows) reveal(r.node, enter(t, r.a.at));
   const actRoom = f.list.clientHeight - 12; // .ac-in padding
   f.actIn.style.transform = `translateY(${(-scrolled(f.rows, t, actRoom)).toFixed(2)}px)`;

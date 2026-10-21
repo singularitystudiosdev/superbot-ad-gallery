@@ -74,16 +74,10 @@ svg { flex: none; }
 .cc-stop { position: absolute; left: 50%; bottom: 16px; z-index: 5; display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 13px; border-radius: 999px; transform: translateX(-50%); background: var(--ink); box-shadow: 0 0 0 1px rgba(255,255,255,.14), 0 6px 18px rgba(0,0,0,.24); white-space: nowrap; font: 600 11.5px/1 var(--ui); color: #fff; }
 .cc-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #fff; }
 
-/* the activity tab: one plain line per step, text only, newest at the foot; a breakthrough's line bold in the ink */
+/* the activity tab, with no header row: one plain line per step, text only, newest at the foot; a breakthrough's line
+   bold in the ink */
 .ac { flex: 1; min-height: 0; display: flex; flex-direction: column; box-shadow: 0 -1px 0 var(--line); }
-.ac-head { flex: none; display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 14px; box-shadow: 0 1px 0 #ececf0; }
-.ac-tab { font: 600 12px/1 var(--ui); color: var(--ink); }
-.ac-live { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font: 500 11px/1 var(--ui); color: var(--muted); }
-.ac-live i { width: 6px; height: 6px; border-radius: 50%; background: #c7c7cc; }
-.ac-live.is-on i { background: #34d399; }
-.ac-live .ac-on, .ac-live.is-on .ac-off { display: none; }
-.ac-live.is-on .ac-on { display: inline; }
-/* a row scrolling off under the tab's header fades out over 14px, as the chat's do */
+/* a row scrolling off under the live view fades out over 14px, as the chat's do */
 .ac-list { position: relative; flex: 1; min-height: 0; overflow: hidden; -webkit-mask: linear-gradient(transparent, #000 14px); mask: linear-gradient(transparent, #000 14px); }
 .ac-in { position: absolute; left: 0; right: 0; top: 0; padding: 6px 0; }
 .ac-row { display: flex; align-items: center; height: 27px; padding: 0 14px; white-space: nowrap; font: 12px/1 var(--ui); color: #3a3a3c; opacity: 0; }

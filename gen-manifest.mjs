@@ -1008,6 +1008,25 @@ const more = [
   ["superbot-roblox-thumbnails-af4c3c6b", "superbot-roblox-thumbnails-af4c3c6b/", "superbot: Keep making iterations on my Roblox thumbnails and replace my lowest performer (ROB IT, real Creator Hub in the live view)", 'Ad spots', {
     desc: "The breakthroughs loop (af4c3c6b) on a Roblox task. The user sends one message, \"This is my game roblox.com/games/96168869671905/ROB-IT. Continually make iterations on my existing thumbnails and replace my lowest performer\"; the sidebar slides in and superbot takes the computer. The live view is Chrome on the real pages, cloned 1:1 from the game owner's signed-in Chrome on 2026-10-21 (each page's live DOM and every CSS rule it held, made static, so Roblox's own markup, fonts and icons render): ROB IT's game page on roblox.com, where the carousel turns through the game's public thumbnails, then the game's Thumbnails page in Creator Hub. There superbot opens Edit active thumbnails to read every qualified play-through rate, finds the lowest performer, makes iterations on the existing thumbnails, clicks Upload thumbnails, unticks the lowest one's Active box (Creator Hub allows five), ticks an iteration and saves, waits for the next data update and reloads. Each iteration that beats the thumbnail it replaced is a breakthrough in the chat, with the thumbnail and its rate on a card: 1.34% for iteration 1 over the gold vault one's 0.58%, 1.19% over the police one's 0.70%, then 1.46% for a bedroom iteration, ending on the active set's average up from 0.85% to 1.22%. The Activity tab logs every step behind a small Fluent 3D icon, each win bold with a party popper firing confetti, and each breakthrough card in the chat pops its own popper and confetti beside its rate. The table's figures are illustrative (the capture's real analytics were blanked and its charts removed before publishing) and the Robux balance is blurred; the iterations are AI-generated edits of ROB IT's public thumbnails (fal nano-banana-pro). Light theme, orange vignette, composer suggestions turning under the prompt. The sidebar has a working close button (the chat then takes the window, and a panel button brings the sidebar back). 57 s loop; ?t= freezes a frame, ?controls=1 shows the key hint. 16:9, 1920x1080 stage." }],
   // <<< superbot-roblox-thumbnails-af4c3c6b
+  // >>> superbot-roblox-thumbnails-chats-5a028abd (2026-10-21): the af4c3c6b Roblox thumbnails loop with a chat list down
+  // the app's left edge, ten ways: one bundled page, ?chats=1..10 picks the variant (chat-variants.5a028abd.js). The app is
+  // laid out wider and drawn smaller, so the chat and the live view keep their sizes. All ten side by side:
+  // animations/superbot-roblox-thumbnails-chats-5a028abd/chats-sheet.5a028abd.html
+  ...[
+    ['recent', 'Recent list', "The hub's own sidebar: one line per chat, newest first."],
+    ['previews', 'Previews', 'Two lines per chat: the title and its last message, which updates as superbot replies.'],
+    ['rail', 'Labeled rail', 'Each chat is a 3D icon with a one-word label. The rail takes the least room.'],
+    ['days', 'By day', 'Chats grouped under Today, Yesterday, This week and Earlier.'],
+    ['projects', 'Projects', 'Chats filed under each game. ROB IT is open, so its chats are listed under it.'],
+    ['pinned', 'Pinned and recent', 'Pinned chats as large icons on top, recent chats listed below.'],
+    ['status', 'Status board', "Chats grouped by state. The working chat shows superbot's current step and its icon."],
+    ['timeline', 'Timeline', 'Each chat icon sits on one vertical line, with day labels along it.'],
+    ['tabs', 'Vertical tabs', 'Browser-style tabs: pinned chats above the divider, the open chat as the raised tab.'],
+    ['grid', 'Icon grid', 'Chats laid out like apps on a home screen, with unread counts as badges.'],
+  ].map(([v, name, note], i) => [`superbot-roblox-thumbnails-chats-${v}-5a028abd`, `superbot-roblox-thumbnails-chats-5a028abd/chats.5a028abd.html?chats=${i + 1}`,
+    `superbot: Keep making iterations on my Roblox thumbnails, with the chat list on the left (${name})`, 'Ad spots', {
+      desc: `The Roblox thumbnails breakthroughs loop (af4c3c6b) with the account's chats down the app's left edge, shown as: ${name}. ${note} Every chat is marked with a Fluent 3D emoji like the Activity tab's steps. The open chat reads New chat until the prompt is sent, then ROB IT thumbnails, its icon turning from a speech balloon to a framed picture, and to a trophy for a beat on each new best. The other chats (a Halloween event, a game pass price, a guard bug, badge ideas) are fixtures. The app is laid out wider and drawn smaller, so the chat and the live view keep the original's sizes. 57 s loop; ?t= freezes a frame. 16:9, 1920x1080 stage. All ten side by side: chats-sheet.5a028abd.html in the same folder.` }]),
+  // <<< superbot-roblox-thumbnails-chats-5a028abd
 ];
 // an optional 5th field carries extra item fields, e.g. { download, downloadLabel } for a file too big for Pages
 for (const [name, src, title, group, extra] of more) {

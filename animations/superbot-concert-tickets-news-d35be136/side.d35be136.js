@@ -13,7 +13,7 @@ export function buildSide(news) {
     list.appendChild(node);
     return { n, node, time: node.querySelector('.nw-time'), h: 0, shown: '' };
   });
-  return { rows, empty: news.querySelector('.nw-empty') };
+  return { rows };
 }
 
 export function measureSide(s) {
@@ -33,5 +33,4 @@ export function paintSide(s, t) {
     const a = p > 0 ? age(t - r.n.at) : '';
     if (r.shown !== a) { r.time.textContent = a; r.shown = a; }
   }
-  s.empty.style.opacity = (1 - outCubic(seg(t, NEWS[0].at, NEWS[0].at + ENTER))).toFixed(3);
 }

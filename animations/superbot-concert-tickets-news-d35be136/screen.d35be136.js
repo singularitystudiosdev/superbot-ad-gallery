@@ -1,8 +1,9 @@
 // The live view: the user's 1470x919 desktop with Chrome full screen on it, scaled whole into the side panel (the
 // computer-control-v3-soft variant's screen share, computer.ba3976b6.js). Chrome opens on a New Tab page; once superbot
 // has control it visits each ticket site in that tab, typing the event's address, picking 2 tickets or checking the
-// sort, and resting the screen's own cursor on the cheapest listing. Over it only the takeover's vignette.
-import { seg, lerp, outCubic, inOutCubic, esc } from './lib.d35be136.js';
+// sort, and resting the screen's own cursor on the cheapest listing. Over it the takeover's vignette and, in the view's
+// bottom right corner, the controls the user has while superbot drives: Take control and Stop.
+import { seg, lerp, outCubic, inOutCubic, esc, glyph } from './lib.d35be136.js';
 import { SITES, NEW_TAB, VISITS, TAKE } from './timeline.d35be136.js';
 
 const DESK = { w: 1470, h: 919 };
@@ -84,11 +85,12 @@ export function buildScreen(view) {
       </div>
       <svg class="cc-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="${ARROW}"/></svg>
     </div>
-    <i class="cc-edge"><i class="cc-soft"><i class="cc-band"></i></i></i>`;
+    <i class="cc-edge"><i class="cc-soft"><i class="cc-band"></i></i></i>
+    <span class="cc-ctl"><span class="cc-btn cc-take">${glyph('pointer')}Take control</span><span class="cc-btn cc-stop"><i></i>Stop</span></span>`;
   const $ = (s) => view.querySelector(s);
   return {
     view, desk: $('.cc-desk'), cursor: $('.cc-cursor'), favWrap: $('.cc-site-fav'), fav: $('.cc-site-fav img'), tt: $('.cc-site-tt'),
-    omni: $('.cc-omni'), url: $('.cc-url'), caret: $('.cc-caret'), ph: $('.cc-ph'), edge: $('.cc-edge'), soft: $('.cc-soft'),
+    omni: $('.cc-omni'), url: $('.cc-url'), caret: $('.cc-caret'), ph: $('.cc-ph'), edge: $('.cc-edge'), soft: $('.cc-soft'), ctl: $('.cc-ctl'),
     pages: Object.fromEntries([...view.querySelectorAll('.cc-page')].map((img) => [img.dataset.page, img])),
     favs: SITES.map((s) => Object.assign(new Image(), { src: `img/${s.fav}` })), shown: {},
   };
@@ -102,9 +104,10 @@ export function fitScreen(v) {
 }
 
 export function paintScreen(v, t) {
-  // the takeover: the vignette fades in as its gradient turns and gently breathes
+  // the takeover: the vignette fades in as its gradient turns and gently breathes; the controls come with it
   const g = outCubic(seg(t, TAKE, TAKE + 0.55));
   v.edge.style.opacity = g.toFixed(3);
+  v.ctl.style.opacity = g.toFixed(3);
   v.edge.style.setProperty('--cc-a', `${((t * 60) % 360).toFixed(1)}deg`);
   v.soft.style.opacity = (0.9 + 0.08 * Math.sin(t * 2.6)).toFixed(3);
 

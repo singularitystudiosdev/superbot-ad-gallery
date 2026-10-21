@@ -73,17 +73,20 @@ svg { flex: none; }
 .rc-send svg { width: 12px; height: 12px; stroke-width: 2.2; }
 .rc-send.is-on { background: #e8e8e8; color: #161618 !important; }
 
-/* ---------- the side panel, docked to the right edge, full height: the live view, then the news ---------- */
+/* ---------- the side panel, docked to the right edge, full height: the live view, then the news. It is hidden until
+   the user's first message is sent, then slides in from the right as the chat glides from centre to left (the script
+   sets both transforms from t) ---------- */
 .side { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; border-left: 1px solid var(--line); background: var(--panel); }
 .cc { flex: none; display: flex; flex-direction: column; }
-.bk-head { flex: none; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px 0 16px; box-shadow: 0 1px 0 var(--line); }
-.bk-title { min-width: 0; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 12px/16px var(--ui); color: var(--ink); }
-.bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
-.bk-btn { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; white-space: nowrap; font: 500 11px/1 var(--ui); }
-.bk-stop { gap: 7px; background: var(--ink); font-weight: 600; color: #111113; }
-.bk-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
 /* the screen share: the desktop's shape at the panel's width (height set by the script) */
 .cc-view { position: relative; flex: none; overflow: hidden; background: #fff; }
+/* the user's controls while superbot drives, inside the view's bottom right corner, clear of the vignette's glow */
+.cc-ctl { position: absolute; right: 16px; bottom: 16px; z-index: 5; display: flex; gap: 6px; opacity: 0; }
+.cc-btn { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; white-space: nowrap; font: 600 11px/1 var(--ui); box-shadow: 0 6px 16px rgba(0,0,0,.28); }
+.cc-btn svg { display: block; width: 12px; height: 12px; }
+.cc-take { background: rgba(22,22,26,.9); color: #f2f2f5; box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 6px 16px rgba(0,0,0,.28); }
+.cc-stop { gap: 7px; background: var(--ink); color: #111113; }
+.cc-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
 
 .nw { flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
 /* the list fades out at its foot, where older items slide off */
@@ -96,7 +99,6 @@ svg { flex: none; }
 .nw-tx b { display: block; font: 600 12.5px/17px var(--ui); color: var(--ink); }
 .nw-tx small { display: block; font: 11.5px/15px var(--ui); color: var(--muted); }
 .nw-time { flex: none; font: 11px/17px var(--ui); color: var(--muted); font-variant-numeric: tabular-nums; }
-.nw-empty { position: absolute; left: 16px; top: 9px; margin: 0; font: 12px/18px var(--ui); color: var(--muted); }
 
 /* ---------- Chrome on the shared desktop, in the desktop's own px (computer.ba3976b6.css) ---------- */
 .cc-desk { position: absolute; left: 0; top: 0; width: 1470px; height: 919px; overflow: hidden; transform-origin: 0 0; background: #fff; }

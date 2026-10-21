@@ -81,9 +81,12 @@ function cardHTML(card, bits) {
     </div>`;
 }
 
+// a sent message shows a web address in it as a link, as the chat renders one; punctuation after it stays outside
+const linkify = (html) => html.replace(/\b(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+\.(?:com|gg|io|net|org)(?:\/[^\s<]*[^\s<.,;:!?)])?/gi, (url) => `<a class="cm-link">${url}</a>`);
+
 // superbot's messages are bare text and cards, no name line over them
 function chatItem(c, bits) {
-  if (c.kind === 'user') return `<div class="cm cm-u"><span>${esc(c.text)}</span></div>`;
+  if (c.kind === 'user') return `<div class="cm cm-u"><span>${linkify(esc(c.text))}</span></div>`;
   const card = cardHTML(c.card, bits);
   const after = c.after ? `<p class="cm-say cm-after"><span class="cm-v"></span><span class="cm-h">${esc(c.after)}</span></p>` : '';
   return `<div class="cm cm-b"><p class="cm-say"><span class="cm-v"></span><span class="cm-h">${esc(c.text)}</span></p>${card}${after}</div>`;

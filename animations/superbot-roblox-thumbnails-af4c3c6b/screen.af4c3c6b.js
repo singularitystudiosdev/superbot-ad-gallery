@@ -71,15 +71,24 @@ export function buildScreen(root) {
   };
 }
 
-// every frame loaded, its fonts and images decoded, and every thumbnail the table can show already in the cache
+// a page that has not arrived by now is not coming: the spot starts without its live view rather than wait forever
+const FRAMES_TIMEOUT = 20000;
+
+// every frame loaded, its fonts and images decoded, and every thumbnail the table can show already in the cache;
+// rejects, naming the frames still missing, when they have not all loaded within FRAMES_TIMEOUT
 export async function ready(v) {
-  // a frame starts on an empty about:blank that already reads as complete: wait for its own page, however long it takes
-  await Promise.all(Object.values(v.frames).map((f) => new Promise((resolve) => {
+  // a frame starts on an empty about:blank that already reads as complete: wait for its own page
+  const pending = new Set(Object.keys(v.frames));
+  const loads = Promise.all(Object.entries(v.frames).map(([k, f]) => new Promise((resolve) => {
     const loaded = () => { const d = f.contentDocument; return !!d && d.readyState === 'complete' && d.location.href !== 'about:blank' && !!d.body; };
-    if (loaded()) { resolve(); return; }
-    const onload = () => { if (loaded()) { f.removeEventListener('load', onload); resolve(); } };
+    const done = () => { pending.delete(k); resolve(); };
+    if (loaded()) { done(); return; }
+    const onload = () => { if (loaded()) { f.removeEventListener('load', onload); done(); } };
     f.addEventListener('load', onload);
   })));
+  let timer;
+  const late = new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(`live view pages did not load within ${FRAMES_TIMEOUT / 1000}s: ${[...pending].map((k) => FRAMES[k]).join(', ')}`)), FRAMES_TIMEOUT); });
+  try { await Promise.race([loads, late]); } finally { clearTimeout(timer); }
   await Promise.all(Object.values(v.frames).map(async (f) => {
     const doc = f.contentDocument;
     await doc.fonts.ready;
@@ -88,18 +97,17 @@ export async function ready(v) {
   await Promise.all(Object.values(THUMBS).map((t) => t.img).map((src) => { const img = new Image(); img.src = src; return img.decode().catch((e) => console.error(new Error(`thumbnail failed to decode: ${src}`, { cause: e }))); }));
   const scroller = (doc) => [...doc.querySelectorAll('div')].find((e) => /Grid-root-root-scroll/.test(String(e.className)));
   v.docs = Object.fromEntries(Object.entries(v.frames).map(([k, f]) => [k, f.contentDocument]));
-  // the game page's carousel: its slides are images stacked in one box, the page showing one at a time
-  const big = [...v.docs.game.images].filter((i) => i.getBoundingClientRect().top < 300).sort((a, b) => b.width * b.height - a.width * a.height)[0];
-  const box = big.getBoundingClientRect();
-  v.slides = [...v.docs.game.images].filter((i) => { const r = i.getBoundingClientRect(); return Math.abs(r.left - box.left) < 2 && Math.abs(r.top - box.top) < 2 && Math.abs(r.width - box.width) < 2; });
-  v.slideFirst = Math.max(0, v.slides.findIndex((i) => getComputedStyle(i).visibility !== 'hidden'));
+  // the game page's carousel: picture slides stacked in one box, each a .carousel-item the page shows by giving it
+  // .carousel-item-active (Roblox's CSS keeps any other at opacity 0); its video slide is left as it was
+  v.slides = [...v.docs.game.querySelectorAll('[data-testid="carousel"] .carousel-item')].filter((w) => w.querySelector('img'));
+  v.slideFirst = Math.max(0, v.slides.findIndex((w) => w.classList.contains('carousel-item-active')));
   // the order it turns in from the slide it showed, each picture once (the page repeats one to loop)
+  const pic = (w) => w.querySelector('img').getAttribute('src');
   v.slideOrder = [];
   for (let k = 0; k < v.slides.length; k++) {
     const i = (v.slideFirst + k) % v.slides.length;
-    if (!v.slideOrder.some((j) => v.slides[j].getAttribute('src') === v.slides[i].getAttribute('src'))) v.slideOrder.push(i);
+    if (!v.slideOrder.some((j) => pic(v.slides[j]) === pic(v.slides[i]))) v.slideOrder.push(i);
   }
-  v.slideShown = -1;
   v.scrollers = { hub: scroller(v.docs.hub), edit: scroller(v.docs.edit), game: v.docs.game.scrollingElement };
   v.tables = { hub: bindTable(v.docs.hub), edit: bindTable(v.docs.edit) };
   // a thumbnail is a live page, not a link: nothing in the frames reacts to the pointer
@@ -127,7 +135,7 @@ export function measure(v) {
     T[`tab:${i}`] = { x: tab0.x + i * TAB_W + 104, y: tab0.y };
   });
   const game = v.docs.game;
-  T['game:hero'] = inPage(v.slides[v.slideFirst], 0.55, 0.5);
+  T['game:hero'] = inPage(v.slides[v.slideFirst].querySelector('img'), 0.55, 0.5);
   const play = [...game.querySelectorAll('button')].sort((a, b) => b.getBoundingClientRect().width * b.getBoundingClientRect().height - a.getBoundingClientRect().width * a.getBoundingClientRect().height)[0];
   T['game:play'] = inPage(play, 0.5, 0.5);
   T['hub:edit'] = inPage(button(v.docs.hub, 'Edit active thumbnails'), 0.45, 0.55);
@@ -210,13 +218,20 @@ export function paint(v, S, t) {
     const tr = v.tables.edit.tbody.querySelector(`[data-sb-row="${id}"]`);
     if (tr) tr.style.opacity = outCubic(seg(t, born, born + 0.4)).toFixed(3);
   }
-  // the game page's carousel, advanced a slide at a time through the page's own thumbnails
+  // the game page's carousel, advanced a slide at a time through the page's own thumbnails: the new slide fades in over
+  // the one it replaces in Roblox's own 0.5s ease-in-out, painted from t instead of the page's CSS transition
   const step = lastAt(S.hero, t);
-  const slide = v.slideOrder[(step ? step.step : 0) % v.slideOrder.length];
-  if (slide !== v.slideShown) {
-    v.slides.forEach((img, k) => { img.style.visibility = k === slide ? 'visible' : 'hidden'; });
-    v.slideShown = slide;
-  }
+  const n = v.slideOrder.length;
+  const cur = v.slideOrder[(step ? step.step : 0) % n];
+  const prev = step ? v.slideOrder[(step.step - 1) % n] : -1;
+  const fade = step ? (REDUCED ? 1 : inOutCubic(seg(t, step.at, step.at + 0.5))) : 1;
+  v.slides.forEach((w, k) => {
+    const on = k === cur, under = k === prev && fade < 1;
+    w.style.transition = 'none';
+    w.style.opacity = on ? fade.toFixed(3) : under ? '1' : '0';
+    w.style.visibility = on || under ? 'visible' : 'hidden';
+    w.style.zIndex = on ? '5' : under ? '4' : '0';
+  });
   for (const k of ['hub', 'edit', 'game']) {
     const top = Math.round(scrollAt(S.scrolls[k], t));
     if (v.scrollers[k].scrollTop !== top) v.scrollers[k].scrollTop = top;

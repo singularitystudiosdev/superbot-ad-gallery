@@ -44,9 +44,12 @@ function frame(t) {
   // a short dip to white where the loop comes round
   dip.style.opacity = Math.max(seg(lt, S.L - 0.45, S.L), 1 - seg(lt, 0, 0.35)).toFixed(3);
   dock(lt);
-  paint(view, S, lt);
+  if (liveView) paint(view, S, lt);
   paintFeed(feed, S, lt);
 }
+
+// false when the live view's pages never loaded: the chat and the Activity tab still play
+let liveView = true;
 
 let origin = 0, paused = false, pausedAt = 0;
 const now = () => (paused ? pausedAt : (performance.now() - origin) / 1000);
@@ -58,9 +61,16 @@ function loop() {
 async function start() {
   await document.fonts.ready;
   await Promise.all([...document.images].filter((img) => img.getAttribute('src')).map((img) => img.decode().catch((e) => console.error(new Error(`image failed to decode: ${img.src}`, { cause: e })))));
-  await ready(view);
-  fit(view);
-  measure(view);
+  try {
+    await ready(view);
+  } catch (e) {
+    console.error(new Error('starting without the live view', { cause: e }));
+    liveView = false;
+  }
+  if (liveView) {
+    fit(view);
+    measure(view);
+  }
   // heights are measured at the chat's docked width, the one its messages are read at
   chat.style.width = `${CHAT_W}px`;
   measureFeed(feed);

@@ -27,7 +27,7 @@ THUMBNAILS
   img/iter/iter-1..6.webp          AI-generated iterations on ROB IT's four public thumbnails
                                    (thumbnails.roblox.com/v1/games/multiget/thumbnails, universe 9472441390): fal-ai/nano-banana-pro/edit,
                                    2026-10-21, each one edit of one public thumbnail used as the reference image, one
-                                   design lever changed (prompts and request ids: /tmp/sbrbx-af4c3c6b/gen/out/iterations.json)
+                                   design lever changed (prompts and request ids: tools/iterations.af4c3c6b.json)
                                    The ad uses iter-3 (Iteration 1), iter-4 (2), iter-5 (3), iter-6 (4), iter-1 (5).
 
 img/fav/roblox.png, img/fav/create.png: https://www.roblox.com/favicon.ico and https://create.roblox.com/favicon.ico.
@@ -40,3 +40,8 @@ gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/computer.ba3976b6.css.
 img/fx/: the Activity tab's icons, Fluent Emoji in their 3D style, fetched 2026-10-21 from
 https://github.com/microsoft/fluentui-emoji (assets/<Name>/3D/<name>_3d.png, 256px) and scaled to 96px. License: MIT,
 Copyright (c) Microsoft Corporation (https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE).
+
+TOOLS (tools/): serialize.af4c3c6b.js is run in the owner's Chrome to capture a page; rbx-build.af4c3c6b.mjs turns the
+captures into rbx/ and scrubs them; verify-*.af4c3c6b.mjs are the headless checks used on this spot (frames and DOM
+audit, thumbnail and live playback, the popper's burst, the composer placeholder). They load Playwright from
+quick-chats/superbot-ad-gallery/node_modules by absolute path; the unscrubbed raw captures are not kept.

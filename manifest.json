@@ -1901,6 +1901,17 @@
     ]
   },
   {
+    "id": "superbot-create-your-own-robit-16x9-e63fb022",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "This is how you create your own Superbot: a YouTuber records his ROB IT thumbnail task while Superbot watches and listens, then it checks the task in a headless browser and runs it with computer control (16:9 video, with sound)",
+    "src": "animations/superbot-create-your-own-robit-16x9-e63fb022/",
+    "thumb": "assets/shots/superbot-create-your-own-robit-16x9-e63fb022.png",
+    "desc": "A YouTuber in a facecam bottom left (a generated presenter, lip-synced) says \"This is how you create your own Superbot.\" over the Superbot app home, clicks Create your own Superbot, names it ROB IT Thumbnails and picks Show me (record your screen and talk it through). From Start recording to Done a soft pink and purple vignette runs round the screen, a bar at the top reads \"Superbot is watching and listening\" with a timer, a live level and Done, the mascot caption at the bottom prints what it hears word by word, and a card on the right adds each step it learns. He opens roblox.com (Chrome autocompletes it), his game ROB IT (its real title, studio, icon, votes and thumbnails), Configure this Place, the Thumbnails tab, points at Upload thumbnails and at the lowest performer in Thumbnail Performance (\"right here\", marked Lowest click rate 1.2%), asks it to generate new thumbnails, replace the lowest one, wait for statistically significant data and keep optimizing for click rate with state of the art thumbnail design, then clicks Done. Back in the app the new Superbot thinks, lays out the plan it learned (a two-proportion z-test, about 11,072 impressions per thumbnail for 95% confidence), runs a headless dry run (4/4 checks, nothing changed), then takes control of the computer in a docked Live view: four new ROB IT thumbnails generate, the lowest performer is replaced and it waits for data. Ends on \"Create your own Superbot for any repeatable task. The agent for automation.\" and superbot.gg. The Thumbnail Performance figures are illustrative and the flow is an animation, not a recorded run. 16:9, 1920x1080, 60 fps, 67.6 s, with sound.",
+    "download": "animations/superbot-create-your-own-robit-16x9-e63fb022/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
     "id": "negagg-crashes-v2-superbot-e85b3b49",
     "type": "animation",
     "group": "Ad spots",

@@ -69,6 +69,13 @@ export const VARIANTS = [
   { id: 'flight-loop-news-corner-97eee3b5', label: 'Flight loop · Cheapest fare chip' },
   { id: 'flight-loop-news-footer-97eee3b5', label: 'Flight loop · Cheapest fare footer' },
   { id: 'flight-loop-news-header-97eee3b5', label: 'Flight loop · Cheapest fare in the header' },
+  // a cheapest-flight search across three sites, the user checking in and changing the job mid-run, the live view docked under the thread; three with the cheapest fare so far on show (scenes/tabs-assets/beats/flights.92b9b0b0.js)
+  { id: 'computer-control-flights-edge', label: 'Computer Control V3 · Flight loop: edge bar + task chip' },
+  { id: 'computer-control-flights-pill', label: 'Computer Control V3 · Flight loop: bar in the pill + task card' },
+  { id: 'computer-control-flights-head', label: 'Computer Control V3 · Flight loop: bar under the header + task chip' },
+  { id: 'computer-control-flights-news-card', label: 'Computer Control V3 · Flight loop + cheapest fare: one card' },
+  { id: 'computer-control-flights-news-head', label: 'Computer Control V3 · Flight loop + cheapest fare: in the header' },
+  { id: 'computer-control-flights-news-left', label: 'Computer Control V3 · Flight loop + cheapest fare: top-left card' },
   { id: 'photoedit', label: 'Photo edit' },
   { id: 'lawn', label: 'Front lawn garden' },
   { id: 'multicat', label: 'Multi-tool cat' },

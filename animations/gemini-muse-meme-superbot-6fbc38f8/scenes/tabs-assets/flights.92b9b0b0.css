@@ -1,0 +1,73 @@
+/* The flight-search loop cuts (beats/flights.92b9b0b0.js, flights-screen.92b9b0b0.js, flights-hud.92b9b0b0.js), over
+   v3-soft's live view (computer.ba3976b6.css, cc3-*) and the progress cuts' heads-up pieces (computer-progress.a05be571.css,
+   ccp-*): the tabs superbot opens and the results pages it reads, the fares it rings, the follow-up rows that join the
+   thread above the docked frame, and the looks' own boxes. No CSS animation or transition: the beats set every opacity,
+   width, height and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself. */
+
+/* the thread after the reply: the follow-up rows and the docked frame in one feed item, which chat.css would otherwise
+   hide (.feed-in > :not(.qc-u):not(.qc-m)); inside it each row sizes as the feed's own (.feed-in > *) and opens from
+   nothing above the frame (the beat sets its height and the gap after it), clipping while it does */
+#s-tabs .sbsite .hub .feed-in > .fl-thread.fl-thread.fl-thread { display: grid; align-content: start; }
+#s-tabs .sbsite .hub .fl-thread > * { box-sizing: border-box; width: 100%; max-width: none; margin-inline: 0; }
+#s-tabs .sbsite .hub .fl-row { overflow: hidden; }
+#s-tabs .sbsite .hub .fl-say { margin-bottom: 0; }
+
+/* a tab superbot opens: like v3-soft's new tab (.cc3-t2), padding on its children, so at width 0 it takes no room */
+#s-tabs .sbsite .hub .fl-tab { width: 0; padding: 0; opacity: 0; }
+#s-tabs .sbsite .hub .fl-tab .cc3-x { margin-right: 8px; }
+#s-tabs .sbsite .hub .fl-fav { position: relative; margin-left: 12px; }
+#s-tabs .sbsite .hub .fl-fav img { display: block; width: 16px; height: 16px; border-radius: 3px; opacity: 0; }
+/* Chrome's throbber while the tab's page loads: a blue arc the beat turns */
+#s-tabs .sbsite .hub .fl-throb { position: absolute; inset: 1px; box-sizing: border-box; border: 2px solid rgba(26,115,232,.18); border-top-color: #1a73e8; border-radius: 50%; opacity: 0; }
+/* the title: New Tab, then the page's own, crossing over when the page paints */
+#s-tabs .sbsite .hub .fl-tt { display: grid; }
+#s-tabs .sbsite .hub .fl-tt > span { grid-area: 1 / 1; overflow: hidden; }
+
+/* the omnibox: the address, or the typed one; long ones end at the box */
+#s-tabs .sbsite .hub .fl-u, #s-tabs .sbsite .hub .fl-e { overflow: hidden; white-space: nowrap; }
+#s-tabs .sbsite .hub .fl-e { opacity: 0; }
+#s-tabs .sbsite .hub .fl-ut { overflow: hidden; text-overflow: ellipsis; }
+
+/* the pages, under the 82px of tab strip and toolbar, each at its own scroll; the active one shows */
+#s-tabs .sbsite .hub .fl-pages { position: absolute; left: 0; top: 82px; width: 1470px; height: 837px; overflow: hidden; background: #fff; }
+#s-tabs .sbsite .hub .fl-pg { position: absolute; left: 0; top: 0; width: 1470px; opacity: 0; }
+#s-tabs .sbsite .hub .fl-pg img { display: block; width: 1470px; height: auto; }
+/* the fare superbot reads, ringed in the overlay's pink and purple (desktop px, so it scales with the screen) */
+#s-tabs .sbsite .hub .fl-hl { position: absolute; box-sizing: border-box; border-radius: 12px; opacity: 0; background: rgba(236,72,153,.08); box-shadow: 0 0 0 5px #ec4899, 0 0 0 11px rgba(168,85,247,.3), 0 0 40px 10px rgba(236,72,153,.5); }
+/* a click, ringed out from the cursor's tip */
+#s-tabs .sbsite .hub .fl-ring { position: absolute; left: -24px; top: -24px; z-index: 2; width: 48px; height: 48px; box-sizing: border-box; border: 5px solid #ec4899; border-radius: 50%; opacity: 0; pointer-events: none; box-shadow: 0 0 14px rgba(236,72,153,.6); }
+
+/* the task chip and card sit under Chrome's toolbar, clear of the tabs superbot opens across the strip */
+#s-tabs .sbsite .hub .fl .ccp-hud.fl-chip { top: 38px; }
+
+/* head: the frame header's foot is the bar; its percent follows the title */
+#s-tabs .sbsite .hub .fl .bk-head.fl-hd { position: relative; z-index: 7; }
+#s-tabs .sbsite .hub .fl .fl-hdbar { left: 0; right: 0; bottom: -1px; height: 3px; border-radius: 0; opacity: 0; background: rgba(22,22,26,.85); }
+#s-tabs .sbsite .hub .fl .fl-hdbar .ccp-fill { border-radius: 0 2px 2px 0; box-shadow: 0 0 8px rgba(236,72,153,.75); }
+#s-tabs .sbsite .hub .fl .fl-hdpct { margin-left: 8px; opacity: 0; font: 600 11px/16px var(--ui); font-variant-numeric: tabular-nums; color: #f9a8d4; }
+
+/* the topline: a small label with a plane, the fare large, what and where under it */
+#s-tabs .sbsite .hub .fl-news { display: grid; justify-items: start; gap: 4px; white-space: nowrap; }
+#s-tabs .sbsite .hub .fl-nl { display: flex; align-items: center; gap: 5px; font: 650 8.5px/1 var(--ui); letter-spacing: .07em; text-transform: uppercase; color: #a1a1a6; }
+#s-tabs .sbsite .hub .fl-nl svg { flex: none; width: 10px; height: 10px; fill: none; stroke: #f472b6; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+#s-tabs .sbsite .hub .fl-np { display: flex; align-items: center; gap: 7px; }
+#s-tabs .sbsite .hub .fl-price { font: 700 18px/1.1 var(--ui); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: #fff; }
+#s-tabs .sbsite .hub .fl-drop { padding: 3px 6px; border-radius: 6px; opacity: 0; background: rgba(52,211,153,.15); font: 650 9.5px/1 var(--ui); font-variant-numeric: tabular-nums; color: #6ee7b7; }
+#s-tabs .sbsite .hub .fl-sub { font: 500 9.5px/1.25 var(--ui); color: #c7c7cc; }
+
+/* news-card: the task row, the bar, then the topline under a hairline, in one card */
+#s-tabs .sbsite .hub .fl .fl-card { top: 38px; display: grid; gap: 8px; width: 222px; padding: 9px 11px 10px 10px; border-radius: 11px; }
+#s-tabs .sbsite .hub .fl-card > .ccp-bar { position: relative; height: 3px; }
+#s-tabs .sbsite .hub .fl-cardnews { overflow: hidden; }
+#s-tabs .sbsite .hub .fl-in-card { padding-top: 8px; box-shadow: inset 0 1px 0 rgba(255,255,255,.1); }
+
+/* news-head: the topline in the frame header beside its title, one line, in the header's own grey; only the label and
+   the fare fit beside Share, Expand and Stop, and it gives way before they do */
+#s-tabs .sbsite .hub .fl .fl-hd-news .bk-title { margin-right: 0; flex: none; }
+#s-tabs .sbsite .hub .fl-in-head { display: flex; flex: 0 1 auto; align-items: center; gap: 7px; min-width: 0; height: 26px; margin-right: auto; padding: 0 10px 0 8px; overflow: hidden; border-radius: 8px; opacity: 0; background: #26262b; box-shadow: inset 0 0 0 1px #34343a; }
+#s-tabs .sbsite .hub .fl-in-head .fl-nl { letter-spacing: .05em; }
+#s-tabs .sbsite .hub .fl-in-head .fl-price { font-size: 13px; }
+#s-tabs .sbsite .hub .fl-in-head .fl-sub, #s-tabs .sbsite .hub .fl-in-head .fl-drop { display: none; }
+
+/* news-left: the topline in a card top left of the screen, under the toolbar like the task chip opposite it */
+#s-tabs .sbsite .hub .fl .fl-left { top: 38px; right: auto; left: 12px; padding: 9px 12px 10px 10px; border-radius: 11px; }

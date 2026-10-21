@@ -1,0 +1,24 @@
+Real page captures for the flight-search loop cuts' live view (scenes/tabs-assets/beats/flights.92b9b0b0.js,
+?variant=computer-control-flights-*). Each is 1470 wide, the page area of a full-screen Chrome on a 1470px-wide desktop, and
+1250 tall so the results can scroll; captured 2026-10-21 headless with Playwright's Chromium in throwaway profiles, nothing
+signed in, US English, third-party ad networks blocked and the sites' price-alert toasts closed. The fares on show, and the
+ones the cuts quote, are the ones these pages listed that day for a 1-adult economy round trip, Denver to Tokyo, Dec 10 to 20,
+2026.
+
+gflights.jpg: https://www.google.com/travel/flights?q=Flights to TYO from DEN on 2026-12-10 through 2026-12-20 (Google
+Flights, Best tab; cheapest from $1,594, United nonstop DEN-NRT).
+
+kayak.jpg: https://www.kayak.com/flights/DEN-TYO/2026-12-10/2026-12-20?sort=price_a (KAYAK, cheapest first; $1,155,
+Frontier and ZIPAIR, 1 stop at LAX).
+kayak-nonstop.jpg: the same search with &fs=stops=0 (Nonstop ticked; $1,497, ANA nonstop DEN-NRT).
+
+momondo.jpg: https://www.momondo.com/flight-search/DEN-TYO/2026-12-10/2026-12-20?sort=price_a (momondo, cheapest first;
+$1,155, the same Frontier and ZIPAIR fare).
+momondo-nonstop.jpg: the same search with &fs=stops=0 (Nonstop ticked; $1,497, ANA nonstop).
+
+fav-gflights.png: https://www.gstatic.com/images/branding/product/2x/travel_flights_64dp.png (the icon Google Flights' own page
+links), scaled to 32px.
+fav-kayak.png, fav-momondo.png: the sites' favicons via https://www.google.com/s2/favicons?domain=<site>&sz=64, scaled to 32px.
+
+The pages, logos and listings are Google's, KAYAK's, momondo's and the airlines'; shown as the real pages a browser opened
+that day. Skyscanner and Expedia answered the headless browser with bot checks, so the cuts do not visit them.

@@ -41,7 +41,7 @@ const SHEETS = [
   new URL('../computer.ba3976b6.css?v=11', import.meta.url).href,
   new URL('../computer-progress.a05be571.css?v=1', import.meta.url).href,
   new URL('../flights.92b9b0b0.css?v=1', import.meta.url).href,
-  new URL('../ccact.5204eced.css?v=2', import.meta.url).href,
+  new URL('../ccact.5204eced.css?v=3', import.meta.url).href,
 ];
 
 // the sheets this cut builds on are loaded by their own beats when they build; load any not there yet, then this one's

@@ -27,7 +27,7 @@ import { progressEdge, progressPill, progressSteps, EXTRA as PROGRESS_EXTRA } fr
 import { progressA, progressB, progressC, LEN as PROGRESS_LEN } from './beats/progress.81e9d268.js?v=1';
 import { looks as flightLoops, ASK as FLIGHT_ASK, TYPE_CPS as FLIGHT_CPS, LEN as FLIGHT_LEN } from './beats/flightloop.97eee3b5.js?v=1';
 import { CUTS as FLIGHTS_CUTS, ASK as FLIGHTS_ASK, TYPE_CPS as FLIGHTS_CPS, LEN as FLIGHTS_LEN } from './beats/flights.92b9b0b0.js?v=1';
-import { CUTS as CCACT_CUTS, ASK as CCACT_ASK, TYPE_CPS as CCACT_CPS, LEN as CCACT_LEN } from './beats/ccact.5204eced.js?v=2';
+import { CUTS as CCACT_CUTS, ASK as CCACT_ASK, TYPE_CPS as CCACT_CPS, LEN as CCACT_LEN } from './beats/ccact.5204eced.js?v=3';
 import multicat, { bare as multicatBare, bareDog as multidogBare, TYPE_CPS as MULTICAT_CPS, LEN as MULTICAT_LEN, BARE_LEN as MULTICAT_BARE_LEN, DOG_BARE_LEN as MULTIDOG_BARE_LEN } from './beats/multicat.516afb1a.js?v=16';
 import multidog, { TYPE_CPS as MULTIDOG_CPS, LEN as MULTIDOG_LEN } from './beats/multidog.7b007b09.js?v=2';
 import college, { TYPE_CPS as COLLEGE_CPS, LEN as COLLEGE_LEN } from './beats/college.057e3dda.js?v=2';

@@ -82,7 +82,9 @@
 #s-tabs .sbsite .hub .cxa-rl { display: flex; height: 20px; white-space: nowrap; align-items: center; padding: 0 7px; border-radius: 6px; background: #26262b; font: 600 10px/1 var(--ui); font-variant-numeric: tabular-nums; color: #c4b5fd; }
 #s-tabs .sbsite .hub .cxa-rnews { flex: none; overflow: hidden; opacity: 0; box-shadow: 0 1px 0 #2a2a2e; }
 #s-tabs .sbsite .hub .cxa-in-rail { padding: 11px 12px 12px; }
-#s-tabs .sbsite .hub .cxa-in-rail .cxa-sub { white-space: normal; }
+/* in the narrow rail the source line may wrap: it takes the rail's width, not the running line's (a measured width of a
+   wrapping line would narrow it a little more every frame) */
+#s-tabs .sbsite .hub .cxa-in-rail .cxa-sub { width: auto !important; max-width: 100%; white-space: normal; }
 #s-tabs .sbsite .hub .cxa-acts { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 6px; overflow: hidden; -webkit-mask: linear-gradient(#000 72%, transparent); mask: linear-gradient(#000 72%, transparent); }
 #s-tabs .sbsite .hub .cxa-act { flex: none; display: flex; align-items: center; gap: 8px; box-sizing: border-box; padding: 0 6px; overflow: hidden; border-radius: 8px; }
 #s-tabs .sbsite .hub .cxa-act > * { margin: 5px 0; }

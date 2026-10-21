@@ -20,7 +20,7 @@ export const SITES = [
 // the tab superbot opens on: Chrome's New Tab page (a real capture, from the computer-control-v3-soft variant)
 export const NEW_TAB = { page: 'new-tab', title: 'New Tab' };
 
-export const TAKE = 3.0; // the vignette and the pill fade in: superbot has control
+export const TAKE = 3.0; // the vignette fades in: superbot has control
 const FIRST = 4.2; // the first visit starts
 const VISIT_LEN = 5.5;
 // the first pass, then the rechecks already under way when the loop comes round
@@ -67,9 +67,8 @@ const scanned = VISITS[SITES.length - 1].read;
 
 say(0.5, 'Find me the cheapest 2 tickets for Gracie Abrams at Ball Arena on Dec 3');
 CHAT.push({ at: 2.7, kind: 'chip', text: 'Taking control of your computer', done: 3.4 });
-CHAT.push({ at: 3.6, kind: 'bot', text: "On it. I'm checking StubHub, SeatGeek, Vivid Seats and TickPick for 2 seats together. Anything important goes in News." });
+CHAT.push({ at: 3.6, kind: 'bot', text: "On it. I'm checking StubHub, SeatGeek, Vivid Seats and TickPick for 2 seats together." });
 CHAT.push(...HITS);
 CHAT.push({ at: scanned + 1.4, kind: 'bot', text: `Checked all 4 sites. ${best.name} is the cheapest at $${best.cost} each, fees included, $${(first.cost - best.cost) * 2} less for the pair than ${first.name}. I'll keep rechecking every site for drops.` });
 say(scanned + 4.2, 'Buy them if they drop under $35 each');
 CHAT.push({ at: scanned + 6.4, kind: 'bot', text: "Deal. If 2 seats together drop under $35 each, I'll buy them and let you know." });
-export const TITLE = { before: 'New chat', after: 'Gracie Abrams tickets' };

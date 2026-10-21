@@ -1,11 +1,12 @@
 /* Concert tickets news (main.d35be136.js): the hub's chat on the left (superbot-concert-tickets-9d36de72's chat and
-   composer, without superbot's name and mark over its replies, without the Off/Agent pill and the computer button, the
-   model picker swapped for the effort picker), and a sidebar on the right: Notifications, the computer-control live
-   view (computer.ba3976b6.css at 1x), and News. The app is laid out at 1200x675 and drawn at 1.6x, as the hub spots
-   are. No CSS animation or transition: every moving value is written from t, so ?t= frames hold. */
+   composer, without a top bar, without superbot's name and mark over its replies, without the Off/Agent pill and the
+   computer button, the model picker swapped for the effort picker), and a side panel docked to the right edge: the
+   computer-control live view (computer.ba3976b6.css at 1x), then the news rows. The app is laid out at 1200x675 and
+   drawn at 1.6x, as the hub spots are. No CSS animation or transition: every moving value is written from t, so ?t=
+   frames hold. */
 :root {
   --ui: "SF Pro Rounded", "SF Pro Display", ui-rounded, -apple-system, system-ui, sans-serif;
-  --bg: #0b0b0c; --card: #1c1c20; --line: #2a2a2e; --ink: #e5e5ea; --muted: #8e8e93; --good: #34d399;
+  --bg: #0b0b0c; --panel: #141416; --line: #2a2a2e; --ink: #e5e5ea; --muted: #8e8e93; --good: #34d399;
   --sb-cat: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2212%2018%2076%2070%22%3E%3Cmask%20id%3D%22m%22%3E%3Cg%20fill%3D%22white%22%3E%3Crect%20x%3D%2214%22%20y%3D%2232%22%20width%3D%2272%22%20height%3D%2254%22%20rx%3D%2215%22%2F%3E%3Cpath%20d%3D%22M14%2046V28Q14%2020%2021%2021Q28%2024%2036%2032Z%22%2F%3E%3Cpath%20d%3D%22M86%2046V28Q86%2020%2079%2021Q72%2024%2064%2032Z%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22black%22%3E%3Cellipse%20cx%3D%2235%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3Cellipse%20cx%3D%2265%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3C%2Fg%3E%3C%2Fmask%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20mask%3D%22url(%23m)%22%2F%3E%3C%2Fsvg%3E");
 }
 * { box-sizing: border-box; }
@@ -25,10 +26,9 @@ svg { flex: none; }
 
 /* ---------- the chat ---------- */
 .ch { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-.ch-head { flex: none; display: flex; align-items: center; height: 44px; padding: 0 18px; box-shadow: 0 1px 0 #1e1e21; }
-.ch-title { font: 600 12.5px/1 var(--ui); color: #ececec; }
-.ch-feed { position: relative; flex: 1; min-height: 0; overflow: hidden; }
-.ch-in { position: absolute; left: 0; right: 0; top: 0; padding: 16px 18px 12px; }
+/* with no bar above it, the feed fades out at its top edge once older messages scroll off */
+.ch-feed { position: relative; flex: 1; min-height: 0; overflow: hidden; -webkit-mask: linear-gradient(transparent, #000 24px); mask: linear-gradient(transparent, #000 24px); }
+.ch-in { position: absolute; left: 0; right: 0; top: 0; padding: 18px 18px 12px; }
 .cm { margin-bottom: 14px; opacity: 0; }
 .cm-u { display: flex; justify-content: flex-end; }
 .cm-u span { max-width: 82%; padding: 8px 14px; border-radius: 16px; background: #1f1f22; font: 12.5px/17px var(--ui); color: #f2f2f7; }
@@ -73,35 +73,22 @@ svg { flex: none; }
 .rc-send svg { width: 12px; height: 12px; stroke-width: 2.2; }
 .rc-send.is-on { background: #e8e8e8; color: #161618 !important; }
 
-/* ---------- the sidebar: Notifications, the live view, News ---------- */
-.side { display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 0; padding: 12px 12px 12px 0; }
-.card { overflow: hidden; border-radius: 12px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 12px 30px rgba(0,0,0,.4); }
-.nt { flex: none; display: flex; align-items: center; gap: 12px; height: 38px; padding: 0 14px; overflow: visible; }
-.nt-bell { position: relative; width: 16px; height: 16px; color: var(--ink); }
-.nt-bell-ic svg { display: block; width: 16px; height: 16px; }
-.nt-badge { position: absolute; top: -6px; right: -9px; min-width: 15px; height: 15px; padding: 0 4px; border-radius: 999px; background: var(--good); font: 700 9.5px/15px var(--ui); color: #0b0b0c; text-align: center; font-variant-numeric: tabular-nums; visibility: hidden; }
-.nt-text { font: 600 12.5px/16px var(--ui); color: var(--ink); }
-.nt-text.is-none { font-weight: 400; color: var(--muted); }
-.nt-time { margin-left: auto; font: 11px/16px var(--ui); color: var(--muted); font-variant-numeric: tabular-nums; }
-
+/* ---------- the side panel, docked to the right edge, full height: the live view, then the news ---------- */
+.side { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; border-left: 1px solid var(--line); background: var(--panel); }
 .cc { flex: none; display: flex; flex-direction: column; }
-.bk-head { flex: none; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 8px 0 14px; box-shadow: 0 1px 0 var(--line); }
+.bk-head { flex: none; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px 0 16px; box-shadow: 0 1px 0 var(--line); }
 .bk-title { min-width: 0; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 12px/16px var(--ui); color: var(--ink); }
-.bk-title small, .nw-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+.bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
 .bk-btn { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; white-space: nowrap; font: 500 11px/1 var(--ui); }
 .bk-stop { gap: 7px; background: var(--ink); font-weight: 600; color: #111113; }
 .bk-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
-/* the screen share: the desktop's shape at the card's width (height set by the script) */
+/* the screen share: the desktop's shape at the panel's width (height set by the script) */
 .cc-view { position: relative; flex: none; overflow: hidden; background: #fff; }
 
-.nw { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.nw-head { flex: none; display: flex; align-items: center; gap: 9px; height: 34px; padding: 0 14px; box-shadow: 0 1px 0 var(--line); }
-.nw-head-ic { width: 14px; height: 14px; color: #a1a1a6; }
-.nw-head-ic svg { display: block; width: 100%; height: 100%; }
-.nw-title { white-space: nowrap; font: 600 12px/16px var(--ui); color: var(--ink); }
+.nw { flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
 /* the list fades out at its foot, where older items slide off */
-.nw-list { position: relative; flex: 1; min-height: 0; overflow: hidden; -webkit-mask: linear-gradient(#000 calc(100% - 22px), transparent); mask: linear-gradient(#000 calc(100% - 22px), transparent); }
-.nw-row { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: flex-start; gap: 10px; padding: 9px 14px; opacity: 0; visibility: hidden; }
+.nw-list { position: relative; flex: 1; min-height: 0; margin-top: 6px; overflow: hidden; -webkit-mask: linear-gradient(#000 calc(100% - 22px), transparent); mask: linear-gradient(#000 calc(100% - 22px), transparent); }
+.nw-row { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: flex-start; gap: 10px; padding: 9px 16px; opacity: 0; visibility: hidden; }
 .nw-ic { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: rgba(52,211,153,.12); color: var(--good); }
 .nw-ic.is-hot { background: #26262a; color: var(--ink); }
 .nw-ic svg { display: block; width: 14px; height: 14px; }
@@ -109,7 +96,7 @@ svg { flex: none; }
 .nw-tx b { display: block; font: 600 12.5px/17px var(--ui); color: var(--ink); }
 .nw-tx small { display: block; font: 11.5px/15px var(--ui); color: var(--muted); }
 .nw-time { flex: none; font: 11px/17px var(--ui); color: var(--muted); font-variant-numeric: tabular-nums; }
-.nw-empty { position: absolute; left: 14px; top: 12px; margin: 0; font: 12px/18px var(--ui); color: var(--muted); }
+.nw-empty { position: absolute; left: 16px; top: 9px; margin: 0; font: 12px/18px var(--ui); color: var(--muted); }
 
 /* ---------- Chrome on the shared desktop, in the desktop's own px (computer.ba3976b6.css) ---------- */
 .cc-desk { position: absolute; left: 0; top: 0; width: 1470px; height: 919px; overflow: hidden; transform-origin: 0 0; background: #fff; }
@@ -152,7 +139,7 @@ svg { flex: none; }
 .cc-cursor { position: absolute; left: 0; top: 0; z-index: 2; width: 24px; height: 24px; overflow: visible; fill: #000; stroke: #fff; stroke-width: 1.5px; stroke-linejoin: round; paint-order: stroke; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.35)); }
 
 /* the takeover's edge, the one thing drawn over the screen: a turning conic band from 5px outside the view's edge to
-   8px inside it, blurred so it fades to nothing about 14px in; the view's bottom corners are the card's */
-.cc-edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; border-radius: 0 0 12px 12px; opacity: 0; pointer-events: none; }
+   8px inside it, blurred so it fades to nothing about 14px in; the view sits square in the panel */
+.cc-edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; opacity: 0; pointer-events: none; }
 .cc-soft { position: absolute; inset: -5px; filter: blur(4px); }
-.cc-band { position: absolute; inset: 0; padding: 13px; border-radius: 0 0 25px 25px; background: conic-gradient(from var(--cc-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.cc-band { position: absolute; inset: 0; padding: 13px; background: conic-gradient(from var(--cc-a, 0deg), #f472b6, #a855f7, #ec4899, #8b5cf6, #f472b6); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }

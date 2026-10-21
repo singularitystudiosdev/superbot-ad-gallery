@@ -9,10 +9,9 @@
 <script type="module" src="main.d35be136.js"></script>
 </head>
 <body>
-<main id="stage" aria-label="A chat asks superbot for the cheapest concert tickets; a sidebar shows its notifications, a live view of it checking four ticket sites, and the news it finds">
+<main id="stage" aria-label="A chat asks superbot for the cheapest concert tickets; a side panel shows a live view of it checking four ticket sites and the news it finds">
   <div class="app">
     <section class="ch" aria-label="Chat">
-      <header class="ch-head"><b class="ch-title">New chat</b></header>
       <div class="ch-feed"><div class="ch-in"></div></div>
       <div class="composer" aria-hidden="true">
         <div class="rc">
@@ -26,21 +25,15 @@
         </div>
       </div>
     </section>
-    <aside class="side" aria-label="Sidebar">
-      <div class="card nt" aria-label="Notifications">
-        <span class="nt-bell"><span class="nt-bell-ic"></span><b class="nt-badge"></b></span>
-        <span class="nt-text is-none">No new updates</span>
-        <span class="nt-time"></span>
-      </div>
-      <section class="card cc" aria-label="Your computer, live view">
+    <aside class="side" aria-label="Side panel">
+      <section class="cc" aria-label="Your computer, live view">
         <div class="bk-head">
           <b class="bk-title">Your computer<small>Live view</small></b>
           <span class="bk-btn bk-stop"><i></i>Stop</span>
         </div>
         <div class="cc-view"></div>
       </section>
-      <section class="card nw" aria-label="News">
-        <div class="nw-head"><span class="nw-head-ic"></span><b class="nw-title">News<small>Only what matters</small></b></div>
+      <section class="nw" aria-label="News">
         <div class="nw-list"><p class="nw-empty">New best prices and alerts show up here.</p></div>
       </section>
     </aside>

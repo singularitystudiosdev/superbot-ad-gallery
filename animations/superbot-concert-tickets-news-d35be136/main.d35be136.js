@@ -1,4 +1,4 @@
-// The spot's clock: builds the chat, the live view and the sidebar's panels, waits for fonts and images so every
+// The spot's clock: builds the chat, the live view and the news under it, waits for fonts and images so every
 // measured size is final, then paints one frame per animation frame from t, looping every L seconds with a short dip
 // to black where it comes round. ?t=12.5 freezes a frame (thumbnails, captures); reduced motion holds one still frame.
 import { seg } from './lib.d35be136.js';
@@ -12,7 +12,7 @@ const stage = document.getElementById('stage');
 const dip = document.getElementById('dip');
 const screen = buildScreen(document.querySelector('.cc-view'));
 const chat = buildChat(document.querySelector('.ch'));
-const side = buildSide(document.querySelector('.nt'), document.querySelector('.nw'));
+const side = buildSide(document.querySelector('.nw'));
 
 function fit() {
   const k = Math.min(innerWidth / 1920, innerHeight / 1080);

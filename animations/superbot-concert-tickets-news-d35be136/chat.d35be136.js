@@ -3,7 +3,7 @@
 // button. The composer keeps +, the effort picker (High), the mic and send. Items are laid out once at their final size
 // (streamed text keeps its unrevealed rest as transparent text), so the feed scrolls by summing what has arrived.
 import { seg, outCubic, caretOn, countAt, el, esc, glyph, REDUCED } from './lib.d35be136.js';
-import { CHAT, TYPING, TITLE } from './timeline.d35be136.js';
+import { CHAT, TYPING } from './timeline.d35be136.js';
 
 const STREAM_CPS = 70;
 const GAP = 14; // between chat items (.cm margin-bottom)
@@ -33,7 +33,7 @@ export function buildChat(pane) {
   });
   pane.querySelector('.rc-effort-ic').innerHTML = glyph('gauge');
   return {
-    feed: pane.querySelector('.ch-feed'), feedIn, items, title: pane.querySelector('.ch-title'),
+    feed: pane.querySelector('.ch-feed'), feedIn, items,
     typed: pane.querySelector('.rc-typed'), hint: pane.querySelector('.rc-hint'), caret: pane.querySelector('.rc-caret'), send: pane.querySelector('.rc-send'),
     shownTyped: null,
   };
@@ -59,9 +59,6 @@ function stream(line, start, t) {
 }
 
 export function paintChat(f, t) {
-  const firstSend = CHAT.find((c) => c.kind === 'user').at;
-  const title = t >= firstSend ? TITLE.after : TITLE.before;
-  if (f.title.textContent !== title) f.title.textContent = title;
   let used = 0;
   for (const it of f.items) {
     const k = enter(t, it.c.at);

@@ -1,4 +1,4 @@
-// The live view: the user's 1470x919 desktop with Chrome full screen on it, scaled whole into the sidebar's card (the
+// The live view: the user's 1470x919 desktop with Chrome full screen on it, scaled whole into the side panel (the
 // computer-control-v3-soft variant's screen share, computer.ba3976b6.js). Chrome opens on a New Tab page; once superbot
 // has control it visits each ticket site in that tab, typing the event's address, picking 2 tickets or checking the
 // sort, and resting the screen's own cursor on the cheapest listing. Over it only the takeover's vignette.

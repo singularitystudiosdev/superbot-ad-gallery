@@ -55,6 +55,12 @@ export const VARIANTS = [
   { id: 'computer-control-progress-edge', label: 'Computer Control V3 · Progress: edge bar + task chip' },
   { id: 'computer-control-progress-pill', label: 'Computer Control V3 · Progress: bar in the pill + task card' },
   { id: 'computer-control-progress-steps', label: 'Computer Control V3 · Progress: step bar in the task card' },
+  // the v3-soft cut carried on into a cat-video task, with a progress bar and the current task in the frame and two
+  // follow-ups typed mid-run (scenes/tabs-assets/beats/progress.81e9d268.js): a top line, the search redone for kittens;
+  // a step card, the pick switched mid-glide; the pill as the bar, a full screen step added
+  { id: 'computer-control-v3-progress-a', label: 'Computer Control V3 · Progress + chat: line, kittens redirect' },
+  { id: 'computer-control-v3-progress-b', label: 'Computer Control V3 · Progress + chat: step card, newest video' },
+  { id: 'computer-control-v3-progress-c', label: 'Computer Control V3 · Progress + chat: pill, full screen added' },
   { id: 'photoedit', label: 'Photo edit' },
   { id: 'lawn', label: 'Front lawn garden' },
   { id: 'multicat', label: 'Multi-tool cat' },

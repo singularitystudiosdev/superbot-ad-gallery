@@ -1,0 +1,82 @@
+/* The computer-control progress cuts (beats/progress.81e9d268.js), over the computer-control-v3-soft cut's Chrome,
+   desktop and takeover (computer.ba3976b6.css, loaded first). The pages, the player and the omnibox's query are in the
+   desktop's own px (1470x919, scaled whole into the view); the HUD (the progress bar and the current task) is in the
+   view's px, over the takeover's edge as the pill is. No CSS animation or transition: the beat sets every opacity,
+   width and transform from t, so frozen frames (?t=) hold. Page palette: ink #0f0f0f, meta #606060, chips #f2f2f2.
+   HUD: the takeover's pink and purple (#f472b6, #a855f7), its pill's dark glass (rgba(22,22,26,.9)). */
+
+/* the omnibox's third state: the query superbot types (a click back in selects it whole) */
+#s-tabs .sbsite .hub .cpx-u3 { opacity: 0; }
+#s-tabs .sbsite .hub .cpx-q { white-space: pre; }
+#s-tabs .sbsite .hub .cpx-q.cpx-sel { background: #b4d7ff; }
+
+/* the pages under the tab strip and toolbar: a search's video results, then the watch page */
+#s-tabs .sbsite .hub .cpx-page { position: absolute; top: 82px; left: 0; width: 1470px; height: 837px; overflow: hidden; opacity: 0; background: #fff; }
+#s-tabs .sbsite .hub .cpx-chips { position: absolute; left: 43px; top: 24px; display: flex; gap: 10px; }
+#s-tabs .sbsite .hub .cpx-chips span { height: 36px; padding: 0 16px; border-radius: 10px; background: #f2f2f2; font: 500 15px/36px var(--ui); color: #0f0f0f; }
+#s-tabs .sbsite .hub .cpx-chips .on { background: #0f0f0f; color: #fff; }
+#s-tabs .sbsite .hub .cpx-card { position: absolute; width: 440px; opacity: 0; }
+#s-tabs .sbsite .hub .cpx-th { position: relative; display: block; width: 440px; height: 248px; overflow: hidden; border-radius: 14px; background: #e5e5e5; }
+#s-tabs .sbsite .hub .cpx-th.is-over { box-shadow: 0 0 0 4px #1a73e8; }
+#s-tabs .sbsite .hub .cpx-th img { display: block; width: 100%; height: 100%; object-fit: cover; }
+#s-tabs .sbsite .hub .cpx-dur { position: absolute; right: 8px; bottom: 8px; padding: 3px 6px; border-radius: 6px; background: rgba(0,0,0,.8); font: 600 13px/1 var(--ui); color: #fff; }
+#s-tabs .sbsite .hub .cpx-tn { display: block; margin-top: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 19px/24px var(--ui); color: #0f0f0f; }
+#s-tabs .sbsite .hub .cpx-tm { display: block; margin-top: 4px; font: 400 15px/20px var(--ui); color: #606060; }
+#s-tabs .sbsite .hub .cpx-wt { position: absolute; left: 43px; top: 582px; width: 960px; font: 700 22px/28px var(--ui); color: #0f0f0f; }
+#s-tabs .sbsite .hub .cpx-wm { position: absolute; left: 43px; top: 616px; font: 400 15px/20px var(--ui); color: #606060; }
+#s-tabs .sbsite .hub .cpx-next { position: absolute; left: 1035px; top: 24px; width: 392px; }
+#s-tabs .sbsite .hub .cpx-next > b { display: block; margin-bottom: 14px; font: 600 17px/22px var(--ui); color: #0f0f0f; }
+#s-tabs .sbsite .hub .cpx-nx { display: flex; gap: 12px; margin-bottom: 14px; }
+#s-tabs .sbsite .hub .cpx-nx img { flex: none; width: 168px; height: 94px; border-radius: 8px; object-fit: cover; }
+#s-tabs .sbsite .hub .cpx-nx span { display: flex; flex-direction: column; gap: 4px; min-width: 0; font: 600 15px/20px var(--ui); color: #0f0f0f; }
+#s-tabs .sbsite .hub .cpx-nx small { font: 400 13px/18px var(--ui); color: #606060; }
+
+/* the player: placed on the desk by the beat (inline left/top/size), above the pages and, in full screen, above Chrome
+   too; below the screen's cursor (z-index 2) */
+#s-tabs .sbsite .hub .cpx-fsbg { position: absolute; inset: 0; z-index: 1; opacity: 0; background: #000; }
+#s-tabs .sbsite .hub .cpx-player { position: absolute; z-index: 1; overflow: hidden; opacity: 0; transform-origin: 0 0; border-radius: 12px; background: #000; }
+#s-tabs .sbsite .hub .cpx-spr { display: block; width: 100%; height: 100%; }
+#s-tabs .sbsite .hub .cpx-ctrl { position: absolute; left: 0; right: 0; bottom: 0; height: 72px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.55)); color: #fff; }
+#s-tabs .sbsite .hub .cpx-bar { position: absolute; left: 16px; right: 16px; bottom: 52px; height: 4px; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,.3); }
+#s-tabs .sbsite .hub .cpx-bar i { display: block; height: 100%; transform-origin: 0 0; transform: scaleX(0); background: #fff; }
+#s-tabs .sbsite .hub .cpx-pp, #s-tabs .sbsite .hub .cpx-fsb { position: absolute; bottom: 12px; width: 28px; height: 28px; }
+#s-tabs .sbsite .hub .cpx-pp { left: 14px; }
+#s-tabs .sbsite .hub .cpx-fsb { right: 14px; }
+#s-tabs .sbsite .hub .cpx-pp svg { fill: currentColor; stroke: none; }
+#s-tabs .sbsite .hub .cpx-fsb svg { stroke-width: 2.2; }
+#s-tabs .sbsite .hub .cpx-vt { position: absolute; left: 54px; bottom: 18px; font: 500 14px/16px var(--ui); font-variant-numeric: tabular-nums; }
+
+/* the HUD, at the view's size above the takeover's edge (z-index 4) and pill (5). Each piece fades in with the takeover.
+   A re-plan rings the task piece pink for a second: --cpx-ring runs 0 to 1 and back (the beat's flashAt) */
+#s-tabs .sbsite .hub .cpx-hud { position: absolute; z-index: 6; opacity: 0; pointer-events: none; box-sizing: border-box; }
+#s-tabs .sbsite .hub .cpx-spin { flex: none; width: 11px; height: 11px; box-sizing: border-box; border: 1.6px solid rgba(255,255,255,.22); border-top-color: #f472b6; border-radius: 50%; }
+#s-tabs .sbsite .hub .cpx-ok { flex: none; display: grid; place-items: center; width: 13px; height: 13px; }
+#s-tabs .sbsite .hub .cpx-ok .qc-ok { width: 13px; height: 13px; }
+#s-tabs .sbsite .hub .cpx-lbl { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+#s-tabs .sbsite .hub .cpx-n, #s-tabs .sbsite .hub .cpx-pct { flex: none; font-variant-numeric: tabular-nums; }
+
+/* a ('line'): a 4px bar along the view's top edge, its track the header's own colour so the pink to purple fill reads
+   against the dark rather than the vignette, and a dark task chip in the top right */
+#s-tabs .sbsite .hub .cpx-line { left: 0; right: 0; top: 0; height: 4px; overflow: hidden; background: #26262b; }
+#s-tabs .sbsite .hub .cpx-line .cpx-fill { position: absolute; inset: 0; transform-origin: 0 0; transform: scaleX(0); background: linear-gradient(90deg, #f472b6, #a855f7); box-shadow: 0 0 8px rgba(236,72,153,.85); }
+#s-tabs .sbsite .hub .cpx-task { top: 11px; right: 10px; display: flex; align-items: center; gap: 7px; max-width: 262px; height: 26px; padding: 0 10px 0 9px; border-radius: 13px; background: rgba(22,22,26,.9); box-shadow: 0 0 0 calc(1px + var(--cpx-ring, 0) * 2px) rgba(244,114,182,calc(var(--cpx-ring, 0) * .95)), 0 0 0 1px rgba(255,255,255,.1), 0 6px 18px rgba(0,0,0,.3); font: 500 11.5px/1 var(--ui); color: #f2f2f5; }
+#s-tabs .sbsite .hub .cpx-task .cpx-n { font: 500 11px/1 var(--ui); color: #8e8e93; }
+
+/* b ('card'): a step card in the top right: the step count and percent, the task, one segment per step */
+#s-tabs .sbsite .hub .cpx-steps { top: 10px; right: 10px; width: 212px; padding: 9px 11px 10px; border-radius: 12px; background: rgba(22,22,26,.92); box-shadow: 0 0 0 calc(1px + var(--cpx-ring, 0) * 2px) rgba(244,114,182,calc(var(--cpx-ring, 0) * .95)), 0 0 0 1px rgba(255,255,255,.1), 0 10px 26px rgba(0,0,0,.35); color: #f2f2f5; }
+#s-tabs .sbsite .hub .cpx-row { display: flex; align-items: center; gap: 6px; font: 500 10.5px/1 var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .cpx-row .cpx-pct { margin-left: auto; font: 600 10.5px/1 var(--ui); color: #f2f2f5; }
+#s-tabs .sbsite .hub .cpx-steps .cpx-lbl { display: block; margin-top: 7px; font: 600 12.5px/16px var(--ui); }
+#s-tabs .sbsite .hub .cpx-segs { display: flex; margin-top: 9px; }
+#s-tabs .sbsite .hub .cpx-segs i { position: relative; flex: 1 1 0; height: 4px; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,.14); }
+#s-tabs .sbsite .hub .cpx-segs b { position: absolute; inset: 0; transform-origin: 0 0; transform: scaleX(0); background: linear-gradient(90deg, #f472b6, #a855f7); }
+
+/* c ('pill'): the takeover pill carries the bar and the percent; a light Now chip names the task in the top right */
+#s-tabs .sbsite .hub .cpx-meter { padding-right: 12px; }
+#s-tabs .sbsite .hub .cpx-track { position: relative; flex: none; width: 72px; height: 4px; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,.16); }
+#s-tabs .sbsite .hub .cpx-track .cpx-fill { position: absolute; inset: 0; transform-origin: 0 0; transform: scaleX(0); background: linear-gradient(90deg, #f472b6, #a855f7); }
+#s-tabs .sbsite .hub .cpx-meter .cpx-pct { min-width: 27px; text-align: right; font: 600 11px/1 var(--ui); color: #f2f2f5; }
+#s-tabs .sbsite .hub .cpx-now { top: 10px; right: 10px; display: flex; align-items: center; gap: 7px; max-width: 262px; height: 28px; padding: 0 10px 0 5px; border-radius: 9px; background: rgba(255,255,255,.96); box-shadow: 0 0 0 calc(1px + var(--cpx-ring, 0) * 2px) rgba(244,114,182,calc(.08 + var(--cpx-ring, 0) * .87)), 0 6px 18px rgba(0,0,0,.2); font: 500 11.5px/1 var(--ui); color: #1f1f1f; }
+#s-tabs .sbsite .hub .cpx-tag { flex: none; padding: 4px 6px; border-radius: 6px; background: rgba(236,72,153,.12); font: 700 9.5px/1 var(--ui); letter-spacing: .04em; text-transform: uppercase; color: #db2777; }
+#s-tabs .sbsite .hub .cpx-tag.is-done { background: rgba(52,211,153,.16); color: #047857; }
+#s-tabs .sbsite .hub .cpx-now .cpx-n { color: #6b6b70; }

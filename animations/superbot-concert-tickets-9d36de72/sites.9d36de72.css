@@ -1,0 +1,99 @@
+/* The four ticket sites' event pages (sites.9d36de72.js), in the shared desktop's own px: one page anatomy (header,
+   event, a listing column with its tools, the seat map), skinned per site in its own colours and wordmark. */
+.st { position: relative; display: flex; flex-direction: column; width: 1470px; height: 837px; overflow: hidden; background: #fff; font: 400 15px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1a1a1a; }
+.st svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.st-head { flex: none; display: flex; align-items: center; gap: 28px; height: 64px; padding: 0 40px; border-bottom: 1px solid #e6e6e6; }
+.st-logo { display: block; width: auto; height: 40px; }
+.st-search { flex: 1; max-width: 520px; display: flex; align-items: center; gap: 10px; height: 42px; padding: 0 16px; border-radius: 21px; background: #f4f4f5; font-size: 15px; color: #6b6b70; }
+.st-search svg { width: 18px; height: 18px; }
+.st-head nav { display: flex; gap: 24px; margin-left: auto; font-size: 15px; font-weight: 500; }
+.st-head nav.st-cats { margin-left: 0; }
+.st-sign { font-weight: 600; }
+.st-event { flex: none; display: flex; flex-direction: column; justify-content: center; gap: 8px; height: 108px; padding: 0 40px; border-bottom: 1px solid #e6e6e6; }
+.st-ev-t { display: flex; align-items: baseline; gap: 14px; }
+.st-ev-t h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.st-tour { font-size: 17px; color: #6b6b70; }
+.st-ev-m { display: flex; gap: 22px; font-size: 15px; color: #3c3c40; }
+.st-body { flex: 1; min-height: 0; display: flex; }
+.st-col { position: relative; flex: none; display: flex; flex-direction: column; width: 620px; border-right: 1px solid #e6e6e6; background: #fff; }
+.st-tools { flex: none; display: flex; align-items: center; gap: 10px; height: 60px; padding: 0 24px; }
+.st-chip { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 18px; box-shadow: inset 0 0 0 1px #d4d4d8; font-size: 14px; font-weight: 500; }
+.st-chip svg { width: 16px; height: 16px; }
+.st-tog { position: relative; width: 28px; height: 16px; border-radius: 8px; background: #16a34a; }
+.st-tog::after { content: ""; position: absolute; right: 2px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+.st-sort { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-size: 14px; }
+.st-sort small { font-size: 14px; color: #6b6b70; }
+.st-sort b { font-weight: 600; }
+.st-sort svg { width: 16px; height: 16px; }
+.st-count { flex: none; height: 34px; padding: 0 24px; font-size: 14px; color: #6b6b70; }
+.st-count b { color: #1a1a1a; }
+.st-listwrap { position: relative; flex: 1; min-height: 0; overflow: hidden; border-top: 1px solid #ececec; }
+.st-row { display: flex; align-items: center; gap: 16px; height: 84px; padding: 0 24px; border-bottom: 1px solid #ececec; background: #fff; }
+.st-seat { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.st-seat b { font-size: 17px; font-weight: 700; }
+.st-seat span { font-size: 14px; color: #3c3c40; }
+.st-seat small { font-size: 13px; color: #6b6b70; }
+.st-price { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.st-price b { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.st-price small { font-size: 12px; color: #6b6b70; }
+.st-badge { flex: none; padding: 4px 9px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+.st-menu { position: absolute; right: 24px; top: 54px; z-index: 3; width: 250px; padding: 6px; border-radius: 10px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.08), 0 12px 32px rgba(0,0,0,.18); visibility: hidden; opacity: 0; }
+.st-opt { display: block; padding: 10px 12px; border-radius: 6px; font-size: 14px; }
+.st-opt:first-child { font-weight: 600; }
+.st-opt.is-hover { background: #f2f2f4; }
+.st-mapwrap { flex: 1; min-width: 0; padding: 24px; background: #fafafa; }
+.st-map { display: block; width: 100%; height: 100%; }
+.st-map text { font: 600 11px/1 Arial, sans-serif; fill: #6b6b70; stroke: none; text-anchor: middle; }
+.st-sec { fill: #e7e7ea; stroke: #fafafa; stroke-width: 1.5; }
+.st-sec.has { fill: var(--map-has); }
+.st-sec.on { fill: var(--map-on); }
+.st-map text.on { fill: #fff; }
+.st-stage { fill: #2b2b30; stroke: none; }
+.st-map .st-stage-t { font-size: 14px; fill: #fff; }
+.st-floor { fill: #ededf0; stroke: none; }
+.st-map .st-floor-t { font-size: 14px; }
+
+/* StubHub: white header, its purple badge, listings left of the map */
+.st-stubhub { --map-has: #d3c4f0; --map-on: #5e29ba; }
+.st-stubhub .st-logo { height: 44px; }
+.st-stubhub .st-sort b { color: #5e29ba; }
+.st-stubhub .st-badge { background: #e7f6ec; color: #15803d; }
+.st-stubhub .st-row.is-hover { background: #f5f0fd; }
+
+/* SeatGeek: black header, its coral mark, Deal Score tiles, the map on the left */
+.st-seatgeek { --map-has: #bfe8cf; --map-on: #1ea760; background: #f5f5f4; }
+.st-seatgeek .st-head { border-bottom: 0; background: #000; color: #fff; }
+.st-seatgeek .st-logo { height: 44px; }
+.st-seatgeek .st-search { background: #1f1f1f; color: #a3a3a3; }
+.st-seatgeek .st-event { background: #fff; }
+.st-seatgeek .st-body { flex-direction: row-reverse; }
+.st-seatgeek .st-col { border-right: 0; border-left: 1px solid #dedddb; }
+.st-seatgeek .st-mapwrap { background: #f5f5f4; }
+.st-deal { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 8px; font-size: 16px; font-weight: 700; color: #fff; }
+.st-deal-a { background: #1ea760; }
+.st-deal-b { background: #7cb342; }
+.st-deal-c { background: #a3a3a3; }
+.st-seatgeek .st-row.is-hover { background: #f0faf4; }
+
+/* Ticketmaster: blue header, the dark event band, map left, listings on the right */
+.st-ticketmaster { --map-has: #b3cdf7; --map-on: #024ddf; }
+.st-ticketmaster .st-head { border-bottom: 0; background: #024ddf; color: #fff; }
+.st-ticketmaster .st-logo { height: 24px; filter: brightness(0) invert(1); }
+.st-ticketmaster .st-event { border-bottom: 0; background: #121212; color: #fff; }
+.st-ticketmaster .st-tour { color: #bdbdbd; }
+.st-ticketmaster .st-ev-m { color: #e0e0e0; }
+.st-ticketmaster .st-body { flex-direction: row-reverse; }
+.st-ticketmaster .st-col { border-right: 0; border-left: 1px solid #ebebeb; }
+.st-ticketmaster .st-sort b { color: #024ddf; }
+.st-ticketmaster .st-badge { padding: 0; font-weight: 500; color: #646464; }
+.st-ticketmaster .st-row.is-hover { background: #eef4fe; }
+
+/* Vivid Seats: navy header with its white wordmark, pink deal tags */
+.st-vividseats { --map-has: #f5cde6; --map-on: #ce3197; color: #04092c; }
+.st-vividseats .st-head { border-bottom: 0; background: #04092c; color: #fff; }
+.st-vividseats .st-logo { height: 32px; }
+.st-vividseats .st-search { background: #fff; color: #717488; }
+.st-vividseats .st-tour, .st-vividseats .st-seat small, .st-vividseats .st-price small { color: #717488; }
+.st-vividseats .st-sort b { color: #ce3197; }
+.st-vividseats .st-badge { background: #fde8f4; color: #ce3197; }
+.st-vividseats .st-row.is-hover { background: #fdf2f9; }

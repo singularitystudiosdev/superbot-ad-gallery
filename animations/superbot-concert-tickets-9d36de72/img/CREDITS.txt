@@ -1,0 +1,25 @@
+Sources for the concert tickets loop (9d36de72). Never shown on screen.
+
+The four ticket sites' event pages are rebuilt in HTML (sites.9d36de72.js / .css), not captured: the event, its
+artist ("Velvet Static", "Afterglow Tour"), the date, the listings and every price are invented for the spot, so no
+real performer is shown and no price claims to be live. Ball Arena, Denver is a real venue; its seat map here is a
+generic arena drawn in SVG, not the venue's real chart.
+
+Wordmarks and favicons are the sites' own files, fetched 2026-10-21:
+  stubhub-logo.svg     https://commons.wikimedia.org/wiki/File:StubHub_Logo.svg (Public domain, author StubHub, 2024)
+  stubhub-fav.png      https://www.google.com/s2/favicons?domain=stubhub.com&sz=128
+  seatgeek-logo.svg    https://seatgeek.com/images/image_uploads/f2ecace0-e181-41c2-8f25-bb60d99eaa9b/SeatGeekLogo.svg
+  seatgeek-fav.png     https://seatgeek.com/favicon-192x192.png
+  ticketmaster-logo.svg https://uk.tmconst.com/rc-5200f76f/images/logo/ticketmaster_black.svg (drawn white by CSS)
+  ticketmaster-fav.png https://www.google.com/s2/favicons?domain=ticketmaster.com&sz=128
+  vividseats-logo.png  https://a.vsstatic.com/common/logo/vs-wordmark-white.png
+  vividseats-fav.png   https://a.vsstatic.com/common/favicon/rebrand/apple-touch-icon.png
+The site names and logos belong to their owners and are shown as the sites a browser displays.
+
+new-tab.png: Google Chrome's New Tab page, the real capture from
+gemini-muse-meme-superbot-6fbc38f8/img/computer.ba3976b6/new-tab.png (captured 2026-10-16, headless, fresh profile).
+Google's logo and page are Google's.
+
+Icons in the Activity tab: lucide (ISC license), from https://api.iconify.design/lucide/<name>.svg, 2026-10-21.
+superbot's mark: the house CSS mask from gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/chat.css (.sbm).
+Chrome's tab strip, toolbar and cursor follow gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/computer.ba3976b6.css.

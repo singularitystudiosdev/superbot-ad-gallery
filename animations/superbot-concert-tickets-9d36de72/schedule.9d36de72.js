@@ -1,7 +1,7 @@
 // The spot's script as data: what the user types and sends, what superbot answers, what it does on the screen and the
 // one-line activity it logs for each step. One pass is L seconds; the clock (main.9d36de72.js) loops it. The agent keeps
 // going round the four sites: a first pass that opens each one, then rechecks that reload them and read the new prices.
-import { SITES, cheapest } from './sites.9d36de72.js?v=3';
+import { SITES, cheapest } from './sites.9d36de72.js?v=4';
 
 const ASK = 'Find me the cheapest 2 tickets for Velvet Static at Ball Arena on Nov 14';
 const TYPE_CPS = 40; // the user's typing in the composer
@@ -17,9 +17,10 @@ export function buildSchedule() {
   const view = (i, at, v) => S.views[i].push({ at, ...v });
   const scroll = (i, t0, t1, from, to) => S.scrolls[i].push({ t0, t1, from, to });
   const say = (at, text) => { S.typing.push({ start: at, text, send: at + text.length / TYPE_CPS + 0.18 }); S.chat.push({ at: at + text.length / TYPE_CPS + 0.18, kind: 'user', text }); };
-  const bot = (at, text, card, after) => S.chat.push({ at, kind: 'bot', text, card, after });
+  const bot = (at, text) => S.chat.push({ at, kind: 'bot', text });
 
-  // the found price, said the way a recheck reads it against the last pass, then a line when it beats every site so far
+  // the found price, said the way a recheck reads it against the last pass; when it beats every site so far, a line
+  // in the log and a price card in the chat
   let best = Infinity;
   const logPrice = (at, i, round) => {
     const site = SITES[i], c = cheapest(site, round), seat = `Sec ${c.s}, Row ${c.r}`;
@@ -27,7 +28,10 @@ export function buildSchedule() {
     if (before === null) act(at, 'tag', `${site.name}: $${c.p} each`, seat);
     else if (c.p < before) act(at, 'down', `${site.name} dropped to $${c.p} each`, seat);
     else act(at, 'tag', `${site.name}: still $${c.p} each`);
-    if (c.p < best) act(at + 0.4, 'down', best === Infinity ? `Lowest so far: $${c.p}` : `New lowest: $${c.p} on ${site.name}`);
+    if (c.p < best) {
+      act(at + 0.4, 'down', best === Infinity ? `Lowest so far: $${c.p}` : `New lowest: $${c.p} on ${site.name}`);
+      S.chat.push({ at: at + 0.5, kind: 'card', site: i, seat: `Section ${c.s}, Row ${c.r}`, price: c.p });
+    }
     best = Math.min(best, c.p);
   };
 
@@ -85,7 +89,6 @@ export function buildSchedule() {
   // the ask; the computer panel slides in once it is sent, then superbot takes control
   say(0.5, ASK);
   S.panel = S.chat[0].at + 0.1;
-  S.chat.push({ at: 2.8, kind: 'chip', text: 'Taking control of your computer', done: 3.5 });
   act(S.control + 0.1, 'monitor', 'Taking control of your computer');
   bot(3.7, "On it. I'll check StubHub, SeatGeek, Ticketmaster and Vivid Seats for 2 seats together and keep looking for the lowest price.");
 
@@ -97,8 +100,7 @@ export function buildSchedule() {
   act(R1 + FIRST + 2.5, 'fees', 'Comparing prices with fees included');
   const end1 = R1 + 4 * FIRST;
   const best1 = SITES[1], c1 = cheapest(best1, 0);
-  bot(end1 + 0.2, 'Checked all 4 sites. Cheapest right now, fees included:',
-    { site: 1, seat: `Section ${c1.s}, Row ${c1.r}`, price: c1.p }, "I'll keep rechecking every site for price drops.");
+  bot(end1 + 0.2, `Checked all 4 sites. ${best1.name} is still the cheapest at $${c1.p} each, fees included. I'll keep rechecking every site for price drops.`);
   act(end1 + 0.3, 'check', `Cheapest: ${best1.name}, $${c1.p} each`, `Sec ${c1.s}, Row ${c1.r}`);
 
   // the second pass: reload each one
@@ -108,8 +110,7 @@ export function buildSchedule() {
   bot(R2 + 3.1, `Will do. I'll keep checking all four and tell you the moment anything beats $${c1.p}.`);
   const end2 = R2 + 4 * RECHECK;
   const best2 = SITES[3], c2 = cheapest(best2, 1);
-  bot(end2 + 0.2, `Price drop on ${best2.name}:`, { site: 3, seat: `Section ${c2.s}, Row ${c2.r}`, price: c2.p },
-    `That's $${(c1.p - c2.p) * 2} less for the pair than ${best1.name}. Still watching.`);
+  bot(end2 + 0.2, `Price drop on ${best2.name}: that's $${(c1.p - c2.p) * 2} less for the pair than ${best1.name}. Still watching.`);
   act(end2 + 0.3, 'bell', `Sent you the ${best2.name} price drop`);
 
   // the third pass, already under way when the loop comes round; the price drop holds a beat first

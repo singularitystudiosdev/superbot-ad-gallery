@@ -1,15 +1,13 @@
 // The left pane (the chat with its composer) and the activity tab under the live view, both painted from t. Items are
 // laid out once, at their final size (streamed text keeps its unrevealed rest as transparent text), so a pane scrolls by
 // summing the heights of what has arrived, each weighted by its entrance: the newest line slides up into view.
-import { seg, outCubic, caretOn, countAt, el, esc, REDUCED } from './lib.9d36de72.js?v=3';
-import { SITES, fav } from './sites.9d36de72.js?v=3';
+import { seg, outCubic, caretOn, countAt, el, esc, REDUCED } from './lib.9d36de72.js?v=4';
+import { SITES, fav } from './sites.9d36de72.js?v=4';
 
 const STREAM_CPS = 70;
 const TYPE_CPS = 40;
 const GAP = 14; // between chat items (.cm margin-bottom)
 const ENTER = 0.32; // an item's fade and rise
-export const SB_MARK = '<span class="sb-tile"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>';
-const OK = '<svg class="cm-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
 // lucide glyphs (lucide.dev, via api.iconify.design), plain line icons in the row's own ink
 const G = {
@@ -29,16 +27,18 @@ export const glyph = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${G[
 const MUTED = [161, 161, 166], INK = [229, 229, 234]; // #a1a1a6 settled rows, #e5e5ea the newest
 const FADE = 36; // the log's top edge fades over this many px once rows scroll under it
 
+// the user's turn a grey pill on the right, superbot's reply plain text on the left, and a price card each time it
+// finds a new lowest price
 function chatItem(c) {
   if (c.kind === 'user') return `<div class="cm cm-u"><span>${esc(c.text)}</span></div>`;
-  if (c.kind === 'chip') return `<div class="cm cm-c"><span class="cm-chip">${SB_MARK}<span>${esc(c.text)}</span><span class="cm-st"><i class="cm-spin"></i>${OK}</span></span></div>`;
-  const card = c.card ? `<div class="cm-card">
-      <span class="cm-fav"><img src="${fav(SITES[c.card.site].id)}" alt="" width="18" height="18"></span>
-      <span class="cm-card-t"><b>${esc(SITES[c.card.site].name)}</b><small>${esc(c.card.seat)}</small><small>2 seats together, fees included</small></span>
-      <span class="cm-card-p"><b>$${c.card.price}</b><small>each</small></span>
-    </div>` : '';
-  const after = c.after ? `<p class="cm-say cm-after"><span class="cm-v"></span><span class="cm-h">${esc(c.after)}</span></p>` : '';
-  return `<div class="cm cm-b"><div class="cm-who">${SB_MARK}Superbot</div><p class="cm-say"><span class="cm-v"></span><span class="cm-h">${esc(c.text)}</span></p>${card}${after}</div>`;
+  if (c.kind === 'card') {
+    return `<div class="cm"><div class="cm-card">
+      <span class="cm-fav"><img src="${fav(SITES[c.site].id)}" alt="" width="18" height="18"></span>
+      <span class="cm-card-t"><b>${esc(SITES[c.site].name)}</b><small>${esc(c.seat)}</small><small>2 seats together, fees included</small></span>
+      <span class="cm-card-p"><b>$${c.price}</b><small>each</small></span>
+    </div></div>`;
+  }
+  return `<div class="cm"><p class="cm-say"><span class="cm-v"></span><span class="cm-h">${esc(c.text)}</span></p></div>`;
 }
 
 export function buildFeed(left, act, S) {
@@ -46,10 +46,9 @@ export function buildFeed(left, act, S) {
   const items = S.chat.map((c) => {
     const node = el(chatItem(c));
     feedIn.appendChild(node);
-    const say = [...node.querySelectorAll('.cm-say')].map((p) => ({ v: p.firstElementChild, h: p.lastElementChild, text: p.lastElementChild.textContent, shown: -1 }));
-    const textEnd = c.at + 0.08 + (c.text.length / STREAM_CPS);
-    const cardAt = textEnd + 0.15;
-    return { c, node, say, card: node.querySelector('.cm-card'), spin: node.querySelector('.cm-spin'), ok: node.querySelector('.cm-ok'), textEnd, cardAt, h: 0 };
+    const p = node.querySelector('.cm-say');
+    const say = p ? { v: p.firstElementChild, h: p.lastElementChild, text: c.text, shown: -1 } : null;
+    return { c, node, say, h: 0 };
   });
   const actIn = act.querySelector('.ac-in');
   const rows = S.acts.map((a) => {
@@ -60,10 +59,9 @@ export function buildFeed(left, act, S) {
   });
   act.querySelector('.ac-task .ac-ic').innerHTML = glyph('ticket');
   return {
-    feed: left.querySelector('.ch-feed'), feedIn, items, title: left.querySelector('.ch-title'),
+    feed: left.querySelector('.ch-feed'), feedIn, items,
     typed: left.querySelector('.rc-typed'), ph: left.querySelector('.rc-hint'), caret: left.querySelector('.rc-caret'), send: left.querySelector('.rc-send'),
-    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), task: act.querySelector('.ac-task'),
-    subtitle: act.querySelector('.ac-title small'), shownTyped: null,
+    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), task: act.querySelector('.ac-task'), shownTyped: null,
   };
 }
 
@@ -95,25 +93,12 @@ function scrolled(list, t, room) {
 
 export function paintFeed(f, S, t) {
   // chat
-  const firstSend = S.chat.find((c) => c.kind === 'user').at;
-  const title = t >= firstSend ? 'Velvet Static tickets' : 'New chat';
-  if (f.title.textContent !== title) f.title.textContent = title;
   for (const it of f.items) {
     const k = enter(t, it.c.at);
     reveal(it.node, k);
-    if (k <= 0) continue;
-    if (it.c.kind === 'chip') {
-      const done = t >= it.c.done;
-      it.spin.style.display = done ? 'none' : '';
-      it.spin.style.transform = `rotate(${((t * 400) % 360).toFixed(1)}deg)`;
-      it.ok.style.opacity = done ? outCubic(seg(t, it.c.done, it.c.done + 0.2)).toFixed(3) : '0';
-    } else if (it.c.kind === 'bot') {
-      stream(it.say[0], it.c.at + 0.08, t);
-      if (it.card) reveal(it.card, enter(t, it.cardAt));
-      if (it.say[1]) stream(it.say[1], it.cardAt + 0.35, t);
-    }
+    if (k > 0 && it.say && it.c.kind === 'bot') stream(it.say, it.c.at + 0.08, t);
   }
-  const room = f.feed.clientHeight - 28; // the feed's top and bottom padding (.ch-in)
+  const room = f.feed.clientHeight - 36; // the feed's top and bottom padding (.ch-in)
   f.feedIn.style.transform = `translateY(${(-scrolled(f.items, t, room)).toFixed(2)}px)`;
 
   // composer: the user's draft types in, the send button lights while there is text
@@ -125,11 +110,10 @@ export function paintFeed(f, S, t) {
   f.caret.style.opacity = !draft || t < draft.start + draft.text.length / TYPE_CPS || caretOn(t) ? '1' : '0';
   f.send.classList.toggle('is-on', !!text);
 
-  // activity: the task pins under the header once asked; steps arrive at the foot, the newest in ink, settling to
-  // muted as the next one comes in; once they scroll, the top edge fades
-  const asked = enter(t, firstSend);
+  // activity: the task pins at the top once asked; steps arrive at the foot, the newest in ink, settling to muted as
+  // the next one comes in; once they scroll, the top edge fades
+  const asked = enter(t, S.chat.find((c) => c.kind === 'user').at);
   reveal(f.task, asked);
-  f.subtitle.style.opacity = asked.toFixed(3);
   f.empty.style.opacity = (1 - asked).toFixed(3);
   const newest = f.rows.findLastIndex((r) => r.a.at <= t);
   f.rows.forEach((r, k) => {

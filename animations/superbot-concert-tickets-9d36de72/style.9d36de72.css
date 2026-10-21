@@ -1,11 +1,10 @@
 /* superbot finds the cheapest concert tickets: the hub's chat on the left, the computer-control live view docked on the
-   right with the activity tab attached under it. Card, chip, bubble and composer values are the hub's own
+   right with the activity tab attached under it. Card, bubble and composer values are the hub's own
    (gemini-muse-meme-superbot-6fbc38f8: bakery.005f5570.css .bk, chat.css, assets/hub-real.css); the live view and its
    vignette are computer.ba3976b6.css's. No CSS animation or transition: every moving value is written from t. */
 :root {
   --ui: "SF Pro Rounded", ui-rounded, Inter, system-ui, sans-serif;
   --bg: #0b0b0c; --card: #1c1c20; --line: #2a2a2e; --ink: #e5e5ea; --muted: #8e8e93;
-  --sb-cat: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2212%2018%2076%2070%22%3E%3Cmask%20id%3D%22m%22%3E%3Cg%20fill%3D%22white%22%3E%3Crect%20x%3D%2214%22%20y%3D%2232%22%20width%3D%2272%22%20height%3D%2254%22%20rx%3D%2215%22%2F%3E%3Cpath%20d%3D%22M14%2046V28Q14%2020%2021%2021Q28%2024%2036%2032Z%22%2F%3E%3Cpath%20d%3D%22M86%2046V28Q86%2020%2079%2021Q72%2024%2064%2032Z%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22black%22%3E%3Cellipse%20cx%3D%2235%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3Cellipse%20cx%3D%2265%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3C%2Fg%3E%3C%2Fmask%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20mask%3D%22url(%23m)%22%2F%3E%3C%2Fsvg%3E");
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
@@ -22,36 +21,19 @@ body.freeze .hint { display: none; }
 .app { position: absolute; left: 0; top: 0; width: 1200px; height: 675px; transform: scale(1.6); transform-origin: 0 0; background: var(--bg); }
 svg { flex: none; }
 
-/* superbot's mark, static: the live mark's silhouette as a mask, three layers deep (chat.css .qc-t-superbot) */
-.sb-tile { position: relative; flex: none; display: inline-block; overflow: hidden; background: #0b0b0c; box-shadow: inset 0 0 0 1px var(--line); }
-.sbm { position: absolute; inset: 16%; -webkit-mask: var(--sb-cat) center / contain no-repeat; mask: var(--sb-cat) center / contain no-repeat; }
-.sbm-c { background: #00e5c3; transform: translate(-0.6px, -0.6px); }
-.sbm-m { background: #c026d3; transform: translate(0.6px, 0.6px); }
-.sbm-w { background: #ececec; }
 
 /* ---------- the chat ---------- */
-.ch { position: absolute; left: 0; top: 0; bottom: 0; display: flex; flex-direction: column; width: 536px; min-height: 0; }
-.ch-head { flex: none; display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; box-shadow: 0 1px 0 #1e1e21; }
-.ch-head .sb-tile { width: 20px; height: 20px; border-radius: 6px; }
-.ch-title { font: 600 12.5px/1 var(--ui); color: #ececec; }
+.ch { position: absolute; left: 0; top: 0; bottom: 0; display: flex; flex-direction: column; width: 548px; min-height: 0; }
 .ch-feed { position: relative; flex: 1; min-height: 0; overflow: hidden; }
 /* the thread is a centred column the composer's width (the hub's --hub-column, 590px), so the full-width chat reads
    like the hub and the narrowed one fills its pane */
-.ch-in { position: absolute; left: max(0px, calc(50% - 313px)); right: max(0px, calc(50% - 313px)); top: 0; padding: 16px 18px 12px; }
+.ch-in { position: absolute; left: max(0px, calc(50% - 313px)); right: max(0px, calc(50% - 313px)); top: 0; padding: 22px 18px 14px; }
 .cm { margin-bottom: 14px; opacity: 0; }
 .cm-u { display: flex; justify-content: flex-end; }
 .cm-u span { max-width: 82%; padding: 8px 14px; border-radius: 16px; background: #1f1f22; font: 12.5px/17px var(--ui); color: #f2f2f7; }
-.cm-chip { display: inline-flex; align-items: center; gap: 9px; height: 34px; padding: 0 12px 0 6px; border-radius: 999px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); font: 600 12.5px/1 var(--ui); color: #ececec; }
-.cm-chip .sb-tile { width: 22px; height: 22px; border-radius: 999px; }
-.cm-st { position: relative; width: 14px; height: 14px; margin-left: 2px; }
-.cm-spin { position: absolute; inset: 1px; border-radius: 50%; border: 2px solid #3a3a3f; border-top-color: #ececec; }
-.cm-ok { position: absolute; inset: 0; width: 14px; height: 14px; fill: none; stroke: #34d399; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
-.cm-who { display: flex; align-items: center; gap: 7px; margin: 2px 0 7px; font: 600 12.5px/1 var(--ui); color: #ececec; }
-.cm-who .sb-tile { width: 18px; height: 18px; border-radius: 6px; }
 .cm-say { margin: 0; font: 12.5px/18px var(--ui); color: var(--ink); }
 .cm-h { color: transparent; }
-.cm-after { margin-top: 0; }
-.cm-card { display: flex; align-items: center; gap: 12px; margin: 10px 0; padding: 10px 14px 10px 10px; border-radius: 12px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); opacity: 0; }
+.cm-card { display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 12px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); }
 .cm-fav { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: #fff; }
 .cm-fav img { display: block; width: 18px; height: 18px; border-radius: 4px; }
 .cm-card-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
@@ -95,8 +77,9 @@ svg { flex: none; }
 .rc-send.is-on { background: #e8e8e8; color: #161618 !important; }
 
 /* ---------- the right side: the live view, the activity tab attached under it ---------- */
-.cc { position: absolute; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; width: 664px; padding: 12px 12px 12px 0; }
-.cc-stack { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; border-radius: 12px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 12px 30px rgba(0,0,0,.4); }
+/* a straight split: the pane runs the full height at the right edge, one hairline between it and the chat */
+.cc { position: absolute; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; width: 652px; background: #131315; box-shadow: -1px 0 0 var(--line); }
+.cc-stack { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
 .bk-head { flex: none; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 8px 0 14px; box-shadow: 0 1px 0 var(--line); }
 .bk-title { min-width: 0; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 12px/16px var(--ui); color: var(--ink); }
 .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
@@ -110,14 +93,11 @@ svg { flex: none; }
 /* the screen share: its view is the desktop's shape at the stack's width (652 x 919/1470) */
 .cc-view { position: relative; flex: none; height: 407.6px; overflow: hidden; background: #fff; }
 
-/* the activity tab (after the concert tickets scan's Activity tab, scan.d35be136.css .act): the title and the task,
-   pinned, then one line per step with a plain lucide glyph in the line's own ink, the newest at the foot in ink and the
+/* the activity tab (after the concert tickets scan's Activity tab, scan.d35be136.css .act): the task pinned at the
+   top, then one line per step with a plain lucide glyph in the line's own ink, the newest at the foot in ink and the
    rest muted; a step may carry a second line. Once steps scroll under it, the list's top edge fades (--fade, set
    from t). */
-.ac { flex: 1; min-height: 0; display: flex; flex-direction: column; background: #17171a; box-shadow: 0 -1px 0 var(--line); }
-.ac-head { flex: none; display: flex; align-items: center; height: 36px; padding: 0 16px; box-shadow: 0 1px 0 var(--line); }
-.ac-title { white-space: nowrap; font: 600 12.5px/16px var(--ui); color: var(--ink); }
-.ac-title small { margin-left: 7px; font: 400 12.5px/16px var(--ui); color: #a1a1a6; opacity: 0; }
+.ac { flex: 1; min-height: 0; display: flex; flex-direction: column; box-shadow: 0 -1px 0 var(--line); }
 .ac-body { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .ac-task { flex: none; display: flex; gap: 10px; padding: 11px 16px; box-shadow: 0 1px 0 var(--line); opacity: 0; }
 .ac-task b { display: block; font: 600 12.5px/18px var(--ui); color: var(--ink); }

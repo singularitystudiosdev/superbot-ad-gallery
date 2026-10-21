@@ -1,15 +1,14 @@
 // The spot's clock: builds the schedule, the chat and the live view, waits for fonts and images so every measured
 // position is final, then paints one frame per animation frame from t, looping every L seconds. ?t=12.5 freezes a frame
 // (for thumbnails and captures); space pauses, R restarts, the arrow keys step a second.
-import { buildSchedule } from './schedule.9d36de72.js?v=3';
-import { buildScreen, fit, measure, paint, primeLists } from './screen.9d36de72.js?v=3';
-import { buildFeed, measureFeed, paintFeed, SB_MARK } from './feed.9d36de72.js?v=3';
-import { seg, lerp, outCubic, REDUCED } from './lib.9d36de72.js?v=3';
+import { buildSchedule } from './schedule.9d36de72.js?v=4';
+import { buildScreen, fit, measure, paint, primeLists } from './screen.9d36de72.js?v=4';
+import { buildFeed, measureFeed, paintFeed } from './feed.9d36de72.js?v=4';
+import { seg, lerp, outCubic, REDUCED } from './lib.9d36de72.js?v=4';
 
 const S = buildSchedule();
 const stage = document.getElementById('stage');
 const dip = document.getElementById('dip');
-document.querySelectorAll('[data-sb]').forEach((n) => { n.outerHTML = SB_MARK; });
 const view = buildScreen(document.querySelector('.cc-view'));
 const feed = buildFeed(document.querySelector('.ch'), document.querySelector('.ac'), S);
 
@@ -26,14 +25,14 @@ if (frozen !== null) document.body.classList.add('freeze');
 // the key hint only on ?controls=1, so the gallery's embed is the app alone
 if (params.get('controls') === '1') document.querySelector('.hint').hidden = false;
 
-// the computer panel: off the right edge until the first message is sent, then it slides in as the chat narrows to its
-// left (with reduced motion it fades in instead)
+// the computer pane: off the right edge until the first message is sent, then it slides in, its divider with it, as
+// the chat narrows to its left (with reduced motion it fades in instead)
 const chat = document.querySelector('.ch'), panel = document.querySelector('.cc');
-const APP_W = 1200, CHAT_W = 536, PANEL_W = 664, PANEL_IN = 0.5;
+const APP_W = 1200, CHAT_W = 548, PANEL_W = 652, PANEL_IN = 0.5;
 function dock(t) {
   const k = outCubic(seg(t, S.panel, S.panel + PANEL_IN));
   chat.style.width = `${lerp(APP_W, CHAT_W, REDUCED ? (k > 0 ? 1 : 0) : k).toFixed(2)}px`;
-  panel.style.transform = REDUCED || k >= 1 ? 'none' : `translateX(${((1 - k) * (PANEL_W + 24)).toFixed(2)}px)`;
+  panel.style.transform = REDUCED || k >= 1 ? 'none' : `translateX(${((1 - k) * (PANEL_W + 2)).toFixed(2)}px)`;
   panel.style.opacity = REDUCED ? k.toFixed(3) : '1';
   panel.style.visibility = k > 0 ? 'visible' : 'hidden';
 }

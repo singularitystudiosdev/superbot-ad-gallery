@@ -1,0 +1,55 @@
+// The spot's clock: builds the chat, the live view and the sidebar's panels, waits for fonts and images so every
+// measured size is final, then paints one frame per animation frame from t, looping every L seconds with a short dip
+// to black where it comes round. ?t=12.5 freezes a frame (thumbnails, captures); reduced motion holds one still frame.
+import { seg } from './lib.d35be136.js';
+import { L } from './timeline.d35be136.js';
+import { buildScreen, fitScreen, paintScreen } from './screen.d35be136.js';
+import { buildChat, measureChat, paintChat } from './chat.d35be136.js';
+import { buildSide, measureSide, paintSide } from './side.d35be136.js';
+
+const STILL_AT = 33.0; // the frame reduced motion holds: the whole chat settled, four news items
+const stage = document.getElementById('stage');
+const dip = document.getElementById('dip');
+const screen = buildScreen(document.querySelector('.cc-view'));
+const chat = buildChat(document.querySelector('.ch'));
+const side = buildSide(document.querySelector('.nt'), document.querySelector('.nw'));
+
+function fit() {
+  const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+  stage.style.transform = `translate(-50%, -50%) scale(${k.toFixed(4)})`;
+}
+
+function frame(t) {
+  const lt = ((t % L) + L) % L;
+  dip.style.opacity = Math.max(seg(lt, L - 0.45, L), 1 - seg(lt, 0, 0.35)).toFixed(3);
+  paintScreen(screen, lt);
+  paintChat(chat, lt);
+  paintSide(side, lt);
+}
+
+async function start() {
+  fit();
+  addEventListener('resize', fit);
+  const imgs = [...document.querySelectorAll('img[src]'), ...screen.favs];
+  await Promise.all([document.fonts.ready, ...imgs.map((img) => img.decode().catch((e) => console.error(new Error(`image failed to decode: ${img.src}`, { cause: e }))))]);
+  fitScreen(screen);
+  measureChat(chat);
+  measureSide(side);
+
+  const q = new URLSearchParams(location.search);
+  const still = q.has('t') ? Number(q.get('t')) : matchMedia('(prefers-reduced-motion: reduce)').matches && !q.has('play') ? STILL_AT : null;
+  if (still !== null) {
+    frame(still);
+    // the New Tab page has no favicon; a site's gets its src at this frame
+    if (screen.fav.getAttribute('src')) await screen.fav.decode().catch((e) => console.error(new Error(`tab favicon failed to decode: ${screen.fav.src}`, { cause: e })));
+    document.documentElement.dataset.ready = '1';
+    return;
+  }
+  const speed = Number(q.get('speed')) || 1;
+  const t0 = performance.now();
+  const tick = (now) => { frame(((now - t0) / 1000) * speed); requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+  document.documentElement.dataset.ready = '1';
+}
+
+start().catch((e) => { console.error(e); throw e; });

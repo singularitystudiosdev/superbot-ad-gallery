@@ -34,23 +34,37 @@ export const VISITS = ORDER.map((i, n) => {
 });
 export const L = 36.5;
 
-// the news: only what matters. StubHub flagging demand, and every new lowest price on the first pass; each new lowest
-// is a hit, which superbot also posts in the chat as a price card
+// a price card's beats in the chat (chat.d35be136.js): its lead-in line streams, the card's room eases open, it waits a
+// beat as a shimmering skeleton, the skeleton fades away, then the price fades in and settles
+export const STREAM_CPS = 70;
+export const CARD = { open: 0.5, wait: 1.2, skOut: 0.2, land: 0.45 };
+export function cardTimes(at, text) {
+  const open = at + 0.08 + text.length / STREAM_CPS + 0.1;
+  const loaded = open + CARD.open + CARD.wait; // the skeleton starts to go
+  const land = loaded + CARD.skOut; // the price starts to come in
+  return { open, loaded, land, shown: land + CARD.land };
+}
+
+// the news: only what matters, one line each. StubHub flagging demand, and every new lowest price on the first pass;
+// each new lowest is a hit, which superbot posts in the chat as a price card, and whose news line (with a confetti
+// pop) waits until that card has loaded
 export const NEWS = [];
 const HITS = [];
 let low = Infinity;
 for (const V of VISITS.filter((v) => v.first)) {
   const { site } = V;
-  if (site.qty && site.name === 'StubHub') NEWS.push({ at: V.pick + 0.35, icon: 'flame', tone: 'hot', title: 'Selling fast on StubHub', sub: 'Its event page flags the Dec 3 show' });
+  if (site.qty && site.name === 'StubHub') NEWS.push({ at: V.pick + 0.35, title: 'Selling fast on StubHub' });
   if (site.cost < low) {
     const saved = low === Infinity ? null : (low - site.cost) * 2;
-    NEWS.push({ at: V.read, icon: 'down', tone: 'good', title: saved ? `New lowest: $${site.cost} on ${site.name}` : `Lowest so far: $${site.cost} on ${site.name}`,
-      sub: saved ? `${site.seat}, $${saved} less for the pair` : `${site.seat}, fees included` });
-    HITS.push({ at: V.read + 0.15, kind: 'bot', text: saved ? `New lowest, $${saved} less for the pair:` : 'Lowest so far:',
-      card: { site, seat: site.seat.replace('Sec', 'Section'), price: site.cost } });
+    const hit = { at: V.read + 0.15, kind: 'bot', text: saved ? `New lowest, $${saved} less for the pair:` : 'Lowest so far:',
+      card: { site, seat: site.seat.replace('Sec', 'Section'), price: site.cost } };
+    HITS.push(hit);
+    NEWS.push({ at: cardTimes(hit.at, hit.text).shown, burst: true,
+      title: saved ? `New lowest: $${site.cost} on ${site.name}` : `Lowest so far: $${site.cost} on ${site.name}` });
     low = site.cost;
   }
 }
+NEWS.sort((a, b) => a.at - b.at);
 
 // the chat: what the user types into the composer and sends, and superbot's replies
 const TYPE_CPS = 40;

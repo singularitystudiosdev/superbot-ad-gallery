@@ -1,19 +1,15 @@
 // The chat on the left: the user's messages as bubbles and superbot's replies as plain streamed text (no name or mark
 // over them); the composer under it types the user's draft in and lights its send button. The composer keeps +, the
 // effort picker (High), the mic and send. A reply that carries a price card opens it the way the house lands an image
-// (thumb-land.309eb9c5.js, the Gemini beat's "Creating image" card): the card's room eases open, it waits a beat as a
-// shimmering skeleton with a glyph chip ("Checking TickPick"), then the price fades in and settles as the chip and the
-// sweep fade out. Items are laid out once at their final size (streamed text keeps its unrevealed rest as transparent
-// text), so the feed scrolls by summing what has arrived, a card's room counted as it opens.
+// (thumb-land.309eb9c5.js): the card's room eases open, it waits a beat as a shimmering skeleton, the skeleton fades
+// away, and only then does the price fade in and settle (timeline.d35be136.js cardTimes). Items are laid out once at
+// their final size (streamed text keeps its unrevealed rest as transparent text), so the feed scrolls by summing what
+// has arrived, a card's room counted as it opens.
 import { seg, lerp, outCubic, inOutCubic, caretOn, countAt, el, esc, glyph, REDUCED } from './lib.d35be136.js';
-import { CHAT, TYPING } from './timeline.d35be136.js';
+import { CHAT, TYPING, STREAM_CPS, CARD, cardTimes } from './timeline.d35be136.js';
 
-const STREAM_CPS = 70;
 const GAP = 14; // between chat items (.cm margin-bottom)
 const ENTER = 0.45; // an item's fade and rise
-const CARD_OPEN = 0.5; // a card's room easing open
-const CARD_WAIT = 1.2; // the skeleton's beat before the price lands
-const CARD_LAND = 0.45; // the price fading in and settling
 const SWEEPS = 1.4; // shimmer passes per second (thumb-land.309eb9c5.js)
 
 function item(c) {
@@ -25,7 +21,6 @@ function item(c) {
         <span class="cm-card-p"><b>$${c.card.price}</b><small>each</small></span>
       </div>
       <i class="cm-sk"></i>
-      <span class="cm-genl"><span class="cm-genl-ic">${glyph('spark')}</span>Checking ${esc(c.card.site.name)}</span>
     </div></div>` : '';
   const after = c.after ? `<p class="cm-say"><span class="cm-v"></span><span class="cm-h">${esc(c.after)}</span></p>` : '';
   return `<div class="cm cm-b"><p class="cm-say"><span class="cm-v"></span><span class="cm-h">${esc(c.text)}</span></p>${card}${after}</div>`;
@@ -37,11 +32,10 @@ export function buildChat(pane) {
     const node = el(item(c));
     feedIn.appendChild(node);
     const lines = [...node.querySelectorAll('.cm-say')].map((p) => ({ v: p.firstElementChild, h: p.lastElementChild, text: p.lastElementChild.textContent, shown: -1 }));
-    const open = c.at + 0.08 + c.text.length / STREAM_CPS + 0.1;
     const wrap = node.querySelector('.cm-cardwrap');
     return {
-      c, node, lines, h: 0, cardH: 0, open, land: open + CARD_OPEN + CARD_WAIT,
-      wrap, card: wrap && wrap.firstElementChild, inner: node.querySelector('.cm-card-in'), sk: node.querySelector('.cm-sk'), genl: node.querySelector('.cm-genl'),
+      c, node, lines, h: 0, cardH: 0, ...cardTimes(c.at, c.text),
+      wrap, card: wrap && wrap.firstElementChild, inner: node.querySelector('.cm-card-in'), sk: node.querySelector('.cm-sk'),
     };
   });
   pane.querySelector('.rc-effort-ic').innerHTML = glyph('gauge');
@@ -74,18 +68,18 @@ function stream(line, start, t) {
   line.h.textContent = line.text.slice(n);
 }
 
-// a price card: its room opens, the skeleton sweeps under the glyph chip, then the price lands. Returns how open it is
+// a price card: its room opens, the skeleton sweeps, the skeleton fades away, then the price lands. Returns how open
+// it is
 function paintCard(it, t) {
-  const o = REDUCED ? (t >= it.open ? 1 : 0) : inOutCubic(seg(t, it.open, it.open + CARD_OPEN));
+  const o = REDUCED ? (t >= it.open ? 1 : 0) : inOutCubic(seg(t, it.open, it.open + CARD.open));
   it.wrap.style.height = o >= 1 ? '' : `${(it.cardH * o).toFixed(2)}px`;
-  it.card.style.opacity = outCubic(seg(t, it.open + 0.1, it.open + CARD_OPEN)).toFixed(3);
+  it.card.style.opacity = outCubic(seg(t, it.open + 0.1, it.open + CARD.open)).toFixed(3);
   it.card.style.transform = o >= 1 || REDUCED ? 'none' : `scale(${lerp(0.97, 1, o).toFixed(4)})`;
-  const p = outCubic(seg(t, it.land, it.land + CARD_LAND));
+  it.sk.style.opacity = (1 - outCubic(seg(t, it.loaded, it.loaded + CARD.skOut))).toFixed(3);
+  it.sk.style.transform = `translateX(${lerp(-100, 100, ((t - it.open) * SWEEPS) % 1).toFixed(1)}%)`;
+  const p = outCubic(seg(t, it.land, it.land + CARD.land));
   it.inner.style.opacity = p.toFixed(3);
   it.inner.style.transform = p >= 1 || REDUCED ? 'none' : `translateY(${((1 - p) * 4).toFixed(2)}px)`;
-  it.sk.style.opacity = (1 - p).toFixed(3);
-  it.sk.style.transform = `translateX(${lerp(-100, 100, ((t - it.open) * SWEEPS) % 1).toFixed(1)}%)`;
-  it.genl.style.opacity = (1 - p).toFixed(3);
   return o;
 }
 

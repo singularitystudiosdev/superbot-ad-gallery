@@ -35,14 +35,11 @@ svg { flex: none; }
 .cm-say { margin: 0; font: 12.5px/18px var(--ui); color: var(--ink); }
 .cm-h { color: transparent; }
 /* a price card: its wrapper's height eases open (a block formatting context, so the card's margins count in it); the
-   card is a skeleton with a sweep and a glyph chip until the price lands (chat.d35be136.js paintCard) */
+   card is a skeleton with a sweep until it has loaded, then the price comes in (chat.d35be136.js paintCard) */
 .cm-cardwrap { overflow: hidden; }
 .cm-card { position: relative; margin: 10px 0; overflow: hidden; border-radius: 12px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); opacity: 0; transform-origin: 0 50%; }
 .cm-card-in { display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; opacity: 0; }
 .cm-sk { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.07) 50%, transparent 70%); pointer-events: none; }
-.cm-genl { position: absolute; left: 10px; top: 50%; display: inline-flex; align-items: center; gap: 7px; height: 28px; margin-top: -14px; padding: 0 11px 0 4px; border-radius: 999px; background: rgba(12,12,14,.78); box-shadow: inset 0 0 0 1px var(--line); font: 600 11px/1 var(--ui); color: #ececec; white-space: nowrap; }
-.cm-genl-ic { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 999px; background: #0b0b0c; box-shadow: inset 0 0 0 1px var(--line); color: #ececec; }
-.cm-genl-ic svg { display: block; width: 12px; height: 12px; }
 .cm-fav { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: #fff; }
 .cm-fav img { display: block; width: 24px; height: 24px; object-fit: contain; }
 .cm-card-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
@@ -90,17 +87,13 @@ svg { flex: none; }
 .cc-stop { gap: 7px; background: var(--ink); color: #111113; }
 .cc-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
 
-.nw { flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
-/* the list fades out at its foot, where older items slide off */
+.nw { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+/* the list fades out at its foot, where older items slide off; one line per item */
 .nw-list { position: relative; flex: 1; min-height: 0; margin-top: 6px; overflow: hidden; -webkit-mask: linear-gradient(#000 calc(100% - 22px), transparent); mask: linear-gradient(#000 calc(100% - 22px), transparent); }
-.nw-row { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: flex-start; gap: 10px; padding: 9px 16px; opacity: 0; visibility: hidden; }
-.nw-ic { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: rgba(52,211,153,.12); color: var(--good); }
-.nw-ic.is-hot { background: #26262a; color: var(--ink); }
-.nw-ic svg { display: block; width: 14px; height: 14px; }
-.nw-tx { flex: 1; min-width: 0; }
-.nw-tx b { display: block; font: 600 12.5px/17px var(--ui); color: var(--ink); }
-.nw-tx small { display: block; font: 11.5px/15px var(--ui); color: var(--muted); }
-.nw-time { flex: none; font: 11px/17px var(--ui); color: var(--muted); font-variant-numeric: tabular-nums; }
+.nw-row { position: absolute; left: 0; right: 0; top: 0; padding: 9px 16px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 12.5px/17px var(--ui); color: var(--ink); opacity: 0; visibility: hidden; }
+/* a hit's confetti, clipped to the news area so nothing crosses the live view (side.d35be136.js) */
+.nw-fx { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.nw-cf { position: absolute; left: 0; top: 0; border-radius: 1px; visibility: hidden; }
 
 /* ---------- Chrome on the shared desktop, in the desktop's own px (computer.ba3976b6.css) ---------- */
 .cc-desk { position: absolute; left: 0; top: 0; width: 1470px; height: 919px; overflow: hidden; transform-origin: 0 0; background: #fff; }

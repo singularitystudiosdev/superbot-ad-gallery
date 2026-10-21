@@ -9,6 +9,29 @@ const TYPE_CPS = 40;
 const GAP = 14; // between chat items (.cm margin-bottom)
 const ENTER = 0.32; // an item's fade and rise
 
+// the composer's placeholder: the hub's own line until the prompt is sent, then follow-ups the user could send, one at a
+// time, each rising in, held long enough to read, then fading up and out before the next rises in
+const HINT_FIRST = 'How can superbot help you today?';
+const HINTS = [
+  'Look across my websites...',
+  'Make sure to include tax in the price...',
+  'Notify me when it drops below $50...',
+  'Only show seats in the lower bowl...',
+  'Buy them if they hit $45 each...',
+  'Find 4 seats together instead...',
+  'Add a parking pass to the order...',
+  'Check again every hour until the show...',
+];
+const HINT_SLOT = 4.2; // one suggestion, in to out
+const HINT_FADE = 0.35; // its rise in, and its fade out
+const HINT_RISE = 5; // px it travels in and out
+function hintAt(t, from) {
+  if (t < from) return { text: HINT_FIRST, k: 1, y: 0 };
+  const n = Math.floor((t - from) / HINT_SLOT), p = t - from - n * HINT_SLOT;
+  const kin = outCubic(seg(p, 0, HINT_FADE)), kout = seg(p, HINT_SLOT - HINT_FADE, HINT_SLOT);
+  return { text: HINTS[n % HINTS.length], k: Math.min(kin, 1 - kout), y: ((1 - kin) - kout) * HINT_RISE };
+}
+
 // superbot's messages are bare text and cards, no name line over them
 function chatItem(c) {
   if (c.kind === 'user') return `<div class="cm cm-u"><span>${esc(c.text)}</span></div>`;
@@ -40,7 +63,7 @@ export function buildFeed(left, act, S) {
   return {
     feed: left.querySelector('.ch-feed'), feedIn, items,
     typed: left.querySelector('.rc-typed'), ph: left.querySelector('.rc-hint'), caret: left.querySelector('.rc-caret'), send: left.querySelector('.rc-send'),
-    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), shownTyped: null,
+    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), shownTyped: null, shownHint: null,
   };
 }
 
@@ -85,10 +108,15 @@ export function paintFeed(f, S, t) {
   const room = f.feed.clientHeight - 28; // the feed's top and bottom padding (.ch-in)
   f.feedIn.style.transform = `translateY(${(-scrolled(f.items, t, room)).toFixed(2)}px)`;
 
-  // composer: the user's draft types in, the send button lights while there is text
+  // composer: the user's draft types in, the send button lights while there is text; while it is empty the placeholder
+  // turns through its suggestions (with reduced motion they only fade)
   const draft = S.typing.find((d) => t >= d.start && t < d.send);
   const text = draft ? draft.text.slice(0, countAt(draft.text, draft.start, TYPE_CPS, t)) : '';
   if (text !== f.shownTyped) { f.typed.textContent = text; f.shownTyped = text; }
+  const hint = hintAt(t, S.typing[0].send);
+  if (hint.text !== f.shownHint) { f.ph.textContent = hint.text; f.shownHint = hint.text; }
+  f.ph.style.opacity = hint.k.toFixed(3);
+  f.ph.style.transform = REDUCED || !hint.y ? 'none' : `translateY(${hint.y.toFixed(2)}px)`;
   f.ph.style.display = text ? 'none' : '';
   f.caret.style.display = draft ? '' : 'none';
   f.caret.style.opacity = !draft || t < draft.start + draft.text.length / TYPE_CPS || caretOn(t) ? '1' : '0';

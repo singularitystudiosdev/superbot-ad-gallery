@@ -4,13 +4,25 @@
 import { buildSchedule } from './schedule.af4c3c6b.js';
 import { buildScreen, fit, measure, paint, primeLists } from './screen.af4c3c6b.js';
 import { buildFeed, measureFeed, paintFeed } from './feed.af4c3c6b.js';
-import { seg } from './lib.af4c3c6b.js';
+import { seg, lerp, outCubic, REDUCED } from './lib.af4c3c6b.js';
 
 const S = buildSchedule();
 const stage = document.getElementById('stage');
 const dip = document.getElementById('dip');
 const view = buildScreen(document.querySelector('.cc-view'));
 const feed = buildFeed(document.querySelector('.ch'), document.querySelector('.ac'), S);
+
+// the sidebar: off the right edge until the first message is sent, then it slides in as the chat narrows to its left
+// (with reduced motion it fades in instead)
+const chat = document.querySelector('.ch'), side = document.querySelector('.cc');
+const APP_W = 1200, CHAT_W = 476, SIDE_W = 724, SIDE_IN = 0.5;
+function dock(t) {
+  const k = outCubic(seg(t, S.panel, S.panel + SIDE_IN));
+  chat.style.width = `${lerp(APP_W, CHAT_W, REDUCED ? (k > 0 ? 1 : 0) : k).toFixed(2)}px`;
+  side.style.transform = REDUCED || k >= 1 ? 'none' : `translateX(${((1 - k) * SIDE_W).toFixed(2)}px)`;
+  side.style.opacity = REDUCED ? k.toFixed(3) : '1';
+  side.style.visibility = k > 0 ? 'visible' : 'hidden';
+}
 
 function scaleStage() {
   const k = Math.min(innerWidth / 1920, innerHeight / 1080);
@@ -27,8 +39,9 @@ if (params.get('controls') === '1') document.querySelector('.hint').hidden = fal
 
 function frame(t) {
   const lt = ((t % S.L) + S.L) % S.L;
-  // a short dip to black where the loop comes round
+  // a short dip to white where the loop comes round
   dip.style.opacity = Math.max(seg(lt, S.L - 0.45, S.L), 1 - seg(lt, 0, 0.35)).toFixed(3);
+  dock(lt);
   paint(view, S, lt);
   paintFeed(feed, S, lt);
 }

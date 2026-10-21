@@ -16,7 +16,7 @@ const HOLD = 3.4; // the last card stays up this long once it is fully out, befo
 
 export function buildSchedule() {
   const S = { chat: [], typing: [], acts: [], moves: [], tabs: [{ openAt: -1 }], views: [[{ at: -1, v: 'ntp' }], [], [], []], active: [{ at: -1, tab: 0 }],
-    omni: [{ at: -1, mode: 'ph' }], menus: [], hovers: [], scrolls: [[], [], [], []], control: 3.0, L: 0 };
+    omni: [{ at: -1, mode: 'ph' }], menus: [], hovers: [], scrolls: [[], [], [], []], control: 3.2, panel: 0, L: 0 };
   const act = (at, text, win = false) => S.acts.push({ at, text, win });
   const move = (t0, t1, to) => S.moves.push({ t0, t1, to });
   const view = (i, at, v) => S.views[i].push({ at, ...v });
@@ -108,8 +108,9 @@ export function buildSchedule() {
     return found(i, round, s0 + 3.95, after);
   }
 
-  // the one ask, and superbot taking control; from here on the user only watches
+  // the one ask; the sidebar slides in once it is sent, then superbot takes control and the user only watches
   say(0.5, ASK);
+  S.panel = S.chat[0].at + 0.1;
   act(S.control + 0.1, 'Took control of your computer');
   bot(3.0, "On it. I'll check StubHub, SeatGeek, Ticketmaster and Vivid Seats, compare all-in prices with fees, and post every new low here.");
 

@@ -1,13 +1,48 @@
 // The left pane (the chat with its composer) and the activity tab under the live view, both painted from t. Items are
 // laid out once, at their final size (streamed text keeps its unrevealed rest as transparent text), so a pane scrolls by
 // summing the heights of what has arrived, each weighted by its entrance: the newest line slides up into view. The
-// activity tab is text only: one plain line per step, a breakthrough's line bold in the ink with a 🎉 after it.
+// activity tab: one line per step behind a small Fluent 3D icon (img/fx/CREDITS.txt), a breakthrough's line bold in the
+// ink with a party popper after it that pops in and fires a burst of confetti.
 import { seg, outCubic, caretOn, countAt, lastAt, el, esc, REDUCED, STREAM_CPS } from './lib.af4c3c6b.js';
 import { SITES, fav } from './sites.af4c3c6b.js';
 
 const TYPE_CPS = 40;
 const GAP = 14; // between chat items (.cm margin-bottom)
 const ENTER = 0.32; // an item's fade and rise
+const FX = 'img/fx/';
+
+// a new low's party popper: it pops in with a wobble a beat after its line, then fires a short burst of confetti from its
+// mouth, each bit flung out, slowed by drag and pulled down by gravity, fading at the end; every value is a function of t
+const POP_AT = 0.08, POP_IN = 0.42, BURST_AT = 0.12, BURST_LIFE = 0.95, BITS = 10, DRAG = 3.2, GRAV = 110;
+const BIT_COLORS = ['#fd9e43', '#f472b6', '#60a5fa', '#34d399', '#facc15', '#a78bfa'];
+// a fixed pseudo-random number per (row, bit, property), so the burst is the same on every pass
+const rnd = (a, b, c) => { const x = Math.sin(a * 12.9898 + b * 78.233 + c * 37.719) * 43758.5453; return x - Math.floor(x); };
+const backOut = (k) => 1 + 3.2 * (k - 1) ** 3 + 2.2 * (k - 1) ** 2;
+function burst(n) {
+  return Array.from({ length: BITS }, (_, j) => {
+    const a = ((-100 + 110 * rnd(n, j, 1)) * Math.PI) / 180, v = 70 + 60 * rnd(n, j, 2);
+    return { vx: v * Math.cos(a), vy: v * Math.sin(a), spin: (rnd(n, j, 3) - 0.5) * 900, dot: j % 3 === 0, color: BIT_COLORS[(n + j) % BIT_COLORS.length] };
+  });
+}
+function popHTML(bits) {
+  const dots = bits.map((b) => `<i class="ac-bit${b.dot ? ' ac-dot' : ''}" style="background:${b.color}"></i>`).join('');
+  return `<span class="ac-fx" aria-hidden="true"><img class="ac-pop" src="${FX}party_popper.png" alt="" width="15" height="15">${dots}</span>`;
+}
+function paintPop(r, t) {
+  const tau = t - r.a.at - POP_AT;
+  if (REDUCED) { r.pop.style.transform = 'none'; return; }
+  const k = seg(tau, 0, POP_IN);
+  const wobble = tau > 0 ? 10 * Math.sin(tau * 20) * Math.exp(-tau * 7) : 0;
+  r.pop.style.transform = `rotate(${(-40 * (1 - outCubic(k)) + wobble).toFixed(1)}deg) scale(${(tau > 0 ? backOut(k) : 0).toFixed(3)})`;
+  const bt = tau - BURST_AT;
+  for (const b of r.bits) {
+    if (bt <= 0 || bt >= BURST_LIFE) { if (b.on) { b.el.style.opacity = '0'; b.on = false; } continue; }
+    b.on = true;
+    const e = (1 - Math.exp(-DRAG * bt)) / DRAG;
+    b.el.style.opacity = (1 - seg(bt, 0.55, BURST_LIFE)).toFixed(3);
+    b.el.style.transform = `translate(${(b.vx * e).toFixed(2)}px, ${(b.vy * e + 0.5 * GRAV * bt * bt).toFixed(2)}px) rotate(${(b.spin * bt).toFixed(1)}deg)`;
+  }
+}
 
 // the composer's placeholder: the hub's own line until the prompt is sent, then follow-ups the user could send, one at a
 // time, each rising in, held long enough to read, then fading up and out before the next rises in
@@ -55,10 +90,13 @@ export function buildFeed(left, act, S) {
     return { c, node, say, card: node.querySelector('.cm-card'), textEnd, cardAt, h: 0 };
   });
   const actIn = act.querySelector('.ac-in');
-  const rows = S.acts.map((a) => {
-    const node = el(a.win ? `<div class="ac-row ac-win">${esc(a.text)}<span class="ac-fx" aria-hidden="true">🎉</span></div>` : `<div class="ac-row">${esc(a.text)}</div>`);
+  const rows = S.acts.map((a, n) => {
+    const bits = a.win ? burst(n) : null;
+    const icon = `<img class="ac-ic" src="${FX}${a.icon}.png" alt="" width="15" height="15">`;
+    const node = el(`<div class="ac-row${a.win ? ' ac-win' : ''}">${icon}<span>${esc(a.text)}</span>${bits ? popHTML(bits) : ''}</div>`);
     actIn.appendChild(node);
-    return { a, node, h: 0 };
+    if (bits) [...node.querySelectorAll('.ac-bit')].forEach((b, j) => { bits[j].el = b; bits[j].on = false; });
+    return { a, node, pop: node.querySelector('.ac-pop'), bits, h: 0 };
   });
   return {
     feed: left.querySelector('.ch-feed'), feedIn, items,
@@ -125,7 +163,10 @@ export function paintFeed(f, S, t) {
   // activity
   const last = lastAt(S.acts, t);
   f.empty.style.opacity = last ? '0' : '1';
-  for (const r of f.rows) reveal(r.node, enter(t, r.a.at));
+  for (const r of f.rows) {
+    reveal(r.node, enter(t, r.a.at));
+    if (r.pop) paintPop(r, t);
+  }
   const actRoom = f.list.clientHeight - 12; // .ac-in padding
   f.actIn.style.transform = `translateY(${(-scrolled(f.rows, t, actRoom)).toFixed(2)}px)`;
 }

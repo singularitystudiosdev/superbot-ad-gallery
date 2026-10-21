@@ -17,7 +17,8 @@ const HOLD = 3.4; // the last card stays up this long once it is fully out, befo
 export function buildSchedule() {
   const S = { chat: [], typing: [], acts: [], moves: [], tabs: [{ openAt: -1 }], views: [[{ at: -1, v: 'ntp' }], [], [], []], active: [{ at: -1, tab: 0 }],
     omni: [{ at: -1, mode: 'ph' }], menus: [], hovers: [], scrolls: [[], [], [], []], control: 3.2, panel: 0, L: 0 };
-  const act = (at, text, win = false) => S.acts.push({ at, text, win });
+  // one activity line: when it lands, its icon (img/fx/<icon>.png), its text, and whether it is a new low
+  const act = (at, icon, text, win = false) => S.acts.push({ at, icon, text, win });
   const move = (t0, t1, to) => S.moves.push({ t0, t1, to });
   const view = (i, at, v) => S.views[i].push({ at, ...v });
   const scroll = (i, t0, t1, from, to) => S.scrolls[i].push({ t0, t1, from, to });
@@ -44,14 +45,14 @@ export function buildSchedule() {
     const before = round > 0 ? cheapest(site, round - 1).p : null;
     const dropped = before !== null && c.p < before;
     if (best && c.p >= best.p) {
-      act(at, before === null ? `${site.name} lowest: $${c.p} each, Section ${c.s}` : dropped ? `${site.name} dropped to $${c.p} each` : `${site.name} still $${c.p} each`);
+      act(at, 'label', before === null ? `${site.name} lowest: $${c.p} each, Section ${c.s}` : dropped ? `${site.name} dropped to $${c.p} each` : `${site.name} still $${c.p} each`);
       return null;
     }
     const card = { site: i, seat: `Section ${c.s}, Row ${c.r}`, price: c.p };
     let line;
-    if (!best) { line = `Found a first pair on ${site.name}:`; act(at, `First pair: $${c.p} each on ${site.name}`, true); }
-    else if (dropped) { line = drop[drops % drop.length](site.name, before, c.p); drops += 1; act(at, `New low: ${site.name} dropped to $${c.p} each`, true); }
-    else { line = beat[lows % beat.length](site.name, best.p - c.p); lows += 1; act(at, `New low: $${c.p} each on ${site.name}`, true); }
+    if (!best) { line = `Found a first pair on ${site.name}:`; act(at, 'admission_tickets', `First pair: $${c.p} each on ${site.name}`, true); }
+    else if (dropped) { line = drop[drops % drop.length](site.name, before, c.p); drops += 1; act(at, 'admission_tickets', `New low: ${site.name} dropped to $${c.p} each`, true); }
+    else { line = beat[lows % beat.length](site.name, best.p - c.p); lows += 1; act(at, 'admission_tickets', `New low: $${c.p} each on ${site.name}`, true); }
     best = { ...c, site: i };
     first = first || best;
     return bot(at + POST, line, card, after);
@@ -75,16 +76,16 @@ export function buildSchedule() {
     S.omni.push({ at: enter, mode: 'url', tab: i });
     const shown = enter + 0.45;
     view(i, shown, { v: 'page', round: 0, sorted: false });
-    act(shown + 0.05, `Opened ${site.host}`);
+    act(shown + 0.05, 'globe_with_meridians', `Opened ${site.host}`);
     move(shown + 0.1, shown + 0.55, `list:${i}`);
     scroll(i, shown + 0.6, shown + 1.6, 0, 320);
-    act(shown + 0.6, `Reading ${site.count} listings for 2 seats together`);
+    act(shown + 0.6, 'magnifying_glass_tilted_left', `Reading ${site.count} listings for 2 seats together`);
     move(shown + 1.7, shown + 2.15, `sort:${i}`);
     S.menus.push({ tab: i, t0: shown + 2.2, t1: shown + 2.68 });
     move(shown + 2.28, shown + 2.6, `opt:${i}`);
     view(i, shown + 2.68, { v: 'page', round: 0, sorted: true });
     scroll(i, shown + 2.68, shown + 2.68, 0, 0);
-    act(shown + 2.7, 'Sorted by price, low to high');
+    act(shown + 2.7, 'bar_chart', 'Sorted by price, low to high');
     move(shown + 2.85, shown + 3.3, `row:${i}`);
     S.hovers.push({ tab: i, t0: shown + 3.25 });
     return found(i, 0, shown + 3.45, after);
@@ -97,7 +98,7 @@ export function buildSchedule() {
     S.omni.push({ at: s0 + 0.5, mode: 'url', tab: i });
     move(s0 + 0.6, s0 + 1.0, 'reload');
     view(i, s0 + 1.05, { v: 'load' });
-    act(s0 + 1.05, `Rechecking ${site.name}`);
+    act(s0 + 1.05, 'counterclockwise_arrows_button', `Rechecking ${site.name}`);
     view(i, s0 + 1.45, { v: 'page', round, sorted: true });
     scroll(i, s0 + 1.45, s0 + 1.45, 0, 0);
     move(s0 + 1.55, s0 + 1.95, `list:${i}`);
@@ -111,13 +112,13 @@ export function buildSchedule() {
   // the one ask; the sidebar slides in once it is sent, then superbot takes control and the user only watches
   say(0.5, ASK);
   S.panel = S.chat[0].at + 0.1;
-  act(S.control + 0.1, 'Took control of your computer');
+  act(S.control + 0.1, 'laptop', 'Took control of your computer');
   bot(3.0, "On it. I'll check StubHub, SeatGeek, Ticketmaster and Vivid Seats, compare all-in prices with fees, and post every new low here.");
 
   // the first pass: open every site
   const R1 = 4.0;
   SITES.forEach((_, i) => firstVisit(i, R1 + i * FIRST, i === 3 ? "That's all 4 sites. Rechecking each one for drops now." : undefined));
-  act(R1 + 4 * FIRST - 0.2, 'Checked all 4 sites, rechecking for drops');
+  act(R1 + 4 * FIRST - 0.2, 'check_mark_button', 'Checked all 4 sites, rechecking for drops');
 
   // the second pass: reload each one
   const R2 = R1 + 4 * FIRST + 0.4;

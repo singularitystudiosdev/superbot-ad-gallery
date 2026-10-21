@@ -23,3 +23,9 @@ Google's logo and page are Google's.
 Icons in the Activity tab: lucide (ISC license), from https://api.iconify.design/lucide/<name>.svg, 2026-10-21.
 superbot's mark: the house CSS mask from gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/chat.css (.sbm).
 Chrome's tab strip, toolbar and cursor follow gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/computer.ba3976b6.css.
+
+img/fx/: the Activity tab's icons, Fluent Emoji in their 3D style, fetched 2026-10-21 from
+https://github.com/microsoft/fluentui-emoji (assets/<Name>/3D/<name>_3d.png, 256px) and scaled to 96px: laptop, globe_with_meridians,
+magnifying_glass_tilted_left, bar_chart, label, admission_tickets, counterclockwise_arrows_button, check_mark_button,
+party_popper. License: MIT, Copyright (c) Microsoft Corporation
+(https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE). Never shown on screen.

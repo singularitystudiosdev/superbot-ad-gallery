@@ -1,0 +1,146 @@
+/* superbot, computer control with live progress. A 1440x900 stage scaled to the window (main.04568226.js fit), the
+   reference variant's dark chat (gallery computer-control-v3-soft) recoloured orange: the thread runs above, the live
+   view stays docked at the bottom over the composer however many messages land, and the frame carries the progress,
+   the current task (top right) and, in the news variants, the cheapest fare so far.
+   Look plan: #0e0e10 app, #1c1c20 surface, #2a2a2e hairline, #f2f2f5 ink, #a1a1a6 muted, one accent hue (orange
+   #ff8a1f, its tints #ffb347 #ff6b1a #ffd36e only in the progress fill and the takeover band). Type: the reference's
+   rounded UI stack, tabular figures for prices. Radii: 12px (card, view, composer, bubbles, news card) and 999px
+   (chips, pills, buttons). Bold element: the orange takeover band with the progress riding the frame.
+   JS sets every animated opacity and transform from t; the only CSS transitions are the variant picker's hovers. */
+:root {
+  --bg: #0e0e10; --surface: #1c1c20; --line: #2a2a2e; --ink: #f2f2f5; --muted: #a1a1a6;
+  --or: #ff8a1f; --or-soft: #ffb347; --or-deep: #ff6b1a; --or-sun: #ffd36e;
+  --ui: "SF Pro Rounded", ui-rounded, Inter, system-ui, sans-serif;
+  --cat: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2212%2018%2076%2070%22%3E%3Cmask%20id%3D%22m%22%3E%3Cg%20fill%3D%22white%22%3E%3Crect%20x%3D%2214%22%20y%3D%2232%22%20width%3D%2272%22%20height%3D%2254%22%20rx%3D%2215%22%2F%3E%3Cpath%20d%3D%22M14%2046V28Q14%2020%2021%2021Q28%2024%2036%2032Z%22%2F%3E%3Cpath%20d%3D%22M86%2046V28Q86%2020%2079%2021Q72%2024%2064%2032Z%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22black%22%3E%3Cellipse%20cx%3D%2235%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3Cellipse%20cx%3D%2265%22%20cy%3D%2258%22%20rx%3D%228%22%20ry%3D%2211%22%2F%3E%3C%2Fg%3E%3C%2Fmask%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20mask%3D%22url(%23m)%22%2F%3E%3C%2Fsvg%3E");
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; color: var(--ink); font-family: var(--ui); -webkit-font-smoothing: antialiased; overflow: hidden; }
+
+/* the variant picker, outside the stage; ?clean=1 hides it */
+.pick { display: flex; align-items: center; gap: 4px; height: 48px; padding: 0 16px; overflow-x: auto; }
+.pick button { flex: none; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: 600 13px/32px var(--ui); cursor: pointer; transition: background .15s, color .15s; }
+.pick button:hover { background: var(--surface); color: var(--ink); }
+.pick button[aria-pressed="true"] { background: var(--or); color: #1a0d00; }
+.pick button:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; }
+.pick .pick-sp { flex: 1; }
+.is-clean .pick { display: none; }
+.fit { position: relative; height: calc(100% - 48px); }
+.is-clean .fit { height: 100%; }
+.stage { position: absolute; left: 50%; top: 50%; width: 1440px; height: 900px; overflow: hidden; background: var(--bg); transform-origin: 50% 50%; }
+
+/* the column: thread (grows up, older messages fade under the top), the docked live view, the composer */
+.col { position: absolute; left: 400px; top: 24px; bottom: 24px; width: 640px; display: flex; flex-direction: column; }
+.thread { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; -webkit-mask: linear-gradient(transparent, #000 48px); mask: linear-gradient(transparent, #000 48px); }
+.m { flex: none; overflow: hidden; height: 0; }
+.mi { display: flex; padding: 12px 0 0; will-change: transform, opacity; }
+.m-user .mi { justify-content: flex-end; }
+.bu { max-width: 440px; padding: 8px 16px; border-radius: 12px; background: rgba(255,138,31,.16); box-shadow: inset 0 0 0 1px rgba(255,138,31,.3); color: #ffe7d1; font: 500 15px/22px var(--ui); }
+.st { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px 0 6px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font: 600 13px/1 var(--ui); }
+.st-end { position: relative; width: 14px; height: 14px; }
+.st-end > * { position: absolute; inset: 0; }
+.ok { display: grid; place-items: center; color: var(--or); font: 700 13px/1 var(--ui); }
+.m-agent .mi { gap: 12px; align-items: flex-start; }
+.ba { position: relative; max-width: 560px; color: #e5e5ea; font: 400 15px/22px var(--ui); }
+.ba .hid { visibility: hidden; }
+.dots { position: absolute; left: 0; top: 8px; display: flex; gap: 4px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--or); }
+
+/* superbot's mark: the cat, drawn as the reference does (a mask in three offset layers) */
+.sb { position: relative; flex: none; display: block; width: 22px; height: 22px; border-radius: 50%; background: #0b0b0c; box-shadow: inset 0 0 0 1px var(--line); }
+.sb i { position: absolute; inset: 18%; -webkit-mask: var(--cat) center / contain no-repeat; mask: var(--cat) center / contain no-repeat; }
+.sb .c { background: #00e5c3; transform: translate(-.6px, -.6px); }
+.sb .g { background: #c026d3; transform: translate(.6px, .6px); }
+.sb .w { background: #ececec; }
+.sb-lg { width: 24px; height: 24px; }
+
+.dock { flex: none; position: relative; height: 0; margin-top: 12px; clip-path: inset(-80px -80px 0 -80px); }
+.card { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 12px; background: var(--surface); box-shadow: 0 0 0 1px var(--line), 0 24px 48px rgba(0,0,0,.35); }
+.head { position: relative; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 8px 0 16px; }
+.title { margin-right: auto; display: flex; align-items: center; gap: 8px; min-width: 0; font: 600 14px/1 var(--ui); white-space: nowrap; }
+.title small { font: 400 12px/1 var(--ui); color: var(--muted); }
+.btn { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); color: #e5e5ea; font: 600 12.5px/1 var(--ui); }
+.btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.btn-ic { width: 30px; padding: 0; justify-content: center; }
+.btn-stop { position: relative; background: #e5e5ea; box-shadow: none; color: #111113; }
+.btn-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
+.view { position: relative; width: 640px; height: 400px; overflow: hidden; border-radius: 0 0 12px 12px; background: #fff; }
+.has-foot .view { border-radius: 0; }
+
+/* the takeover edge: an orange band round the display, brightest on the edge, fading about 14px in (the reference's
+   masked conic band, blurred on its parent) */
+.edge { position: absolute; inset: 0; z-index: 4; overflow: hidden; border-radius: inherit; opacity: 0; pointer-events: none; }
+.soft { position: absolute; inset: -5px; filter: blur(4px); }
+.band { position: absolute; inset: 0; padding: 13px; border-radius: 0 0 25px 25px; background: conic-gradient(from var(--a, 0deg), var(--or-soft), var(--or), var(--or-sun), var(--or-deep), var(--or-soft)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+
+/* progress, on the dark of the frame where the orange reads: an inset rail along the header's foot (rail), a
+   full-bleed line on the header seam (seam), inside the pill (pill), or the footer stepper (foot). The fill carries a
+   slow sheen */
+.pb { position: absolute; left: 0; right: 0; z-index: 6; height: 4px; overflow: hidden; background: rgba(255,255,255,.08); opacity: 0; }
+.head-rail { height: 56px; padding-bottom: 8px; }
+.pb-rail { left: 16px; right: 16px; bottom: 8px; border-radius: 999px; }
+.pb-seam { bottom: 0; height: 3px; }
+.pb-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 0 999px 999px 0; background: linear-gradient(90deg, transparent 0 40%, rgba(255,255,255,.55) 50%, transparent 60% 100%) var(--sx, 0) 0 / 300% 100%, linear-gradient(90deg, var(--or-soft), var(--or) 60%, var(--or-deep)); }
+
+/* the current task: a chip in the view's top right, under Chrome's toolbar, or in the header */
+.tk { position: absolute; right: 12px; top: 44px; z-index: 6; display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px 0 8px; border-radius: 999px; background: rgba(22,22,26,.9); box-shadow: inset 0 0 0 1px rgba(255,138,31,.45), 0 8px 24px rgba(0,0,0,.3); opacity: 0; white-space: nowrap; }
+.tk-head { position: relative; right: auto; top: auto; box-shadow: inset 0 0 0 1px rgba(255,138,31,.45); }
+.spin { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,138,31,.25); border-top-color: var(--or); }
+.tk-ls { position: relative; height: 16px; overflow: hidden; }
+.tk-l { position: absolute; left: 0; top: 0; font: 600 12.5px/16px var(--ui); color: var(--ink); opacity: 0; }
+.tk-n { flex: none; padding-left: 8px; box-shadow: inset 1px 0 0 rgba(255,255,255,.14); color: var(--or); font: 700 12px/16px var(--ui); font-variant-numeric: tabular-nums; }
+
+/* the takeover pill: bottom centre, bottom right beside the corner news, or carrying progress or news */
+.pill { position: absolute; left: 50%; bottom: 16px; z-index: 5; display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 14px 0 4px; border-radius: 999px; overflow: hidden; white-space: nowrap; opacity: 0; background: rgba(22,22,26,.92); box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 8px 24px rgba(0,0,0,.35); font: 500 12px/1 var(--ui); color: #f2f2f5; }
+.pill-right { left: auto; right: 12px; }
+.pill > :not(.pill-fill) { position: relative; }
+.pill-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(90deg, rgba(255,179,71,.3), rgba(255,138,31,.5)); }
+.pill-pct { min-width: 32px; text-align: right; color: var(--or-soft); font-weight: 700; font-variant-numeric: tabular-nums; }
+.pill-txt { position: relative; height: 14px; }
+.pill-txt span { position: absolute; left: 0; top: 0; line-height: 14px; }
+.pill-news { display: flex; align-items: center; gap: 6px; margin-left: 4px; padding-left: 10px; box-shadow: inset 1px 0 0 rgba(255,255,255,.16); }
+
+/* the topline news: the cheapest fare so far. Corner card, header chip, footer, or pill segment */
+.nw { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.nw-k { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font: 600 12px/1 var(--ui); }
+.nw-head .nw-det, .pill-news .nw-det, .pill-news .nw-l { display: none; }
+.nw-p { color: #fff; font: 700 15px/1 var(--ui); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.nw-s { display: inline-flex; align-items: center; gap: 0; color: #e5e5ea; font: 500 12px/1 var(--ui); }
+.nw-s img { width: 14px; height: 14px; margin-right: 6px; border-radius: 3px; }
+.nw-d { padding: 4px 8px; border-radius: 999px; background: rgba(255,138,31,.18); color: var(--or-soft); font: 700 12px/1 var(--ui); font-variant-numeric: tabular-nums; opacity: 0; }
+.nw-sw { display: inline-flex; align-items: center; gap: 8px; }
+.nw-corner { position: absolute; left: 12px; bottom: 12px; z-index: 6; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 196px; padding: 12px 14px; border-radius: 12px; background: rgba(22,22,26,.92); box-shadow: inset 0 0 0 1px rgba(255,138,31,.4), 0 12px 32px rgba(0,0,0,.35); opacity: 0; }
+.nw-corner .nw-p { font-size: 26px; }
+.nw-corner .nw-row { display: flex; align-items: center; gap: 8px; }
+.nw-head { height: 30px; padding: 0 6px 0 10px; border-radius: 999px; background: rgba(255,138,31,.14); box-shadow: inset 0 0 0 1px rgba(255,138,31,.32); opacity: 0; }
+.nw-head .nw-p { font-size: 14px; }
+.foot { position: relative; display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 16px; border-radius: 0 0 12px 12px; }
+.foot .pb { top: 0; height: 3px; }
+.nw-foot { opacity: 0; }
+.nw-foot .nw-p { font-size: 17px; }
+.flash { position: absolute; inset: 0; border-radius: inherit; background: rgba(255,138,31,.14); opacity: 0; pointer-events: none; }
+.steps { margin-left: auto; display: flex; flex: none; align-items: center; gap: 4px; opacity: 0; }
+.step { position: relative; flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #26262b; box-shadow: inset 0 0 0 1.5px var(--line); overflow: hidden; }
+.step img { width: 12px; height: 12px; border-radius: 3px; }
+.step .ok, .step .spin { position: absolute; }
+.step .ok { inset: 0; background: var(--or); color: #1a0d00; font-size: 12px; opacity: 0; }
+.step .spin { inset: 1px; width: auto; height: auto; border-color: transparent; border-top-color: var(--or); opacity: 0; }
+.step-emo { font-size: 12px; line-height: 1; }
+.steps-n { margin-left: 4px; white-space: nowrap; color: var(--muted); font: 600 12px/1 var(--ui); font-variant-numeric: tabular-nums; }
+
+/* the composer: the user types here mid-run, and sending never moves the live view */
+.cmp { flex: none; height: 88px; margin-top: 16px; padding: 12px 12px 10px 16px; border-radius: 12px; background: #141417; box-shadow: inset 0 0 0 1px var(--line); }
+.cmp-in { position: relative; display: flex; align-items: center; height: 24px; font: 400 15px/24px var(--ui); }
+.cmp-ph { position: absolute; left: 0; top: 0; color: var(--muted); white-space: nowrap; }
+.cmp-txt { white-space: nowrap; }
+.cmp-caret { width: 1.5px; height: 18px; margin-left: 1px; background: var(--or); opacity: 0; }
+.cmp-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.cmp-plus { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 999px; color: var(--muted); font: 400 20px/1 var(--ui); }
+.cmp-chip { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: rgba(255,138,31,.14); box-shadow: inset 0 0 0 1px rgba(255,138,31,.3); color: #ffd2a8; font: 600 12.5px/1 var(--ui); }
+.cmp-sp { flex: 1; }
+.cmp-send { position: relative; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #2a2a2e; color: #6e6e75; }
+.cmp-send svg { position: relative; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cmp-send .on { position: absolute; inset: 0; border-radius: 50%; background: var(--or); opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pick button { transition: none; }
+}

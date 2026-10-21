@@ -1,0 +1,12 @@
+Images in the live view of superbot-cc-live-progress (internal provenance, never shown on screen).
+
+new-tab.png: Google Chrome's New Tab page (chrome://new-tab-page/), 1470x839, copied from the gallery's
+gemini-muse-meme-superbot-6fbc38f8/img/computer.ba3976b6/new-tab.png (captured 2026-10-16 headless, fresh profile).
+Google logo and page are Google's; shown as the real page a new Chrome tab opens to.
+
+fav-*.png / fav-*.jpg: each site's own favicon, fetched 2026-10-21 through Google's favicon service
+(https://www.google.com/s2/favicons?domain=<host>&sz=64) for flights.google.com, kayak.com, skyscanner.com,
+expedia.com and united.com. Marks belong to their owners; used as the tab icons a real browser would show.
+
+The travel result pages are simplified mockups in each site's colours (no logos drawn). Fares, times and the
+flight list are illustrative, not quotes.

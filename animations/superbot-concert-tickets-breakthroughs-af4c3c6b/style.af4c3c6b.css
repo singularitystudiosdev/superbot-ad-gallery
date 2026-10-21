@@ -1,5 +1,5 @@
 /* superbot finds the cheapest concert tickets: the hub's chat on the left, the computer-control live view docked on the
-   right with the activity tab attached under it. Card, chip, bubble and composer values are the hub's own
+   right with the activity tab attached under it. Card, bubble and composer values are the hub's own
    (gemini-muse-meme-superbot-6fbc38f8: bakery.005f5570.css .bk, chat.css, assets/hub-real.css); the live view and its
    vignette are computer.ba3976b6.css's. No CSS animation or transition: every moving value is written from t. */
 :root {
@@ -36,13 +36,6 @@ svg { flex: none; }
 .cm { margin-bottom: 14px; opacity: 0; }
 .cm-u { display: flex; justify-content: flex-end; }
 .cm-u span { max-width: 82%; padding: 8px 14px; border-radius: 16px; background: #1f1f22; font: 12.5px/17px var(--ui); color: #f2f2f7; }
-.cm-chip { display: inline-flex; align-items: center; gap: 9px; height: 34px; padding: 0 12px 0 6px; border-radius: 999px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); font: 600 12.5px/1 var(--ui); color: #ececec; }
-.cm-chip .sb-tile { width: 22px; height: 22px; border-radius: 999px; }
-.cm-st { position: relative; width: 14px; height: 14px; margin-left: 2px; }
-.cm-spin { position: absolute; inset: 1px; border-radius: 50%; border: 2px solid #3a3a3f; border-top-color: #ececec; }
-.cm-ok { position: absolute; inset: 0; width: 14px; height: 14px; fill: none; stroke: #34d399; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
-.cm-who { display: flex; align-items: center; gap: 7px; margin: 2px 0 7px; font: 600 12.5px/1 var(--ui); color: #ececec; }
-.cm-who .sb-tile { width: 18px; height: 18px; border-radius: 6px; }
 .cm-say { margin: 0; font: 12.5px/18px var(--ui); color: var(--ink); }
 .cm-h { color: transparent; }
 .cm-after { margin-top: 0; }
@@ -56,7 +49,8 @@ svg { flex: none; }
 .cm-card-p b { font: 700 20px/22px var(--ui); color: #34d399; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 .cm-card-p small { font: 11px/14px var(--ui); color: var(--muted); }
 
-/* composer (assets/hub-real.css .rc): the draft types in, the send button lights while there is text */
+/* composer (assets/hub-real.css .rc): +, then the effort picker (High), the mic and send on the right; the draft types
+   in, the send button lights while there is text */
 .composer { flex: none; padding: 4px 16px 16px; }
 .rc { display: flex; flex-direction: column; min-height: 83px; padding: 11px 8.5px 7px 10px; border-radius: 14px; background: #101013; box-shadow: inset 0 0 0 1px #4a4a4d; color: #a4a4aa; font: 12px/1.4 var(--ui); }
 .rc-ph { flex: 1; min-height: 39px; padding: 0 1.5px; overflow: hidden; }
@@ -68,21 +62,10 @@ svg { flex: none; }
 .rc-row svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .rc-plus { margin-left: 3.5px; color: #c4c5ca !important; }
 .rc-plus svg { width: 14px; height: 14px; }
-.rc-super { height: 24px; margin-left: 2px; align-items: stretch !important; overflow: hidden; border-radius: 999px; background: #161619; box-shadow: inset 0 0 0 1px var(--line); font: 600 12px/1 var(--ui); color: #ececec !important; }
-.rc-super > span { display: inline-flex; align-items: center; }
-.rc-sup-cap { justify-content: center; width: 31px; background: #212124; color: #85868a; }
-.rc-spark { width: 14px; height: 14px; fill: currentColor !important; stroke: none !important; }
-.rc-sup-tag { padding: 0 7px 0 9px; }
-.rc-sup-mode { position: relative; padding: 0 6.5px 0 7.5px; }
-.rc-sup-mode::before { content: ""; position: absolute; left: 0; top: 3.75px; bottom: 3.75px; width: 1px; background: #2b2b2f; }
-.rc-chev { width: 14px; height: 14px; margin-left: 3px; color: #c0c1c6; }
-.rc-ptr { width: 14px; height: 14px; margin-right: 4px; color: #e0e0e2; }
-.rc-plat { gap: 6.5px; margin: 0 5px 0 auto; font-size: 12px; color: #a2a2a8 !important; }
-.rc-plat .rc-cat { width: 11.5px; height: 11.5px; }
-.rc-plat .rc-chev { width: 12px; height: 12px; margin-left: -2px; color: #8e8f95; }
-.rc-computer, .rc-mic, .rc-send { width: 26px; height: 26px; border-radius: 50%; }
-.rc-computer { background: #e8e8e8; color: #161618 !important; }
-.rc-computer svg { width: 11.5px; height: 11.5px; stroke-width: 2.3; }
+.rc-effort { gap: 6.5px; margin: 0 5px 0 auto; font-size: 12px; color: #a2a2a8 !important; }
+.rc-effort-ic { width: 12.5px; height: 12.5px; }
+.rc-chev { width: 12px; height: 12px; margin-left: -2px; color: #8e8f95; }
+.rc-mic, .rc-send { width: 26px; height: 26px; border-radius: 50%; }
 .rc-mic { background: #1d1d20; box-shadow: inset 0 0 0 1px #2b2b2e; color: #a9aab0 !important; }
 .rc-mic svg { width: 12.5px; height: 12.5px; }
 .rc-send { background: #222225; color: #6b6f77 !important; }
@@ -97,8 +80,6 @@ svg { flex: none; }
 .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
 .bk-btn { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; white-space: nowrap; font: 500 11px/1 var(--ui); }
 .bk-btn svg { display: block; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.bk-share { justify-content: center; width: 26px; padding: 0; color: var(--ink); box-shadow: inset 0 0 0 1px #3a3a3e; }
-.bk-expand { color: var(--ink); box-shadow: inset 0 0 0 1px #3a3a3e; }
 .bk-stop { gap: 7px; background: var(--ink); font-weight: 600; color: #111113; }
 .bk-stop i { width: 7px; height: 7px; border-radius: 1.5px; background: #111113; }
 
@@ -117,7 +98,8 @@ svg { flex: none; }
 .ac-list { position: relative; flex: 1; min-height: 0; overflow: hidden; }
 .ac-in { position: absolute; left: 0; right: 0; top: 0; padding: 6px 0; }
 .ac-row { display: flex; align-items: center; height: 27px; padding: 0 14px; white-space: nowrap; font: 12px/1 var(--ui); color: #d1d1d6; opacity: 0; }
-.ac-win { font-weight: 600; color: #34d399; }
+.ac-win { font-weight: 700; color: #34d399; }
+.ac-fx { margin-left: 6px; font: 13px/1 "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
 .ac-empty { position: absolute; left: 14px; top: 12px; margin: 0; font: 12px/16px var(--ui); color: var(--muted); }
 
 /* ---------- Chrome on the shared desktop, in the desktop's own px (computer.ba3976b6.css) ---------- */

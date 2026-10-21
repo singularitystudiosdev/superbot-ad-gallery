@@ -9,7 +9,7 @@ export const inOutCubic = (k) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 
 // a text caret: on for 0.53s, off for 0.53s
 export const caretOn = (t) => Math.floor(Math.max(0, t) / 0.53) % 2 === 0;
 // superbot's replies stream into the chat at this many characters a second
-export const STREAM_CPS = 70;
+export const STREAM_CPS = 160;
 // how many characters of a typed or streamed string are out at t
 export const countAt = (text, start, cps, t) => clamp(Math.floor((t - start) * cps), 0, text.length);
 // the last entry of a time-sorted list whose `at` is at or before t

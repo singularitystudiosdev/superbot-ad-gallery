@@ -110,9 +110,8 @@ export function buildSchedule() {
 
   // the one ask, and superbot taking control; from here on the user only watches
   say(0.5, ASK);
-  S.chat.push({ at: 2.8, kind: 'chip', text: 'Taking control of your computer', done: 3.5 });
   act(S.control + 0.1, 'Took control of your computer');
-  bot(3.7, "On it. I'll check StubHub, SeatGeek, Ticketmaster and Vivid Seats, compare all-in prices with fees, and post every new low here.");
+  bot(3.0, "On it. I'll check StubHub, SeatGeek, Ticketmaster and Vivid Seats, compare all-in prices with fees, and post every new low here.");
 
   // the first pass: open every site
   const R1 = 4.0;

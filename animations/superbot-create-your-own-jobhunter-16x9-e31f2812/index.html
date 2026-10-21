@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>This is how you create your own Superbot: Job Hunter on Indeed (16:9 video)</title>
+<style>
+/* Plays the rendered film (final.mp4, 16:9, 1920x1080, 60 fps, with sound) fitted whole on black.
+   Starts muted so autoplay is allowed; the controls unmute, and so does the gallery
+   lightbox, which posts { type: "unmute" } on the viewer's first click or key. */
+html, body { margin: 0; height: 100%; overflow: hidden; background: #000; }
+video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+</style>
+</head>
+<body>
+<video id="film" src="final.mp4" poster="poster.png" controls autoplay muted loop playsinline preload="auto"
+  aria-label="A YouTuber in the corner creates a Superbot called Job Hunter, drags in his resume and shows it his job search on Indeed while it watches and listens, then Superbot turns his ask into a checklist, verifies each step in a headless browser, runs it with computer control, shortlists five jobs with match scores, applies to the two he approves and schedules tomorrow's run, ending on the superbot.gg card"></video>
+<script>
+  const video = document.getElementById("film");
+  addEventListener("message", (e) => {
+    if (e.data && e.data.type === "unmute") {
+      video.muted = false;
+      if (video.paused) video.play().catch((err) => console.error(err));
+    }
+  });
+  // a muted autoplay can still be refused (low power mode); retry once the file can play
+  video.addEventListener("canplay", () => { if (video.paused) video.play().catch((err) => console.error(err)); }, { once: true });
+</script>
+</body>
+</html>

@@ -1912,6 +1912,17 @@
     "downloadLabel": "MP4 16:9"
   },
   {
+    "id": "superbot-create-your-own-jobhunter-16x9-e31f2812",
+    "type": "animation",
+    "group": "Ad spots",
+    "title": "This is how you create your own Superbot: a YouTuber builds Job Hunter, shows it his Indeed search while it watches and listens, then it verifies each step headless, shortlists five jobs and applies to his picks with computer control (16:9 video, with sound)",
+    "src": "animations/superbot-create-your-own-jobhunter-16x9-e31f2812/",
+    "thumb": "assets/shots/superbot-create-your-own-jobhunter-16x9-e31f2812.png",
+    "desc": "A YouTuber in a facecam bottom left (a generated presenter, lip-synced) says \"This is how you create your own Superbot.\" over the Superbot app home, clicks Create your own Superbot, names it Job Hunter and starts recording. From Start recording to Done a soft pink and purple vignette runs round the screen, a bar at the top reads \"Superbot is watching and listening\" with a timer, a live level and Done, and the mascot caption at the bottom prints what it hears word by word. He drags his resume from Finder into the drop zone (\"Here's my resume.\"; it reads it), goes to indeed.com (Chrome autocompletes it), types marketing manager and sets Remote and $70,000+ through their filter panels; Superbot tags the jobs he has already seen and marks the posting that matches his resume while he asks it to come to Indeed every morning, skip what he has seen, read each new posting, write a cover letter that fits his resume, put the best five in a list, apply when he approves one and learn from his picks. He clicks Done and the vignette fades. Superbot thinks and turns the ask into an eight step checklist (search Indeed, apply filters, skip seen jobs, read postings, write cover letters, shortlist the top 5, apply on approval, run every day at 7:00 AM), and each step turns green as a headless browser verifies it. Then it takes control of the computer in a docked Live view in the computer-control-v3-soft look: it opens the filtered search by URL, skips the seen jobs, reads the new ones while a cover letter writes itself, and ranks a top five with match scores. It hands control back, he approves two, and it applies to both through Indeed Apply (review, submit, submitted). It ends on \"Next run: tomorrow 7:00 AM\" with what it learned from his picks, then \"Create your own Superbot for any repeatable task. It's the agent for automation.\" and superbot.gg. Indeed is rebuilt from captures of the live site; the postings, companies, pay, scores and resume are illustrative, and the flow is an animation, not a recorded run. 16:9, 1920x1080, 60 fps, 74.6 s, with sound.",
+    "download": "animations/superbot-create-your-own-jobhunter-16x9-e31f2812/final.mp4",
+    "downloadLabel": "MP4 16:9"
+  },
+  {
     "id": "train-your-own-superbot-93d8bde0",
     "type": "animation",
     "group": "Ad spots",

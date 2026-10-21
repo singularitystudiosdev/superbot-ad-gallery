@@ -2,8 +2,8 @@
 // 6fbc38f8/scenes/tabs-assets/beats/computer.ba3976b6.js). A 1470x919 desktop with Chrome full screen on it at Chrome's
 // own sizes, scaled whole into the view, so tab strip, pages and cursor keep their real proportions. Over it, only the
 // takeover's vignette. Everything is painted from t by paint(), so a frozen frame holds.
-import { seg, lerp, outCubic, inOutCubic, caretOn, countAt, lastAt, REDUCED } from './lib.9d36de72.js?v=2';
-import { SITES, fav, pageHTML, rowsHTML, cheapest } from './sites.9d36de72.js?v=2';
+import { seg, lerp, outCubic, inOutCubic, caretOn, countAt, lastAt, REDUCED } from './lib.9d36de72.js?v=3';
+import { SITES, fav, pageHTML, rowsHTML, cheapest } from './sites.9d36de72.js?v=3';
 
 export const DESK = { w: 1470, h: 919 };
 const TAB_W = 240, PLUS_GAP = 8, PLUS = 28;

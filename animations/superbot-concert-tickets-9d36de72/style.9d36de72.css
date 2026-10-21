@@ -16,7 +16,10 @@ body { font-family: var(--ui); color: var(--ink); -webkit-font-smoothing: antial
 body.freeze .hint { display: none; }
 
 /* the app, laid out at 1200x675 and drawn at 1.6x, as the hub spots are */
-.app { position: absolute; left: 0; top: 0; display: grid; grid-template-columns: 536px minmax(0, 1fr); width: 1200px; height: 675px; transform: scale(1.6); transform-origin: 0 0; background: var(--bg); }
+/* Before the first message the chat has the whole window; once it is sent the computer panel slides in from the right
+   and the chat narrows to its left (main.9d36de72.js frame() sets both from t). These are the landed sizes, the ones
+   every measurement is taken at. */
+.app { position: absolute; left: 0; top: 0; width: 1200px; height: 675px; transform: scale(1.6); transform-origin: 0 0; background: var(--bg); }
 svg { flex: none; }
 
 /* superbot's mark, static: the live mark's silhouette as a mask, three layers deep (chat.css .qc-t-superbot) */
@@ -27,12 +30,14 @@ svg { flex: none; }
 .sbm-w { background: #ececec; }
 
 /* ---------- the chat ---------- */
-.ch { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.ch { position: absolute; left: 0; top: 0; bottom: 0; display: flex; flex-direction: column; width: 536px; min-height: 0; }
 .ch-head { flex: none; display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; box-shadow: 0 1px 0 #1e1e21; }
 .ch-head .sb-tile { width: 20px; height: 20px; border-radius: 6px; }
 .ch-title { font: 600 12.5px/1 var(--ui); color: #ececec; }
 .ch-feed { position: relative; flex: 1; min-height: 0; overflow: hidden; }
-.ch-in { position: absolute; left: 0; right: 0; top: 0; padding: 16px 18px 12px; }
+/* the thread is a centred column the composer's width (the hub's --hub-column, 590px), so the full-width chat reads
+   like the hub and the narrowed one fills its pane */
+.ch-in { position: absolute; left: max(0px, calc(50% - 313px)); right: max(0px, calc(50% - 313px)); top: 0; padding: 16px 18px 12px; }
 .cm { margin-bottom: 14px; opacity: 0; }
 .cm-u { display: flex; justify-content: flex-end; }
 .cm-u span { max-width: 82%; padding: 8px 14px; border-radius: 16px; background: #1f1f22; font: 12.5px/17px var(--ui); color: #f2f2f7; }
@@ -57,7 +62,7 @@ svg { flex: none; }
 .cm-card-p small { font: 11px/14px var(--ui); color: var(--muted); }
 
 /* composer (assets/hub-real.css .rc): the draft types in, the send button lights while there is text */
-.composer { flex: none; padding: 4px 16px 16px; }
+.composer { flex: none; width: 100%; max-width: 622px; margin: 0 auto; padding: 4px 16px 16px; }
 .rc { display: flex; flex-direction: column; min-height: 83px; padding: 11px 8.5px 7px 10px; border-radius: 14px; background: #101013; box-shadow: inset 0 0 0 1px #4a4a4d; color: #a4a4aa; font: 12px/1.4 var(--ui); }
 .rc-ph { flex: 1; min-height: 39px; padding: 0 1.5px; overflow: hidden; }
 .rc-hint { color: var(--muted); }
@@ -90,7 +95,7 @@ svg { flex: none; }
 .rc-send.is-on { background: #e8e8e8; color: #161618 !important; }
 
 /* ---------- the right side: the live view, the activity tab attached under it ---------- */
-.cc { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 12px 12px 12px 0; }
+.cc { position: absolute; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; width: 664px; padding: 12px 12px 12px 0; }
 .cc-stack { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; border-radius: 12px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 12px 30px rgba(0,0,0,.4); }
 .bk-head { flex: none; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 8px 0 14px; box-shadow: 0 1px 0 var(--line); }
 .bk-title { min-width: 0; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 12px/16px var(--ui); color: var(--ink); }

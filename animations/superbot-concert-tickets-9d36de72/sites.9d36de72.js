@@ -1,7 +1,7 @@
 // The four ticket sites the agent scans, rebuilt as event pages at Chrome's own size on a 1470px desktop (the page area
 // under the tab strip and toolbar is 1470x837), plus the listings each round reads off them. Wordmarks and favicons are
 // the sites' own files (img/CREDITS.txt); the event itself is invented, so no real artist is shown.
-import { esc } from './lib.9d36de72.js?v=2';
+import { esc } from './lib.9d36de72.js?v=3';
 
 export const EVENT = { artist: 'Velvet Static', tour: 'Afterglow Tour', date: 'Sat, Nov 14, 2026', time: '7:30 PM', venue: 'Ball Arena', city: 'Denver, CO' };
 

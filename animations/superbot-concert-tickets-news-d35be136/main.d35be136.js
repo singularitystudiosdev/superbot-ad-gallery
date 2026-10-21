@@ -7,7 +7,7 @@ import { buildScreen, fitScreen, paintScreen } from './screen.d35be136.js';
 import { buildChat, measureChat, paintChat } from './chat.d35be136.js';
 import { buildSide, measureSide, paintSide } from './side.d35be136.js';
 
-const STILL_AT = 33.0; // the frame reduced motion holds: the whole chat settled, four news items
+const STILL_AT = 35.5; // the frame reduced motion holds: the whole chat settled, four news items
 const OPEN = TYPING[0].send; // the side panel opens as the user's first message is sent
 const OPEN_LEN = 0.55;
 const CENTRE = 300; // the 600px chat column's offset to sit centred in the 1200px app before the panel opens

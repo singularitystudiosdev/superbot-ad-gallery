@@ -1,0 +1,22 @@
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" viewBox="-0.74 -3.22 38.45 38.45" version="1.1" id="svg8" inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)" sodipodi:docname="vividseats.svg">
+  <defs id="defs2"></defs>
+  
+  
+  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(-11.291511,-126.75344)">
+    <g id="g831" transform="matrix(1.0675902,0,0,1.1079427,11.176562,126.65579)" style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+      <g id="g829" transform="translate(-17.40874,-9.911865)">
+        <g id="wordmark" transform="translate(37.5)" style="fill:#04092c">
+          
+        </g>
+        <g id="logoMark" transform="translate(0,-6)" style="fill-rule:nonzero">
+          <g id="g826" transform="translate(17.516411,16)">
+            <polygon id="polygon818" points="30.82805,10.625067 24.345656,21.846537 6.136042,10.625067 " style="fill:#0983b6"></polygon>
+            <polygon id="polygon820" points="6.1357409,10.625255 6.1364561,10.62533 6.136042,10.625067 30.82805,10.625067 36.966991,0.00027557582 6.1349126,10.625217 " style="fill:#0951b6"></polygon>
+            <polygon id="polygon822" points="6.142555,10.638507 6.1347997,10.624427 24.345354,21.846499 18.479354,32 " style="fill:#13bdc3"></polygon>
+            <polygon id="polygon824" points="0,0.0010891269 36.967179,0 6.1391291,10.622996 " style="fill:#ce3197"></polygon>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

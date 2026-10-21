@@ -32,17 +32,19 @@ svg { flex: none; }
 .cm { margin-bottom: 14px; opacity: 0; }
 .cm-u { display: flex; justify-content: flex-end; }
 .cm-u span { max-width: 82%; padding: 8px 14px; border-radius: 16px; background: #1f1f22; font: 12.5px/17px var(--ui); color: #f2f2f7; }
-.cm-chip { display: inline-flex; align-items: center; gap: 9px; height: 34px; padding: 0 12px; border-radius: 999px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); font: 600 12.5px/1 var(--ui); color: #ececec; }
-.cm-chip-ic { width: 15px; height: 15px; color: #a1a1a6; }
-.cm-chip-ic svg { display: block; width: 100%; height: 100%; }
-.cm-st { position: relative; width: 14px; height: 14px; margin-left: 2px; }
-.cm-spin { position: absolute; inset: 1px; border-radius: 50%; border: 2px solid #3a3a3f; border-top-color: #ececec; }
-.cm-ok { position: absolute; inset: 0; width: 14px; height: 14px; fill: none; stroke: var(--good); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
 .cm-say { margin: 0; font: 12.5px/18px var(--ui); color: var(--ink); }
 .cm-h { color: transparent; }
-.cm-card { display: flex; align-items: center; gap: 12px; margin: 10px 0; padding: 10px 14px 10px 10px; border-radius: 12px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); opacity: 0; }
+/* a price card: its wrapper's height eases open (a block formatting context, so the card's margins count in it); the
+   card is a skeleton with a sweep and a glyph chip until the price lands (chat.d35be136.js paintCard) */
+.cm-cardwrap { overflow: hidden; }
+.cm-card { position: relative; margin: 10px 0; overflow: hidden; border-radius: 12px; background: #141416; box-shadow: inset 0 0 0 1px var(--line); opacity: 0; transform-origin: 0 50%; }
+.cm-card-in { display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; opacity: 0; }
+.cm-sk { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.07) 50%, transparent 70%); pointer-events: none; }
+.cm-genl { position: absolute; left: 10px; top: 50%; display: inline-flex; align-items: center; gap: 7px; height: 28px; margin-top: -14px; padding: 0 11px 0 4px; border-radius: 999px; background: rgba(12,12,14,.78); box-shadow: inset 0 0 0 1px var(--line); font: 600 11px/1 var(--ui); color: #ececec; white-space: nowrap; }
+.cm-genl-ic { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 999px; background: #0b0b0c; box-shadow: inset 0 0 0 1px var(--line); color: #ececec; }
+.cm-genl-ic svg { display: block; width: 12px; height: 12px; }
 .cm-fav { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: #fff; }
-.cm-fav img { display: block; width: 18px; height: 18px; border-radius: 4px; }
+.cm-fav img { display: block; width: 24px; height: 24px; object-fit: contain; }
 .cm-card-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .cm-card-t b { font: 600 12.5px/16px var(--ui); color: #f2f2f7; }
 .cm-card-t small { font: 11px/14px var(--ui); color: var(--muted); }
@@ -115,7 +117,7 @@ svg { flex: none; }
 .cc-tab.is-on { border-radius: 10px 10px 0 0; background: #fff; }
 .cc-tab > span { position: relative; }
 .cc-fav { flex: none; width: 16px; height: 16px; }
-.cc-fav img { display: block; width: 16px; height: 16px; }
+.cc-fav img { display: block; width: 16px; height: 16px; object-fit: contain; }
 .cc-fav .sb-tile { width: 16px; height: 16px; border-radius: 4px; }
 .cc-fav .sbm-c { transform: translate(-.5px, -.5px); }
 .cc-fav .sbm-m { transform: translate(.5px, .5px); }

@@ -5,16 +5,16 @@
 // cursor targets are in page px, read off each 1470x839 capture
 export const SITES = [
   { host: 'stubhub.com', name: 'StubHub', url: 'stubhub.com/gracie-abrams-denver-tickets-12-3-2026/event/161246896',
-    title: 'Gracie Abrams', fav: 'fav-stubhub.png', page: 'stubhub', qty: { page: 'stubhub-qty', at: { x: 730, y: 519 } },
+    title: 'Gracie Abrams', fav: 'logo-stubhub.svg', page: 'stubhub', qty: { page: 'stubhub-qty', at: { x: 730, y: 519 } },
     price: { x: 1398, y: 190 }, seat: 'Sec 374, Row 11', cost: 42 },
   { host: 'seatgeek.com', name: 'SeatGeek', url: 'seatgeek.com/gracie-abrams-tickets/denver-colorado-ball-arena-2026-12-03-8-pm/concert/18270512',
-    title: 'Gracie Abrams with Rachel Chinouriri', fav: 'fav-seatgeek.png', page: 'seatgeek', qty: { page: 'seatgeek-qty', at: { x: 734, y: 389 } },
+    title: 'Gracie Abrams with Rachel Chinouriri', fav: 'logo-seatgeek.svg', page: 'seatgeek', qty: { page: 'seatgeek-qty', at: { x: 734, y: 389 } },
     price: { x: 584, y: 230 }, seat: 'Sec 378, Row 15', cost: 40 },
   { host: 'vividseats.com', name: 'Vivid Seats', url: 'vividseats.com/gracie-abrams-tickets-denver-ball-arena-12-3-2026--concerts-alternative/production/7091517',
-    title: 'Gracie Abrams Denver tickets - Ball Arena - 12/03/2026 | Vivid Seats', fav: 'fav-vividseats.png', page: 'vividseats', sort: { x: 452, y: 396 },
+    title: 'Gracie Abrams Denver tickets - Ball Arena - 12/03/2026 | Vivid Seats', fav: 'logo-vividseats.svg', page: 'vividseats', sort: { x: 452, y: 396 },
     price: { x: 452, y: 484 }, seat: 'Sec 374, Row 11', cost: 41 },
   { host: 'tickpick.com', name: 'TickPick', url: 'tickpick.com/buy-gracie-abrams-tickets-ball-arena-12-3-26-8pm/8002236',
-    title: 'Gracie Abrams & Rachel Chinouriri Denver Tickets - Ball Arena, Dec 3 | TickPick', fav: 'fav-tickpick.png', page: 'tickpick', sort: { x: 92, y: 108 },
+    title: 'Gracie Abrams & Rachel Chinouriri Denver Tickets - Ball Arena, Dec 3 | TickPick', fav: 'logo-tickpick.svg', page: 'tickpick', sort: { x: 92, y: 108 },
     price: { x: 612, y: 360 }, seat: 'Sec 374, Row 11', cost: 38 },
 ];
 // the tab superbot opens on: Chrome's New Tab page (a real capture, from the computer-control-v3-soft variant)
@@ -66,9 +66,9 @@ const first = SITES[0];
 const scanned = VISITS[SITES.length - 1].read;
 
 say(0.5, 'Find me the cheapest 2 tickets for Gracie Abrams at Ball Arena on Dec 3');
-CHAT.push({ at: 2.7, kind: 'chip', text: 'Taking control of your computer', done: 3.4 });
 CHAT.push({ at: 3.6, kind: 'bot', text: "On it. I'm checking StubHub, SeatGeek, Vivid Seats and TickPick for 2 seats together." });
 CHAT.push(...HITS);
-CHAT.push({ at: scanned + 1.4, kind: 'bot', text: `Checked all 4 sites. ${best.name} is the cheapest at $${best.cost} each, fees included, $${(first.cost - best.cost) * 2} less for the pair than ${first.name}. I'll keep rechecking every site for drops.` });
-say(scanned + 4.2, 'Buy them if they drop under $35 each');
-CHAT.push({ at: scanned + 6.4, kind: 'bot', text: "Deal. If 2 seats together drop under $35 each, I'll buy them and let you know." });
+// the sum-up waits for the last price card to land (its room, its loading beat, the landing: chat.d35be136.js)
+CHAT.push({ at: scanned + 3.4, kind: 'bot', text: `Checked all 4 sites. ${best.name} is the cheapest at $${best.cost} each, fees included, $${(first.cost - best.cost) * 2} less for the pair than ${first.name}. I'll keep rechecking every site for drops.` });
+say(scanned + 6.0, 'Buy them if they drop under $35 each');
+CHAT.push({ at: scanned + 8.2, kind: 'bot', text: "Deal. If 2 seats together drop under $35 each, I'll buy them and let you know." });

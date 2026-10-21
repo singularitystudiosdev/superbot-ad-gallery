@@ -22,7 +22,14 @@ tickpick.webp: https://www.tickpick.com/buy-gracie-abrams-tickets-ball-arena-12-
 
 Ticketmaster was tried and left out: it paused the browser as automated traffic before its event page loaded.
 
-fav-*.png: each site's own favicon, fetched 2026-10-21 from https://www.google.com/s2/favicons?domain=<site>&sz=64.
+logo-*.svg: each site's own vector logo, fetched 2026-10-21, shown in the chat's price cards and as the Chrome tab icon.
+  logo-stubhub.svg     https://commons.wikimedia.org/wiki/File:StubHub_Logo.svg (public domain, author StubHub)
+  logo-seatgeek.svg    https://seatgeek.com/images/image_uploads/f2ecace0-e181-41c2-8f25-bb60d99eaa9b/SeatGeekLogo.svg
+  logo-vividseats.svg  https://commons.wikimedia.org/wiki/File:Vivid_Seats_logo.svg (public domain, author Vivid Seats),
+                       cropped to its triangle mark: the wordmark shapes removed and the viewBox squared round the mark
+  logo-tickpick.svg    https://commons.wikimedia.org/wiki/File:TickPick_logo.svg (public domain), cropped the same way
+                       to its two-ticket mark
+  Nothing is redrawn: the marks are the files' own paths, only cropped.
 
 new-tab.webp: Google Chrome's New Tab page in a fresh profile, the computer-control-v3-soft variant's capture
   (gemini-muse-meme-superbot-6fbc38f8/img/computer.ba3976b6/new-tab.png, 1470x839, see its CREDITS.txt), converted to

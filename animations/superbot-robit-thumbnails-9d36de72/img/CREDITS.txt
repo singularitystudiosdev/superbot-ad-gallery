@@ -1,0 +1,33 @@
+Sources for the ROB IT thumbnails loop (9d36de72). Never shown on screen.
+
+ROBLOX PAGES (img/rbx/), captured 2026-10-21 by this chat through Cosmos browser-control, in a background tab of the
+account owner's own signed-in Chrome, viewport emulated at 1470 wide, 1x:
+  rbx-game.webp   https://www.roblox.com/games/96168869671905/ROB-IT at 1470x837. In that tab only, the Robux balance
+                  was blurred, and the carousel's own first thumbnail was shown in place of its gameplay video (a
+                  background tab had not started the video). Nothing was clicked.
+  ch-*.webp       https://create.roblox.com/dashboard/creations/experiences/9472441390/places/96168869671905/thumbnails
+                  at 1470x1150, cropped to 1470x1060 (the table and nothing of the analytics cards below it). One
+                  capture per state the run passes through. Before each capture, in that tab's DOM only (no request
+                  sent, nothing clicked, saved, uploaded or deleted): the performance table's rows were set to ROB IT's
+                  four public thumbnails plus this spot's new versions, every figure was replaced with an illustrative
+                  value, the date range and "last updated" stamp were set per day, the pagination count matched to the
+                  rows shown, and the table scrolled. The page's layout, controls and styles are Creator Hub's own.
+                  The page came up in edit mode for the first batch (e*) and in view mode after a reload (v*), and the
+                  session's account avatar differed between the two loads; the left rail and the header's avatar corner
+                  of the e* captures are taken from v1L0 so every frame shows the same account. The tab was closed
+                  afterwards; its stored preferences were not changed.
+The figures (impressions, qualified plays, session time, play-through rate, dates) are illustrative, not ROB IT's.
+
+THUMBNAILS (img/thumbs/)
+  it-1, it-2, it-4.webp  new versions made for this spot with fal-ai/nano-banana-pro/edit (1K, 16:9), 2026-10-21, each an
+                  edit of one of ROB IT's four public thumbnails (https://thumbnails.roblox.com/v1/games/multiget/
+                  thumbnails, universe 9472441390): it-1 of the sleeping-owner cash grab, it-2 of the diamond and rubber
+                  chicken, it-4 of the vault diamond. Model, request id and prompt in it-*.json beside each.
+                  The public thumbnails themselves appear only inside the Creator Hub captures.
+Roblox, Creator Hub, ROB IT and its art belong to their owners.
+
+roblox-fav.png, creatorhub-fav.png: https://www.google.com/s2/favicons?domain=roblox.com / create.roblox.com, 2026-10-21.
+new-tab.png: Google Chrome's New Tab page, the reference spot's capture
+(gemini-muse-meme-superbot-6fbc38f8/img/computer.ba3976b6/new-tab.png). Google's logo and page are Google's.
+Icons in the activity log: lucide (ISC license), from https://api.iconify.design/lucide/<name>.svg, 2026-10-21.
+Chrome's tab strip, toolbar and cursor follow gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/computer.ba3976b6.css.

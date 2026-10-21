@@ -1,0 +1,126 @@
+/* The flight-loop cuts (beats/flightloop.97eee3b5.js): the v3-soft live view (computer.ba3976b6.css, whose cc3-* Chrome,
+   vignette and pill classes this reuses) on a longer job. Three parts: the thread's tail, where follow-ups grow in above
+   the docked live view; the heads-up layer superbot draws on the frame (the running task, a progress bar and, in the
+   news looks, the cheapest fare so far), placed per look by the card's .ccl-L-<look> class; and the booking sites' result
+   pages, drawn in the desktop's own px. The pill's dark glass and the vignette's pink and purple. No CSS animation or
+   transition: the beat sets every opacity, width, height and transform from t, so frozen frames (?t=) hold. */
+
+/* the thread's tail: one feed row (a .qc-m, so the feed shows it) holding the follow-ups and, last, the live view. It
+   pulls up over the feed's 12px gap so the card sits under superbot's first line as v3-soft's does; each follow-up grows
+   from no height (the beat sets height and margin), so the card stays at the bottom while the thread rises above it */
+#s-tabs .sbsite .hub .ccl-tail { display: flex; flex-direction: column; margin-top: -12px; }
+#s-tabs .sbsite .hub .ccl-tail > .msg { flex: none; box-sizing: border-box; width: 100%; }
+#s-tabs .sbsite .hub .ccl-tail > .ccl-fu { height: 0; overflow: hidden; }
+
+/* the heads-up layer: the pill's dark glass, at the view's own size */
+#s-tabs .sbsite .hub .ccl-glass { position: absolute; z-index: 6; display: flex; align-items: center; height: 28px; box-sizing: border-box; border-radius: 14px; white-space: nowrap; opacity: 0; pointer-events: none; background: rgba(22,22,26,.9); box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 8px 24px rgba(0,0,0,.35); font: 500 11px/1 var(--ui); color: #f2f2f5; }
+
+/* the running task: a turning ring (a check once done), its line, and which check of how many */
+#s-tabs .sbsite .hub .ccl-task { display: flex; align-items: center; gap: 7px; white-space: nowrap; font: 500 11px/1 var(--ui); }
+#s-tabs .sbsite .hub .ccl-task-chip { top: 10px; right: 10px; padding: 0 11px 0 8px; }
+#s-tabs .sbsite .hub .ccl-task-head { flex: none; margin-right: 2px; opacity: 0; color: #c7c7cc; }
+#s-tabs .sbsite .hub .ccl-st { position: relative; flex: none; width: 13px; height: 13px; }
+#s-tabs .sbsite .hub .ccl-spin { position: absolute; inset: 0; box-sizing: border-box; border: 1.7px solid rgba(255,255,255,.18); border-top-color: #f472b6; border-right-color: #a855f7; border-radius: 50%; }
+#s-tabs .sbsite .hub .ccl-ok { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 50%; opacity: 0; background: linear-gradient(135deg, #f472b6, #a855f7); }
+#s-tabs .sbsite .hub .ccl-ok svg { display: block; width: 11px; height: 11px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* a changing line: every version stacked in one cell, faded by the beat, which sets the cell's width to the running one's */
+#s-tabs .sbsite .hub .ccl-lbl { display: grid; overflow: hidden; }
+#s-tabs .sbsite .hub .ccl-lbl > span { grid-area: 1 / 1; justify-self: start; opacity: 0; }
+#s-tabs .sbsite .hub .ccl-n { flex: none; font: 600 10px/1 var(--ui); font-variant-numeric: tabular-nums; color: #a1a1a6; }
+
+/* a bar: its track and the fill in the vignette's pink to purple, scaled from its left by the beat */
+#s-tabs .sbsite .hub .ccl-bar { position: absolute; z-index: 6; display: block; overflow: hidden; pointer-events: none; }
+#s-tabs .sbsite .hub .ccl-fill { position: absolute; inset: 0; transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, #f472b6, #a855f7); }
+/* on the screen's edge the vignette glows the same pink, so these run on the pill's dark glass and the fill glows */
+#s-tabs .sbsite .hub .ccl-bar-top { top: 0; left: 0; right: 0; height: 4px; opacity: 0; background: rgba(22,22,26,.8); }
+#s-tabs .sbsite .hub .ccl-bar-bottom { bottom: 0; left: 0; right: 0; height: 4px; opacity: 0; background: rgba(22,22,26,.8); }
+#s-tabs .sbsite .hub .ccl-bar-top .ccl-fill, #s-tabs .sbsite .hub .ccl-bar-bottom .ccl-fill { box-shadow: 0 0 6px rgba(244,114,182,.8); }
+#s-tabs .sbsite .hub .ccl .bk-head, #s-tabs .sbsite .hub .ccl-side .bk-head { position: relative; }
+#s-tabs .sbsite .hub .ccl-bar-head { left: 0; right: 0; bottom: -1px; height: 3px; background: #2a2a2e; }
+#s-tabs .sbsite .hub .ccl-bar-pill { left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 1px; background: rgba(255,255,255,.16); }
+#s-tabs .sbsite .hub .ccl-bar-foot { top: 0; left: 0; right: 0; height: 3px; background: #2a2a2e; }
+/* the pill look: the pill carries the count and the bar under its line */
+#s-tabs .sbsite .hub .ccl-L-pill .cc3-pill { height: 34px; padding-bottom: 4px; }
+#s-tabs .sbsite .hub .ccl-L-pill .cc3-pill .ccl-n { margin-left: 2px; }
+
+/* the topline: the cheapest fare so far, its price rolling to each new low, a tag naming the change for a moment */
+#s-tabs .sbsite .hub .ccl-news { display: flex; align-items: center; gap: 6px; white-space: nowrap; font: 500 10.5px/1 var(--ui); color: #a1a1a6; }
+#s-tabs .sbsite .hub .ccl-nv { display: flex; align-items: center; gap: 6px; }
+/* the corner look: a small card of two lines, the label over the fare, so it never reaches the task chip */
+#s-tabs .sbsite .hub .ccl-news-corner { top: 10px; left: 10px; flex-direction: column; align-items: flex-start; gap: 5px; height: auto; padding: 8px 12px 9px; border-radius: 12px; }
+#s-tabs .sbsite .hub .ccl-news-corner .ccl-nl { font-size: 10px; }
+#s-tabs .sbsite .hub .ccl-news-head { flex: none; height: 22px; margin-right: auto; padding: 0 9px; border-radius: 11px; opacity: 0; background: #26262b; box-shadow: inset 0 0 0 1px #3a3a3e; }
+#s-tabs .sbsite .hub .ccl-L-news-header .bk-title { margin-right: 0; }
+#s-tabs .sbsite .hub .ccl-L-news-header .bk-title small { display: none; }
+#s-tabs .sbsite .hub .ccl-roll { display: grid; overflow: hidden; height: 14px; font: 700 12.5px/14px var(--ui); font-variant-numeric: tabular-nums; color: #f2f2f5; }
+#s-tabs .sbsite .hub .ccl-roll > span { grid-area: 1 / 1; justify-self: start; }
+#s-tabs .sbsite .hub .ccl-delta { flex: none; font: 600 10px/1 var(--ui); font-variant-numeric: tabular-nums; opacity: 0; color: #f472b6; }
+#s-tabs .sbsite .hub .ccl-delta.ccl-up { color: #a1a1a6; }
+/* the footer look: a strip under the live view, the bar along its top edge */
+#s-tabs .sbsite .hub .ccl-foot { position: relative; display: flex; align-items: center; gap: 8px; height: 44px; box-sizing: border-box; padding: 2px 14px 0; background: #1c1c20; }
+#s-tabs .sbsite .hub .ccl-foot .ccl-roll { height: 18px; font-size: 15px; line-height: 18px; }
+#s-tabs .sbsite .hub .ccl-foot .ccl-news { flex: 1; min-width: 0; font-size: 11px; }
+#s-tabs .sbsite .hub .ccl-foot .ccl-n { font-size: 11px; font-weight: 500; }
+#s-tabs .sbsite .hub .ccl-L-news-footer .cc3-edge, #s-tabs .sbsite .hub .ccl-L-news-footer .cc3-band { border-radius: 0; }
+#s-tabs .sbsite .hub .ccl-side .ccl-foot { flex: none; width: 688px; margin: -8px 16px 0; border-radius: 0 0 12px 12px; }
+
+/* the Expand panel's view: v3-soft's .cc3-big, the same overlays */
+#s-tabs .sbsite .hub .ccl-side .bk-title small { margin-left: 6px; font: 400 12px/16px var(--ui); color: #a1a1a6; }
+
+/* the desktop's tabs: v3-soft's Chrome tab, each site's opened by the beat (width; its padding lives on its children so
+   at width 0 it takes no room), its favicon a plain lettered square that turns into Chrome's loading ring while its page
+   loads. Two classes deep, so they hold whichever of the two sheets loads last */
+#s-tabs .sbsite .hub .cc3-tab.ccl-tab { width: 0; padding: 0; opacity: 0; }
+#s-tabs .sbsite .hub .cc3-tab.ccl-tab .ccl-fv { margin-left: 12px; }
+#s-tabs .sbsite .hub .cc3-tab.ccl-tab .cc3-x { margin-right: 8px; }
+#s-tabs .sbsite .hub .ccl-fv { position: relative; flex: none; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 4px; font: 700 10px/1 var(--ui); color: #fff; }
+#s-tabs .sbsite .hub .ccl-fspin { position: absolute; inset: -1px; box-sizing: border-box; border: 2px solid #c4c7c5; border-top-color: #1a73e8; border-radius: 50%; opacity: 0; background: #dee1e6; }
+#s-tabs .sbsite .hub .cc3-url.ccl-url { overflow: hidden; white-space: nowrap; }
+#s-tabs .sbsite .hub .ccl-rest { color: #5f6368; }
+#s-tabs .sbsite .hub .ccl-shot { position: absolute; top: 82px; left: 0; display: block; width: 1470px; height: auto; opacity: 0; }
+
+/* a booking site's results page, in the desktop's px under the 82px of tab strip and toolbar: the site's band (its name
+   as plain text, no logo), the search form, filter chips and the sort, then five fares, cheapest first once sorted */
+#s-tabs .sbsite .hub .ccl-page { position: absolute; top: 82px; left: 0; width: 1470px; height: 837px; overflow: hidden; opacity: 0; background: var(--bg); font-family: var(--ui); color: #202124; }
+#s-tabs .sbsite .hub .ccl-pb { display: flex; align-items: center; gap: 28px; height: 68px; padding: 0 48px; background: var(--head); box-shadow: 0 1px 0 rgba(0,0,0,.08); font: 500 16px/1 var(--ui); color: var(--muted); }
+#s-tabs .sbsite .hub .ccl-pname { margin-right: 24px; font: 700 26px/1 var(--ui); letter-spacing: -.02em; color: var(--ink); }
+#s-tabs .sbsite .hub .ccl-psign { margin-left: auto; padding: 11px 20px; border-radius: 22px; box-shadow: inset 0 0 0 1.5px var(--muted); font-weight: 600; color: var(--ink); }
+#s-tabs .sbsite .hub .ccl-form { display: flex; align-items: center; gap: 12px; height: 104px; padding: 0 48px; background: var(--band); }
+#s-tabs .sbsite .hub .ccl-f { display: flex; align-items: center; height: 56px; box-sizing: border-box; padding: 0 18px; border-radius: 10px; background: #fff; box-shadow: inset 0 0 0 1.5px #c9ccd1; font: 500 18px/1 var(--ui); color: #202124; }
+#s-tabs .sbsite .hub .ccl-f-from, #s-tabs .sbsite .hub .ccl-f-to { width: 230px; }
+#s-tabs .sbsite .hub .ccl-f-d1, #s-tabs .sbsite .hub .ccl-f-d2 { width: 170px; }
+#s-tabs .sbsite .hub .ccl-f-pax { width: 220px; }
+#s-tabs .sbsite .hub .ccl-f.ccl-on { box-shadow: inset 0 0 0 3px var(--acc); }
+#s-tabs .sbsite .hub .ccl-go { display: grid; place-items: center; height: 56px; padding: 0 30px; border-radius: 10px; background: var(--acc); font: 700 18px/1 var(--ui); color: var(--go-ink); }
+#s-tabs .sbsite .hub .ccl-tools { display: flex; align-items: center; gap: 10px; height: 76px; padding: 0 48px; }
+#s-tabs .sbsite .hub .ccl-fc { padding: 11px 18px; border-radius: 22px; background: #fff; box-shadow: inset 0 0 0 1.5px #c9ccd1; font: 500 16px/1 var(--ui); color: #3c4043; }
+#s-tabs .sbsite .hub .ccl-fc.ccl-on { background: var(--acc); box-shadow: none; color: var(--go-ink); }
+#s-tabs .sbsite .hub .ccl-sort { display: flex; margin-left: auto; overflow: hidden; border-radius: 10px; box-shadow: inset 0 0 0 1.5px #c9ccd1; background: #fff; }
+#s-tabs .sbsite .hub .ccl-so { padding: 13px 26px; font: 600 16px/1 var(--ui); color: #5f6368; }
+#s-tabs .sbsite .hub .ccl-so.ccl-on { background: var(--acc); color: var(--go-ink); }
+#s-tabs .sbsite .hub .ccl-rows { display: grid; gap: 12px; padding: 0 48px; }
+#s-tabs .sbsite .hub .ccl-row { position: relative; height: 98px; border-radius: 12px; background: #fff; box-shadow: 0 0 0 1.5px #dadce0; }
+#s-tabs .sbsite .hub .ccl-rc { display: grid; grid-template-columns: 52px 340px 190px 170px 1fr auto; align-items: center; gap: 0 24px; height: 100%; padding: 0 32px 0 26px; }
+#s-tabs .sbsite .hub .ccl-badge { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--al); font: 700 17px/1 var(--ui); font-style: normal; color: #fff; }
+#s-tabs .sbsite .hub .ccl-rc b { display: flex; align-items: center; gap: 10px; font: 600 21px/1.2 var(--ui); color: #202124; }
+#s-tabs .sbsite .hub .ccl-rc b sup { margin-left: -6px; font-size: 13px; color: #5f6368; }
+#s-tabs .sbsite .hub .ccl-rc small { display: block; margin-top: 6px; font: 400 16px/1.2 var(--ui); color: #5f6368; }
+#s-tabs .sbsite .hub .ccl-dash { width: 14px; height: 2px; background: #5f6368; }
+#s-tabs .sbsite .hub .ccl-ft { justify-self: start; padding: 7px 12px; border-radius: 8px; background: #f1f3f4; font: 500 15px/1 var(--ui); color: #3c4043; }
+#s-tabs .sbsite .hub .ccl-ft.ccl-basic { background: #fdecc8; color: #7a4b00; }
+#s-tabs .sbsite .hub .ccl-pr { text-align: right; }
+#s-tabs .sbsite .hub .ccl-pr b { justify-content: flex-end; font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+/* a fare still loading: grey bars over the row, swept by the beat's shimmer (--sh) */
+#s-tabs .sbsite .hub .ccl-sk { position: absolute; inset: 0; border-radius: 12px; background:
+  linear-gradient(100deg, transparent 30%, rgba(255,255,255,.65) 50%, transparent 70%) var(--sh, 0%) 0 / 300% 100% no-repeat,
+  radial-gradient(circle, #e3e5e8 25px, transparent 26px) 52px 49px / 52px 52px no-repeat,
+  linear-gradient(#e3e5e8 0 0) 102px 30px / 240px 16px no-repeat,
+  linear-gradient(#e3e5e8 0 0) 102px 58px / 150px 12px no-repeat,
+  linear-gradient(#e3e5e8 0 0) 466px 36px / 120px 16px no-repeat,
+  linear-gradient(#e3e5e8 0 0) 680px 36px / 100px 16px no-repeat,
+  linear-gradient(#e3e5e8 0 0) right 32px top 32px / 110px 22px no-repeat,
+  #fff; }
+/* superbot's mark on the fare it reads: a pink to purple ring, drawn by its overlay round the row */
+#s-tabs .sbsite .hub .ccl-ring { position: absolute; inset: -6px; padding: 4px; border-radius: 16px; opacity: 0; background: linear-gradient(90deg, #f472b6, #a855f7); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+/* the feed's fold glides to this, a little under the docked card, so the card clears the feed's clip with its shadow */
+#s-tabs .sbsite .hub .ccl-anchor { display: block; height: 0; margin-top: 6px; }

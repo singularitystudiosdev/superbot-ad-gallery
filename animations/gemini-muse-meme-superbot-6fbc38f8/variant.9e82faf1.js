@@ -61,6 +61,14 @@ export const VARIANTS = [
   { id: 'computer-control-v3-progress-a', label: 'Computer Control V3 · Progress + chat: line, kittens redirect' },
   { id: 'computer-control-v3-progress-b', label: 'Computer Control V3 · Progress + chat: step card, newest video' },
   { id: 'computer-control-v3-progress-c', label: 'Computer Control V3 · Progress + chat: pill, full screen added' },
+  // the v3-soft live view on a looping flight search, the user's messages growing in above it as it works, superbot's
+  // task and progress on the frame and, in the news looks, the cheapest fare so far (scenes/tabs-assets/beats/flightloop.97eee3b5.js)
+  { id: 'flight-loop-edge-97eee3b5', label: 'Flight loop · Edge bar + task chip' },
+  { id: 'flight-loop-header-97eee3b5', label: 'Flight loop · Task and bar in the header' },
+  { id: 'flight-loop-pill-97eee3b5', label: 'Flight loop · Bar in the pill' },
+  { id: 'flight-loop-news-corner-97eee3b5', label: 'Flight loop · Cheapest fare chip' },
+  { id: 'flight-loop-news-footer-97eee3b5', label: 'Flight loop · Cheapest fare footer' },
+  { id: 'flight-loop-news-header-97eee3b5', label: 'Flight loop · Cheapest fare in the header' },
   { id: 'photoedit', label: 'Photo edit' },
   { id: 'lawn', label: 'Front lawn garden' },
   { id: 'multicat', label: 'Multi-tool cat' },

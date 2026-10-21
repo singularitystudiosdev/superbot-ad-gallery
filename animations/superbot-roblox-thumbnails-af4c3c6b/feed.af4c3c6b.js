@@ -27,14 +27,15 @@ function popHTML(bits) {
   const dots = bits.map((b) => `<i class="ac-bit${b.dot ? ' ac-dot' : ''}" style="background:${b.color}"></i>`).join('');
   return `<span class="ac-fx" aria-hidden="true"><img class="ac-pop" src="${FX}party_popper.png" alt="" width="15" height="15">${dots}</span>`;
 }
-function paintPop(r, t) {
-  const tau = t - r.a.at - POP_AT;
-  if (REDUCED) { r.pop.style.transform = 'none'; return; }
+// a popper (an Activity win's, or a breakthrough card's) as it stands at t, popping from `at`
+function paintPop(fx, at, t) {
+  const tau = t - at - POP_AT;
+  if (REDUCED) { fx.pop.style.transform = 'none'; return; }
   const k = seg(tau, 0, POP_IN);
   const wobble = tau > 0 ? 10 * Math.sin(tau * 20) * Math.exp(-tau * 7) : 0;
-  r.pop.style.transform = `rotate(${(-40 * (1 - outCubic(k)) + wobble).toFixed(1)}deg) scale(${(tau > 0 ? backOut(k) : 0).toFixed(3)})`;
+  fx.pop.style.transform = `rotate(${(-40 * (1 - outCubic(k)) + wobble).toFixed(1)}deg) scale(${(tau > 0 ? backOut(k) : 0).toFixed(3)})`;
   const bt = tau - BURST_AT;
-  for (const b of r.bits) {
+  for (const b of fx.bits) {
     if (bt <= 0 || bt >= BURST_LIFE) { if (b.on) { b.el.style.opacity = '0'; b.on = false; } continue; }
     b.on = true;
     const e = (1 - Math.exp(-DRAG * bt)) / DRAG;
@@ -66,36 +67,39 @@ function hintAt(t, from) {
   return { text: HINTS[n % HINTS.length], k: Math.min(kin, 1 - kout), y: ((1 - kin) - kout) * HINT_RISE };
 }
 
-// a card: one thumbnail with its rate (a finding or a breakthrough), or a strip of the iterations superbot made
-function cardHTML(card) {
+// a card: one thumbnail with its rate (a finding or a breakthrough), or a strip of the iterations superbot made; a
+// breakthrough's title carries the party popper, firing as the card comes in
+function cardHTML(card, bits) {
   if (!card) return '';
   if (card.strip) {
     return `<div class="cm-card cm-strip">${card.strip.map((id) => `<figure><img src="${THUMBS[id].img}" alt="" width="768" height="432"><figcaption>${esc(THUMBS[id].name)}</figcaption></figure>`).join('')}</div>`;
   }
   return `<div class="cm-card">
       <span class="cm-thumb"><img src="${card.img}" alt="" width="768" height="432"></span>
-      <span class="cm-card-t"><b>${esc(card.title)}</b><small>${esc(card.sub)}</small><small>${esc(card.line)}</small></span>
+      <span class="cm-card-t"><b>${esc(card.title)}${bits ? popHTML(bits) : ''}</b><small>${esc(card.sub)}</small><small>${esc(card.line)}</small></span>
       <span class="cm-card-p"><b>${esc(card.value)}</b><small>${esc(card.unit)}</small></span>
     </div>`;
 }
 
 // superbot's messages are bare text and cards, no name line over them
-function chatItem(c) {
+function chatItem(c, bits) {
   if (c.kind === 'user') return `<div class="cm cm-u"><span>${esc(c.text)}</span></div>`;
-  const card = cardHTML(c.card);
+  const card = cardHTML(c.card, bits);
   const after = c.after ? `<p class="cm-say cm-after"><span class="cm-v"></span><span class="cm-h">${esc(c.after)}</span></p>` : '';
   return `<div class="cm cm-b"><p class="cm-say"><span class="cm-v"></span><span class="cm-h">${esc(c.text)}</span></p>${card}${after}</div>`;
 }
 
 export function buildFeed(left, act, S) {
   const feedIn = left.querySelector('.ch-in');
-  const items = S.chat.map((c) => {
-    const node = el(chatItem(c));
+  const items = S.chat.map((c, k) => {
+    const bits = c.card && c.card.win ? burst(100 + k) : null;
+    const node = el(chatItem(c, bits));
     feedIn.appendChild(node);
+    if (bits) [...node.querySelectorAll('.ac-bit')].forEach((b, j) => { bits[j].el = b; bits[j].on = false; });
     const say = [...node.querySelectorAll('.cm-say')].map((p) => ({ v: p.firstElementChild, h: p.lastElementChild, text: p.lastElementChild.textContent, shown: -1 }));
     const textEnd = c.at + 0.08 + (c.text.length / STREAM_CPS);
     const cardAt = textEnd + 0.15;
-    return { c, node, say, card: node.querySelector('.cm-card'), textEnd, cardAt, h: 0 };
+    return { c, node, say, card: node.querySelector('.cm-card'), pop: node.querySelector('.ac-pop'), bits, textEnd, cardAt, h: 0 };
   });
   const actIn = act.querySelector('.ac-in');
   const rows = S.acts.map((a, n) => {
@@ -148,6 +152,7 @@ export function paintFeed(f, S, t) {
     if (it.c.kind === 'bot') {
       stream(it.say[0], it.c.at + 0.08, t);
       if (it.card) reveal(it.card, enter(t, it.cardAt));
+      if (it.pop) paintPop(it, it.cardAt + 0.1, t);
       if (it.say[1]) stream(it.say[1], it.cardAt + 0.35, t);
     }
   }
@@ -173,7 +178,7 @@ export function paintFeed(f, S, t) {
   f.empty.style.opacity = last ? '0' : '1';
   for (const r of f.rows) {
     reveal(r.node, enter(t, r.a.at));
-    if (r.pop) paintPop(r, t);
+    if (r.pop) paintPop(r, r.a.at, t);
   }
   const actRoom = f.list.clientHeight - 12; // .ac-in padding
   f.actIn.style.transform = `translateY(${(-scrolled(f.rows, t, actRoom)).toFixed(2)}px)`;

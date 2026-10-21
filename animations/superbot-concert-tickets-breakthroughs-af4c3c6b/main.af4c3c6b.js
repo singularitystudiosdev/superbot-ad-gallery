@@ -23,6 +23,8 @@ function dock(t) {
   side.style.opacity = REDUCED ? k.toFixed(3) : '1';
   side.style.visibility = k > 0 ? 'visible' : 'hidden';
 }
+// the opening layout from the first instant, before the pages have loaded and the clock has started
+dock(-1);
 
 function scaleStage() {
   const k = Math.min(innerWidth / 1920, innerHeight / 1080);
@@ -59,6 +61,8 @@ async function start() {
   fit(view);
   primeLists(view);
   measure(view);
+  // heights are measured at the chat's docked width, the one its messages are read at
+  chat.style.width = `${CHAT_W}px`;
   measureFeed(feed);
   if (frozen !== null) { frame(frozen); window.__ready = true; return; }
   origin = performance.now();

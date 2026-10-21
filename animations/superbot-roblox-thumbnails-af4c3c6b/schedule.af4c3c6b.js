@@ -134,7 +134,7 @@ export function buildSchedule() {
     move(at + 0.05, at + 0.5, `ptr:${row(id)}@${s}`);
     const r = rateOf(table.period, id);
     act(at + 0.55, 'trophy', text(r), true);
-    return bot(at + 0.55 + POST, card.say(r), { img: THUMBS[id].img, title: THUMBS[id].name, sub: card.sub, line: `Replaced the ${THUMBS[replaced].name} one (${pct(oldRate)})`, value: pct(r), unit: 'play-through' }, card.after);
+    return bot(at + 0.55 + POST, card.say(r), { img: THUMBS[id].img, title: THUMBS[id].name, sub: card.sub, line: `Replaced the ${THUMBS[replaced].name} one (${pct(oldRate)})`, value: pct(r), unit: 'play-through', win: true }, card.after);
   };
 
   // round one: read the table, find the lowest performer, make and upload iterations, swap one in

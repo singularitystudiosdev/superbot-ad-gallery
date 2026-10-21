@@ -13,7 +13,8 @@ html, body { margin: 0; height: 100%; background: #fff; overflow: hidden; }
 body { font-family: var(--ui); color: var(--ink); -webkit-font-smoothing: antialiased; }
 #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); transform-origin: 50% 50%; }
 /* the loop's seam dips to the white ground, not to black */
-#dip { position: absolute; inset: 0; z-index: 10; background: #fff; opacity: 0; pointer-events: none; }
+/* opaque until the first painted frame, so a reload never shows the page half laid out */
+#dip { position: absolute; inset: 0; z-index: 10; background: #fff; opacity: 1; pointer-events: none; }
 .hint { position: fixed; right: 18px; bottom: 14px; font-size: 12px; color: var(--muted); opacity: .6; user-select: none; }
 body.freeze .hint { display: none; }
 
@@ -99,6 +100,8 @@ svg { flex: none; }
 .ac-pop { display: block; width: 15px; height: 15px; transform: scale(0); transform-origin: 22% 78%; }
 .ac-bit { position: absolute; left: 10px; top: 2px; width: 2.2px; height: 4.2px; border-radius: .6px; opacity: 0; }
 .ac-dot { width: 3px; height: 3px; border-radius: 50%; }
+/* a breakthrough card's popper sits after its title, inline with it */
+.cm-card-t b .ac-fx { display: inline-block; margin-left: 6px; vertical-align: -2px; }
 .ac-empty { position: absolute; left: 14px; top: 12px; margin: 0; font: 12px/16px var(--ui); color: var(--muted); }
 
 /* ---------- Chrome on the shared desktop, in the desktop's own px (computer.ba3976b6.css) ---------- */

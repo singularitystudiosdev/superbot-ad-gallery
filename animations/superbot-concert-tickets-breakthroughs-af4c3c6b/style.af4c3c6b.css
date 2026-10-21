@@ -12,7 +12,8 @@ html, body { margin: 0; height: 100%; background: #fff; overflow: hidden; }
 body { font-family: var(--ui); color: var(--ink); -webkit-font-smoothing: antialiased; }
 #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); transform-origin: 50% 50%; }
 /* the loop's seam dips to the white ground, not to black */
-#dip { position: absolute; inset: 0; z-index: 10; background: #fff; opacity: 0; pointer-events: none; }
+/* opaque until the first painted frame, so a reload never shows the page half laid out */
+#dip { position: absolute; inset: 0; z-index: 10; background: #fff; opacity: 1; pointer-events: none; }
 .hint { position: fixed; right: 18px; bottom: 14px; font-size: 12px; color: var(--muted); opacity: .6; user-select: none; }
 body.freeze .hint { display: none; }
 

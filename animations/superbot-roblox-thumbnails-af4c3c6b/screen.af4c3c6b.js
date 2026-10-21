@@ -73,9 +73,12 @@ export function buildScreen(root) {
 
 // every frame loaded, its fonts and images decoded, and every thumbnail the table can show already in the cache
 export async function ready(v) {
+  // a frame starts on an empty about:blank that already reads as complete: wait for its own page, however long it takes
   await Promise.all(Object.values(v.frames).map((f) => new Promise((resolve) => {
-    const done = () => resolve();
-    if (f.contentDocument && f.contentDocument.readyState === 'complete' && f.contentDocument.body) done(); else f.addEventListener('load', done, { once: true });
+    const loaded = () => { const d = f.contentDocument; return !!d && d.readyState === 'complete' && d.location.href !== 'about:blank' && !!d.body; };
+    if (loaded()) { resolve(); return; }
+    const onload = () => { if (loaded()) { f.removeEventListener('load', onload); resolve(); } };
+    f.addEventListener('load', onload);
   })));
   await Promise.all(Object.values(v.frames).map(async (f) => {
     const doc = f.contentDocument;

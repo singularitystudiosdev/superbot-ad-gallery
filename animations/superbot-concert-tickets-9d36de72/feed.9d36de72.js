@@ -1,8 +1,8 @@
 // The left pane (the chat with its composer) and the activity tab under the live view, both painted from t. Items are
 // laid out once, at their final size (streamed text keeps its unrevealed rest as transparent text), so a pane scrolls by
 // summing the heights of what has arrived, each weighted by its entrance: the newest line slides up into view.
-import { seg, outCubic, caretOn, countAt, lastAt, el, esc, REDUCED } from './lib.9d36de72.js';
-import { SITES, fav } from './sites.9d36de72.js';
+import { seg, outCubic, caretOn, countAt, el, esc, REDUCED } from './lib.9d36de72.js?v=2';
+import { SITES, fav } from './sites.9d36de72.js?v=2';
 
 const STREAM_CPS = 70;
 const TYPE_CPS = 40;
@@ -11,8 +11,10 @@ const ENTER = 0.32; // an item's fade and rise
 export const SB_MARK = '<span class="sb-tile"><i class="sbm sbm-c"></i><i class="sbm sbm-m"></i><i class="sbm sbm-w"></i></span>';
 const OK = '<svg class="cm-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
-// lucide glyphs (lucide.dev, via api.iconify.design), each in its own colour
+// lucide glyphs (lucide.dev, via api.iconify.design), plain line icons in the row's own ink
 const G = {
+  globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20a14.5 14.5 0 0 0 0-20M2 12h20"/>',
+  monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8m-4-4v4"/>',
   scan: '<path d="M3 7V5a2 2 0 0 1 2-2h2m10 0h2a2 2 0 0 1 2 2v2m0 10v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/><path d="m16 16-1.9-1.9"/>',
   sort: '<path d="m3 16 4 4 4-4m-4 4V4m4 0h10M11 8h7m-7 4h4"/>',
   tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
@@ -22,14 +24,10 @@ const G = {
   bell: '<path d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>',
   refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5m5 4a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
   ticket: '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Zm11-4v2m0 10v2m0-8v2"/>',
-  list: '<path d="M3 5h.01M3 12h.01M3 19h.01M8 5h13M8 12h13M8 19h13"/>',
 };
-const glyph = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${G[name]}</svg>`;
-function actIcon(icon) {
-  if (icon === 'sb') return SB_MARK;
-  if (icon.startsWith('fav:')) return `<span class="ac-ic ac-fav"><img src="${fav(icon.slice(4))}" alt="" width="14" height="14"></span>`;
-  return `<span class="ac-ic ac-${icon}">${glyph(icon)}</span>`;
-}
+export const glyph = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${G[name]}</svg>`;
+const MUTED = [161, 161, 166], INK = [229, 229, 234]; // #a1a1a6 settled rows, #e5e5ea the newest
+const FADE = 36; // the log's top edge fades over this many px once rows scroll under it
 
 function chatItem(c) {
   if (c.kind === 'user') return `<div class="cm cm-u"><span>${esc(c.text)}</span></div>`;
@@ -55,14 +53,17 @@ export function buildFeed(left, act, S) {
   });
   const actIn = act.querySelector('.ac-in');
   const rows = S.acts.map((a) => {
-    const node = el(`<div class="ac-row">${actIcon(a.icon)}<span class="ac-t">${esc(a.text)}</span></div>`);
+    const sub = a.sub ? `<span class="ac-sub">${esc(a.sub)}</span>` : '';
+    const node = el(`<li class="ac-row"><span class="ac-ic">${glyph(a.icon)}</span><span class="ac-tx">${esc(a.text)}${sub}</span></li>`);
     actIn.appendChild(node);
     return { a, node, h: 0 };
   });
+  act.querySelector('.ac-task .ac-ic').innerHTML = glyph('ticket');
   return {
     feed: left.querySelector('.ch-feed'), feedIn, items, title: left.querySelector('.ch-title'),
     typed: left.querySelector('.rc-typed'), ph: left.querySelector('.rc-hint'), caret: left.querySelector('.rc-caret'), send: left.querySelector('.rc-send'),
-    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), live: act.querySelector('.ac-live'), shownTyped: null,
+    list: act.querySelector('.ac-list'), actIn, rows, empty: act.querySelector('.ac-empty'), task: act.querySelector('.ac-task'),
+    subtitle: act.querySelector('.ac-title small'), shownTyped: null,
   };
 }
 
@@ -124,13 +125,20 @@ export function paintFeed(f, S, t) {
   f.caret.style.opacity = !draft || t < draft.start + draft.text.length / TYPE_CPS || caretOn(t) ? '1' : '0';
   f.send.classList.toggle('is-on', !!text);
 
-  // activity
-  const last = lastAt(S.acts, t);
-  f.empty.style.opacity = last ? '0' : '1';
-  f.live.classList.toggle('is-on', t >= S.control);
-  for (const r of f.rows) reveal(r.node, enter(t, r.a.at));
-  const actRoom = f.list.clientHeight - 12; // .ac-in padding
-  f.actIn.style.transform = `translateY(${(-scrolled(f.rows, t, actRoom)).toFixed(2)}px)`;
+  // activity: the task pins under the header once asked; steps arrive at the foot, the newest in ink, settling to
+  // muted as the next one comes in; once they scroll, the top edge fades
+  const asked = enter(t, firstSend);
+  reveal(f.task, asked);
+  f.subtitle.style.opacity = asked.toFixed(3);
+  f.empty.style.opacity = (1 - asked).toFixed(3);
+  const newest = f.rows.findLastIndex((r) => r.a.at <= t);
+  f.rows.forEach((r, k) => {
+    reveal(r.node, enter(t, r.a.at));
+    const ink = k === newest ? 1 : k === newest - 1 ? 1 - enter(t, f.rows[newest].a.at) : 0;
+    r.node.style.color = `rgb(${MUTED.map((m, c) => Math.round(m + (INK[c] - m) * ink)).join(',')})`;
+  });
+  const actRoom = f.list.clientHeight - 16; // .ac-in padding
+  const shift = scrolled(f.rows, t, actRoom);
+  f.actIn.style.transform = `translateY(${(-shift).toFixed(2)}px)`;
+  f.list.style.setProperty('--fade', `${Math.min(FADE, shift).toFixed(1)}px`);
 }
-
-export const ACT_HEAD_ICON = glyph('list');

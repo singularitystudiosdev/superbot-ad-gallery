@@ -1,16 +1,15 @@
 // The spot's clock: builds the schedule, the chat and the live view, waits for fonts and images so every measured
 // position is final, then paints one frame per animation frame from t, looping every L seconds. ?t=12.5 freezes a frame
 // (for thumbnails and captures); space pauses, R restarts, the arrow keys step a second.
-import { buildSchedule } from './schedule.9d36de72.js';
-import { buildScreen, fit, measure, paint, primeLists } from './screen.9d36de72.js';
-import { buildFeed, measureFeed, paintFeed, SB_MARK, ACT_HEAD_ICON } from './feed.9d36de72.js';
-import { seg } from './lib.9d36de72.js';
+import { buildSchedule } from './schedule.9d36de72.js?v=2';
+import { buildScreen, fit, measure, paint, primeLists } from './screen.9d36de72.js?v=2';
+import { buildFeed, measureFeed, paintFeed, SB_MARK } from './feed.9d36de72.js?v=2';
+import { seg } from './lib.9d36de72.js?v=2';
 
 const S = buildSchedule();
 const stage = document.getElementById('stage');
 const dip = document.getElementById('dip');
 document.querySelectorAll('[data-sb]').forEach((n) => { n.outerHTML = SB_MARK; });
-document.querySelector('[data-acticon]').innerHTML = `${ACT_HEAD_ICON}Activity`;
 const view = buildScreen(document.querySelector('.cc-view'));
 const feed = buildFeed(document.querySelector('.ch'), document.querySelector('.ac'), S);
 

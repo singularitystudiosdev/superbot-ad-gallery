@@ -76,14 +76,9 @@ export const VARIANTS = [
   { id: 'computer-control-flights-news-card', label: 'Computer Control V3 · Flight loop + cheapest fare: one card' },
   { id: 'computer-control-flights-news-head', label: 'Computer Control V3 · Flight loop + cheapest fare: in the header' },
   { id: 'computer-control-flights-news-left', label: 'Computer Control V3 · Flight loop + cheapest fare: top-left card' },
-  // the flight search as two loops over three sites, an activity rail of icons beside the docked live view, nothing drawn
-  // over the screen but the bar, no routing chip, name line or composer mode controls; three with the cheapest fare so far (scenes/tabs-assets/beats/ccact.5204eced.js)
-  { id: 'cc-activity-edge', label: 'Computer Control V3 · Activity rail: edge bar' },
-  { id: 'cc-activity-footer', label: 'Computer Control V3 · Activity tab: footer bar' },
-  { id: 'cc-activity-header', label: 'Computer Control V3 · Activity rail: header bar' },
-  { id: 'cc-activity-news-rail', label: 'Computer Control V3 · Activity rail + cheapest fare in the rail' },
-  { id: 'cc-activity-news-left', label: 'Computer Control V3 · Activity tab + cheapest fare top left' },
-  { id: 'cc-activity-news-footer', label: 'Computer Control V3 · Activity rail + cheapest fare in the footer' },
+  // the flight search as two loops over three sites in Muse's light look: the docked live view as a grey card, an activity
+  // card of 3D icons beside it with the cheapest fare so far, nothing drawn over the screen (scenes/tabs-assets/beats/ccact.5204eced.js)
+  { id: 'cc-activity-muse', label: 'Computer Control V3 · Activity loop, Muse style' },
   { id: 'photoedit', label: 'Photo edit' },
   { id: 'lawn', label: 'Front lawn garden' },
   { id: 'multicat', label: 'Multi-tool cat' },

@@ -1,17 +1,31 @@
-/* The activity-rail loop cuts (beats/ccact.5204eced.js, ccact-screen.5204eced.js, ccact-hud.5204eced.js), over v3-soft's
-   live view (computer.ba3976b6.css, cc3-*), the flight cuts' tabs and pages (flights.92b9b0b0.css, fl-*) and the progress
-   cuts' changing-line cell (computer-progress.a05be571.css, ccp-lbl): the thread with the docked frame, the rail beside
-   it, the bar in its three places and the topline, and the composer without its mode controls. Flat: no glow, no
-   shimmer, nothing over the screen but the news-left card. No CSS animation or transition: the beats set every opacity,
-   width, height and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself. */
+/* The activity loop cut (beats/ccact.5204eced.js, ccact-screen.5204eced.js, ccact-hud.5204eced.js) in Muse's look, over
+   v3-soft's live view (computer.ba3976b6.css, cc3-*), the flight cuts' tabs and pages (flights.92b9b0b0.css, fl-*) and
+   the progress cuts' changing-line cell (computer-progress.a05be571.css, ccp-lbl). While the cut shows the hub carries
+   .cxa-on and the whole scene turns light: a near-white ground, grey assistant bubbles, light blue user bubbles, the
+   frame and the activity panel as grey cards with 3D icons and a title over its subtitle, pill buttons, a white composer
+   without its mode controls. Nothing is drawn over the screen. No CSS animation or transition: the beats set every
+   opacity, width, height and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself. */
 
-/* the composer keeps its field, attach, platform and send, without the spark, Off and Agent controls (.rc-super); the hub
-   carries .cxa-on only while one of these cuts shows (beats/ccact.5204eced.js) */
+/* the scene: Muse's ground, ink and system type */
+#s-tabs .sbsite .hub.cxa-on { --ui: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, "Segoe UI", sans-serif; background: #fafafa; color: #1c1c1e; }
+#s-tabs .sbsite .hub.cxa-on > .inner { background: #fafafa; }
+/* the user's messages: light blue bubbles; superbot's: grey bubbles, both round and roomy */
+#s-tabs .sbsite .hub.cxa-on .msg.qc-u .m-text { padding: 9px 15px; border-radius: 20px; background: #bfdcfe; font: 400 13.5px/1.4 var(--ui); color: #1c1c1e; }
+#s-tabs .sbsite .hub.cxa-on .qc-say { max-width: 480px; padding: 10px 15px; border-radius: 20px; background: #e9e9eb; font: 400 13.5px/1.45 var(--ui); color: #1c1c1e; }
+/* the composer: a white field with a hairline, without the spark, Off and Agent controls (.rc-super); a bare route widens
+   it (.qc-wide, multicat.516afb1a.css), so it is held at the thread's width (hub.css, ask.css) */
 #s-tabs .sbsite .hub.cxa-on .rc-super { display: none !important; }
-/* a bare route widens the composer (.qc-wide, multicat.516afb1a.css); these cuts keep it at the thread's width
-   (hub.css, ask.css) */
 #s-tabs .sbsite .hub.cxa-on.qc-wide .composer { width: calc(100% - 24px); max-width: var(--hub-column); }
 #s-tabs .sbsite.ask .hub.cxa-on.qc-wide .composer { width: min(760px, calc(100% - 48px)); max-width: var(--hub-column); }
+#s-tabs .sbsite .hub.cxa-on .rc { border-radius: 22px; background: #fff; box-shadow: inset 0 0 0 1px #e3e3e8, 0 6px 20px rgba(0,0,0,.05); color: #8e8e93; }
+#s-tabs .sbsite .hub.cxa-on .rc-ph { color: #8e8e93; }
+#s-tabs .sbsite .hub.cxa-on .rc-ph .qc-typed { color: #1c1c1e; }
+#s-tabs .sbsite .hub.cxa-on .rc-ph .qc-caret { background: #0a84ff; }
+#s-tabs .sbsite .hub.cxa-on .rc-plus, #s-tabs .sbsite .hub.cxa-on .rc-plat { color: #3a3a3c; }
+#s-tabs .sbsite .hub.cxa-on .rc-voice, #s-tabs .sbsite .hub.cxa-on .rc-mic { background: #f2f2f4; color: #3a3a3c; }
+#s-tabs .sbsite .hub.cxa-on .rc-computer { background: #e5e5ea; color: #1c1c1e; }
+#s-tabs .sbsite .hub.cxa-on .rc-send { background: #e5e5ea; color: #fff !important; }
+#s-tabs .sbsite .hub.cxa-on .rc-send.qc-on { background: #0a84ff; color: #fff !important; }
 
 /* the thread after the reply: the follow-up rows and the docked frame in one feed item, which chat.css would otherwise
    hide (.feed-in > :not(.qc-u):not(.qc-m)); inside it each row sizes as the feed's own and opens from nothing above the
@@ -21,92 +35,61 @@
 #s-tabs .sbsite .hub .cxa-row { overflow: hidden; }
 #s-tabs .sbsite .hub .cxa-say { margin-bottom: 0; }
 
-/* the frame and its rail side by side; the rail takes the frame's height and never sets it */
+/* the frame and the activity card side by side; the card takes the frame's height and never sets it */
 #s-tabs .sbsite .hub .cxa-dock .m-main { max-width: none; }
 #s-tabs .sbsite .hub .cxa-pair { display: flex; align-items: stretch; gap: 12px; max-width: none; }
 #s-tabs .sbsite .hub .cxa-pair > .bk { flex: none; }
-#s-tabs .sbsite .hub .cxa-pair-tab { gap: 0; }
-#s-tabs .sbsite .hub .cxa-pair-tab > .bk { border-bottom-right-radius: 0; }
+
+/* every icon is a Fluent Emoji 3D render (img/ccact.5204eced/), sized where it sits */
+#s-tabs .sbsite .hub .cxa-3d { display: block; flex: none; object-fit: contain; }
+
+/* the frame: a grey card, its header a 3D laptop over-titled "Your computer", "Live view" under it, pill buttons, then the
+   screen inset 10px with its own round corners (540x338, the beat's FIT) */
+#s-tabs .sbsite .hub.cxa-on .bk.cxa { border-radius: 24px; background: #ececee; box-shadow: none; }
+#s-tabs .sbsite .hub.cxa-on .cxa .bk-head { height: 58px; gap: 6px; padding: 0 10px 0 12px; box-shadow: none; }
+#s-tabs .sbsite .hub.cxa-on .cxa .cxa-hico { width: 34px; height: 34px; margin-right: 4px; }
+#s-tabs .sbsite .hub.cxa-on .cxa .bk-title { display: grid; gap: 1px; font: 600 13.5px/1.2 var(--ui); color: #1c1c1e; }
+#s-tabs .sbsite .hub.cxa-on .cxa .bk-title small { margin: 0; font: 400 11.5px/1.25 var(--ui); color: #6e6e73; }
+#s-tabs .sbsite .hub.cxa-on .cxa .bk-btn { height: 30px; padding: 0 12px; border-radius: 15px; background: #f7f7f8; box-shadow: none; font: 600 11.5px/1 var(--ui); color: #1c1c1e; }
+#s-tabs .sbsite .hub.cxa-on .cxa .bk-expand:hover, #s-tabs .sbsite .hub.cxa-on .cxa .bk-expand[aria-expanded="true"] { background: #fff; }
+#s-tabs .sbsite .hub.cxa-on .cxa .cc3-stop i { background: #1c1c1e; }
+#s-tabs .sbsite .hub.cxa-on .cxa .bk-view { width: 540px; height: 338px; margin: 0 10px 10px; overflow: hidden; border-radius: 16px; }
+/* Expand's side panel in the same light */
+#s-tabs .sbsite .hub.cxa-on .cc3-side.cxa { background: #fafafa; box-shadow: -1px 0 0 #e5e5ea, -24px 0 48px rgba(0,0,0,.08); }
+#s-tabs .sbsite .hub.cxa-on .cc3-side.cxa .cc3-big { border-radius: 16px; box-shadow: 0 0 0 1px #e5e5ea; }
+#s-tabs .sbsite .hub.cxa-on .cc3-side.cxa .cc3-side-x { color: #6e6e73; }
+#s-tabs .sbsite .hub.cxa-on .cc3-side.cxa .cc3-side-x:hover { background: #ececee; color: #1c1c1e; }
 
 /* the reload button: Chrome's reload glyph, or its stop glyph while the page loads */
 #s-tabs .sbsite .hub .cxa-reload { position: relative; }
 #s-tabs .sbsite .hub .cxa-reload > span { position: absolute; inset: 5px; display: block; }
 #s-tabs .sbsite .hub .cxa-reload > span + span { opacity: 0; }
 
-/* the bar: a track and a flat pink-to-purple fill */
-#s-tabs .sbsite .hub .cxa-bar { position: relative; display: block; height: 3px; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,.14); }
-#s-tabs .sbsite .hub .cxa-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: inherit; background: linear-gradient(90deg, #f472b6, #a855f7); }
-/* edge: along the top of the screen, over Chrome's tab strip, on a dark track */
-#s-tabs .sbsite .hub .cxa-edge { position: absolute; left: 0; right: 0; top: 0; z-index: 6; height: 3px; opacity: 0; pointer-events: none; }
-#s-tabs .sbsite .hub .cxa-edge .cxa-bar { height: 3px; border-radius: 0; background: rgba(22,22,26,.4); }
-/* header: the header's foot, the loop and percent after Live view */
-#s-tabs .sbsite .hub .cxa .bk-head.cxa-hd { position: relative; z-index: 7; }
-#s-tabs .sbsite .hub .cxa-hdbar { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 0; opacity: 0; background: #2a2a2e; }
-#s-tabs .sbsite .hub .cxa-hdmeta { display: inline-flex; align-items: baseline; gap: 5px; margin-left: 8px; opacity: 0; font: 600 11px/16px var(--ui); font-variant-numeric: tabular-nums; color: #f9a8d4; }
-#s-tabs .sbsite .hub .cxa-hdmeta .ccp-lbl { display: inline-grid; }
-#s-tabs .sbsite .hub .cxa-hdmeta > i { font-style: normal; color: #5a5a60; }
-/* footer: a strip under the screen, inside the frame */
-#s-tabs .sbsite .hub .cxa-foot { display: flex; align-items: center; gap: 10px; height: 38px; box-sizing: border-box; padding: 0 14px; opacity: 0; box-shadow: 0 -1px 0 #2a2a2e; white-space: nowrap; font: 500 11px/1 var(--ui); color: #c7c7cc; }
-#s-tabs .sbsite .hub .cxa-foot > .cxa-bar { flex: 1; min-width: 60px; }
-#s-tabs .sbsite .hub .cxa-fl { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #e5e5ea; }
-/* the colour emoji every icon is drawn with (ccact-hud.5204eced.js EMO), in the system's emoji font */
-#s-tabs .sbsite .hub .cxa-emo { flex: none; display: block; font: 400 12px/1 "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; letter-spacing: 0; text-transform: none; }
-#s-tabs .sbsite .hub .cxa-fn { display: flex; gap: 4px; font: 600 11px/1 var(--ui); font-variant-numeric: tabular-nums; color: #f9a8d4; }
-#s-tabs .sbsite .hub .cxa-fn > i { font-style: normal; color: #5a5a60; }
-#s-tabs .sbsite .hub .cxa-foot-news .cxa-fn { padding-right: 12px; box-shadow: 1px 0 0 #2a2a2e; }
-
-/* the topline: a small label with a plane, the fare, what and where under it */
-#s-tabs .sbsite .hub .cxa-news { display: grid; justify-items: start; gap: 4px; white-space: nowrap; }
-#s-tabs .sbsite .hub .cxa-nl { display: flex; align-items: center; gap: 5px; font: 650 8.5px/1 var(--ui); letter-spacing: .07em; text-transform: uppercase; color: #a1a1a6; }
-#s-tabs .sbsite .hub .cxa-nl .cxa-emo { font-size: 10px; }
-#s-tabs .sbsite .hub .cxa-np { display: flex; align-items: center; gap: 7px; }
-#s-tabs .sbsite .hub .cxa-price { font: 700 18px/1.1 var(--ui); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: #fff; }
-#s-tabs .sbsite .hub .cxa-drop { padding: 3px 6px; border-radius: 6px; opacity: 0; background: rgba(52,211,153,.15); font: 650 9.5px/1 var(--ui); font-variant-numeric: tabular-nums; color: #6ee7b7; }
-#s-tabs .sbsite .hub .cxa-sub { font: 500 9.5px/1.25 var(--ui); color: #c7c7cc; }
-/* news-left: a card top left of the screen, opposite the task */
-#s-tabs .sbsite .hub .cxa .ccp-hud.cxa-left { top: 38px; right: auto; left: 12px; padding: 9px 12px 10px 10px; border-radius: 11px; }
-/* news-footer: at the strip's right end, the label over the fare and where it is from */
-#s-tabs .sbsite .hub .cxa-in-foot { display: grid; grid-template-columns: auto auto; align-items: baseline; justify-content: start; justify-items: start; gap: 3px 6px; opacity: 0; }
-#s-tabs .sbsite .hub .cxa-in-foot .cxa-nl { grid-column: 1 / -1; font-size: 8px; }
-#s-tabs .sbsite .hub .cxa-in-foot .cxa-price { font-size: 13px; }
-#s-tabs .sbsite .hub .cxa-in-foot .cxa-np { gap: 5px; }
-#s-tabs .sbsite .hub .cxa-in-foot .cxa-drop { padding: 2px 5px; font-size: 9px; }
-
-/* the activity rail: the frame's own card colours; a header, then the rows, newest on top, the oldest fading out at the
-   foot as they leave */
-#s-tabs .sbsite .hub .cxa-rail { position: relative; flex: none; display: flex; flex-direction: column; width: 176px; overflow: hidden; contain: size; border-radius: 12px; opacity: 0; background: #1c1c20; box-shadow: 0 0 0 1px #2a2a2e, 0 12px 30px rgba(0,0,0,.4); }
-#s-tabs .sbsite .hub .cxa-rh { flex: none; display: flex; align-items: center; gap: 6px; height: 40px; box-sizing: border-box; padding: 0 10px 0 12px; box-shadow: 0 1px 0 #2a2a2e; }
-#s-tabs .sbsite .hub .cxa-rt { display: flex; align-items: center; gap: 6px; margin-right: auto; font: 600 12px/16px var(--ui); color: #e5e5ea; }
-#s-tabs .sbsite .hub .cxa-rl { display: flex; height: 20px; white-space: nowrap; align-items: center; padding: 0 7px; border-radius: 6px; background: #26262b; font: 600 10px/1 var(--ui); font-variant-numeric: tabular-nums; color: #c4b5fd; }
-#s-tabs .sbsite .hub .cxa-rnews { flex: none; overflow: hidden; opacity: 0; box-shadow: 0 1px 0 #2a2a2e; }
-#s-tabs .sbsite .hub .cxa-in-rail { padding: 11px 12px 12px; }
-/* in the narrow rail the source line may wrap: it takes the rail's width, not the running line's (a measured width of a
+/* the activity card: a white list like Muse's, with a header like the frame's (the clipboard, Activity, the loop under
+   it), the cheapest fare in a grey card, then the rows, the newest on top on grey, the oldest fading out at the foot */
+#s-tabs .sbsite .hub .cxa-rail { position: relative; flex: none; display: flex; flex-direction: column; width: 176px; overflow: hidden; contain: size; border-radius: 24px; opacity: 0; background: #fff; box-shadow: inset 0 0 0 1px #ececee; }
+#s-tabs .sbsite .hub .cxa-rh { flex: none; display: flex; align-items: center; gap: 8px; height: 58px; box-sizing: border-box; padding: 0 12px; }
+#s-tabs .sbsite .hub .cxa-rh .cxa-hico { width: 30px; height: 30px; }
+#s-tabs .sbsite .hub .cxa-rt { display: grid; justify-items: start; gap: 1px; }
+#s-tabs .sbsite .hub .cxa-rt > b { font: 600 13.5px/1.2 var(--ui); color: #1c1c1e; }
+#s-tabs .sbsite .hub .cxa-rl { font: 400 11.5px/1.25 var(--ui); white-space: nowrap; color: #6e6e73; }
+#s-tabs .sbsite .hub .cxa-rnews { flex: none; overflow: hidden; opacity: 0; padding: 0 8px 6px; }
+#s-tabs .sbsite .hub .cxa-news { display: flex; align-items: flex-start; gap: 8px; padding: 10px 10px 11px; border-radius: 16px; background: #f2f2f4; }
+#s-tabs .sbsite .hub .cxa-nico { width: 26px; height: 26px; margin-top: 1px; }
+#s-tabs .sbsite .hub .cxa-nt { display: grid; justify-items: start; gap: 2px; min-width: 0; }
+#s-tabs .sbsite .hub .cxa-nl { font: 500 10.5px/1.2 var(--ui); white-space: nowrap; color: #6e6e73; }
+#s-tabs .sbsite .hub .cxa-np { display: flex; align-items: center; gap: 6px; }
+#s-tabs .sbsite .hub .cxa-price { font: 700 18px/1.15 var(--ui); font-variant-numeric: tabular-nums; white-space: nowrap; color: #1c1c1e; }
+#s-tabs .sbsite .hub .cxa-drop { padding: 2px 6px; border-radius: 999px; opacity: 0; background: rgba(52,199,89,.15); font: 600 9.5px/1.2 var(--ui); font-variant-numeric: tabular-nums; white-space: nowrap; color: #248a3d; }
+/* the source line may wrap in the narrow card: it takes the card's width, not the running line's (a measured width of a
    wrapping line would narrow it a little more every frame) */
-#s-tabs .sbsite .hub .cxa-in-rail .cxa-sub { width: auto !important; max-width: 100%; white-space: normal; }
-#s-tabs .sbsite .hub .cxa-acts { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 6px; overflow: hidden; -webkit-mask: linear-gradient(#000 72%, transparent); mask: linear-gradient(#000 72%, transparent); }
-#s-tabs .sbsite .hub .cxa-act { flex: none; display: flex; align-items: center; gap: 8px; box-sizing: border-box; padding: 0 6px; overflow: hidden; border-radius: 8px; }
-#s-tabs .sbsite .hub .cxa-act > * { margin: 5px 0; }
-#s-tabs .sbsite .hub .cxa-act.is-new { background: #26262b; }
-/* each row's emoji on a tile tinted to its kind; the newest row's tile gets a hairline */
-#s-tabs .sbsite .hub .cxa-ic { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: #26262b; }
-#s-tabs .sbsite .hub .cxa-ic .cxa-emo { font-size: 12.5px; }
-#s-tabs .sbsite .hub .cxa-act.is-new .cxa-ic { box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
-#s-tabs .sbsite .hub .cxa-ic-cursor { background: rgba(167,139,250,.2); }
-#s-tabs .sbsite .hub .cxa-ic-globe { background: rgba(96,165,250,.2); }
-#s-tabs .sbsite .hub .cxa-ic-tag { background: rgba(244,114,182,.2); }
-#s-tabs .sbsite .hub .cxa-ic-chat { background: rgba(56,189,248,.2); }
-#s-tabs .sbsite .hub .cxa-ic-loop { background: rgba(192,132,252,.2); }
-#s-tabs .sbsite .hub .cxa-ic-reload { background: rgba(129,140,248,.2); }
-#s-tabs .sbsite .hub .cxa-ic-filter { background: rgba(251,191,36,.2); }
-#s-tabs .sbsite .hub .cxa-ic-check { background: rgba(52,211,153,.22); }
-#s-tabs .sbsite .hub .cxa-at { display: grid; gap: 2px; min-width: 0; }
-#s-tabs .sbsite .hub .cxa-at b { display: flex; align-items: center; gap: 5px; overflow: hidden; white-space: nowrap; font: 600 11px/1.2 var(--ui); font-variant-numeric: tabular-nums; color: #f2f2f5; }
-#s-tabs .sbsite .hub .cxa-at em { padding: 2px 4px; border-radius: 4px; background: rgba(52,211,153,.15); font: 650 8.5px/1 var(--ui); font-style: normal; color: #6ee7b7; }
-#s-tabs .sbsite .hub .cxa-at small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 9.5px/1.25 var(--ui); color: #8e8e93; }
-
-/* tab: the rail hangs off the frame's right edge beside the screen, under the header, narrower, its outer corners
-   rounded; the frame's corner beside it is squared to meet it */
-#s-tabs .sbsite .hub .cxa-rail-tab { width: 158px; margin-top: 40px; border-radius: 0 12px 12px 0; background: #18181b; }
-#s-tabs .sbsite .hub .cxa-rail-tab .cxa-rh { height: 32px; padding: 0 8px 0 10px; }
-#s-tabs .sbsite .hub .cxa-rail-tab .cxa-rt { font-size: 11px; }
-#s-tabs .sbsite .hub .cxa-rail-tab .cxa-rl { height: 18px; padding: 0 6px; font-size: 9.5px; }
+#s-tabs .sbsite .hub .cxa-sub { width: auto !important; max-width: 100%; font: 400 10.5px/1.3 var(--ui); color: #6e6e73; }
+#s-tabs .sbsite .hub .cxa-acts { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 2px 8px 8px; overflow: hidden; -webkit-mask: linear-gradient(#000 74%, transparent); mask: linear-gradient(#000 74%, transparent); }
+#s-tabs .sbsite .hub .cxa-act { flex: none; display: flex; align-items: center; gap: 9px; box-sizing: border-box; padding: 0 6px; overflow: hidden; border-radius: 14px; }
+#s-tabs .sbsite .hub .cxa-act > * { margin: 6px 0; }
+#s-tabs .sbsite .hub .cxa-act.is-new { background: #f2f2f4; }
+#s-tabs .sbsite .hub .cxa-ic { width: 28px; height: 28px; }
+#s-tabs .sbsite .hub .cxa-at { display: grid; gap: 1px; min-width: 0; }
+#s-tabs .sbsite .hub .cxa-at b { display: flex; align-items: center; gap: 5px; overflow: hidden; white-space: nowrap; font: 600 12px/1.25 var(--ui); font-variant-numeric: tabular-nums; color: #1c1c1e; }
+#s-tabs .sbsite .hub .cxa-at em { padding: 1px 5px; border-radius: 999px; background: rgba(52,199,89,.15); font: 600 9px/1.3 var(--ui); font-style: normal; color: #248a3d; }
+#s-tabs .sbsite .hub .cxa-at small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 10.5px/1.3 var(--ui); color: #6e6e73; }

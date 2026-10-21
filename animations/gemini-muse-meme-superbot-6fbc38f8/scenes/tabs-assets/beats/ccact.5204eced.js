@@ -1,13 +1,12 @@
-// Activity-rail loop cuts ('cc-activity-edge', '-footer', '-header', '-news-rail', '-news-left', '-news-footer'): the
-// computer-control-v3-soft live view (computer.ba3976b6.js: the Your computer frame with Share, Expand and Stop) on a job
-// that loops, stripped to the thread and the screen: a bare route (no routing chip, no Superbot name line), no pill over
-// the screen and no mode controls in the composer (.cxa-on on the hub). Asked to keep checking flight sites for the
-// cheapest Denver to Tokyo flight, superbot loops over Google Flights, Kayak and momondo on the user's screen, a tab per
-// site (ccact-screen.5204eced.js: the cursor, keys, tabs and pages only, nothing drawn over the screen); when the user
-// asks for nonstop only it starts a second loop, reloading Google Flights and ticking each other site's Nonstop filter.
-// Its progress is on the frame, one look per variant (ccact-hud.5204eced.js): a bar that fills once per loop and starts
-// over with the next, three looks with the cheapest fare so far as the topline; and to the right of the frame a small
-// activity rail, an emoji and a line per thing superbot did. While it
+// The activity loop cut ('cc-activity-muse'): the computer-control-v3-soft live view (computer.ba3976b6.js: the Your
+// computer frame with Share, Expand and Stop) on a job that loops, the whole scene in Muse's light look while it shows
+// (.cxa-on on the hub, ../ccact.5204eced.css): grey assistant bubbles, light blue user bubbles, the frame as a grey card
+// with a 3D icon and a title over its subtitle, pill buttons, and no routing chip, name line, pill or composer mode
+// controls (a bare route). Asked to keep checking flight sites for the cheapest Denver to Tokyo flight, superbot loops over
+// Google Flights, Kayak and momondo on the user's screen, a tab per site (ccact-screen.5204eced.js: the cursor, keys, tabs
+// and pages only, nothing drawn over the screen); when the user asks for nonstop only it starts a second loop, reloading
+// Google Flights and ticking each other site's Nonstop filter. To the right of the frame a grey activity card
+// (ccact-hud.5204eced.js) shows the loop, the cheapest fare so far, and a 3D icon and a line per thing superbot did. While it
 // works the user checks in from the composer ("any updates?", "what's the best so far?") and changes the job ("only
 // nonstop flights please"); superbot answers each in the thread, and the live view stays docked at the bottom of the
 // thread the whole time: every message lands above it. The follow-ups, the docked frame and its rail are built here, in
@@ -20,8 +19,8 @@ import { seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
-import { TOP, screenHtml, bindScreen, paintScreen, pictures } from './ccact-screen.5204eced.js?v=2';
-import { LOOKS, railHtml, bindRail } from './ccact-hud.5204eced.js?v=3';
+import { TOP, screenHtml, bindScreen, paintScreen, pictures } from './ccact-screen.5204eced.js?v=3';
+import { railHtml, bindRail, icon } from './ccact-hud.5204eced.js?v=4';
 
 export const ASK = 'Keep checking flight sites for the cheapest flight from Denver to Tokyo, Dec 10 to 20';
 export const TYPE_CPS = 55; // the ask's typing rate (chat.9b47fc30.js typing)
@@ -35,14 +34,14 @@ const REPLIES = [
   'Loop 2, two of three sites done. Best nonstop so far is $1,497 on ANA, found on momondo. Checking Kayak to confirm.',
   'Done. Cheapest nonstop is $1,497 round trip on ANA, Denver to Tokyo Narita, Dec 10 to 20, on momondo and Kayak. Want me to book it, or keep looping for a drop?',
 ];
-const FIT = 560 / 1470; // the card's view (the bakery frame's 560x350), as v3-soft fits its desktop
+const FIT = 540 / 1470; // the card's view, inset 10px in the 560px card (.cxa .bk-view, 540x338), as v3-soft fits its desktop
 const FIT_BIG = 688 / 1470; // the Expand panel's view (.cc3-big)
 const CLOSE = '<svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg>';
 const SHEETS = [
   new URL('../computer.ba3976b6.css?v=11', import.meta.url).href,
   new URL('../computer-progress.a05be571.css?v=1', import.meta.url).href,
   new URL('../flights.92b9b0b0.css?v=1', import.meta.url).href,
-  new URL('../ccact.5204eced.css?v=4', import.meta.url).href,
+  new URL('../ccact.5204eced.css?v=5', import.meta.url).href,
 ];
 
 // the sheets this cut builds on are loaded by their own beats when they build; load any not there yet, then this one's
@@ -112,9 +111,7 @@ function script(o) {
 function times(r, end = r + LEN) {
   const o = (s) => r + s;
   const T = { r, card: o(0.22), take: o(0.62), end };
-  // the plan's steps as superbot starts each (ccact-hud.5204eced.js TASKS), then done; loop 2 starts at the seventh
-  T.tasks = [0.8, 2.95, 4.35, 6.4, 7.75, 9.65, 11.45, 13.35, 14.3, 16.75].map(o);
-  T.done = o(19.25);
+  T.loops = [0.8, 11.45].map(o); // each loop's start, its first site opened (script)
   T.news = [3.95, 7.3, 10.5, 13.95, 16.45, 18.95].map(o); // the topline as each fare is read (ccact-hud.5204eced.js NEWS)
   // the rail's rows as each lands (ccact-hud.5204eced.js ACTS)
   T.acts = [0.62, 1.73, 3.95, 5.08, 6.9, 7.3, 8.48, 10.5, 10.9, 11.45, 12.75, 13.95, 15.6, 16.05, 16.45, 18.1, 19.25].map(o);
@@ -146,7 +143,7 @@ function streamer(node, s) {
   return (t, a) => { const n = streamCount(s, a + 0.06, 70, t); if (n !== shown) { vis.textContent = s.slice(0, n); hid.textContent = s.slice(n); shown = n; } };
 }
 
-function build(k, x, look) {
+function build(k, x) {
   loadFrameSheet();
   loadSheets();
   const T = k.T, S = T.S;
@@ -155,15 +152,16 @@ function build(k, x, look) {
   const sayAt = streamer(say, SAY);
   const block = x.el(`<div class="bk cc3 cxa">
     <div class="bk-head">
+      ${icon(x, 'cursor', 'cxa-hico')}
       <b class="bk-title">Your computer<small>Live view</small></b>
       ${shareBtn('Computer control')}
       ${EXPAND}
       <span class="bk-btn bk-publish cc3-stop"><i></i>Stop</span>
     </div>
-    <div class="bk-view cc3-screen">${screenHtml(x, sb, S, FIT, look)}</div>
+    <div class="bk-view cc3-screen">${screenHtml(x, sb, S, FIT)}</div>
   </div>`);
-  const card = bindScreen(block, look);
-  const rail = x.el(railHtml(look.rail, !!look.news));
+  const card = bindScreen(block);
+  const rail = x.el(railHtml(x));
   const railAt = bindRail(rail);
 
   // the thread after the reply: each check-in, superbot's answer to it, the final answer, then the docked frame with its
@@ -177,7 +175,7 @@ function build(k, x, look) {
     [sbRow(REPLIES[3]), T.replies[3]],
   ];
   const streams = rows.map(([n]) => n.querySelector('.qc-say')).map((n) => n && streamer(n, n.textContent));
-  const dock = x.el(`<div class="msg qc-m qc-r cxa-dock">${x.sbAvatar}<div class="m-main"><div class="cxa-pair cxa-pair-${look.rail}"></div></div></div>`);
+  const dock = x.el(`<div class="msg qc-m qc-r cxa-dock">${x.sbAvatar}<div class="m-main"><div class="cxa-pair"></div></div></div>`);
   dock.querySelector('.cxa-pair').append(block, rail);
   const thread = x.el('<div class="cxa-thread"></div>');
   thread.append(...rows.map(([n]) => n), dock);
@@ -195,14 +193,15 @@ function build(k, x, look) {
     if (want && !side) {
       side = x.el(`<aside class="cc3-side cxa" aria-label="Your computer, live view">
         <div class="bk-head">
+          ${icon(x, 'cursor', 'cxa-hico')}
           <b class="bk-title">Your computer<small>Live view</small></b>
           <span class="bk-btn bk-publish cc3-stop"><i></i>Stop</span>
           <button class="cc3-side-x" type="button" aria-label="Close">${CLOSE}</button>
         </div>
-        <div class="cc3-screen cc3-big">${screenHtml(x, sb, S, FIT_BIG, look)}</div>
+        <div class="cc3-screen cc3-big">${screenHtml(x, sb, S, FIT_BIG)}</div>
       </aside>`);
       block.closest('.hub').appendChild(side);
-      big = bindScreen(side, look);
+      big = bindScreen(side);
       side.querySelector('.cc3-side-x').addEventListener('click', () => setOpen(false));
       // keys on the panel's buttons are theirs, not the spot clock's (space would pause it)
       side.addEventListener('keydown', (e) => { if (e.target.closest('button')) e.stopPropagation(); });
@@ -220,8 +219,8 @@ function build(k, x, look) {
     e.stopPropagation();
     setOpen(!open);
   });
-  // the hub carries .cxa-on while this cut shows, so its sheet can strip the composer's mode controls; any variant pick
-  // drops it, and the next render of a cut of this beat puts it back
+  // the hub carries .cxa-on while this cut shows, so its sheet can put the scene in Muse's look and strip the composer's
+  // mode controls; any variant pick drops it, and the next render of this cut puts it back
   let hub = null;
   addEventListener('variantchange', () => { setOpen(false); if (hub) hub.classList.remove('cxa-on'); });
 
@@ -240,11 +239,11 @@ function build(k, x, look) {
         placed = true;
       }
       if (!hub.classList.contains('cxa-on')) hub.classList.add('cxa-on');
-      // a frozen frame waits on every capture; decode() only works once the nodes have left the template's inert
-      // document, which they have by the first render
+      // a frozen frame waits on every capture and 3D icon; decode() only works once the nodes have left the template's
+      // inert document, which they have by the first render
       if (!decoding) {
         decoding = true;
-        for (const pic of pictures(card)) track(pic.decode().catch((e) => console.error(new Error(`activity-rail loop capture failed to decode: ${pic.src}`, { cause: e }))));
+        for (const pic of [...pictures(card), ...block.querySelectorAll('.cxa-3d'), ...rail.querySelectorAll('.cxa-3d')]) track(pic.decode().catch((e) => console.error(new Error(`activity loop image failed to decode: ${pic.src}`, { cause: e }))));
       }
       sayAt(t, T.r);
       rows.forEach(([n, a], i) => { grow(n, t, a); if (streams[i]) streams[i](t, a); });
@@ -252,22 +251,13 @@ function build(k, x, look) {
       dock.style.opacity = '1';
       block.style.opacity = ci.toFixed(3);
       block.style.transform = ci >= 1 ? 'none' : `translateY(${((1 - ci) * 14).toFixed(2)}px) scale(${(0.96 + 0.04 * ci).toFixed(4)})`;
-      paintScreen(card, S, T, t);
+      paintScreen(card, S, t);
       railAt(T, t, outCubic(seg(t, T.take, T.take + 0.45)));
       // the panel belongs to the card: a restart that takes the card away closes it
       if (open && t < T.card) setOpen(false);
-      if (open) paintScreen(big, S, T, t);
+      if (open) paintScreen(big, S, t);
     },
   };
 }
 
-// each look as a beat on this cut's clock
-const cut = (look) => ({ times, build: (k, x) => build(k, x, look) });
-export const CUTS = {
-  'cc-activity-edge': cut(LOOKS.edge),
-  'cc-activity-footer': cut(LOOKS.footer),
-  'cc-activity-header': cut(LOOKS.header),
-  'cc-activity-news-rail': cut(LOOKS.newsRail),
-  'cc-activity-news-left': cut(LOOKS.newsLeft),
-  'cc-activity-news-footer': cut(LOOKS.newsFooter),
-};
+export const CUTS = { 'cc-activity-muse': { times, build } };

@@ -54,9 +54,8 @@ function scrollAt(list = [[0, 0, 0, 0]], t) {
 const loadingAt = (tb, t) => tb.loads.some(([a, b]) => t >= a && t < b);
 const paintedAt = (tb, t) => seg(t, tb.loads[0][1], tb.loads[0][1] + 0.1);
 
-// one screen share's insides at a scale: Chrome with superbot.gg and the script's tabs, the pages, the screen's cursor;
-// then whatever heads-up layer a look draws over the screen
-export function screenHtml(x, sb, S, fit, hud) {
+// one screen share's insides at a scale: Chrome with superbot.gg and the script's tabs, the pages, the screen's cursor
+export function screenHtml(x, sb, S, fit) {
   const tabs = S.tabs.map((tb) => `<span class="cc3-tab fl-tab"><i class="cc3-bg"></i><span class="cc3-fav fl-fav"><img src="${x.img(tb.fav)}" width="16" height="16" alt=""><i class="fl-throb"></i></span><span class="cc3-tt fl-tt"><span>New Tab</span><span>${x.esc(tb.title)}</span></span><span class="cc3-x">${ICON.x}</span></span>`).join('');
   const pages = Object.entries(PAGES).map(([id, p]) => `<div class="fl-pg" data-pg="${id}"><img src="${x.img(p.src)}" width="1470" height="${p.h}" alt="${x.esc(p.alt)}"></div>`).join('');
   return `<div class="cc3-desk" style="transform: scale(${fit.toFixed(5)})">
@@ -78,12 +77,11 @@ export function screenHtml(x, sb, S, fit, hud) {
             <div class="fl-pages">${pages}</div>
           </div>
           <svg class="cc3-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="${ARROW}"/></svg>
-        </div>${hud.html()}`;
+        </div>`;
 }
 
-// the nodes one view paints, looked up once; the heads-up layer binds its own (it may reach into the frame's header or
-// add a footer, so it gets the whole view: the card or the Expand panel) and hands back its painter
-export function bindScreen(root, hud) {
+// the nodes one view paints, looked up once: the card's or the Expand panel's
+export function bindScreen(root) {
   const $ = (s) => root.querySelector(s), $$ = (s) => [...root.querySelectorAll(s)];
   const t1 = $('.cc3-t1'), reload = $('.cxa-reload');
   return {
@@ -92,7 +90,7 @@ export function bindScreen(root, hud) {
     tabs: $$('.fl-tab').map((n) => ({ n, bg: n.querySelector('.cc3-bg'), img: n.querySelector('.fl-fav img'), throb: n.querySelector('.fl-throb'), tt: n.querySelector('.fl-tt').children })),
     u: $('.fl-u'), ut: $('.fl-ut'), e: $('.fl-e'), et: $('.fl-et'), caret: $('.fl-e .cc3-caret'), ph: $('.fl-e .cc3-ph'),
     pages: Object.fromEntries($$('.fl-pg').map((n) => [n.dataset.pg, n])), pics: $$('.fl-pg img'),
-    hud: hud.bind(root), keys: null, last: { url: null, typed: null },
+    keys: null, last: { url: null, typed: null },
   };
 }
 
@@ -107,7 +105,7 @@ function spot(v, k) {
 }
 
 // one view at t
-export function paintScreen(v, S, T, t) {
+export function paintScreen(v, S, t) {
   // tabs: each slides in when superbot opens it, shows Chrome's throbber in its favicon's place while a page loads, then
   // its favicon and title; the active one carries the white tab shape
   const act = current(S.active, t);
@@ -182,8 +180,6 @@ export function paintScreen(v, S, T, t) {
     pr = Math.max(pr, press(t, c));
   });
   v.plus.style.background = `rgba(60,64,67,${(0.1 * h + 0.1 * pr).toFixed(3)})`;
-
-  v.hud(T, t);
 }
 
 // every capture a frozen frame waits on

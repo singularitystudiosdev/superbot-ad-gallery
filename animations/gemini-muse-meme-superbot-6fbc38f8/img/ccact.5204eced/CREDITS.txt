@@ -1,0 +1,10 @@
+3D icons for the activity loop cut (scenes/tabs-assets/beats/ccact.5204eced.js, ?variant=cc-activity-muse): Microsoft's
+Fluent Emoji, 3D style, fetched 2026-10-21 from https://github.com/microsoft/fluentui-emoji (assets/<Name>/3D/<name>_3d.png,
+256px) and scaled to 96px. Never shown on screen as a credit.
+
+laptop.png (Laptop), globe_with_meridians.png (Globe with meridians), label.png (Label), speech_balloon.png (Speech balloon),
+repeat_button.png (Repeat button), counterclockwise_arrows_button.png (Counterclockwise arrows button),
+magnifying_glass_tilted_right.png (Magnifying glass tilted right), check_mark_button.png (Check mark button),
+clipboard.png (Clipboard), airplane.png (Airplane).
+
+License: MIT, Copyright (c) Microsoft Corporation (https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE).

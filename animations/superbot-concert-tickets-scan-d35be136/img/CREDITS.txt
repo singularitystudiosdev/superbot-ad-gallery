@@ -1,0 +1,35 @@
+Real page captures for the concert tickets scan (scan.d35be136.js). Never shown on screen.
+
+All six are 1470x839, the page area of a full-screen Chrome on a 1470px-wide desktop (the same size as
+gemini-muse-meme-superbot-6fbc38f8/img/computer.ba3976b6), captured 2026-10-21 between 08:40 and 08:50 UTC in Google
+Chrome with the viewport emulated at 1470x839 and Page.captureScreenshot, nothing signed in on any of the four sites.
+Converted to WebP (cwebp -q 90). Every page is the same show: Gracie Abrams with Rachel Chinouriri, Thu Dec 3 2026,
+8:00 PM, Ball Arena, Denver, 2 tickets, sorted cheapest first. Prices, sections and rows are as each site listed them
+that morning; they are a snapshot and will have changed since.
+
+stubhub-qty.webp, stubhub.webp: https://www.stubhub.com/gracie-abrams-denver-tickets-12-3-2026/event/161246896/
+  ?quantity=2&sortBy=NEWPRICE&sortDirection=0. The first is StubHub's "How many tickets?" dialog (2 preselected), the
+  second the listings after Continue. Cheapest for 2: $42 incl. fees, Section 374, Row 11, Seats 1-2 ("Best price").
+seatgeek-qty.webp, seatgeek.webp: https://seatgeek.com/gracie-abrams-tickets/denver-colorado-ball-arena-2026-12-03-8-pm/
+  concert/18270512?sort=price_asc. The quantity dialog, then the listings after picking 2 (1,123 listings).
+  Cheapest: $40 incl. fees, Section 378, Row 15 ("Cheapest").
+vividseats.webp: https://www.vividseats.com/gracie-abrams-tickets-denver-ball-arena-12-3-2026--concerts-alternative/
+  production/7091517?quantity=2&sortBy=PRICE&sortOrder=ASC. 777 listings, Lowest Price first. Cheapest: $41 ea,
+  fees incl., Upper Level 374, Row 11.
+tickpick.webp: https://www.tickpick.com/buy-gracie-abrams-tickets-ball-arena-12-3-26-8pm/8002236/?qty=2&sortType=P.
+  Captured after picking 2 in its quantity dialog ("All-in pricing: the price you see is the price you pay").
+  Cheapest: $38 ea, Section 374, Row 11 ("Lowest Price"). The cheapest of the four, so the agent's pick.
+
+Ticketmaster was tried and left out: it paused the browser as automated traffic before its event page loaded.
+
+fav-*.png: each site's own favicon, fetched 2026-10-21 from https://www.google.com/s2/favicons?domain=<site>&sz=64.
+
+Tab titles: Vivid Seats' and TickPick's are their pages' <title> as served 2026-10-21. StubHub's and SeatGeek's
+<title> could not be read after capture (both walled the title fetch), so their tabs show the event heading each page
+prints ("Gracie Abrams"; "Gracie Abrams with Rachel Chinouriri").
+
+The site names, logos, artist name and the small artist photos inside the captures belong to their owners and are
+shown as the real pages a browser displays.
+
+Icons in the Activity tab: lucide (ISC license), path data from https://api.iconify.design/lucide.json.
+superbot's mark: the house CSS mask from gemini-muse-meme-superbot-6fbc38f8/scenes/tabs-assets/chat.css (.sbm).

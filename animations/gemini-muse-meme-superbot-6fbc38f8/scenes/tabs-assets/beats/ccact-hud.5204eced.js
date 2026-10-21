@@ -42,19 +42,21 @@ export const ACTS = [
   ['filter', 'Kayak', 'Nonstop filter on'],
   ['check', 'Done', '$1,497 on ANA'],
 ];
-const SVG = (d) => `<svg viewBox="0 0 16 16" aria-hidden="true">${d}</svg>`;
+// every icon is a colour emoji (the system's emoji font), each rail row's on a tile tinted to its kind (.cxa-ic-*)
+const EMO = (s) => `<span class="cxa-emo" aria-hidden="true">${s}</span>`;
 const ICONS = {
-  cursor: SVG('<path d="M4 2.5v10.2l2.8-2.6 1.8 3.9 1.7-.8-1.7-3.8h3.7z"/>'),
-  globe: SVG('<circle cx="8" cy="8" r="5.5"/><path d="M2.5 8h11M8 2.5c1.6 1.6 2.3 3.4 2.3 5.5S9.6 11.9 8 13.5M8 2.5C6.4 4.1 5.7 5.9 5.7 8s.7 3.9 2.3 5.5"/>'),
-  tag: SVG('<path d="M2.5 8.3V3.2c0-.4.3-.7.7-.7h5.1l5.2 5.2-5.8 5.8z"/><circle cx="5.6" cy="5.6" r="1"/>'),
-  chat: SVG('<path d="M3 3.5h10v7H7.5L4.5 13v-2.5H3z"/>'),
-  loop: SVG('<path d="M3 7.2A5 5 0 0 1 12.2 5M13 8.8A5 5 0 0 1 3.8 11"/><path d="M12.5 2.5v2.8H9.7M3.5 13.5v-2.8h2.8"/>'),
-  reload: SVG('<path d="M13 8a5 5 0 1 1-1.5-3.5M13 3v3h-3"/>'),
-  filter: SVG('<path d="M2.5 3.5h11L9.3 8.6v4l-2.6 1v-5z"/>'),
-  check: SVG('<path d="M3.8 8.4l2.7 2.7L12.2 5.4"/>'),
+  cursor: EMO('🖱️'),
+  globe: EMO('🌐'),
+  tag: EMO('🏷️'),
+  chat: EMO('💬'),
+  loop: EMO('🔁'),
+  reload: EMO('🔄'),
+  filter: EMO('🔎'),
+  check: EMO('✅'),
+  activity: EMO('📋'),
 };
-const OK = '<svg viewBox="0 0 16 16"><path d="M4 8.4l2.6 2.6L12 5.6"/></svg>';
-const PLANE = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14.2 2 1.8 7.3l4.6 1.8m7.8-7.1L8.1 14l-1.7-4.9m7.8-7.1L6.4 9.1"/></svg>';
+const OK = EMO('✅');
+const PLANE = EMO('✈️');
 
 // the task running at t: -1 before the first, TASKS.length once done
 const starts = (T) => [...T.tasks, T.done];
@@ -106,7 +108,7 @@ const rise = (n, on, dy = -4) => { n.style.opacity = on.toFixed(3); n.style.tran
 const loopLines = () => lines(LOOPS.map((_, i) => `Loop ${i + 1}`), 'cxa-loopl');
 
 // the status mark: a turning ring while superbot works, a check once it is done
-const STATUS = `<span class="ccp-st"><i class="ccp-spin"></i><span class="ccp-ok">${OK}</span></span>`;
+const STATUS = `<span class="ccp-st"><i class="ccp-spin"></i><span class="ccp-ok cxa-ok">${OK}</span></span>`;
 function paintStatus(st, T, t) {
   const d = T.done, spin = st.firstElementChild, ok = st.lastElementChild;
   spin.style.opacity = (1 - seg(t, d, d + 0.12)).toFixed(3);
@@ -211,7 +213,7 @@ function bindNews(box) {
 export function railHtml(cut, withNews) {
   const rows = ACTS.map(([ic, title, sub, drop], i) => `<div class="cxa-act" data-i="${i}"><span class="cxa-ic cxa-ic-${ic}">${ICONS[ic]}</span><span class="cxa-at"><b>${esc(title)}${drop ? `<em>${esc(drop)}</em>` : ''}</b><small>${esc(sub)}</small></span></div>`).reverse().join('');
   return `<aside class="cxa-rail cxa-rail-${cut}" aria-label="Activity">
-      <div class="cxa-rh"><span class="cxa-rt">${ICONS.loop}Activity</span><b class="cxa-rl">${loopLines()}</b></div>
+      <div class="cxa-rh"><span class="cxa-rt">${ICONS.activity}Activity</span><b class="cxa-rl">${loopLines()}</b></div>
       ${withNews ? `<div class="cxa-rnews">${newsHtml('cxa-in-rail')}</div>` : ''}
       <div class="cxa-acts">${rows}</div>
     </aside>`;

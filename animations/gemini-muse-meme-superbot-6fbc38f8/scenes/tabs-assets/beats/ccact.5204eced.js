@@ -20,7 +20,7 @@ import { track } from '../../../loads.9e82faf1.js';
 import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
 import { TOP, screenHtml, bindScreen, paintScreen, pictures } from './ccact-screen.5204eced.js?v=1';
-import { LOOKS, railHtml, bindRail } from './ccact-hud.5204eced.js?v=1';
+import { LOOKS, railHtml, bindRail } from './ccact-hud.5204eced.js?v=2';
 
 export const ASK = 'Keep checking flight sites for the cheapest flight from Denver to Tokyo, Dec 10 to 20';
 export const TYPE_CPS = 55; // the ask's typing rate (chat.9b47fc30.js typing)
@@ -41,7 +41,7 @@ const SHEETS = [
   new URL('../computer.ba3976b6.css?v=11', import.meta.url).href,
   new URL('../computer-progress.a05be571.css?v=1', import.meta.url).href,
   new URL('../flights.92b9b0b0.css?v=1', import.meta.url).href,
-  new URL('../ccact.5204eced.css?v=1', import.meta.url).href,
+  new URL('../ccact.5204eced.css?v=2', import.meta.url).href,
 ];
 
 // the sheets this cut builds on are loaded by their own beats when they build; load any not there yet, then this one's

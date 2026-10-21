@@ -1,6 +1,6 @@
 // The activity-rail loop cuts' screen share (beats/ccact.5204eced.js): v3-soft's desktop (computer.ba3976b6.js, its cc3-*
-// markup and sheet) with Chrome looping over three flight sites, and nothing drawn over the screen but the controlling
-// pill: no vignette, no click rings, no rings round a fare. What moves is what superbot does with the cursor and keys:
+// markup and sheet) with Chrome looping over three flight sites, and nothing of superbot's drawn over the screen: no
+// vignette, no pill, no click rings, no rings round a fare. What moves is what superbot does with the cursor and keys:
 // it opens a tab per site, types the address, waits out the load (the tab's throbber, the toolbar's stop button), scrolls
 // the results and stops on the fare it reads; on the next loop it clicks back to each tab, reloads one, ticks a filter
 // (the page swaps for its filtered capture). The pages are real captures (img/flights.92b9b0b0/CREDITS.txt). Everything
@@ -55,7 +55,7 @@ const loadingAt = (tb, t) => tb.loads.some(([a, b]) => t >= a && t < b);
 const paintedAt = (tb, t) => seg(t, tb.loads[0][1], tb.loads[0][1] + 0.1);
 
 // one screen share's insides at a scale: Chrome with superbot.gg and the script's tabs, the pages, the screen's cursor;
-// then the controlling pill and the heads-up layer a look draws over the screen
+// then whatever heads-up layer a look draws over the screen
 export function screenHtml(x, sb, S, fit, hud) {
   const tabs = S.tabs.map((tb) => `<span class="cc3-tab fl-tab"><i class="cc3-bg"></i><span class="cc3-fav fl-fav"><img src="${x.img(tb.fav)}" width="16" height="16" alt=""><i class="fl-throb"></i></span><span class="cc3-tt fl-tt"><span>New Tab</span><span>${x.esc(tb.title)}</span></span><span class="cc3-x">${ICON.x}</span></span>`).join('');
   const pages = Object.entries(PAGES).map(([id, p]) => `<div class="fl-pg" data-pg="${id}"><img src="${x.img(p.src)}" width="1470" height="${p.h}" alt="${x.esc(p.alt)}"></div>`).join('');
@@ -78,8 +78,7 @@ export function screenHtml(x, sb, S, fit, hud) {
             <div class="fl-pages">${pages}</div>
           </div>
           <svg class="cc3-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="${ARROW}"/></svg>
-        </div>
-        <span class="cc3-pill">${sb}<span>superbot is controlling your computer</span></span>${hud.html()}`;
+        </div>${hud.html()}`;
 }
 
 // the nodes one view paints, looked up once; the heads-up layer binds its own (it may reach into the frame's header or
@@ -92,7 +91,7 @@ export function bindScreen(root, hud) {
     reload, glyphs: reload.children,
     tabs: $$('.fl-tab').map((n) => ({ n, bg: n.querySelector('.cc3-bg'), img: n.querySelector('.fl-fav img'), throb: n.querySelector('.fl-throb'), tt: n.querySelector('.fl-tt').children })),
     u: $('.fl-u'), ut: $('.fl-ut'), e: $('.fl-e'), et: $('.fl-et'), caret: $('.fl-e .cc3-caret'), ph: $('.fl-e .cc3-ph'),
-    pages: Object.fromEntries($$('.fl-pg').map((n) => [n.dataset.pg, n])), pics: $$('.fl-pg img'), pill: $('.cc3-pill'),
+    pages: Object.fromEntries($$('.fl-pg').map((n) => [n.dataset.pg, n])), pics: $$('.fl-pg img'),
     hud: hud.bind(root), keys: null, last: { url: null, typed: null },
   };
 }
@@ -109,11 +108,6 @@ function spot(v, k) {
 
 // one view at t
 export function paintScreen(v, S, T, t) {
-  // the pill rises as superbot takes control, and stays
-  const pi = outCubic(seg(t, T.take, T.take + 0.45));
-  v.pill.style.opacity = pi.toFixed(3);
-  v.pill.style.transform = `translate(-50%, ${((1 - pi) * 8).toFixed(2)}px)`;
-
   // tabs: each slides in when superbot opens it, shows Chrome's throbber in its favicon's place while a page loads, then
   // its favicon and title; the active one carries the white tab shape
   const act = current(S.active, t);

@@ -1,12 +1,13 @@
 // Activity-rail loop cuts ('cc-activity-edge', '-footer', '-header', '-news-rail', '-news-left', '-news-footer'): the
-// computer-control-v3-soft live view (computer.ba3976b6.js: the Your computer frame with Share, Expand and Stop and the
-// controlling-your-computer pill) on a job that loops. Asked to keep checking flight sites for the cheapest Denver to
-// Tokyo flight, superbot loops over Google Flights, Kayak and momondo on the user's screen, a tab per site
-// (ccact-screen.5204eced.js: the cursor, keys, tabs and pages only, no effects drawn over the screen); when the user asks
-// for nonstop only it starts a second loop, reloading Google Flights and ticking each other site's Nonstop filter. Its
-// progress is on the frame, one look per variant (ccact-hud.5204eced.js): the task top right of the screen with its loop
-// and step, a bar that fills once per loop and starts over with the next, three looks with the cheapest fare so far as
-// the topline; and to the right of the frame a small activity rail, an icon and a line per thing superbot did. While it
+// computer-control-v3-soft live view (computer.ba3976b6.js: the Your computer frame with Share, Expand and Stop) on a job
+// that loops, stripped to the thread and the screen: a bare route (no routing chip, no Superbot name line), no pill over
+// the screen and no mode controls in the composer (.cxa-on on the hub). Asked to keep checking flight sites for the
+// cheapest Denver to Tokyo flight, superbot loops over Google Flights, Kayak and momondo on the user's screen, a tab per
+// site (ccact-screen.5204eced.js: the cursor, keys, tabs and pages only, nothing drawn over the screen); when the user
+// asks for nonstop only it starts a second loop, reloading Google Flights and ticking each other site's Nonstop filter.
+// Its progress is on the frame, one look per variant (ccact-hud.5204eced.js): a bar that fills once per loop and starts
+// over with the next, three looks with the cheapest fare so far as the topline; and to the right of the frame a small
+// activity rail, an emoji and a line per thing superbot did. While it
 // works the user checks in from the composer ("any updates?", "what's the best so far?") and changes the job ("only
 // nonstop flights please"); superbot answers each in the thread, and the live view stays docked at the bottom of the
 // thread the whole time: every message lands above it. The follow-ups, the docked frame and its rail are built here, in
@@ -19,8 +20,8 @@ import { seg, outCubic, streamCount } from '../../../lib.9b47fc30.js';
 import { track } from '../../../loads.9e82faf1.js';
 import { EXPAND, loadSheet as loadFrameSheet } from './bakery.005f5570.js?v=3';
 import { shareBtn } from './share.29a362ea.js';
-import { TOP, screenHtml, bindScreen, paintScreen, pictures } from './ccact-screen.5204eced.js?v=1';
-import { LOOKS, railHtml, bindRail } from './ccact-hud.5204eced.js?v=2';
+import { TOP, screenHtml, bindScreen, paintScreen, pictures } from './ccact-screen.5204eced.js?v=2';
+import { LOOKS, railHtml, bindRail } from './ccact-hud.5204eced.js?v=3';
 
 export const ASK = 'Keep checking flight sites for the cheapest flight from Denver to Tokyo, Dec 10 to 20';
 export const TYPE_CPS = 55; // the ask's typing rate (chat.9b47fc30.js typing)
@@ -41,7 +42,7 @@ const SHEETS = [
   new URL('../computer.ba3976b6.css?v=11', import.meta.url).href,
   new URL('../computer-progress.a05be571.css?v=1', import.meta.url).href,
   new URL('../flights.92b9b0b0.css?v=1', import.meta.url).href,
-  new URL('../ccact.5204eced.css?v=3', import.meta.url).href,
+  new URL('../ccact.5204eced.css?v=4', import.meta.url).href,
 ];
 
 // the sheets this cut builds on are loaded by their own beats when they build; load any not there yet, then this one's
@@ -219,7 +220,10 @@ function build(k, x, look) {
     e.stopPropagation();
     setOpen(!open);
   });
-  addEventListener('variantchange', () => setOpen(false));
+  // the hub carries .cxa-on while this cut shows, so its sheet can strip the composer's mode controls; any variant pick
+  // drops it, and the next render of a cut of this beat puts it back
+  let hub = null;
+  addEventListener('variantchange', () => { setOpen(false); if (hub) hub.classList.remove('cxa-on'); });
 
   let placed = false, decoding = false;
   return {
@@ -232,8 +236,10 @@ function build(k, x, look) {
       if (!placed) {
         // the rows and the dock leave the engine's reply for the feed, right after it
         say.closest('.msg').after(thread);
+        hub = thread.closest('.hub');
         placed = true;
       }
+      if (!hub.classList.contains('cxa-on')) hub.classList.add('cxa-on');
       // a frozen frame waits on every capture; decode() only works once the nodes have left the template's inert
       // document, which they have by the first render
       if (!decoding) {

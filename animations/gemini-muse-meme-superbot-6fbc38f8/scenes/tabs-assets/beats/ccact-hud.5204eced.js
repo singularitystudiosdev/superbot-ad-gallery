@@ -1,17 +1,15 @@
-// The activity-rail loop cuts' heads-up pieces (beats/ccact.5204eced.js), one look per variant: the task superbot is on,
-// top right of the shared screen with its loop and step; a progress bar in the frame that fills once per loop and starts
-// over when the next loop begins; in the news looks, the search's topline, the cheapest fare so far; and, to the right of
-// the frame, a small activity rail, an icon and a line per thing superbot did, newest on top. Where the bar sits, where
-// the topline sits and how the rail is cut are what the looks change. All of it flat: no glow, no shimmer, nothing over
-// the screen but the chip and, in one look, the topline card. Every value is set from t, so frozen ?t= frames hold. The
-// fares are the captures' own (img/flights.92b9b0b0/CREDITS.txt). Styles in ../ccact.5204eced.css (cxa-*), with the
-// progress cuts' chip, label and status pieces (computer-progress.a05be571.css, ccp-*).
+// The activity-rail loop cuts' heads-up pieces (beats/ccact.5204eced.js), one look per variant: a progress bar in the
+// frame that fills once per loop and starts over when the next loop begins; in the news looks, the search's topline, the
+// cheapest fare so far; and, to the right of the frame, a small activity rail, an emoji and a line per thing superbot did,
+// newest on top. Where the bar sits, where the topline sits and how the rail is cut are what the looks change. All of it
+// flat: no glow, no shimmer, nothing over the screen but, in one look, the topline card. Every value is set from t, so
+// frozen ?t= frames hold. The fares are the captures' own (img/flights.92b9b0b0/CREDITS.txt). Styles in
+// ../ccact.5204eced.css (cxa-*), with the progress cuts' changing-line cell (computer-progress.a05be571.css, ccp-lbl).
 import { lerp, seg, outCubic, outBack, esc } from '../../../lib.9b47fc30.js';
 
 // the plan's steps as superbot starts each (T.tasks), then done; the first loop checks three sites, the user's nonstop ask
 // starts a second loop on the same three with the filter on
 export const TASKS = ['Opening Google Flights', 'Reading Google Flights fares', 'Searching Kayak', 'Comparing Kayak fares', 'Searching momondo', 'Comparing momondo fares', 'Reloading Google Flights', 'Reading nonstop fares', 'Filtering momondo to nonstop', 'Filtering Kayak to nonstop'];
-const DONE = 'Found the cheapest nonstop';
 const LOOPS = [{ at: 0, n: 6 }, { at: 6, n: 4 }]; // each loop's first task and its step count
 // the topline as each fare is read (T.news): what it is, the fare, where and how; the label turns to nonstop with loop 2
 export const NEWS = [
@@ -55,7 +53,6 @@ const ICONS = {
   check: EMO('✅'),
   activity: EMO('📋'),
 };
-const OK = EMO('✅');
 const PLANE = EMO('✈️');
 
 // the task running at t: -1 before the first, TASKS.length once done
@@ -106,33 +103,6 @@ function paintLines(cell, at, t) {
 const text = (n, s, memo) => { if (memo.get(n) !== s) { n.textContent = s; memo.set(n, s); } };
 const rise = (n, on, dy = -4) => { n.style.opacity = on.toFixed(3); n.style.transform = `translateY(${((1 - on) * dy).toFixed(2)}px)`; };
 const loopLines = () => lines(LOOPS.map((_, i) => `Loop ${i + 1}`), 'cxa-loopl');
-
-// the status mark: a turning ring while superbot works, a check once it is done
-const STATUS = `<span class="ccp-st"><i class="ccp-spin"></i><span class="ccp-ok cxa-ok">${OK}</span></span>`;
-function paintStatus(st, T, t) {
-  const d = T.done, spin = st.firstElementChild, ok = st.lastElementChild;
-  spin.style.opacity = (1 - seg(t, d, d + 0.12)).toFixed(3);
-  spin.style.transform = `rotate(${((t * 420) % 360).toFixed(1)}deg)`;
-  ok.style.opacity = seg(t, d, d + 0.12).toFixed(3);
-  ok.style.transform = `scale(${lerp(0.4, 1, outBack(seg(t, d, d + 0.3))).toFixed(3)})`;
-}
-
-// the task top right of the screen, under Chrome's toolbar: a chip (status, task, loop and step) or a two-line card
-const chipHtml = () => `<span class="ccp-hud cxa-chip">${STATUS}${lines([...TASKS, DONE])}<b class="cxa-tag">${loopLines()}<i>·</i><span class="cxa-n"></span></b></span>`;
-const cardHtml = () => `<span class="ccp-hud cxa-task"><span class="ccp-eye"><i class="ccp-dot"></i>${lines(['Current task', 'Task complete'])}<span class="cxa-tag">${loopLines()}<i>·</i><span class="cxa-n"></span></span></span>${STATUS}${lines([...TASKS, DONE], 'cxa-tl')}</span>`;
-function bindTask(root, memo) {
-  const hud = root.querySelector('.cxa-chip, .cxa-task'), st = hud.querySelector('.ccp-st'), n = hud.querySelector('.cxa-n');
-  const loop = hud.querySelector('.cxa-loopl'), cells = [...hud.querySelectorAll('.ccp-lbl')].filter((c) => c !== loop);
-  const task = cells[cells.length - 1], eye = cells.length > 1 ? cells[0] : null;
-  return (T, t) => {
-    rise(hud, shownAt(T, t));
-    paintStatus(st, T, t);
-    paintLines(task, starts(T), t);
-    paintLines(loop, loopStarts(T), t);
-    if (eye) paintLines(eye, [T.tasks[0], T.done], t);
-    text(n, stepOf(T, t), memo);
-  };
-}
 
 // the bar: a track and a flat pink-to-purple fill
 const BAR = '<i class="cxa-bar"><i class="cxa-fill"></i></i>';
@@ -244,23 +214,23 @@ export function bindRail(rail) {
 // each look: the pieces over the screen (html), the painter it binds on a view (bind), and the rail's cut
 const both = (...fs) => (T, t) => fs.forEach((f) => f(T, t));
 export const LOOKS = {
-  // the bar along the screen's top edge, the task chip, the rail as a card
-  edge: { rail: 'list', html: () => `<span class="cxa-edge">${BAR}</span>${chipHtml()}`, bind: (root) => both(bindEdge(root), bindTask(root, new Map())) },
-  // the bar in a strip under the screen with the loop and step, the task chip, the rail hanging off the frame
-  footer: { rail: 'tab', html: () => chipHtml(), bind: (root) => { const memo = new Map(); return both(bindFoot(root, memo, false), bindTask(root, memo)); } },
-  // the bar along the header's foot with the loop and percent after Live view, a Current task card, the rail as a card
-  header: { rail: 'list', html: () => cardHtml(), bind: (root) => { const memo = new Map(); return both(bindHead(root, memo), bindTask(root, memo)); } },
-  // the edge bar and chip; the cheapest fare pinned at the top of the rail
-  newsRail: { rail: 'list', news: true, html: () => `<span class="cxa-edge">${BAR}</span>${chipHtml()}`, bind: (root) => both(bindEdge(root), bindTask(root, new Map())) },
-  // the footer strip and chip; the cheapest fare in a card top left of the screen, opposite the task; the rail as a tab
+  // the bar along the screen's top edge, the rail as a card
+  edge: { rail: 'list', html: () => `<span class="cxa-edge">${BAR}</span>`, bind: (root) => bindEdge(root) },
+  // the bar in a strip under the screen with the loop and step, the rail hanging off the frame
+  footer: { rail: 'tab', html: () => '', bind: (root) => bindFoot(root, new Map(), false) },
+  // the bar along the header's foot with the loop and percent after Live view, the rail as a card
+  header: { rail: 'list', html: () => '', bind: (root) => bindHead(root, new Map()) },
+  // the edge bar; the cheapest fare pinned at the top of the rail
+  newsRail: { rail: 'list', news: true, html: () => `<span class="cxa-edge">${BAR}</span>`, bind: (root) => bindEdge(root) },
+  // the footer strip; the cheapest fare in a card top left of the screen; the rail as a tab
   newsLeft: {
     rail: 'tab',
-    html: () => `${chipHtml()}<span class="ccp-hud cxa-left">${newsHtml('cxa-in-left')}</span>`,
+    html: () => `<span class="ccp-hud cxa-left">${newsHtml('cxa-in-left')}</span>`,
     bind(root) {
-      const memo = new Map(), box = root.querySelector('.cxa-left'), paint = bindNews(box);
-      return both(bindFoot(root, memo, false), bindTask(root, memo), (T, t) => { rise(box, newsIn(T, t)); paint(T, t); });
+      const box = root.querySelector('.cxa-left'), paint = bindNews(box);
+      return both(bindFoot(root, new Map(), false), (T, t) => { rise(box, newsIn(T, t)); paint(T, t); });
     },
   },
-  // the footer strip carries the cheapest fare at its right end; the chip; the rail as a card
-  newsFooter: { rail: 'list', html: () => chipHtml(), bind: (root) => { const memo = new Map(); return both(bindFoot(root, memo, true), bindTask(root, memo)); } },
+  // the footer strip carries the cheapest fare at its right end; the rail as a card
+  newsFooter: { rail: 'list', html: () => '', bind: (root) => bindFoot(root, new Map(), true) },
 };

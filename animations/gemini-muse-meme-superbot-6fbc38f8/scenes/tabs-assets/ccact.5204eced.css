@@ -1,9 +1,17 @@
 /* The activity-rail loop cuts (beats/ccact.5204eced.js, ccact-screen.5204eced.js, ccact-hud.5204eced.js), over v3-soft's
    live view (computer.ba3976b6.css, cc3-*), the flight cuts' tabs and pages (flights.92b9b0b0.css, fl-*) and the progress
-   cuts' chip pieces (computer-progress.a05be571.css, ccp-*): the thread with the docked frame, the rail beside it, the
-   task chip and card, the bar in its three places and the topline. Flat: no glow, no shimmer, nothing over the screen but
-   the chip, the pill and the news-left card. No CSS animation or transition: the beats set every opacity, width, height
-   and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself. */
+   cuts' changing-line cell (computer-progress.a05be571.css, ccp-lbl): the thread with the docked frame, the rail beside
+   it, the bar in its three places and the topline, and the composer without its mode controls. Flat: no glow, no
+   shimmer, nothing over the screen but the news-left card. No CSS animation or transition: the beats set every opacity,
+   width, height and transform from t, so frozen frames (?t=) hold. Loaded by the beat module itself. */
+
+/* the composer keeps its field, attach, platform and send, without the spark, Off and Agent controls (.rc-super); the hub
+   carries .cxa-on only while one of these cuts shows (beats/ccact.5204eced.js) */
+#s-tabs .sbsite .hub.cxa-on .rc-super { display: none !important; }
+/* a bare route widens the composer (.qc-wide, multicat.516afb1a.css); these cuts keep it at the thread's width
+   (hub.css, ask.css) */
+#s-tabs .sbsite .hub.cxa-on.qc-wide .composer { width: calc(100% - 24px); max-width: var(--hub-column); }
+#s-tabs .sbsite.ask .hub.cxa-on.qc-wide .composer { width: min(760px, calc(100% - 48px)); max-width: var(--hub-column); }
 
 /* the thread after the reply: the follow-up rows and the docked frame in one feed item, which chat.css would otherwise
    hide (.feed-in > :not(.qc-u):not(.qc-m)); inside it each row sizes as the feed's own and opens from nothing above the
@@ -43,19 +51,9 @@
 #s-tabs .sbsite .hub .cxa-fl { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #e5e5ea; }
 /* the colour emoji every icon is drawn with (ccact-hud.5204eced.js EMO), in the system's emoji font */
 #s-tabs .sbsite .hub .cxa-emo { flex: none; display: block; font: 400 12px/1 "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; letter-spacing: 0; text-transform: none; }
-#s-tabs .sbsite .hub .cxa-ok.ccp-ok { background: none; }
-#s-tabs .sbsite .hub .cxa-ok .cxa-emo { font-size: 12px; }
 #s-tabs .sbsite .hub .cxa-fn { display: flex; gap: 4px; font: 600 11px/1 var(--ui); font-variant-numeric: tabular-nums; color: #f9a8d4; }
-#s-tabs .sbsite .hub .cxa-fn > i, #s-tabs .sbsite .hub .cxa-tag > i { font-style: normal; color: #5a5a60; }
+#s-tabs .sbsite .hub .cxa-fn > i { font-style: normal; color: #5a5a60; }
 #s-tabs .sbsite .hub .cxa-foot-news .cxa-fn { padding-right: 12px; box-shadow: 1px 0 0 #2a2a2e; }
-
-/* the task: a chip or a two-line card, top right of the screen under Chrome's toolbar, clear of the tabs */
-#s-tabs .sbsite .hub .cxa .ccp-hud.cxa-chip { top: 38px; display: flex; align-items: center; gap: 7px; height: 26px; padding: 0 10px 0 7px; border-radius: 13px; }
-#s-tabs .sbsite .hub .cxa-tag { display: flex; align-items: center; gap: 4px; margin-left: 1px; white-space: nowrap; font: 600 10px/1 var(--ui); font-variant-numeric: tabular-nums; color: #a1a1a6; }
-#s-tabs .sbsite .hub .cxa .ccp-hud.cxa-task { top: 38px; display: grid; grid-template-columns: auto auto; align-items: center; justify-content: start; gap: 7px 6px; padding: 8px 11px 9px; border-radius: 10px; }
-#s-tabs .sbsite .hub .cxa-task > .ccp-eye { grid-column: 1 / -1; }
-#s-tabs .sbsite .hub .cxa-task .cxa-tag { margin-left: 6px; font-size: 8.5px; letter-spacing: .04em; }
-#s-tabs .sbsite .hub .cxa-tl { font: 500 11.5px/1.15 var(--ui); }
 
 /* the topline: a small label with a plane, the fare, what and where under it */
 #s-tabs .sbsite .hub .cxa-news { display: grid; justify-items: start; gap: 4px; white-space: nowrap; }

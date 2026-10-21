@@ -1,22 +1,18 @@
 // The chat on the left: the user's messages as bubbles and superbot's replies as plain streamed text (no name or mark
 // over them); the composer under it types the user's draft in and lights its send button. The composer keeps +, the
-// effort picker (High), the mic and send. A reply may carry a card: the lowest performer (its real thumbnail and play-
-// through rate), the three new takes, or the take now live. A card opens the way the house lands an image
-// (thumb-land.309eb9c5.js): its room eases open, it waits a beat as a shimmering skeleton, the skeleton fades away, and
-// only then does its content fade in and settle (timeline.d35be136.js cardTimes); the three takes land one after
-// another. Items are laid out once at their final size, so the feed scrolls by summing what has arrived.
+// effort picker (High), the mic and send. The only cards are the winners: each round's new take, now live in place of
+// the thumbnail it replaced. A card opens the way the house lands an image (thumb-land.309eb9c5.js): its room eases
+// open, it waits a beat as a shimmering skeleton, the skeleton fades away, and only then does its content fade in and
+// settle (timeline.d35be136.js cardTimes). Items are laid out once at their final size, so the feed scrolls by summing
+// what has arrived.
 import { seg, lerp, outCubic, inOutCubic, caretOn, countAt, el, esc, glyph, REDUCED } from './lib.d35be136.js';
 import { CHAT, TYPING, STREAM_CPS, CARD, cardTimes } from './timeline.d35be136.js';
 
 const GAP = 14; // between chat items (.cm margin-bottom)
 const ENTER = 0.45; // an item's fade and rise
 const SWEEPS = 1.4; // shimmer passes per second (thumb-land.309eb9c5.js)
-const STAGGER = 0.16; // between the three takes landing
 
 function cardHtml(card) {
-  if (card.kind === 'trio') {
-    return `<div class="cm-card cm-trio">${card.imgs.map((src) => `<span class="cm-take"><img src="img/${src}" alt="" width="768" height="432"><i class="cm-sk"></i></span>`).join('')}</div>`;
-  }
   return `<div class="cm-card">
       <div class="cm-card-in">
         <span class="cm-thumb"><img src="img/${card.img}" alt="" width="200" height="113"></span>
@@ -43,11 +39,10 @@ export function buildChat(pane) {
     const line = p && { v: p.firstElementChild, h: p.lastElementChild, text: p.lastElementChild.textContent, shown: -1 };
     const wrap = node.querySelector('.cm-cardwrap');
     const card = wrap && wrap.firstElementChild;
-    // what lands: the card's one content block, or each of the three takes with its own sweep
-    const parts = !card ? [] : card.classList.contains('cm-trio')
-      ? [...card.querySelectorAll('.cm-take')].map((s) => ({ el: s.querySelector('img'), sk: s.querySelector('.cm-sk') }))
-      : [{ el: card.querySelector('.cm-card-in'), sk: card.querySelector('.cm-sk') }];
-    return { c, node, line, h: 0, cardH: 0, ...cardTimes(c.at, c.text), wrap, card, parts };
+    return {
+      c, node, line, h: 0, cardH: 0, ...cardTimes(c.at, c.text), wrap, card,
+      inner: card && card.querySelector('.cm-card-in'), sk: card && card.querySelector('.cm-sk'),
+    };
   });
   pane.querySelector('.rc-effort-ic').innerHTML = glyph('gauge');
   return {
@@ -85,14 +80,11 @@ function paintCard(it, t) {
   it.wrap.style.height = o >= 1 ? '' : `${(it.cardH * o).toFixed(2)}px`;
   it.card.style.opacity = outCubic(seg(t, it.open + 0.1, it.open + CARD.open)).toFixed(3);
   it.card.style.transform = o >= 1 || REDUCED ? 'none' : `scale(${lerp(0.97, 1, o).toFixed(4)})`;
-  it.parts.forEach((part, i) => {
-    const d = i * STAGGER;
-    part.sk.style.opacity = (1 - outCubic(seg(t, it.loaded + d, it.loaded + d + CARD.skOut))).toFixed(3);
-    part.sk.style.transform = `translateX(${lerp(-100, 100, ((t - it.open) * SWEEPS + i * 0.17) % 1).toFixed(1)}%)`;
-    const p = outCubic(seg(t, it.land + d, it.land + d + CARD.land));
-    part.el.style.opacity = p.toFixed(3);
-    part.el.style.transform = p >= 1 || REDUCED ? 'none' : `translateY(${((1 - p) * 4).toFixed(2)}px)`;
-  });
+  it.sk.style.opacity = (1 - outCubic(seg(t, it.loaded, it.loaded + CARD.skOut))).toFixed(3);
+  it.sk.style.transform = `translateX(${lerp(-100, 100, ((t - it.open) * SWEEPS) % 1).toFixed(1)}%)`;
+  const p = outCubic(seg(t, it.land, it.land + CARD.land));
+  it.inner.style.opacity = p.toFixed(3);
+  it.inner.style.transform = p >= 1 || REDUCED ? 'none' : `translateY(${((1 - p) * 4).toFixed(2)}px)`;
   return o;
 }
 

@@ -1,32 +1,36 @@
 Sources for the ROB IT thumbnail spot (screen.d35be136.js, chat.d35be136.js). Never shown on screen.
 
-All page captures are new, taken 2026-10-21 for this spot: 1470x839 CSS (the page area of full-screen Chrome on a
-1470px-wide desktop) at 2x, so each file is 2940x1678. Nothing on any page was changed before capture.
+All page captures are new, taken 2026-10-21 for this spot: 1728x1035 CSS (the page area of full-screen Chrome on a
+1728x1117 desktop, a 16-inch MacBook Pro's default) at 2x, so each file is 3456x2070. Nothing on any page was changed
+before capture.
 
-game.webp: https://www.roblox.com/games/96168869671905/ROB-IT, the public game page, captured logged out in a
-  headless Chromium with a throwaway profile (no account, no personal details). Its carousel was playing the game's
-  own trailer video at the moment of capture.
+game-c0..game-c4.webp: https://www.roblox.com/games/96168869671905/ROB-IT, the public game page, captured logged out in a
+  headless Chromium with a throwaway profile (no account, no personal details), the pointer resting over the carousel
+  so its arrows show. c0 is the carousel on the game's trailer video, c1..c4 the same page after one to four clicks of
+  its Next arrow: the game's four public thumbnails in their carousel order.
 
-thumbs-top.webp, thumbs-table.webp, thumbs-rate.webp, edit-top.webp, edit-table.webp:
+hub-view.webp, hub-edit.webp, hub-col.webp:
   https://create.roblox.com/dashboard/creations/experiences/9472441390/places/96168869671905/thumbnails, ROB IT's
   Creator Hub Thumbnails page, captured in the owner's own signed-in Chrome through Cosmos browser-control, read only.
-  thumbs-top: the page as it opens. thumbs-table: the page's content column scrolled to the Thumbnail performance
-  table. thumbs-rate: the same, with the table scrolled right to the Qualified Play Through Rate column. edit-top and
-  edit-table: the same two views after "Edit active thumbnails". Nothing was uploaded, checked, unchecked or saved;
-  the edit view's local preference (ThumbnailTableMode) was set back to "view" afterwards. Every figure is the one
-  Creator Hub showed for Oct 14 to Oct 21 (data updated Oct 21, 2:00 AM), published as captured at the owner's choice.
+  hub-view: the page as it opens. hub-edit: the page after "Edit active thumbnails", content column at the top.
+  hub-col: that content column stitched from three captures of the same view at scroll 0, 900 and 1170.5 (its full
+  2134px, the window's overlay scrollbar left out); the animation scrolls this under the page's fixed header and
+  rails, and draws the scrollbar's thumb at the size and colour measured from the capture. Nothing was uploaded,
+  checked, unchecked or saved; the edit view's local preference was set back so the page opens in view mode again.
+  Every figure is the one Creator Hub showed at 2:00 AM data on Oct 21, published as captured at the owner's choice.
 
-cb-on.png, cb-off.png, row-lowest.webp: crops of edit-table at 2x: row 1's checked box, row 6's unchecked box, and
-  row 1's thumbnail (the lowest performer, 0.63% play-through). The agent's uncheck and check are these real pixels
-  laid over the edit view.
+cb-on.png, cb-off.png, row-blank.webp, rows-inactive.webp: crops of hub-col at 2x: row 2's checked box, row 6's
+  unchecked box, row 9 (an unchecked upload with no data) and rows 6 to 10 (the unchecked uploads). superbot's
+  unchecking and checking are these real pixels; a new take is shown as row 9's blank row with the take on its
+  thumbnail, landing on row 6 with the unchecked rows moving down one. Where Creator Hub really places a new upload
+  in its paginated table (10 rows a page, 19 thumbnails) was not tested: nothing was uploaded to the real game.
 
-it1.webp, it2.webp, it3.webp: the agent's "new takes", composed for this spot from ROB IT's own public thumbnails
-  (https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=9472441390, 768x432): each re-cropped and
-  re-graded, with a headline set in Luckiest Guy (Google Fonts, SIL Open Font License,
-  https://fonts.gstatic.com/s/luckiestguy/). Nothing is drawn or generated: the art is the game's own.
-  it1 from the diamond thumbnail ("STEAL THE DIAMOND!"), it2 from the museum one ("ROB THE MUSEUM"), it3 from the
-  sleeping-owner one ("DON'T WAKE HIM!"). In the animation it1 is shown landing in row 6 of the edit view; that row's
-  slot is where a new upload is pictured, not a real upload.
+take1.webp, take2.webp, take3.webp: made for this spot with Nano Banana 2.1 (google/nano-banana-2.1/edit on fal,
+  2026-10-21), prompt exactly "Make a novel perspective of this thumbnail", one of ROB IT's public thumbnails attached
+  as the reference (https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=9472441390, 768x432), at
+  16:9, 1K. The reference for each round was picked at random (Math.random, recorded): take1 and take2 from thumbnail
+  4 (the sleeping owner and the diamond), take3 from thumbnail 2 (the vault diamond). A fourth take was generated and
+  not used.
 
 logo-roblox.svg: the Roblox mark, https://commons.wikimedia.org/wiki/File:Roblox_player_icon_black.svg (public
   domain), used as the Chrome tab icon.

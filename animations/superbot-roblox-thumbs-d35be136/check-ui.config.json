@@ -1,0 +1,6 @@
+{
+  "note": "The news panel's breakthrough lines end in a 🎉 at the owner's request (a celebratory marker after the text, popping in on its own line), not an emoji used as a list bullet.",
+  "overrides": [
+    { "files": ["side.d35be136.js"], "allow": ["emoji-bullet"] }
+  ]
+}

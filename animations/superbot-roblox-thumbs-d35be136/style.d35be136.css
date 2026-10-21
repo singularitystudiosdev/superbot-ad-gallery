@@ -31,7 +31,7 @@ svg { flex: none; }
 .ch-in { position: absolute; left: 0; right: 0; top: 0; padding: 18px 18px 12px; }
 .cm { margin-bottom: 14px; opacity: 0; }
 .cm-u { display: flex; justify-content: flex-end; }
-.cm-u span { max-width: 82%; padding: 8px 14px; border-radius: 16px; background: #1f1f22; font: 12.5px/17px var(--ui); color: #f2f2f7; }
+.cm-u span { max-width: 82%; padding: 8px 14px; border-radius: 16px; background: #1f1f22; font: 12.5px/17px var(--ui); color: #f2f2f7; overflow-wrap: anywhere; }
 .cm-say { margin: 0; font: 12.5px/18px var(--ui); color: var(--ink); }
 .cm-h { color: transparent; }
 /* a card: its wrapper's height eases open (a block formatting context, so the card's margins count in it); the card is
@@ -50,10 +50,6 @@ svg { flex: none; }
 .cm-card-p b { font: 700 20px/22px var(--ui); color: var(--good); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 .cm-card-p.is-low b { color: #f87171; }
 .cm-card-p small { font: 11px/14px var(--ui); color: var(--muted); }
-/* the three new takes side by side, each its own skeleton until it lands */
-.cm-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 8px; }
-.cm-take { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #1f1f22; }
-.cm-take img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
 
 /* composer (assets/hub-real.css .rc): +, then the effort picker, the mic and send on the right */
 .composer { flex: none; padding: 4px 16px 16px; }
@@ -96,13 +92,15 @@ svg { flex: none; }
 .nw { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
 /* the list fades out at its foot, where older items slide off; one line per item */
 .nw-list { position: relative; flex: 1; min-height: 0; margin-top: 6px; overflow: hidden; -webkit-mask: linear-gradient(#000 calc(100% - 22px), transparent); mask: linear-gradient(#000 calc(100% - 22px), transparent); }
-.nw-row { position: absolute; left: 0; right: 0; top: 0; padding: 9px 16px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 12.5px/17px var(--ui); color: var(--ink); opacity: 0; visibility: hidden; }
-/* a hit's confetti, clipped to the news area so nothing crosses the live view (side.d35be136.js) */
-.nw-fx { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
-.nw-cf { position: absolute; left: 0; top: 0; border-radius: 1px; visibility: hidden; }
+.nw-row { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 6px; padding: 9px 16px; white-space: nowrap; font: 600 12.5px/17px var(--ui); color: var(--ink); opacity: 0; visibility: hidden; }
+.nw-tx { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+/* a breakthrough's 🎉: it pops and settles, a few tiny sparks fly off it (side.d35be136.js) */
+.nw-emo { position: relative; flex: none; display: inline-grid; place-items: center; width: 17px; height: 17px; }
+.nw-emo-g { display: block; font-size: 14px; line-height: 1; opacity: 0; transform-origin: 50% 60%; }
+.nw-spark { position: absolute; left: 50%; top: 45%; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; border-radius: 50%; opacity: 0; }
 
 /* ---------- Chrome on the shared desktop, in the desktop's own px (computer.ba3976b6.css) ---------- */
-.cc-desk { position: absolute; left: 0; top: 0; width: 1470px; height: 919px; overflow: hidden; transform-origin: 0 0; background: #fff; }
+.cc-desk { position: absolute; left: 0; top: 0; width: 1728px; height: 1117px; overflow: hidden; transform-origin: 0 0; background: #fff; }
 .cc-win { position: absolute; inset: 0; overflow: hidden; background: #fff; }
 .cc-win svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .cc-ic { flex: none; display: grid; place-items: center; width: 28px; height: 28px; padding: 5px; border-radius: 50%; color: #474747; }
@@ -135,9 +133,18 @@ svg { flex: none; }
 .cc-caret { flex: none; width: 1px; height: 18px; margin-left: 1px; background: #1f1f1f; }
 .cc-me { flex: none; width: 24px; height: 24px; margin: 0 4px; border-radius: 50%; background: #c2e7ff; }
 /* the pages: real captures, below the 82px of tab strip and toolbar; the script shows one at a time */
-.cc-page { position: absolute; top: 82px; left: 0; display: block; width: 1470px; height: 839px; visibility: hidden; }
-/* the agent's changes on the edit view: real pixels laid over the table (timeline.d35be136.js MARKS) */
-.cc-mark { position: absolute; display: block; opacity: 0; }
+.cc-page { position: absolute; top: 82px; left: 0; display: block; width: 1728px; height: 1035px; overflow: hidden; visibility: hidden; }
+.cc-page.is-on { visibility: visible; }
+/* the edit view: the capture's fixed header and rails, the content column scrolling under a clip, the overlay
+   scrollbar's thumb over its track, and superbot's changes as real pixels inside the column (screen.d35be136.js) */
+.cc-edit img, .cc-col-in img, .cc-inactive img, .cc-up img { position: absolute; left: 0; top: 0; display: block; }
+.cc-col { position: absolute; overflow: hidden; background: rgb(18,18,21); }
+.cc-col-in { position: absolute; left: 0; top: 0; width: 100%; }
+.cc-inactive { position: absolute; overflow: hidden; background: rgb(18,18,21); }
+.cc-up { position: absolute; visibility: hidden; }
+.cc-off { visibility: hidden; }
+.cc-track { position: absolute; display: block; background: rgb(18,18,21); }
+.cc-thumb { position: absolute; display: block; border-radius: 3px; background: rgb(128,128,128); }
 /* the screen's own cursor: a macOS arrow at its real size on this desktop, placed from its hotspot */
 .cc-cursor { position: absolute; left: 0; top: 0; z-index: 2; width: 24px; height: 24px; overflow: visible; fill: #000; stroke: #fff; stroke-width: 1.5px; stroke-linejoin: round; paint-order: stroke; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.35)); }
 
